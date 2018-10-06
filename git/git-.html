@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/git/git-.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>Git 命令大全</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: Git 命令大全
+date: 2018-10-06
+updated: 2018-10-06
+---
+# Git 配置
+
+## ConfigFile
+1. /etc/gitconfig #git config --system
+2. ~/.gitconfig 	#git config --global
+3. working/.git/config	#git config
+
+## user, editor, email
+
+	## User
+	git config --global user.name &#x27;ahuigo&#x27;
+	git config --global user.email	xxx@gmail.com
+
+	## Core.Editor
+	git config --global core.editor vim
+	git config --global core.symlinks false
+
+## alias
+
+	git config --global alias.ci commit
+	git config --global alias.unstage &#x27;reset HEAD&#x27;
+
+## Merge tool
+
+	git config --global merge.tool vimdiff
+	git config --global mergetool.keepBackup false //Do not create backed file *.orig
+
+&gt; You can set your loved tool, such as kdiff3,tkdiff,meld,xxdiff,emerge,gvimdiff,opendiff,etc.
+
+	## config Command
+	git config --list #list configration
+	git config user.name #query a item
+
+	## set color
+	git config --global color.diff auto // git diff 要顯示顏色
+	git config --global color.status auto // git status 要顯示顏色
+	git config --global color.branch auto
+	git config --global alias.lg &quot;log --graph --pretty=format:&#x27;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&#x27;&quot;
+
+## Help
+
+	git help config
+	man git-config
+
+## debug
+
+### verbose
+
+    export GIT_CURL_VERBOSE=1
+
+## git auth
+### git https
+Put this in your ~/.netrc and it won&#x27;t ask for your username/password (at least on Linux and Mac):
+
+	machine github.com
+		   login &lt;user&gt;
+		   password &lt;password&gt;
+
+or:
+
+	git remote set-url origin https://name:password@github.org/repo.git
+
+## git ssh
+生活在墙内的我们或者使用代理的朋友难免会遇到:`error:14090086:SSL routines:SSL3_GET_SERVER_CERTIFICATE:certificate verify failed while accessing https://github.com/zsh-users/zsh/info/refs?service=git-upload-pack`. 如果只是想用git clone, 最方便的方法是忽略SSL：
+
+	export GIT_SSL_NO_VERIFY=1
+    //or
+    git config http.sslVerify false
+
+### 使用代理时的ssh
+参考: [ssl github](http://stackoverflow.com/questions/3777075/ssl-certificate-rejected-trying-to-access-github-over-https-behind-firewall)
+执行下列命令，或者编辑`~/.git/config`：
+
+    &quot;add proxy
+    git config [--global] http.proxy http://proxyuser:proxypwd@proxy.server.com:8080
+    git config [--global] https.proxy http://proxyuser:proxypwd@proxy.server.com:8080
+    //or
+    export http_proxy=http://user:pwd@host:port
+    &quot;unset proxy
+    git config [--global] unset https.proxy
+
+### 多用户下的SSH
+参阅：[Multiple SSH Keys](https://gist.github.com/jexchan/2351996)
+1. https://developer.github.com/guides/using-ssh-agent-forwarding/#your-key-must-be-available-to-ssh-agent
+
+a. Ensure ssh-agent is enabled:
+
+	# start the ssh-agent in the background
+	$ eval &quot;$(ssh-agent -s)&quot;
+	Agent pid 59566
+
+b. Add these two keys as following
+
+	$ ssh-add ~/.ssh/id_rsa_activehacker
+    # macOSX
+    ssh-add -K ~/.ssh/&lt;private_key_file&gt;
+
+You can check that your key is visible to ssh-agent by running the following command:
+
+	ssh-add -L
+
+you can delete all cached keys before
+
+	$ ssh-add -D
+
+c. Config `private rsa` and the fake `host` to be replaced and the realhost `HostName` in `~/.ssh/config`:
+
+    #jexchan account
+    Host github.com-ahuigo
+        HostName github.com
+        User git
+        IdentityFile ~/.ssh/id_rsa_ahuigo
+    Host *
+        UseKeychain yes
+
+Config the fake `host` to be replaced , `name`, `email` in `.git/config`
+
+    [remote &quot;origin&quot;]
+        url = git@github.com-ahuigo:ahuigo/a.git
+
+## git status
+
+	git status -s
+
+# Repository
+
+## init
+
+	git init //create .git
+	git init --bare // create bare repository
+
+## git clone repository
+
+	git clone url //=== git init +git fetch
+	git clone https://username:password@github.com/username/repository.git
+
+if 401
+
+	git clone https://username@github.com/org/project.git
+
+
+## export repo sub folder
+This creates an empty repository with your remote, and fetches `-f` all objects but doesn&#x27;t check them out. 
+
+    git init
+    git remote add -f origin &lt;url&gt;
+
+    git config core.sparseCheckout true
+
+Now you need to define which files/folders you want to actually check out. 
+
+    echo &quot;some/dir/&quot; &gt;&gt; .git/info/sparse-checkout
+    echo &quot;another/sub/tree&quot; &gt;&gt; .git/info/sparse-checkout
+    git pull origin master
+
+
+# git clean
+clean files
+
+	git clean &quot; clean untracked files only
+        -X  &quot;ignore only
+        -x  &quot;ignore and untrack
+        -d  &quot;directory
+        -f  &quot;force
+        -n -f &quot; with check
+
+If you want to also remove *directories*, run
+
+	git clean -f -d or git clean -fd
+
+# file status convert
+
+## stage status
+
+### add stage(working to stage)
+
+
+## rm
+
+	#(rm file from working &amp; staged)
+	git rm &lt;file&gt; //rm file from working &amp; stage
+
+	#(rm file from staged)
+	git rm --cached &lt;file&gt; //rm file from stage only
+
+	#rm file recurse
+	git rm log/\*~  //recurse
+
+# modify
+
+## modify messages
+
+	git commit --amend -m &#x27;new messages&#x27;
+
+## git revert
+恢复到HEAD 之前的提交:
+
+	git revert HEAD //Creat a new commit to drop HEAD&#x27;s modifies. &#x27;
+        相当于merge HEAD^ based on HEAD: 
+        git checkout HEAD^ . ; // copy HEAD^ -&gt; working === index 
+            git checkout . ; // copy index -&gt; working
+        git commit -m &#x27;rever version xxx&#x27;
+
+    # merge parent based on HEAD^^
+	git revert HEAD^^ -m 1
+	git revert A2 -m 1
+
+        git log --graph
+        A0 -- A1 -- A2 -- A3 -- A4(HEAD)
+         \        /      
+          B0-----B1
+
+        -m 1 :merge A1 (Base on A2)
+        -m 2 :merge B1 (Base on A2)
+
+&gt; Note: git revert is used to record some new commits to reverse the effect of some earlier commits (often only a faulty one).
+
+# git add
+
+	git add &lt;file&gt; //stage file(Untracked file is also included )
+	git add -i //interactive
+	git add -u //添加已经track的文件，而非新加的文件
+
+checkout 适合working 回滚到某一分支
+- git revert: checkout+add+commit
+	Revert some existing commits
+- git reset: 改变commit+index: 顺便清理working
+ 	rollback commit: (clean index)
+- git checkout(改变working, 保留index/commit)
+	git checkout HEAD^ .
+	working copy from index(priority) or switch to commit(without file)
+
+## git unadd(git reset)
+
+	git reset file
+	working copy `merge` from commit(Should No working copy or index change)
+
+## git commit(stage to commited)
+
+	git commit -m &#x27;comment&#x27; //commited file
+	#auto stage when commit
+	git commit -a -m &#x27;auto stage(except untracked file) &#x27;
+
+### git checkout revert
+
+	// not switch branch if following `dir` or `file`
+	git checkout HEAD^ .
+
+## ignore filemode
+
+	git config --global core.filemode false
+	git config --unset --global core.filemode
+
+## git reset
+&gt; untracked file will be keeped(even with --hard)
+
+Undoing a commit is a little scary if you don&#x27;t know how it works. But it&#x27;s actually amazingly easy if you do understand.
+
+Say you have this, where C is your HEAD and (F) is the state of your files.
+
+	   (F)
+	A-B-C
+		↑
+	  master
+
+You want to nuke commit C and never see it again.
+
+### git reset hard(index/working)
+`--hard` You do this:
+
+	git reset --hard;	# same: git reset HEAD . --hard
+	git reset --hard HEAD~1 (revert commit/index/working)
+		clean unstaged/staged files
+
+The result is:
+
+	 (F:working)
+	A-B
+	  ↑
+	master
+
+### git reset(index)
+undo commit -am &#x27;msg&#x27;
+
+	git reset ;	# same as: git reset HEAD .
+	git reset HEAD~1 
+
+In this case the result is:
+
+	   (F(working)) 
+	A-B-C
+	  ↑
+	master: lost index+commit
+
+### git reset soft
+undo commit
+
+	   (F(working))
+	A-B-C
+	  ↑ ↑(index)
+	master
+	git reset --soft HEAD~1 (commit) (保留working and stage index)
+	git update-ref refs/heads/master SHA; # 指定其它分支
+	git update-ref refs/heads/master HEAD~1; # 指定其它分支, HEAD是当前分支的SHA
+
+# git checkout
+
+## Usage
+切换到要操作的: commit/branch
+同时刷新working 到: commit/branch/stage, stage 优先级最高
+
+
+         working
+	       ↑
+	A--x1--x2
+	    ↑(index)
+
+##	checkout stage/commit
+
+        working
+        ↑
+	A--x1--x2       git checkout file
+	    ↑(index)
+    working
+    ↑
+	A--x1--x2       git checkout A file
+    ↑(index)
+
+
+	#(stage|commit) -&gt; working
+	git checkout -- file //cp staged or commited file to working copy.(如果没有stage就用commit)，不会改变stage
+	git checkout HEAD file
+	git checkout HEAD^ file //回滚单个文件(index+work)
+	git checkout HEAD^ .//回滚dir(index+work)
+	git checkout HEAD^ //切换分支
+
+### switch branch
+&gt; Not change not staged, staged, untracked files
+
+	git checkout &lt;branch&gt;
+
+### switch &amp; add
+
+	-b new_branch
+		Create a new branch named &lt;new_branch&gt; and start it at &lt;start_point&gt;
+		git checkout [-b] &lt;branch&gt;
+		git checkout [-b] &lt;new_branch&gt; [&lt;start_point&gt;]
+		git checkout -b test origin/test //tracking branch
+	-t, --track
+		git checkout -b master upstream/master, //tracking branch
+		git checkout -b master -t upstream/master, //tracking branch
+
+# git diff
+[/p/git-diff](/p/git-diff)
+
+# git log
+[/p/git-log](/p/git-log)
+
+# SHA revision
+Here are some revision types:SHA-1, short SHA-1,
+
+## SHA-1
+
+## short SHA-1
+
+	git log --abbrev-commit
+
+## branch&#x27;s revision &#x27;
+如果你想知道某个分支指向哪个特定的 SHA
+
+	git rev-parse &lt;branch&gt;
+	git rev-parse head
+	2af3fsdfwe324
+
+## parent commit revision
+
+	git log HEAD^  or git log HEAD~ //parent commit,父提交
+	git log HEAD^^ or git log HEAD~~ or git log HEAD~2 //父提交的父提交
+	git log HEAD~&lt;num&gt; //第&lt;num&gt;个父提交
+
+	git log HEAD^2 //follow the other parent upwards.(仅用于merged commit) 它会指向第2个合并分支
+	git log HEAD^1 //follow the first parent upwards.(仅用于merged commit) 它会指向第1个合并分支, 这是默认的
+
+    G   H   I   J
+    \ /     \ /
+    D   E   F
+    \  |  / \
+        \ | /   |
+        \|/    |
+        B     C
+        \   /
+            \ /
+            A
+
+    A =      = A^0
+    B = A^   = A^1     = A~1
+    C = A^2  = A^2
+    D = A^^  = A^1^1   = A~2
+    E = B^2  = A^^2
+    F = B^3  = A^^3
+    G = A^^^ = A^1^1^1 = A~3
+    H = D^2  = B^^2    = A^^^2  = A~2^2
+    I = F^   = B^3^    = A^^3^
+    J = F^2  = B^3^2   = A^^3^2
+
+## HEAD
+HEAD 指向当前分支引用的revision
+
+	git log HEAD
+	git log HEAD@{2} != HEAD~2
+	git show HEAD@{2}
+
+查看昨天分支指向哪里
+
+	git show HEAD@{yesterday}
+
+# git remote
+
+## add/rm/rename
+
+	git remote add shortname url
+	git remote set-url shortname url
+	git remote rm shortname
+	git remote rename shortnameA shortnameB
+
+Example:
+
+	git remote add origin ssh://git@ahuigo.github.io:ahuigo/wiki.git
+	git remote add upstream https://github.com/octocat/Spoon-Knife.git
+    git -C &quot;/usr/local/Homebrew&quot; remote set-url origin https://github.com/Homebrew/brew.git
+
+## show remote
+
+	git remote -v
+	git remote show &lt;remote-name&gt; //origin
+
+# git show(svn cat, git cat)
+git show specify commit
+
+	git show $REV [FILE]
+	git show --name-only SHA1
+		show log $REV only
+	git show $REV:$FILE
+	git show somebranch:from/the/root/myfile.txt
+	git show HEAD^^^:test/test.py
+
+## show diff
+    git show $REV $FILE
+
+
+# git tag
+tag 相当于commit 的别名
+
+## list tag
+
+	git tag
+	git tag -l &#x27;v1.*&#x27;
+
+## del tag
+
+    # git push origin :tagname
+    git push --delete origin tagname
+    git push origin :refs/tags/&lt;tagname&gt;
+    # git tag -d tagname
+    git tag --delete tagname
+
+## add tag
+
+### add lighted tag
+
+	git tag v1.4 [&lt;commit&gt;]
+
+### add annotated tag
+
+	git tag -a v1.4 -m &#x27;fix bug&#x27;
+
+### add tag for a commit
+
+	git tag -a v1.4 &lt;commit&gt;
+
+### add -s (-signed) tag
+
+	git tag -s v1.4 -m &#x27;fix&#x27;
+	#add tag for a commit
+	git tag -a v1.5 9fceb	//revision 9fceb
+
+## verify signature tag
+
+	git tag -v v1.4
+
+## push tag
+tag 是绑定在commit上的，但是默认push不会将tag 推到远端.
+
+###  push a tag
+
+	git push origin &lt;tagname&gt;
+	git push origin v1.4
+
+### push all tag
+
+    git push --follow-tags
+	git push --tags
+	git push origin --tags
+
+# git describe
+找到离HEAD最近的tag
+
+	git describe [&lt;object&gt;] //list annotated tags
+	git describe --tags //list unannotated tags
+
+Output:
+
+	&lt;tag&gt;_&lt;numCommits&gt;_g&lt;hash&gt;
+	Where tag is the closest ancestor tag in history, numCommits is how many commits away that tag is, and &lt;hash&gt; is the hash of the commit being described.
+
+# git archive
+Create an archive of files from a named tree.
+
+	git archive &lt;object&gt; --prefix=&#x27;project/&#x27; | gzip &gt; `git describe master`.tar.gz
+	git archive --format=tar.gz --prefix=&#x27;project/&#x27; &lt;object&gt; &gt; `git describe`.tar.gz
+
+# git branch
+
+## rename branch
+
+	git branch -m new_name;# rename current branch
+	git branch -m &lt;oldname&gt; &lt;newname&gt;
+
+## list branch
+
+	git branch
+	git branch -v #more detail
+	git branch -va #more branch
+    git branch -r, --remotes
+               List or delete (if used with -d) the remote-tracking branches.
+
+### merge status
+
+	git branch --merged
+	git branch --no-merged //the branch not merged
+
+## add/del branch
+
+	git branch &lt;branchName&gt;		//add
+	git branch &lt;new_branch&gt; [&lt;start-point&gt;] //new_branch started from &lt;start_point&gt;
+	git branch -d &lt;branchName&gt; //del
+	git branch -D &lt;branchName&gt; //Force Del
+
+## move branch to commit
+
+	git branch -f &lt;branch&gt; &lt;commit&gt; //move branch to commit(HEAD必须与master分离)
+
+# git fetch
+
+	git fetch //fetch all repos
+	git fetch &lt;repo&gt; //fetch all branch on remote &lt;repo&gt;
+	git fetch &lt;repo&gt; &lt;source&gt; // fetch &lt;source&gt; to local &lt;repo&gt;/&lt;source&gt;
+	git fetch &lt;repo&gt; &lt;source&gt;:&lt;destination&gt; // fetch &lt;source&gt; to local &lt;destination&gt; . &lt;destination&gt; 不能是checked状态, 这会改变本地的分支,
+
+# git push
+
+	git push &lt;repo&gt; &lt;local_branch&gt;[:remote_branch]
+	git push origin master:test
+
+    # git push -f git@github.com:&lt;USERNAME&gt;/&lt;REPO&gt;.git master:gh-pages
+
+## push all remote
+
+    git push remote [branch]
+
+## push buffer
+&gt; `git config http.postBuffer 5242880000` 设置push 时的大小限制, 否则会报 The remote end hung up unexpectedly。 还有一个原因是服务端限制
+
+	http {
+    	# ...
+		client_max_body_size 1G;
+
+## push branch
+push 时，remote 必须存在相应的branch, 比如master. 否则会报: No refs in common and none specified; doing nothing.
+
+此时应该指定此branch:
+
+	git push -u origin master
+		-u add upstream (tracking) reference
+	[branch &quot;master&quot;]
+		remote = origin
+		merge = refs/heads/master
+
+	//or
+	git branch -u origin/master master
+	git checkout -tb new_feature_name origin/new_feature_name
+
+untrack
+
+	git branch --unset-upstream
+
+## default branch
+Push all branches
+
+    git config --global push.default matching
+
+Push only the current branch
+
+    git config --global push.default simple
+
+push all branch
+
+    git push --all
+
+## DNS SPOOFING DETECTED
+WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!
+Remove host:
+
+	ssh-keygen -f ~/.ssh/known_hosts -R gitlab.site.org
+
+Ignore HostKey
+
+	$ vim ~/.ssh/config
+	Host github.com-ahuigo
+		HostName github.com
+		User git
+		StrictHostKeyChecking no
+
+## del remote branch
+
+	git push origin :test
+
+## push add upstream (tracking) reference,
+Add upstream (tracking) reference:
+
+	git push -u origin master
+
+# git merge
+
+	git merge &lt;branch&gt;
+	git merge origin/test
+	git merge origin test
+	git merge origin
+
+merge old, keeping &quot;our&quot; (master&#x27;s) content
+
+    git merge -s ours old-master
+
+## merge other remote
+Step 1. Fetch other code
+
+	git fetch origin master
+
+Step 2. Merge the branch and push the changes to GitLab
+
+	git merge other/master
+	git mergetool
+	git push
+
+Also, you can use pull directly:
+
+	git pull other master
+	git pull other # fetch only
+
+to keep the remote or local file, :
+
+	git checkout --theirs /path/to/file
+	git checkout --ours /path/to/file
+
+## merge option
+
+    git pull -X
+	git merge -X theirs branchB #use theirs, not take everything from branch B as is, but when Conflicts!
+		-s       ours ignore all theirs changes
+        -Xours   keep ours if conflict
+        -Xtheirs
+
+### option
+
+	git merge --no-commits //告诉 Git 此时无需自动生成和记录(合并)提交.最后一起提交
+	git merge --squash //选项将目标分支上的所有更改全拿来应用到当前分支上
+
+### git pull
+
+	git pull //auto fetch and merge the newest vertion of remote branch
+	git pull --rebase //auto fetch and rebase the newest vertion of remote branch
+	git pull &lt;shortname&gt; [&lt;branch&gt;]
+	git pull &lt;repository&gt; [&lt;branch&gt;]
+
+Set default pull branch
+
+	branch.master.remote = origin
+	branch.master.merge = refs/heads/master
+
+You can do this with a single command:
+
+	git branch --track master origin/master
+
+### Solove Conflicts
+Use vimdiff(Default)
+
+	git config --global merge.tool vimdiff
+	git config --global mergetool.prompt false
+	git config --global mergetool.keepBackup false
+
+start vimdiff
+
+	$ git mergetool
+
+Vim&#x27;s operation:
+
+	]c [c &quot;jump in conflict blocks
+	:diffg RE  &quot; get from REMOTE
+	:diffg BA  &quot; get from BASE
+	:diffg LO  &quot; get from LOCAL
+
+&gt; Use `v` to select all, then use `diffg LO` to replace current block from LO. A better way is `:%diffg LO`, `:%diffput Working`
+
+# git stash
+现在你想切换分支或者pull，但是你还不想提交你正在进行中的工作；所以你储藏这些变更。
+
+为了往堆栈推送一个新的储藏，只要运行 git stash：
+
+	$ git stash
+	Saved working directory and index state WIP on master: bb6dd9c haha
+	HEAD is now at bb6dd9c haha
+	(To restore them type &quot;git stash apply&quot;)
+
+这时，你可以方便地切换到其他分支工作；你的变更都保存在栈上。要查看现有的储藏，你可以使用 git stash list：
+
+	$ git stash list
+	stash@{0}: WIP on master: bb6dd9c commit_msg1
+	stash@{1}: WIP on master: xbx6d1z commit_msg2
+	(两次stash)
+
+	$ git stash show -p stash@{0}
+	diff --git a/a.txt b/a.txt
+	index e69de29..589fc73 100644
+	--- a/a.txt
+	+++ b/a.txt
+	@@ -0,0 +1 @@
+	+stash
+
+在其它分支切换回来后，想恢复这个暂存的变更. 当然，你也可以在其它分支应用这个暂存变更(如果变更无法应用git 会给出归并冲突的提示)
+
+	git stash apply stash@{0}
+	//或者
+	git stash apply
+	//应用变更时清空暂存
+	git stash pop stash@{0}
+	git stash pop
+
+## git stash drop
+
+	git stash drop stash@{0}
+	git stash drop //remove stash@{0}
+
+	git stash clear //remove all
+
+## 取消储藏(Un-applying a Stash)
+
+# git rebase branch
+
+	git rebase &lt;branchA&gt; //rebase current branch,based on branchA
+	git rebase &lt;onto branch&gt; &lt;branch&gt;
+	git rebase -i master
+	git rebase -i &lt;branchA&gt; //rebase current branch, base on branchA (interactively)
+	git rebase --onto master branchA branchB //rebase branchB(but keep commits from branchA being committed), base on master.
+
+If u have conflict files:
+
+	git mergetool //resolve conficts
+	git add -u
+	git rebase --continue //It will commit automatic.
+
+If u want to restart rebasing and do not want any current file patch
+
+	git rebase --skip
+		Restart the rebasing process by skipping the current patch.
+
+# cherry-pick
+强制合并指定的分支
+
+	git cherry-pick &lt;commit1&gt;&lt;commit2&gt; &lt;commit3&gt; ...  //apply specified &lt;commit&gt; on current branch
+
+# git hub
+hub is a command-line wrapper for git that makes you better at GitHub.
+https://hub.github.com/
+
+# dilivery
+主要有以下几种方式
+## create patch
+
+### format-patch
+
+	git format-patch -M origin/master //create patch that commit from traced  origin/master , -M allow to check Rename Commit
+	01.patch
+
+## send patch
+
+### config email
+
+	vim ~/.gitconfig
+	[imap]
+		folder = &quot;[Gmail]/Drafts&quot;
+		host = imaps://imap.gmail.com
+		user = user@gmail.com
+		pass = p4ssw0rd
+		port = 993
+		sslverify = false
+
+### send email
+	git send-email *.patch
+
+## apply patch
+
+### git am
+
+	apply the patch created by `format-patch`
+	$git am format-patch.patch
+	$git am -i mbox //交互
+	$git am -3 format-patch.patch //-3更智能的处理冲突:检测多次打补丁的情况（如果当前分支包含被丁基础代码则合并失败）
+	error: patch failed
+	$git mergetool
+	$git am --resolved
+
+### git apply
+
+	#It is more strictly than patch. 事务性的
+	git apply --check 01.patch//test patch
+	git apply /tmp/01.patch //apply patch to current branch
+</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

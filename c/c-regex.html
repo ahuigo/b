@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/c/c-regex.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>c 语言的正则库</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: c 语言的正则库
+date: 2018-05-17
+updated: 2018-10-06
+---
+# c 语言的正则库
+c 语言的posix 正则库参考: man 3 regex, 不过我更喜欢用pcre, 可参考 `man 3 pcreapi`
+
+以下是两个例子
+
+## Posix Regex
+这个posix regex 例子来自于:  
+http://blog.csdn.net/sahusoft/article/details/4196342
+
+它使用了regcomp 和 rgeexec
+
+	#include &lt;stdio.h&gt;
+	#include &lt;string.h&gt;
+	#include &lt;regex.h&gt;
+	
+	#define SUBSLEN 10              /* 匹配子串的数量 */
+	#define EBUFLEN 128             /* 错误消息buffer长度 */
+	#define BUFLEN 1024             /* 匹配到的字符串buffer长度 */
+
+	int main() {
+			size_t          len;
+			regex_t         re;             /* 存储编译好的正则表达式，正则表达式在使用之前要经过编译 */
+			regmatch_t      subs [SUBSLEN];     /* 存储匹配到的字符串位置 */
+			char            matched   [BUFLEN];     /* 存储匹配到的字符串 */
+			char            errbuf    [EBUFLEN];    /* 存储错误消息 */
+			int             err, i;
+
+			char            src       [] = &quot;111 &lt;title&gt;Hello World&lt;/title&gt; 222&quot;;    /* 源字符串 */
+			char            pattern   [] = &quot;&lt;title&gt;(.*)&lt;/title&gt;&quot;;    /* pattern字符串 */
+
+			printf(&quot;String : %s\n&quot;, src);
+			printf(&quot;Pattern: %s\n&quot;, pattern);
+
+			/* 编译正则表达式 */
+			err = regcomp(&amp;re, pattern, REG_EXTENDED);
+
+			if (err) {
+					len = regerror(err, &amp;re, errbuf, sizeof(errbuf));
+					printf(&quot;error: regcomp: %s\n&quot;, errbuf);
+					return 1;
+			}
+			printf(&quot;Total has subexpression: %lu \n&quot;, re.re_nsub);
+			/* 执行模式匹配 */
+			err = regexec(&amp;re, src, (size_t) SUBSLEN, subs, 0);
+
+			if (err == REG_NOMATCH) { /* 没有匹配成功 */
+					printf(&quot;Sorry, no match ...\n&quot;);
+					regfree(&amp;re);
+					return 0;
+			} else if (err) {  /* 其它错误 */
+					len = regerror(err, &amp;re, errbuf, sizeof(errbuf));
+					printf(&quot;error: regexec: %s\n&quot;, errbuf);
+					return 1;
+			}
+
+			/* 如果不是REG_NOMATCH并且没有其它错误，则模式匹配上 */
+			printf(&quot;\nOK, has matched ...\n\n&quot;);
+			for (i = 0; i &lt;= re.re_nsub; i++) {
+					len = subs[i].rm_eo - subs[i].rm_so;
+					if (i == 0) {
+							printf (&quot;begin: %lld, len = %lud  &quot;, subs[i].rm_so, len); /* 注释1 */
+					} else {
+							printf(&quot;subexpression %d begin: %lld, len = %lud  &quot;, i, subs[i].rm_so, len); 
+					}
+					memcpy (matched, src + subs[i].rm_so, len);
+					matched[len] = &#x27;\0&#x27;;
+					printf(&quot;match: %s\n&quot;, matched);
+			}
+
+			regfree(&amp;re);   /* 用完了别忘了释放 */
+			return (0);
+	}
+
+Results:
+
+	String : 111 &lt;title&gt;Hello World&lt;/title&gt; 222
+	Pattern: &lt;title&gt;(.*)&lt;/title&gt;
+	Total has subexpression: 1
+
+	OK, has matched ...
+
+	begin: 4, len = 26d  match: &lt;title&gt;Hello World&lt;/title&gt;
+	subexpression 1 begin: 11, len = 11d  match: Hello World
+
+## PCRE Regex
+pcre 比posix 功能更强大，效率更高。它使用了pcre_compile 和pcre_exec
+
+	/* Compile thuswise:    
+	*   gcc -Wall pcre.c -I/usr/local/include -L/usr/local/lib -lpcre
+	*  On Mac OSX:
+	*  	gcc pcre.c -lpcre
+	*/     
+	#include &lt;stdio.h&gt;
+	#include &lt;string.h&gt;
+	#include &lt;pcre.h&gt; 
+	                
+	#define OVECCOUNT 40
+	#define EBUFLEN 128            
+	#define BUFLEN 1024           
+	        
+	int main() {               
+		pcre *re; 
+		const char *error;
+		int  erroffset;
+		int  ovector[OVECCOUNT];
+		int  rc, i;
+		
+		char src[] = &quot;111 &lt;title&gt;Hello pcre World&lt;/title&gt; 222&quot;;
+		char pattern[] = &quot;&lt;title&gt;(.*)&lt;/title&gt;&quot;;
+				
+		printf(&quot;String : %s\n&quot;, src);
+		printf(&quot;Pattern: %s\n&quot;, pattern);
+		
+
+		//re = pcre_compile(pattern, PCRE_DOTALL, &amp;error, &amp;erroffset, NULL);//PCRE_DOTALL 表示&quot;.&quot;匹配回车换行
+		re = pcre_compile(pattern, 0, &amp;error, &amp;erroffset, NULL);
+		if (re == NULL) {
+			printf(&quot;PCRE compilation failed at offset %d: %s\n&quot;, erroffset, error);
+			return 1;
+		}
+
+		rc = pcre_exec(re, NULL, src, strlen(src), 0, 0, ovector, OVECCOUNT);
+		if (rc &lt; 0) {
+			if (rc == PCRE_ERROR_NOMATCH) printf(&quot;Sorry, no match ...\n&quot;);
+			else    printf(&quot;Matching error %d\n&quot;, rc);
+			free(re);
+			return 1;
+		}
+
+		printf(&quot;\nOK, has matched ...\n\n&quot;);
+
+		for (i = 0; i &lt; rc; i++) {
+			char *substring_start = src + ovector[2*i];
+			int substring_length = ovector[2*i+1] - ovector[2*i];
+			printf(&quot;%2d: %.*s\n&quot;, i, substring_length, substring_start);
+		}
+
+		free(re);
+		return 0;
+	}
+
+Result:
+
+	String : 111 &lt;title&gt;Hello pcre World&lt;/title&gt; 222
+	Pattern: &lt;title&gt;(.*)&lt;/title&gt;
+
+	OK, has matched ...
+
+	 0: &lt;title&gt;Hello pcre World&lt;/title&gt;
+	 1: Hello pcre World
+</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

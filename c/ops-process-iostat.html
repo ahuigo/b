@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/c/ops-process-iostat.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>ops-process-iostat</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: ops-process-iostat
+date: 2018-09-27
+updated: 2018-10-06
+---
+# Preface
+通过iostat方便查看CPU、网卡、tty设备、磁盘、CD-ROM 等等设备的活动情况, 负载信息。
+
+	iostat[参数][时间][次数]
+
+	-C 显示CPU使用情况
+	-d 显示磁盘使用情况
+	-k 以 KB 为单位显示
+	-m 以 M 为单位显示
+	-N 显示磁盘阵列(LVM) 信息
+	-n 显示NFS 使用情况
+	-p[磁盘] 显示磁盘和分区的情况
+	-t 显示终端和CPU的信息
+	-x 显示详细信息
+	-V 显示版本信息
+
+# cpu属性值说明：
+
+	%user：CPU处在用户模式下的时间百分比。
+	%nice：CPU处在带NICE值的用户模式下的时间百分比。
+	%system：CPU处在系统模式下的时间百分比。
+	%iowait：CPU等待输入输出完成时间的百分比。
+	%steal：管理程序维护另一个虚拟处理器时，虚拟CPU的无意识等待时间百分比。
+	%idle：CPU空闲时间百分比。
+
+注：如果%iowait的值过高，表示硬盘存在I/O瓶颈，%idle值高，表示CPU较空闲，如果%idle值高但系统响应慢时，有可能是CPU等待分配内存，此时应加大内存容量。%idle值如果持续低于10，那么系统的CPU处理能力相对较低，表明系统中最需要解决的资源是CPU。
+
+# disk属性值说明：
+
+	rrqm/s: 每秒进行 merge 的读操作数目。即 rmerge/s
+	wrqm/s: 每秒进行 merge 的写操作数目。即 wmerge/s
+	r/s: 每秒完成的读 I/O 设备次数。即 rio/s
+	w/s: 每秒完成的写 I/O 设备次数。即 wio/s
+	rsec/s: 每秒读扇区数。即 rsect/s
+	wsec/s: 每秒写扇区数。即 wsect/s
+	rkB/s: 每秒读K字节数。是 rsect/s 的一半，因为每扇区大小为512字节。
+	wkB/s: 每秒写K字节数。是 wsect/s 的一半。
+	avgrq-sz: 平均每次设备I/O操作的数据大小 (扇区)。
+	avgqu-sz: 平均I/O队列长度。
+	await: 平均每次设备I/O操作的等待时间 (毫秒)。
+	svctm: 平均每次设备I/O操作的服务时间 (毫秒)。
+	%util: 一秒中有百分之多少的时间用于 I/O 操作，即被io消耗的cpu百分比
+
+备注：如果 %util 接近 100%，说明产生的I/O请求太多，I/O系统已经满负荷，该磁盘可能存在瓶颈。如果 svctm 比较接近 await，说明 I/O 几乎没有等待时间；如果 await 远大于 svctm，说明I/O 队列太长，io响应太慢，则需要进行必要优化。如果avgqu-sz比较大，也表示有当量io在等待。
+
+# 查看TPS和吞吐量
+
+	/root$iostat -d -k 1 1
+	Linux 2.6.32-279.el6.x86_64 (colin)   07/16/2014      _x86_64_        (4 CPU)
+
+	Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+	sda               1.95         0.74        35.44    4572712  218559410
+	dm-0              3.08         0.28        12.17    1696513   75045968
+	dm-1              5.83         0.46        23.25    2857265  143368744
+	dm-2              0.01         0.00         0.02      11965     144644
+
+tps：该设备每秒的传输次数（Indicate the number of transfers per second that were issued to the device.）。“一次传输”意思是“一次I/O请求”。多个逻辑请求可能会被合并为“一次I/O请求”。“一次传输”请求的大小是未知的。
+
+	kB_read/s：每秒从设备（drive expressed）读取的数据量；
+	kB_wrtn/s：每秒向设备（drive expressed）写入的数据量；
+	kB_read：读取的总数据量；kB_wrtn：写入的总数量数据量；
+
+# References
+- [iostat]
+
+[iostat]: http://linuxtools-rst.readthedocs.org/zh_CN/latest/tool/iostat.html</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/ria/js-dom-file.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>js dom file</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: js dom file
+date: 2018-10-06
+updated: 2018-10-06
+---
+# Focus
+
+    var isFocused = (document.activeElement === dummyEl);
+    ele.focus()
+
+# FormData
+
+## input file
+
+    # cmd+click 不连续选择
+    # shift+click 连续选择
+    &lt;input type=&quot;file&quot; name=&quot;img&quot; multiple=&quot;multiple&quot; /&gt;
+
+
+## enctype
+&gt; 上传文件时，不能用 xhr.setRequestHeader(&quot;Content-type&quot;, &quot;application/x-www-form-urlencoded&quot;);
+&gt; 而必须使用默认的: Content-Type:multipart/form-data; boundary=----WebKitFormBoundaryfyRdj8roosVVWIsH
+
+    fd.append(&quot;myfile&quot;, myBlob, &quot;filename.txt&quot;);
+    fd.delete(&#x27;myfile&#x27;)
+
+使用append()方法时
+1. 可以通过第三个可选参数设置发送请求的头 `Content-Disposition` 指定文件名。
+2. 如果不指定文件名将使用名字“`blob`”
+
+## fromnode
+Via FormData and formnode:
+
+    formobj = document.getElementById(&#x27;form1&#x27;)
+    fd = formobj.getFormData()
+	fd = new FormData(formobj);
+
+    for (var pair of formData.entries()) {
+        console.log(pair[0]+ &#x27;, &#x27; + pair[1]); 
+    }
+
+## file
+Via FormData and file:
+
+	var files = document.getElementById(&#x27;photos&#x27;).files;
+	var formData = new FormData();
+	for (var i = 0; i &lt; files.length; i++) {
+	  var file = files[i];
+	  formData.append(&#x27;photos[]&#x27;, file, file.name);
+	}
+
+	// HTML 文件类型input，由用户选择
+	formData.append(&quot;userfile&quot;, fileInputElement.files[0]);
+	formData.append(&quot;userfile&quot;, fileInputElement.files[0], name);
+
+	// In jquery
+	$.each(files, function(key, value) {
+        formData.append(key, value);
+    });
+
+### file.attr
+
+    fileInput.value; //可以判断是束有文件( 假路径)
+	file = document.getElementById(&#x27;fileToUpload&#x27;).files[0];
+	file.size
+		bytes
+	file.name
+		filename
+	ifle.type
+		image/png ....
+
+## blob
+
+	// JavaScript file-like 对象
+	var content = &#x27;&lt;a id=&quot;a&quot;&gt;&lt;b id=&quot;b&quot;&gt;hey!&lt;/b&gt;&lt;/a&gt;&#x27;; // 新文件的正文...
+	var blob = new Blob([content], { type: &quot;text/xml&quot;});
+	formData.append(&quot;webmasterfile&quot;, blob);
+
+## blob=file.slice
+
+	if(navigator.appVersion.match(&#x27;Chrome/&#x27;))
+		blob = file.slice(start, length);
+	if(navigator.appVersion.match(&#x27;Firefox/&#x27;))
+		blob = file.slice(start, start + length)
+
+解决兼容问题：
+
+    function blobSlice(file, start, end) {
+        let blobSlice = File.prototype.mozSlice || File.prototype.webkitSlice || File.prototype.slice;
+        return blobSlice.call(file, start, end);
+    }
+
+## FileReader
+
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        var data = e.target.result; // &#x27;data:image/jpeg;base64,/9j/4AAQSk...&#x27;            
+        $(&#x27;img&#x27;)[0].style.backgroundImage = &#x27;url(&#x27; + data + &#x27;)&#x27;;
+    };
+    reader.onloadend = function(e) {
+        console.log(reader.result); // onload 只适合小blob
+    }
+    // 以DataURL的形式读取文件:
+    reader.readAsDataURL(file);
+    reader.readAsText(file); // 每次read 都要重新绑定onload
+
+file is blob, split file to small blob
+
+    function blobSlice(file, start, end) {
+        var blobSlice = File.prototype.mozSlice || File.prototype.webkitSlice || File.prototype.slice;
+        return blobSlice.call(file, start, end);
+    }
+    blob = blobSlice(file, start, end)
+    fileReader.readAsBinaryString(blob_or_file);
+
+# chunk upload
+[js-lib/ajax/](js-lib/upload/)
+
+## uploadFile
+
+	function uploadFile(file, id){
+		var chunk_size = 500;
+		var start = 0;
+		var blob;
+		while(start &lt; file.size){
+			if(navigator.appVersion.match(&#x27;Chrome/&#x27;))
+				blob = file.slice(start, chunk_size);
+			else if(navigator.appVersion.match(&#x27;Firefox&#x27;)){
+				blob = file.slice(start, start + chunk_size);
+			}
+			uploadBlob(blob, id, start);
+			$start += chunk_size;
+		}
+	}
+	function uploadBlob(blob, id, start){
+		var fd = new FormData;
+		fd.append(&#x27;file&#x27;, blob);
+		fd.append(&#x27;id&#x27;, id);
+		fd.append(&#x27;start&#x27;, start);
+		xhr.send(fd);
+	}
+
+## php
+
+	$f = fopen($_POST[&#x27;id&#x27;], &#x27;w&#x27;);
+	fseek($f, $_POST[&#x27;chunk&#x27;]*$_POST[&#x27;chunk_size&#x27;]);
+	$chunk = fopen($_FILES[&#x27;file&#x27;][&#x27;tmp_name&#x27;], &#x27;r&#x27;);
+	stream_copy_to_stream($chunk, $f);
+
+# Blob
+
+    blob = new Blob([&#x27;str&#x27;], {type : &#x27;application/json&#x27;});
+    blob.slice(start, end)
+
+## blob2file
+    function blob2file(blobData) {
+        const fd = new FormData();
+        fd.set(&#x27;a&#x27;, blobData);
+        return fd.get(&#x27;a&#x27;);//name:blob, type:&#x27;&#x27;
+    }
+
+# File
+File 基于blob
+
+    file = new File([&#x27;str&#x27;],&#x27;a.png&#x27;, {type : &#x27;image/png&#x27;});
+    file = new File([&#x27;str&#x27;], &#x27;a.txt&#x27; );
+    var file = new File([myBlob], &quot;name&quot;);
+
+
+## FileReader
+
+    reader = new FileReader()
+    reader.onload = function(evt) {
+        xhr.send(evt.target.result);
+    };
+
+    reader.readAsBinaryString(file);
+    reader.readAsDataURL(file); //data:;base64,YQ==
+    reader.readAsText(file)
+    reader.readAsArrayBuffer(file)
+
+## FileReaderSync
+该接口只在workers里可用,因为在主线程里进行同步I/O操作可能会阻塞用户界面
+http://jsfiddle.net/bgrins/7DjCP/
+
+    r = new FileReaderSync().readAsDataURL(data)</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

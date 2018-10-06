@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/nginx/nginx-conf.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>linux nginx 配置</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: linux nginx 配置
+date: 2018-10-06
+updated: 2018-10-06
+---
+# Preface
+
+# install
+ 用brew 自动安装吧, 如果需要[extra module](https://github.com/Homebrew/homebrew-nginx/issues/49):
+
+	# This tap is designed specifically for a custom build of Nginx with more module options.
+	brew tap homebrew/nginx 
+	brew install nginx-full --with-echo-module
+
+	### myself
+	rm -r /usr/local/var/www
+	ln -s /Users/hilojack/www /usr/local/var/www
+	sudo ln -s /usr/local/etc/nginx /etc/nginx
+
+## start nginx
+	sudo ln -s /usr/local/sbin/nginx /usr/sbin
+	sudo nginx -s Signal
+		-s Signal:
+			stop — fast shutdown
+			quit — graceful shutdown
+			reload — reloading the configuration file
+			reopen — reopening the log files
+		-V compiler args
+
+	sudo php-fpm
+	sudo kill `/usr/var/run/php-fpm.pid`
+
+## start nginx for mac
+
+	#To have launchd start nginx at login:
+			ln -sfv /usr/local/opt/nginx/*.plist ~/Library/LaunchAgents
+	# Then to load nginx now:
+			launchctl load ~/Library/LaunchAgents/homebrew.mxcl.nginx.plist
+	# Or, if you don&#x27;t want/need launchctl, you can just run:
+			nginx
+			nginx -V
+
+## check conf
+$     nginx -t
+nginx: the configuration file /usr/local/nginx//conf/nginx.conf syntax is ok
+
+
+# nginx.conf
+
+	#user  nobody;
+	worker_processes  1;
+	#pid        logs/nginx.pid;
+
+	events {
+        worker_connections  1024;
+	}
+
+
+	http {
+        upstream  fastcgi_backend {
+            server 127.0.0.1:9015  max_fails=0;
+            keepalive 8;
+        }
+
+        server {
+            listen  80 default_server;
+            server_name  gitWiki.com;
+            root   /Users/hilojack/www/gitWiki;
+            location  ~ &quot;^/(js|img|css|htm)/&quot; {
+                #rewrite &quot;^/(.*)&quot; /yar.php/$1 last;
+            }
+            
+            rewrite &quot;^/(js|img|css|htm)/(.*)&quot; /$1/$2 last; #好像即使rewrite在location后面, 也会在location执行前执行
+            if ( $http_host ~ &quot;^rpc.cn&quot; ){
+                rewrite &quot;^/2/(.*)&quot; /yaf.php/$1 last;
+            }
+
+            location ~* &quot;/proxy&quot; {
+                proxy_pass http://host:8080;
+                proxy_set_header Host            $host;
+                proxy_set_header X-Forwarded-For $remote_addr;
+            }
+
+            # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+            location /{
+                #redirect ^ http://www.google.com/?q=$fastcgi_script_name last; break; # test nginx variable
+                fastcgi_pass   127.0.0.1:9000;
+                #fastcgi_pass   fastcgi_backend;
+                #fastcgi_index  index.php;
+                fastcgi_param   SCRIPT_FILENAME    $document_root$fastcgi_script_name;
+                include        fastcgi_params;
+            }
+        }
+    }
+
+## $_SERVER
+hilo.com/a/b?c=1
+
+	&#x27;PATH_INFO&#x27; =&gt; &#x27;/a/b&#x27;,
+	&#x27;QUERY_STRING&#x27; =&gt; &#x27;c=2&#x27;,
+	&#x27;REQUEST_URI&#x27; =&gt; &#x27;/a/b?c=2&#x27;,
+
+	//rewrite path_info
+	&#x27;PHP_SELF&#x27; =&gt; &#x27;/yar.php//a/b&#x27;,
+	&#x27;DOCUMENT_URI&#x27; =&gt; &#x27;/yar.php//a/b&#x27;,
+
+
+	&#x27;SCRIPT_NAME&#x27; =&gt; &#x27;/yar.php&#x27;,
+	&#x27;SCRIPT_FILENAME&#x27; =&gt; &#x27;/data1/www/htdocs/xh.v5.weibo.cn/public/yar.php&#x27;,
+
+## config example
+
+	user nobody;
+	worker_processes  1;
+
+	#pid        logs/nginx.pid;
+
+	#工作模式及连接数上限
+	events {
+		#仅用于linux2.6以上内核,可以大大提高nginx的性能, 默认的会选择最优的，不用设定
+		#use   epoll; 
+
+		#单个后台worker process进程的最大并发链接数    
+		worker_connections  1024;
+
+		# 并发总数 即 max_clients = worker_processes * worker_connections
+		# 在设置了反向代理的情况下，max_clients = worker_processes * worker_connections / 4  为什么
+		# 为什么上面反向代理要除以4，应该说是一个经验值
+		# 根据以上条件，正常情况下的Nginx Server可以应付的最大连接数为：4 * 8000 = 32000
+		# worker_connections 值的设置跟物理内存大小有关
+		# 因为并发受IO约束，max_clients的值须小于系统可以打开的最大文件数
+		# 而系统可以打开的最大文件数和内存大小成正比，一般1GB内存的机器上可以打开的文件数大约是10万左右
+		# 我们来看看360M内存的VPS可以打开的文件句柄数是多少：
+		# $ cat /proc/sys/fs/file-max
+		# 输出 34336
+		# 32000 &lt; 34336，即并发连接总数小于系统可以打开的文件句柄总数，这样就在操作系统可以承受的范围之内
+		# 所以，worker_connections 的值需根据 worker_processes 进程数目和系统可以打开的最大文件总数进行适当地进行设置
+		# 使得并发总数小于操作系统可以打开的最大文件数目
+		# 其实质也就是根据主机的物理CPU和内存进行配置
+		# 当然，理论上的并发总数可能会和实际有所偏差，因为主机还有其他的工作进程需要消耗系统资源。
+		# ulimit -SHn 65535
+
+	}
+
+	http {
+		#对于普通应用，必须设为 on, 指定 nginx 调用 sendfile 函数（zero copy 方式）来输出文件，
+		# 如果用来进行下载等应用磁盘IO重负载应用，可设置为 off， 以平衡磁盘与网络I/O处理速度，降低系统的uptime.
+		sendfile     on;
+		#tcp_nopush     on;
+
+		#开启gzip压缩
+		gzip  on;
+		gzip_disable &quot;MSIE [1-6].&quot;;
+
+		#设定请求缓冲
+		client_header_buffer_size    128k;
+		large_client_header_buffers  4 128k;
+
+
+		#设定虚拟主机配置
+		server {
+			#侦听80端口
+			listen    80;
+			#定义使用 www.nginx.cn ahuigo.github.io访问
+			server_name  ahuigo.github.io www.nginx.cn;
+
+			#定义服务器的默认网站根目录位置
+			root html;
+
+			#设定本虚拟主机的访问日志
+			access_log  logs/nginx.access.log  main;
+
+			#默认请求
+			location / {
+				
+				#定义首页索引文件的名称
+				index index.php index.html index.htm;   
+
+			}
+
+			# 定义错误提示页面
+			error_page   500 502 503 504 /50x.html;
+			location = /50x.html {
+			}
+
+			#静态文件，nginx自己处理
+			location ~ ^/(images|javascript|js|css|flash|media|static)/ {
+				
+				#过期30天，静态文件不怎么更新，过期可以设大一点，
+				#如果频繁更新，则可以设置得小一点。
+				expires 30d;
+			}
+
+			#PHP 脚本请求全部转发到 FastCGI处理. 使用FastCGI默认配置.
+			location ~ .php$ {
+				fastcgi_pass 127.0.0.1:9000;
+				fastcgi_index index.php;
+				fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+				include fastcgi_params;
+			}
+
+			#禁止访问 .htxxx 文件
+				location ~ /.ht {
+				deny all;
+			}
+
+		}
+	}</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/course/im-live-p2p.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>关于直播的P2P架构</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: 关于直播的P2P架构
+date: 2018-08-23
+updated: 2018-10-06
+---
+# 关于直播的P2P架构
+现在的直播大多都是中心化的CDN 架构，首先是主播RTMP 推流到CDN 服务器，然后用户从通过次级CDN 链路拉流。
+
+这种架构最成熟稳定，但是成本巨大。直播本身和聊天一样都是属于点对点通信。
+如果能用点对点做直播，那么不仅节省一堆服务器成本，还能解决大量的带宽问题。
+
+[h5p2p] 总结了几种P2P 的架构:
+1. Tree：树型
+2. Mesh：网状
+3. PCDN
+
+## 树形P2P 分级架构
+架构简化图 来自于[h5p2p]：
+![](https://upload-images.jianshu.io/upload_images/80097-2dd8f9bdcc156f5d.png)
+
+这种架构的缺点是:
+1. 当播放人数变多，直播的节点层级也变得很大，导致它的延时非常大
+2. 节点很容易出现退出等不稳定情况
+3. 用户的上行带宽不足
+
+## 网状P2P 架构
+这种架构解决了节点不稳定问题: 数据流一到播放节点，直接就开始在节点之间互相传输。(题图[h5p2p])
+![](https://upload-images.jianshu.io/upload_images/80097-de5aae8e44ce9a18.png)
+
+用 WebRTC 来做 P2P 的 Peer5 采用的是网状 P2P 网络。Streamroot 的解决方案也是网状结构。
+- 但是多层级延迟问题还是没有解决
+- 用户的上行带宽不足: 比如推流的码率是2M, 上行却只有2M, 不能构成树形分支
+
+## PCDN
+基于P2P的缺点:
+1. 带宽不够，节点分享率低. 我们用CDN 节点+第三方节点补充啊
+2. 多层级延迟大. 我们使用平铺的结构啊
+
+有人考虑到P2P+CDN 结合为PCDN. 参考又拍云的架构
+
+![](https://upload-images.jianshu.io/upload_images/80097-68c2a3e271a1867d.png)
+
+PCDN 的优化: 
+1. 增加大量的第三方设备数量: 提高上行带宽供应量，降低CDN节点压力，从而提高节点分享比例. 不存在P2P “只有播放者，才是供应者”的局限。
+2. 动态调参：流畅性、高分享率是矛盾的。提高分享率会占用带宽，降低流畅性。这两个指标需要动态平衡。
+
+## Reference
+- [h5p2p]
+
+[h5p2p]: https://segmentfault.com/a/1190000015195994</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

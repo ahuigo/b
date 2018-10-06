@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/net/net-sniffer-wireshark.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>wireshark</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: wireshark
+date: 2018-09-28
+updated: 2018-10-06
+---
+# wireshark
+Refer : http://www.bo56.com/tcpdump-%E5%92%8C-wireshark%E7%BB%84%E5%90%88%E6%8B%B3%EF%BC%8C%E6%8F%AA%E5%87%BA%E6%9C%89%E9%97%AE%E9%A2%98%E7%9A%84%E6%9C%BA%E5%99%A8/
+
+Support: http, tcp, udp
+Licence: GPL
+
+&gt; 同类工具有微软的network monitor,sniffer
+
+## install
+	brew cask install xquartz
+	brew cask install wireshark
+
+## Usage
+On Mac:
+	http://blog.csdn.net/phunxm/article/details/38590561
+On Windows:
+	http://www.cnblogs.com/tankxiao/archive/2012/10/10/2711777.html
+
+WireShark 主要分为这几个界面
+
+1. Display Filter(显示过滤器)，  用于过滤
+2. Packet List Pane(封包列表)， 显示捕获到的封包， 有源地址和目标地址，端口号。 颜色不同，代表
+3. Packet Details Pane(封包详细信息), 显示封包中的字段
+4. Dissector Pane(16进制数据)
+5. Miscellanous(地址栏，杂项)
+
+## Packet List Pane
+封包列表的面板中显示，编号，时间戳，源地址，目标地址，协议，长度，以及封包信息。 你可以看到不同的协议用了不同的颜色显示。
+你也可以修改这些显示颜色的规则，  View -&gt;Coloring Rules.
+
+## Packet Details Pane
+封包详细信息 各行信息分别为
+
+	Frame:   物理层的数据帧概况
+	Ethernet II: 数据链路层以太网帧头部信息
+	Internet Protocol Version 4: 互联网层IP包头部信息
+	Transmission Control Protocol:  传输层T的数据段头部信息，此处是TCP
+	Hypertext Transfer Protocol:  应用层的信息，此处是HTTP协议
+
+## Filter
+过滤器有两种，
+一种是显示过滤器，就是主界面上那个，用来在捕获的记录中找到所需要的记录
+一种是捕获过滤器，用来过滤捕获的封包，以免捕获太多的记录。 在Capture -&gt; Capture Filters 中设置
+
+### Display Filter
+位于主界面Filter. Example:
+
+	ip.src==192.168.1.1 or ip.dst==192.168.1.2
+	ip.src==10.17.10.138
+
+Shortcuts:
+
+	Ctrl+B	add filter
+
+#### Filter Rule
+表达式规则(case sensitive)
+
+1. Protocol Filter, 协议过滤
+
+	tcp，只显示TCP协议。
+	http
+	udp
+
+2. IP 过滤
+
+	比如 ip.src ==192.168.1.102 显示源地址为192.168.1.102，
+	ip.dst==192.168.1.102, 目标地址为192.168.1.102
+
+3. 端口过滤
+
+	tcp.port ==80,  端口为80的
+	tcp.port eq 80,  端口为80的
+	tcp.srcport == 80,  只显示TCP协议的愿端口为80的。
+
+4. Http模式过滤
+
+	http.request.method==&quot;GET&quot;,   只显示HTTP GET方法的。
+	http.host==&quot;ahuigo.github.io&quot;
+	http.host==ahuigo.github.io
+
+5. 逻辑运算符为 and or
+
+	adn &amp;&amp;
+	or ||
+
+Example:
+
+	ip.src ==192.168.1.102 or ip.dst==192.168.1.102	 源地址或者目标地址是192.168.1.102
+	http and (ip.src ==192.168.1.102 or ip.dst==192.168.1.102)
+	tcp &amp;&amp; http.host==ahuigo.github.io
+
+#### Save
+Select the filter you no longer want and click Remove.
+
+	Edit &gt; Preferences &gt; Filter Expressions.
+
+### Capture Filter</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

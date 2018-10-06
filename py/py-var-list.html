@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/py/py-var-list.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>python 的list/tuple 笔记</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: python 的list/tuple 笔记
+date: 2018-03-03
+updated: 2018-10-06
+---
+# list and tuple
+因为tuple 是增加删除元素的不可变的list(数据可以变)，所以代码更安全。
+如果可能，能用tuple代替list就尽量用tuple。
+
+	list = [1,2]
+	list +=[3,]
+
+	tuple = (1,2)
+	tuple +=(3,)
+
+	sorted([&#x27;a&#x27;, &#x27;z&#x27;, &#x27;g&#x27;])
+        [a, g, z]
+	sorted([&#x27;a&#x27;, &#x27;z&#x27;, &#x27;g&#x27;]).pop(-1); # last
+	sorted([&#x27;a&#x27;, &#x27;z&#x27;, &#x27;g&#x27;]).pop(); # last
+        z
+	sorted(&#x27;azg&#x27;]).pop(0); # first
+
+&gt; For more details, refer to `pydoc list`
+&gt; sorted(s) 不改变s
+
+The difference between list and tuple:
+
+	1. tuple can be dictionary identifier key
+	{(1,2):1} ok
+	{[1,2]:1} error
+
+	2. Tuples are immutable, and usually contain an heterogeneous sequence ..., and list is sorted
+
+	3. tuple can be accessed by index, but cann&#x27;t be deleted
+    &gt;&gt;&gt; tuple=(1,2,2,&#x27;2&#x27;)
+	del tuple[0] error
+
+## unpack list tuple
+too many values to unpack:
+
+    a,*args = 1,2,3,4
+    a,_ = 1,2,3,4 # for go language
+
+## list unique
+use set if the item is hash-able
+
+	set(list_or_tuple)
+
+or use any part which is hash-able:
+
+	&gt;&gt;&gt; lis = [(&#x27;one&#x27;, &#x27;a&#x27;), (&#x27;two&#x27;, &#x27;b&#x27;), (&#x27;three&#x27;, &#x27;a&#x27;)]
+	&gt;&gt;&gt; seen = set()
+	&gt;&gt;&gt; [item for item in lis if item[1] not in seen and not seen.add(item[1])]
+	[(&#x27;one&#x27;, &#x27;a&#x27;), (&#x27;two&#x27;, &#x27;b&#x27;)]
+
+让set 也保持顺序 use OrderedDict.keys():
+
+	&gt;&gt;&gt; set((5,3,2,3))
+	{2, 3, 5}
+	&gt;&gt;&gt; OrderedDict.fromkeys([5,3,2,3])
+	OrderedDict([(5, None), (3, None), (2, None)])
+	&gt;&gt;&gt; OrderedDict.fromkeys([5,3,2,3]).keys()
+	odict_keys([5, 3, 2])
+
+## list copy
+
+    l=[1,2,3]
+    lc=l.copy()
+    lc[:]=l
+
+    dc=dic.copy()
+
+## list merge, tuple merge
+
+	[1,2] + [2,3,]
+	(1,) + (2,)
+	list.extend([2,3]) # 改变自己
+
+merge to set, 利用`*args` 展开
+
+	&gt;&gt;&gt; {*(1,2), *[3,4]}
+	{1, 2, 3, 4}
+	&gt;&gt;&gt; {*(1,2), *[3,2]}
+	{1, 2, 3}
+
+## list join
+
+	list1 = [1, 2, 3]
+	str1 = &#x27;&#x27;.join(str(e) for e in list1)
+
+## list dict
+
+	&gt;&gt;&gt; list([1,2,3])
+	[1, 2, 3]
+	&gt;&gt;&gt; list({&#x27;a&#x27;:1,&#x27;b&#x27;:2,&#x27;c&#x27;:3})
+	[&#x27;b&#x27;, &#x27;c&#x27;, &#x27;a&#x27;]
+
+## loop list and tuple
+
+	for idx, val in enumerate(ints):
+		print(idx, val)
+	for idx, val in enumerate(ints, start=5):
+		print(idx, val)
+
+## in list
+
+	if x in list
+	if index &lt; len(list)
+
+### find in list
+Finding the first occurrence
+
+	next(x for x in lst if ...)
+
+which will return the first match or raise a StopIteration if none is found. Alternatively, you can use
+
+	next((x for x in lst if ...), [default value])
+	first_or_default = next((x for x in lst if ...), None)
+
+### find location(index)
+
+	[1,2,3][True] == 2
+	[1,2,3].index(2) == 1
+	[1,2,3].index(&#x27;2&#x27;) == ValueError
+
+	[1,2,3,2].index(2) # =&gt; 1
+	[i for i,x in enumerate([1,2,3,2]) if x==2] # =&gt; [1, 3]
+
+## zip list
+
+	&gt;&gt;&gt; xl = [1,3,5]
+	&gt;&gt;&gt; yl = [9,12,13,14]
+	&gt;&gt;&gt; print(list(zip(xl,yl)) # 取最短的
+	[(1, 9), (3, 12), (5, 13)]
+
+	l = [(1,2), (3,4), (8,9)]
+	&gt;&gt;&gt; zip(*l) # matrix转置
+	[(1, 3, 8), (2, 4, 9)]
+
+
+## join and split
+
+	&#x27;,&#x27;.join([1,2])
+	&#x27;1,2&#x27;.split(&#x27;,&#x27;);
+	&#x27;1,2,3&#x27;.split(&#x27;,&#x27;,1);# 只切割一次
+
+## shuffle list
+
+	import random
+	list=[1,2,3]
+	random.shuffle(list)
+
+## Access List index 
+
+	.index(value, [start, [stop]])
+
+## Access List valueby
+
+	list[0]
+	[1,2][0]
+	[1,2][-1]
+
+### get by default
+
+    v,=[1][1:2] or [&#x27;default&#x27;]
+     (a[4:]+[&#x27;default&#x27;])[0]
+
+### slice list and tuple
+exclude end
+
+	list[start:end:step]
+	list[0:3]
+	   list[:3]
+	list[:-1]
+	list[::-1] # reverse
+	list[::5]
+	print list[0:10:2]
+
+	len = len(list)
+	list[0:len]
+
+## in array
+
+	&gt;&gt;&gt; 0 in range(1)
+	True
+	&gt;&gt;&gt; x in range(1, 10)
+	&gt;&gt;&gt; &#x27;hilo&#x27; in &#x27;hilojack&#x27;
+
+## range:
+
+	&gt;&gt;&gt; print range(4)
+	[0, 1, 2, 3]
+	&gt;&gt;&gt; print range(2,4)
+	[2, 3]
+
+## repeat
+repeat
+
+	&#x27;.&#x27;.join([&#x27;pad&#x27;]*2)
+
+## pop,append(push)
+
+	&gt;&gt;&gt; list = [1,2]
+	&gt;&gt;&gt; del list[0]
+	&gt;&gt;&gt; list.pop(0)
+	&gt;&gt;&gt; list.append(3)
+	&gt;&gt;&gt; list.pop(-1) # same as list.pop() last one
+	3
+	&gt;&gt;&gt; list.pop(0) # first one
+	1
+
+### insert and shift
+
+    list.insert(pos, item)
+    list = list[1:]
+
+    from collections import deque
+    items = deque([1, 2])
+    items.append(3) # deque == [1, 2, 3]
+    items.rotate(1) # The deque is now: [3, 1, 2]
+    items.rotate(-1) # Returns deque to original state: [1, 2, 3]
+
+    items.appendleft(item)
+    item = items.popleft() # deque == [2, 3]
+
+## list with enumerate
+
+	&gt;&gt;&gt; for k,v in [[&#x27;k1&#x27;,&#x27;v1&#x27;],[&#x27;k2&#x27;,&#x27;v2&#x27;]]: print k,v
+	&gt;&gt;&gt; for k,v in [(&#x27;k1&#x27;,&#x27;v1&#x27;),(&#x27;k2&#x27;,&#x27;v2&#x27;)]: print k,v
+	k1 v1
+	k2 v2
+
+	&gt;&gt;&gt; for k,v in enumerate([[&#x27;k1&#x27;,&#x27;v1&#x27;],[&#x27;k2&#x27;,&#x27;v2&#x27;]], start=2): print k,v
+	...
+	1 [&#x27;k2&#x27;, &#x27;v2&#x27;]
+
+# .sort .reverse ... inplace like js
+
+	.count(value) -&gt; integer -- return number of occurrences of value
+	.reverse() -&gt; reverse *IN PLACE*
+	.sort(key=None, reverse=False) -- stable sort *IN PLACE*;
+	sorted(l, key=None, reverse=False) -- stable sort *Not IN PLACE*;
+
+    &gt;&gt;&gt; d=[&#x27;a&#x27;,&#x27;C&#x27;, &#x27;A&#x27;,&#x27;z&#x27;]; d.sort(key=str.lower))
+    [&#x27;a&#x27;, &#x27;A&#x27;, &#x27;C&#x27;, &#x27;z&#x27;]
+
+    &gt;&gt;&gt; a={1:2,2:4,4:1,3:3}
+    &gt;&gt;&gt; sorted(a.items())
+    [(1, 2), (2, 4), (3, 3), (4, 1)]
+    &gt;&gt;&gt; sorted(a.items(), key=lambda x:x[1])
+    [(4, 1), (1, 2), (3, 3), (2, 4)]
+
+利用python 的magic`__gt__,__eq__,...` 实现cmp:
+
+    key=functools.cmp_to_key(compare)
+
+remove and insert(in place)
+
+	.insert(index, object)
+	.remove(value) -- remove first occurrence of value.
+
+## sort list
+
+    colors = [&#x27;red&#x27;, &#x27;green&#x27;, &#x27;blue&#x27;, &#x27;yellow&#x27;]
+    sorted(colors):
+    sorted(colors, reverse=True):
+
+自定义排序顺序
+
+    sorted(colors, key=len)
+
+&gt; 如果要改变自身，则用l.sort(key, reverse=True) *IN PLACE*
+
+## reversed list and tuple(not include dict):     
+
+    for color in reversed([1,2,3]):
+    for color in list[::-1]:
+
+`list.reverse()` is *IN PLACE*
+
+## bisect
+用于插入有序数组
+
+	import bisect
+	l = [3,1,9]
+	l.sort() # 必须先排序
+	bisect.insort(l, 2)
+
+直接插入:
+
+    l.insert(index,item)
+</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

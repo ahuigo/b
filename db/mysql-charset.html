@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/db/mysql-charset.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>mysql-charset</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: mysql-charset
+date: 2018-09-27
+updated: 2018-10-06
+---
+# Preface
+
+# 字符集
+
+## collation( 字符序)
+[用于指定数据集如何排序，以及字符串的比对规则](http://zhongwei-leg.iteye.com/blog/899227)
+
+	show collation;
+
+collation 名字的规则可以归纳为这两类：
+
+1. `&lt;character set&gt;_&lt;language/other&gt;_&lt;ci/cs&gt;`(按语言、大小写)
+2. `&lt;character set&gt;_bin`(按字节值)
+
+ci 是 case insensitive 的缩写， cs 是 case sensitive 的缩写。即，指定大小写是否敏感。
+
+### 语言
+那么 `utf8_general_ci, utf8_unicode_ci, utf8_danish_ci` 有什么区别? 
+同一个 character set 的不同 collation 的区别在于排序、字符对比的准确度（相同两个字符在不同国家的语言中的排序规则可能是不同的）以及性能。
+
+1. utf8_general_ci 在排序的准确度上要逊于 utf8_unicode_ci， 当然，对于英语用户应该没有什么区别。但性能上（排序以及比对速度）要略优于 utf8_unicode_ci. 例如前者没有对德语中 `ß = ss` (在德语中他们意义是等价的)的支持。
+2. 而 utf8_danish_ci 相比 utf8_unicode_ci 增加了对丹麦语的特殊排序支持。
+
+&gt; 当表的 character set 是 latin1 时，若字段类型为 nvarchar, 则字段的字符集自动变为 utf8.
+可见 database character set, table character set, field character set 可逐级覆盖。
+
+### 大小写
+
+	字符序“utf8_general_ci”下，字符“a”和“A”是等价的；
+
+在 ci 的 collation 下，如何在比对时区分大小写：
+推荐使用
+
+	mysql&gt; select * from pet where name = binary &#x27;whistler&#x27;; //这样可以保证当前字段的索引依然有效
+	mysql&gt; select * from pet where binary name = &#x27;whistler&#x27;; //会使索引失效。
+
+## 查看字符集
+
+	//查看mysql 支持的字符集
+	show character set;
+	show collation;//影响字符排序\对比的性能与准确度
+
+	//check
+	show variables like &quot;%char%&quot;;
+	show create table db.table;
+	show create database db;
+
+	client-&gt;connect-&gt;server/system/database-&gt;results
+
+	//临时设置编码
+	mysql_query(&quot;SET NAMES &#x27;utf8&#x27;&quot;);//设定字符集,告诉服务器,我用的是utf-8编码, 我希望你也给我返回utf-8编码的查询结果.他会影响: results|client|connect
+	mysql_set_charset(&quot;utf8&quot;);//调用set names utf8 / set collation，设定字符集(会影响mysql_real_escape_string())
+	mysql_query(&quot;SET CHARACTER_SET_CLIENT=utf8&quot;);
+	mysql_query(&quot;SET CHARACTER_SET_RESULTS=utf8&quot;);
+	mysql_query(&quot;SET CHARACTER_SET_RESULTS=latin1&quot;);
+
+### 其他注意事项
+my.cnf中的default_character_set设置只影响mysql命令连接服务器时的连接字符集，不会对使用libmysqlclient库的应用程序产生任何作用！
+
+SQL语句中的裸字符串会受到连接字符集或introducer设置的影响，对于比较之类的操作可能产生完全不同的结果，需要小心！
+
+# 基本概念
+&gt; http://www.laruence.com/2008/01/05/12.html
+
+## MySQL字符集设置
+系统配置
+
+	[client]
+	default-character-set = utf8
+
+	[mysqld]
+	default-storage-engine = INNODB
+	character-set-server = utf8
+	collation-server = utf8_general_ci
+
+重启MySQL后，可以通过MySQL的客户端命令行检查编码：
+
+系统变量：
+
+	character_set_server：默认的内部操作字符集
+
+	character_set_client：客户端来源数据使用的字符集
+
+	character_set_connection：连接层字符集
+
+	character_set_results：查询结果字符集
+
+	character_set_database：当前选中数据库的默认字符集
+
+	character_set_system：系统元数据(字段名等)字符集
+
+	还有以collation_开头的同上面对应的变量，用来描述字符序。
+
+用introducer指定文本字符串的字符集：
+
+	– 格式为：[_charset] &#x27;string&#x27; [COLLATE collation]
+
+例如：
+
+	SELECT _latin1 &#x27;string&#x27;;
+
+	SELECT _utf8 &#x27;你好&#x27; COLLATE utf8_general_ci;
+
+由introducer修饰的文本字符串在请求过程中不经过多余的转码，直接转换为内部字符集处理。
+
+## MySQL中的字符集转换过程
+
+1. MySQL Server收到请求时将请求数据从character_set_client转换为character_set_connection；
+
+2. 进行内部操作前将请求数据从character_set_connection转换为内部操作字符集，其确定方法如下：
+
+使用每个数据字段的CHARACTER SET设定值；
+
+	若上述值不存在，则使用对应数据表的DEFAULT CHARACTER SET设定值(MySQL扩展，非SQL标准)；
+
+	若上述值不存在，则使用对应数据库的DEFAULT CHARACTER SET设定值；
+
+	若上述值不存在，则使用character_set_server设定值。
+
+3. 将操作结果从内部操作字符集转换为character_set_results。
+
+## 常见问题解析
+
+• 向默认字符集为utf8的数据表插入utf8编码的数据前没有设置连接字符集，查询时设置连接字符集为utf8
+
+– 插入时根据MySQL服务器的默认设置，character_set_client、character_set_connection和character_set_results均为latin1；
+
+– 插入操作的数据将经过latin1=&gt;latin1=&gt;utf8的字符集转换过程，这一过程中每个插入的汉字都会从原始的3个字节变成6个字节保存；
+
+– 查询时的结果将经过utf8=&gt;utf8的字符集转换过程，将保存的6个字节原封不动返回，产生乱码……
+
+• 向默认字符集为latin1的数据表插入utf8编码的数据前设置了连接字符集为utf8
+
+– 插入时根据连接字符集设置，character_set_client、character_set_connection和character_set_results均为utf8；
+
+– 插入数据将经过utf8=&gt;utf8=&gt;latin1的字符集转换，若原始数据中含有\u0000~\u00ff范围以外的Unicode字 符，会因为无法在latin1字符集中表示而被转换为“?”(0x3F)符号，以后查询时不管连接字符集设置如何都无法恢复其内容了。</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

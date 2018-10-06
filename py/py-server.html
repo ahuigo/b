@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/py/py-server.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>py-server</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: py-server
+date: 2018-10-04
+updated: 2018-10-06
+---
+# Preface
+参考：https://zhuanlan.zhihu.com/p/30056870
+# CGI
+原始的CGI 程序只是单纯的多进程fork 模式[/demo/py/socket-cgi.py]
+这非常慢！！
+
+# FastCGI
+FastCGI则是预先启动多个cgi进程守候，不会重复fork, cgi处理完 等待下一个任务
+- 与FastCGI不同，apache 搞了一套mod_python, 使得cpython 可以内嵌进去
+- 后来PEP 333中定义了[WSGI](/p/py/py-server-framework.md)(Web Server Gateway Interface)，成为沿用至今的Python web开发的标准协议(server与app之间的约定)
+    1. 绝大部分app框架都遵守WSGI: 自带的wsgi, 以及flask/django
+    2. 以gunicorn 为例: 一个著名的wsgi http服务器，它采用pre-fork模型来处理和转发请求给worker, 支持基本的SyncWorker(多个request要排队), 以及同时处理多个request的: ThreadWorker/AsyncWorker/GeventWorker/TornadoWorker...
+    3. uwsgi/gunicorn 是两个比较著名的wsgi server. 还有玩具：wsgiref/Werkezug
+
+## master-worker 模型
+master-worker 就是producer-consumer:
+1. 使用thread实现的话，如果修改公共变量, 还需要加threading.Lock().acquire/release
+2. 使用concurrent.futures 提供更简单的ThreadPoolExecutor/ProcessPool API
+
+伪代码：
+
+    producer            consumer
+    msgs = Queue()
+    msgs.append(msg)
+    condition.notify()    
+    msgs.pop(0)
+    ...                 ...
+
+### futures的多线程多进程
+see [/p/py/async-asyncio](/p/py/py-async-asyncio)
+
+### IO multiplexing
+多线程多进程占用资源有点大，为解决C10K问题，就需要IO multiplexing节省资源.
+同步与异步见[linux-process](/p/linux-process.md)
+
+#### 水平触发与边缘触发
+1. 水平触发：如果文件描述符可以非阻塞地进行IO调用，此时认为他已经就绪
+2. 边缘触发：如果文件描述符自上次来的时候有了新的IO活动(新的输入)，触发通知
+
+#### epool vs coroutine
+直接操作epoll去构造维护事件的循环，从底层到高层的业务逻辑需要层层回调，造成callback hell，并且可读性较差。所以:
+1. 这个繁琐的注册回调与回调的过程得以封装，并抽象成EventLoop。
+2. EventLoop屏蔽了进行epoll系统调用的具体操作。
+3. 对于用户来说，将不同的I/O状态考量为事件的触发，只需关注更高层次下不同事件的回调行为。诸如libev, libevent之类的使用C编写的高性能异步事件库已经取代这部分琐碎的工作。
+
+基于事件驱动的(像epool) 衍生了大量的框架, 比如
+
+    2.tornado: tornado框架自己实现的IOLOOP;
+    3.picoev: meinheld(greenlet+picoev)使用的网络库，小巧轻量，相较于libevent在数据结构和事件检测模型上做了改进，所以速度更快
+    4.uvloop: uvloop是个高性能的异步非阻塞框架，比Asyncio更加快速. uvloop继承自libuv使用Cython编写，性能比nodejs还要高
+    1. libevent, libev, libuv,greenlet等: 这些库基于协程等
+        1.libevent/libev: Gevent(greenlet+前期libevent，后期libev)使用的网络库，广泛应用;
+        1. eventlet(python2 时协程库)
+        2. gevent(eventlet 增强版)
+            1. 基于greenlet和libevent: 它用到Greenlet提供的，封装了libevent事件循环的高层同步API
+            2. inspired by eventlet, more consistent API, simpler implementation and better performance
+            3. 其实用go 比gevent 牛逼多了
+        3. asyncio 是python3 提供的官方协程库
+    2. Stackless Python: cpython 另一个实现，抛弃了cpython中的堆栈，用微线程&quot;tasklet&quot;取代，tasklet之间通过channel交换数据
+    3. Greenlet: 保留cpython 作为c extension，基于stackless实现, 通过switch将一个greenlet的控制权交给另一个greenlet ![greenlet-demo-sample](https://pic3.zhimg.com/v2-9c51c194e68ceeb897ab850c0cdc9d4e_b.jpg)
+
+
+EventLoop处理事件触发时的回调比较麻烦: 有了协程(gevent/asyncio/curio 人性化，优雅，内存小)
+
+1. golang 的 goroutine，luajit 的 coroutine，Python 的 gevent,erlang 的 process，scala 的 actor 等。
+1. 基于gevent的协程库 以及monkey patching[coroutine-gevent](/demo/py/coroutine-gevent.py)
+
+# 代码自动加载
+- Django的开发环境在Debug模式下就可以做到自动重新加载
+- 利用reload 加载，但不是所有模块都能被重新载入, 且只适合于无副作用的模块
+- 监控代码改动，一旦有改动，就自动重启服务器，适合debug模式开发:
+    1. watchdog: 
+    2. 其他: watchdog只能处理后端的, 介绍以下两个神器
+        1. LiveReload：改动php, html，css，js都能重刷chrome
+        2. selenium: 一般用于 Web UI自动化测试
+        3. 还有mechanize这种自动控制多个浏览器做事的库，利用浏览器引擎等。
+        4. LiveStyle：css双向绑定，在chrome改动css，代码自动更新；或者在代码改动css，chrome自动更新
+    3. pip3 install gunicorn: gunicorn 本身就遵守wsgi的web server. 可搭配请求转给worker: flask/django，也可单独使用
+    gunicorn --reload -b 127.0.0.1:8800 -k aiohttp.worker.GunicornWebWorker -w 1 -t 60 --reload app:app
+
+## watchdog
+用watchdog 提供的watchmedo
+
+    $ pip install watchdog -U
+    $ watchmedo shell-command --patterns=&quot;*.py;*.html;*.css;*.js&quot; --recursive --command=&#x27;kill -HUP `cat app.pid`&#x27; . &amp;
+
+还有
+
+    from watchdog.observers import Observer
+    from watchdog.events import FileSystemEventHandler
+
+    observer = Observer()
+    observer.schedule(MyFileSystemEventHander(restart_process), path, recursive=True)
+    observer.start()
+    log(&#x27;Watching directory %s...&#x27; % path)
+    start_process()
+    try:
+        while True:
+            time.sleep(0.5)
+    except KeyboardInterrupt:
+        observer.stop()
+    observer.join()
+
+
+# greenlet
+gevent 是基于greenlet， greenlet封装了libevent+yield 的事件循环高层同步API, 所以它是基于生成器的
+
+    &gt;&gt;&gt; from greenlet import greenlet
+    &gt;&gt;&gt; def foo1():
+    ...   print &quot;foo1.1&quot;
+    ...   gr2.switch()
+    ...   print &quot;foo1.2&quot;
+    ... 
+    &gt;&gt;&gt; def foo2():
+    ...   print &quot;foo2.1&quot;
+    ...   gr1.switch()
+    ...   print &quot;foo2.2&quot;
+    ... 
+    &gt;&gt;&gt; gr1 = greenlet(foo1)
+    &gt;&gt;&gt; gr2 = greenlet(foo2)
+    &gt;&gt;&gt; gr1.switch()
+    foo1.1
+    foo2.1
+    foo1.2
+
+# nginx+gunicorn
+
+## gunicorn
+比起uWSGI来说，Gunicorn对于“协程”也就是Gevent的支持会更好更完美。
+
+    --log-level &quot;debug&quot; 
+    PYTHONUNBUFFERED=TRUE
+    -R, --enable-stdio-inheritance
+
+rocket.py:
+
+    from flask import Flask
+    app = Flask(__name__)
+
+    @app.route(&#x27;/&#x27;)
+    def index():
+        return &quot;Hello World!&quot;
+
+    if __name__ == &#x27;__main__&#x27;:
+        app.run(&#x27;0.0.0.0&#x27;, 80, debug=True)
+
+run:
+
+    $ gunicorn rocket:app -w 2 -p rocket.pid -b 0.0.0.0:8000 -D
+    $ gunicorn --pythonpath . rocket:app -p rocket.pid -b 0.0.0.0:8000 -D
+    $ PYTHONPATH=. gunicorn rocket:app -p rocket.pid -b 0.0.0.0:8000 -D
+    $ kill -9 `cat rocket.pid`
+
+### log
+将启动时的python grammar error, exception 都记录到app.gun.log
+
+    gunicorn app:app  --log-file app.gun.log
+    nohup gunicorn app --capture-output &amp;
+    nohup gunicorn app --capture-output --log-file app.gun.log --log-level=debug
+
+app log:
+
+    app.logger.setHandler(logging.FileHandler(&#x27;app.log&#x27;))
+
+debug log:
+
+    --log-level=debug
+
+### gevent
+http://xiaorui.cc/2017/02/16/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3uwsgi%E5%92%8Cgunicorn%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B%E4%B8%8A/
+
+gunicorn 默认使用同步阻塞的网络模型(-k sync)，改用高并发的：gevent(epoll 监听模型)或meinheld 等worker class
+
+    gunicorn -k gevent app:app
+        -k aiohttp.worker.GunicornWebWorker
+
+gevent 是协程+异步IO的库(epoll)
+1. gevent 的采用的epoll 监听模型，flask 本身是单进程单线程的，gevent通过epoll 实现对多事件的监听
+2. 每个连接由gevent的一个协程处理：从accept、parse http protocol、response 都是在一个gevent协程里面专属app=Flask(&#x27;&#x27;)处理
+3. gevent 要求业务是非阻塞型的: `while True: checkFd then yield`, 或者 兼容gevent的patch
+    4. time.sleep() 支持gevent patch
+        from gevent import monkey
+        monkey.patch_all()
+
+### conf
+
+    $ gunicorn -c gun.conf app:app
+    import os
+    bind = &#x27;127.0.0.1:5000&#x27;
+    workers = 4
+    backlog = 2048
+    worker_class = &quot;sync&quot;
+    debug = True
+    proc_name = &#x27;gunicorn.proc&#x27;
+    pidfile = &#x27;/tmp/gunicorn.pid&#x27;
+    logfile = &#x27;/var/log/gunicorn/debug.log&#x27;
+    loglevel = &#x27;debug&#x27;
+
+### pstree
+    pstree -alp
+    ├─gunicorn,27763 /usr/bin/gunicorn cli.sub:app --reload -t 7200 -D
+    │   └─gunicorn,27768 /usr/bin/gunicorn cli.sub:app --reload -t 7200 -D
+    │       ├─{gunicorn},27786 &lt;thread&gt;
+    │       └─{gunicorn},27787 &lt;thread&gt;
+
+### profiler
+/demo/py-demo/wsgi_profiler.py</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

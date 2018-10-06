@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+var config = {
+// github user acount
+'user': 'ahuigo',
+'repo': 'a', //'repo': 'ahuigo.github.io',
+'weibo_uid': 1607772514,
+'twitter_user': 'ahuigoo',
+'disqus_user': 'ahuigo',
+}
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>AHUIGO的自留地</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://unpkg.com/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.bootcss.com/vue-router/3.0.1/vue-router.min.js"></script>
+<link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/agate.min.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<link href="https://cdn.bootcss.com/KaTeX/0.10.0-alpha/katex.min.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/KaTeX/0.10.0-alpha/katex.min.js"></script>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://unpkg.com/valine/dist/Valine.min.js'></script>
+<link href="/b/../a/css/main.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main"  id="app">
+<div :class="{left:true, 'active':showMenu}" >
+<button class="button is-primary menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+<template v-if="showMenu"> Close </template>
+<template v-else>Open</template>
+</button>
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: 租房
+date: 2018-09-27
+updated: 2018-09-30
+---
+# 租房
+支付宝找房
+
+## 整租
+1. 暖气
+2. 晒衣服的地方 有吗
+3. 洗衣机位置, 冰箱位置
+4. 马桶下水如何
+4. 卧室面积: 能否放书桌 柜子
+5. 是否有窗户
+6. 周围环境 空气 噪音
+7. 交通距离
+
+### 要问的
+1. 可以看房本原件吗?
+2. 跟房东本人签?
+2. 押一付三?
+3. 价格
+4. 什么时候入住?
+
+## 合租
+千万不要租隔断，隔间90% 都是有问题的。
+
+- 如果房东自己打隔断, 说明房东自己品味有问题.
+- 隔断通气差，特别是新装的，小心有甲醛
+- 隔断人杂，大家生活规律不一样
+- 隔断不隔音，要忍受噪音之苦
+
+### 看冰箱
+从东西排放、物品是否过期 看室友素质，如果腐烂食品，请远离之
+
+### 看厨房、卫生间、浴室
+是否干净？别到时住进去才发现脏兮兮的。你想打扫吧，第二天又被搞脏了。这个房子还很可能三天两头的下水道拥堵，那你就有罪享受了
+
+### 马桶下水怎么样
+
+### 暖气
+
+## 人品篇
+人多会有
+
+### 看室友工作
+问明下室友是做什么工作的，小心无业游民、吸烟、半夜放歌这类人。
+
+### 看室友兴趣
+当然最好是志趣相投的最好了
+
+### 纠纷
+纠纷是难免的。关键是要事先约定，最好在入住前就能确定一个合租守则(前提还是室友要靠谱)。
+
+比如：
+1. 每个周轮流做卫生，如果做不到或者有事，就罚款或者罚买半斤鸭脖
+2. 11点后不准洗涮 如有违反，半斤鸭脖
+3. 关于做饭，如果人多，最好约个时间段。当然，最好是大家一起做，一起吃啦
+....
+
+## 配套篇
+
+### 交通
+公交、地铁是否方便
+
+### 水电气网
+1. 这些是不是都ok?
+2. 怎么收费。别燃气费到期了，得等房东一个星期后回来交，或者房东故意不交（最好在合同中注意，延迟一天交，就可以多住一天）
+
+### 冰箱、灯具等物品损坏，怎么处理
+最好在合同中，注明，如果是自然折损，不赔偿。（如果是小件，为了省时间，我会自己搞定）
+
+# 装修
+装修设计网站
+http://www.kujiale.com/
+http://yun.kujiale.com
+
+## 配件
+租房神器：
+http://www.zhihu.com/question/23271389
+如何装修房子:
+http://www.zhihu.com/question/27391031
+https://www.zhihu.com/question/23842317
+花最少的钱提升房间格调:
+https://www.zhihu.com/question/29757174
+http://mp.weixin.qq.com/s?__biz=MzIzNjA5NTk5MA==&amp;mid=2650981059&amp;idx=3&amp;sn=2172321dfdfdf2dbcf024fd77b691f92&amp;scene=4#wechat_redirect
+针织棉四件套全棉天竺棉
+
+## 小房间改造
+最实用的小房间改造攻略图
+http://weibo.com/5991771342/EkSqVaOci
+
+
+# 各种房
+
+## 经济适用房
+http://sqjt.beijing.cn/zf/jjsyf/
+
+申请人须取得本市城镇户籍时间满3年，且年满18周岁，申请家庭应当推举具有完全民事行为能力的家庭成员作为申请人。单身家庭提出申请的，申请人须年满30周岁。
+城六区	年收低于3w
+
+## 公租房
+公共租赁住房的供应对象为本市中低收入住房困难家庭，包括已通过廉租住房、经济适用住房、限价商品住房资格审核尚在轮候的家庭以及其它住房困难家庭。
+
+## 自住型商品房
+http://sqjt.beijing.cn/fujm/bjzzxspf/#sgtj
+
+限定自住型商品住房价格低于同地段商品住房的30%，套型建筑面积以90平米以下为主。每平米面积定价2.2万以下，&quot;自住型商品住房&quot;的单套总价基本在200万元以内。
+为防止自住型商品住房用于投资获利，将限制出售，5年内不得上市交易，满5年后上市收益的30%需上交财政部门。
+
+### 条件
+名下无房或只有一套住房的京籍家庭； 持有有效暂住证并连续5年（含）以上在本市交纳社保或个税且名下无房的非京籍家庭。
+优先购买：本市户籍的无房家庭和目前已在轮候经适房、限价房的家庭！
+
+我是京籍，在外地有一套房，有房贷，在北京能买自住型商品房么？算优先么？贷款买自住算首套么？
+答：按照现行政策，“唯一住房”按照纳税区域计算 国税发[2007]33号”的《国家税务总局关于个人转让房屋有关税收征管问题的通知》中规定，“家庭唯一生活用房”是指在同一省、自治区、直辖市范围内纳税人仅拥有一套住房。北京限制的只是在京房产数，外地有多少没关系，按照之前政策解释，属于本市户籍无房家庭算优先组，但现在贷款信息全国联网，之前在外地有过贷款记录，贷款政策参照二套。
+
+## 房价涨多跌少的原因
+![](/img/life/house-price.jpg)
+库存、人口
+土地供应、人口流入
+M1 增长: http://value500.com/M1.asp
+
+涨多跌少的根本原因是：供求关系(哪怕投资需求也是需求, 半市场化也是市场)
+1. 中国的城市化进程还未结束：供不应求的格局不会变（按照70%城市化率标准，也快了，还差10%）。这才是房价持续上涨的原动力。
+2. M1这台印钞机，把杠杆做得太大了，物价也涨的快，货币贬值快，居民不能投资港美，A股又玩核准制，房子成为当下最稳定的硬通货，需求端太旺盛了，房价自然会涨的快了。2015-2017这一轮的上涨的导火线有两条：2015A股崩盘、2016首套房贷款降比到20%(杠杆刺激)，M1增长迅速从个位数飙升到20多。
+2. 土地供应收紧：事实上，即使是北京这样的一线城市也并不缺乏土地，其人口密度比首尔东京低不只一个数量级, 但是土地供应受到严格的限制(北京需要控制人口)。重庆则是“天量”供地, 这是过去重庆过去的房价维持低位的重要原因之一，北京的城市人口2400w, 重庆城市人口1700w, 但是2017北京住宅供应才9000亩，重庆2017 却供应了38000亩. 
+https://www.zhihu.com/question/34965768
+https://www.zhihu.com/question/49079654
+4. 发展不均衡，资源分配不均，大家都往一线城市涌。导致人口分布不均，有人的地方才有房价，哪里人口流入多，哪里房价就涨得多。人口分布不均还导致了独具中国特色的春运购票难问题。平时很多火车可没什么上座率。
+
+以上这4点中有3点情况正在发生变化，所谓30年河东，30年河西：去杠杆; 城镇化会在未来数十年达到饱和，人口红利也正在消失；国家中心城市建设，各城市抢人大战，一线城市人口溢出...
+
+不过，如果想让房子大降或则大涨的你可能要失望了。政府仍然可以强力调节土地供应，甚至锁定二手房供应，还有好几套组合拳呢，贷款比例、利率。</pre>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)">
+</span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="top">Top</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

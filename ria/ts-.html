@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/ria/ts-.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>初学 Typescript</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: 初学 Typescript
+date: 2018-10-04
+updated: 2018-10-06
+---
+# 初学 Typescript
+最近一直在使用vue+babel 做东西（rollup来打包）。不过babel+vue 这两货的配合在遇到装饰器时就有点问题：
+vue 肯定要先处理SFC(Single File Component)后才能用babel 处理, 但是Vue 又不能处理decorator。
+
+但是vue 能很好的解析typescript, ts 不仅提供decorator, 还提供强类型，代码提示，所以今天就来了解下typescript。 
+&gt; 隆重推荐下typescript 精通指南：
+https://nodelover.gitbook.io/typescript/ji-chu-ren-zhi
+
+## ts hello world
+编写ts hello world 后，用tsc 编译
+
+    tsc hello.ts
+
+如果想编译为es6, 我们生成编译配置 tsconfig.json
+
+    tsc --init; # vi tsconfig.json 手动配置
+    tsc 
+    tsc --p tsconfig.json
+    tsc hello.ts; # 编译单文件 和 使用tsconfig.json 不能同时
+
+
+## 代码补全
+输入关键字后，vscode 会自动基于`ts`补全。但是对于纯js 文件，由于没有强类型，很难做到补全。我们可以手写`.d.ts`. 
+
+`ts` 也可以生成`.d.ts`:
+
+    tsc hello.ts -d
+
+## type
+
+    string
+    number
+    Array&lt;string&gt; or string[]
+    enum Choose { Wife = 1, Mother = 2} // 选择 妻子 还是 妈妈
+
+### 枚举enum
+    let str = &#x27;something&#x27;
+    ​
+    enum test{
+        test01,
+    }
+    ​
+    enum FileAccess {
+        None,
+        Read    = 1 &lt;&lt; 1,
+        Write   = 1 &lt;&lt; 2,
+        ReadWrite  = Read | Write,
+        Test = test.test01,
+        O = str.length
+    }
+
+### 类型转换
+    let c = (a as number).toExponential()
+    let d = (&lt;number&gt;a).toExponential()
+
+## interface 接口
+
+    interface Person{
+        readonly IdCard: string; // 身份证号
+    }
+    class Person implements Person{
+        readonly IdCard: string = &quot;42xxxxxxxxxxxxxxx&quot;;
+        constructor(){}
+    }
+
+或者字面量
+
+    let person: Person =  { IdCard:&#x27;43xxxxxxxxx&#x27; }
+
+### 接口extends
+    interface mEvent { timestamp: number; }
+    interface mMouseEvent extends mEvent { x: number; y: number }
+
+### 接口组合
+`interfaceA &amp; interfaceB`, `interfaceA | interfaceB`
+
+    interface a {
+        name: string;
+    }
+
+    interface b {
+        age: number;
+    }
+
+    let some = &lt;T, U&gt;(a: T &amp; U) =&gt; {
+
+    }
+
+    some&lt;a, b&gt;({ name: &#x27;123&#x27;, age: 28 })
+
+### 接口别名
+
+    interface a {
+        name: string;
+    }
+    ​
+    interface b {
+        age: number;
+    }
+    ​
+    type aAndB = a &amp; b &amp; {sayHello(name: string)};
+
+### 可选属性
+
+    class Person implements Person{
+        readonly IdCard: string = &quot;42xxxxxxxxxxxxxxx&quot;;
+        name?:string;
+    }
+    let person: Person = { IdCard:&#x27;43xxxxxxxxx&#x27;,name:&quot;ahui&quot; }
+
+### 任意propName
+
+    interface Person{
+        readonly IdCard: string; // 身份证号
+        name?: string;
+        [propName : string]: any;
+    }
+    ​
+    let person: Person =  { IdCard:&#x27;43xxxxxxxxx&#x27; }
+    ​
+    function getPerson(p: Person) {
+        console.log(p);
+    }
+    ​
+    getPerson({ IdCard: &#x27;s&#x27;, b : 2 })
+
+### class 属性
+
+    class Dad{
+        protected surname; // 姓氏
+        private private_money; // 私房钱
+        public public_something;
+        default_something;
+        constructor(){}
+    }
+    class ZooKeeper {
+        constructor(public nametag: string){
+    ​
+        }
+    }
+
+有困惑，其实它等于
+
+    class ZooKeeper {
+        public nametag
+        constructor(nametag: string){
+            this.nametag = nametag
+        }
+    }
+
+### 描述 function
+
+    interface Db {
+        host: string;
+        port: number;
+    }
+    ​
+    interface InitFunc{
+        (options: Db) : string;
+    }
+    ​
+    ​
+    let myfunc : InitFunc = function (opts: Db) {
+        return &#x27;&#x27;;
+    }
+
+### 描述 class
+    interface Db {
+        host: string;
+        port: number;
+    }
+    ​
+    class MySQL implements Db {
+        host: string;
+        port: number;
+        ...
+​
+### 描述method
+
+    interface test{
+        constructor(year: string, month: string, day: string);
+    }
+    ​
+    let a3 : test = {
+        constructor(year: string, month: string, day: string){
+    ​
+        }
+    }
+
+### 描述 实例化
+new 是特殊的method
+
+    interface MyDateInit {
+        new (year: string, month: string, day: string) : MyDate;
+    }
+
+    function getDate(Class: MyDateInit, { year, month, day }) : MyDate{
+        return new Class(year, month, day);
+    }
+
+### 描述混合类型
+    interface Counter {
+        (start: number): string;
+        interval: number;
+        reset(): void;
+    }
+    ​
+    function getCounter(): Counter {
+        let counter = &lt;Counter&gt;function (start: number) {console.log(&#x27;start is &#x27; + start)};
+        counter.interval = 123;
+        counter.reset = function () {console.log(&#x27;do you want reset counter?&#x27;)};
+        return counter;
+    }
+    ​
+    let c = getCounter();
+    c(10);
+    c.reset();
+    c.interval = 5.0;
+    ​
+    console.dir(c)
+
+## 函数
+
+    class Chicken{}
+    class Beef{}
+    ​
+    function cooking(food : Chicken | Beef ) {
+        if(food instanceof Chicken) {
+            console.log(&quot;vscode 提示chicken:&quot;, food);
+            console.log(&quot;煮鸡肉呀~ 我最喜欢吃~&quot;);
+        }
+    }
+
+## 泛型(generic)
+如果想支持多种类型补全提示，可以这样:（或者函数重载）
+
+    function one(a: any) : any{
+        if(typeof a === &#x27;number&#x27;){
+            let r = (a as number)
+            return r
+        }
+    }
+
+有了泛型，我们可以一随便指定T：
+
+    function one&lt;T&gt;(a: T) : T{
+        return a;
+    }
+
+    let a1 = one&lt;number&gt;(1)
+    let a2 = one(520)
+
+## 创建一个ts 项目
+手动或者用vue-cli 自动创建
+
+    $ npm install -g vue-cli
+    $ vue init vuets/rollup-simple-vue2 my-project
+    $ cd my-project
+    $ npm install
+    $ npm run dev
+
+可以再vscode 中手动创建：https://www.cnblogs.com/hammerc/p/7413228.html
+
+    1.创建tsconfig.json，使用命令行在项目文件夹下输入“tsc --init”即可；
+    2.创建tasks.json，在VSCode中，使用ctrl+shift+p打开命令板，然后输入configure task Runner，按回车选择typescript-tsconfig.json即可；
+    3.执行tasks.json的命令，即把.ts编译为.js文件，按ctrl+shift+b可以执行该命令，如果报错，可以重启VSCode试试；
+    4.按下&quot;F5&quot;，配置和创建launch.json文件，后续只要按下&quot;F5&quot;即可执行；
+    5.执行&quot;npm install @types/node --save-dev&quot;命令生成node的对应.d.ts文件</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

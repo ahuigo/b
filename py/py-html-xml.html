@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/py/py-html-xml.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>python lxml 的使用</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: python lxml 的使用
+date: 2018-09-28
+updated: 2018-10-06
+---
+# python lxml 的使用
+BeautifulSoup 可以使用lxml 解释器，lxml 这个解释器的使用并不复杂。
+
+今天了解一下lxml 用法后，发现BS 完全可以代替它了. 而且BS 还提供了统一的接口
+
+&gt; 参考: https://www.cnblogs.com/dahu-daqing/p/6749666.html
+
+## Load element
+
+    from lxml import etree
+
+    root = etree.fromstring(&#x27;&lt;root&gt;&lt;foo id=&quot;foo_id&quot;&gt;bar&lt;/foo&gt;&lt;/root&gt;&#x27;)
+    root = etree.XML(&#x27;&lt;root&gt;&lt;foo id=&quot;foo_id&quot;&gt;bar&lt;/foo&gt;&lt;/root&gt;&#x27;)
+    root = etree.HTML(&#x27;&lt;root&gt;&lt;foo id=&quot;foo_id&quot;&gt;bar&lt;/foo&gt;&lt;/root&gt;&#x27;) // 外面自动包html+body
+
+    root = etree.Element(&#x27;root&#x27;)
+    etree.tostring(root)
+    print(root.tag)
+
+    parser= etree.XMLParser(remove_blank_text=True) #去除xml文件里的空行
+    root = etree.XML(&quot;&lt;root&gt;  &lt;a/&gt;   &lt;b&gt;  &lt;/b&gt;     &lt;/root&gt;&quot;,parser)
+    print etree.tostring(root)
+
+文件类型解析: xml 区分节点和树(貌似这个树没啥用！)
+
+    tree =etree.parse(&#x27;text&#x27;)   #文件解析成元素树
+    root3 = tree.getroot()      #获取元素树的根节点
+    roottree == roottree.getroot().getroottree()
+    print etree.tostring(root3,pretty_print=True)
+
+Load to Object
+
+    from lxml import objectify
+    tree = objectify.fromstring(b&#x27;&lt;html&gt;&lt;body&gt;...&lt;/body&gt;&lt;/html&gt;&#x27;)
+    tree.body
+
+    In [53]: tree = objectify.fromstring(b&#x27;&lt;html&gt;&lt;body&gt;..&lt;span&gt;1&lt;/span
+    ...: &gt;&lt;/body&gt;&lt;/html&gt;&#x27;)
+    In [56]: tree.findall(&#x27;body/span&#x27;)
+    Out[56]: [1]
+
+## Save Element/tree
+
+    print etree.tostring(root)
+    print(etree.tostring(root, xml_declaration=True,pretty_print=True,encoding=&#x27;utf-8&#x27;))#指定xml声明和编码
+    etree.write(sys.stdout, pretty_print=True)
+
+## CURD Element
+
+    # 添加子节点
+    child1 = etree.SubElement(root, &#x27;child1&#x27;)
+    child2 = etree.SubElement(root, &#x27;child2&#x27;)
+    
+    # 删除子节点
+    # root.remove(child2)
+    
+    # 删除所有子节点
+    # root.clear()
+    
+    # 插入节点
+    print(len(root))
+    print root.index(child1)  # 索引号
+    root.insert(0, etree.Element(&#x27;child3&#x27;))  # 按位置插入
+    root.append(etree.Element(&#x27;child4&#x27;))  # 尾部添加
+    
+    # 获取父节点
+    print(child1.getparent().tag)
+    # print root[0].getparent().tag   #用列表获取子节点,再获取父节点
+    &#x27;&#x27;&#x27;以上都是节点操作&#x27;&#x27;&#x27;
+
+## Attribute of Element
+    
+    # 7.创建属性
+    # root.set(&#x27;hello&#x27;, &#x27;dahu&#x27;)   #set(属性名,属性值)
+    # root.set(&#x27;hi&#x27;, &#x27;qing&#x27;)
+    
+    #12.判断文本类型
+    print tt[0].is_text,tt[-1].is_tail  #判断是普通text文本,还是tail文本
+
+    # 8.获取属性
+    # print(root.get(&#x27;hello&#x27;))    #get方法
+    # print(root.keys(),root.values(),root.items())    #参考字典的操作
+    # print root.attrib           #直接拿到属性存放的字典,节点的attrib,就是该节点的属性
+    &#x27;&#x27;&#x27;以上是属性的操作&#x27;&#x27;&#x27;
+    
+    # 9.text和tail属性
+    # root.text = &#x27;Hello, World!&#x27;
+    # print(root.text)
+    
+    # 10.test,tail和text的结合
+    html = etree.Element(&#x27;html&#x27;)
+    html.text = &#x27;html.text&#x27;
+    body = etree.SubElement(html, &#x27;body&#x27;)
+    body.text = &#x27;wo ai ni&#x27;
+    child = etree.SubElement(body, &#x27;child&#x27;)
+    child.text=&#x27;child.text&#x27; #一般情况下,如果一个节点的text没有内容,就只有&lt;/&gt;符号,如果有内容,才会&lt;&gt;,&lt;/&gt;都有
+    child.tail = &#x27;tails&#x27;  # tail是在标签后面追加文本
+    print(etree.tostring(html))
+    # print(etree.tostring(html, method=&#x27;text&#x27;))  # 只输出text和tail这种文本文档,输出的内容连在一起,不实用
+    
+## Findall+Find Element
+
+    root = etree.XML(&quot;&lt;root&gt;&lt;a x=&#x27;123&#x27;&gt;aText&lt;b/&gt;&lt;c/&gt;&lt;b/&gt;&lt;/a&gt;&lt;/root&gt;&quot;)
+    print(root.findall(&#x27;a&#x27;)[0].text)#findall操作返回列表
+    print(root.find(&#x27;.//a&#x27;).text)   #find操作就相当与找到了这个元素节点,返回匹配到的第一个元素
+    print(root.find(&#x27;a&#x27;).text)
+    print [ b.text for b in root.findall(&#x27;.//a&#x27;) ]    #配合列表解析,相当帅气!
+    print(root.findall(&#x27;.//a[@x]&#x27;)[0].tag)  #根据属性查询
+    &#x27;&#x27;&#x27;以上是搜索和定位操作&#x27;&#x27;&#x27;
+    print(etree.iselement(root))
+    print root[0] is root[1].getprevious()  #子节点之间的顺序
+    print root[1] is root[0].getnext()
+    &#x27;&#x27;&#x27;其他技能&#x27;&#x27;&#x27;
+
+## Xpath(支持修饰符的findall)
+
+    root = etree.XML(&#x27;&lt;root&gt;&lt;a&gt;&lt;b&gt;1&lt;/b&gt;&lt;/a&gt;&lt;/root&gt;&#x27;)
+    root.xpath(&#x27;.&#x27;)[0].tag
+    root.xpath(&#x27;./a/b&#x27;)[0].tag
+    root.xpath(&#x27;a/b&#x27;)[0].xpath(&#x27;/root&#x27;)[0].tag
+
+    page.xpath(&#x27;/*&#x27;)  # 任意tag
+    page.xpath(&#x27;.//b&#x27;)  # 跨过多级tag
+
+    # print(html.xpath(&#x27;string()&#x27;))   #这个和上面的方法一样,只返回文本的text和tail
+    print(html.xpath(&#x27;//text()&#x27;))   #这个比较好,按各个文本值存放在列表里面
+    tt=html.xpath(&#x27;a/b//text()&#x27;)
+    print tt[0].getparent().tag     #这个可以,首先我可以找到存放每个节点的text的列表,然后我再根据text找相应的节点
+    # for i in tt:
+    #     print i,i.getparent().tag,&#x27;\t&#x27;,
+
+    # by attr
+    for i in  a.xpath(&#x27;//div[@class=&quot;quote&quot;]/span[@class=&quot;text&quot;]/text()&#x27;):
+        print i
+    
+## Loop:iter Element
+
+    root = etree.Element(&quot;root&quot;)
+    etree.SubElement(root, &quot;child&quot;).text = &quot;Child 1&quot;
+    etree.SubElement(root, &quot;child&quot;).text = &quot;Child 2&quot;
+    etree.SubElement(root, &quot;another&quot;).text = &quot;Child 3&quot;
+    etree.SubElement(root[0], &quot;childson&quot;).text = &quot;son 1&quot;
+
+    # for i in root.iter():   #深度遍历
+    # for i in root.iter(&#x27;child&#x27;):    #只迭代目标值
+    #     print i.tag,i.text
+    # print etree.tostring(root,pretty_print=True)</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

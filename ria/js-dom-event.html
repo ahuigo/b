@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/ria/js-dom-event.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>Event</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: Event
+date: 2018-10-04
+updated: 2018-10-06
+---
+# Event
+
+## DOM MutationObserver
+http://javascript.ruanyifeng.com/dom/mutationobserver.html
+
+### DOMContentLoaded and load
+Chrome，Safari – Chrome和Safari中网络选项还展示了两项额外的信息，DOMContentLoaded事件触发的时间用蓝线表示，load事件触发的时间用红线表示。
+
+如果这两个事件同时发生，这条线会显示为紫色。
+1. onready:  DomContentLoaded
+2. onload: inlude dom+pic
+2. $(document).on(&#x27;DOMNodeInserted&#x27;)
+
+## 一般事件
+
+    //冒泡事件
+	onclick
+	onload/onunload 进入或离开页面时
+	onchange 表单改变时
+	onmouseover 和 onmouseout 事件
+	onmousedown、onmouseup
+	onfocus
+    onkeyup, onkeydown
+
+### eventNamespace(jquery)
+This is a namespaced event and the documentation [docs] describes it pretty well:
+
+	$(document).on(&#x27;click.modal.data-api&#x27;, &#x27;[data-toggle=&quot;modal&quot;]&#x27;, function (e) {
+		//do something
+	});
+
+An event name can be qualified by `event namespaces` that simplify removing or triggering the event.
+
+For example, `click.myPlugin.simple` defines both the `myPlugin` and `simple` namespaces for this particular click event.
+A click event handler attached via that string could be removed with `.off(&quot;click.myPlugin&quot;)` or `.off(&quot;click.simple&quot;)` without disturbing other click handlers attached to the elements.
+
+&gt; Namespaces are similar to CSS classes;
+&gt; Namespaces beginning with an underscore `_` are reserved for jQuery&#x27;s use.
+
+### input,change
+oninput, onchange(失去焦点触发), 
+
+	input.addEventListener(&#x27;input&#x27;, function(){})
+
+starting with jQuery 1.7, replace bind with on:
+
+	$(&#x27;#someInput&#x27;).on(&#x27;input&#x27;, function() {
+		$(this).val() // get the current value of the input field.
+	});
+
+### resize, scroll,load
+
+	$(window).scroll(func)
+	$(window).resize(func)
+	$(window).load(func)
+
+### change
+
+	document.getElementById(&quot;file&quot;).addEventListener(&quot;change&quot;, function() {})
+
+## dom event
+
+	document.addEventListener(&quot;DOMContentLoaded&quot;, function(event) {
+	  //do sth.
+	});
+
+## unload/state event
+unload/beforeunload event 不能用addEventListener (这点特殊)
+unload 有不兼容问题
+
+	window.onbeforeunload = onbeforeunload_handler;
+	function onbeforeunload_handler(){
+		var warning=&quot;确认退出?&quot;;
+		return warning;
+	}
+
+	window.onunload = onunload_handler;
+	function onunload_handler(){
+		var warning=&quot;谢谢光临&quot;;
+		alert(warning);
+	}
+
+onpushstate,
+onpopstate(when or popstate):
+
+	window.onpopstate = function(){
+		alert(&#x27;1&#x27;);
+	}
+	window.addEventListener(&#x27;popstate&#x27;, function(event){
+		alert(&#x27;1&#x27;);
+	});
+
+
+## css3 event
+
+	el.addEventListener(&quot;webkitTransitionEnd&quot;, transitionEnded);
+	el.addEventListener(&quot;transitionend&quot;, transitionEnded);
+
+Refer to : http://segmentfault.com/blog/jslite/1190000002465197
+
+## listener
+
+    onclick=&quot;func(this)&quot; //notice: this 传的是click node(vue this===window)
+    onsubmit=&quot;return func(this)&quot; //有兼容问题
+
+	target.addEventListener(&#x27;click&#x27;, listener, false);
+	target.removeEventListener(&#x27;click&#x27;, listener, false);
+
+### add listener
+
+	//监听顺序FIFO
+	btn1Obj.addEventListener(&quot;click&quot;,method1,false);
+	btn1Obj.addEventListener(&quot;click&quot;,method2,false);
+	btn1Obj.addEventListener(&quot;click&quot;,method3,false);
+	执行顺序为method1-&gt;method2-&gt;method3
+
+    //捕获与冒泡
+    &lt;div class=&quot;div1&quot;&gt;
+        &lt;div class=&quot;div2&quot;&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    先捕获: div1-&gt;div2
+    冒泡: div2 -&gt; div1
+
+	//不捕获
+	div1.addEventListener(&quot;click&quot;,method,true);//捕获时触发  event.stopPropagation()
+	div1.addEventListener(&quot;click&quot;,method,false);//冒泡时触发 event.preventDefault()
+
+    Note: window.setCapture/window.captureEvents 这种全局控制不能用了, 有风险.
+
+	e.stopPropagation()//阻止冒泡
+
+	//target
+	e.currentTarget //deprecated, 不用了
+	e.srcElement,//forIE
+	e.target://In most Explore e.target?e.target:e.srcElement
+	e.fromElement(e.relatedTarget): e.toElement(e.target) //for mouse event(from mouseout to mouserover)
+
+### stop
+
+	event.preventDefault()  prevents the default action the browser makes on that event.
+	event.stopPropagation() stops the event from bubbling up/capturing the event chain.
+
+### method target
+both jquery and dom support e.target...
+
+    document.querySelector(&#x27;a#submit&#x27;).onclick=function (e) {
+        e = e || window.event;
+        var targ = e.target || e.srcElement;
+        console.log(targ)
+        console.log(this)
+        // &quot;this&quot; points to the &lt;a&gt; element
+        // &quot;e&quot; points to the event object
+    }
+
+回调函数
+
+	function(event){
+		event.x,
+		event.y,
+		event.srcElement,
+		event.target,
+		event.fromElement,
+		event.toElement,
+		event.preventDefault(), //阻止默认的事件处理，比如href
+	}
+
+## submit event
+e.preventDefault() 冒泡阻止：
+1. `&lt;button&gt;`默认type=submit, 不是type=&quot;button&quot;
+2. form onsubmit=&quot;return submit(this)&quot; 无效，submit是关键字，取别名吧
+3. form onsubmit=&quot;handler()&quot; 有效，必须带括号才能执行函数
+4. form onsubmit=&quot;return false&quot; 有效
+
+    &lt;form id=&quot;form1&quot; action=&quot;javascript:b(this)&quot; onclick=&quot;return handler(this)&quot; method=&quot;POST&quot;&gt;
+        &lt;button&gt;提交&lt;/button&gt;
+    &lt;/form&gt;
+    &lt;script&gt;
+    function handler(e){
+        console.log(this===window); //true
+        return undefined; //not work
+        return false; //work
+    }
+    &lt;/script&gt;
+
+addEvent submit handler: 只能用e.preventDefault() 
+
+    function handler(e){
+        e.preventDefault();//work
+        return false; //not work
+    }
+    document.querySelector(&#x27;form&#x27;).addEventListener(&#x27;submit&#x27;, handler)
+
+## keyborad event:
+
+    e.key vs e.code
+        &#x27;s&#x27;, &#x27;S&#x27; vs &#x27;KeyS&#x27;
+        &#x27;Shift&#x27; vs &#x27;ShiftLeft&#x27;, &#x27;ShiftRight&#x27;, 
+    e.keyCode == e.which:
+         16-Shift, 17-Ctrl, 18-Alt
+    e.ctrlKey, e.altKey
+
+    //body.onkeydown = handler
+    document.addEventListener(&#x27;keydown&#x27;, function(e){
+        isShiftKey = window.event ? window.event.shiftKey : e.shiftKey
+        console.log(e.which,e.keyCode,e.ctrlKey, isShiftKey)
+     })
+
+### keyEvent with textarea
+
+    document.addEventListener(&#x27;keydown&#x27;, e=&gt;{
+        if (e.keyCode === 9 &amp;&amp; e.target.tagName === &#x27;TEXTAREA&#x27;) {
+           var target = e.target;   
+            var start = target.selectionStart;   
+            var end = target.selectionEnd;
+            target.value=target.value.slice(0, start) + &quot;\t&quot; + target.value.slice(end);
+            target.selectionStart = target.selectionEnd = start + 1;
+            e.preventDefault();
+        }
+    })
+
+### trigger event
+
+	node.click();
+	node.dbclick();
+	node.mouserover();
+	node.submit();
+
+	//通用的方法
+	Element.prototype.trigger = function (type, data) {
+	　　var event = document.createEvent(&#x27;HTMLEvents&#x27;);
+	　　event.initEvent(type, true, true);
+	　　event.data = data || {};
+	　　event.eventName = type;
+	　　event.target = this;
+	　　this.dispatchEvent(event);
+	　　return this;
+	};
+
+	//NodeList 也可以用
+	NodeList.prototype.trigger = function (event) {
+	　　[][&#x27;forEach&#x27;].call(this, function (el) {
+	　　　　el[&#x27;trigger&#x27;](event);
+	　　});
+	　　return this;
+	};
+
+#### dispatchEvent
+
+    var event = new Event(&#x27;submit&#x27;, {
+        bubbles: true,
+        cancelable: true
+        });
+    document.forms[0].dispatchEvent(event);
+
+## history event
+trigger:
+
+    $(&#x27;#container&#x27;).on(&#x27;click&#x27;, &#x27;a&#x27;, function(e) {
+　　　　window.history.pushState(null, null, $(this).attr(&#x27;href&#x27;));
+　　　　// ajax fetch &amp; render
+　　　　e.preventDefault();
+　　});
+
+### onpushstate
+listen pushstate:
+
+    (function(history){
+        var pushState = history.pushState;
+        history.pushState = function(state) {
+            if (typeof history.onpushstate == &quot;function&quot;) {
+                history.onpushstate({state: state});
+            }
+            return pushState.apply(history, arguments);
+        };
+    })(window.history);
+
+### onpopstate, onhashchange
+listen popstate(on user click back only): 
+
+    //window.onpopstate
+    window.addEventListener(&#x27;popstate&#x27;, function(e) {     
+　　　　anchorClick(location.pathname); 	
+ 　　});
+
+Note:
+这popstate/hashchange only triggered by doing a `browser action`
+1. history.back() 会trigger popstate/hashchange
+2. 调用history.pushState() 本身不会trigger(这个算是bug) 
+
+manully trigger popstate/hashchange
+
+    history.pushState(state, &#x27;&#x27;, url);
+    var popStateEvent = new PopStateEvent(&#x27;popstate&#x27;, { state: state });
+    dispatchEvent(popStateEvent);</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

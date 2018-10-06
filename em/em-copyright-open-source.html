@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/em/em-copyright-open-source.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>开源软件的版权保护</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: 开源软件的版权保护
+date: 2018-09-27
+updated: 2018-10-06
+---
+# 开源软件的版权保护
+开源软件的运动为社会做出了巨大的贡献，但是开源运动背后的版权保护却很少有人清楚理解，本文将为此做一个总结。
+
+- [开源软件的版权保护](#开源软件的版权保护)
+    - [1. 版权(copyright)是什么？](#1-版权copyright是什么)
+    - [2. 版权协议(copyright agreement)与法律](#2-版权协议copyright-agreement与法律)
+    - [3. 开源软件的协议](#3-开源软件的协议)
+        - [3.1. 挑选开源协议的网站](#31-挑选开源协议的网站)
+        - [3.2. GPL/LGPL 的传染性](#32-gpllgpl-的传染性)
+        - [3.3. 我国对开源软件的保护](#33-我国对开源软件的保护)
+    - [4. 非软件类作品的共享协议](#4-非软件类作品的共享协议)
+        - [4.1. 知识共享CC协议（Creative Commons）](#41-知识共享cc协议creative-commons)
+        - [4.2. 未申明版权的作品](#42-未申明版权的作品)
+    - [5. 参考](#5-参考)
+
+## 1. 版权(copyright)是什么？
+版权是作者对创作作品的专有权, 最早是为了保护印刷商，后来保护作者的利益。具体分为
+
+    人身权：保护期永远
+        发表权: 决定作品是否公之于众的权利； 
+        署名权: 表明作者身份，在作品上署名的权利； 
+        修改权: 修改或者授权他人修改作品的权利； 
+        保护作品完整权: 保护作品不受歪曲篡改的权利
+    财产权：保护期死后50年后
+        使用权: 广播、改编、摄制、翻译权、...
+        转让权
+        使用许可权
+    领接权：
+        传播他人作品而产生的权利
+        在我国，邻接权主要是指出版者的权利、表演者的权利、录像制品制作者的权利、录音制作者的权利、电视台对其制作的非作品的电视节目的权利
+
+## 2. 版权协议(copyright agreement)与法律
+版权相关的法律有哪些呢? 我国版权相关法律以及公约：
+1. 《中华人民共和国著作权法》
+2. 《伯尼尔公约》
+
+由于法律的不完善，民间出现了很多版权协议, 这些协议也是被法律有条件承认的：
+1. 根据民法自治原则，只要不违反法律和公序良俗的版权协议都是有效的.
+
+## 3. 开源软件的协议
+开源软件的协议非常多，我们可以根据阮老师的决策图按需要挑选：
+
+![](http://dl2.iteye.com/upload/attachment/0047/4142/d770c85a-49b7-3c7f-8ae2-cbb6451e00d8.png)
+(图片出自阮一峰: 《如何选择开源许可证？》)
+
+### 3.1. 挑选开源协议的网站
+阮一峰老师提供的决策图还比较粗劣， 如果想了解开源软件的详情以及挑选标准可以使用这个网站：
+
+http://choosealicense.online/
+
+### 3.2. GPL/LGPL 的传染性
+由于GPL、LGPL 规定：使用或者修改了GPL/LGPL 的源码的代码必须继承GPL/LGPL并开源，所以GPL/LGPL 具有严重的开源传染性，编译的代码一旦用了GPL/LGPL的代码，都必须继承GPL/LGPL并开源。这会阻碍需要保密的商业代码使用开源代码。
+
+等等，为什么使用了基于GPL的linux kernel的android 怎么就没有使用开源GPL呢？     
+据 Linus Torvalds 以及内核开发人员多次澄清普通系统调用为非 GPL 的作用范围,也就是用户空间的程序可以采用非 GPL 的授权许可证, 避免了协议传染。最终，Android 把 GPL 局限在内核空间，android 成功实现了协议替换，上层的固件驱动、APP 通通不用使用GPL 开源协议，也就不必开源。
+
+### 3.3. 我国对开源软件的保护
+从 *[中国法院为什么保护违反GPL软件协议的行为]* 是可以看到，我国的版权意识薄弱。这导致了我国的法律即承认GPL 这样的开源协议，同时又不判定软件作者侵权。总结来说，就是:
+1. 中国法院偏实用主义：为了保护违约者和侵权者占多的国内产业，即承认版权协议有效，又违背版权协议。(同时将侵权的非法演绎作品的 **违法性** 和侵权创作的 **独创性** 混淆了)
+2. 版权保护任重而道远: 开源软件组织有必要进入中国维护开源软件的权利
+
+## 4. 非软件类作品的共享协议
+很多人的博客时会注明使用到CC协议，那么这个协议包括什么内容呢？他其实是知识共享CC协议(Creative Commons), 通常用于非软件的文章、艺术类知识作品。
+
+### 4.1. 知识共享CC协议（Creative Commons）
+知识共享CC协议主要包括6种：
+
+    署名（BY）
+    署名（BY）-禁止演绎（ND）
+    署名（BY）-非商业性使用（NC）
+    署名（BY）-非商业性使用（NC）-禁止演绎（ND）
+    署名（BY）-非商业性使用（NC）-相同方式共享（SA）
+    署名（BY）-相同方式共享（SA)
+
+这里要特别提一下，**演绎作品** 指的是，通过改编、翻译、注释、整理等创造性劳动而产生的作品。
+
+### 4.2. 未申明版权的作品
+由于著作权法默认复制权和信息网络传播权是作者的权利，所以对于未申明版权的内容的转载行为一般是不被许可的。
+
+但是也有例外, 下列情况未经版权申明, 可以转载：
+
+1. 《著作权法》第三十三条：作品刊登后，除著作权人声明不得转载、摘编的外，`其他报刊`可以转载或者作为文摘、资料刊登，但应当按照规定向著作权人支付报酬。
+2. 《著作权法》第二十三条:　为实施九年制义务教育和国家教育规划而编写出版`教科书`，除作者事先声明不许使用的外，可以不经著作权人许可。
+3. 第四十条，录音制作者使用他人已经合法录制为录音制品的`音乐作品制作录音制品`，可以不经著作权人许可，但应当按照规定支付报酬；著作权人声明不许使用的不得使用。
+4. 第二十二条:（四）报纸、期刊、广播电台、电视台等媒体刊登或者播放其他报纸、期刊、广播电台、电视台等媒体已经发表的关于政治、经济、宗教问题的`时事性文章`，但作者声明不许刊登、播放的除外；
+5. （五）报纸、期刊、广播电台、电视台等媒体刊登或者播放在`公众集会上发表的讲话`，但作者声明不许刊登、播放的除外；
+
+## 5. 参考
+- [中国法院为什么保护违反GPL软件协议的行为] 游云庭 2017/7/15
+- [作者在其原创内容中的版权声明效力如何] 游云庭 https://www.zhihu.com/question/29582461/answer/45565692 
+
+
+[中国法院为什么保护违反GPL软件协议的行为]:http://www.legalservice.cn/%E4%B8%AD%E5%9B%BD%E6%B3%95%E9%99%A2%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BF%9D%E6%8A%A4%E8%BF%9D%E5%8F%8Dgpl%E8%BD%AF%E4%BB%B6%E5%8D%8F%E8%AE%AE%E7%9A%84%E8%A1%8C%E4%B8%BA%EF%BC%9F/</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

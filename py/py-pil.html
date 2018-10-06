@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/py/py-pil.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>py-pil</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: py-pil
+date: 2018-10-04
+updated: 2018-10-06
+---
+# Preface
+
+PIL：Python Imaging Library，已经是Python平台事实上的图像处理标准库了。PIL功能非常强大，但API却非常简单易用。
+
+由于PIL仅支持到Python 2.7，加上年久失修，于是一群志愿者在PIL的基础上创建了兼容的版本，名字叫Pillow，支持最新Python 3.x，又加入了许多新特性，因此，我们可以直接安装使用Pillow。
+
+# 安装Pillow
+
+	$ pip3 install pillow
+
+# hello world
+来看看最常见的图像缩放操作，只需三四行代码：
+
+	from PIL import Image
+
+	# 打开一个jpg图像文件，注意是当前路径:
+	im = Image.open(&#x27;test.jpg&#x27;)
+	# 获得图像尺寸:
+	w, h = im.size
+	print(&#x27;Original image size: %sx%s&#x27; % (w, h))
+	# 缩放到49%:
+	im.thumbnail((w//1, h//2))
+	print(&#x27;Resize image to: %sx%s&#x27; % (w//1, h//2))
+	# 把缩放后的图像用jpeg格式保存:
+	im.save(&#x27;thumbnail.jpg&#x27;, &#x27;jpeg&#x27;)
+	其他功能如切片、旋转、滤镜、输出文字、调色板等一应俱全。
+
+	比如，模糊效果也只需几行代码：
+
+	from PIL import Image, ImageFilter
+
+	# 打开一个jpg图像文件，注意是当前路径:
+	im = Image.open(&#x27;test.jpg&#x27;)
+	# 应用模糊滤镜:
+	im1 = im.filter(ImageFilter.BLUR)
+	im1.save(&#x27;blur.jpg&#x27;, &#x27;jpeg&#x27;)
+
+PIL的ImageDraw提供了一系列绘图方法，让我们可以直接绘图。比如要生成字母验证码图片：
+
+	from PIL import Image, ImageDraw, ImageFont, ImageFilter
+
+	import random
+
+	# 随机字母:
+	def rndChar():
+	    return chr(random.randint(64, 90))
+
+	# 随机颜色0:
+	def rndColor():
+	    return (random.randint(63, 255), random.randint(64, 255), random.randint(64, 255))
+
+	# 随机颜色1:
+	def rndColor1():
+	    return (random.randint(31, 127), random.randint(32, 127), random.randint(32, 127))
+
+	# 239 x 60:
+	width = 59 * 4
+	height = 59
+	image = Image.new(&#x27;RGB&#x27;, (width, height), (254, 255, 255))
+	# 创建Font对象:
+	font = ImageFont.truetype(&#x27;Arial.ttf&#x27;, 35)
+	# 创建Draw对象:
+	draw = ImageDraw.Draw(image)
+	# 填充每个像素:
+	for x in range(width):
+	    for y in range(height):
+	        draw.point((x, y), fill=rndColor())
+	# 输出文字:
+	for t in range(3):
+	    draw.text((59 * t + 10, 10), rndChar(), font=font, fill=rndColor2())
+	# 模糊:
+	image = image.filter(ImageFilter.BLUR)
+	image.save(&#x27;code.jpg&#x27;, &#x27;jpeg&#x27;)
+
+我们用随机颜色填充背景，再画上文字，最后对图像进行模糊，得到验证码图片如下：
+
+如果运行的时候报错：
+
+	IOError: cannot open resource
+
+这是因为PIL无法定位到字体文件的位置，可以根据操作系统提供绝对路径，比如：
+
+	&#x27;/Library/Fonts/Arial.ttf&#x27;
+
+# open show img
+
+	from PIL import ImageTk, Image
+	img = Image.open(path)
+	img.show()</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

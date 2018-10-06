@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/db/postgre-crud.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>Postgre CRUD</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: Postgre CRUD
+date: 2018-09-27
+updated: 2018-10-06
+---
+# Postgre CRUD
+## insert 
+    CREATE TABLE users (id INT, counters JSONB NOT NULL DEFAULT &#x27;{}&#x27;);
+    INSERT INTO users (id, counters) VALUES (1, &#x27;{&quot;bar&quot;: 10}&#x27;);
+
+### last insert id
+3 ways,all are concurrent safe:
+
+    SELECT currval(table_name+&#x27;_id_seq&#x27;);
+    SELECT LASTVAL();
+    insert into .... RETURNING id;
+
+### insert+update
+1. 加条insert+update 两句
+INSERT INTO table (id, field, field2)
+       SELECT 3, &#x27;C&#x27;, &#x27;Z&#x27;
+       WHERE NOT EXISTS (SELECT 1 FROM table WHERE id=3);
+2. insert + onconflict do update
+
+    INSERT INTO the_table (id, column_1, column_2) VALUES (1, &#x27;A&#x27;, &#x27;X&#x27;), (2, &#x27;B&#x27;, &#x27;Y&#x27;), (3, &#x27;C&#x27;, &#x27;Z&#x27;)
+    ON CONFLICT (id) 
+    DO UPDATE 
+        SET column_1 = EXCLUDED.column_1, 
+            column_2 = the_table.column_2 
+        [RETURNING id];
+    DO NOTHING;
+
+#### on conflict
+`ON CONFLICT target action [RETURNING id]`:
+
+    target:
+        (uid, phone)
+        ON CONSTRAINT constraint_name
+        WHERE predicate
+    action:
+        DO NOTHING
+        DO UPDATE SET column_1 = EXCLUDED.value_1,v2, .. WHERE condition
+
+## select 
+
+## del
+SELECT &#x27;{&quot;a&quot;:[null,{&quot;b&quot;:[3.14]}]}&#x27; #- &#x27;{a,1,b,0}&#x27;
+
+
+## update
+
+	UPDATE ed_names SET c_request = c_request+1 WHERE id = &#x27;x&#x27;&quot;
+
+### update DUPLICATE
+mysql update 多个unique key 时,如果遇到 `duplicate key`, 比如所有的i加1
+
+一般情况下可以通过排序避免(mysql update/insert 时会按一定的顺序去查数据是否有效):
+
+	UPDATE &lt;table&gt; set i=i+1 where id&gt;10 order by i desc; # 大的先加1，避免冲突
+
+如果`i`没有加索引，排序比较耗时或内存，就变通一下，比如：放弃排序，先负数：
+
+	UPDATE &lt;table&gt; set i=-i where id&gt;10; # 先变负，就不存在+1冲突
+	UPDATE &lt;table&gt; set i=1-i where id&gt;10;
+
+# var
+
+## type
+
+SELECT pg_typeof(your_variable);
+json_typeof(var)
+
+类型转换
+
+    var::int
+    var::jsonb
+    var::text::jsonb
+
+## 默认值
+
+    COALESCE(variable,0)
+    COALESCE(counters-&gt;&gt;&#x27;bar&#x27;,&#x27;0&#x27;)::int
+
+## string
+1. 字符串，只能用`&#x27;` 为边界，又引号是用于关键字的(e.g. table_name)
+2. postgre 不支持\ 转义, 只支持双单引号转义
+
+    &#x27;\\&#x27;
+    &#x27;a&#x27;&#x27;b&#x27; # 不支持 ’a\&#x27;b&#x27; 
+
+### concat
+    select &#x27;a:&#x27;||&#x27;b&#x27;||1.2 as bb;
+    select concat(&#x27;a:&#x27;,&#x27;b&#x27;, 1.2)
+    select concat(key1,key2)
+
+## array
+
+    select array[1,2];
+    select array[&#x27;a&#x27;,&#x27;b&#x27;];
+    select array[&#x27;a&#x27;,1]; # error
+
+## jsonb
+https://www.postgresql.org/docs/current/static/functions-json.html
+
+### 定义
+jsonb 即可以直接使用 json 字符串, 插入取出时自动转换成`::jsonb` 得到jsonb 类型
+
+    select &#x27;{&quot;key&quot;:123}&#x27;
+    select concat(&#x27;{&quot;key&quot;:&#x27;,123,&#x27;}&#x27;)::jsonb;
+    select &#x27;1&#x27; intger
+    select &#x27;&quot;1&quot;&#x27; char
+
+### increment
+1. with ||jsonb, 只适合第一层级, 更好的办法是使用jsonb_set(col, path, data)
+2. `-&gt;&gt;` 将jsonb 转换成text, 转成数字还需要`::int`, 并且`::`与`+`优先级都高于`-&gt;&gt;`
+
+    UPDATE users SET counters = counters || &#x27;{&quot;bar&quot;: 314}&#x27;::jsonb WHERE id = 1;
+    UPDATE users SET counters = counters || CONCAT(&#x27;{&quot;bar&quot;:&#x27;, COALESCE(counters-&gt;&gt;&#x27;bar&#x27;,&#x27;0&#x27;)::int + 1, &#x27;}&#x27;)::jsonb WHERE id = 1;
+    UPDATE users SET counters = jsonb_set(counters, &#x27;{bar}&#x27;, CONCAT(COALESCE(counters-&gt;&gt;&#x27;bar&#x27;)::int + 1)::jsonb) WHERE id = 1;
+
+### 使用:
+
+    []-&gt;int	 Get JSON array(0, -3)          &#x27;[{&quot;a&quot;:&quot;foo&quot;},{&quot;b&quot;:&quot;bar&quot;},{&quot;c&quot;:&quot;baz&quot;}]&#x27;::json-&gt;2
+    {}-&gt;&#x27;text&#x27; Get JSON object field by key   &#x27;{&quot;a&quot;: {&quot;b&quot;:&quot;foo&quot;}}&#x27;::json-&gt;&#x27;a&#x27;
+    []-&gt;&gt;int	as text                     &#x27;[1,2,3]&#x27;::json-&gt;&gt;2	3
+    {}-&gt;&gt;&#x27;text&#x27;	as text                     &#x27;{&quot;a&quot;:1,&quot;b&quot;:2}&#x27;::json-&gt;&gt;&#x27;b&#x27;	2
+    # 多级路径path
+    {}[]#&gt;&#x27;{k1,k2}&#x27; Get JSON object	        &#x27;{&quot;a&quot;: {&quot;b&quot;:{&quot;c&quot;: &quot;foo&quot;}}}&#x27;::json#&gt;&#x27;{a,b}&#x27;	{&quot;c&quot;: &quot;foo&quot;}
+    {}[]#&gt;&gt;&#x27;{k1,k2}&#x27;Get JSON object as text	&#x27;{&quot;a&quot;:[1,2,3],&quot;b&quot;:[4,5,6]}&#x27;::json#&gt;&gt;&#x27;{a,2}&#x27;	3
+
+其它：
+
+    a @&gt; b  check a include b
+    a &lt;@ b  check a is included by b
+    dic?&#x27;b&#x27; check b key exists
+    dic?|array(&#x27;b&#x27;,&#x27;a&#x27;) check any [a,b] exists
+    dic?&amp;array(&#x27;b&#x27;,&#x27;a&#x27;) check all [a,b] exists
+    a||b merge
+    dic-&#x27;key&#x27;  delete
+    dic-&#x27;{k1,k2}&#x27; del
+    arr-2       del 2nd valume
+    #-path      del by path
+
+path:
+
+    &#x27;{1,kl2,kl3,kl4,5}&#x27;
+
+### merge
+merge jsonb via `||`:
+
+    UPDATE users SET counters = counters || CONCAT(&#x27;{&quot;foo&quot;:&#x27;, COALESCE(counters-&gt;&gt;&#x27;foo&#x27;,&#x27;0&#x27;)::int + 27, &#x27;}&#x27;)::jsonb WHERE id = 1;
+
+add jsonb via `jsonb_set`:
+
+    jsonb_set(&#x27;{&quot;bar&quot;:1,&quot;x&quot;:{}}&#x27;::jsonb, &#x27;{x,y}&#x27;, 1::text::jsonb);
+    {&quot;x&quot;: {&quot;y&quot;: 1}, &quot;bar&quot;: 1}</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

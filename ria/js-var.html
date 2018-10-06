@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/ria/js-var.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>js-var</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: js-var
+date: 2018-10-04
+updated: 2018-10-06
+---
+# Preface
+基本类型：Undefined、Null、Boolean、Number和String
+复杂类型：由基本类型构成
+
+# var
+## &quot;use strict&quot;;
+es6 默认用 use strict参考：阮一峰 http://www.ruanyifeng.com/blog/2013/01/javascript_strict_mode.html
+
+必须写在执行语句或者函数体内的第一行
+
+1. 新定义的变量必须有var 声明
+2. 不允许用with
+3. 正常模式下eval 内的变量作用域取决于所在的作用域。strict 模式下，eval 本身是一个作用域
+4. function 下的this 是undefined, 而new 生成的obj 内的this 指向自己
+
+## global
+node:
+
+    // mod1.js
+    global.name = &quot;Tony&quot;;
+    // mod2.js
+    console.log(name)
+
+chrome: 天生global
+
+    name = &quot;Tony&quot;;
+    var name = &quot;Tony&quot;;
+    const name = &quot;Tony&quot;;
+    let name = &quot;Tony&quot;;
+
+`$$`, `$` 只能用于devTool 的window
+
+## define variable
+1. let name 只在代码块中有效+不可以重复定义: for(let i=0;;)；
+1. var name 只在作用域中有效
+    1. const name 只在作用域中有效
+    2. const PI = 3.14;
+
+没有前缀的var，被绑定到this/window, 所以可以被删除. 少用，他会覆盖this/window属性
+
+    a=1
+    delete window.a
+
+### 变量提升
+它会先扫描整个函数体的语句，把所有申明的变量“提升”到函数顶部：
+
+    &#x27;use strict&#x27;;
+
+    function foo() {
+        var x = &#x27;Hello, &#x27; + y;//y不报错，但是值还是为undefined
+        console.log(x);
+        var y = &#x27;Bob&#x27;;
+    }
+
+    foo();
+
+## 禁止删除变量
+严格模式下无法删除变量。只有configurable设置为true的对象属性，才能被删除。
+
+	&quot;use strict&quot;;
+　　var x;
+　　delete x; // 语法错误
+　　var o = Object.create(null, {&#x27;x&#x27;: {
+　　　　　　value: 1,
+　　　　　　configurable: true
+　　}});
+　　delete o.x; // 删除成功
+
+## 显式报错
+
+### 对只读变量写入
+正常模式下，对一个对象的只读属性进行赋值，不会报错，只会默默地失败。严格模式下，将报错。
+
+	&quot;use strict&quot;;
+　　var o = {};
+　　Object.defineProperty(o, &quot;v&quot;, { value: 1, writable: false });
+　　o.v = 2; // 报错
+
+### 重名报错
+
+	&quot;use strict&quot;;
+　　var o = {
+　　　　p: 1,
+　　　　p: 2
+　　}; // 语法错误
+
+# 变量类型
+## Number: 1.2345e3; -99; NaN; Infinity; 
+
+## js-str
+
+## Boolean
+null == undefined 可相等.
+false == 0
+
+但它们与false/0 都不能相等
+	null==0 //return false
+	undefined==0 //return false
+	undefined==false //return false
+
+## Undefined &amp;&amp; Null
+没有值和空值
+
+	typeof null; &quot;object&quot;
+	typeof undefined; &quot;undefined&quot;
+
+
+# Compare
+https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Equality_comparisons_and_sameness
+
+JavaScript 提供三种不同的比较操作符：
+
+    严格相等，使用 ===
+    （非严格）相等，使用 ==, （尽量别用，太乱了)
+        类型转换
+    Object.is （ECMAScript 6 新特性）
+        在三等号判等的基础上特别处理了 NaN 、 -0 和 +0 ，保证 -0 和 +0 不再相同，但 Object.is(NaN, NaN) 会返回 true
+
+## ===
+非基本类型是不等的, 尽量用类型相等
+
+    new Object() === new Object()
+        false
+    new Number(1) === new Number(1)
+    new Number(1) == new Number(1)
+        false
+
+## 非严格相等 ==EDIT
+没有什么意义，建议用严格相等！
+
+## is
+Object.is 与== 只有两个不同
+
+    NaN is NaN  // true
+    +0  is -0   // false
+
+    NaN == NaN  // false
+    +0  == -0   // true
+
+
+# type check
+
+## typeof: function, object, (except: Array/null)
+用于判断数据类型: function, object, 不可以判断Array/null/... 需要使用instanceof
+
+    undefined、boolean、number,  string
+    object
+    function
+    Number.isInteger(1)
+
+array/null 被视为对象, 所以:
+
+    Object.prototype.toString.call( someVar ) === &#x27;[object Array]&#x27;
+    return Array.isArray(v);
+    v instanceof Array
+    null === null
+
+未声明的变量，只能执行typeof 操作
+
+    typeof var;//undefined
+
+null 是空对象，undefind 派生自null:
+
+    typeof null;//object 空对象
+
+string
+
+    if (typeof myVar === &#x27;string&#x27; || myVar instanceof String)
+
+## via Object.prototype.toString(all)
+用于判断对像类别更统一
+
+	Object.prototype.toString.call(1)
+	&quot;[object Number]&quot;
+	&quot;[object Arguments]&quot;
+
+    var args = [];
+    Array.prototype.push.apply( args, arguments );
+    [].shift.call(arguments)
+
+to string:
+
+	String(value)
+	value + &quot;&quot;
+	undefined + &quot;&quot;
+	&#x27;0&#x27;+1
+		&#x27;01&#x27;
+
+# type convert
+在JavaScript中,一共有两种类型的值:原始值(primitives)和对象值(objects).
+
+1. 原始值有:undefined, null, 布尔值(booleans), 数字(numbers),还有字符串(strings).
+2. 其他的所有值都是对象类型的值,包括数组(arrays)和函数(functions).
+
+    +&#x27;234&#x27; 
+    134+&#x27;&#x27;
+    &#x27;&#x27;+134
+
+强制类型转换:
+
+	Boolean(value) - 把给定的值转换成 Boolean 型；
+	Number(value) - 把给定的值转换成数字（可以是整数或浮点数）；
+	String(value) - 把给定的值转换成字符串；
+
+类型转换
+http://www.cnblogs.com/ziyunfei/archive/2012/09/15/2685885.html
+
+加法运算符会触发三种类型转换:
+    将值转换为原始值,转换为数字,转换为字符串,这刚好对应了JavaScript引擎内部的三种抽象操作:ToPrimitive(),ToNumber(),ToString()
+
+## ToPrimitive()
+通过ToPrimitive()将值转换为原始值
+
+JavaScript引擎内部的抽象操作ToPrimitive()有着这样的签名:
+
+    ToPrimitive(input, PreferredType?)
+
+可选参数PreferredType可以是Number或者String,它只代表了一个转换的偏好,转换结果不一定必须是这个参数所指的类型,但转换结果一定是一个原始值.如果PreferredType被标志为Number,则会进行下面的操作来转换输入的值 (§9.1):
+
+    1. 如果输入的值已经是个原始值,则直接返回它.
+    2. 否则,如果输入的值是一个对象.则调用该对象的valueOf()方法.如果valueOf()方法的返回值是一个原始值,则返回这个原始值.
+    3. 否则,调用这个对象的toString()方法.如果toString()方法的返回值是一个原始值,则返回这个原始值.
+    4. 否则,抛出TypeError异常.
+
+如果PreferredType被标志为String,则转换操作的第二步和第三步的顺序会调换.
+如果没有PreferredType这个参数,则PreferredType的值会按照这样的规则来自动设置:Date类型的对象会被设置为String,其它类型的值会被设置为Number.
+
+## to Boolean
+- What are &quot;truthy&quot; and &quot;falsy&quot; values?
+if(value)/Boolean(value) 中被转换成true/false 的value
+
+False:
+
+    false // obviously
+    0     // The only falsy number
+    &quot;&quot;    // the empty string
+    null
+    undefined
+    NaN
+
+truthy values:
+
+    [] {}
+    [new] Boolean(false)
+    new Boolean()
+    new Object()
+
+special, 有些object 与`== false` 相比较时, 成立
+
+    false == [] //true
+    false == new Boolean()  //true
+
+    false == new Object()  //false
+
+## toString
+原始值：
+
+    数字、字符串、布尔值、null、undefined
+    value + &#x27;&#x27;
+    String(null)
+
+    undefined --&gt; &quot;undefined&quot;
+    null      --&gt; &quot;null&quot;
+    true      --&gt; &quot;true&quot;
+    false     --&gt; &quot;false&quot;
+    0         --&gt; &quot;0&quot;
+    -0        --&gt; &quot;-0&quot;
+    NaN       --&gt; &quot;NaN&quot;
+    Infinity  --&gt; &quot;Infinity&quot;
+    -Infinity --&gt; &quot;-Infinity&quot;
+    1         --&gt; &quot;1&quot;
+
+## 原始值转换成数字
+除了字符串，大部分原始值都会有固定的转换结果，如下：
+
+    undefined  --&gt; NaN
+    null       --&gt; 0
+    true       --&gt; 1
+    false      --&gt; 0
+
+字符串转换成数字，会有以下的特点：
+
+    以数字表示的字符串可以直接转换成数字
+    允许字符串开头跟结尾带有空格
+    在开始和结尾处的任意非空格符都不会被当成数字直接量的一部分，转换结果变成NaN
+
+结果如下：
+
+    +&quot;one&quot;  --&gt; NaN
+    +&quot;u123&quot; --&gt; NaN
+    +&quot;123abc&quot; --&gt; NaN
+    +&quot; 123&quot; --&gt; 123
+    +&quot;123 &quot; --&gt; 123
+    +&quot; 12 &quot; --&gt; 12
+    +&quot; 12.5e3 &quot; --&gt; 12500
+
+## 原始值转换成对象
+原理：原始值通过调用String()、Number()、Boolean()构造函数，转换成他们各自的包装对象
+
+但是null和undefined信仰比较坚定，就是不想转成对象，从而，当将它们用在期望是一个对象的地方都会抛出一个错误throws TypeError
+
+注意：只是在转换的过程中会抛出Error，在显性创建对象的时候，不会报错</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

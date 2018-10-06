@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/py/py-async-iteratortools.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>py-async-iteratortools</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: py-async-iteratortools
+date: 2018-09-28
+updated: 2018-10-06
+---
+# Preface
+
+Python的内建模块itertools提供了非常有用的用于操作迭代对象的函数。
+
+# itertools
+itertools模块提供的全部是处理迭代功能的函数，它们的返回值不是list，而是Iterator，只有用for循环迭代的时候才真正计算。
+
+1. i: Iterators terminating on the shortest input sequence:
+    ```
+    Iterator	Arguments	Results	Example
+    chain()	p, q, …	p0, p1, … plast, q0, q1, …	chain(&#x27;ABC&#x27;, &#x27;DEF&#x27;) --&gt; A B C D E F
+    compress()	data, selectors	(d[0] if s[0]), (d[1] if s[1]), …	compress(&#x27;ABCDEF&#x27;, [1,0,1,0,1,1]) --&gt; A C E F
+    dropwhile()	pred, seq	seq[n], seq[n+1], starting when pred fails	dropwhile(lambda x: x&lt;5, [1,4,6,4,1]) --&gt; 6 4 1
+    groupby()	iterable[, keyfunc]	sub-iterators grouped by value of keyfunc(v)	 
+    ifilter()	pred, seq	elements of seq where pred(elem) is true	ifilter(lambda x: x%2, range(10)) --&gt; 1 3 5 7 9
+    ifilterfalse()	pred, seq	elements of seq where pred(elem) is false	ifilterfalse(lambda x: x%2, range(10)) --&gt; 0 2 4 6 8
+    islice()	seq, [start,] stop [, step]	elements from seq[start:stop:step]	islice(&#x27;ABCDEFG&#x27;, 2, None) --&gt; C D E F G `range()`
+    imap()	func, p, q, …	func(p0, q0), func(p1, q1), …	imap(pow, (2,3,10), (5,2,3)) --&gt; 32 9 1000
+    starmap()	func, seq	func(*seq[0]), func(*seq[1]), …	starmap(pow, [(2,5), (3,2), (10,3)]) --&gt; 32 9 1000
+    tee()	it, n	it1, it2, … itn splits one iterator into n	 
+    takewhile()	pred, seq	seq[0], seq[1], until pred fails	takewhile(lambda x: x&lt;5, [1,4,6,4,1]) --&gt; 1 4
+    izip()	p, q, …	(p[0], q[0]), (p[1], q[1]), …	izip(&#x27;ABCD&#x27;, &#x27;xy&#x27;) --&gt; Ax By
+    izip_longest()	p, q, …	(p[0], q[0]), (p[1], q[1]), …	izip_longest(&#x27;ABCD&#x27;, &#x27;xy&#x27;, fillvalue=&#x27;-&#x27;) --&gt; Ax By C- D-
+    ```
+2. Combinatoric generators:
+    ```
+    Iterator	Arguments	Results
+    product()	p, q, … [repeat=1]	cartesian product, equivalent to a nested for-loop
+    permutations()	p[, r]	r-length tuples, all possible orderings, no repeated elements
+    combinations()	p, r	r-length tuples, in sorted order, no repeated elements
+    combinations_with_replacement()	p, r	r-length tuples, in sorted order, with repeated elements
+    product(&#x27;ABCD&#x27;, repeat=2)   指数:m^2 =16             AA AB AC AD BA BB BC BD CA CB CC CD DA DB DC DD
+    permutations(&#x27;ABCD&#x27;, 2)	 	排列:m*(m-1)=4*3=12	 	AB AC AD BA BC BD CA CB CD DA DB DC
+    combinations(&#x27;ABCD&#x27;, 2)	 组合: m*(m-1)/2!=6	  AB AC AD BC BD CD
+    combinations_with_replacement(&#x27;ABCD&#x27;, 2)	A只能在前, sorted 指数：4+3+2+1 	AA AB AC AD BB BC BD CC CD DD
+    ```
+
+## from_iterable([&#x27;ABC&#x27;, &#x27;DEF&#x27;]) --&gt; A B C D E F
+
+## takewhile(break_func, iterable)
+过去我们用:
+
+    for str in iter(lambda:f.read(20), &#x27;&#x27;)
+
+如果使用multiple sentinel:
+通常我们会通过takewhile()等函数根据条件判断来截取出一个有限的序列：
+```
+takewhile(lambda x: x&lt;5, [1,4,6,4,1]) --&gt; 1 4
+
+	&gt;&gt;&gt; natuals = itertools.count(1)
+	&gt;&gt;&gt; ns = itertools.takewhile(lambda x: x &lt;= 10, natuals)
+	&gt;&gt;&gt; list(ns)
+	[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+```
+
+## dropwhile(break_func, iterable)
+dropwhile(lambda x: x&lt;5, [1,4,6,4,1]) --&gt; 6,4,1
+
+## combinations(iterable, r)
+Return r length subsequences of elements from the input iterable.
+```
+# combinations(&#x27;ABCD&#x27;, 2) --&gt; AB AC AD BC BD CD
+# combinations(range(4), 3) --&gt; 012 013 023 123
+```
+
+## count
+首先，我们看看itertools提供的几个“无限”迭代器：
+
+	&gt;&gt;&gt; import itertools
+	&gt;&gt;&gt; natuals = itertools.count(1)
+	&gt;&gt;&gt; for n in natuals:
+	...     print(n)
+	...
+	1
+	2
+	3
+	...
+
+因为count()会创建一个无限的迭代器，所以上述代码会打印出自然数序列，根本停不下来，只能按Ctrl+C退出。
+
+## cycle
+cycle()会把传入的一个序列无限重复下去：
+
+	&gt;&gt;&gt; import itertools
+	&gt;&gt;&gt; cs = itertools.cycle(&#x27;ABC&#x27;) # 注意字符串也是序列的一种
+	&gt;&gt;&gt; for c in cs:
+	...     print(c)
+	...
+	&#x27;A&#x27;
+	&#x27;B&#x27;
+	&#x27;C&#x27;
+	&#x27;A&#x27;
+	&#x27;B&#x27;
+	&#x27;C&#x27;
+	...
+
+同样停不下来。
+
+## repeat(10, 3) --&gt; 10 10 10
+
+## chain()
+chain()可以把一组迭代对象串联起来，形成一个更大的迭代器：
+
+	&gt;&gt;&gt; for c in itertools.chain(&#x27;ABC&#x27;, &#x27;XYZ&#x27;):
+	...     print(c)
+	# 迭代效果：&#x27;A&#x27; &#x27;B&#x27; &#x27;C&#x27; &#x27;X&#x27; &#x27;Y&#x27; &#x27;Z&#x27;
+    &gt;&gt;&gt;for i in itertools.chain({&#x27;a&#x27;:2,&#x27;b&#x27;:5}, [2,3,5]): print(i)
+    ... a b 2 3 5
+
+## groupby()
+groupby()把迭代器中相邻的重复元素挑出来放在一起：
+
+	&gt;&gt;&gt; for key, group in itertools.groupby(&#x27;AAABBBCCAAA&#x27;):
+	...     print(key, list(group))
+	...
+	A [&#x27;A&#x27;, &#x27;A&#x27;, &#x27;A&#x27;]
+	B [&#x27;B&#x27;, &#x27;B&#x27;, &#x27;B&#x27;]
+	C [&#x27;C&#x27;, &#x27;C&#x27;]
+	A [&#x27;A&#x27;, &#x27;A&#x27;, &#x27;A&#x27;]
+
+实际上挑选规则是通过函数完成的，只要作用于函数的两个元素返回的值相等，这两个元素就被认为是在一组的，而函数返回值作为组的key。如果我们要忽略大小写分组，就可以让元素&#x27;A&#x27;和&#x27;a&#x27;都返回相同的key：
+
+	&gt;&gt;&gt; for key, group in itertools.groupby(&#x27;AaaBBbcCAAa&#x27;, lambda c: c.upper()):
+	...     print(key, list(group))
+	...
+	A [&#x27;A&#x27;, &#x27;a&#x27;, &#x27;a&#x27;]
+	B [&#x27;B&#x27;, &#x27;B&#x27;, &#x27;b&#x27;]
+	C [&#x27;c&#x27;, &#x27;C&#x27;]
+	A [&#x27;A&#x27;, &#x27;A&#x27;, &#x27;a&#x27;]</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

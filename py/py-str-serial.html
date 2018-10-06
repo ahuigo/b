@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/py/py-str-serial.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>serialize</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: serialize
+date: 2018-10-04
+updated: 2018-10-06
+---
+# serialize
+- json
+- pickle
+- marshal
+- joblib（比那个pickle好太多了，但是只能把object存到硬盘等，不能保存为字符串）
+    1. from sklearn.externals import joblib
+
+Python has a more primitive serialization module called *marshal*(support Python’s .pyc ):
+
+*pickle* vs *marshal* module:
+
+1. The pickle keeps track of the objects in case of *recursive objects*; These are not handled by marshal
+2. pickle(support *user-defined* classes); marshal not
+3. pickle is guaranteed to be  *backwards compatible* across Python releases.
+
+# joblib
+
+# pickle
+我们把变量从内存中变成可存储或传输的过程称之为序列化，在Python中叫pickling，在其他语言中也被称之为serialization，marshalling，flattening等等，都是一个意思。
+反之叫unpickling
+
+    load, loads
+    dump, dumps
+
+pickle Functions:
+
+    dump(object, file[,protocol])
+        file: open(&#x27;a.bin&#x27;,&#x27;wb&#x27;), StringIO, other.
+        with pathlib.Path(file_path).open(mode=&#x27;wb&#x27;) as f:
+            pickle.dump(object, f, pickle.HIGHEST_PROTOCOL)
+    dumps(object) -&gt; string
+    load(file) -&gt; object
+        file: open(&#x27;a.bin&#x27;,&#x27;rb&#x27;), StringIO, other.
+        with pathlib.Path(file_path).open(mode=&#x27;wb&#x27;) as f:
+            pickle.load(f)
+    loads(string) -&gt; object
+
+
+e.g.
+
+    import pickle
+    &gt;&gt;&gt; d = dict(name=&#x27;Bob&#x27;, age=20, score=88)
+    &gt;&gt;&gt; pickle.dumps(d)
+    b&#x27;\x80\x03}q\x00(X\x03\x00\x00\x00ageq\x01K\x14X\x05\x00\x00\x00scoreq\x02KXX\x04\x00\x00\x00nameq\x03X\x03\x00\x00\x00Bobq\x04u.&#x27;
+    
+    # 写入-读入文件
+    with open(&#x27;dump.txt&#x27;, &#x27;wb&#x27;) as f:
+            pickle.dump(d, f)
+            d = pickle.load(f)
+
+## protocol
+There are currently 4 different protocols which can be used for pickling.(default: 3)
+
+1. Protocol version 0 is the original ASCII protocol
+1. Protocol version 1 is the old binary format
+1. Protocol version 2 more efficient pickling of new-style classes.
+2. 3 provided by python 3.0
+2. 4 provided by python3.4: support for very large objects
+3. negative version is for select highest version
+
+## What can be pickled and unpickled?
+The following types can be pickled:
+
+    base type: None, True, and False integers, floating point numbers, complex numbers, strings, bytes, bytearrays
+    complex types: tuples, lists, sets, and dictionaries containing only picklable objects
+    functions(include built-in)/classes defined at the top level of a module (using def, not lambda)
+    instances of such classes whose __dict__ or the result of calling __getstate__() is picklable (dict 或者getstate 返回item必须是以上类型).
+
+## cannot pickle class
+when class instances/functions are pickled, their class’s *code and data* are not pickled along with them
+
+    class Foo:
+        attr = &#x27;A class attribute&#x27;
+    $ picklestring = pickle.dumps(Foo)
+    b&#x27;\x80\x03c__main__\nFoo\nq\x00.&#x27;
+
+## Pickling Class Instances
+include `__dict__`, 不包括`__class__.__dict__`
+```
+class Foo:
+    attr = &#x27;ahui1111111111111111111&#x27;
+    def __init__(self, name):
+        self.name = name
+import pickle
+s= pickle.dumps(Foo(&#x27;ahui&#x27;))
+print(s)
+o=pickle.loads(s)
+print(o.name)
+```
+When a class instance is unpickled, only Restore code and `__dict__`, its `__init__()` method is not invoked.
+
+### Handling Stateful Objects(with `state`)
+example that shows how to modify pickling behavior for a class.
+
+    class TextReader:
+        &quot;&quot;&quot;Print and number lines in a text file.&quot;&quot;&quot;
+
+        def __init__(self, filename):
+            self.filename = filename
+            self.file = open(filename)
+            self.lineno = 0
+
+        def readline(self):
+            self.lineno += 1
+            line = self.file.readline()
+            if not line:
+                return None
+            if line.endswith(&#x27;\n&#x27;):
+                line = line[:-1]
+            return &quot;%i: %s&quot; % (self.lineno, line)
+
+        def __getstate__(self):
+            # Copy the object&#x27;s state from self.__dict__ which contains
+            # all our instance attributes. Always use the dict.copy()
+            # method to avoid modifying the original state.
+            state = self.__dict__.copy()
+            # Remove the unpicklable entries.
+            del state[&#x27;file&#x27;]
+            return state
+
+        def __setstate__(self, state):
+            # Restore instance attributes (i.e., filename and lineno).
+            self.__dict__.update(state)
+            # Restore the previously opened file&#x27;s state. To do so, we need to
+            # reopen it and read from it until the line count is restored.
+            file = open(self.filename)
+            for _ in range(self.lineno):
+                file.readline()
+            # Finally, save the file.
+            self.file = file
+
+A sample usage might be something like this:
+
+    &gt;&gt;&gt;
+    &gt;&gt;&gt; reader = TextReader(&quot;hello.txt&quot;)
+    &gt;&gt;&gt; reader.readline()
+    &#x27;1: Hello world!&#x27;
+    &gt;&gt;&gt; reader.readline()
+    &#x27;2: I am line number two.&#x27;
+    &gt;&gt;&gt; new_reader = pickle.loads(pickle.dumps(reader))
+    &gt;&gt;&gt; new_reader.readline()
+    &#x27;3: Goodbye!&#x27;
+
+# json
+
+## custom json
+
+    class MyEncoder(json.JSONEncoder):
+        def default(self, obj):
+            if isinstance(obj, numpy.integer):
+                return int(obj)
+            elif isinstance(obj, numpy.floating):
+                return float(obj)
+            elif isinstance(obj, numpy.ndarray):
+                return obj.tolist()
+            else:
+                return super(MyEncoder, self).default(obj)
+
+You use it like this:
+
+    json.dumps(numpy.float32(1.2), cls=MyEncoder)
+
+### json dump string
+```
+	str = json.dumps(data)
+	print(json.loads(str))
+&gt;&gt;&gt; json.dumps(&#x27;中&#x27;)
+&#x27;&quot;\\u4e2d&quot;&#x27;
+&gt;&gt;&gt; json.dumps(&#x27;中&#x27;, ensure_ascii=True)
+&#x27;&quot;\\u4e2d&quot;&#x27;
+&gt;&gt;&gt; json.dumps(&#x27;中&#x27;, ensure_ascii=False)
+&#x27;&quot;中&quot;&#x27;
+```
+
+### json dump to file
+    with open(&#x27;data.txt&#x27;, &#x27;w&#x27;) as outfile:
+        json.dump(data, outfile)
+        json.load(outfile)
+
+### json class
+json dumps 类实例时，因为类实例not JSON serializable，得用default 指定序列化方法
+
+	class Student(object):
+		def __init__(self, name, age, score):
+			self.name = name
+			self.age = age
+			self.score = score
+
+	s = Student(&#x27;Bob&#x27;, 20, 88)
+	&gt;&gt;&gt; print(json.dumps(s, default=lambda std: { &#x27;name&#x27;: std.name, &#x27;age&#x27;: std.age, &#x27;score&#x27;: std.score }))
+	{&quot;age&quot;: 20, &quot;name&quot;: &quot;Bob&quot;, &quot;score&quot;: 88}
+
+其实实例属性都在__dict__中，所以更通用的是default:
+
+    default=lambda obj: obj.__dict__
+
+反序列化为class
+
+	def dict2student(d):
+		return Student(d[&#x27;name&#x27;], d[&#x27;age&#x27;], d[&#x27;score&#x27;])
+
+运行结果如下：
+
+	&gt;&gt;&gt; json_str = &#x27;{&quot;age&quot;: 20, &quot;score&quot;: 88, &quot;name&quot;: &quot;Bob&quot;}&#x27;
+	&gt;&gt;&gt; print(json.loads(json_str, object_hook=dict2student))</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

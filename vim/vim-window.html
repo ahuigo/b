@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/vim/vim-window.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>vim-window</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: vim-window
+date: 2018-10-04
+updated: 2018-10-06
+---
+# Preface
+
+
+# Window 窗口
+
+## powerline
+这是一个增强状态栏的插件
+
+### window title
+	setl stl=about\ b.c
+
+## scroll window
+如果想两个窗口能同时滚动，则：
+
+	:set scrollbind :set scb //默认
+
+## create window 创建窗口
+
+&gt; 分割窗口时，新窗口会继承 local-options, `:h local-options`
+
+### 分隔一个窗口
+
+	:split [filename/dir] 开启一个新的窗口，并打开filename(默认是当前所编辑的文件)或者一个dir
+	:3sp a.txt :3new a.txt #新窗口的高度为３行
+	其它很多打开另一文件的命令都有一个变体——在前面加上一个s，就可以在新窗口打开此文件，eg:
+	:stag 以新窗口打开，并跳到tag
+
+### 垂直分割
+
+	:3vsplit a.txt :3vsp a.txt #新窗口的宽度为３行
+	:vnew #垂直打开一个新窗口，并开启一个新的缓冲区
+	
+	:vert new #其实任何命令前都可以用vertical
+
+### 为每一个文件打开一个窗口
+
+	vim -o a.txt b.txt #所有的窗口都水平排列
+	vim -O a.txt b.txt #所有的窗口都垂直排列
+
+### 分割窗口的位置
+
+	:set splitbelow 新打开的窗口位于当前窗口的下方
+	:set splitright 新打开的垂直窗口位于当前窗口的右方
+
+分割窗口有一个修饰前缀：
+	
+	:leftabove {cmd} #新窗口位于当前窗口的左边或上边
+		leftabove split file 上边
+		leftabove vsplit file 左边
+	:aboveleft {cmd} #新窗口位于左边或上边 同上一样
+
+	:to :topleft {cmd} far left or far above
+
+	:rightb :rightbelow {cmd} 
+	:bel belowright {cmd} 
+
+
+	:bo :botleft {cmd} #当前窗口的下边或右边
+
+## close window 关闭和保存窗口
+
+	:close :clo #与 :q不同的是，不会关闭最后一个窗口
+	:only #关闭所有窗口，除了当前所编辑的窗口
+	:qa :qall #quit all
+	:qa! :qall #quit all (force)
+		noremap &lt;C-q&gt; :qa!
+	:wa :wall #write all
+	:wqa #write &amp; quit all
+
+## window size 窗口大小
+
+	ctrl+w + /:ctrl+w - 　#增加／减小当前窗口的高度
+	[height]ctrl+w _	#指定当前窗口的高度
+	:set winheight #期望最小高度
+	:set winminheight #强制最小高度
+	:set winwidth #期望最小宽度
+	:set winminwidth #强制最小宽度
+
+## switch window 切换窗口
+
+	{n}ctrl+w w 	go to Nth window or next window
+	{n}ctrl+6	 	go to Nth buffer or toggle last accessed buffer 
+		ctrl+w ctrl+w 切换到下一个窗口
+	ctrt+w h 切换到左边的窗口
+	ctrl+w j 切换到下边
+	ctrl+w k 切换到上边
+	ctrl+w l 切换到右边
+	ctrl+w t 切换到顶部窗口
+	ctrl+w b 切换到底部窗口
+
+	ctrl+6 当前窗口下切换到上一个编辑的文件
+	ctrl+w ctrl+6 新建一个窗口下切换到上一个编辑的文件
+
+### switch window cmd
+&gt; http://learnvimscriptthehardway.stevelosh.com/chapters/38.html
+
+`ctrl+w` 可以用`:wincmd` 代替, nth window:
+
+	:3wincmd w
+	:3wincmd b
+
+### Map window hotkeys:
+
+	&quot; map Ctrl-Tab to switch window
+	nnoremap &lt;C-tab&gt; :EXbalt&lt;CR&gt;
+	nnoremap &lt;unique&gt; &lt;S-Up&gt; &lt;C-W&gt;&lt;Up&gt;
+	nnoremap &lt;unique&gt; &lt;S-Down&gt; &lt;C-W&gt;&lt;Down&gt;
+	nnoremap &lt;unique&gt; &lt;S-Left&gt; &lt;C-W&gt;&lt;Left&gt;
+	nnoremap &lt;unique&gt; &lt;S-Right&gt; &lt;C-W&gt;&lt;Right&gt;
+
+## window number
+
+	$ last window
+	# last accessed window(&lt;c-w&gt;p will go)
+
+### get window number
+
+	&quot;current window
+	echo winnr()
+
+	&quot;last window number equal to window count
+	let window_count = winnr(&#x27;$&#x27;)
+
+	&quot;last accessed window
+	echo winnr(&#x27;#&#x27;)
+
+## 窗口状态
+	
+	:set laststatus指定何时最近使用的窗口会有一个状态-显示当前编辑的filename
+		0 永远没有
+		1 只有分割窗口时
+		2 所有
+	:set showcmd &quot;显示输入的命令
+	:set ruler &quot;显示行列
+	&lt;c-g&gt; 显示当前编辑的文件信息
+
+## move window 移动窗口
+如果你对新分割窗口位置不满意，则可以移动
+
+	ctrl+w H 移动到左边
+	ctrl+w J 移动到下边
+	ctrl+w K 移动到上边
+	ctrl+w L 移动到右边
+
+# buffer 缓冲区列表(buffer list)
+[vim-window](/p/vim-window)
+
+缓冲区列表：所有vim打开的文件
+你可以用ls或者buffer 查看你打开了多少缓冲区。
+
+	u	an unlisted buffer (only displayed when [!] is used) |unlisted-buffer| 
+	%	the buffer in the current window(当前缓冲区)
+		#	the alternate buffer for &quot;:e #&quot; (使用&lt;C-^&gt; 时 #缓冲区 会和 %缓冲区 相互切换)
+			a	an active buffer: it is loaded and visible(激活缓冲区)
+			h	a hidden buffer: It is loaded, but currently not displayed in a window |hidden-buffer| (隐藏缓冲区)
+				-	a buffer with &#x27;modifiable&#x27; off 
+				=	a readonly buffer（只读缓冲区）
+					+	a modified buffer(正修改的缓冲区)
+					x   a buffer with read error
+				
+## bufwinnr
+get window number of buf 1:
+
+	echo bufwinnr(1)
+	echo bufwinnr(&#x27;vim-windo&#x27;)
+
+## switch buffer
+缓冲区跳转常用的命令：
+
+	:hide bn &quot;hide current buffer, then jump to next buffer
+	    map &lt;C-H/L&gt; :EXbp&lt;CR&gt; for exvim
+	:bn :bnext
+	:bp :bprevious
+	:bf :bfirst
+	:bl :blast
+
+    &quot;指定打开某缓冲区
+	:b [count/file] :buffer [count/file] 
+    {count}CTRL-6 {count}CTRL-^
+    :e #[count]
+	:sb [count/file] :sbuffer [count/file] #以新窗口指定打开某缓冲区
+
+Edit the alternate file. Mostly the alternate file is the previous edited file. 
+
+	&quot;toggle buffer
+    &lt;C-6&gt; or &lt;C-^&gt;
+    &quot;It is equal to 
+    :e#
+    :b#
+
+## 删除缓冲区
+
+	:bd [count/file] :bdelete [count/file] #删除缓冲区
+	:2,5bd #删除缓冲区(从第2个到第5个)
+	:bun [count/file] :bunload [count/file] #释放缓冲区（仅释放内存,不会改变缓冲区列表）
+
+##	增加缓冲区 
+
+	:file b.txt	&quot;当前缓冲区指向文件b.txt 原来的缓冲区a.txt会成为: u# a.txt (必须使用:ls! 才能看到此缓冲区)
+	:badd c.txt &quot;添加一个缓冲区, 但不切换到此缓冲区
+	:e c.txt &quot;新添加一个当前激活缓冲区%a (:o c.txt 是一样的)
+	:e! a.txt &quot;强制打开新文件a.txt，会丢弃当对当前缓冲区的改动
+	:hide e a.txt &quot;打开a.txt,不会丢弃当前缓冲区改动
+
+## 缓冲区窗口
+
+	:ba &quot;打开所有缓冲区窗口
+	:tab ba &quot;以tab打开所有缓冲区窗口
+	:vert ba &quot;以vert打开所有缓冲区窗口
+	:new a.txt &quot;为a.txt缓冲区单独开一个窗口(通常情况下:new :split 表现是一样的)
+	:split a.txt  &quot;或者用:sp a.txt
+	:vert sp a.txt  &quot;或者用垂直新窗口
+    :vs# 重新打开上次关闭的缓冲区
+
+## buftype
+
+	:set buftype=nofile
+	  &lt;empty&gt;	normal buffer
+	  nofile	buffer which is not related to a file and will not be written
+	  nowrite	buffer which will not be written
+	  acwrite	buffer which will always be written with BufWriteCmd autocommands. 
+	  quickfix	quickfix buffer, contains list of errors |:cwindow|
+	  help		help buffer (you are not supposed to set this manually)
+
+## get buffer name
+
+	bufname(&quot;%&quot;)		name of current buffer
+
+	bufname(&quot;#&quot;)		alternate buffer name
+	bufname(0)		
+
+	bufname(3)			name of buffer 3
+	bufname(&quot;file2&quot;)	name of buffer where &quot;file2&quot; matches.
+
+get buffer number:
+
+	bufnr(&quot;file2&quot;)
+	bufnr(&quot;#&quot;)
+
+# Argument list(参数列表,Argument list)
+又叫filelist(文件列表)
+文件列表是一个特殊的文件集合(关闭时所有文件时会提醒你正在编辑多个文件), 这一集合属于缓冲区集合的子集（缓冲区包括所有打开的文件）
+
+*Buffer*
+
+- A buffer is a file loaded into memory for editing. It is identified using a name and a number.
+- The buffer name is the name of the file associated with that buffer. It may not be unique.
+- The buffer number is a unique sequential number assigned by vim.
+
+*Args*  is a subset of buffer list.
+
+- Args list is files opened at command line or open from the vim command line: `:args`
+
+loop arglist
+
+	:let n = 1
+	:while n &lt;= argc()	    &quot; loop over all files in arglist
+	:  exe &quot;argument &quot; . n
+	:  let n = n + 1
+	:endwhile
+
+关闭一个文件可以通过buffer:
+
+	:bd [count/file] :bdelete [count/file] #删除缓冲区
+
+创建一个文件列表有两种方式：
+
+	vim a.txt b.txt c.txt or vim *.txt
+	:args a.txt b.txt c.txt or :args *.txt &quot;定义一个文件列表
+
+查看文件列表：
+
+    &quot;view args via :args without any arguments
+	:args :ar
+
+跳转:
+
+	:n :next
+	:prev :previous
+	:fir :first
+	:la :last
+	:2n! :2next!
+	:wn :wnext 或者 :write :next
+	:wprev
+
+标记跳转（不同的文件间标记跳转得使用大写标记）
+	
+	mF
+	`F
+	:marks
+
+## tabpage 页签
+如果打开窗口太多，屏幕就不够用的，此时就应该使用页签了
+很多命令前都可以加tab
+
+### 打开页签	
+
+	:tabe a.txt #以新页签打开a.txt
+	:tab split a.txt #以新页签打开a.txt (在命令前加tab)
+
+### 查看页签
+
+	:tabs 
+
+### 跳页签
+
+	gt &quot;goto next tab
+	5gt &quot;goto 5th tab
+	5gT &quot;goto 5th prev tab
+	:tabl :tablast
+	:tabr :tabrewind &quot;first
+	:tabn :tabnext 
+
+### tips
+
+	&quot; for macvim
+	if has(&quot;gui_running&quot;)
+		set go=aAce  &quot; remove toolbar
+		&quot;set transparency=30
+		set guifont=Monaco:h13
+		set showtabline=2
+		set columns=140
+		set lines=40
+		noremap &lt;D-M-Left&gt; :tabprevious&lt;cr&gt;
+		noremap &lt;D-M-Right&gt; :tabnext&lt;cr&gt;
+		map &lt;D-1&gt; 1gt
+		map &lt;D-2&gt; 2gt
+		map &lt;D-3&gt; 3gt
+		map &lt;D-4&gt; 4gt
+		map &lt;D-5&gt; 5gt
+		map &lt;D-6&gt; 6gt
+		map &lt;D-7&gt; 7gt
+		map &lt;D-8&gt; 8gt
+		map &lt;D-9&gt; 9gt
+		map &lt;D-0&gt; :tablast&lt;CR&gt;
+	endif</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

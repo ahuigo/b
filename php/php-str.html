@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/php/php-str.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>php str</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: php str
+date: 2018-10-04
+updated: 2018-10-06
+---
+# encoding
+## internal encoding
+mb_internal_encoding(&#x27;UTF-8&#x27;);
+echo mb_internal_encoding();
+ini_get(&#x27;default_charset&#x27;)
+
+## detect order
+var_dump(mb_detect_order());
+
+## detect encoding
+string mb_detect_encoding ( string $str [, mixed $encoding_list = mb_detect_order() 
+
+
+# String
+
+## range string
+
+	function rangeChar($lower, $upper) {
+		++$upper;
+		for ($i = $lower; $i !== $upper; ++$i) {
+			yield $i;
+		}
+	}
+	foreach (rangeChar(&#x27;hilojack&#x27;, &#x27;hilojacz&#x27;) as $v)
+
+	range(&#x27;A&#x27;, &#x27;Z&#x27;)
+	array_merge(range(&#x27;A&#x27;, &#x27;Z&#x27;), range(&#x27;a&#x27;, &#x27;z&#x27;));
+
+## wildcard
+
+	bool fnmatch(&#x27;*.weibo.cn&#x27;, $host, FNM_CASEFOLD);//Caseless match
+
+## csv
+
+	str_getcsv(&quot;a,b\n\n&quot;);//忽略\n
+
+## preg
+
+	preg_quote(&#x27;\\1&#x27;); \1 -&gt; \\1
+
+preg multiple group capture:(last one)
+
+	php &gt; echo preg_replace(&#x27;#(\w)*#i&#x27;, &#x27;\1&#x27;, &quot;abcd&quot;);
+	d
+	php &gt; echo preg_replace(&#x27;#((\w)*)_((\w)*)#i&#x27;, &#x27;\1-\2-\3-\4&#x27;, &quot;ab_cd&quot;);
+	ab-b-cd-d
+
+## split
+
+	array str_split ( string $string [, int $split_length = 1 ] )
+
+## DOM
+Operation html string like jquery
+
+https://code.google.com/p/phpquery/
+
+[php-dom](/p/php-dom)
+
+## ini
+
+	parse_ini_file(&#x27;a.ini&#x27;)
+	parse_ini_string(&#x27;a.ini&#x27;)
+
+	get_defined_constants($categorize = true)[&#x27;user&#x27;]
+	parse_ini_file(&#x27;a.ini&#x27;) + get_defined_constants(true)[&#x27;user&#x27;]
+
+### Create ini
+
+	$arr = [&#x27;country&#x27;=&gt; [1=&gt;&#x27;北京\&#x27;&quot;&#x27;]];
+	echo array2ini($arr);
+	function array2ini($arr, $key_prefix = &#x27;&#x27;){
+		$key_prefix = $key_prefix === &#x27;&#x27; ? &#x27;&#x27; : $key_prefix . &#x27;.&#x27;;
+		$ini = &#x27;&#x27;;
+		foreach($arr as $k=&gt;$v){
+			if(is_array($v)){
+				$ini .= array2ini($v, &quot;$key_prefix$k&quot;);
+			}else{
+				$ini .= &quot;$key_prefix$k = \&quot;&quot; . str_replace(&#x27;&quot;&#x27;, &#x27;\&quot;&#x27;, $v) . &quot;\&quot;\n&quot;;
+			}
+		}
+		return $ini;
+	}
+
+## Double Quote
+
+	&quot;$str&quot;
+	&quot;${str}&quot;
+	&quot;{$str}&quot;
+
+	&quot;$arr[0]&quot;
+	&quot;${arr[0]}&quot;
+	&quot;{$arr[0]}&quot;
+
+	&quot;$arr[&#x27;hello&#x27;]&quot; //fatal error
+	&quot;${arr[&#x27;hello&#x27;]}&quot;
+	&quot;{$arr[&#x27;hello&#x27;]}&quot;
+	&quot;$arr[hello]&quot;	//notice
+	&quot;${arr[hello]}&quot; //notice
+	&quot;{$arr[hello]}&quot; //notice
+
+	&quot;$obj-&gt;key&quot;;		equal with {$obj-&gt;key}
+	&quot;{$obj-&gt;key}&quot;;
+	&quot;${obj-&gt;key}&quot;;		return value as variable name
+
+	&quot;{func()}&quot;;//literal
+	&quot;${func()}&quot;;//exec func(), then use the func&#x27;s return value as variable name
+
+	&quot;${$obj-&gt;func()}&quot; 	return value as variable name
+	&quot;${$obj-&gt;$p}&quot; 		return value as variable name
+
+&gt; `\`` 反引号(grave accent)的规则同双引号一样
+
+## heredoc &amp; nowdoc
+php 中的heredoc 与 nowdoc 和 shell 不一样，使用的是三个`&lt;`打头，即以`&lt;&lt;&lt;` 打头, 结果标记后还需要有分号`;`
+
+	$var = &lt;&lt;&lt;MM
+	...
+	MM;
+	$var = &lt;&lt;&lt;&#x27;MM&#x27;
+	...
+	MM;
+    
+### double quote 双引号
+    \[0-7]{1,3}	符合该正则表达式序列的是一个以八进制方式来表达的字符
+    \x[0-9A-Fa-f]{1,2}	符合该正则表达式序列的是一个以十六进制方式来表达的字符
+
+## in string
+
+	echo strspn(&quot;$&quot;, &#x27;abc$&#x27;);//Finds the length of the initial segment of a string within a given mask
+
+## 大小写
+
+	ucfirst(&#x27;word word&#x27;);//Word word
+	ucwords(&#x27;word word&#x27;);//Word Word
+	strtoupper();
+	strtolower();
+
+## strstr
+Alias to strchr
+
+	strstr(&#x27;a@qq.com&#x27;, &#x27;@qq&#x27;);//@qq.com
+	strstr(&#x27;a@qq.com&#x27;, &#x27;@qq&#x27;, true);//a
+
+## html
+
+	nl2br
+	htmlentities: encode all characters
+	htmlspecialchars : encode only necessary characters
+	strip_tags
+
+Example:
+
+	echo htmlentities(&#x27;&lt;Il était une fois un être&gt;.&#x27;);
+	// Output: &amp;lt;Il &amp;eacute;tait une fois un &amp;ecirc;tre&amp;gt;.
+	//                ^^^^^^^^                 ^^^^^^^
+
+	echo htmlspecialchars(&#x27;&lt;Il était une fois un être&gt;.&#x27;);
+	// Output: &amp;lt;Il était une fois un être&amp;gt;.
+	//                ^                 ^
+
+&gt; http://htmlpurifier.org/ 提供了强大的html 数据清洗库
+
+## diff
+	strspn($str1, &#x27;0123456789&#x27;);//求相同
+	strcspn($str1, $str2);//求不同
+
+equal:
+
+	(ord($c) ^ 0x31) === ($c === &quot;\x31&quot;)
+
+## replace
+strtr — Translate characters or replace substrings
+
+	strtr($str, $arr) === str_replace(array_keys($arr), array_values($arr), $str);
+
+	strtr($str, $from, $to);
+	echo strtr(&#x27;a&#x27;, &#x27;abc&#x27;, &#x27;ABC&#x27;);//A
+
+## split
+
+	count_chars(&#x27;ab&#x27;,1 ); //array(97=&gt;1, 98=&gt;1)
+	| php -r &#x27;var_dump(array_filter(count_chars(file_get_contents(&quot;php://stdin&quot;))));&#x27;
+	| php -r &#x27;var_dump(count_chars(file_get_contents(&quot;php://stdin&quot;))[9]);&#x27;
+
+## repeat
+
+	str_repeat($str, $num);
+
+## pad
+	str_pad($str, $len, $pad, $type);
+		$type = STR_PAD_RIGHT，STR_PAD_LEFT 或 STR_PAD_BOTH
+
+## preg regx
+
+	int preg_match ( string $pattern , string $subject);
+	array preg_grep ( string $pattern , array $input);
+
+## format
+
+### parse format
+	// get author info and generate DocBook entry
+	$auth = &quot;24\tLewis Carroll&quot;;
+	$n = sscanf($auth, &quot;%d\t%s %s&quot;, $id, $first, $last);
+
+	//parse rgb
+	list($r, $g, $b) = sscanf(&#x27;0x00ccff&#x27;, &#x27;0x%2x%2x%2x&#x27;);
+
+
+### sprintf
+
+	sprintf($format, $var1, $var2);
+	printf($format, $var1, $var2);
+
+## 统计字符
+
+### substr_count
+
+	substr_count($str, $word);
+
+### count_chars
+	count_chars($str, $mode=0)
+
+Depending on mode count_chars returns one of following:
+
+- 0 - an array with the byte-value as key and the frequency of every byte as value;
+
+### strword_count
+	str_word_count
+
+## nowdoc &amp; heredoc
+heredoc 会解释变量
+
+	echo &lt;&lt;&lt;EOT
+	My name is &quot;$name&quot;. I am printing some $foo-&gt;foo.
+	Now, I am printing some {$foo-&gt;bar[1]}.
+	This should print a capital &#x27;A&#x27;: \x41
+	EOT;
+
+而nowdoc 不会解释变量(原样输出）
+
+	echo &lt;&lt;&lt;&#x27;EOT&#x27;
+	My name is &quot;$name&quot;. I am printing some $foo-&gt;foo.
+	Now, I am printing some {$foo-&gt;bar[1]}.
+	This should print a capital &#x27;A&#x27;: \x41
+	EOT;
+
+# pack &amp; unpack
+
+	string pack ( string $format [, mixed $args [, mixed $... ]] )
+	chr(31)
+	ord(&#x27;A&#x27;)
+
+Note the distinction between signed and unsigned values only affect unpack function, where as function pack() gives the same result for signed and unsigned format codes.
+
+	$format
+	a	NUL-padded string
+	A	SPACE-padded string
+
+	bin2hex(pack(&#x27;a3&#x27;, &#x27;1&#x27;));//&quot;310000&quot;
+	bin2hex(pack(&#x27;A3&#x27;, &#x27;1&#x27;));//&quot;312020&quot;
+
+	h	Hex string, low nibble first
+	H	Hex string, high nibble first
+
+	bin2hex(pack(&#x27;H&#x27;, 0x4));	//4 -&gt; 4 -&gt; 0x40
+	bin2hex(pack(&#x27;H&#x27;, 0x12));	//18 -&gt; 1 -&gt; 0x10
+	bin2hex(pack(&#x27;H&#x27;, 0x15));	//21 -&gt; 2 -&gt; 0x21
+	bin2hex(pack(&#x27;H2&#x27;, 0x15));	//21 -&gt; 21 -&gt; 0x21
+	bin2hex(pack(&quot;H2&quot;, &quot;21&quot;)); //&quot;21&quot; -&gt;21 -&gt; &quot;21&quot;
+	bin2hex(pack(&quot;H*&quot;, &quot;123&quot;)); //&quot;123&quot;-&gt; 12 3 -&gt; &quot;1230&quot;
+
+	unpack(&quot;H&quot;, &quot;\x12\x3&quot;);//[&quot;1&quot;]
+	unpack(&quot;H2&quot;, &quot;\x12\x3&quot;);//[&quot;12&quot;]
+	unpack(&quot;H3&quot;, &quot;\x12\x3&quot;);//[&quot;120&quot;]
+	unpack(&quot;H*&quot;, &quot;\x12\x3&quot;);//[&quot;1203&quot;]
+	unpack(&quot;h&quot;, &quot;\x12\x3&quot;);//[&quot;2&quot;]
+	unpack(&quot;h2&quot;, &quot;\x12\x3&quot;);//[&quot;21&quot;]
+	unpack(&quot;h3&quot;, &quot;\x12\x3&quot;);//[&quot;213&quot;]
+	unpack(&quot;h*&quot;, &quot;\x12\x3&quot;);//[&quot;2130&quot;]
+
+	bin2hex(pack(&#x27;h&#x27;, 0x15));//21 -&gt; 2 -&gt; 0x02
+	bin2hex(pack(&#x27;h&#x27;, 0x12));//18 -&gt; 1 -&gt; 0x01
+	bin2hex(pack(&#x27;h2&#x27;, 0x15));//21 -&gt; 21 -&gt; 0x12
+	bin2hex(pack(&#x27;h&#x27;, &quot;\x31&quot;));//&quot;1&quot; -&gt; 1 -&gt; &quot;01&quot;
+	bin2hex(pack(&#x27;h2&#x27;, &quot;123&quot;));//&quot;123&quot; -&gt; 12 -&gt; &quot;21&quot;
+	bin2hex(pack(&#x27;h*&#x27;, &quot;123&quot;));//&quot;123&quot; -&gt; 12 3-&gt; &quot;2103&quot;
+
+	c	signed char
+	C	unsigned char
+	bin2hex(pack(&#x27;c&#x27;, 10));//10 -&gt; 0x0a
+	unpack(&#x27;c&#x27;, &quot;\x0a&quot;));//0x0a -&gt; [10]
+	unpack(&#x27;c&#x27;, &quot;\xff&quot;));//0x0a -&gt; [-1]
+    unpack(&#x27;c4&#x27;, hex2bin(&quot;31323334&quot;)); // [1=&gt;49, 2=&gt;50, 3=&gt;51,4=&gt; 52]
+    unpack(&#x27;c5H23&#x27;, hex2bin(&quot;31323334&quot;));
+        // [&#x27;H231&#x27;=&gt;49, &#x27;H232&#x27;=&gt;50, &#x27;H233&#x27;=&gt;51, &#x27;H234&#x27;=&gt;52]
+
+	s	signed short (always 16 bit, machine byte order)
+	S	unsigned short (always 16 bit, machine byte order)
+	bin2hex(pack(&#x27;s&#x27;, 10));//10 -&gt; 0x0a00
+	bin2hex(pack(&#x27;s&#x27;, 0x1234));//0x1234 -&gt; 0x3412
+	bin2hex(pack(&#x27;s&#x27;, 0xffff));//0xffff -&gt; 0xffff
+
+	dechex(unpack(&#x27;s&#x27;, &quot;\x34\x12&quot;)[1]);	//0x3412 -&gt; 0x1234
+	unpack(&#x27;s&#x27;, &quot;\xff\xff&quot;)[1];	//0xffff -&gt; -1
+	unpack(&#x27;S&#x27;, &quot;\xff\xff&quot;)[1];	//0xffff -&gt; 65536
+
+	n	unsigned short (always 16 bit, big endian byte order)
+	v	unsigned short (always 16 bit, little endian byte order)
+	bin2hex(pack(&#x27;n&#x27;, 0x1234));//0x1234 -&gt; 0x1234
+	bin2hex(pack(&#x27;v&#x27;, 0x1234));//0x1234 -&gt; 0x3412
+
+	i	signed integer (machine dependent size and byte order)
+	I	unsigned integer (machine dependent size and byte order)
+	l	signed long (always 32 bit, machine byte order)
+	L	unsigned long (always 32 bit, machine byte order)
+	bin2hex(pack(&#x27;i&#x27;, 0x1234));//0x1234 -&gt; 0x34120000 my 32bit
+	bin2hex(pack(&#x27;l&#x27;, 0x1234));//0x1234 -&gt; 0x3412
+
+	N	unsigned long (always 32 bit, big endian byte order)
+	V	unsigned long (always 32 bit, little endian byte order)
+	bin2hex(pack(&#x27;N&#x27;, 0x1234));//0x1234 -&gt; 0x00001234
+	bin2hex(pack(&#x27;V&#x27;, 0x1234));//0x1234 -&gt; 0x34120000
+
+	new in php 5.6
+	q	signed long long (always 64 bit, machine byte order)
+	Q	unsigned long long (always 64 bit, machine byte order)
+	J	unsigned long long (always 64 bit, big endian byte order)
+	P	unsigned long long (always 64 bit, little endian byte order)
+	f	float (machine dependent size and representation)
+	d	double (machine dependent size and representation)
+	x	NUL byte
+	X	Back up one byte
+	Z	NUL-padded string (new in PHP 5.5)
+	@	NUL-fill to absolute position
+
+combine
+
+    $binarydata = &quot;\x04\x00\xa0\x00&quot;;
+    $array = unpack(&quot;cchars/nint&quot;, $binarydata);
+        Array ( [chars] =&gt; 4 [int] =&gt; 160)
+    $array = unpack(&quot;c2chars/nint&quot;, $binarydata);
+        [chars1] =&gt; 4 [chars2] =&gt; 0 [int] =&gt; 40960
+
+Be aware that if you do not name an element, an empty string is used. If you do not name more than one element, this means that some data is overwritten as the keys are the same such as in:
+
+    $binarydata = &quot;\x32\x42\x00\xa0&quot;;
+    $array = unpack(&quot;c2/n&quot;, $binarydata);
+          1=&gt; int(50) 2=&gt; int(66) wrong
+          1=&gt; int(160) 2=&gt; int(66) n overwritten on c1</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/ria/vue-ins.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>vue instance</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: vue instance
+date: 2018-10-04
+updated: 2018-10-06
+---
+# vue instance
+    // 此对象将会添加到 Vue 实例上
+    data = {a:1}
+    var vm = new Vue({
+        data: data
+    })
+
+## scope in template
+
+    this.vm === $root
+    window.componentInstance
+
+## vue attr
+
+### vm.$el
+    vm.$el === document.getElementById(&#x27;app&#x27;) // =&gt; true
+
+### vm data
+
+    vm.$data=== vm._data 包装了 data
+        for(i in vm._data){console.log(i, vm.$data[i])}
+
+    # render 使用的是this.attr, 而不是data.attr(因为tpl 中的scope 是vm内)
+    this.message == data.message
+
+### watch attr
+当attr 值变化时的hooks
+
+    // $watch 是一个实例方法
+    vm.$watch(&#x27;a&#x27;, function (newValue, oldValue) {
+       // 此回调函数将在 `vm.a` 改变后调用
+    })
+
+定义时：
+
+    data: {
+        a: &#x27;Foo&#x27;,
+    },
+    watch: {
+        a : function (new_val, old_val) {
+            //当a改变时
+            console.log(new_val)
+        },
+
+
+### data attr
+两者相互绑定:
+
+    vm.a=222
+    vm.a == vm._data.a // =&gt; true
+    vm.$data===vm._data // wrap data
+
+为防止修改属性用Object.freeze:
+
+    var obj = {
+      foo: &#x27;bar&#x27;
+    }
+    Object.freeze(obj)
+
+    new Vue({
+        el: &#x27;#app&#x27;,
+        data: obj
+    })
+
+实例化后新加的属性，不会影响data. 也就不会触发任何视图更新
+
+    vm.new_b = 123
+    vm.new_b == vm._data.new_b; //false
+
+### add/modify attr
+JavaScript语言本身提供了Proxy或者Object.observe()机制来监听对象状态的变化。但是，对于数组元素的赋值，却没有办法直接监听
+
+#### 变化数组方法(Mutation Methods)
+Vue 将观察数组(observed array)的变化数组方法(mutation method)包裹起来，以便在调用这些方法时，也能够触发视图更新:
+
+    # example1.items.push({ message: &#x27;Baz&#x27; })。
+    push()
+    pop()
+    shift()
+    unshift()
+    splice()
+    sort()
+    reverse()
+
+    vm.todos.splice(index, 1, newElement); 代替 vm.todos[index]=newElement;
+
+
+#### 替换一个数组(Replacing an Array)
+还有非变化数组方法(non-mutating method)，例如 filter(), concat() 和 slice()，
+1. 这些方法都不会直接修改操作原始数组，而是返回一个新数组。
+
+    items.filter(function (item) {
+        return item.message.match(/Foo/)
+    })
+
+这不会导致 Vue 丢弃现有 DOM 并重新渲染(re-render)整个列表:
+1. Vue 实现了一些智能启发式方法(smart heuristic)来最大化 DOM 元素重用(reuse)
+
+#### del
+    Vue.delete(this.selectedRows, key)
+    vm.$delete(this.selectedRows, key)
+
+    this.arr.splice(key, 1)
+
+#### set 新属性, 注意事项(Caveats)
+由于 JavaScript 的限制，Vue 有时无法触发重新render(reactiveSetter)
+
+数组:
+1. 当你使用索引直接设置一项时，例如 vm.items[indexOfItem] = newValue, 可用下面的方法代替
+    1. Vue.set(vm.items, indexOfItem, newValue)
+    2. vm.$set(vm.items, indexOfItem, newValue)
+
+2. 当你修改数组长度时，例如 vm.items.length = newLength, 可用：
+    1. vm.items.splice(indexOfItem, 1, newValue) // Array.prototype.splice
+
+对象userProfile已经存在时, 添加非root level属性：
+1. vm.userProfile.age = 27, 变为:
+    2. Vue.set(vm.userProfile, &#x27;age&#x27;, 27)
+    2. vm.$set(vm.userProfile, &#x27;age&#x27;, 27)
+2. 合并属性，使用: Object.assign() 或 _.extend() 方法。
+    1. vm.user=Object.assign(dict1,dict2,...)
+    1. vm.user=Object.assign({age4:27},{age2:2, age3:3})
+
+#### Object Change Detection Caveats
+受现代 Javascript 的限制， Vue 无法检测到对象属性的添加或删除。例如：
+
+    data: {
+        a: 1
+    }
+    vm.b = 2
+    // `vm.b` 不是响应的
+
+
+## 实例生命周期钩子函数
+每个 Vue 实例在被创建之前，都要经过一系列的初始化过程 
+0. created hook
+1. 设置数据观察(set up data observation)、
+2. 编译模板(compile the template)、
+3. 在 DOM 挂载实例(mount the instance to the DOM)，
+4. 以及在数据变化时更新 DOM(update the DOM when data change)。
+5. 在这个过程中，Vue 实例还会调用执行一些生命周期钩子函数，这样用户能够在特定阶段添加自己的代码。
+
+hooks: mount=add, update=update
+
+    beforeCreate
+    created
+    beforeMount (before vm.$el created)
+    mounted     
+    beforeUpdate (data changed: before dom rendered)
+    updated 
+    activated
+    deactivated
+    beforeDestroy
+    destroyed
+    errorCaptured
+
+### mounted vs created
+1. created: 模板编译或router 前
+2. mounted: 模板完成时
+3. updated: after data &amp; dom changed
+
+see ![](https://img-blog.csdn.net/20170919221428421?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGRubG92ZW1l/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
+
+    data: {foo:0}
+    mounted: function () {
+        this.foo = 1
+        this.$nextTick(function () {})
+    },
+
+### created hook
+发生在实例创建后:
+
+    new Vue({
+    data: {
+        a: 1
+    },
+    created: function () {
+        // `this` 指向 vm 实例
+        console.log(&#x27;a is: &#x27; + this.a)
+    }
+    })
+
+其它的钩子，会在实例生命周期的不同阶段调用，如 mounted、updated 和 destroyed, 所有hook this指向app
+
+# 异步更新队列
+Vue 异步执行 DOM 更新。只要观察到数据变化，Vue 将开启一个队列，并缓冲在同一事件循环中发生的所有数据改变。
+
+    vm.message = &#x27;new message&#x27; // 更改数据
+    vm.$el.textContent === &#x27;new message&#x27; // false
+    Vue.nextTick(function () {
+        vm.$el.textContent === &#x27;new message&#x27; // true
+    })
+
+在组件内使用 vm.$nextTick() 实例方法特别方便，因为它不需要全局 Vue
+
+## 断言异步更新
+
+    // 在状态更新后检查生成的 HTML
+    it(&#x27;updates the rendered message when vm.message updates&#x27;, done =&gt; {
+      const vm = new Vue(MyComponent).$mount()
+      vm.message = &#x27;foo&#x27;
+
+      // 在状态改变后和断言 DOM 更新前等待一刻
+      Vue.nextTick(() =&gt; {
+        expect(vm.$el.textContent).toBe(&#x27;foo&#x27;)
+        done()
+      })
+    })
+
+# Notice
+1. Render must be setted within vue instance(vue render will take over all render work)
+https://codepen.io/ahuigo/pen/dqPgJQ</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/py/py-var-dict.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>python 字典</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: python 字典
+date: 2018-10-06
+updated: 2018-10-06
+---
+# Dict
+
+    key=&#x27;city&#x27;
+	dic = {&#x27;x&#x27;: 1, &#x27;y&#x27;: 2, 2:100, key:&#x27;bj&#x27;}
+	del dict[&#x27;x&#x27;]
+    dict.pop(2) # key=2
+	dict.setdefault(&#x27;x&#x27;, 123) # 返回原值或者123
+
+
+## define dict
+数字与字符是两种不同的索引: define by list/tuple/set/kw
+```
+dic = {&#x27;x&#x27;: 1, &#x27;y&#x27;: 2, 2:100, key:&#x27;bj&#x27;}
+dict(key1=1,)
+l=((1,1),); dict(l)
+t=[(1,1)]; dict(t)
+s={(1,1)}; dict(s)
+```
+
+## copy dict
+dict, list 赋值都是按引用的，如果是一维的值:
+
+	l = li[:]
+	objA = objB.copy()
+
+如果是多维的：
+
+	from copy import deepcopy
+	myCopy = deepcopy(myDict)
+
+或者用json
+
+## dict key
+在Python中，字符串、整数等都是不可变的。而list是可变的，就不能作为key：
+
+    &gt;&gt;&gt; key = [1, 2, 3]
+    &gt;&gt;&gt; d[key] = &#x27;a list&#x27;
+    TypeError: unhashable type: &#x27;list&#x27;
+
+### first key
+	next(iter(a))
+
+### init with same value
+
+    &gt;&gt;&gt; keys=[1,2,3]
+
+    &gt;&gt;&gt; dict(zip(keys,[0]*len(keys)))
+    &gt;&gt;&gt; dict.fromkeys(keys, 0)
+    &gt;&gt;&gt; {k:0 for k in keys}
+
+## get value
+
+    dic.get(key, default)
+    dic[key]
+	dict.items()
+		[(&#x27;x&#x27;, 1), (&#x27;y&#x27;, 2)]
+
+### dict get keys and values
+
+	dict.keys();//keys list generator
+	dict.values();//values list generator
+	list(dict.keys());//keys list
+	list(dict.values());//values list
+
+## del key
+list 也一样
+
+    dict.pop(key[, val]) 
+        if key not found, return val
+    list.pop(index_or_last)
+
+### Is a dictionary popitem() atomic?
+`popitem` is *atomic* so you don&#x27;t have to put locks around it to use it in threads.
+
+    d = {&#x27;matthew&#x27;: &#x27;blue&#x27;, &#x27;rachel&#x27;: &#x27;green&#x27;, &#x27;raymond&#x27;: &#x27;red&#x27;}
+    while d:
+        key, value = d.popitem()
+        print key, &#x27;--&gt;&#x27;, value
+
+## merge dict
+python &gt;=3.5
+```
+	z = {**x, **y}
+```
+
+or with update:
+
+    d = {}
+    d.update(d1).update(d2)
+
+## OrderedDict(collections)
+1. 使用dict时，Key是无序的。在对dict做迭代时，我们无法确定Key的顺序。
+2. OrderedDict: keep key in order as defined
+
+如果要保持Key的顺序，可以用OrderedDict：
+
+	&gt;&gt;&gt; from collections import OrderedDict
+	&gt;&gt;&gt; d = dict([(&#x27;a&#x27;, 1), (&#x27;b&#x27;, 2), (&#x27;c&#x27;, 3)])
+	&gt;&gt;&gt; d # dict的Key是无序的
+	{&#x27;a&#x27;: 1, &#x27;c&#x27;: 3, &#x27;b&#x27;: 2}
+	&gt;&gt;&gt; od = OrderedDict([(&#x27;a&#x27;, 1), (&#x27;b&#x27;, 2), (&#x27;c&#x27;, 3)])
+	&gt;&gt;&gt; od # OrderedDict的Key是有序的
+	OrderedDict([(&#x27;a&#x27;, 1), (&#x27;b&#x27;, 2), (&#x27;c&#x27;, 3)])
+
+注意，OrderedDict的Key会按照插入的顺序排列，不是Key本身排序：
+
+	&gt;&gt;&gt; od = OrderedDict()
+	&gt;&gt;&gt; od[&#x27;z&#x27;] = 1
+	&gt;&gt;&gt; od[&#x27;y&#x27;] = 2
+	&gt;&gt;&gt; od[&#x27;x&#x27;] = 3
+	&gt;&gt;&gt; list(od.keys()) # 按照插入的Key的顺序返回
+	[&#x27;z&#x27;, &#x27;y&#x27;, &#x27;x&#x27;]
+
+### OrderedDict&#x27;s keys
+	&gt;&gt;&gt; set((5,3,2,3))
+	{2, 3, 5}
+	&gt;&gt;&gt; OrderedDict.fromkeys([5,3,2,3])
+	OrderedDict([(5, None), (3, None), (2, None)])
+	&gt;&gt;&gt; OrderedDict.fromkeys([5,3,2,3]).keys()
+	odict_keys([5, 3, 2])
+
+### sort OrderedDict.items
+
+    from collections import OrderedDict
+	od=OrderedDict({5:6, 1:5})
+	OrderedDict(sorted(od.items(), key=lambda item: item[1]))
+
+### pop, popitem, last
+
+	self.popitem(last=True) 默认删除尾部: LIFO
+	self.popitem(last=False) 删除头部: FIFO
+
+	self.pop(key=&#x27;key&#x27;) del self[&#x27;key&#x27;]
+	self.pop(&#x27;key&#x27;, None)
+
+    next(reversed(self))
+
+### unshift(move_to_end)
+
+    &gt;&gt;&gt; d1 = OrderedDict([(&#x27;a&#x27;, &#x27;1&#x27;), (&#x27;b&#x27;, &#x27;2&#x27;)])
+    &gt;&gt;&gt; d1.update({&#x27;c&#x27;:&#x27;3&#x27;})
+    &gt;&gt;&gt; d1.move_to_end(&#x27;c&#x27;, last=False)
+    &gt;&gt;&gt; d1
+    OrderedDict([(&#x27;c&#x27;, &#x27;3&#x27;), (&#x27;a&#x27;, &#x27;1&#x27;), (&#x27;b&#x27;, &#x27;2&#x27;)])
+
+### FIFO
+OrderedDict可以实现一个FIFO（先进先出）的dict，当容量超出限制时，先删除最早添加的Key：
+
+	from collections import OrderedDict
+
+	class LastUpdatedOrderedDict(OrderedDict):
+
+		def __init__(self, capacity):
+			super(LastUpdatedOrderedDict, self).__init__()
+			self._capacity = capacity
+
+		def __setitem__(self, key, value):
+			containsKey = 1 if key in self else 0
+			if len(self) - containsKey &gt;= self._capacity:
+				last = self.popitem(last=False)
+				print(&#x27;remove:&#x27;, last)
+			if containsKey:
+				del self[key]
+				print(&#x27;set:&#x27;, (key, value))
+			else:
+				print(&#x27;add:&#x27;, (key, value))
+			OrderedDict.__setitem__(self, key, value)
+
+## defaultdict
+除了在Key不存在时返回默认值，defaultdict的其他行为跟dict是完全一样的。
+
+    from collections import defaultdict
+    &gt;&gt;&gt; defaultdict()[&#x27;k&#x27;]
+    KeyError: &#x27;k&#x27;
+    &gt;&gt;&gt; defaultdict(None)[&#x27;k&#x27;]
+    KeyError: &#x27;k&#x27;
+    &gt;&gt;&gt; defaultdict(lambda:1)[&#x27;k&#x27;]
+
+### Counting with defaultdict
+
+    d = defaultdict(int)
+    for color in colors:
+        d[color] += 1
+
+or with collections.Counter:
+
+    d=collections.Counter()
+    d[color] +=1
+
+### Grouping with dictionaries
+
+    d = defaultdict(list)
+    for name in names:
+        key = len(name)
+        d[key].append(name)
+
+
+## check
+
+### is empty
+
+    &gt;&gt;&gt; dct = {}
+    &gt;&gt;&gt; bool(dct)
+    False
+    &gt;&gt;&gt; not dct
+    &gt;&gt;&gt; if dct: ..
+
+
+### has_key
+
+	if key in dict:
+
+    ## for obj only
+	if hasattr(obj, &#x27;attribute&#x27;):
+		# obj.attr_name exists.
+
+### has_value
+
+    &#x27;one&#x27; in d.values()
+
+## dict to object
+
+	class Dict2Obj(object):
+		def __init__(self, initial_data):
+			for key in initial_data:
+				setattr(self, key, initial_data[key])
+    class Employee(object):
+        def __init__(self, *initial_data, **kwargs):
+            for dictionary in initial_data:
+                for key in dictionary:
+                    setattr(self, key, dictionary[key])
+            for key in kwargs:
+                setattr(self, key, kwargs[key])
+    Employee(dict1,d2,d3,k1=v1,k2=v2)
+
+### ChainMap
+    collections.ChainMap(d1,d2,d3)
+        dict-like class for creating a single view of multiple mappings
+
+
+## foreach dict
+
+	for k in dict:
+		print &quot;%s : %d&quot; % (k,dict[k])
+
+	for k,v in dict.items():
+		print &quot;%s : %d&quot; % (k,v)
+
+	&gt;&gt;&gt; for v in {&#x27;k1&#x27;:&#x27;v1&#x27;,&#x27;k2&#x27;:&#x27;v2&#x27;}.items(): print v;
+	...
+	(&#x27;k2&#x27;, &#x27;v2&#x27;)
+	(&#x27;k1&#x27;, &#x27;v1&#x27;)
+    &gt;&gt;&gt; k, v = 1,3
+    &gt;&gt;&gt; k, v = (1,3)
+
+### chunk dict
+
+    from itertools import islice
+
+    def chunks(data, SIZE=10000):
+        it = iter(data)
+        for i in range(0, len(data), SIZE):
+            yield {k:data[k] for k in islice(it, SIZE)}
+
+# loop modifify inplace 
+## update inplace
+
+    d.update((k, v * 0.5) for k,v in d.items())
+
+## delete dict
+Note: in python 3 to iterate through a dictionary you have to *explicidly* write: *list(d.keys())* because d.keys() returns a &quot;dictionary view&quot; (an iterable that provide a dynamic view on the dictionary’s keys).
+
+	# list 将iter 转了一下
+    for k in list(d.keys()):
+        if k.startswith(&#x27;r&#x27;):
+            del d[k]
+
+## delete list value
+If you mutate something while you&#x27;re iterating over it, you&#x27;re living in a state of sin and deserve what ever happens to you.
+
+    a = [1,2,3,4,5]
+    # for k,i in enumerate(a): # too wrong
+    for i in a:
+    	a.remove(i) # or a.pop(0) 也会发生错误
+    # a = [2,4]
+
+正确的方式: copy or reverse
+
+	a = [1,2,3,4,5]
+	# for i in a[:]: 
+	for i in list(a): 
+		a.remove(i)
+	# a = []
+
+## delete list index(inplace)
+
+    a = [1,2,3,4,5]
+    del_index = []
+    for i,v in a:
+        del_index.insert(0, i)
+    for i in del_index: 
+        a.pop(i)
+
+or inplace
+
+    a = [1,2,3,4,5]
+    for i,v in list(enumerate(a))[::-1]:
+        #a.remove(v)
+        a.pop(i)
+
+## dict iterms and delete
+py3: items/iteritems 是iter(.keys()/.values() 都是generator) 都不可以直接改变原值
+需要list copy出一份才可
+
+	//list
+	list.items() //error
+	for k, v in list(dict.items())
+		dict.pop(k)</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

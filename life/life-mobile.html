@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/life/life-mobile.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>Sth. About Mobile Communication</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: Sth. About Mobile Communication
+date: 2018-10-06
+updated: 2018-10-06
+---
+# Preface
+&gt; ps: 绝大部分业务在月末是无法办理的.
+
+# 大宝卡
+移动大王卡、联通大王卡和电信超牛卡、到底谁划算?
+https://zhuanlan.zhihu.com/p/24249217?from=groupmessage
+
+## 联通
+### 联通PUK+PIN
+使用短信营业厅（PUK码未锁），发送PUK或CXPUK至10010（发送此信息是免费的）。
+2.联通网上营业厅——登录——选择“办业务”——点击页面左侧头像图标——页面拉至最下方即可见“号码信息”中显示“PUK码”为8位全数字；[5] 
+3.使用联通手机营业厅，登陆手机号码后选择“我的联通”——“安全中心”——“我的PUK码”进行查询；
+
+# 短信码
+## 关于10086短信码
+
+	0000 统一查询也退订
+	ktfcjq0755 两城一家漫游优惠,已经废除
+	cxll	查询流量
+	cxtfgnzt	查询特服功能状态
+	qxlltc 取消10/20/30元数据流量套餐
+
+60分钟国内漫游免费通话时长(当月申请，下月生效)
+	兑换积分：1000分
+	短信申请代码：JFHB798
+
+## 查询puk pin SIM/UIM卡号
+针对联通即可以用短信到10010, 也可以网上查询
+
+    cxpuk
+
+# 关于漫游
+标准国内（不含港澳台）漫游主叫：0.6元/分钟；被叫0.4元/分钟
+http://service.bj.10086.cn/poffice/package/showpackage.action?PACKAGECODE=GNBHGATMY
+
+- 国内（不含港澳台）漫游主叫：0.6元/分钟；被叫0.4元/分钟。
+- 国内漫游优惠计划：1元/月，开通后，您在国内（不含港澳台）漫游状态下接打电话按照0.39元/分钟收取
+- 5元全国漫游包：5元/月。生效后，国内（不含港澳台）漫游主叫0.29元/分钟，被叫免费。
+
+## 国内漫游优惠计划
+1元/月，开通后，您在国内（不含港澳台）漫游状态下接打电话按照0.39元/分钟收取。
+办理方式:
+
+	您可发送KTMYYH/QXMYYH至10086开通/取消国内漫游优惠计划。
+	当月开通, 当月生效. 当月取消, 下月生效.
+
+# 移动基本套餐
+标准资费(套餐未提到的费用均按标准资费走):
+
+	国内(不含港澳台)漫游通话费:	0.20元/分钟 0.30元/分钟(忙)
+	本地17951IP拨打国内(不含港澳台)长途: 0.20元/分钟 0.30元/分钟(忙)
+
+仅办理了动感地带上网套餐的客户，使用17951方式拨打国内（不含港澳台）长途时:
+
+    若本地主叫分钟数未用完，则闲时按0.08元/分钟计费，忙时按0.1元/分钟计费；
+    若本地主叫分钟数已用完，则闲时按0.2元/分钟计费，忙时按0.22元/分钟计费。
+    （闲时为每日21：00-次日9：00，忙时为每日9：00-21：00）
+
+## 动感地带
+[mzone](http://service.bj.10086.cn/poffice/package/showpackage.action?from=bj&amp;PACKAGECODE=MZONEJCTC&amp;isCheck=1&amp;smartID=5122944242)
+闲:21:00~次日9:00	忙:9:00~21:00
+
+### 漫游4g飞享套餐
+被叫全免
+18元档
+1. 0.19Yuan/min
+2. 100M+0分国内
+
+2016-10-9
+38元档
+1. 0.25Yuan/min
+2. 300M+50分国内+磅150分钟长市(送12个月)
+
+### 动感上网套餐(38元)
+
+	费用:	38元/月，380元/年
+	本市主叫:	0.12元/分钟 免费送80分钟本地呼叫
+	呼叫国内: 0.18元/分钟
+	17951IP:
+		若本地主叫分钟数未用完
+			闲时0.08元/分钟 忙时0.1元/分钟计费；
+		若本地主叫分钟数已用完
+			闲时0.2元/分钟 忙时按0.22元/分钟计费
+	流量:	200MB 超出0.5元/MB
+
+## 4G流量安心包
+什么是4G流量安心包?是指你的流量使用如果超了套餐额度之后,会自动帮你开通10元包100M的业务,避免你超产生大量的流量费用
+
+## 流量套餐
+取消数据流量可选包/将套餐变更为标准资费（不含随e行等客户）:
+ 发送`qxlltc` 到10086
+
+# 关于积分(M)
+JF到10086查询您当前的积分
+2000积分的价值:
+
+	30分钟国内漫游免费通话时长(400分) 短信申请:JFHB797  JFHB798(60分) 30*5 =150 *.4 = 60元.
+	30分钟本地 400分 30*5*.12=150*.12=18元
+	&gt; 下月生效 月末失效
+	30元话费 2010分  HF30发送到 10658999
+
+# 关于停机
+1. 申请停机后，整月停机期间每月将收取5元停机保号费，直至号码余额小于0时，进入欠费停机状态（余额不足5元仍按5元扣除）。非整月停机期间不收取停机保号费。
+2. 手机号码处于欠费停机状态时，不收取停机保号费，欠停90天后销号</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

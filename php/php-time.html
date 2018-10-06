@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/php/php-time.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>Time</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: Time
+date: 2018-10-04
+updated: 2018-10-06
+---
+# Time
+
+## yesterday
+http://se2.php.net/manual/en/datetime.formats.relative.php
+
+    $today              = strtotime(&#x27;00:00:00&#x27;);
+    $today              = strtotime(&#x27;00:00&#x27;);
+    $today              = strtotime(&#x27;0:0&#x27;);
+    $yesterday          = strtotime(&#x27;-1 day&#x27;, $today);
+
+modifier:
+
+    $hour = 12;
+    $today              = strtotime(&quot;today $hour:00&quot;);
+    $yesterday          = strtotime(&quot;yesterday $hour:00&quot;);
+    $dayBeforeYesterday = strtotime(&quot;yesterday -1 day $hour:00&quot;);
+
+php7
+
+    $today = new \DateTime();
+    $yesterday = (clone $today)-&gt;modify(&#x27;-1 day&#x27;);
+    $dayBefore = (clone $yesterday)-&gt;modify(&#x27;-1 day&#x27;);
+
+## timestamp
+
+### get
+
+	time(viod);//get current timestamp
+	getlastmod(void);// 返回当前php文件的modifier timestamp
+
+### mktime
+
+	mktime($hours,$minutes,$secs,$month, $day, $year); //make timestamp
+	strtotime(&#x27;-2 days&#x27;);
+	strtotime(&#x27;Next Monday&#x27;);
+
+### strtotime
+last week:
+
+	today is 10151106 Friday
+	echo date(&quot;Ymd&quot;, strtotime(&quot;last monday&quot;));
+		20151102
+	echo date(&quot;Ymd&quot;, strtotime(&quot;last week&quot;));
+		20151026
+
+last day of last month:
+first day of last month:
+
+	echo date(&quot;Ymd&quot;, strtotime(&#x27;-1 month&#x27;, strtotime(&#x27;20160531&#x27;)));
+		20160501
+	echo date(&quot;Ymd&quot;, strtotime(&quot;last day of last month&quot;, strtotime(&#x27;20160531&#x27;)));
+		20160401
+	echo date(&quot;Ymd&quot;, strtotime(&quot;first day of last month&quot;, strtotime(&#x27;20160531&#x27;)));
+		20160430
+
+## locale
+
+	setlocal(LC_ALL, &#x27;zh_CN.utf8&#x27;);
+
+## date
+
+	date(&#x27;Y-m-d&#x27;)
+	echo date(&#x27;Y-m-d&#x27;, strtotime(&#x27;+2 days&#x27;));
+
+## DateTime
+&gt; http://wulijun.github.io/php-the-right-way/#date_and_time
+
+	$date = new DateTime;
+	$date = DateTime::createFromFormat(&#x27;d.m.Y&#x27;,&#x27;13.7.1999&#x27;);
+
+	echo $date-&gt;format(&#x27;Y-m-d H:i:s&#x27;);
+
+计算时间一般需要DateInterval 类，.add .sub 都使用其作为参数, .diff 返回的值就是DateInterval：
+Refer to [DateInterval](http://jp2.php.net/manual/zh/dateinterval.construct.php)
+
+	$start = new DateTime();
+	// create a copy of $start and add one month and 6 days
+	$end = clone $start;
+	$end-&gt;add(new \DateInterval(&#x27;P1M6D&#x27;));
+
+	$diff = $end-&gt;diff($start);
+	echo &quot;Difference: &quot; . $diff-&gt;format(&#x27;%m month, %d days (total: %a days)&#x27;) . &quot;\n&quot;;
+
+## gettimestamp
+
+	DateTime::createFromFormat(&#x27;Y年m月d日&#x27;,&#x27;2015年8月9日&#x27;).getTimestamp()
+
+## checkdate
+
+	function validateDate($date, $format = &#x27;Y-m-d H:i:s&#x27;) {
+		$d = DateTime::createFromFormat($format, $date);
+		return $d &amp;&amp; $d-&gt;format($format) == $date;
+	}</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

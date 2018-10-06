@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/math/math-latex.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>latex 数学公式</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: latex 数学公式
+date: 2018-10-06
+updated: 2018-10-06
+---
+# Preface
+数学公式：
+- [latex 数学公式](http://zh.wikipedia.org/wiki/Help:%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F)
+- [常用数学公式](http://www.ituring.com.cn/article/32403)
+
+# Learn latex
+http://www.jianshu.com/p/e59aaac15088
+
+## Mac OSX latex
+http://www.zhihu.com/question/20928639
+
+在 OS X 上，主流的 TeX 发行版是 MacTeX。这是一个基于 TeX Live 之上的封装，和 TeX Live 的主要区别是：
+1. 采用 OS X 专用的方式打包，安装简便，不劳心配置；
+2. 封装了一系列为 OS X 设计的工具（LaTeXit、TeXshop、TeX Live Utilities 等）
+
+BasicTeX 和 MacTeX 类似，也是对 TeX Live 的封装。
+&gt; 不过，相比 MacTeX，BasicTeX 中缺少很多宏包。在使用的时候，需要先手工安装这些宏包，然后使用。对于新手来说，这又是个不小的工程。所以不推荐新手使用。
+
+## LaTeX with markdown
+Mathematics Stack Exchange uses `MathJax` to render LaTeX. You can use single dollar signs to delimit inline equations, and double dollars for blocks:
+
+	The *Gamma function* satisfying $\Gamma(n) = (n-1)!\quad\forall
+	n\in\mathbb N$ is via through the Euler integral
+
+	$$
+	\Gamma(z) = \int_0^\infty t^{z-1}e^{-t}dt\,.
+	$$
+
+or
+
+    无理数: $\sqrt {2}$,
+    圆周: \\( \pi *r= circumference\\)
+
+# Api &amp;&amp; Lib
+[google api](http://chart.apis.google.com/chart?cht=tx&amp;chl=O%28%5Clog+n%29)
+
+## MathJax
+这是一个js 库. 用法如`$a^2=b$` as in-line or `$$a^2=b$$` as block
+1. 还有：kaTex
+2. web app: markx(pageDown), stackedit
+
+http://docs.mathjax.org/en/latest/misc/mathjax-in-use.html 全局渲染
+
+    src=&quot;MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;
+    //via getElementsByTagName(&quot;script&quot;).filter MathJax 找到config
+
+### katex
+
+    katex.render(String.raw`c = \pm\sqrt{a^2 + b^2}`, element);
+    var html = katex.renderToString(&quot;c = \\pm\\sqrt{a^2 + b^2}&quot;);
+
+### MathJax+markdown
+1. MathJax 与 Markdown 的究极融合 https://yihui.name/cn/2017/04/mathjax-markdown/
+1. 支持markdown 的库: showdown/pageDown/marked
+
+marked:
+
+	marked.setOptions({
+		//renderer: new marked.Renderer(),
+		gfm: true,
+		tables: true,
+		breaks: true,
+		pedantic: false,
+		sanitize: false, 
+		smartLists: true,
+		smartypants: false,
+		latexRender: katex.renderToString.bind(katex),
+	});
+    marked*(text)
+
+# 函数、符号、及字符
+http://www.cnblogs.com/houkai/p/3399646.html
+
+## Label
+
+    ${\overline a}_{n}$
+    ${\bar a}$
+
+${\overline a}_{n}$
+${\bar a}$
+
+## limit
+    \displaystyle \lim_{u \rightarrow \infty}
+
+## Vectors, 向量
+
+    $\vec{a}$
+
+另`\overrightarrow `和`\overleftarrow`在定义从A 到B 的向量时非常有用:
+$\overrightarrow{AB}$ 和 $\overleftarrow{AB}$
+
+## Latex符号
+
+    \, space
+	\pi 表示希腊字母 π，\infty 表示 ∞。更多的符号请参见：Special Symbols 。
+	\sqrt{被开方数} 表示平方根。另外，\sqrt[n]{x} 表示 n 次方根。
+	\sum_{下标}^{上标} 表示求和符号。
+        _{下标} 和 ^{上标} 可以用在任何地方。如果上下标只是一个字符，可以省略 { 和 } 。
+	\frac{分子}{分母} 表示分数。另外，\tfrac{分子}{分母} 表示小号的分数。
+	$\prod_{i=1}^{\infty} a_{i}$, $\prod$表示乘积符号，
+	$\int_{-N}^{N} e^x,dx$, \int 表示积分符号。
+    $\iint_{D}^{W} \, dx\,dy$	双重积分
+
+	此外，\ldots 和 \cdots 都表示省略号，前者排在基线上，后者排在中间。
+	还有：\pm：±、\times：×、\div：÷ 。
+
+## 函数
+	\sin a
+    \sin^{2}x + \cos^{2}x = 1
+    \cos b
+    \tan c
+	O(\log n)
+
+## 对数, logarithmic
+
+    \log_{a}{b}
+
+## 根
+
+	\sqrt{x} \sqrt[n]{x}
+
+## 上下标
+	a^2
+	a_2
+
+# 分数fraction、矩阵和多行列式
+
+	//分数
+	\frac{2}{4}=0.5 2/4=0.5
+	//分数嵌套
+	\cfrac{2}{c + \cfrac{2}{d + \cfrac{2}{4}}} = a
+	//
+	\frac{分子}{分母} 表示分数。另外，\tfrac{分子}{分母} 表示小号的分数。
+
+
+\frac{分子}{分母} 表示分数。另外，\tfrac{分子}{分母} 表示小号的分数。
+
+\sqrt{被开方数} 表示平方根。另外，\sqrt[n]{x} 表示 n 次方根。
+
+\sum_{下标}^{上标} 表示求和符号: $\sum_{i=1}^{2n} x^i$。另外，\prod 表示乘积符号，\int 表示积分符号。
+
+_{下标} 和 ^{上标} 可以用在任何地方。如果上下标只是一个字符，可以省略 { 和 } 。
+此外，\ldots 和 \cdots 都表示省略号，前者排在基线上，后者排在中间。
+还有：\pm：±、\times：×、\div：÷ ****。
+
+# table
+
+    $$ 
+    \begin{array}{|c|c|c|c|}
+    \hline
+    1&amp; 1 &gt; -1 &amp; 1 &amp; -1 \\ \hline
+    &amp; 3 &amp; 55 &amp; 44\\ \hline
+    &amp; 4 &amp; 93 &amp; 33\\ \hline
+    &amp; 5 &amp; 6 &amp;  22\\ \hline
+    \end{array}$$
+
+$$ 
+\begin{array}{|c|c|c|c|}
+\hline
+1&amp; 1 &gt; -1 &amp; 1 &amp; -1 \\ \hline
+&amp; 3 &amp; 55 &amp; 44\\ \hline
+&amp; 4 &amp; 93 &amp; 33\\ \hline
+&amp; 5 &amp; 6 &amp;  22\\ \hline
+\end{array}$$
+
+# combination
+$\binom m{n+1}=\binom mn+ \binom {m-1}n$
+$(A\cup B)^{C}=A^{C}\cap B^{C}$
+
+B的情况下A的概率	${\displaystyle P(A\mid B)={\frac {P(A\cap B)}{P(B)}}={\frac {P(B|A)P(A)}{P(B)}}}$
+</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

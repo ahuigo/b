@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/go/go-var.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>go 的变量</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: go 的变量
+date: 2018-09-27
+updated: 2018-10-06
+---
+# go 的变量
+
+# new make
+new 的作用是:为其分配零值内存, 初始化 一个指向类型的指针 `(*T)`，
+`someInt := new(int)` 相当于:
+
+    func newInt *int {
+        var i int
+        return &amp;i; //golang 和 c 语言不一样，栈区分配的存储空间不会随着函数的返回而释放，本地变量地址所占据的存储空间会生存下来。 
+    }
+    someInt := newInt()
+
+make 的作用是为 slice, map 或者 channel 初始化，并且返回引用 `T`
+
+	a := []int{0, 0, 0}
+	a[1] = 10
+
+	// makeslice
+	b := make([]int, 3)
+	b[1] = 10
+
+	// Error: invalid operation: c[1] (index of type *[]int)
+	c := new([]int)
+	c[1] = 10
+
+# Variables
+The var statement declares a list of variables
+
+	var c, python, java bool
+	var i int
+	fmt.Println(i, c, python, java)
+
+## printf
+
+    var i int
+	var f float64
+	var b bool
+	var s string
+	fmt.Printf(&quot;%v %v %v %q\n&quot;, i, f, b, s)
+        0 0 false &quot;&quot;
+
+## initializers
+A var declaration can include initializers, one per variable.
+
+	var i, j int = 1, 2
+	var i, j = 1, 2; //整数无类型常数转化为int，浮点数无类型常数转化为float64.
+	var i uint8 = 1
+	var i = uint8(1)
+	var (
+		i = 1
+		j = 2
+	)
+
+### Zero values
+Variables declared without an explicit initial value are given their zero value.
+
+The zero value is:
+
+	0 for numeric types,
+	false for the boolean type, and
+	&quot;&quot; (the empty string) for strings.
+	nil for pointer
+
+
+    var i int
+    var f float64
+    var b bool
+
+## Short variable declarations
+Inside a function, the `:=` short assignment statement can be used in place of `a var declaration with implicit type`.
+&gt;Outside a function, every statement begins with a keyword (var, func, and so on) and so the `:= construct` is not available.
+
+	package main
+
+	import &quot;fmt&quot;
+
+	func main() {
+		var i, j int = 1, 2
+		k := 3
+		c, python, java := true, false, &quot;no!&quot;
+
+		fmt.Println(i, j, k, c, python, java)
+	}
+
+## pointer
+
+    var input float64
+    fmt.Scanf(&quot;%f&quot;, &amp;input)
+
+# Datatype
+Go&#x27;s basic types are
+
+	bool
+
+	string
+
+	int  int8  int16  int32  int64
+	uint uint8 uint16 uint32 uint64 uintptr
+
+	byte // alias for uint8
+
+	rune // alias for int32
+	     // represents a Unicode code point
+
+	float32 float64
+
+	complex64 complex128
+
+The `int, uint, and uintptr` types are usually `32 bits wide` on 32-bit systems and `64 bits wide` on 64-bit systems.
+When you need an integer value you should use `int` unless you have a specific reason to use a sized or unsigned integer type.
+
+```
+	package main
+
+	import (
+		&quot;fmt&quot;
+		&quot;math/cmplx&quot;
+	)
+
+	var (
+		ToBe   bool       = false
+		MaxInt uint64     = 1&lt;&lt;64 - 1
+		z      complex128 = cmplx.Sqrt(-5 + 12i)
+	)
+
+	func main() {
+		const f = &quot;%T(%v)\n&quot;
+		fmt.Printf(f, ToBe, ToBe)
+		fmt.Printf(f, MaxInt, MaxInt)
+		fmt.Printf(f, z, z)
+	}
+```
+
+## Get Type
+
+	var i unint8 = 5;
+	fmt.Printf(&quot;type :%s\n&quot;,reflect.TypeOf(i))
+
+## Alias Type
+
+	type MyFloat float64
+	type A [3]int
+	type S []int
+
+## Type convert
+The expression T(v) converts the value v to the type T.
+
+	type byteArr []byte
+	i:= ([]byte{1,2,3})
+	j := byteArr(i)
+	j[0]=111; // slice assign is reference(array is not)
+
+## String
+
+	fmt.Printfln(&quot;a\nb&quot;)
+	fmt.Printfln(&#x27;a&#x27;);#97
+
+## number
+
+	0x11
+	040
+	04000
+
+Some numeric conversions:
+
+```
+	var i int = 42
+	var f float64 = float64(i)
+	var u uint = uint(f)
+```
+
+Unlike in C, in Go assignment between items of different type requires an explicit conversion. Try removing the float64 or uint conversions in the example and see what happens.
+
+	var x, y int = 3, 4
+	var f float64 = math.Sqrt(float64(x*x + y*y))
+	var z uint = uint(f)
+	fmt.Println(x, y, z)
+
+When the right hand side contains an untyped numeric constant, the new variable may be an int, float64, or complex128 depending on the precision of the constant:
+
+	i := 42           // int
+	f := 3.142        // float64
+	g := 0.867 + 0.5i // complex128
+
+Example
+
+```
+	func main() {
+		v := 42 // change me!
+		fmt.Printf(&quot;v is of type %T\n&quot;, v)
+	}
+```
+
+# declared and not used
+
+	import (
+	    &quot;fmt&quot; // imported and not used: &quot;fmt&quot;
+	)
+	func main() {
+	    i := 1 // i declared and not used
+	}
+
+becomes
+
+	import (
+	    _ &quot;fmt&quot; // no more error
+	)
+	func main() {
+	    i := 1 // no more error
+	    _ = i
+	}
+
+# Const
+
+	const Pi = 3.14
+	const e int, f float64 = 1, 2 / 1.0
+	const e, f = 1, 2 / 1.0
+	const e, f float64 = 1, 2 / 1.0
+
+## Numeric Constants
+Numeric constants are high-precision values.
+
+
+```
+	const (
+		//An untyped constant takes the type needed by its context.
+		Big = 1 &lt;&lt; 100
+		// Shift it right again 99 places, so we end up with 1&lt;&lt;1, or 2.
+		Small = Big &gt;&gt; 99
+	)
+
+	func needInt(x int) int { return x*10 + 1 }
+```
+## itoa
+iota只能在`const`内部使用, 是一个const计数器
+
+	const a = iota // a=0
+	const (
+	  b = iota     //b=0
+	  c            //c=1
+	)
+
+iota从0开始计数
+
+const (
+  bit00 uint32 = 1 &lt;&lt; iota //bit00=1
+  bit01                    //bit01=2
+  bit02                    //bit02=4
+  bit03 = itoa             //bit02=4
+ )
+
+iota可在表达式中(b=iota也是表达式)
+
+ const (
+  loc0, bit0 uint32 = iota, 1 &lt;&lt; iota   //loc0=0,bit0=1
+  loc1, bit1                            //loc1=1,bit1=2
+  loc2, bit2                            //loc2=2,bit2=4
+ )
+
+在同一行,iota相同
+
+	const (
+	  e, f, g = iota, iota, iota //e=0,f=0,g=0
+	)
+
+虽然只使用了两次iota，但每新起一行iota都会计数
+
+	const (
+	    h = iota    //h=0
+	    i = 100     //i=100
+	    j           //j=100
+	    k = iota    //k=3  
+	)
+
+## 默认上一行相同
+
+	const (
+	    s   = &quot;abc&quot;
+			x 						// x = &quot;abc&quot;
+			a1 = 1&lt;&lt;itoa
+			a2
+			a3
+	)</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

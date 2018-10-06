@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/ria/js-array.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>Js Array 整理</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: Js Array 整理
+date: 2018-10-04
+updated: 2018-10-06
+---
+# Js Array 整理
+array 不像string 是primitive value, 所以length 可以缩短放大array。
+
+	arr = [1,2,3]
+	arr.length = 1; // [1]
+	arr.length = 3;
+	arr.push(4);// [ 1, &lt;2 empty undefined&gt;, 4 ]
+    arr[10] = 10;// [ 1, &lt;2 empty undefined&gt;, 4 , &lt;empty undef&gt;, 10]
+
+empty item 不会被for in 遍历, 但是会被 for of 遍历
+
+## create array
+### range 序列:
+
+    [...Array(5).keys()];
+    Array.from({length: 5}, (v,i) =&gt; i);
+        [...Array(5)].map((v,i) =&gt; i);
+    _.range(5)
+
+    for(let id in Array(5))
+
+undefined 数组:
+
+    Array(5)
+    Array.from({length:5})
+    Array.from(Array(5))
+
+### fill
+
+    Array(6).fill(8)
+    &gt; [1,2,3].fill(8)
+    [ 8, 8, 8 ]
+
+## .slice([start[, end]])
+python vs js
+
+    arr[:] arr.slice()
+    arr[1:] arr.slice(1)
+    arr[1:-3] arr.slice(1,-3)
+    arr[:-3] arr.slice(0,-3)
+
+## concat
+	var arr = [&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;];
+	var added = arr.concat([1, 2, 3]);
+	added; // [&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;, 1, 2, 3]
+
+concat()方法可以接收任意个元素和Array，并且自动把Array拆开，然后全部添加到新的Array里：
+
+	var arr = [&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;];
+	arr.concat(1, 2, [3, 4]); // [&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;, 1, 2, 3, 4]
+
+## join 转换:
+
+    arr.toString();arr.valueOf();
+    arr.join(&#x27;,&#x27;);//
+	.join([separator]); //implode
+
+## concat
+
+	.concat(arr2) not in-place
+	.concat(1,2) not in-place
+
+## push,pop, shift
+
+
+    arr.push(&#x27;new item&#x27;, &#x27;item2&#x27;); //return length
+    arr.pop();
+
+    arr.unshift(...buffer) //return length
+    arr.shift()
+        .shift();//左移(移出) .unshift(item1,item2);//右移(移入)
+
+remove:
+
+    first:
+        arr.indexOf(&#x27;3&#x27;) !== -1 &amp;&amp; arr.splice(arr.indexOf(&#x27;3&#x27;), 1)
+    all:
+        arr = arr.filter(e =&gt; e !== &#x27;3&#x27;)
+
+    Array.prototype.remove = function() {
+        var what, a = arguments, L = a.length, ax;
+        while (L &amp;&amp; this.length) {
+            what = a[--L];
+            while ((ax = this.indexOf(what)) !== -1) {
+                this.splice(ax, 1);
+            }
+        }
+        return this;
+    };
+
+## copy list
+
+    arr.slice(0)
+    Array.prototype.slice.call(arr)
+    [...arr]
+
+## .sort .reverse inplace(python)+return
+重排方法(改变arr本身, 并返回arr):
+
+    arr.reverse();//倒序
+    arr.sort();//从小到大
+    arr.sort(function(a,b){return a-b;});//自定义排序
+
+不改变
+
+    arr.slice(0).sort()
+    Array.prototype.slice.call(list).sort
+    python:
+        sorted(list)
+
+### .sort + filter/unique
+
+  myData = myData.sort().filter(function(el,i,a){return i==a.indexOf(el);})
+
+sort()方法会直接对Array进行修改，它返回的结果仍是当前Array
+
+  myData.sort((i,j)=&gt;i-j); //从小到大
+  myData.sort((i,j)=&gt;i&gt;j?1:-1); //从小到大
+  myData.sort((i,j)=&gt;i&gt;j); //wrong!!!!!
+
+for list:
+
+    var list = document.querySelector(&#x27;#test-list&#x27;)
+    //Array.prototype.slice.call(list)
+    [...list]
+        .sort((a,b)=&gt;a.innerText&gt;b.innerText?1:-1)
+        .map(node=&gt;list.appendChild(node))
+
+
+## splice 
+操作方法:
+
+		[0,1].concat(2,[3,4]);//返回数组[0,1,2,3,4];
+		arr.slice(start,[end]);//范围不含end本身,end可为负数,
+		arr.splice(start,[howmany]);//返回删除范围
+		arr.splice(start,howmany,val1,val2,....);//返回删除范围,并插入数据
+
+
+# find
+
+## indexOf(value)
+
+    [&#x27;aa&#x27;,&#x27;bb&#x27;,&#x27;cc&#x27;].indexOf(&#x27;aa&#x27;);//0 找不到就返回-1
+    [&#x27;aa&#x27;,&#x27;bb&#x27;,&#x27;cc&#x27;,&#x27;aa&#x27;].lastIndexOf(&#x27;aa&#x27;);//3 找不到就返回-1
+
+## find &amp; findIndex(callback)
+returns the value of the first element:
+
+    // expected output: 12
+    [5, 12, 8, 130, 44].find((element) =&gt; element &gt; 10)
+    // expected output: 1
+    [5, 12, 8, 130, 44].findIndex((element) =&gt; element &gt; 10)
+
+## include inArray
+
+    [&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;].includes(&#x27;a&#x27;)     // true
+    [&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;].indexOf(&#x27;a&#x27;) &gt; -1      //true
+    2 in [&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;]
+
+    [&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;d&#x27;].includes(&#x27;c&#x27;, 2)      // true
+    [&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;d&#x27;].includes(&#x27;c&#x27;, 3)      // false
+
+for string
+
+    &#x27;hello world&#x27;.includes(&#x27;hello&#x27;) //true
+    &#x27;hello world&#x27;.includes(&#x27;&#x27;)      //true
+
+## index in arr/obj
+不要用：`index in arr`, 他不是`value in arr`(这与python 不同)
+
+	Array.prototype.inArray = function(needle) {
+        var length = this.length;
+        for(var i = 0; i &lt; length; i++) {
+            if(this[i] == needle) return true;
+        }
+        return false;
+    }
+
+## is_array
+不要用`typeof []===&#x27;object&#x27;`
+
+	if (Array.isArray)
+	    return Array.isArray(v);
+	else
+		v instanceof Array
+
+# for
+
+## for in: index
+1. 用for-in 遍历`array/string + obj` 的属性(length 等不可读的属性除外)
+
+    for(var index in arr){
+        arr[index]
+    }
+    for(var index in &#x27;str&#x27;){
+        &#x27;str&#x27;[index]
+    }
+
+## for of: value
+1. for of：只循环`array/string + map-set-generator`本身的元素
+
+e.g.
+
+    s = new Set([1,2,3])
+    for(var it of s){
+        console.log(it)
+    }
+
+    for(var it of (new Map([[1,2],[3,4]))){
+        console.log(it[0], it[1])
+    }
+    for(var i of [1,2,3]){console.log(i)}
+
+
+## .forEach
+string  没有此属性
+3. .forEach: value、key、self(`arr + map-set-generator`本身)
+
+    var m = new Map([[1, &#x27;x&#x27;], [2, &#x27;y&#x27;], [3, &#x27;z&#x27;]]);
+    m.forEach(function (value, key, map) {
+        console.log(value, map===m);
+    });
+
+## entries: python enumerate
+    for(let [key, value] of Object.entries(myObject)) {
+        console.log(key, value); // &quot;first&quot;, &quot;one&quot;
+    }
+
+## loop circle
+
+    var len = myArray.length
+    for (const [i, value] of myArray.entries()) {
+        console.log(&#x27;%d: %s&#x27;, i, myArray[(i+1)%len]);
+    }
+
+# Map/Set
+python 早就提供了
+
+## Map
+这里的map/set 不是数组的method, 而是一个原型类:
+
+    var m = new Map([[&#x27;Michael&#x27;, 95], [&#x27;Bob&#x27;, 75], [&#x27;Tracy&#x27;, 85]]);
+    m.get(&#x27;Michael&#x27;); // 95
+
+map crud:
+
+    m.set(&#x27;Adam&#x27;, 67); // 添加新的key-value
+    m.has(&#x27;Adam&#x27;); // 是否存在key &#x27;Adam&#x27;: true
+    m.delete(&#x27;Adam&#x27;); // 删除key &#x27;Adam&#x27;
+    m.get(&#x27;Adam&#x27;); // undefined
+
+map to array
+
+    const newArr1  = [ ...map  ]; 
+    const newArr2 = Array.from( map );
+
+### WeakMap
+key 只能对象，wm不可遍历
+
+    var obj = {};
+    var wm = new WeakMap();
+    wm.set(obj, 1);
+    wm.get(obj);	// 1
+
+    obj = null;     //wm 没有引用obj, 被垃圾回收了
+    wm.get(obj);	// like python: wm[id(obj)]
+
+wm 适合记录对象额外信息， 比如标记对象状态，对象呗回收就失效了
+
+    wm[obj1] = ...
+    wm[obj2] = ...
+
+## Set
+Set中自动被过滤：
+
+    var s = new Set([1, 2, 3, 3, &#x27;3&#x27;]);
+    s; // Set {1, 2, 3, &quot;3&quot;}
+
+Set crud:
+
+    s.add(4);
+    s.delete(3);
+    s.has(4)
+
+## map/reduce/any:some/all:every
+迭代方法: all:every, any:some, filter, map/forEach
+
+		.every(func);//每一项运行给定函数都返回true,结果才返回true. 
+		.some(func);//只要其中一项运行指定函数时返回true,结果就返回true.
+
+
+		.filter(func);//返回运行为true item组成的数组
+		.map(func);//返回函数运行结果组成的数组
+		.forEach(func);//只运行不返回
+
+        func = function (element, index, self)
+
+去重复:
+
+    r = arr.filter(function (element, index, self) {
+        return self.indexOf(element) === index;
+    });
+
+	归并方法:
+
+		.reduce(func);//从第1,2项开始; 不可以为空！单个按原值返回
+		.reduceRight(func);//从最后1,2项开始
+		arr.reduce(function(pre,cur,index,array_self){return pre+cur;})
+		[1,2,3].reduce(function(pre,cur,index,array_self){return pre+cur;})
+			array_self 作为数组是按引用传值的(数组元素length&gt;=2)
+			prev = prev+ curr = 1+2 = 3;
+			prev = prev+ curr = 3+3 = 6;</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

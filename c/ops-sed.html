@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/c/ops-sed.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>sed 简记</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: sed 简记
+date: 2018-10-06
+updated: 2018-10-06
+---
+#
+grep 与sed 同样是以按行匹配，不过sed 不仅能按行匹配，还能替换字符
+
+&gt;ps: mac 下的sed与linux下的gnu sed有很大的不同，建议安装gsed（如果你熟悉gnu-sed）: brew install gnu-sed
+
+mac 使用的是BSD sed, `-i` 参数后必须跟一个扩展名, 如果想直接修改原文件，则扩展名用空字符串:
+
+	sed -i &#x27;.ori&#x27; $&#x27;/^PATH=/c\\\n sth.&#x27; a.txt #&gt; a.txt.ori (注意bash的string不直接支持\n, 只能使用$&#x27;string\n&#x27; , 不是$&quot;string\n&quot;哈, $&quot;string\n&quot;与 &quot;string\n&quot;没有分别) $&#x27;\\\n&#x27; 会被bash 解析为&#x27;\n&#x27;, &#x27;\n&#x27; 又被sed 解析为换行
+	sed -i &#x27;&#x27; &quot;/^PATH=/ c\\
+	sth.&quot; a.txt #&gt; a.txt
+
+而linux下(gnu sed)则简单多了: `\\\n `等空白不影响
+
+	gsed $&#x27;/^PATH=/c\\\n sth.&#x27; a.txt &gt; a.txt.ori
+	gsed -i $&#x27;/^PATH=/c\\\n sth.&#x27; a.txt #&gt; a.txt
+
+sed 命令行基本格式为:
+
+	sed option &#x27;script&#x27; file1 file2 ...
+	sed option -f scriptfile file1 file2 ...
+
+基本语法为:
+
+	/pattern/action
+	range{/pattern/action}
+
+# action, 操作码
+s替换d删除i插入a追加 q退出
+
+pattern:
+
+	[a-z]
+	\[a-z\]
+	^strin$
+	\r \n
+
+## p
+
+	sed -n &#x27;1p&#x27; a.txt //不输出原文
+
+	$ sed -n &#x27;2p&#x27; a.txt
+	$ sed &#x27;2,3p&#x27; a.txt
+	$ sed &#x27;/my/p&#x27; a.txt
+
+## q
+找到pattern 就退出：
+
+	tail -f a.log | sed &#x27;/^failed$/q&#x27;
+
+## s字符串替换
+
+	$ sed -i &quot;s/pattern/replace/&quot; a.txt //第一行，只匹配一次
+	$ sed -i &quot;s/pattern/replace/g&quot; a.txt
+	$ sed -i &quot;s#pattern#replace#g&quot; a.txt
+	$ sed -i &quot;n,ms/pattern/replace/g&quot; a.txt //指定行
+	$ sed -i &quot;s/pattern/replace/ng&quot; a.txt //指定该行的第n个字符开始搜索
+
+	sed -z &#x27;s/\n/ /g&#x27;; # separate lines by NUL characters, default separator is &#x27;\n&#x27;
+
+example:
+
+	# delete first 5 characters
+	sed -i &#x27;s/\(.\{5\}\)//&#x27; file
+	# -r 与-i 不能合并！sed 不能合并参数的！
+	sed -i -r &#x27;s/.{5}//&#x27; file
+
+### 引用
+
+	//&amp;引用search
+	$ sed &#x27;s/my/ha-&amp;/g&#x27; my.txt 与 sed &#x27;s/my/ha-my/g&#x27; my.txt 相同
+	//\1 引用search中的第一个括号
+	$ sed &#x27;s/\(my\)/\1/g&#x27; my.txt 与 sed &#x27;s/my/my/g&#x27; my.txt 相同
+
+## i and a
+插入和追加
+
+	$ sed &#x27;1 i a&#x27; pets.txt; # sed &#x27;1ia&#x27; pets.txt
+	$ sed &#x27;1 a sth.&#x27; pets.txt
+
+## search insert(s+a)
+利用匹配追加与插入
+
+	$ sed  &#x27;/my/a sth.&#x27; a.txt
+	$ sed  &#x27;/my/i sth.&#x27; a.txt
+
+## c替换整行
+
+	$ sed &#x27;2c Sth. else&#x27; a.txt
+	$ sed &#x27;/my/c Sth. else&#x27; a.txt # ignore the space after c
+
+## d删除
+
+	$ sed &#x27;2d&#x27; a.txt
+	$ sed &#x27;/my/d&#x27; a.txt
+	$ sed &#x27;2s/^pattern.*//&#x27; a.txt; # 清空第二行，而不是删除第二行
+	$ sed &#x27;2{/pattern/d}&#x27; a.txt; # 删除第二行
+
+# 行范围
+
+## 合并行
+
+	$ sed &#x27;N;s/my/your/&#x27; pets.txt //当前行与下一行视为同一行
+	$ sed &#x27;N;s/\n/,/&#x27; pets.txt //合并奇偶行
+
+## 指定行范围
+
+	$ sed &#x27;n,mp&#x27; n到m行
+	$ sed &#x27;/from pattern/,/to pattern/d&#x27;
+	$ sed &#x27;/from pattern/,+3d&#x27; //使用相对位置
+	$ sed &#x27;1!p&#x27; //对行范围取反1!
+	$ sed &#x27;2,$!p&#x27; //对行范围取反2,$!
+
+# Multi Command, 命令打包
+
+## 子命令
+`{cmd}`
+
+	# 对3行到第6行，匹配/This/成功后，再匹配/fish/，成功后执行d命令
+	$ sed &#x27;3,6 {/This/{/fish/d}}&#x27; pets.txt
+
+## 串行命令`;`
+
+	# 从第一行到最后一行，如果匹配到This，则删除之；如果前面有空格，则去除空格
+	$ sed &#x27;1,${/This/d;s/^ *//g}&#x27; pets.txt #用分号分割多个命令
+	$ sed &#x27;2,$!{=;p}&#x27; //对行范围取反
+
+当pattern 中没有字符时，串行命令就中断
+
+	$ sed &#x27;$!d;=&#x27; ;只会打印最后一行行号
+
+### 用分号分割命令;
+
+	$ sed -n -e &#x27;=;p&#x27; myfile.txt #&#x27;=&#x27; 命令告诉 sed 打印行号，&#x27;p&#x27; 命令明确告诉 sed 打印该行（因为处于 &#x27;-n&#x27; 模式, 默认不会打印）
+	$ sed -n -e &#x27;/search/=;p&#x27; myfile.txt
+
+### 用-e分割
+
+	$ sed -n -e &#x27;=&#x27; -e &#x27;p&#x27; myfile.txt
+
+	$ echo &#x27;1&#x27; | sed &#x27;s/1/a/;s/a/b/&#x27;
+		b
+
+# Hold Space
+Hold Space 有四条命令:
+
+1. g： 将hold space中的内容拷贝到pattern space中，原来pattern space里的内容清除
+1. G： 将hold space中的内容append到pattern space\n后
+1. h： 将pattern space中的内容拷贝到hold space中，原来的hold space里的内容被清除
+1. H： 将pattern space中的内容append到hold space\n后
+1. x： 交换pattern space和hold space的内容
+
+	g  # pattern=hold
+	G  # pattern+=nl+hold
+	h  # hold=pattern
+	H  # hold+=nl+pattern
+	x  # swap hold and pattern
+	d  # pattern_delete_top/cycle
+
+示例1:
+
+	$ cat t.txt
+	one
+	two
+	three
+	$ sed &#x27;H;g&#x27; t.txt
+
+	one
+
+	one
+	two
+
+	one
+	two
+	three
+
+![](/img/sed-hold-space.1.png)
+
+&gt; 每次匹配后，会默认输出pattern, 可以通过`sed -n` 禁止pattern 的输出. 或者通过`d` 删除pattern, 通过`p` 手动输出pattern
+
+示例2：倒序文本
+
+	$ sed &#x27;1!G;h;$!d&#x27; t.txt
+
+其中：
+1. 1!G —— 只有第一行不执行G命令，将hold space中的内容append回到pattern space
+1. h —— 第一行都执行h命令，将pattern space中的内容拷贝到hold space中
+1. $!d —— 除了最后一行不执行d命令，其它行都执行d命令，删除当前行
+
+![](/img/sed-hold-space.2.png)
+
+## replace newline with space
+http://stackoverflow.com/questions/1251999/how-can-i-replace-a-newline-n-using-sed
+
+	sed &#x27;:a;N;$!ba;s/\n/ /g&#x27; input_filename
+	tr &#x27;\n&#x27; &#x27; &#x27; &lt; input_filename
+	sed -n &#x27;H;$ {x;s/\n/ /g;p;}&#x27; file; # extra character &#x27; &#x27;
+
+	sed -z &#x27;s/\n/ /g&#x27;; # separate lines by NUL characters, default separator is &#x27;\n&#x27;
+
+Explanation.
+
+1. create a label via `:a`
+1. append the current and next line to the pattern space via `N`
+1. if we are before the last line, branch(goto) to the created label `$!ba` (`$!` means not to do it on the last line (as there should be one final newline)).
+1. finally the substitution replaces every newline with a space on the pattern space (which is the whole file).
+
+&gt; `:a` is just a label. `ba` will goto the label `:a`, `t loop` will go to lable `loop`
+
+	:  # label
+	=  # line_number
+	a  # append_text_to_stdout_after_flush
+	b  # branch_unconditional
+	c  # range_change
+	D  # pattern_ltrunc(line+nl)_top/cycle
+	i  # insert_text_to_stdout_now
+	l  # pattern_list
+	n  # pattern_flush=nextline_continue
+	N  # pattern+=nl+nextline
+	p  # pattern_print
+	P  # pattern_first_line_print
+	q  # flush_quit
+	r  # append_file_to_stdout_after_flush
+	s  # substitute
+	t  # branch_on_substitute
+	w  # append_pattern_to_file_now
+	x  # swap_pattern_and_hold
+	y  # transform_chars
+
+# regex
+关于regex, 见[Posix Regex](/p/regex.html)
+sed 默认使用BRE 正则， 使用 -r 参数是 sed 会支持ERE 正则
+
+	echo &#x27;a1-2-3-&#x27; | gsed -n -r &#x27;/([[:digit:]]-){3,4}/p&#x27;
+
+特殊字符: `$` 在搜索时是需要转义的, `&amp;` 替换时是需要转义的
+
+	//&amp;引用search
+	$ sed &#x27;s/my/ha-&amp;/g&#x27; my.txt 与 sed &#x27;s/my/ha-my/g&#x27; my.txt 相同
+	//\1 引用search中的第一个括号
+	$ sed &#x27;s/\(my\)/\1/g&#x27; my.txt 与 sed &#x27;s/my/my/g&#x27; my.txt 相同
+
+&gt; 最新的sed 好像在-r 参数时，会支持perl 正则了
+
+# Reference
+- [sed 简明教程]
+
+[sed 简明教程]: http://coolshell.cn/articles/9104.html
+</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

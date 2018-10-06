@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/py/py-argv.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>py-argv</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: py-argv
+date: 2018-09-28
+updated: 2018-10-06
+---
+# Preface
+- click
+click 之于argparse/argv, 相当于requests 之于urllib
+
+命令行程序开发
+
+	asciimatics：跨平台，全屏终端包（即鼠标/键盘输入和彩色，定位文本输出），完整的复杂动画和特殊效果的高级API。官网
+	cement：Python 的命令行程序框架。官网
+	click：一个通过组合的方式来创建精美命令行界面的包。官网
+	cliff：一个用于创建命令行程序的框架，可以创建具有多层命令的命令行程序。官网
+	clint：Python 命令行程序工具。官网
+	colorama：跨平台彩色终端文本。官网
+	docopt：Python 风格的命令行参数解析器。官网
+	Gooey：一条命令，将命令行程序变成一个 GUI 程序。官网
+	python-prompt-toolkit：一个用于构建强大的交互式命令行程序的库。官网
+	Pythonpy：在命令行中直接执行任何Python指令。官网
+
+生产力工具
+
+    aws-cli：Amazon Web Services 的通用命令行界面。官网
+    bashplotlib：在终端中进行基本绘图。官网
+    caniusepython3：判断是哪个项目妨碍你你移植到 Python 3。官网
+    cookiecutter：从 cookiecutters（项目模板）创建项目的一个命令行工具。官网
+    doitlive：一个用来在终端中进行现场演示的工具。官网
+    howdoi：通过命令行获取即时的编程问题解答。官网
+    httpie：一个命令行HTTP 客户端，cURL 的替代品，易用性更好。官网
+    PathPicker：从bash输出中选出文件。官网
+    percol：向UNIX shell 传统管道概念中加入交互式选择功能。官网
+    SAWS：一个加强版的 AWS 命令行。官网
+    thefuck：修正你之前的命令行指令。官网
+    mycli：一个 MySQL 命令行客户端，具有自动补全和语法高亮功能。官网
+    pgcli：Postgres 命令行工具，具有自动补全和语法高亮功能。官网
+    try：一个从来没有更简单的命令行工具，用来试用python库。官网
+    ```
+
+# sys.argv
+
+	from sys import argv
+	script, arg1, arg2 = argv
+
+# argsparse
+
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.parse_args()
+
+## description
+
+    parser = argparse.ArgumentParser(description=&quot;calculate X to the power of Y&quot;)
+
+## positional args
+
+    parser.add_argument(&quot;p1&quot;)
+    parser.add_argument(&quot;p2&quot;)
+    args = parser.parse_args()
+    // python3 a.py foo bar
+    // args = {p1:foo, p2:bar}; args.p1
+
+## optional arg
+
+    parser.add_argument(&quot;-n&quot;, &quot;--name&quot;, default=&quot;ahui&quot;, help=&quot;your name&quot;)
+    parser.add_argument(&quot;-p&quot;, type=int)
+
+## bool arg
+action=&quot;store_true&quot; is bool
+
+    parser.add_argument(&quot;-v&quot;, &quot;--verbose&quot;, help=&quot;increase output verbosity&quot;,
+                    action=&quot;store_true&quot;)
+
+## help and desc
+
+# click 
+## help?
+    @click.command(no_args_is_help=True)
+
+## option
+option 的先后，也args name的先后无关
+
+    import click
+    @click.command()
+    @click.option(&#x27;-count&#x27;, default=1, help=&#x27;Number of greetings&#x27;)
+    @click.option(&#x27;-name&#x27;, prompt=&#x27;Your name&#x27;, help=&#x27;The person to greet&#x27;)
+	@click.argument(&#x27;more_params&#x27;, nargs=-1)
+    def hello(name, count, more_params): # 没有位置先后
+        &quot;&quot;&quot;This script prints hello NAME COUNT times.&quot;&quot;&quot;
+		click.echo(&#x27;Hello %s! count=%s&#x27; % (name, count));
+		print(more_params)
+
+    if __name__ == &#x27;__main__&#x27;:
+        hello()
+
+click.command 装饰使hello 能接收cli args:
+
+    p a.py 1 2 3 -name &#x27;ahui&#x27;
+
+### bool:
+
+    @click.option(&#x27;-d&#x27;, is_flag=True)
+
+### required
+toto:
+
+    @click.option(&#x27;-count&#x27;, required=True, prompt=&#x27;Number of greetings&#x27;)
+
+### count
+
+    @click.option(&#x27;-v&#x27;, &#x27;--verbose&#x27;, count=True)
+    def log(verbose):
+        click.echo(&#x27;Verbosity: %s&#x27; % verbose)
+
+### multi value
+
+    @click.option(&#x27;--item&#x27;, type=(unicode, int))
+    def putitem(item):
+        click.echo(&#x27;name=%s id=%d&#x27; % item)
+    $ putitem --item peter 1338
+    name=peter id=1338
+
+    @click.option(&#x27;--pos&#x27;, nargs=2, type=float)
+    def findme(pos):
+
+## multi argument(顺序参数)
+
+	@click.command()
+	@click.argument(&#x27;src&#x27;, nargs=-1) ;# multiple
+	@click.argument(&#x27;dst&#x27;, nargs=1)
+	def copy(src, dst):
+		for fn in src:
+			click.echo(&#x27;move %s to folder %s&#x27; % (fn, dst))
+
+And what it looks like:
+
+	$ copy foo.txt bar.txt my_folder
+	move foo.txt to folder my_folder
+	move bar.txt to folder my_folder
+
+## file argument
+Example:
+
+	@click.command()
+	@click.argument(&#x27;input&#x27;, type=click.File(&#x27;rb&#x27;))
+	@click.argument(&#x27;output&#x27;, type=click.File(&#x27;wb&#x27;))
+	def inout(input, output):
+		while True:
+			chunk = input.read(1024)
+			if not chunk:
+				break
+			output.write(chunk)
+
+And what it does:
+
+	$ inout - hello.txt
+	hello
+	^D
+	$ inout hello.txt -
+	hello</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

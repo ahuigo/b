@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/ria/vue-event.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>Vue event(v-on事件对象)</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: Vue event(v-on事件对象)
+date: 2018-10-04
+updated: 2018-10-06
+---
+# Vue event(v-on事件对象)
+使用 $on(eventName) 监听事件
+使用 $emit(eventName, optionalPayload) 触发事件
+
+    @click=&quot;func&quot;   都可以
+    @click=&quot;func()&quot; 都可以
+
+    onclick=&quot;func&quot; 不可以
+
+## event this
+
+    @click=&quot;func(this)&quot;  this===window
+    onclick=&quot;func(this.href)&quot;  this===click node
+
+## condition event
+
+    v-on=&quot;condition ? { mouseover: handler } : {}&quot;
+    v-on=&quot;condition ? { mouseover:e=&gt; handler(e,arg) } : {}&quot;
+
+## event type
+
+1. click,remove,keyup.enter
+
+### v-on(@)
+event: click,input,change, keyup.enter,blur...
+
+    &lt;button v-on:click=&quot;reverseMessage&quot;&gt;reverse_message&lt;/button&gt;
+    methods: {
+        reverseMessage: function (e) {
+            this.message = this.message.split(&#x27;&#x27;).reverse().join(&#x27;&#x27;)
+        }
+    }
+
+    &lt;dt contenteditable=&quot;true&quot; v-on:blur=&quot;update(t, &#x27;name&#x27;, $event)&quot;&gt;{{ t.name }}&lt;/dt&gt;
+
+&gt; click=&quot;func&quot; click=&quot;func($event)&quot; 一样($event==mouseevent)
+
+组件emit 还支持自定义: remove....
+
+v-model 是基于input
+
+    &lt;input v-model=&quot;message&quot;&gt;
+    &lt;input :value=&quot;message&quot; @input=&quot;message=$event.target.value&quot;&gt;
+
+#### v-on:keyup.enter
+回车按下后：
+
+    &lt;input v-on:keyup.enter=&quot;addNewTodo&quot;&gt;
+
+## modifier
+`.prevent` 修饰符告诉 v-on 指令，在触发事件后调用 `event.preventDefault()`：
+1. .capture 先捕获(再处理内部元素)
+1. .stop 停止事件冒泡
+1. .prevent 阻止默认action
+2. .self
+2. .once
+
+
+    &lt;!-- 停止点击事件冒泡 --&gt;
+    &lt;a v-on:click.stop=&quot;doThis&quot;&gt;&lt;/a&gt;
+
+    &lt;!-- 提交事件不再重新载入页面 --&gt;
+    &lt;form v-on:submit.prevent=&quot;onSubmit&quot;&gt;&lt;/form&gt;
+
+    &lt;!-- 修饰符可以链式调用 --&gt;
+    &lt;a v-on:click.stop.prevent=&quot;doThat&quot;&gt;&lt;/a&gt;
+
+    &lt;!-- 只有修饰符 --&gt;
+    &lt;form v-on:submit.prevent&gt;&lt;/form&gt;
+
+    &lt;!-- 内部元素触发的事件先在此处处理，然后才交给内部元素进行处理 --&gt;
+    &lt;div v-on:click.capture=&quot;doThis&quot;&gt;...&lt;/div&gt;
+
+    &lt;!-- 只有在 event.target 是元素自身时，才触发处理函数。 --&gt;
+    &lt;div v-on:click.self=&quot;doThat&quot;&gt;...&lt;/div&gt;
+
+.passive修饰符，对应 addEventListener 的 passive 选项。
+
+    &lt;!-- 滚动事件的默认行为（滚动）将立即发生， --&gt;
+    &lt;!-- 而不是等待 `onScroll` 完成后才发生， --&gt;
+    &lt;!-- 以防在滚动事件的处理程序中含有 `event.preventDefault()` 调用 --&gt;
+    &lt;div v-on:scroll.passive=&quot;onScroll&quot;&gt;...&lt;/div&gt;
+
+### modifier 顺序的影响
+使用修饰符时的顺序会产生一些影响，因为相关的代码会以相同的顺序生成。所以，
+1. 使用 v-on:click.prevent.self 会阻止所有点击，
+2. 而 v-on:click.self.prevent 只阻止元素自身的点击。
+
+### 按键修饰符(Key Modifiers)
+在监听键盘事件时，我们经常需要查找常用按键对应的 code 值。Vue 可以在 v-on 上添加按键修饰符，用于监听按键事件：
+
+    &lt;!-- 只在 `keyCode` 是 13 时，调用 `vm.submit()` --&gt;
+    &lt;input v-on:keyup.13=&quot;submit&quot;&gt;
+    &lt;input @keyup.13=&quot;submit&quot;&gt;
+
+记住所有 keyCode 是非常麻烦的事，所以 Vue 提供一些最常用按键的别名：
+
+    .enter
+    .tab
+    .delete (捕获“删除”和“退格”按键)
+    .esc
+    .space
+    .up
+    .down
+    .left
+    .right
+    .page-down $event.key === &#x27;PageDown&#x27;
+
+辅助键:
+
+    .ctrl
+    .alt
+    .shift
+    .meta
+
+    &lt;!-- Alt + C --&gt;
+    &lt;input @keyup.alt.67=&quot;clear&quot;&gt;
+
+    &lt;!-- Ctrl + Click --&gt;
+    &lt;div @click.ctrl=&quot;doSomething&quot;&gt;做一些操作&lt;/div&gt;
+
+.exact 修饰符可以控制触发事件所需的系统辅助按键的准确组合。
+注意：mac下click.ctrl 相当是click.right
+
+    &lt;!-- 如果 Alt 键或 Shift 键与  Ctrl 键同时按下，也会触发事件 --&gt;
+    &lt;button @click.ctrl=&quot;onClick&quot;&gt;A&lt;/button&gt;
+
+    &lt;!-- 只在 Ctrl 按键按下，其他按键未按下时，触发事件 --&gt;
+    &lt;button @click.ctrl.exact=&quot;onCtrlClick&quot;&gt;A&lt;/button&gt;
+
+    &lt;!-- 只在系统辅助按键按下时，触发事件 --&gt;
+    &lt;button @click.exact=&quot;onClick&quot;&gt;A&lt;/button&gt;
+
+#### 鼠标按键修饰符(Mouse Button Modifiers)
+
+    click.left
+    click.right
+    click.middle
+
+## handler
+普通表达式
+
+    v-on:click=&quot;counter+=1&quot;
+
+methods(不带参数):
+
+    &lt;button v-on:click=&quot;greet&quot;&gt;Greet&lt;/button&gt;
+    methods: {
+        greet: function (event) {
+            // `event` 是原始 DOM 事件对象
+            alert(event.target.tagName)
+        }
+    }
+
+methods(带参数):
+
+    &lt;button v-on:click=&quot;greet(&#x27;hello&#x27;, $event.target.value)&quot;&gt;
+
+### handler value
+
+    $event.target.value
+    $event.target.checked
+
+## 程序化的事件侦听器
+ $emit 的用法，除了被 v-on 侦听, 还有：
+1. 通过 $on(eventName, eventHandler) 侦听一个事件
+1. 通过 $once(eventName, eventHandler) 一次性侦听一个事件
+1. 通过 $off(eventName, eventHandler) 停止侦听一个事件
+
+once:
+
+    mounted(){
+        this.$once(&#x27;hook:beforeDestroy&#x27;, function () {
+            picker.destroy()
+        })
+    }</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/vim/vim-var.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>vim 使用之变量</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: vim 使用之变量
+date: 2018-10-06
+updated: 2018-10-06
+---
+# vim 使用之变量
+本文会系统描述vim 的语法，如果想了解具体选项和操作技巧，参考我的vim 笔记
+
+主要参考 [book]:
+http://learnvimscriptthehardway.stevelosh.com/ (中文)
+http://learnvimscriptthehardway.onefloweroneworld.com/ (英文)
+
+# Var type
+
+## inner var
+	:echo $VIMRUNTIME
+	:vsplit $MYVIMRC
+	:echo &amp;shell
+	:echo &amp;t_Co
+	:let &amp;t_Co=256
+    # 普通变量
+	:let w=&#x27;abc&#x27;
+	:echo w
+
+## options var
+:h set
+
+	:set tw=80
+	:let &amp;tw = &amp;tw + 10
+	:set tw?
+	:echo &amp;tw
+	:echo &amp;wrap
+
+    &quot;reset
+    :set tw&amp; 
+
+set 非option var
+
+    :set         Show all options that differ from their default value.
+    :set all     Show all but terminal options.
+    :set termcap Show all terminal options.
+    :set t_Co=256
+    :set t_Co? error!
+
+### local options
+
+	:let &amp;l:number = 1
+
+## Registers as Variables
+
+	:let @a = &quot;hello!&quot;
+	:echo @&quot;
+	:echo @+
+	:echo @/	&quot; store search word &quot;/word&quot;
+
+	@/ search word
+	@@ @&quot;	default unnamed register
+
+
+# Variable Scoping
+&gt;See :help internal-variables
+
+It lists the following types:
+
+    (nothing) In a function: local to a function; otherwise: global
+    buffer-variable    b:     Local to the current buffer.
+    window-variable    w:     Local to the current window.
+    tabpage-variable   t:     Local to the current tab page.
+    global-variable    g:     Global.
+    local-variable     l:     Local to a function.
+    script-variable    s:     Local to a :source&#x27;ed Vim script.
+    function-argument  a:     Function argument (only inside a function).
+    vim-variable       v:     Global, predefined by Vim.
+
+## buffer var
+
+	:let b:hello = &quot;world&quot;
+	:echo b:hello
+
+## vim-Variables
+
+	v:lnum
+		Line number for the &#x27;foldexpr&#x27; |fold-expr
+
+# var data type
+
+## convert type
+
+	string({expr})
+
+## check var type
+
+	type({expr})	The result is a Number, depending on the type of {expr}:
+				Number:	    0 	:if type(myvar) == type(0)
+				String:	    1
+				Funcref:    2
+				List:	    3
+				Dictionary: 4
+				Float:	    5
+
+## check var exist
+
+	if exists(&quot;w&quot;)
+	  finish
+	endif
+
+exists:
+
+	exists({expr})	The result is a Number, which is non-zero if {expr} is
+			&amp;option-name
+			+option-name
+			$ENVNAME
+			*funcname
+			varname
+			:cmdname	Ex command: built-in command, user command or command modifier
+					Returns:
+					1  for match with start of a command
+					2  full match with a command
+					3  matches several user commands
+			:2match
+						The |:2match| command.
+			:3match
+						The |:3match| command.
+			#event
+						autocommand defined for this event
+			#event#pattern
+						autocommand defined for this event and pattern
+			#group
+						autocommand group exists
+			#group#event
+						autocommand defined for this group and event.
+			#group#event#pattern
+						autocommand defined for this group, event and pattern.
+			##event
+						autocommand for this event is supported.
+
+Explain:
+
+	:finish &quot;like function return&quot;
+	:x :exit 	update and exit
+			Like &quot;:wq&quot;, but write only when changes have been
+
+## number
+
+	echo 0xff
+	echo 017	&quot;15
+	echo 019	&quot;19
+
+### caculate
+
+	let a=a+1
+
+### float:
+&gt;  :help floating-point-precision
+&gt;  :help Float
+
+	echo 10.2
+	echo 15.45e-2
+	echo 15.45e2
+
+operator
+
+	echo 5%2	&quot;1
+	echo 5/2 	&quot;2
+	echo 5-2 	&quot;3
+	echo 5+2 	&quot;7
+	echo 5/2.0 	&quot;2.5
+
+### bit operator
+
+	and(12,4) 4
+	or(0x01,0x10)
+	xor(x,y)
+	pow(x,y)
+
+### convert string to number
+
+	:echom &quot;hello&quot; + 10		&quot;10
+	:echom &quot;10hello&quot; + 10	&quot;20
+	:echom &quot;hello10&quot; + 10	&quot;10
+
+## String
+
+	echo &#x27;\\&#x27;
+		\\
+	echo &quot;\\&quot;
+		\
+	echo &#x27;a&#x27;		&#x27;b&#x27;
+		a b
+	echo &#x27;Hilojack&#x27;&#x27;s blog&#x27;
+		Hilojack&#x27;s blog
+
+### match
+
+	echo match(string, search);//return pos(start from 0, like strpos)
+	echo match(&#x27;abc&#x27;, &#x27;bc&#x27;);//1
+
+### stridx(strpos)
+### strridx(strpos)
+
+	:echo stridx(&quot;An Example&quot;, &quot;Example&quot;)	     3
+	:echo stridx(&quot;Starting point&quot;, &quot;Start&quot;)    0
+	:echo stridx(&quot;Starting point&quot;, &quot;start&quot;)   -1
+
+	strridx({haystack}, {needle} [, {start}])
+
+### substr strpart()
+
+	strpart(str, start, len)
+
+	strpart(&quot;abcdefg&quot;, 3, 2)    == &quot;de&quot;
+	strpart(&quot;abcdefg&quot;, -2, 4)   == &quot;ab&quot;
+	strpart(&quot;abcdefg&quot;, 5, 4)    == &quot;fg&quot;
+	strpart(&quot;abcdefg&quot;, 3)	    == &quot;defg&quot;
+
+### index
+&gt; :h List,
+
+	str[start:end]		&quot;include end&quot;
+	str[:end]			&quot;include end&quot;
+	str[start:]		&quot;include end&quot;
+
+## substitute()
+
+	substitute({expr}, {pat}, {sub}, {flags})
+		When {flags} is &quot;g&quot;, all matches of {pat} in {expr} are
+			replaced.  Otherwise {flags} should be &quot;&quot;.
+
+
+## strip trim
+
+	function! Strip(input_string)
+		return substitute(a:input_string, &#x27;^\s*\(.\{-}\)\s*$&#x27;, &#x27;\1&#x27;, &#x27;&#x27;)
+	endfunction
+
+	let new_var = Strip(var)
+
+### string func
+strlen
+
+	:echom len(&quot;foo&quot;)
+	:echom strlen(&quot;foo&quot;) 	&quot;identical , equal
+
+### split and join
+delimiter is any one of `,`, ` `:
+
+	echo split(&quot;one two&quot;)
+	echo split(&quot;one two&quot;, &quot; &quot;)
+		[&quot;one&quot;, &quot;two&quot;]
+
+	echo join([&#x27;a&#x27;, &#x27;b&#x27;], &#x27;|&#x27;)
+
+lower or upper case
+
+	echo tolower(&#x27;abc&#x27;)
+	echo toupper(&#x27;abc&#x27;)
+
+### concat string
+
+	echo &#x27;a&#x27; . &#x27;b&#x27;
+	echo 10 . &#x27;b&#x27;		&quot;10b
+	echo 10&#x27;b&#x27;			&quot;10 b
+	echo 10.1 . &#x27;b&#x27;		&quot;101b
+	let str=&#x27;a&#x27;
+	let str .= &#x27;b&#x27;
+
+
+### exec based on string
+
+    exec &quot;source &quot;.expand(&#x27;&lt;sfile&gt;:p:h&#x27;).&#x27;/denite.vim&#x27;
+
+
+### expr-quote
+&gt; *expr-quote*
+&gt; :help literal-string.
+
+Note that double quotes are used.
+
+	A string constant accepts these special characters:
+	\...	three-digit octal number (e.g., &quot;\316&quot;)
+	\..	two-digit octal number (must be followed by non-digit)
+	\.	one-digit octal number (must be followed by non-digit)
+	\x..	byte specified with two hex numbers (e.g., &quot;\x1f&quot;)
+	\x.	byte specified with one hex number (must be followed by non-hex char)
+	\X..	same as \x..
+	\X.	same as \x.
+	\u....	character specified with up to 4 hex numbers, stored according to the
+		current value of &#x27;encoding&#x27; (e.g., &quot;\u02a4&quot;)
+	\U....	same as \u....
+	\b	backspace &lt;BS&gt;
+	\e	escape &lt;Esc&gt;
+	\f	formfeed &lt;FF&gt;
+	\n	newline &lt;NL&gt;
+	\r	return &lt;CR&gt;
+	\t	tab &lt;Tab&gt;
+	\\	backslash
+	\&quot;	double quote
+	\&lt;xxx&gt;	Special key named &quot;xxx&quot;.  e.g. &quot;\&lt;C-W&gt;&quot; for CTRL-W.  This is for use
+		in mappings, the 0x80 byte is escaped.  Don&#x27;t use &lt;Char-xxxx&gt; to get a
+		utf-8 character, use \uxxxx as mentioned above.
+
+    :%s/\%u202d//gc
+
+## echo
+
+	&quot;string
+	echo &quot;string&quot;
+
+	&quot;echo with log message
+	echom &quot;echomsg&quot;
+
+	&quot;view msg
+	:mes
+
+规则：
+
+1. `echom` 会以特殊形式打印不可见字符, `echo` 则不会：
+2. `echom` 只能打印字符串
+
+	echo &quot;\n&quot;
+	echom &quot;\n&quot;
+
+# Dictionary
+&gt; :h Dictionary
+
+定义
+
+	:echo {&#x27;a&#x27;: 1, 100: &#x27;foo&#x27;}
+	:echo {&#x27;a&#x27;: 1, 100: &#x27;foo&#x27;,}
+		{&#x27;a&#x27;: 1, &#x27;100&#x27;: &#x27;foo&#x27;}
+
+## index
+
+	let index=&#x27;a&#x27;
+	echo {&#x27;a&#x27;:1}[index]
+	echo {&#x27;a&#x27;:1}.a
+	echo {1:1}.1
+
+## adding and removing
+
+	:let foo = {&#x27;a&#x27;: 1}
+	:let foo.a = 100
+	:let foo.b = 200
+	:echo foo
+
+	:let test = remove(foo, &#x27;a&#x27;)
+	:unlet foo.b
+	:echo foo
+		{}
+	:echo test
+		100
+
+## Dictionary Function
+keys &amp; values:
+
+	:echo keys({&#x27;a&#x27;:1, &#x27;b&#x27;:2,})
+	:echo values({&#x27;a&#x27;:1, &#x27;b&#x27;:2,})
+
+get
+
+	:echom get({&#x27;a&#x27;: 100}, &#x27;a&#x27;, &#x27;default&#x27;)
+
+has_key
+
+	:echom has_key({&#x27;a&#x27;: 100}, &#x27;a&#x27;)
+	0
+
+items
+
+	:echo items({&#x27;a&#x27;: 100, &#x27;b&#x27;: 200})
+		[[&#x27;a&#x27;, 100], [&#x27;b&#x27;, 200]]
+
+
+# List(Array)
+&gt; :h List
+
+	:echo [&#x27;foo&#x27;, [3, &#x27;bar&#x27;]]
+	:let list=[&#x27;foo&#x27;, [3, &#x27;bar&#x27;]]
+
+	# swap
+	let [a,b] = [1,2]
+
+## index
+
+	:echo [&#x27;foo&#x27;, [3, &#x27;bar&#x27;]][0]
+	list[-1]
+	list[start:end]		&quot;include end&quot;
+	list[:end]			&quot;include end&quot;
+	list[start:]		&quot;include end&quot;
+
+	get(list, index, &#x27;default&#x27;)
+
+## loop list
+
+	let c = 0
+	for i in [1, 2, 3, 4]
+	  let c += i
+	endfor
+	echom c
+
+### find index
+
+	index(list, value)	&quot; return -1, if there is no value found
+
+## string list
+
+	&#x27;abcd&#x27;[1:]
+	&#x27;abcd&#x27;[:-1]	&quot;abcd
+
+	&#x27;abcd&#x27;[-1]	&quot; 只有这个比较奇怪，返回空值
+
+## concatenation
+
+	echo [&#x27;a&#x27;, &#x27;b&#x27;] + [&#x27;c&#x27;]
+
+append list
+
+	let arr+=[4,5,6]
+
+## list function
+
+	add(list, value)
+	len(list)
+
+## join
+
+	join(foo, &#x27;,&#x27;)
+	echo split(&quot;one two&quot;, &quot; &quot;)
+	echo split(&quot;one\ntwo&quot;, &quot;\n&quot;)
+
+## reverse
+
+	:call reverse(list)
+	:echo reverse(list)		&quot; list will be changed
+
+## sort
+
+	:let l = [3,2,1]
+	:echo sort(l)		&quot;list will be changed
+
+## map
+
+	:echo map([1,2,3], &#x27;&quot;&gt; &quot; . v:val . &quot; &lt;&quot;&#x27;)
+		[&#x27;&gt; 1 &lt;&#x27;, &#x27;&gt; 2 &lt;&#x27;, &#x27;&gt; 3 &lt;&#x27;]
+
+# deepcopy
+list and dict is assigned by reference:
+
+	let l1 = [1,2]
+	let l2 = l1
+	echo add(l2,3)
+	echo l1
+
+We can use deepcopy
+
+	let l2 = deepcopy(l1)
+	let l2 = deepcopy(l1, 1)	&quot;recursively copy reference
+
+# Reference
+- [learnvim hardway][book]
+
+[book]: http://learnvimscriptthehardway.stevelosh.com/
+</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

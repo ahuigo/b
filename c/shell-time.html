@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/c/shell-time.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>GMT,UTC,DST,CST 各种时间标准</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: GMT,UTC,DST,CST 各种时间标准
+date: 2012-07-08
+updated: 2018-10-06
+---
+# 各世界时间标准
+我们经常遇到这4种时间：GMT,UTC,DST,CST。google了一下，在此做个小结.
+
+## 格林威治标准时间GMT
+含义：「格林威治标准时间」(Greenwich Mean Time，简称G.M.T.)以伦敦格林威治的子午线为基线，以地球自转为标准，全球都以此标准设定时间。
+以下几个时间相同，但用于不同的时区/地区。
+
+	Wed Aug 14 08:21:05 GMT 2013 //标准GMT时间
+	Wed Aug 14 16:21:05 GMT+8 2013 //东8区，即我们的北京时间
+	Wed Aug 14 03:21:05 GMT-5 2013 //西5区，美国和加拿大时间
+
+## 协调世界时间UTC
+由于地球每天的自转是有些不规则的，而且正在缓慢减速，因此格林威治时间已经不再被作为标准时间使用。现在的标准时间，是由原子钟报时的协调世界时（UTC: Coordinated Universal Time）。UTC比GMT更精确严谨。
+
+	Wed Aug 14 08:21:05 UTC 2013 //标准UTC时间
+	Wed Aug 14 16:21:05 UTC+8 2013 //东8区，即我们的北京时间
+	Wed Aug 14 03:21:05 UTC-5 2013 //西5区，美国和加拿大时间
+
+&gt; 国际原子时的误差为每日数纳秒
+
+&gt; 对我们日常所使用的时间工具而言，UTC和GMT时间没有区别。
+
+## 夏时制DST
+[夏时制]DST(Daylight Saving Time)，或称夏令时(Summer Time)是一种为节约能源而人为规定地方时间的制度。一般在天亮早的夏季人为将时间提前一小时，可以使人早起早睡，减少照明量，以充分利用光照资源，从而节约照明用电。
+
+&gt; 全球有110个国家实行夏时制（不包括中国）。
+
+## CST
+CST是时区缩写，可以指下列的时区：
+
+1. 澳洲中部时间，Central Standard Time (Australia)
+1. 中部标准时区（北美洲），Central Standard Time (North America)
+1. 北京时间，China Standard Time
+1. 古巴标准时间，Cuba Standard Time，参见北美东部时区
+
+建议不要使用CST时间，对于以下时间，你可能不知道它到底是北京时间，还是其它时间：
+
+	Wed Aug 14 08:21:05 CST 2013 //北京、北美中部、古巴、澳洲中部？Who knows?
+
+# 时间单位
+看了下维基[orders_of_magnitude_time]
+
+1. ms = 1/1000 s(milisecond 毫秒)
+2. us = 10^-6 s （microsecond微秒）
+2. ns = 10^-9s (nanosecond 纳秒)
+2. ps = 10^-12s (picosecond 皮秒)
+2. fs = 10^-15s (femtosecond 飞秒)
+2. as = 10^-18s (attosecond 阿秒)，用于光子研究
+
+长度单位:
+1. um = 10^-6m (细胞10^-4~10^-6)
+1. nm = 10^-9m (atom 10^-10)
+1. fm = 10^-15m (3夸克质子 10^-15)
+1. am = 10^-18m (CREN 的LHC 可观察的大小: 10^-19)
+1. 10^-44 量子力学不确定的时空
+
+大数:
+1. 10^8  亿
+2. 10^16 京
+3. 10^24 秭zǐ
+3. 10^32 沟
+
+
+## Latency numbers in computer
+
+	L1 cache reference ......................... 0.5 ns
+	Branch mispredict ............................ 5 ns
+	L2 cache reference ........................... 7 ns
+	Mutex lock/unlock ........................... 25 ns
+	Main memory reference ...................... 100 ns
+	Compress 1K bytes with Zippy ............. 3,000 ns  =   3 µs
+	Send 2K bytes over 1 Gbps network ....... 20,000 ns  =  20 µs
+	SSD random read ........................ 150,000 ns  = 150 µs
+	Read 1 MB sequentially from memory ..... 250,000 ns  = 250 µs
+	Round trip within same datacenter ...... 500,000 ns  = 0.5 ms
+	Read 1 MB sequentially from SSD* ..... 1,000,000 ns  =   1 ms
+	Disk seek ........................... 10,000,000 ns  =  10 ms
+	Read 1 MB sequentially from disk .... 20,000,000 ns  =  20 ms
+	Send packet CA-&gt;Netherlands-&gt;CA .... 150,000,000 ns  = 150 ms
+
+# linux date命令
+man date可以发现其参数众多。看起来有些乱，归纳一下：
+
+## 时间显示
+
+	date //显示cst时间
+	date -u //显示utc时间
+
+### FORMAT
+
+	date +FORMAT //定制时间显示格式
+	date &#x27;+%Y/%m/%d %H:%M:%S&#x27;
+
+	Weekday:
+		%a   locale&#x27;s abbreviated weekday name (e.g., Sun)
+		%A   locale&#x27;s full weekday name (e.g., Sunday)
+		%U   week number of year, with Sunday as first day of week (00..53)
+		%W   week number of year, with Monday as first day of week (00..53)
+		%V   ISO week number, with Monday as first day of week (01..53) //start from Monday strictly!
+	Year:
+		%Y   year(1970-2038(32bit))
+		%y   last two digits of year (00..99)
+		%g   last two digits of year of ISO week number (see %G) //date --date &#x27;2013-12-29&#x27; +%V+%A+%g+%G
+		%G   year of ISO week number (see %V); normally useful only with %V //date --date &#x27;2013-12-30&#x27; +%V+%A+%g+%G
+	Month:
+		%m   month (01..12)
+		%b   locale&#x27;s abbreviated month name (e.g., Jan)
+		%B   locale&#x27;s full month name (e.g., January)
+		%h   same as %b
+	Day:
+		%d   day of month (e.g., 01)
+		%e   day of month, space padded; same as %_d
+		%u   day of week (1..7); 1 is Monday
+		%w   day of week (0..6); 0 is Sunday
+		%j   day of year (001..366)
+	Hour:
+		%H   hour (00..23)
+		%I   hour (01..12)
+		%k   hour, space padded ( 0..23); same as %_H
+		%l   hour, space padded ( 1..12); same as %_I
+		%p   locale&#x27;s equivalent of either AM or PM; blank if not known
+		%P   like %p, but lower case
+	Minute:
+		%M   minute (00..59)
+	Seconds:
+		%S   second (00..60)
+	Timestamp:
+		%s   seconds since 1970-01-01 00:00:00 UTC
+	Comlpex:
+		Full date&amp;time:
+			%c   locale&#x27;s date and time (e.g., Thu Mar  3 23:05:25 2005)
+		Full date:
+			%x   locale&#x27;s date representation (e.g., 12/31/99)
+			%D   date; same as %m/%d/%y
+			%F   full date; same as %Y-%m-%d
+		Full time:
+			%X   locale&#x27;s time representation (e.g., 23:13:48)
+			%T   time; same as %H:%M:%S
+			%r   locale&#x27;s 12-hour clock time (e.g., 11:11:04 PM)
+			%R   24-hour hour and minute; same as %H:%M
+
+	Century:
+		%C   century; like %Y, except omit last two digits (e.g., 20)
+	Other:
+		%n   a newline
+		%N   nanoseconds (000000000..999999999)
+		%t   a tab
+		%z   +hhmm numeric time zone (e.g., -0400)
+		%Z   alphabetic time zone abbreviation (e.g., EDT)
+
+By default，date pads numeric fields with zeroes.
+The following optional flags may follow &#x27;%&#x27;:
+
+	-  (hyphen) do not pad the field //date --date=&#x27;12:03&#x27; +%-M  :3
+	_  (underscore) pad with spaces //date --date=&#x27;12:03&#x27; +%_M  : 3
+	0  (zero) pad with zeros //date --date=&#x27;12:03&#x27; +%0M  :03
+	^  use upper case if possible //date --date=&#x27;12:03&#x27; +%^a  :WEDNESDAY
+	#  use opposite case if possible //date --date=&#x27;12:03&#x27; +%#a  :wednesday
+
+
+### 指定显示时间-d
+
+	date --date=&#x27;@12345&#x27; //指定时间戳
+	date -d@12345 //指定时间戳
+	date -d &#x27;TZ=&quot;America/Los_Angeles&quot; 00:00 next Fri&#x27;//指定时区和时刻
+	date -d &#x27;-1 days&#x27;//Yesterday
+	date -d &#x27;2014-01-01 +2 days&#x27;
+
+	date  --date=&quot;1 days ago&quot;
+	date --date=&quot;-1 day&quot;
+
+## 设置时间
+
+	$date -s &#x27;+10 minutes&#x27; //设置时间
+	$date -s &#x27;2013-08-14 12:50:00&#x27; //设置时间(rfc-2822格式)
+	$date -s &#x27;2013-08-14 12:50:00 +8&#x27; //设置时间(rfc-2822格式) 东8区
+	$date -s &#x27;Wed Aug 14 14:48:33 CST 2013&#x27; //设置时间(美国时间格式)
+
+# mac
+
+    The command:
+
+           date &quot;+DATE: %Y-%m-%d%nTIME: %H:%M:%S&quot;
+           date &quot;+%m%d%H%M%Y.%S&quot;
+
+    will display:
+
+           DATE: 1987-11-21
+           TIME: 13:36:16
+
+## set time
+man date:
+
+    date [[[mm]dd]HH]MM[[cc]yy][.ss]]
+        .ss seconds
+
+The command:
+
+     date 1432
+       sets the time to 2:32 PM
+     date 10121432
+       sets the time to Oct.12th 2:32 PM
+     date 101214322016
+
+# Linux 文件时间
+
+Wikipedia says:
+
+* mtime: time of last modification (ls -l),
+	mtime is modification time - contents have changed.
+* ctime: time of last status change (ls -lc) and
+	ctime is status change time - perms and ownership as well as contents.
+* atime: time of last access (ls -lu).
+
+&gt; Also you can  use `stat file` to see file time.
+&gt; Note that ctime is not the time of file creation.
+
+1. Writing to a file changes its mtime, ctime, and atime.
+2. A change in file permissions or file ownership changes its ctime and atime.
+2. Reading a file changes its atime.
+
+File systems mounted with the noatime option do not update the atime on reads, and the relatime option provides for updates only if the previous atime is older than the mtime or ctime. Unlike atime and mtime, ctime cannot be set with utime() (as used e.g. by touch); the only way to set it to an arbitrary value is by changing the system clock.
+
+## stat a.txt
+mac 下的结果
+
+	atime mtime ctime mtime
+	staff 0 4 &quot;May 19 11:05:19 2016&quot; &quot;May 19 10:33:44 2016&quot; &quot;May 19 10:33:44 2016&quot; &quot;May 19 10:33:44 2016&quot; 4096 8 0 a.txt
+
+# sync time
+
+	/usr/sbin/ntpdate asia.pool.ntp.org &gt;&gt; /var/log/ntpdate.log
+	# tencent
+	/usr/sbin/ntpdate ntpupdate.tencentyun.com
+
+# 参考
+- [夏时制]
+- [UTC]
+- [orders_of_magnitude_time]
+
+[UTC]: http://zh.wikipedia.org/wiki/%E5%8D%94%E8%AA%BF%E4%B8%96%E7%95%8C%E6%99%82
+[国际地球自转服务]: http://zh.wikipedia.org/wiki/%E5%9B%BD%E9%99%85%E5%9C%B0%E7%90%83%E8%87%AA%E8%BD%AC%E6%9C%8D%E5%8A%A1
+[夏时制]: http://zh.wikipedia.org/zh/%E5%A4%8F%E6%97%B6%E5%88%B6
+[orders_of_magnitude_time]: http://en.wikipedia.org/wiki/Orders_of_magnitude_(time)
+</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

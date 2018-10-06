@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/ria/js-time.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>js-time</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: js-time
+date: 2018-10-04
+updated: 2018-10-06
+---
+# Preface
+
+# Date
+&gt; https://zh.wikipedia.org/wiki/ISO_8601
+
+The only format in the spec is a simplified version of ISO-8601:
+
+	2004-05-03T17:30:08+08:00
+	2004-05-03T17:30:08; // chomre safari 默认0时区(更大), firefox 则默认是当前东8时区(更小: 这才是准确的)
+
+	2004-05-03T17:30:08+8:00;//invalid date
+	2018-03-06T09:30:08.000Z; //忽略时区
+
+If you change the space to a T, you&#x27;ll be in spec:
+
+	var dateString = &quot;2015-12-31 00:00:00&quot;;
+	var d = new Date(dateString.replace(&#x27; &#x27;, &#x27;T&#x27;));
+
+# moment
+
+	moment(&#x27;20180101&#x27;).valueOf(); // getTime():
+	moment().format(&#x27;MMMM Do YYYY, HH:mm:ss a&#x27;); // January 1st 2018, 10:36:01 pm
+
+	moment(&quot;20111031&quot;, &quot;YYYYMMDD&quot;).fromNow(); // 6 years ago
+	moment().subtract(10, &#x27;days&#x27;).calendar(); // 12/22/2017
+
+# timer
+You need to give JavaScript a reference to the interval:
+
+	var t = setTimeout(function() {
+		timer(counter + 1);
+	}, 3000);
+
+Then you can clear it like so:
+
+	$(&quot;#stop&quot;).click(function () {
+	   clearTimeout(t);
+	});
+
+## sleep
+
+    async sleep(ms){
+        return new Promise(resolve=&gt;setTimeout(resolve, ms))
+    }
+
+# getdate
+
+## yesterday
+
+	var date = new Date();
+	date ; //# =&gt; Fri Apr 01 2011 11:14:50 GMT+0200 (CEST)
+	date.setDate(date.getDate() - 1);
+
+## Date
+
+	$d = new Date(&quot;October 13, 1975 11:13:00&quot;);
+	$d = new Date(miliseconds);
+
+	//date &amp; time
+	new Date()		2018-03-06T16:30:28.521Z 非local时间 (node js)
+	new Date()		&quot;Mon Apr 28 2014 23:25:02 GMT+0800 (CST)&quot;(chrome)
+
+	Date(); 		&quot;Mon Apr 28 2014 23:25:02 GMT+0800 (CST)&quot;
+	.toString(); 	&quot;Mon Apr 28 2014 23:25:02 GMT+0800 (CST)&quot;
+	.toUTCString();	&quot;Mon, 28 Apr 2014 15:25:02 GMT&quot; //UTC &amp; GMT 是一样的(除了精度上有区别)
+	.toGMTString();	&quot;Mon, 28 Apr 2014 15:25:02 GMT&quot;
+	.toLocaleString(); &quot;4/28/2014 11:25:02 PM&quot;
+
+	//date part
+	.getDate(); //1~31 getUTCDate()
+	.getMonth(); //0~11 getUTCMonth()
+	.getFullYear(); //四位数字	getUTCFullYear()
+	//day
+	.getDay(); //一周中的某天0~6(0是星期天)
+
+	//time part
+	.getHours()	返回 Date 对象的小时 (0 ~ 23)。 getUTCHours()
+	.getMinutes()	返回 Date 对象的分钟 (0 ~ 59)。	getUTCMinutes()
+	.getSeconds()	返回 Date 对象的秒数 (0 ~ 59)。 getUTCSeconds()
+	.getMilliseconds()	返回 Date 对象的毫秒(0 ~ 999)。getUTCMilliseconds()
+
+	//unixstimestamp in miliseconds
+	.valueOf()
+	.getTime()	返回 1970 年 1 月 1 日至今的毫秒数。
+	Date.parse(&quot;Jul 8, 2005 0:0:32&quot;); //返回指定时间的毫秒数
+	.UTC()	根据世界时返回 1970 年 1 月 1 日 到指定日期的毫秒数。
+
+	//unixstimestamp in seconds
+	new Date().getTime()/1000 | 0
+	+new Date/1000 | 0
+
+short:
+
+	Date.prototype.formatMMDDYYYY = function(){
+		return (this.getMonth() + 1) +
+				&quot;/&quot; +  this.getDate() +
+				&quot;/&quot; +  this.getFullYear();
+	}
+	Date.prototype.format = function(d){
+		var d = this;
+        let month = (d.getMonth()+1+&#x27;&#x27;).padStart(2, &#x27;0&#x27;)
+        let date = (&#x27;0&#x27;+d.getDate()).slice(-2)
+		return d.getFullYear()+&#x27;-&#x27; + month+&#x27;-&#x27; + d.getDate()+&#x27; &#x27; + d.getHours()+&#x27;:&#x27; + d.getMinutes()+&#x27;:&#x27; + d.getSeconds()+&#x27;&#x27;
+	}
+    (new Date()).format()
+
+### compare
+
+	d1 &gt; d2
+
+### set
+
+	//day
+	.setDate()	设置 Date 对象中月的某一天 (1 ~ 31)。
+
+	//Month
+	.setMonth()	设置 Date 对象中月份 (0 ~ 11)。
+
+	//Year
+	.setFullYear()	设置 Date 对象中的年份（四位数字）。 setYear()	使用 setFullYear() 方法代替。
+
+	//Hours &amp; Minutes &amp; Seconds
+	.setHours()	设置 Date 对象中的小时 (0 ~ 23)。
+	.setMinutes()	设置 Date 对象中的分钟 (0 ~ 59)。
+	.setSeconds()	设置 Date 对象中的秒钟 (0 ~ 59)。
+	.setMilliseconds()	设置 Date 对象中的毫秒 (0 ~ 999)。
+
+	//add time
+	d.setSeconds(d.getSeconds() + 10);
+	Date.prototype.add= function(seconds){
+		this.setTime(this.getTime() + (seconds * 1000));
+		return this;
+	}
+
+	//Time
+	.setTime(millisec)	以毫秒设置 Date 对象。d.setTime(77771564221)
+	new Date(millisec)	以毫秒设置 Date 对象. new Date(77771564221)
+
+str to time
+
+	new Date(&quot;October 13, 1975 11:13:00&quot;);
+	new Date(&quot;2016-01-01 11:13:00&quot;);
+	new Date(&quot;2016-01-01 11:13:00&quot;);
+	new Date(&quot;2016-06-03&quot;);
+	new Date(2016, 05,03);//05+1 需要加1
+
+	(new Date(&quot;2016-1-1&quot;)).getDay();
+
+UTC to miliseconds
+
+	Date.UTC(1970, 9, 21)</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/php/php-mysql.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>php-mysql</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: php-mysql
+date: 2018-10-06
+updated: 2018-10-06
+---
+# Preface
+php 使用mysql时，主要通过两种面向对象的扩展mysqli 和 pdo。mysqli 用于访问mysql, 而pdo 抽象层次更高，可用于其它数据库。
+这两种扩展的特点是：
+
+- 面向对象
+- 准备语句，防止sql 注入
+1. 调试功能
+2. 主/从支持
+
+# mysqli
+
+The `mysql.default_socket` and `mysqli.default_socket` in php.ini should be equal to `socket` under `[mysqld]` in `my.cnf`. such as:
+
+	mysql.default_socket = /tmp/mysql.sock
+	mysqli.default_socket = /tmp/mysql.sock
+	pdo_mysql.default_socket = /tmp/mysql.sock
+
+在mysql 中:
+
+- 使用`127.0.0.1`, 会走`TCP/IP`
+- 使用`localhost`, 会走`UNIX socket` 更快
+
+## connect &amp; close
+
+	$mysqli = new mysqli(&quot;localhost&quot;, &quot;user&quot;, &quot;password&quot;, &quot;database&quot;, 3306);
+	//or
+	$mysqli = new mysqli();
+	$mysqli-&gt;real_connect(&quot;localhost&quot;, &quot;user&quot;, &quot;password&quot;, &quot;database&quot;, 3306);// With the mysqli::options() function you can set various options for connection.
+
+	if ($mysqli-&gt;connect_errno) {
+		echo &quot;Failed to connect to MySQL: (&quot; . $mysqli-&gt;connect_errno . &quot;) &quot; . $mysqli-&gt;connect_error;
+	}
+
+	//select_db
+	$mysqli-&gt;select_db(&#x27;database&#x27;);
+
+	//应该主动close，不要等待php 脚本结束再释放
+	$mysqli-&gt;close()
+
+&gt; &quot;Open connections (and similar resources) are automatically destroyed at the end of script execution. However, you should still close or free all connections, result sets and statement handles as soon as they are no longer required. This will help return resources to PHP and MySQL faster.&quot;
+
+error:
+
+	if($mysqli-&gt;errno){
+		echo &quot;Failed to connect to MySQL: (&quot; . $mysqli-&gt;errno . &quot;) &quot; . $mysqli-&gt;error;
+	}
+
+connect info:
+
+	$mysqli-&gt;host_info;
+
+## query
+
+	$res = $mysql-&gt;query(&#x27;show tables&#x27;, MYSQLI_STORE_RESULT);//default: MYSQLI_STORE_RESULT 结果集以缓存集返回(内存消耗大) MYSQLI_USE_RESULT 结果以非缓存集返回(性能好)
+	while(list($table) = $res-&gt;fetch_row())
+		echo &quot;$table \n&quot;;
+
+	//free result 释放结果集
+	$res-&gt;free();
+
+### query result(mysqli_result)
+
+	//obj
+	$row = $res-&gt;fetch_object();
+	//assoc
+	$row = $res-&gt;fetch_row(); $row = $res-&gt;fetch_assoc();
+	//array
+	$row = $res-&gt;fetch_array();
+	//all
+	$row = $res-&gt;fetch_all([ int $resulttype = MYSQLI_NUM ] )
+
+### multi query &amp; multi result
+
+	mysqli = new mysqli(&quot;localhost&quot;, &quot;root&quot;, &quot;&quot;, &quot;test&quot;, 3306);
+	//$querys = &#x27;select * from t1 where id &gt; 100; select s2 from t2;&#x27;;
+	$querys = &#x27;call loop_t&#x27;;
+	$mysqli-&gt;multi_query($querys);
+	do{
+		if($res = $mysqli-&gt;store_result()){
+			while ($row = $res-&gt;fetch_row()) {
+				var_dump($row);
+			}
+			$res-&gt;free();
+		}
+	}while($mysqli-&gt;more_results() &amp;&amp; $mysqli-&gt;next_result());
+
+### affected_rows
+
+	echo $mysqli-&gt;affected_rows;
+
+### bind params &amp; results
+
+stmt
+
+	$stmt = $mysqli-&gt;stmt_init();
+	$query = &#x27;select user,age from ahui where id&gt;? and name=?;
+	$stmt-&gt;prepare($query);
+	$id = 0; $name=&#x27;hilo&#x27;;
+	$stmt-&gt;bind_param($types=&#x27;is&#x27;,$id,$name);//i:integer s:string d:double b:blob
+	if(!$stmt-&gt;execute()){
+		die(&#x27;error!&#x27;);
+	}
+	//bool $stmt-&gt;store_result();//取出查询的结果集，使用mysql cached
+	//Data are transferred unbuffered without calling mysqli_stmt_store_result() which can decrease performance (but reduces memory cost).
+
+output
+
+	$stmt-&gt;bind_result($user,$age);//mysqli_stmt 必须绑定的
+	while($stmt-&gt;fetch()){
+		var_dump($user, $age);
+	}
+	var_dump($stmt-&gt;affected_rows, $stmt-&gt;error);
+
+	$stmt-&gt;close();
+
+## 事务
+
+set auto commit to false(default it is true)
+
+	$mysqli-&gt;autocommit(true);//auto
+	$mysqli-&gt;autocommit(false);//noauto
+	//check auto status via `SELECT @@autocommit;`
+
+commit
+
+	if($mysqli-&gt;affected_rows &gt; N)
+		$mysqli-&gt;commit();//true for succ. If you call commit now, there is no rollback of the successful statements
+	else
+		$mysqli-&gt;rollback();//true for succ
+
+# PDO
+
+## connect &amp; close
+
+	// 在此使用连接
+	$dbh = new PDO(&#x27;mysql:host=localhost;dbname=test;port=xx&#x27;, $user, $pass);
+	$pdo = new PDO(&quot;mysql:unix_socket=/tmp/mysql.sock;dbname=test&quot;);
+	// 现在运行完成，在此关闭连接
+	$dbh = null;
+
+### init command
+
+	$options = [PDO::MYSQL_ATTR_INIT_COMMAND=&gt; &#x27;set names utf8&#x27;];
+	$dbh = new PDO(&#x27;mysql:host=localhost;dbname=test;port=xx&#x27;, $user, $pass, $options);
+
+pdo default socket:
+
+	pdo_mysql.default_socket= /tmp/mysql.sock
+
+## use
+
+	PDOStatement:
+		query
+		prepare (+ execute)
+
+	int(affected_rows)
+		exec
+
+## return int
+intall php5-mysqlnd, then
+
+	Ensure that PDO::ATTR_EMULATE_PREPARES is false (check your defaults or set it):
+	$pdo-&gt;setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+
+	Ensure that PDO::ATTR_STRINGIFY_FETCHES is false (check your defaults or set it):
+	$pdo-&gt;setAttribute(PDO::ATTR_STRINGIFY_FETCHES, false);
+
+## multi sqls
+$sql 可以为多条:
+
+	$sqls = &quot;$sql1; $sql2; &quot;;
+
+	// works with the following set to 1. You can comment this line as 1 is default
+	$pdo-&gt;setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
+	$pdo-&gt;prepare($sqls)
+
+也可以不支持multi sqls
+
+	// works regardless of statements emulation
+	$pdo-&gt;setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+	$pdo-&gt;exec($sqls);//not work
+
+### nextRowset
+
+	$p = new PDO(&#x27;mysql:unix_socket=/tmp/mysql.sock&#x27;);
+	$ret = $p-&gt;query(&#x27;select &quot;a&quot;;show databases;select sleep(2);&#x27;);
+	do{
+		var_dump($ret-&gt;fetchAll());
+	}while($ret-&gt;nextRowset());
+
+## query
+query 与prepare 返回的都是结果集PDOStatement. 它继承了ArrayObject 所以可通过`foreach` 遍历出结果, 也可以通过`fetch` 获取结果集
+
+	$pdo = new PDO(&#x27;sqlite:users.db&#x27;);
+	public PDOStatement PDO::query ( string $statement )
+
+	foreach($pdo-&gt;query(&#x27;SELECT * from FOO&#x27;) as $row) {
+        print_r($row); #assoc
+    }
+	$pdo-&gt;query($sql)-&gt;fetch()[&#x27;key&#x27;]
+
+query all:
+
+	$ret = $pdo-&gt;query($sql);
+	//$ret-&gt;setFetchMode ( PDO::FETCH_ASSOC )
+	return $ret-&gt;fetchAll();
+
+query rowNumber
+
+	$nrows = $db-&gt;query(&#x27;select count(*) from table where x&#x27;)-&gt;fetch(PDO::FETCH_NUM)[0];
+
+## prepare(bindParam)
+bind via `stmt-&gt;bindParam`
+
+	$pdo = new PDO(&#x27;sqlite:users.db&#x27;);
+	$pdo = new PDO(&quot;mysql:host=localhost;dbname=test&quot;,&quot;root&quot;,&quot;123456&quot;);
+	$stmt = $pdo-&gt;prepare(&#x27;SELECT name FROM users WHERE id = :id&#x27;);
+	$stmt-&gt;bindParam(&#x27;:id&#x27;, $_GET[&#x27;id&#x27;], PDO::PARAM_INT); // &lt;-- Automatically sanitized by PDO
+	$stmt-&gt;execute();
+	while($row = $stmt-&gt;fetch(PDO::FETCH_ASSOC))
+		print_r($row);
+
+bind via `stmt-&gt;execute(assoc)`:
+
+	$calories = 150;
+	$colour = &#x27;red&#x27;;
+	$sth = $dbh-&gt;prepare(&#x27;SELECT name, colour, calories
+		FROM fruit
+		WHERE calories &lt; :calories AND colour = :colour&#x27;);
+	$sth-&gt;execute(array(&#x27;:calories&#x27; =&gt; $calories, &#x27;:colour&#x27; =&gt; $colour));
+
+bind via `stmt-&gt;execute(number array)`:
+
+	$calories = 150;
+	$colour = &#x27;red&#x27;;
+	$sth = $dbh-&gt;prepare(&#x27;SELECT name, colour, calories
+		FROM fruit
+		WHERE calories &lt; ? AND colour = ?&#x27;);
+	$sth-&gt;execute(array($calories, $colour));
+
+&gt; stmt-&gt;execute 返回true/false
+
+### $stmt
+
+	$stmt-&gt;rowCount(); //update delete insert only
+
+## exec
+
+	int PDO::exec ( string $statement );//return line number of affected rows
+	$count = $dbh-&gt;exec(&quot;DELETE FROM fruit WHERE colour = &#x27;red&#x27;&quot;);
+
+`PDO::exec()` 在一个单独的函数调用中执行一条 SQL 语句，返回受此语句影响的行数。
+`PDO::exec()` 不会从一条 SELECT 语句中返回结果。
+
+## lastInsertId
+
+	pdo-&gt;lastInsertId();
+
+## note
+- `PDO::query()`对于在程序中只需要发出一次的 SELECT 语句，可以考虑使用 PDO::query()。
+- `stmt-&gt;excute()`对于需要发出多次的语句，可用 PDO::prepare() 来准备一个 PDOStatement 对象并用 PDOStatement::execute() 发出语句。
+</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

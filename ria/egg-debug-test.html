@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/ria/egg-debug-test.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>egg-test</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: egg-test
+date: 2018-10-04
+updated: 2018-10-06
+---
+# egg-test
+
+## mock app
+
+    const mock = require(&#x27;egg-mock&#x27;);
+    const assert = require(&#x27;assert&#x27;);
+
+    it(&#x27;should schedule work fine&#x27;, async () =&gt; {
+        const app = mock.app();
+        await app.ready();
+        await app.runSchedule(&#x27;update_cache&#x27;);
+        assert(app.cache);
+    });
+
+封装下:
+
+    const { app, mock, assert } = require(&#x27;egg-mock/bootstrap&#x27;);
+
+## mock ctx
+
+    const ctx = app.mockContext();
+    assert(ctx.method === &#x27;GET&#x27;);
+    assert(ctx.url === &#x27;/&#x27;);
+
+ctx with data:
+
+    const ctx = app.mockContext({
+        user: { name: &#x27;fengmk2&#x27;, },
+    });
+    assert(ctx.user);
+    assert(ctx.user.name === &#x27;fengmk2&#x27;)
+
+### mock ctx headers
+
+    const ctx = app.mockContext({
+      headers: {
+        &#x27;X-Requested-With&#x27;: &#x27;XMLHttpRequest&#x27;,
+      },
+    });
+    assert(ctx.get(&#x27;x-requested-with&#x27;).include(&#x27;XML&#x27;));
+
+## mock ctx.request
+
+    const ctx = app.mockContext({
+      headers: {
+        &#x27;User-Agent&#x27;: &#x27;Chrome/56.0.2924.51&#x27;,
+      },
+    });
+    assert(ctx.request.get(&#x27;User-Agent&#x27;).include(&#x27;Chrome&#x27;));
+
+## mock ctx.other
+
+    ctx.response.status===200
+    ctx.helper.func()
+
+
+
+## mock 顺序
+Mocha 刚开始运行的时候会载入所有用例，这时 describe 方法就会被调用：
+
+    describe(&#x27;bad test&#x27;, () =&gt; {
+        doSomethingBefore(); //不适合only 方式
+
+        it(&#x27;should redirect&#x27;, () =&gt; {
+            return app.httpRequest() .get(&#x27;/&#x27;) .expect(302);
+        });
+    });
+
+正确的方式是: before -&gt; beforeEach -&gt; it -&gt; afterEach -&gt; after 的顺序执行，而且可以定义多个。
+
+    describe(&#x27;egg test&#x27;, () =&gt; {
+        before(() =&gt; console.log(&#x27;order 1&#x27;));
+        before(() =&gt; console.log(&#x27;order 2&#x27;));
+        after(() =&gt; console.log(&#x27;order 6&#x27;));
+        beforeEach(() =&gt; console.log(&#x27;order 3&#x27;));
+        afterEach(() =&gt; console.log(&#x27;order 5&#x27;));
+        it(&#x27;should worker&#x27;, () =&gt; console.log(&#x27;order 4&#x27;));
+    });
+
+## mock controller
+mock 模拟 CSRF token:
+
+    app.mockCsrf();
+
+return:
+
+    // 使用返回 Promise 的方式
+    it(&#x27;should redirect&#x27;, () =&gt; {
+      return app.httpRequest()
+        .get(&#x27;/&#x27;)
+        .expect(302);
+    });
+
+    // 使用 callback 的方式
+    it(&#x27;should redirect&#x27;, done =&gt; {
+      app.httpRequest()
+        .get(&#x27;/&#x27;)
+        .expect(302, done);
+    });
+
+    // 使用 async
+    it(&#x27;should redirect&#x27;, async () =&gt; {
+      await app.httpRequest()
+        .get(&#x27;/&#x27;)
+        .expect(302);
+    });
+
+expect :
+
+    result = await app.httpRequest().get(&#x27;/&#x27;)
+        .expect(302)
+        .expect(&#x27;content&#x27;)
+        .expect({ foo: &#x27;bar&#x27;, });
+    assert(r.status===302)
+
+## mock session
+    app.mockSession({
+      foo: &#x27;bar&#x27;,
+      uid: 123,
+    });
+    return app.httpRequest() .get(&#x27;/session&#x27;) .expect(200)
+      .expect({ session: { foo: &#x27;bar&#x27;, uid: 123, }, });
+
+## mock  防止污染
+引入 egg-mock/bootstrap 时，会自动在 afterEach 钩子中还原所有的 mock. 类似：
+
+    describe(&#x27;some test&#x27;, () =&gt; {
+      // before hook
+      afterEach(mock.restore);
+
+      // it tests
+    });
+
+## mock obj 属性
+e.g. config:
+
+    mock(app.config, &#x27;baseDir&#x27;, &#x27;/tmp/mockapp&#x27;);
+    assert(app.config.baseDir === &#x27;/tmp/mockapp&#x27;);
+
+## mock service
+模拟 app/service/user 中的 get(name) 方法，让它返回一个本来不存在的用户数据。
+
+    it(&#x27;should mock fengmk1 exists&#x27;, () =&gt; {
+      app.mockService(&#x27;user&#x27;, &#x27;get&#x27;, () =&gt; {
+        return {
+          name: &#x27;fengmk1&#x27;,
+        };
+      });
+
+模拟 app/service/user 中的 get(name) 方法调用异常：
+
+    it(&#x27;should mock service error&#x27;, () =&gt; {
+      app.mockServiceError(&#x27;user&#x27;, &#x27;get&#x27;, &#x27;mock user service error&#x27;);
+      return app.httpRequest().get(&#x27;/user?name=fengmk2&#x27;)
+        // service 异常，触发 500 响应
+        .expect(500).expect(/mock user service error/);
+    });
+
+## mock httpClient
+我们可以通过 `app.mockHttpclient(url, method, data)` 来 mock 掉 app.curl 和 ctx.curl 方法
+
+    //app/controller/home.js
+    async httpclient () {
+        const res = await this.ctx.curl(&#x27;https://eggjs.org&#x27;);
+        this.ctx.body = res.data.toString();
+    }
+
+mock
+
+    app.mockHttpclient(&#x27;https://eggjs.org&#x27;, {
+      // 模拟的参数，可以是 buffer / string / json，
+      // 都会转换成 buffer
+      // 按照请求时的 options.dataType 来做对应的转换
+      data: &#x27;mock eggjs.org response&#x27;,
+    });
+    return app.httpRequest()
+      .get(&#x27;/httpclient&#x27;)
+      .expect(&#x27;mock eggjs.org response&#x27;);
+
+## mock console
+
+    //1. 不想在终端 console 输出任何日志，可以通过  来模拟
+    mock.consoleLevel(&#x27;NONE&#x27;)</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

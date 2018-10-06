@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/vim/vim-motion.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>vim-motion</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: vim-motion
+date: 2018-10-06
+updated: 2018-10-06
+---
+# Preface
+
+移动范围
+
+# insert
+
+	gI		Insert in column 1
+
+# line
+
+	. current line
+	+ next line
+	+4 next 4&#x27;th line
+
+# marks
+marks 不是保存在register 中的，这个注意一下
+
+	m{mark}
+	:marks				list all marks
+	:delm[arks]	{mark}	  safd del mark
+
+## mark list
+
+	&#x27;{A-Z0-9}  	全局标记
+	&#x27;{a-z}  	buffer marks
+
+Last jump
+
+	&#x27;&#x27; `` `&#x27;	上一标记(latest jump, toggle)
+	&#x27;&quot; 			To the position when last existing the current buffer(需要开启对.viminfo信息支持)
+
+modified &amp;&amp; insert stop &amp;&amp; changed
+
+	&#x27;. 			To the position the latest modified.
+	&#x27;^  `^		To the position where the cursor was the last time when Insert mode was stopped.
+				This is used by the |gi| command.
+	`[  `]		To the first/last character of the previously changed or yanked text.
+
+Visual mode
+
+	&#x27;&lt;			The first character of the last selected Visual area in the current buffer.
+	&#x27;&gt;			The last character of the last selected Visual area in the current buffer.
+
+sentence
+
+	&#x27;( &#x27;)		To the start/end of current sentence
+	&#x27;{ &#x27;}		To the start/end of current paragraph
+
+## make marks
+
+	m{mark}
+
+## jump mark
+
+	`{mark}		jump to pos defined by mark
+	&#x27;{mark}		jump to the line head of pos defined by mark
+
+	&#x27;{a-z}  `{a-z}
+			Jump to the mark {a-z} in the current buffer.
+			with sigle quote, jump to the begining of the line
+
+	&#x27;{A-Z0-9}  `{A-Z0-9}
+			To the mark {A-Z0-9} in the file where it was set (not
+				a motion command when in another file). global
+
+	g&#x27;{mark}  g`{mark}
+				Jump to the {mark}, but don&#x27;t change the jumplist when
+				jumping within the current buffer.
+
+# jumplist, jumps
+A &quot;jump&quot; is one of the following commands:
+
+	&quot;&#x27;&quot;, &quot;`&quot;, &quot;G&quot;, &quot;/&quot;, &quot;?&quot;, &quot;n&quot;, &quot;N&quot;, &quot;%&quot;, &quot;(&quot;, &quot;)&quot;, &quot;[[&quot;, &quot;]]&quot;, &quot;{&quot;, &quot;}&quot;, &quot;:s&quot;, &quot;:tag&quot;, &quot;L&quot;, &quot;M&quot;, &quot;H&quot;
+	and the commands that start editing a new file.
+
+If you make the cursor &quot;jump&quot; with one of these commands, the position of the cursor before the jump is
+remembered.
+
+	ctrl-o 跳到旧的jump (jump backward in insert &amp; normal mode)
+	ctrl-i/&lt;TAB&gt; 跳到新的jump (jump forward in normal mode)
+	:ju or :jumps 查看jumplist（曾经跳过的位置列表）
+	:help jumplist 查帮助
+
+ps: &lt;C-O&gt; 或者 &lt;C-I&gt;/&lt;TAB&gt; 前面都可加数字(jumpid),比如
+
+	3&lt;C-O&gt;
+	5&lt;C-I&gt; or 5&lt;TAB&gt;
+
+# change list
+
+	:help changelist
+	:changes 	print all change list
+
+	g; &quot;跳到上次修改
+	g, &quot;跳到新的修改
+	`. &quot;跳到上次修改
+
+# Various motions
+
+## bracket motion
+matched
+
+	% 			括号对(可通过:set matchpairs?查询支持哪些括号对)
+
+parent
+
+	[( ])		like %, previous / next *unmatched* parent &quot;()&quot;
+	[{ ]}		like %, previous / next *unmatched* parent &quot;{}&quot;
+
+hilight bracket:
+
+	:showmatch
+
+	&quot; This comes from the pi_paren plugin
+	:DoMatchParen
+	:hi MatchParen cterm=reverse ctermbg=6 guibg=DarkCyan
+
+## section motion
+&gt; http://learnvimscriptthehardway.stevelosh.com/chapters/50.html
+
+	(	)		前/后一句首
+	{	}		前/后一段首
+	?{	/}		前/后一个{ }
+
+`:h section , :h &#x27;sections&#x27;` to see sectin defines
+A section start at the nroff macros &quot;.SH&quot;, &quot;.NH&quot;, &quot;.H&quot;, &quot;.HU&quot;, &quot;.nh&quot; and &quot;.sh&quot;.
+
+	[[	]]	&quot;{&quot; opening braces,
+			1. backward/forward secions(A)
+			2. backward/forward to &quot;{&quot; (B)
+
+	[]	][	&quot;}&quot; closing braces
+			1. backward/forward secion	(A)
+			2. backward/forward to &quot;}&quot; (B)
+
+custom section:
+
+	noremap &lt;script&gt; &lt;buffer&gt; &lt;silent&gt; ]] :call &lt;SID&gt;NextSection(1, 0)&lt;cr&gt;
+	noremap &lt;script&gt; &lt;buffer&gt; &lt;silent&gt; [[ :call &lt;SID&gt;NextSection(1, 1)&lt;cr&gt;
+	noremap &lt;script&gt; &lt;buffer&gt; &lt;silent&gt; ][ :call &lt;SID&gt;NextSection(2, 0)&lt;cr&gt;
+	noremap &lt;script&gt; &lt;buffer&gt; &lt;silent&gt; [] :call &lt;SID&gt;NextSection(2, 1)&lt;cr&gt;
+
+	function! s:NextSection(type, backwards)
+		if a:type == 1
+			let pattern = &#x27;\v(\n\n^\S|%^)&#x27;
+			let flags = &#x27;e&#x27;
+		elseif a:type == 2
+			let pattern = &#x27;\v^\S.*\=.*:$&#x27;
+			let flags = &#x27;&#x27;
+		endif
+
+		if a:backwards
+			let dir = &#x27;?&#x27;
+		else
+			let dir = &#x27;/&#x27;
+		endif
+
+		execute &#x27;silent normal! &#x27; . dir . pattern . dir . flags . &quot;\r&quot;
+	endfunction
+
+## method motion
+
+	[m ]m		go to previous/next start of method
+	[M ]M		go to previous/next end of method
+
+## comment motion
+
+	[/ ]/		go to previous/next end of comment
+
+# text object, 文本对象
+
+	aw iw &quot;a word &amp; a inner word后者不包含空白
+	aW iW &quot;a word 大写的字符表示特殊字符是单词的一部分
+	as is &quot;a sentence	后者不含空白及换行
+	ap ip &quot;a prograph
+	a&#x27;
+	a{
+
+    &quot;当光标在( ), [ ],&lt; &gt;, { }, &quot; &quot;, &#x27;&#x27; 内时
+    &quot;括号内
+    i( or i)
+    &quot;中括号内
+    i[ or i]
+    i{ or i}
+    &quot;引号内
+    i&quot; i&#x27;
+
+Tag object
+
+	i&gt; i&lt; a&gt; a&lt;
+		&quot;&lt;&gt; block&quot;
+
+	at it
+		&quot;a tag block&quot; like &quot;&lt;div&gt; use `dat` &lt;span&gt; to delete div&lt;/span&gt; &lt;/div&gt;&quot;
+
+Block Motion
+
+	aB a{
+		{}
+	2aB 2a{
+		{{}}
+
+	ab a(
+	2ab 2a(
+
+文件对象与操作结合：
+
+    daw &quot;delete a word
+    cis &quot;replece a sentence
+    yi{ &quot;yank all contents between left { and right }
+
+	va(
+	va[
+	va{
+
+### 设定单词key
+
+	:set iskeyword=@,48-57,192-255,-,_ &quot;@代表英文字母
+	:set iskeyword-=_ #从单词key中删除下划线
+</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

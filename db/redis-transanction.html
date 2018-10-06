@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/db/redis-transanction.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>redis-transanction</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: redis-transanction
+date: 2018-09-27
+updated: 2018-10-06
+---
+# Preface
+
+MULTI 、 EXEC 、 DISCARD 和 WATCH 是 Redis 事务的基础。
+
+- MULTI     开启一个事务
+- EXEC      命令负责触发并执行事务中的所有命令：
+- DISCARD   放弃事务
+- WATCH
+
+当使用 AOF 方式做持久化的时候， Redis 会使用单个 write(2) 命令将事务写入到磁盘中。
+
+1. AOF 事务命令记录 可能因进程kill 或硬件原因导致记录不完整
+2. Redis 在重新启动时, 会因这种AOF 错误退出
+3. redis-check-aof 程序可以修复这一问题：它会移除 AOF 文件中不完整事务的信息，确保服务器可以顺利启动。
+
+Redis&gt;2.2 可以通过乐观锁（optimistic lock）实现 CAS （check-and-set）操作，具体信息请参考文档的后半部分
+
+# EXEC 使用事务
+事务中所有的命令要先入队(QUEUED)
+EXEC 执行每个命令
+
+    &gt; MULTI
+    OK
+
+    &gt; INCR foo
+    QUEUED
+
+    &gt; INCR bar
+    QUEUED
+
+    &gt; EXEC
+    1) (integer) 1
+    2) (integer) 1
+
+# 事务错误
+分两种：
+1. 事务EXEC执行前的错误：语法错误、更严重的内存不足
+    redis服务器会对`入队失败`的错误进行记录，`EXEC`时拒绝执行并放弃事务
+2. EXEC 后的错误
+    并没有对命令错误进行特别处理： 即使事务中有某个/某些命令在执行时产生了错误， 事务中的其他命令仍然会继续执行。
+
+发生在EXEC 后的错误：第一条ok 第二条-ERR
+
+    MULTI
+    +OK
+
+    SET a 3
+    abc
+
+    +QUEUED
+    LPOP a
+
+    +QUEUED
+    EXEC
+
+    *2
+    +OK
+    -ERR Operation against a key holding the wrong kind of value
+
+# Rollback
+为什么 Redis 不支持回滚（roll back） 以下是这种做法的优点：
+Redis 选择了更简单、更快速的无回滚方式来处理事务
+
+# DISCARD 放弃事务
+当执行 DISCARD 命令时， 事务会被放弃， 事务队列会被清空， 并且客户端会从事务状态中退出：
+
+    redis&gt; SET foo 1
+    OK
+
+    redis&gt; MULTI
+    OK
+
+    redis&gt; INCR foo
+    QUEUED
+
+    redis&gt; DISCARD
+    OK
+
+    redis&gt; GET foo
+    &quot;1&quot;
+
+# WATCH
+
+## 使用 check-and-set 操作实现乐观锁
+&gt; redis 的exec执行时，其涉及的key 可能被别人改变，所以它本身不保证操作的原子性
+
+有了 WATCH ， 我们就能保证操作的原子性了:
+    WATCH 命令可以为 Redis 事务提供 check-and-set （CAS）行为。
+
+1. 被 WATCH 的键会被监视，如果有至少一个被监视的键在 EXEC 执行之前被修改了， 那么执行exec 时：整个事务都会被取消
+2. EXEC 返回空多条批量回复（null multi-bulk reply）来表示事务已经失败。
+3. 当 EXEC 被调用时，对所有键的监视都会被取消
+
+这种形式的锁被称作乐观锁: 乐观的认为键通常不会被改变, 大家可以并行操作，如果真的遇到键被改变了我们就重试
+
+    WATCH mykey
+
+    val = GET mykey
+    val = val + 1
+
+    MULTI
+    SET mykey $val
+    EXEC
+
+WATCH 命令可以被调用多次
+    还可以在单个 WATCH 命令中监视任意多个键， 就像这样：
+
+    redis&gt; WATCH key1 key2 key3
+    OK
+
+如果exec 时，key 改变了：
+
+    127.0.0.1:6379&gt; multi
+    (error) ERR MULTI calls can not be nested
+
+## zpop
+用事务实现ZPOP
+
+    WATCH zset
+    element = ZRANGE ZSET 0 0
+    MULTI
+        ZREM zset element
+    EXEC
+
+# Redis 脚本
+Lua 脚本功能是 Reids 2.6 版本的最大亮点， 通过内嵌对 Lua 环境的支持:
+1. Redis 解决了长久以来不能高效地处理 CAS （check-and-set）命令的缺点， 并且可以通过组合使用多个命令， 轻松实现以前很难实现或者不能高效实现的模式。
+2. 代替事物、更高效、简单
+
+
+# References
+- [redis-transaction]
+
+[redis-transaction]: http://redisdoc.com/topic/transaction.html</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

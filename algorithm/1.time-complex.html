@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/algorithm/1.time-complex.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>Analysis of Algorithm</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: Analysis of Algorithm
+date: 2018-09-15
+updated: 2018-10-06
+---
+# Analysis of Algorithm
+本文整理下算法的分析方法
+
+##  O/Omega/Thelta 的定义
+$Ο$，读音：big-oh、欧米可荣（大写）；表示上界(tightness unknown)，小于等于的意思。
+$ο$，读音：small-oh、欧米可荣（小写）；表示上界(not tight)，小于的意思。
+$Ω$，读音：big omega、欧米伽（大写）；表示下界(tightness unknown)，大于等于的意思。
+$ω$，读音：small omega、欧米伽（小写）；表示下界(not tight)，大于的意思。
+$Θ$，读音：theta、西塔；既是上界也是下界(tight unknown)
+$θ$，读音：theta、西塔；既是上界也是下界(not tight)
+
+具体来说:
+
+    A、大O的定义：
+    　　如果存在正数c和N，对于所有的n&gt;=N，有f(n)&lt;=c*g(n)，则f(n)=O(g(n))
+    B、Big Omega的定义
+    　　如果存在正数c和N，对于所有的n&gt;=N，有f(n)&gt;=c*g(n)，则f(n)=Omega(g(n))
+    C、Big Theta的定义
+    　　如果存在正数c1，c2和N，对于所有的n&gt;=N，有c1*g(n)&lt;=f(n)&lt;=c2*g(n)，则f(n)=Theta(g(n))
+
+e.g.` f(n) = n^3+3*n` 与 n^3 渐近
+
+$$
+\displaystyle \lim_{n \rightarrow \infty} \frac{n^3+3\times n}{n^3} = C
+$$
+
+## 数学归纳法(代换法：Substitution Method)
+求以下算法的big O
+
+    T(n) = 4T(n/2) + n
+
+Solution: 
+
+1. guess O(n^2)
+2. Assume: T(k) = C * k^2
+3. Then: 
+$$ 
+    T(n) = 4(C*(\frac{n}{2})^2) +n 
+$$
+$$
+    = Cn^2+n
+$$
+4. n 无法消去
+
+我们重新假设
+1. Assume: $T(k) = C1 * k^2 - C2*k$
+2. Then: 
+$$ 
+T(n) = 4(C1*(n/2)^2 - C2*n/2) +n 
+    = C1n^2 - 2*C2n +n
+    = C1n^2 - C2n - (C2 -1)n
+    &lt;= C1n^2 - C2n      (if C2&gt;=1)
+$$
+3. T(1) 满足肯定满足, 证毕
+
+## 递归树法(Recurrence Tree Method)
+利用递归树法求: T(n) = T(n/4) + T(n/2) + n^2
+
+         n^2
+        /  \
+    T(n/4)    T(n/2)
+
+展开
+
+                   n^2              1      1
+                /       \
+            (n/4)^2  (n/2)^2        2      5/16
+            /  \     /   \
+        (n/16)^2 2*(n/8)^2 (n/4)^2  4       25/256
+            /  \  /    \    /  \
+    (n/64)^2 3(n/32)^2 3(n/16)^2 (n/8)^2  8 (5/16)^3
+                ......
+    O(1)    ...         O(1)    小于 n
+
+计算1：
+
+    1
+    1+4 = 5
+    1+2*4 + 16 = 25
+    1+3*4 + 3*16 + 64 = 125
+    ...
+    C(0,n) + C(1,n)*4 + C(2,n)*4^2 ...+ C(n,n)*4^n = (1+4)^n
+
+计算2：
+
+    n^2*[1+5/16+...+(5/16)^2+ ....]
+    &lt;= n^2*(1 + 1/2 + 1/4 + ....) = 2n^2
+    = O(n^2)
+
+## 主方法(Master Method)
+works only for following type of recurrences 
+
+    T(n) = aT(n/b) + f(n) where a &gt;= 1 and b &gt; 1
+
+f(n) 还要满足渐近趋正(asymptotically positive), 总共有 three cases:
+1. If f(n) = Θ(n^c) where c &lt; Logb{a} then T(n) = Θ(n^{Logba})  
+2. If f(n) = Θ(n^c) where c = Logb{a} then T(n) = Θ(n^c*Log n)
+3. If f(n) = Θ(n^c) where c &gt; Logb{a} then T(n) = Θ(f(n))       leaves are the dominant part
+
+Case 2 can be extended for `f(n) = Θ(n^c*(Log n)^k)`
+1. If `f(n) = Θ(n^c*(Log n)^k)` for some constant `k &gt;= 0 and c = Logb_a`, then `T(n) = Θ(n^c*(Log n)^(k+1))`
+
+e.g. T(n) = 4T(n/2)+f(n)
+
+    f(n) = n =&gt; Θ(n^2)
+    f(n) = n^2 =&gt; Θ(n^2*Log n)
+    f(n) = n^3 =&gt; Θ(n^3)
+
+![](/img/algo/master-theorem-tree.png)
+
+### 证明梗概/思路(Proof sketch/intuition)
+https://sites.google.com/site/algorithmssolution/home/c4/master_method
+
+扩展case2 的证明: An Extension to The Master Theorem
+http://homepages.math.uic.edu/~leon/cs-mcs401-s08/handouts/extended_master_theorem.pdf
+
+我的手动证明:
+![](/img/algo/master-theorem-case2-extended-proof.png)
+
+## Reference
+- Analysis of Algorithm | Set 4 
+ https://www.geeksforgeeks.org/analysis-algorithm-set-4-master-method-solving-recurrences/</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

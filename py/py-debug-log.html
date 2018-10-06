@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/py/py-debug-log.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>py-debug-log</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: py-debug-log
+date: 2018-09-28
+updated: 2018-10-06
+---
+# Preface
+- logging
+https://docs.python.org/3.4/howto/logging.html
+
+## autolog: excepthook
+
+    import sys
+    &gt;&gt;&gt; def foo(exctype, value, tb):
+    ...     print(&#x27;My Error Information&#x27;)
+    ...     print(&#x27;Type:&#x27;, exctype)
+    ...     print(&#x27;Value:&#x27;, value)
+    ...     print(&#x27;Traceback:&#x27;, tb)
+    ...
+    &gt;&gt;&gt; sys.excepthook = foo
+
+## log with exc_info
+    try:
+        result = json.loads(s, strict=False)
+    except (TypeError, ValueError):
+        logger.debug(&#x27;Can not decode response as JSON&#x27;, exc_info=True)
+
+## Logging to a single file from multiple processes
+1. logging is thread-safe(这个可能要感谢GIL)
+2. logging to a single file from multiple processes is not supported
+    1. 不过如果是posix 兼容的系统，append &lt; buf_size就是atomic, linux下应该是: 4096bytes
+
+方案：
+1. 独立的单进程socketHandler写log
+2. 加锁, 甚至文件锁
+
+### log lock
+Python的logging模块是线程安全的，
+1. 因为logging模块在输出日志时，都要获取一把锁，而这把锁是一把可重入锁，
+2. 对于不同的线程，在打日志前都要等待这把锁变为可用状态，才能持有这把锁并执行提交逻辑
+
+https://zhuanlan.zhihu.com/p/36310626?group_id=974774296987615232
+
+# logging
+logging，和assert比，logging不会抛出错误，而且可以输出到文件：
+
+## log level
+1. `debug，info，warning，error, fatal/critical`等几个级别重要性依次增加，
+1. default level: *WARNING*
+
+除了根logging.root, 不同的应用/子应用可以设定自己的logger, 进而分别设定不同filename
+
+    &gt;&gt;&gt; logging.root
+    &lt;RootLogger root (WARNING)&gt;
+    &gt;&gt;&gt; wb = logging.getLogger(&#x27;weibo&#x27;)
+    &lt;Logger weibo (WARNING)&gt;
+    &gt;&gt;&gt; wb = logging.getLogger(&#x27;weibo.sub1&#x27;)
+    &lt;Logger weibo.sub1 (WARNING)&gt;
+    &gt;&gt;&gt; logging.getLogger(&#x27;root&#x27;)
+    &lt;Logger root (WARNING)&gt; # 不是根root
+
+
+### set level
+logging.basicConfig(level=logging.DEBUG)
+logger.setLevel()
+
+&gt;Note: basicConfig 第二次不再生效
+
+## log file
+    import logging
+    logging.basicConfig(filename=&#x27;example.log&#x27;,level=logging.DEBUG)
+    logging.debug(&#x27;This message should go to the log file&#x27;)
+    logging.info(&#x27;So should this&#x27;)
+    logging.warning(&#x27;And this, too&#x27;)
+
+    $ cat example.log
+    DEBUG:root:This message should go to the log file
+
+If not remember messages from elarlier runs, use `filemode=&#x27;w&#x27;`:
+
+    logging.basicConfig(filename=&#x27;example.log&#x27;, filemode=&#x27;w&#x27;, level=logging.DEBUG)
+
+logging file path(default by current path):
+
+    logging.getLoggerClass().root.handlers[0].baseFilename
+    logger.handlers[0].baseFilename
+
+## format message
+
+    logging.basicConfig(format=&#x27;%(asctime)s:%(levelname)s:%(filename)s:%(lineno)s:%(message)s&#x27;, 
+        filename=&#x27;a.log&#x27;,
+        level=logging.DEBUG)
+    INFO:a.py:1:So should this
+
+[For more logrecord-attributes ](https://docs.python.org/3.4/library/logging.html#logrecord-attributes):
+
+    %(asctime)s	Human-readable time:
+    %(created)f time.time():
+    %(filename)s %(lineno)d
+    %(funcName)s
+
+    %(thread)d
+    %(threadName)s
+    %(process)d
+
+    %(pathname)s
+    %(module)s
+
+&#x27;&#x27;&#x27;))
+
+### format date
+The default format for date/time display (shown above) is ISO8601.
+
+    2003-07-08 16:49:45,896
+
+define datefmt(see shell date):
+
+    logging.basicConfig(format=&#x27;%(asctime)s&#x27;, datefmt=&#x27;%Y/%m/%d %I:%M:%S %p&#x27;)
+    2010/12/12 11:46:36 PM
+
+```
+	logging.basicConfig(level=logging.INFO)
+    logging.log(level, msg, *args, **kwargs)
+    logging.fatal(msg, *args, **kwargs) CRITICAL
+    logging.error(msg, *args, **kwargs) .exception()
+    logging.warning(msg, *args, **kwargs)
+    logging.info(msg, *args, **kwargs)
+    logging.debug(msg, *args, **kwargs)
+    logger.info/debug/...
+```
+
+# Advanced logging
+## loggging components:
+Log *event information* is passed between loggers, handlers, filters and formatters in a *LogRecord instance*.
+1. Loggers expose the interface that application code directly uses.
+2. Handlers send the log records (created by loggers) to the appropriate destination.
+2. Filters provide a finer grained facility for determining which log records to output.
+4. Formatters specify the layout of log records in the final output.
+
+## loggers
+loggers have threefold job
+1. First, log messages at runtime.
+2. Second, determine which messages to act upon based upon severity (the default filtering facility) or *filter* objects.
+3. Third, logger objects pass along relevant log messages *to all interested log handlers*.
+
+### loggers method
+logger 不支持setFormatter, 那个是handler 支持的。只支持以下
+- Logger.setLevel()
+- logger.addHandler:
+    Logger.addHandler() and Logger.removeHandler()
+    logger.handlers[0].baseFilename
+- addFilter()
+    Logger.addFilter() and Logger.removeFilter()
+
+
+logger send msg:
+1. logger.error()/critical()
+2. Logger.exception()  
+    1. called *only in exception*
+    2. like error(), except *dumps a stack trace along with it*
+        `logger.exception(msg, _args)`，它等价于 `logger.error(msg, exc_info=True, _args)`
+3. Logger.log() takes a log level as an explicit argument.
+
+### loggers name and inheritante
+1. loggers with names of `foo.bar, foo.bar.baz, and foo.bam` are all children of `foo`. 继承的东西包括
+    1. level
+    2. 不继承formatter
+2. all loggers inheritante `root`! 
+3. rootLogger 会创建handler: stderr (NOTSET)
+    1. 调用logging.error,info,...,etc
+    2. 调用logging.basicConfig时
+
+Child loggers *propagate* messages up to *ancestor* loggers:
+turn off propagate:
+
+    logger.propagate=False
+
+### loggers level
+effective level is used to decide  whether to process an event, which is *inheritance* parental level.
+getLogger 是单态的
+
+    ```python
+    &gt;&gt; b=logging.getLogger(&#x27;b&#x27;)
+    &lt;Logger b (WARNING)&gt;
+    &gt;&gt;&gt; b.setLevel(20)
+    &gt;&gt;&gt; c=logging.getLogger(&#x27;b.c&#x27;)
+    &lt;Logger b.c (INFO)&gt;
+    ```
+
+### loggers curd
+
+#### create loggers
+The root of the hierarchy of loggers is called the root logger.
+
+    &gt;&gt;&gt; import logging
+    &gt;&gt;&gt; logging.root.handlers[:]
+    []
+    &gt;&gt;&gt; logging.error(&#x27;1&#x27;)
+    ERROR:root:1
+    &gt;&gt;&gt; logging.root.handlers[:]
+    [&lt;StreamHandler &lt;stderr&gt; (NOTSET)&gt;]
+
+creat a new logger explicitly:
+
+    &gt;&gt;&gt; logging.Logger.manager.loggerDict
+    {}
+    &gt;&gt;&gt; logging.getLogger(__name__) # return root logger if without args
+    &lt;Logger __main__ (WARNING)&gt;
+    &gt;&gt;&gt; logging.Logger.manager.loggerDict
+    {&#x27;__main__&#x27;: &lt;Logger __main__ (WARNING)&gt;}
+
+
+#### remove logger&#x27;s handler
+
+```
+    for hander in logger.handlers[:]:
+        logger.removeHandler(handler)
+```
+
+#### root logger
+for `logging/__init__.py`, you&#x27;ll see that basicConfig() *sets the handlers on the root logger* object *by calling addHandler()*.
+
+    import logging
+    for handler in logging.root.handlers[:]: # copy loop, dict用dict.items(), 不可用dict.keys()
+        logging.root.removeHandler(handler)
+
+The root logger is used by the functions `loggging.debug()/ info()/...`, which just call the same-named method of the root logger
+
+    logging.info(msg):
+        logging.root.info(msg)
+
+## handler
+One logger&#x27;s default handler:
+1. for root logger: [&lt;StreamHandler &lt;stderr&gt; (NOTSET)&gt;]
+2. for other logger: ineritante parent loggers
+
+
+### handlers category
+see: https://docs.python.org/3.6/howto/logging.html#useful-handlers
+1. file: logging.FileHandler(filename)
+1. BaseRotatingFileHandler:
+    1. RotatingFileHandler = logging.handlers.RotatingFileHandler( LOG_FILENAME, maxBytes=10**8, backupCount=5)
+    2. TimedRotatingFileHandler
+3. SysLogHandler
+4. QueueHandler
+5. SocketHandler:
+6. StreamHandler: logging.StreamHandler(stream=sys.stderr) # open(filename)
+7. null: logging.NullHandler()
+8. flask 的smtpHandler
+
+example add stdout:
+
+    root = logging.getLogger(&#x27;mblog&#x27;)
+    root.setLevel(logging.DEBUG)
+    ch = logging.StreamHandler(sys.stdout)
+    ch.setLevel(logging.DEBUG)
+    ch.setFormatter(logging.Formatter(&#x27;%(asctime)s - %(name)s - %(levelname)s - %(message)s&#x27;))
+    root.addHandler(ch)
+
+### handlers method
+like logger:
+1. handler.setLevel() method, just as in logger objects
+2. handler.addFilter() like logger
+2. handler.setFormatter() (not logger)
+
+#### hander destinations
+1. writing log messages to:  files, HTTP GET/POST locations, email via SMTP, generic sockets, queues, or OS-specific logging mechanisms such as syslog or the Windows NT event log.
+3. The default destination is `std.stderr`, if no handler
+
+### hander msg
+default msg format:
+1. &#x27;%(message)s&#x27; 继承自parental loggers
+
+## filter
+几乎不用
+instances of Filter can be added to both Logger and Handler instances
+
+## Formatters
+```
+logging.Formatter.__init__(fmt=None, datefmt=None, style=’%’)
+```
+1. The default fmt is raw msg.
+2. if no datefmt, default datefmt ISO8601:
+```
+%Y-%m-%d %H:%M:%S
+```
+3.  The style is one of %, ‘{‘ or ‘$’. default ‘%’
+    1. the style is ‘%’, ` %(&lt;dictionary key&gt;)s` styled `LogRecord attributes`
+    2. ‘{‘: `str.format()` (using keyword arguments)
+    3. ‘$’: `string.Template.substitute()`
+
+## configuring logging
+Configure in three ways:
+1. with code
+2. with  fileConfig()
+3. with  dictConfig()
+
+Note:
+&gt; fileConfig()/dictConfig function takes a default parameter, disable_existing_loggers=True
+
+configure code  example:
+
+    import logging
+
+    # create logger
+    logger = logging.getLogger(&#x27;simple_example&#x27;)
+    logger.setLevel(logging.DEBUG)
+
+    # create console handler and set level to debug
+    ch = logging.StreamHandler()
+    ch.setLevel(logging.DEBUG)
+
+    # create formatter
+    formatter = logging.Formatter(&#x27;%(asctime)s - %(name)s - %(levelname)s - %(message)s&#x27;)
+
+    # add formatter to ch
+    ch.setFormatter(formatter)
+
+    # add ch to logger
+    logger.addHandler(ch)
+
+    # &#x27;application&#x27; code
+    logger.error(&#x27;error message&#x27;)
+
+### config log with dictConfig()
+in YAML format for the new dictionary-based approach:
+
+    version: 1
+    formatters:
+    simple:
+        format: &#x27;simple:%(name)s - %(levelname)s - %(message)s&#x27;
+    handlers:
+    console:
+        class: logging.StreamHandler
+        level: DEBUG
+        formatter: simple
+        stream: ext://sys.stdout
+    file:
+        class : logging.handlers.RotatingFileHandler
+        formatter: simple
+        filename: logconfig.log
+        maxBytes: 10240
+        backupCount: 3
+    loggers:
+    simpleExample:
+        level: DEBUG
+        handlers: [console]
+        propagate: yes
+    simpleExample.a:
+        level: DEBUG
+        handlers: [console]
+        propagate: yes
+    root:
+    level: DEBUG
+    handlers: [console]
+
+code:
+
+    import logging, yaml
+    import logging.config
+    import logging.handlers
+    logging.config.dictConfig(yaml.load(open(&#x27;a.yaml&#x27;)))
+    s=logging.getLogger(&#x27;simpleExample.a&#x27;)
+    s.error(&#x27;abc&#x27;)
+
+测试下chrilden loggers inheritance: Output:
+1. 依次是simpleExample.a, simpleExample, root产生的三个
+2. 产生一个: simpleExample.a(propagate=no)
+3. 产生两个: simpleExample.a(propagate=yes), simpleExample(propagate=no)
+```
+2017-10-05 18:04:28,658 - simpleExample.a - ERROR - abc
+2017-10-05 18:04:28,658 - simpleExample.a - ERROR - abc
+2017-10-05 18:04:28,658 - simpleExample.a - ERROR - abc
+```
+如果用`handlers:[console,file]`, 则两个都会执行
+
+### config log with fileConfig:
+```
+confstr=&#x27;&#x27;&#x27;
+[loggers]
+keys=root,simpleExample
+
+[handlers]
+keys=consoleHandler
+
+[formatters]
+keys=simpleFormatter
+
+[logger_root]
+level=DEBUG
+handlers=consoleHandler
+
+[logger_simpleExample]
+level=DEBUG
+handlers=consoleHandler
+qualname=simpleExample
+propagate=0
+
+[handler_consoleHandler]
+class=StreamHandler
+level=DEBUG
+formatter=simpleFormatter
+args=(sys.stdout,)
+
+[formatter_simpleFormatter]
+format=%(asctime)s - %(name)s - %(levelname)s - %(message)s
+datefmt=
+&#x27;&#x27;&#x27;
+with open(&#x27;logging.conf&#x27;, &#x27;w&#x27;) as f:
+    f.write(confstr)
+
+import logging
+import logging.config
+logging.config.fileConfig(&#x27;logging.conf&#x27;)
+
+# create logger
+logger = logging.getLogger(&#x27;simpleExample&#x27;)
+
+# &#x27;application&#x27; code
+logger.critical(&#x27;critical message&#x27;)
+```
+
+#### classname in fileconf
+The class names referenced in config files need to be:
+1. either relative to the logging module: WatchedFileHandler (logging.handers.WatchedFileHandler)
+2. or absolute values: mypackage.mymodule.MyHandler
+
+
+## log flow
+The flow of log event information in loggers and handlers is illustrated in the following diagram
+![python-log-flow](/py/py-log-flow.png)</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/py/py-file.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>Python 文件处理</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: Python 文件处理
+date: 2018-09-28
+updated: 2018-10-06
+---
+# Directory
+建议用Path 代替
+
+## file property
+os
+
+### file exists: os
+
+	os.path.exists(file)
+
+### isfile, isdir: os
+
+    os.path.isfile(path)
+    os.path.isdir(path)
+
+### file.stat
+
+	import os
+	st = os.stat(path)
+    if st.st_uid == euid:
+        return st.st_mode &amp; stat.S_IRUSR != 0
+    st_size
+
+### access permision
+Use the real uid/gid to test for access to a path.
+
+	access(path, mode, *, dir_fd=None, effective_ids=False, follow_symlinks=True)
+		mode
+			Operating-system mode bitfield.  Can be F_OK to test existence,
+			or the inclusive-OR of R_OK, W_OK, and X_OK.
+
+example:
+
+	if os.access(file, os.R_OK):
+		# Do something
+	else:
+		if not os.access(file, os.R_OK):
+			print(file, &quot;is not readable&quot;)
+		else:
+			print(&quot;Something went wrong with file/dir&quot;, file)
+		break
+
+#### chmod
+
+	os.chmod(path, mode)
+	os.chown(path, uid, gid)
+
+## mkdir/rename/delete/
+
+	os.mkdir(dir,mode=511)
+		os.makedirs(newDir/dir);//recursive
+	os.rmdir(&#x27;/Users/michael/testdir&#x27;)
+        import shutil
+        shutil.rmtree(&#x27;/path/to/your/dir/&#x27;); # recursive
+
+### rename file:
+
+	os.rename(fileA_or_dirA, existedDir/fileB)
+	os.move(fileA, existedDir/fileB)
+		os.renames(&#x27;dirA&#x27;, &#x27;newDir/DirB&#x27;)//auto create dir
+		os.renames(&#x27;a&#x27;, &#x27;c/&#x27;)// rename a to c (rmdir c if c is existed)
+
+&gt; `shutil.move()` uses `os.rename()` if the destination is on the current filesystem.
+Otherwise, `shutil.move()` copies the source to destination using `shutil.copy2()` and then removes the source.
+
+### copy file
+shutil模块提供了copyfile()的函数，你还可以在shutil模块中找到很多实用函数，它们可以看做是os模块的补充。
+
+`copy2` is also often useful, it preserves the `original modification and access info (mtime and atime)` in the file metadata.
+
+	shutil.copyfile(src, existedDir/dst)
+	shutil.copy2(src, existedDir/dst)
+
+### remove file
+
+	os.rmdir(empty_dir);	//empty dir
+		shutil.rmtree(dir_only)
+	os.remove(file_only);	//file_only
+
+## mkfile fifo
+
+	os.mkfifo(path, mode=438, *, dir_fd=None)
+        Create a &quot;fifo&quot; (a POSIX named pipe).
+
+## touch file
+	with open(&quot;empty.txt&quot;, &quot;w&quot;) as f:
+		f.write(&quot;&quot;)
+
+	Path(&quot;empty.txt&quot;).write_file(&quot;&quot;)
+
+## listdir
+
+### via os.listdir
+
+	&gt;&gt;&gt; [x for x in os.listdir(&#x27;.&#x27;) if os.path.isfile(x) and os.path.splitext(x)[1]==&#x27;.py&#x27;]
+	[&#x27;apis.py&#x27;, &#x27;config.py&#x27;, &#x27;models.py&#x27;, &#x27;pymonitor.py&#x27;, &#x27;test_db.py&#x27;, &#x27;urls.py&#x27;, &#x27;wsgiapp.py&#x27;]
+
+### via glob.glob
+Starting with Python version 3.5, the glob module supports the `&quot;**&quot;` directive for recursive
+(which is parsed only if you pass `recursive flag`):
+
+	import glob
+	glob.glob(pathname, *, recursive=False); # list
+	glob.iglob(pathname, *, recursive=False); # iterator
+
+	for filepath in glob.iglob(&#x27;src/**/*.c&#x27;, recursive=True):
+		print(filepath)
+
+If you need an list, just use `glob.glob` instead of `glob.iglob` with iterator
+
+## pathinfo
+
+### dirname:
+
+	path = os.path.dirname(amodule.__file__)
+	path = Path(&#x27;file&#x27;).parent.absolute()
+
+### abspath/relpath:
+绝对/相对、link/real
+
+	&gt;&gt;&gt; os.path.join(&#x27;/Users/michael&#x27;, &#x27;testdir&#x27;)
+	&#x27;/Users/michael/testdir&#x27;
+
+Get absolute/relative path
+
+    os.path.abspath(filepath)
+    os.path.relpath(filepath, Commprefix)
+
+Get symbolic link and real path
+
+    os.readlink(filepath)
+    os.path.realpath(filepath)
+
+islink:
+
+    os.path.islink(filepath)
+
+1. abspath: simply removes things like . and .. 
+2. realpath: removes things like . and .., and symbolic link
+3. relative path:
+	1. print os.path.commonprefix([&#x27;/usr/var/log&#x27;, &#x27;/usr/var/security&#x27;])
+		&#x27;/usr/var&#x27;
+	2. os.path.relpath(&#x27;/usr/var/a.xt&#x27;, &#x27;/usr&#x27;) 
+        var/a.xt
+	3. Path(&#x27;/usr/var/a.xt&#x27;).relative_to(common_prefix) 
+
+### current directory
+change current workspace:  support abspath only
+
+	path = Path(&#x27;/etc&#x27;)
+	os.chdir(path)
+
+	os.getcwd()
+	os.path.abspath(&#x27;.&#x27;)
+	os.path.abspath(amodule.__file__)
+	os.chroot(path)
+
+current file&#x27;s dir:
+
+	os.path.realpath(__file__)
+
+### split pathinfo
+
+	&gt;&gt;&gt; os.path.split(&#x27;/Users/michael/testdir/file.txt&#x27;)
+	(&#x27;/Users/michael/testdir&#x27;, &#x27;file.txt&#x27;)
+
+	&gt;&gt;&gt; os.path.splitext(&#x27;/path/to/file.txt&#x27;)
+	(&#x27;/path/to/file&#x27;, &#x27;.txt&#x27;)
+
+# File stream
+
+    sys.stdout.write(&#x27;stm&#x27;) # return number of characters
+    print sys.stdin.read()
+	print open(&#x27;a.php&#x27;).read(); //cat a.php
+
+## lock
+
+    import fcntl
+    new_entry = &quot;foobar&quot;
+    with open(&quot;/somepath/somefile.txt&quot;, &quot;a&quot;) as g:
+        fcntl.flock(g, fcntl.LOCK_EX)
+        g.write(new_entry)
+        fcntl.flock(g, fcntl.LOCK_UN)
+
+### append is atomic?
+对于POSIX-compliant components:
+1. under the size of &#x27;PIPE_BUF&#x27; is supposed to be atomic. (linux 4096)
+
+## IOError
+
+	import glob, os
+	try:
+		for file in glob.glob(&quot;\\*.txt&quot;):
+			with open(file) as fp:
+				# do something with file
+	except IOError:
+		print(&quot;could not read&quot;, file)
+
+
+## Open File
+
+	fp = open(filename[, mode])
+	mode:
+		&#x27;r&#x27; &#x27;w&#x27; &#x27;a&#x27;
+		append a &#x27;+&#x27; to the mode to allow simultaneous reading and writing
+			&#x27;r+&#x27; read and write
+			&#x27;w+&#x27; empty old content and write
+			&#x27;a+&#x27; read and append
+		append a &#x27;U&#x27; to the mode open a file for input with universal new line support(&#x27;\r&#x27;, &#x27;\n&#x27;, &#x27;\r\n&#x27;)
+			 &#x27;U&#x27; cannot be combined with &#x27;w&#x27; or &#x27;+&#x27; mode.
+	fp.close()
+
+### stdin file
+参考  python-io.md
+
+	import fileinput
+	for line in fileinput.input():
+		print(line)
+
+### binary
+
+	&gt;&gt;&gt; f = open(&#x27;/Users/michael/test.jpg&#x27;, &#x27;rb&#x27;)
+	&gt;&gt;&gt; f.read()
+	b&#x27;\xff\xd8\xff\xe1\x00\x18Exif\x00\x00...&#x27; # 十六进制表示的字节
+	&gt;&gt;&gt; f = open(&#x27;/Users/michael/test.json&#x27;, &#x27;r&#x27;)
+
+### file encoding
+
+	open(&#x27;a.txt&#x27;).encoding; # utf8(default)
+
+用gbk 打开且忽略非法编码
+
+	&gt;&gt;&gt; f = open(&#x27;/Users/michael/gbk.txt&#x27;, &#x27;r&#x27;, encoding=&#x27;gbk&#x27;, errors=&#x27;ignore&#x27;)
+	open(&#x27;a.txt&#x27;, &#x27;rb&#x27;).read().decode(&#x27;gbk&#x27;)
+
+## read and write
+&gt; pydoc file
+
+	fp.read()	Return file content.
+	fp.readline()	Return just one line of text file.
+	fp.readlines() === list(fp)	Return just one line of text file.
+		for line in fp
+		while line:
+			line = fp.readline()
+	fp.write(string)	Writes string to file(start at file position)
+	fp.writelines(string or array);	str === &#x27;&#x27;.join(array)
+	fp.truncate(...)
+		truncate([size]) -&gt; None.  Truncate the file to at most size bytes.
+		Size defaults to the current file position, as returned by tell().
+
+Example:
+
+	fp = open(&#x27;a.txt&#x27;)
+	fp.read()
+	fp.close();
+
+## close file
+由于文件读写时都有可能产生IOError，一旦出错，后面的f.close()就不会调用。
+所以，为了保证无论是否出错都能正确地关闭文件，我们可以使用try ... finally来实现：
+
+	try:
+		f = open(&#x27;/path/to/file&#x27;, &#x27;r&#x27;)
+		print(f.read())
+	finally:
+		if f:
+			f.close()
+
+但是每次都这么写实在太繁琐，所以，Python引入了with语句来自动帮我们调用close()方法：
+
+	with open(&#x27;/path/to/file&#x27;, &#x27;r&#x27;) as f:
+		print(f.read())
+
+## file position
+`pydoc file`
+
+	fp.tell(...)
+		tell() -&gt; current file position, an integer (may be a long integer).
+	.seek(...)
+		.seek(offset[, whence]) -&gt; None.  Move to new file position.
+		Optional argument whence defaults to:
+			0 (offset from start of file, offset should be &gt;= 0);
+			1 (move relative to current position, positive or negative),
+			2 (move relative to end of file, usually negative, 
+            If the file is opened in text mode, only offsets returned by tell() are legal.  
+
+        tail 100 char of file:
+            fp.seek(fp.seek(0, 2)-100)
+            
+
+### line position
+
+	def seek_line(f, line):
+		f.seek(0);
+        line -= 1
+		while(line &gt;0):
+			f.getline();
+
+### get specify line    
+
+    &gt;&gt;&gt; import linecache
+    &gt;&gt;&gt; linecache.getline(linecache.__file__, 8)
+    &#x27;one line example\n&#x27;</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

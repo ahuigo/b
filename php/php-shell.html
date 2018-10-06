@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/php/php-shell.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>user</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: user
+date: 2018-10-04
+updated: 2018-10-06
+---
+# user
+
+	get_current_user() Gets PHP script owner&#x27;s name
+	getmyuid() - Gets PHP script owner&#x27;s UID
+	getmygid() - Get PHP script owner&#x27;s GID The user who *owns the file* containing the current script , not the user who running
+	getmyinode() - Gets the inode of the current script
+	getlastmod() - Gets time of last page modification
+
+	getmypid() - Gets PHP&#x27;s process ID
+	Thread::getCurrentThreadId()
+
+Get user php is running as:
+
+	echo exec(&#x27;whoami&#x27;);
+
+# Disk
+
+	filesize
+	float disk_free_space(str $dir); //返回目录所在分区剩余大小
+	float disk_total_space(str $dir); //返回目录所在分区大小
+
+# Memory
+
+	memory_get_usage($real_usage = false); //false 返回emalloc分配的内存; true:返回操作OS分配的内存:real_size
+	memory_get_peak_usage($real_usage = false); //内存峰值
+
+# Cpu
+
+	$dat=getrusage();
+	foreach ($dat as $key =&gt; $val) {
+		$usertime= $dat[&#x27;ru_utime.tv_usec&#x27;];
+		$systemtime= $dat[&#x27;ru_stime.tv_usec&#x27;];
+		$finalresultcpu= ($systemtime + $usertime);
+	}
+
+
+# Shell
+
+## gethostname
+
+	gethostname();
+	php_uname(&#x27;n&#x27;)
+
+## argv
+
+	getopt($options, array $longopts)
+	-options
+			该字符串中的每个字符会被当做选项字符，匹配传入脚本的选项以单个连字符(-)开头。 比如，一个选项字符串 &quot;x&quot; 识别了一个选项 -x。 只允许 a-z、A-Z 和 0-9。
+				单独的字符（不接受值）
+				后面跟随冒号的字符（此选项需要值）
+				后面跟随两个冒号的字符（此选项的值可选）
+	--longopts
+
+example
+
+	$shortopts  = &quot;&quot;;
+	$shortopts .= &quot;f:&quot;;  // Required value
+	$shortopts .= &quot;v::&quot;; // Optional value
+	$shortopts .= &quot;abc&quot;; // These options do not accept values
+
+	$longopts  = array(
+	    &quot;required:&quot;,     // Required value
+	    &quot;optional::&quot;,    // Optional value
+	    &quot;option&quot;,        // No value
+	    &quot;opt&quot;,           // No value
+	);
+	$options = getopt($shortopts, $longopts);
+	var_dump($options);
+
+通过 `php script.php -f &quot;value for f&quot; -v -a --required value --optional=&quot;optional value&quot; --option` 运行以上脚本会输出：
+
+	array(6) {
+	  [&quot;f&quot;]=&gt;
+	  string(11) &quot;value for f&quot;
+	  [&quot;v&quot;]=&gt;
+	  bool(false)
+	  [&quot;a&quot;]=&gt;
+	  bool(false)
+	  [&quot;required&quot;]=&gt;
+	  string(5) &quot;value&quot;
+	  [&quot;optional&quot;]=&gt;
+	  string(14) &quot;optional value&quot;
+	  [&quot;option&quot;]=&gt;
+	  bool(false)
+	}
+
+## 转义
+
+	str escapeshellarg($arg); //将args转义为有效参数: 比如`abc`, 转义成`&#x27;abc&#x27;`
+	str escapeshellcmd($cmd); //转义cmd中的特殊字符：| ; &amp; &gt; \x0a ....
+
+## 执行
+
+	passthru($cmd, [$errno]); //直接打印输出
+	$output = shell_exec($cmd); // 相当于反引号 $output = `$cmd`
+	$output = system($cmd[, $errno]); //也会直接打印输出
+	$lastline = exec($cmd[, $output, [, $errno]])
+
+shell_exec 等价于反引号:
+
+	echo `ls`;
+	echo `&#x27;ls&#x27;`;
+	echo `&quot;ls&quot;`;
+	echo `$cmd`;
+
+## pipe
+
+	&lt;?php
+	$descriptorspec = array(
+		0 =&gt; array(&quot;pipe&quot;, &quot;r&quot;),  // stdin is a pipe that the child will read from
+		1 =&gt; array(&quot;pipe&quot;, &quot;w&quot;),  // stdout is a pipe that the child will write to
+		//2 =&gt; array(&quot;file&quot;, &quot;/tmp/error-output.txt&quot;, &quot;a&quot;) // stderr is a file to write to
+		2 =&gt; array(&quot;file&quot;, &quot;a.txt&quot;, &quot;a&quot;) // stderr is a file to write to
+	);
+	$process = proc_open(&#x27;php&#x27;, $descriptorspec, $pipes, $cwd =null, $env =[&#x27;env1&#x27; =&gt; &#x27;cookie&#x27;]);
+	if (is_resource($process)) {
+		fwrite($pipes[0], &#x27;&lt;?php print_r($_ENV); ?&gt;&#x27;);
+		fclose($pipes[0]);
+
+		echo stream_get_contents($pipes[1]);
+		fclose($pipes[1]);
+
+		// It is important that you close any pipes before calling
+		// proc_close in order to avoid a deadlock
+		$return_value = proc_close($process);
+
+		echo &quot;command returned $return_value\n&quot;;
+	}
+
+non-block
+
+	//stream_set_blocking($pipes[0],false);
+	//stream_set_blocking(fopen(&#x27;php://input&#x27;, &#x27;r&#x27;),false); //# input is for HTTP_RAW_POST_DATA
+	stream_set_blocking($pipes[1],false);
+	stream_set_blocking($pipes[2],false);
+	while( true ) {
+		$read= array();
+		if( !feof($pipes[1]) ) $read[]= $pipes[1];
+		if( !feof($pipes[2]) ) $read[]= $pipes[2];
+		if (!$read) break;
+
+		$ready= stream_select($read, $write=NULL, $ex= NULL, 2);
+		if ($ready === false) {
+			break; #should never happen - something died
+		}
+
+		foreach ($read as $r) {
+			$s= fread($r,1024);
+			$output.= $s;
+		}
+	}
+
+non-block + timeout
+
+    execute(&quot;program --option&quot;, null, $out, $out, 30);
+    echo $out;
+
+	/**
+	 * Notice: $cmd = &#x27;cmd1|cmd2&#x27;, cmd 1 cannot be TERMINATED!
+	 */
+    function execute($cmd, &amp;$stdout, &amp;$stderr, $timeout=false, $stdin=null) {
+        $pipes = array();
+        $process = proc_open(
+            $cmd,
+            array(array(&#x27;pipe&#x27;,&#x27;r&#x27;),array(&#x27;pipe&#x27;,&#x27;w&#x27;),array(&#x27;pipe&#x27;,&#x27;w&#x27;)),
+            $pipes
+        );
+        $start = time();
+        $stdout = &#x27;&#x27;;
+        $stderr = &#x27;&#x27;;
+
+        if(is_resource($process)) {
+            stream_set_blocking($pipes[0], 0);
+            stream_set_blocking($pipes[1], 0);
+            stream_set_blocking($pipes[2], 0);
+            fwrite($pipes[0], $stdin);
+            fclose($pipes[0]);
+        }
+
+        while(is_resource($process)) {
+            //echo &quot;.&quot;;
+            $stdout .= stream_get_contents($pipes[1]);
+            $stderr .= stream_get_contents($pipes[2]);
+
+            if($timeout !== false &amp;&amp; time() - $start &gt; $timeout) {
+                proc_terminate($process, 9);
+                return 1;
+            }
+
+            $status = proc_get_status($process);
+            if(!$status[&#x27;running&#x27;]) {
+                fclose($pipes[1]);
+                fclose($pipes[2]);
+                proc_close($process);
+                return $status[&#x27;exitcode&#x27;];
+            }
+
+            usleep(100000);
+        }
+        return 1;
+    }
+
+## master kill
+master kill 不会结束子进程
+
+	`sleep 1&amp;`; # block
+	`sleep 1 &amp;&gt; out.txt &amp;`;# non-block
+
+
+# thread
+
+    Thread::getCurrentThreadId()</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

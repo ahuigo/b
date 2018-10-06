@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/index.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>日志</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: 日志
+date: 2018-10-06
+updated: 2018-10-06
+---
+# 日志
+- 2018-10-04 [关于抢票以及12306 的票仓的sku 设计](/b/news/ticketing-software) 
+- 2018-09-26 [查找两有序数组中第N 大的值](/b/algorithm/algorithm-find-the-nth-of-2-sorted-array) 
+- 2018-09-26 [coder试题:有几个bing?](/b/algorithm/game-countword) 
+- 2018-10-06 [投票类网站的排序算法](/b/algorithm/sort-vote) 
+- 2014-03-05 [Shell Programming](/b/c/shell-) 
+- 2014-10-10 [杨氏矩阵（Young Tableau）的topK 算法](/b/algorithm/algo-young-tableau-topk) 
+- 2018-10-06 [shell 表达式](/b/c/shell-grammar) 
+- 2018-09-27 [linux 的帮助系统](/b/c/shell-help) 
+- 2012-07-08 [GMT,UTC,DST,CST 各种时间标准](/b/c/shell-time) 
+- 2018-09-27 [Shell 变量之数据类型](/b/c/shell-var) 
+- 2018-10-06 [shell 终端使用技巧](/b/c/shell-zsh) 
+- 2018-10-06 [字符编码简介](/b/code/code-character) 
+- 2018-09-27 [开源软件的版权保护](/b/em/em-copyright-open-source) 
+- 2015-03-04 [红包飞的概率问题](/b/math/math-envelope) 
+- 2018-10-04 [数学符号与古希腊字符](/b/math/math-symbol) 
+- 2018-10-06 [Bellard 大神的项目 -- jslinux](/b/news/geek-proj) 
+- 2018-10-06 [哪些python lib 让你相见恨晚](/b/py/py-lib) 
+- 2018-04-04 [用 Python mathplot 画K 线图](/b/py/py-math-mathplot-kline) 
+- 2018-10-06 [Python 的math 语法](/b/py/py-math) 
+- 2018-03-03 [python 的list/tuple 笔记](/b/py/py-var-list) 
+- 2018-09-10 [egg request 相关笔记](/b/ria/egg-http) 
+- 2018-10-04 [Eggjs 之 Security](/b/ria/egg-sec) 
+- 2018-10-04 [Js Array 整理](/b/ria/js-array) 
+- 2018-10-06 [安全的帐号设计](/b/sec/security-account) 
+- 2018-10-06 [vim 笔记](/b/vim/vim-notes) 
+- 2018-10-06 [vim 使用之变量](/b/vim/vim-var) 
+- 2018-09-26 [二叉查找树和红黑树](/b/algorithm/ds-binary-search-tree) 
+- 2018-09-26 [跳跃表](/b/algorithm/ds-skiplist) 
+- 2018-09-15 [Analysis of Algorithm](/b/algorithm/1.time-complex) 
+- 2018-09-26 [数据结构之树](/b/algorithm/algorithm-tree) 
+- 2013-09-26 [经典排序算法的实现](/b/algorithm/algo-sort) 
+- 2018-10-06 [tcp/ip 协议](/b/net/net-tcpip) 
+- 2018-10-06 [python 字典](/b/py/py-var-dict) 
+- 2018-10-04 [named tuples](/b/py/py-var-collections) 
+- 20180402 [python 时间函数的用法笔记](/b/py/py-time) 
+- 2018-10-06 [python thread 线程笔记](/b/py/py-thread) 
+- 2018-10-04 [py-test](/b/py/py-test) 
+- 2017-08-09 [Python 字符处理](/b/py/py-str) 
+- 2018-10-06 [将博客迁移到hexo](/b/doc/doc-hexo) 
+- 2018-09-28 [net-tcp-optimize](/b/net/net-tcp-optimize) 
+</pre>
+<div id="pager" v-pre> p0 <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a> <a href="/b/p/p3">p3</a> <a href="/b/p/p4">p4</a> <a href="/b/p/p5">p5</a> <a href="/b/p/p6">p6</a> <a href="/b/p/p7">p7</a> <a href="/b/p/p8">p8</a> <a href="/b/p/p9">p9</a> <a href="/b/p/p10">p10</a> <a href="/b/p/p11">p11</a> <a href="/b/p/p12">p12</a> <a href="/b/p/p13">p13</a> <a href="/b/p/p14">p14</a> <a href="/b/p/p15">p15</a> <a href="/b/p/p16">p16</a> <a href="/b/p/p17">p17</a> <a href="/b/p/p18">p18</a></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

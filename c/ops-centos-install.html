@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/c/ops-centos-install.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>centos 安装记录</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: centos 安装记录
+date: 2018-10-06
+updated: 2018-10-06
+---
+# Preface
+最近在公司安装centos6.5, 遇到了一些麻烦，在此记录一下。
+&gt;先下载了centos6.5.livecd.iso 然后dd到u盘。结果grub启动时，出现了efi错误，原来是启动后加载内核时因为root:LABEL=xxxx 中的LABEL(u盘标签)不对. 按e修改LABEL 为u盘的LABEL后启动liveCD成功。
+&gt; liveCD安装过程中，分区时被强制要求使用/boot/efi分区引导, 结果安装后才发现，bios不支持uefi 从efi分区引导。
+&gt; 没办法，又下载了centos6.5 minimal.iso 这下不用强制使用efi分区了。顺利安装成功。
+
+	set -o errexit
+
+# 网络配置
+
+	# 默认配置是没有开启的
+	sed -i &#x27;s/NETWORKING=no/NETWORKING=yes/&#x27; /etc/sysconfig/network
+	service network start
+	# ping weibo.cn -c 3
+
+# yum 源配置
+
+	# install wget
+	yum install wget -y
+
+	# 我直接使用网易163的源(快)。
+	cd /etc/yum.repos.d/
+	mv CentOS-Base.repo CentOS-Base.repo.bak
+	wget http://mirrors.163.com/.help/CentOS6-Base-163.repo -O CentOS-Base.repo
+
+	# refresh cache
+	yum clean all
+	yum makecache
+	
+	# check repo list
+	yum repolist
+
+# 工具
+
+	# vim git zsh ..
+	yum install vim-enhanced git zsh -y
+	yum man man-pages -y
+
+	# oh-my-shell
+	cd ~
+	wget --no-certificate https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | bash
+
+	# autojump
+	git clone git://github.com/joelthelion/autojump.git autojump
+	cd autojump
+	./install.py
+	echo &#x27;[[ -s ~/.autojump/etc/profile.d/autojump.sh ]] &amp;&amp; . ~/.autojump/etc/profile.d/autojump.sh&#x27; &gt;&gt; ~/.zshrc
+	echo &#x27;autoload -U compinit &amp;&amp; compinit -u&#x27; &gt;&gt; ~/.zshrc
+	cd ~
+
+# 服务配置
+	# rsync (default port: 873)
+	yum install rsync -y
+	echo &#x27;rsync --daemon --config=/etc/rsync.conf&#x27; &gt;&gt; /etc/rc.d/rc.local
+	rsync --daemon --config=/etc/rsync.conf
+
+	#ftp 
+	yum install ftp vsftpd -y
+	sed -i &#x27;/^#chroot_local_user/a chroot_local_user=YES&#x27; /etc/vsftpd/vsftpd.conf
+	# 开机启动
+	chkconfig --level 235 vsftpd on
+	# 启动
+	service vsftpd start
+	
+# php php-fpm php-mysql mysql nginx redis memcached
+
+	#nginx 源
+	cat &gt; /etc/yum.repo.d/nginx.repo 
+	[nginx] 
+	name=nginx repo 
+	baseurl=http://nginx.org/packages/centos/$releasever/$basearch/ 
+	gpgcheck=0 
+	enabled=1
+
+	#centos 官方没有redis 源，可以使用fedora的源
+	sudo rpm -Uvh  http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+	#https://webtatic.com/packages/php54/
+	sudo rpm -Uvh http://mirror.webtatic.com/yum/el6/latest.rpm
+	sudo yum install yum-plugin-replace -y
+
+
+	#install php54 nginx mysql ...
+	sudo yum install php54w php54w-devel nginx php54w-fpm mysql php54w-mysql php54w-gd php54w-mbstring php54w-mcrypt
+	#sudo yum replace php-common --replace-with=php54w-common -y
+
+	#install xdeubg
+	# wget https://gist.githubusercontent.com/ahuigo/0e808c805f496efa925e/raw/f48f610d0abbf67a976d517310b3d977a07d4fff/oh-my-xdebug -O - | sh
+	cd ~
+	set -o errexit
+	git clone https://github.com/derickr/xdebug 
+	cd xdebug
+	phpize
+	./configure --enable-xdeubg
+	make
+	sudo make install
+	phpini=`php -i |grep -o -E &#x27;Configuration File =&gt; [^[:space:]]+php\.ini&#x27; | awk &#x27;{print $4}&#x27;`
+	[[ -z $phpini ]] &amp;&amp; echo &quot;Could not find php.ini!&quot; &amp;&amp; exit;
+	extension_dir=`php -i | grep -o -E &quot;extension_dir =&gt; [^[:space:]]+&quot; | awk &#x27;{print $3}&#x27;`
+	[[ -z $extension_dir ]] &amp;&amp; echo &quot;Could not find extension_dir!&quot; &amp;&amp; exit;
+	sudo cat &gt;&gt; $phpini &lt;&lt;MM
+
+	[xdebug]
+	zend_extension=$extension_dir/xdebug.so
+	;通过GET/POST/COOKIE:传XDEBUG_PROFILE触发
+	xdebug.profiler_enable_trigger=1
+	;通过GET/POST/COOKIE:传XDEBUG_TRACE触发
+	xdebug.trace_enable_trigger=1
+	MM
+	cd ~
+</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

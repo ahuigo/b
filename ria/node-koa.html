@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/ria/node-koa.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>Nunjucks(=Jinjia2)</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: Nunjucks(=Jinjia2)
+date: 2018-10-04
+updated: 2018-10-06
+---
+# Nunjucks(=Jinjia2) 
+还有一个xtemplate
+
+    {% include &quot;item-template.html&quot; %} {% endeach %}
+
+## literal, raw
+
+    {% raw %}
+        {{name|escape}}
+    {% endraw %}
+
+## escape
+
+    {% filter escape %}
+        &lt;span&gt;try&lt;/span&gt;
+    {% endfilter %}
+
+# koa2
+koa2 既可以用在Node环境下，又可以运行在浏览器端。但是，主要还是运行在Node环境下，因为浏览器端有更好的模板解决方案，例如MVVM框架。(by liaoxuefeng)
+1. Nunjucks: like Python的模板引擎jinja2
+2. egg-init: extends koa2
+3. AdonisJs: koa2 是脚手架，adonjs 则是laravel(ORM/crud/vue/...)
+
+## global var(ctx.state)
+ctx.state 一般保存全局, e.g. 某个middleware负责检查用户权限，它可以把当前用户放入ctx.state中：
+
+    app.use(async (ctx, next) =&gt; {
+        var user = parseUser(ctx.cookies.get(&#x27;name&#x27;) || &#x27;&#x27;);
+        if (user) {
+            ctx.state.user = user;
+            await next();
+        } else {
+            ctx.response.status = 403;
+        }
+    }); 
+
+## router
+子controller rest-api/render:
+
+    module.exports = {
+        //api
+        &#x27;GET /api/products&#x27;: async (ctx, next) =&gt; {
+            // 设置Content-Type:
+            ctx.response.type = &#x27;application/json&#x27;;
+            // 设置Response Body:
+            ctx.response.body = {
+                products: products
+            };
+        }
+        // render
+        &#x27;GET /signin&#x27;: async (ctx, next) =&gt; {
+            let name = &#x27;ahui&#x27;
+            ctx.render(&#x27;signin.html&#x27;, {
+                name: `${name}`
+            });
+        },
+    }
+
+## request
+http://javascript.ruanyifeng.com/nodejs/koa.html#toc8
+
+    # path
+    ctx.request.path
+
+    # /api/products/:id
+    ctx.params.id 
+
+    # query
+    ctx.request.querystring
+    ctx.request.query
+
+### form:
+
+    var body = require(&#x27;koa-better-body&#x27;)
+    var app = koa()
+
+    app
+    .use(body())
+    .use(function * () {
+        console.log(this.request.query)  
+        console.log(this.request.body)    // if buffer or text
+        console.log(this.request.fields)  // if multipart or urlencoded or json
+        console.log(this.request.files)   // if json
+    }).listen(8080, function () {
+        console.log(&#x27;koa server start listening on port 8080&#x27;)
+    })
+
+### files
+
+    size: 86167,
+    path: &#x27;/var/folders/73/7vxr7kzs09ndh3kwzw9zpdj80000gn/T/upload_98df7e5b63da1839f6b5aa6c72b18a63&#x27;,
+    name: &#x27;1529510462596-Hkwr5x_WX.jpg&#x27;,
+    type: &#x27;image/jpeg&#x27;,
+    hash: null,
+    lastModifiedDate: 2018-06-23T12:24:48.387Z,
+
+### header
+
+    ctx.request.header.accept
+
+    // Content-Type为 application/json, this.request.is(types…)
+    this.request.is(&#x27;json&#x27;, &#x27;urlencoded&#x27;); // &#x27;json&#x27;
+    this.request.is(&#x27;application/json&#x27;); // &#x27;application/json&#x27;
+
+    // Accept: text/*, application/json
+    ctx.request.accepts(&#x27;html&#x27;);
+    // &quot;html&quot;
+    ctx.request.accepts(&#x27;text/html&#x27;);
+    // &quot;text/html&quot;
+    ctx.request.accepts(&#x27;json&#x27;, &#x27;text&#x27;);
+    // =&gt; &quot;json&quot;
+
+
+## response
+
+    ctx.response.redirect(&#x27;/signin&#x27;);
+
+    module.exports = {
+        &#x27;GET /api/products&#x27;: async (ctx, next) =&gt; {
+            ctx.response.type = &#x27;application/json&#x27;;
+            ctx.response.body = {
+                products: []
+            };
+        }
+    }
+
+### REST
+http status:
+1. 200 
+2. 400 ajax请求无效 (Bad request):
+    1.  使用错误代码命名规范为: `大类:子类`
+
+错误代码命名规范:
+
+    ctx.response.status = 400;
+    ctx.rest({
+        code: &#x27;auth:user_not_found&#x27;,
+        message: &#x27;user not found&#x27;
+    });
+
+e.g.
+
+    mysql
+    mysql:net
+    mysql:data_err
+
+    user:no_login
+
+## throw error
+
+    ctx.rest({ data: 123 });
+    ctx.error(&#x27;auth:user_not_found&#x27;, {name:&#x27;ah&#x27;});
+
+我们也可以通过一个middleware给ctx添加一个rest()方法，直接输出JSON数据 (rest.js)：
+
+    //restful
+    app.use(async (ctx, next) =&gt; {
+        if (ctx.request.path.startsWith(&#x27;/api/&#x27;) || ctx.request.accepts(&#x27;json&#x27;)) {
+            ctx.rest = (data) =&gt; {
+                ctx.response.type = &#x27;application/json&#x27;;
+                ctx.response.body = JSON.stringify(data);
+            }
+            ctx.error = function (msg, extra) {
+                throw { message, extra, }
+            }
+            try {
+                await next();
+            } catch (e) {
+                ctx.response.status = 400;
+                ctx.response.type = &#x27;application/json&#x27;;
+                ctx.response.body = {
+                    msg: e.message || &#x27;internal:unknown_error&#x27;,
+                    extra: e.extra || null,
+                };
+            }
+        } else {
+            await next();
+        }
+    });
+
+## koa middleware
+
+    1. koa-bodyparser
+    支持x-www-form-urlencoded, application/json等格式的请求体，但不支持form-data的请求体，需要借助 formidable 这个库，也可以直接使用 koa-body 或 koa-better-body
+
+    2. koa-views
+    对需要进行视图模板渲染的应用是个不可缺少的中间件，支持ejs, nunjucks等众多模板引擎。
+
+    4 koa-static
+    可结合 koa-compress 和 koa-mount 使用。
+
+    5. koa-session
+
+    6 koa-jwt
+    随着网站前后端分离方案的流行，越来越多的网站从Session Base转为使用Token Base，JWT(Json Web Tokens)作为一个开放的标准被很多网站采用，koa-jwt这个中间件使用JWT认证HTTP请求。
+
+    7 koa-helmet
+    helmet 通过增加如Strict-Transport-Security, X-Frame-Options, X-Frame-Options等HTTP头提高Express应用程序的安全性，koa-helmet为koa程序提供了类似的功能，参考Node.js安全清单。
+
+    8 koa-compress
+    当响应体比较大时，我们一般会启用类似Gzip的压缩技术减少传输内容
+
+    9 koa-logger
+    koa-logger提供了输出请求日志的功能，koa-bunyan-logger 提供了更丰富的功能。
+
+    10 koa-convert
+    对于比较老的使用Generate函数的koa中间件(&lt; koa2)，可以将他们转为基于Promise的中间件供Koa2使用
+
+    作者：fineen
+    链接：https://www.jianshu.com/p/c1e0ca3f9764
+    來源：简书</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

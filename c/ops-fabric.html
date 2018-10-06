@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/c/ops-fabric.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>Fabric</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: Fabric
+date: 2018-09-27
+updated: 2018-10-06
+---
+# Fabric
+Refer: https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/0014323392805925d5b69ddad514511bf0391fe2a0df2b0000
+
+## install Fabric
+pip3 install fabric3
+
+## ssh password
+1. interactive:
+```s
+    -I, --initial-password-prompt
+    $ fab -I task
+```
+2. password within code:
+```python
+    from fabric import env
+    env.hosts = [&#x27;user1@host1:port1&#x27;, &#x27;host2&#x27;]
+    env.passwords = {&#x27;user1@host1:port1&#x27;: &#x27;password1&#x27;, &#x27;host2&#x27;: &#x27;password2&#x27;}
+    env.password = &#x27;passwd&#x27; # 共用相同密码
+```
+3. password via shell args:
+    `fab -p PASSWORD`
+4. via ssh authorized:
+    ` /usr/bin/ssh-copy-id [-i [~/.ssh/id_rsa.pub ]] [user@]machine `
+
+For more: `fab -h`
+```s
+    -f PATH, --fabfile=PATH 
+        default is fabfile.py
+```
+
+## fabfile.py
+### Config
+```python
+# fabfile.py
+import os, re
+from datetime import datetime
+
+# 导入Fabric API:
+from fabric.api import *
+
+# 服务器登录用户名:
+env.user = &#x27;michael&#x27;
+# sudo用户为root:
+env.sudo_user = &#x27;root&#x27;
+# 服务器地址，可以有多个，依次部署:
+env.hosts = [&#x27;192.168.0.3&#x27;]
+
+# 服务器MySQL用户名和口令:
+db_user = &#x27;www-data&#x27;
+db_password = &#x27;www-data&#x27;
+```
+
+### local
+执行本地命令打包:
+1. local(&#x27;mkdir new_path&#x27;)
+2. lcd/cd: change local/remote path
+
+```python
+_TAR_FILE = &#x27;dist-awesome.tar.gz&#x27;
+def build():
+    includes = [&#x27;static&#x27;, &#x27;templates&#x27;, &#x27;transwarp&#x27;, &#x27;favicon.ico&#x27;, &#x27;*.py&#x27;]
+    excludes = [&#x27;test&#x27;, &#x27;.*&#x27;, &#x27;*.pyc&#x27;, &#x27;*.pyo&#x27;]
+    local(&#x27;rm -f dist/%s&#x27; % _TAR_FILE)
+    with lcd(os.path.join(os.path.abspath(&#x27;.&#x27;), &#x27;www&#x27;)):
+        cmd = [&#x27;tar&#x27;, &#x27;--dereference&#x27;, &#x27;-czvf&#x27;, &#x27;../dist/%s&#x27; % _TAR_FILE]
+        cmd.extend([&#x27;--exclude=\&#x27;%s\&#x27;&#x27; % ex for ex in excludes])
+        cmd.extend(includes)
+        local(&#x27; &#x27;.join(cmd))
+```
+运行一下：
+```s
+$ fab build
+$ fab -f fabfile.py build
+```
+
+### remote work
+1. run(cmd), 
+2. sudo(cmd)
+2. put(localfile, remote_path)
+3. cd(remote_new_path)
+
+```python
+_REMOTE_TMP_TAR = &#x27;/tmp/%s&#x27; % _TAR_FILE
+_REMOTE_BASE_DIR = &#x27;/srv/awesome&#x27;
+
+def deploy():
+    newdir = &#x27;www-%s&#x27; % datetime.now().strftime(&#x27;%y-%m-%d_%H.%M.%S&#x27;)
+    # 删除已有的tar文件:
+    run(&#x27;rm -f %s&#x27; % _REMOTE_TMP_TAR)
+    # 上传新的tar文件:
+    put(&#x27;dist/%s&#x27; % _TAR_FILE, _REMOTE_TMP_TAR)
+    # 创建新目录:
+    with cd(_REMOTE_BASE_DIR):
+        sudo(&#x27;mkdir %s&#x27; % newdir)
+    # 解压到新目录:
+    with cd(&#x27;%s/%s&#x27; % (_REMOTE_BASE_DIR, newdir)):
+        sudo(&#x27;tar -xzvf %s&#x27; % _REMOTE_TMP_TAR)
+    # 重置软链接:
+    with cd(_REMOTE_BASE_DIR):
+        sudo(&#x27;rm -f www&#x27;)
+        sudo(&#x27;ln -s %s www&#x27; % newdir)
+        sudo(&#x27;chown www-data:www-data www&#x27;)
+        sudo(&#x27;chown -R www-data:www-data %s&#x27; % newdir)
+    # 重启Python服务和nginx服务器:
+    with settings(warn_only=True):
+        sudo(&#x27;supervisorctl stop awesome&#x27;)
+        sudo(&#x27;supervisorctl start awesome&#x27;)
+        sudo(&#x27;/etc/init.d/nginx reload&#x27;)
+```</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

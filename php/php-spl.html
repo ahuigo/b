@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/php/php-spl.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>php spl 学习</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: php spl 学习
+date: 2018-10-06
+updated: 2018-10-06
+---
+# Preface
+SPL(Standard PHP Library) 标准库是php 自带的extension `php -m | grep SPL`，它提供了：常用的数据结构如栈，队列，堆, 数组, 以及这些数据结构的迭代器。如果需要还可自己扩展这些SPL.
+
+SPL 主要被看作使Object(各路数据结构封装) 模仿Array 的Interfaces 和 Classes.
+
+# Interface
+
+在对象的基础上 为支持迭代运算符foreach, php 提供了
+
+
+- Iterator
+	Interface for external iterators or objects that can be iterated themselves internally.
+	提供了自定义遍历的方法：`current,key,next,valid,rewind`
+	它属于低层Iterator ，只提供了遍历的方法而非实现，难以对关联数组或对象属性作遍历. 也不能在foreach 做引用传值(An iterator cannot be used with foreach by reference)
+- IteratorAggregate
+	Interface to create an external Iterator.
+	此接口为支持对属性的遍历，提供了将Object 自动重载为 外部Iterator 的方法: 自动调用 `getIterator`, 它需要借助重载类`new ArrayIterator|ArrayObject`
+	它属于高层Iterator ，提供了遍历的实现，可以在foreach 做引用传值
+
+&gt; foreach 对象时，默认遍历的是scope 所能访问到的成员属性
+
+为了支持基于对象的下标运算符`[]`, php 提供了 ArrayAccess
+
+- ArrayAccess
+
+## Iterator &amp; IteratorAggregate
+这两个接口都继承了 internal engine interface ，叫Traversable. 它提供了类似Array 统一的遍历(traversable)对象元素的方式: foreach，而不需要了解对象的具体实现。
+但是这个接口不能被php 类继承，只能被 Iterator &amp; IteratorAggregate 继承。
+
+Iterator/IteratorAggregate 迭代器是SPL 的一部分，它指的是一种设计模式(Design Pattern). Wikimedia 中说：
+Iterator is a design pattern in which iterators are used to access the elements of an aggregate object sequentially without exposing its underlying representation&quot;.
+
+Example
+
+	class myData implements IteratorAggregate {
+		public $property1 = &quot;Public property one&quot;;
+		public $property2 = &quot;Public property two&quot;;
+		public $property3 = &quot;Public property three&quot;;
+
+		public function __construct() {
+			$this-&gt;property4 = &quot;last property&quot;;
+		}
+
+		public function getIterator() {
+			return new ArrayIterator($this);
+		}
+	}
+
+	//foreach 时，getIterator 会被自动调用
+	$obj = new myData;
+	foreach($obj as $key =&gt; &amp;$value) {
+		var_dump($key, $value);
+	}
+
+&gt; 通过getIterator 实现的foreach 是可以按Reference 传值的。但是通过Iterator 的自己实现的current 是不可以在foreach 按 reference 传值的. current 是无法确定参数的值的
+
+### DataIterator
+这个迭代类是我自己定义的，它实现了遍历多维数组中的指定的字段
+
+	class DataIterator implements Iterator{
+		private $data;
+		function __construct($data, $keys){
+			$this-&gt;data = $data;
+			$this-&gt;keys = explode(&#x27;,&#x27;, $keys);
+		}
+		function current(){
+			$v = $this-&gt;data[$this-&gt;pos];
+			foreach($this-&gt;keys as $k){
+				$v = $v[$k];
+			}
+			return $v;
+		}
+		private $pos = 0;
+		function valid(){
+			return isset($this-&gt;data[$this-&gt;pos]);
+		}
+		function next(){
+			$this-&gt;pos++;
+		}
+		function rewind(){
+			$this-&gt;pos = 0;
+		}
+		function key(){
+			return $this-&gt;pos;
+		}
+	}
+	$arr = [
+		[&#x27;statuses&#x27;=&gt;[&#x27;user&#x27;=&gt;[&#x27;id&#x27;=&gt;1]]],
+		[&#x27;statuses&#x27;=&gt;[&#x27;user&#x27;=&gt;[&#x27;id&#x27;=&gt;2]]],
+	];
+	$mblogs = new DataIterator($arr, &#x27;statuses,user,id&#x27;);
+	foreach($mblogs as $pos=&gt;$uid){
+		echo &quot;uid:$uid\n&quot;;
+	}
+
+以上迭代器实现还是比较麻烦，直接返回数据简单方便
+
+	function dataIterator($arr, $keys){
+		$data = [];
+		$keys = explode(&#x27;,&#x27;, $keys);
+		foreach($arr as $v){
+			foreach($keys as $k){
+				$v = $v[$k];
+			}
+			$data[] = $v;
+		}
+		return $data;
+	}
+
+
+## ArrayAccess
+在使用对象属性时，类似 `__set`, `__get` 方法。为了让对象支持数组下标操作符，也就是操作 `$obj[&#x27;key&#x27;]`, php 提供了类似的魔术方法
+
+	interface ArrayAccess {
+		abstract public boolean offsetExists ( mixed $offset ); //isset($obj[&#x27;key&#x27;])
+		abstract public mixed offsetGet ( mixed $offset );		//$obj[&#x27;key&#x27;]
+		abstract public void offsetSet ( mixed $offset , mixed $value )	//$obj[] = 1
+		abstract public void offsetUnset ( mixed $offset )	//unset($obj[&#x27;key&#x27;])
+	}
+
+ArrayAccess 没有提供foreach 支持，如果需要的话需要借助 IteratorAggregate:
+
+
+	class Article implements ArrayAccess, IteratorAggregate {
+	 .....
+	 function getIterator() {
+	   return new ArrayIterator($this);
+	 }
+	}
+
+## Other
+以下接口功能都可以基于以上接口实现，所以，它们不太重要
+
+### RecursiveIterator
+如果需要在Iterator over Iterator recursively, 那么就需要这个接口了，它继承Iterator 并增加了`getChildren(void), hasChildren(void)`
+
+	class MyRecursive implements RecursiveIterator{
+		function __construct($arr){
+			$this-&gt;data = $arr;
+		}
+		function hasChildren(){
+			return is_array($this-&gt;data[$this-&gt;pos]);
+		}
+		function getChildren(){
+			return $this-&gt;data[$this-&gt;pos];
+		}
+		....
+	}
+	$arr = new MyRecursive([[1,2],[3,4]]);
+	foreach($arr as $k =&gt; $v){
+		if($arr-&gt;hasChildren()){
+			var_dump($v);
+		}
+	}
+
+这货需要通过在子类中实现`hasChildren`,`getChildren` 等方法，因为RecursiveIteratorIterator，RecursiveRegexIterator 需要这些方法
+
+
+	class MyRecursiveIterator implements RecursiveIterator {
+		private $_data;
+		private $_position = 0;
+
+		public function __construct(array $data) {
+			$this-&gt;_data = $data;
+		}
+
+		public function valid() {
+			return isset($this-&gt;_data[$this-&gt;_position]);
+		}
+
+		public function hasChildren() {
+			return is_array($this-&gt;_data[$this-&gt;_position]);
+		}
+
+		public function next() {
+			$this-&gt;_position++;
+		}
+
+		public function current() {
+			return $this-&gt;_data[$this-&gt;_position];
+		}
+
+		public function getChildren() {
+			return new self($this-&gt;_data[$this-&gt;_position]);
+		}
+
+		public function rewind() {
+			$this-&gt;_position = 0;
+		}
+
+		public function key() {
+			return $this-&gt;_position;
+		}
+	}
+
+	$arr = array( 4, 5 ,6,  array(10, 20, 30),);
+	$i = new RecursiveIteratorIterator(new MyRecursiveIterator($arr));
+
+	foreach($i as $k=&gt;$v){
+		var_dump([&quot;$k&quot;=&gt;$v]);
+	}
+
+### SeekableIterator
+基于Iterator 提供了seek($index)
+
+	SeekableIterator extends Iterator {
+		abstract public void seek ( int $position )
+	}
+
+### Countable
+提供count 方法
+
+	Countable {
+		abstract public int count ( void )
+	}
+
+
+以`arrayObject` 为例子
+
+# Classes
+查看spl 内置哪些类
+
+	var_dump(spl_classes());
+
+对象而言，无论是支持foreach 迭代运算符(Iterator)还是下标运算符(Access). 都需要自己实现接口要求的 abstract 方法. 其实 SPL 已经提供了实现了这些方法的类：
+
+
+
+这个类原型是 DirectoryIterator extends SplFileInfo implements SeekableIterator . 你可自己基于Iterator 写出来
+
+## ArrayObject
+This class allows objects to work as arrays.
+
+arrayObject 内部有一个隐含的数组(storage), :
+
+	ArrayObject implements IteratorAggregate , ArrayAccess , Serializable , Countable
+
+1. 构造器支持对象和数组
+1. ArrayAccess(下标)
+2. IteratorAggregate (create an external Iterator), 注意不是Iterator）
+2. exchangeArray
+2. 隐含了`__array` 这样的魔法函数(php 目前还不支持此魔法);
+3. asort()/ksort()/usort()/natsort()等;setIteratorClass();
+
+	class data extends arrayObject{
+		function set(){
+			$this-&gt;exchangeArray([&#x27;key&#x27;=&gt;1]);
+		}
+		function offsetSet($k, $v){
+			parent::offsetSet($k, $v);
+		}
+		function get(){
+			return $this-&gt;getArrayCopy();
+			//return (array)$this;
+		}
+	}
+	$a = new data();
+	$a-&gt;set();
+	echo $a[&#x27;key&#x27;];//1
+	print_r((array)$a);//key=&gt;1
+
+## ArrayIterator
+ArrayIterator 与ArrayObject 相比，缺少exchangeArray().
+除此之外，它们的功能是一样的. 另外，如果参数做类型检查时要求使用 ArrayIterator，就不可用 ArrayObject
+
+## CachingIterator
+This object supports cached iteration over another iterator.
+
+它提供了hasNext 方法
+
+	$object = new CachingIterator(new ArrayIterator([1,2,3]));
+	foreach($object as $value) {
+		echo $value;
+		if($object-&gt;hasNext()) {
+			echo &#x27;,&#x27;;
+		}
+	}
+
+
+## FilterIterator
+FilterIterator 提供了fiter. 只extends IteratorIterator (construct 会接受Iterator, 它继承 OuterIterator, `Recursive*Iterator` 的构造器接受 ), 不支持ArrayAccess(需要的话还需要implements)
+
+	class LengthFilterIterator extends FilterIterator {
+		public function accept() {
+			// Only accept strings with a length of 10 and greater
+			return strlen(parent::current()) &gt; 10;
+		}
+	}
+
+## DirectoryIterator
+DirectoryIterator 针对目录的迭代类
+
+	foreach (new DirectoryIterator(&#x27;../moodle&#x27;) as $i =&gt; $fileInfo) {
+		if($fileInfo-&gt;isFile())
+		echo $fileInfo-&gt;getFilename() . &quot;\n&quot;;
+	}
+
+via RecursiveIteratorIterator(Recursive):
+
+	$files = new RecursiveDirectoryIterator(&#x27;.&#x27;);//不是递归的
+	$files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(&#x27;.&#x27;), RecursiveIteratorIterator::SELF_FIRST);
+	foreach($files as $pathname =&gt; $fileInfo){
+		if($fileInfo-&gt;isFile()){echo $pathname.&quot;\n&quot;;}
+	}
+
+via RecursiveIteratorIterator(filter key(filename) with Regex):
+
+	$Directory = new RecursiveDirectoryIterator(&#x27;.&#x27;);
+	$Iterator = new RecursiveIteratorIterator($Directory);
+	$Regex = new RegexIterator($Iterator, &#x27;/\.php$/i&#x27;, RegexIterator::GET_MATCH); // It matches against (string)$fileobj
+	foreach($Regex as $pathname=&gt;$matches){
+		echo &quot;$pathname\n&quot;;
+		var_export($matches);
+	}
+
+	RecursiveRegexIterator::GET_MATCH
+		like $matches in preg_match
+	RecursiveRegexIterator::MATCH
+		get $fileObj
+
+via shell
+
+	for i in `ls .` ;do {  echo $i abc} done
+
+## SplFileObject
+和DirectoryIterator 一样，继承了SplFileInfo
+它用于遍历行，支持foreach/seek()/valid()/current(); 包括换行符`0x0a`
+
+	//获取行[$start,$end)
+	$file = new SplFileObject(&quot;b.php&quot;);
+	$file-&gt;seek($start);//start from 0 line
+	$i=0;
+	while($i++&lt; $end - $start){
+		$str .= $file-&gt;current();
+		$file-&gt;next();
+	}
+
+`$i ` 从0 开始, 且最后`$line` 为空字符: `explode(&quot;\n&quot;, $str)` 但包括&quot;\n&quot;:
+
+	foreach($file as $i=&gt;$line){
+		echo &quot;$i:$line\n&quot;;
+	}
+
+fgets
+
+	$handle = fopen(&quot;inputfile.txt&quot;, &quot;r&quot;);
+	if ($handle) {
+		while (($line = fgets($handle)) !== false) {
+			// process the line read.
+		}
+		fclose($handle);
+	}
+
+&gt; 最后有一个空白符, 即换行符
+
+	$handle = null;//close
+
+## RegexIterator
+It is used to filter another iterator based on a regular expression.
+
+	$a = new ArrayIterator(array(&#x27;test1&#x27;, &#x27;test2&#x27;, &#x27;test3&#x27;));
+	$i = new RegexIterator($a, &#x27;/^(test)(\d+)/&#x27;, RegexIterator::REPLACE);
+	$i-&gt;replacement = &#x27;$2:$1&#x27;;
+	var_export(iterator_to_array($i));
+
+Output:
+
+	array (
+	  0 =&gt; &#x27;1:test&#x27;,
+	  1 =&gt; &#x27;2:test&#x27;,
+	  2 =&gt; &#x27;3:test&#x27;,
+	)
+
+## iterator_to_array
+Copy the iterator into an array.
+
+	$iterator = new ArrayIterator(array(&#x27;recipe&#x27;=&gt;&#x27;pancakes&#x27;, &#x27;egg&#x27;, &#x27;milk&#x27;, &#x27;flour&#x27;));
+	var_dump(iterator_to_array($iterator, $use_keys=true));
+
+## RecursiveIteratorIterator &amp; RecursiveArrayIterator
+- RecursiveIteratorIterator 递归迭代Iterator
+- RecursiveArrayIterator	产生一个可递归的Iterator
+- RecursiveDirectoryIterator	产生一个可递归的Iterator
+
+	$array = array(
+		array(&#x27;name&#x27;=&gt;&#x27;butch&#x27;, &#x27;sex&#x27;=&gt;&#x27;m&#x27;, &#x27;breed&#x27;=&gt;&#x27;boxer&#x27;),
+		array(&#x27;name&#x27;=&gt;&#x27;fido&#x27;, &#x27;sex&#x27;=&gt;&#x27;m&#x27;, &#x27;breed&#x27;=&gt;&#x27;doberman&#x27;),
+	);
+
+	foreach(new RecursiveIteratorIterator(new RecursiveArrayIterator($array)) as $key=&gt;$value) {
+		echo $key.&#x27; -- &#x27;.$value.&quot;\n&quot;;
+	}
+
+## SplQueue
+
+- enqueue($) == push($)
+- dequeue() like shift()
+- pop()
+- isEmpty()
+
+Example
+
+	$q = new SplQueue();
+	$q-&gt;push(1);
+	$q-&gt;push(2);
+	$q-&gt;push(3);
+	$q-&gt;pop();
+	print_r($q);
+
+
+# SPL function
+
+## Class
+
+	class_implements — Return the interfaces which are implemented by the given class or interface
+	class_parents — Return all parent classes of the given class
+	class_uses — Return the traits used by the given class
+
+	spl_autoload_register ($autoload_function , $throw = true , $prepend = false  )
+			 用于代替只支持一个func 的 __autoload($class)
+			func 不用返回true/false. spl 自动判断是否成功加载了类, 不成功则依次调用func2 func3...
+			无论是在前，还是在后，它会让__autoload 失效
+
+常量:
+
+	class a{
+		const KEY=&#x27;a&#x27;;
+		funcction get($key = &#x27;KEY&#x27;){
+			echo constant(&#x27;self::&#x27; . $key);
+		}
+	}
+	//or
+	echo (new ReflectionClass(&#x27;a&#x27;))-&gt;getConstant(&#x27;KEY&#x27;)
+
+运行时：
+
+	get_class ([ object $object = NULL ] ); //the calssName of $object or current class
+	get_called_class(void); //the &quot;Late Static Binding&quot; class name
+    get_parent_class(&#x27;subclass&#x27; or $subObject)
+
+	get_class_methods() - Gets the class methods&#x27; names
+	get_class_vars() - Get the default properties of the class
+        get_object_vars()
+
+	is_subclass_of($obj, &#x27;MyClass&#x27;);
+	is_subclass_of(&#x27;subclass&#x27;, &#x27;MyClass&#x27;);
+
+## Object
+
+### instance of
+
+	var_dump($obj instanceof MyClass);
+
+### Spl Object property 对象成员属性
+
+	public function export() {
+        foreach (get_object_vars($this) as $k =&gt; $v) {
+            $this-&gt;$k = $v;
+        }
+    }
+	public function import($arr) {
+		foreach($arr as $k=&gt;$v){
+			$this-&gt;$k = $v;
+		}
+	}
+
+&gt; 	get_object_vars will only find non-static properties
+	get_object_vars will only find accessible properties according to scope
+
+#### property_exists
+
+	$this-&gt;protected_property = null;
+	property_exists($this, &#x27;protected_property&#x27;);//true
+	isset($this-&gt;protected_property);//false
+
+	array_key_exists(&#x27;v&#x27;, $GLOBALS);//$v=null;
+
+### caller name
+
+	public function getCallerName(){
+        return debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 3)[2][&#x27;function&#x27;];
+    }
+
+# Exception
+
+	LogicException (extends Exception)
+		BadFunctionCallException
+			BadMethodCallException
+		DomainException
+		InvalidArgumentException
+		LengthException
+		OutOfRangeException
+
+	RuntimeException (extends Exception)
+		OutOfBoundsException
+		OverflowException
+		RangeException
+		UnderflowException
+		UnexpectedValueException
+
+    class EExcetion extends Exception{
+        function __construct($err, $errno, $data){
+        }
+    }
+
+# Reference
+- [spl 学习]
+
+[spl 学习]:
+http://www.ruanyifeng.com/blog/2008/07/php_spl_notes.html
+</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

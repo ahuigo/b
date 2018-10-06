@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/vim/vim-script.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>vim-script</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: vim-script
+date: 2018-10-04
+updated: 2018-10-06
+---
+# Preface
+
+# debug
+
+## startuptime
+
+    vim --startuptime time.log
+    vim -u NONE
+
+## verbose
+
+	:set verbose=1
+	:set verbose=15
+	:verbose com {cmd}
+
+see `:h &#x27;vbs&#x27;`
+
+## copy command
+copy commands:
+
+	&quot;+y
+
+execute commands:
+
+	@+
+
+## log typed characters
+
+	vim -w vim_typed.bin a.txt
+	vim -W vim_typed.bin a.txt &quot;overwritten
+
+&gt; For about shell typed characters, refer to [shell.md](/shell.md)
+
+# control expression
+
+## loop
+
+## loop list
+
+	for i in [1, 2, 3, 4]
+	  let c += i
+	endfor
+
+## while loop
+
+	while c &lt;= 4
+	  let c += 1
+	endwhile
+
+## if
+
+	:if ! 0
+	:    echom &quot;if&quot;
+	:elseif ! &quot;nope!&quot;
+	:    echom &quot;elseif&quot;
+	:else
+	:    echom &quot;finally!&quot;
+	:endif
+
+	if 1| echo &quot;true&quot; | endif
+	if 1|echo &quot;true&quot;|endif
+
+if string
+
+	:echom &quot;hello&quot; + 10		&quot;10
+	:echom &quot;10hello&quot; + 10	&quot;20
+	:echom &quot;hello10&quot; + 10	&quot;10
+
+	if ! &quot;something&quot;
+	    echom &quot;false&quot;
+	endif
+
+	if &quot;123&quot;
+	    echom &quot;true&quot;
+	endif
+
+## comment expression
+
+	:&quot; This is a comment
+	:imap a b | &quot; This is a comment
+	:imap a b \| |&quot; This is a comment
+
+## comparision expression
+&gt; Read :help expr4 to see all the available comparison operators.
+
+		use &#x27;ignorecase&#x27;    match case	   ignore case ~
+	equal			==		==#		==?
+	not equal		!=		!=#		!=?
+	greater than		&gt;		&gt;#		&gt;?
+	greater than or equal	&gt;=		&gt;=#		&gt;=?
+	smaller than		&lt;		&lt;#		&lt;?
+	smaller than or equal	&lt;=		&lt;=#		&lt;=?
+	regexp matches		=~		=~#		=~?
+	regexp doesn&#x27;t match	!~		!~#		!~?
+	same instance		is		is#		is?
+	different instance	isnot		isnot#		isnot?
+
+example
+
+	echo 30 &gt; 1 		&quot;1
+	echo &quot;foo&quot;==&quot;bar&quot;	&quot;0
+	echo &quot;&quot;==0			&quot;1
+
+case ignore sensitive(default sensitive)
+
+	&quot;set ignorecase
+	echo &quot;A&quot; == &#x27;a&#x27;		&quot;1
+
+no matter what user set:
+
+	&quot;case sensitive
+	echo &#x27;A&#x27;==#&#x27;a&#x27;		&quot;0
+	&quot;case insensitive
+	echo &#x27;A&#x27;==?&#x27;a&#x27;		&quot;1
+
+## pattern expression
+
+	echo getline(a:lnum) =~? &#x27;\v^\s*$&#x27;
+
+# try catch
+
+	try
+		...
+	catch /{pattern1}/
+		...
+	catch /E227/
+		...
+	finally
+		...
+	endtry
+
+catch:
+
+	:catch	&quot; same as catch /.*/
+
+example
+
+    try
+      nnoremap &lt;unique&gt; &lt;silent&gt; &lt;leader&gt;h1 :EasyhlWord 1&lt;CR&gt;
+    catch /E227/
+	finally
+		echo &quot;cleanup&quot;
+    endtry
+
+# Function
+
+## Define Function
+1. `[!]` is required to overwrite an existing function
+2. funcName must start with capital or contain colon
+3. It cannot be combined to one line.
+4. `:return :retu` default return`0`
+
+Function must start with a capital letter or `:`,
+
+	function Meow(name)
+	  echo a:name
+	  return &quot;Meow String!&quot;
+	endfunction
+
+### local script function
+&gt; :h &lt;SID&gt;
+&gt; http://learnvimscriptthehardway.stevelosh.com/chapters/34.html
+
+ &quot;s:&quot; can be prepended to the name to make it local to the script.
+
+	nnoremap &lt;leader&gt;g :set operatorfunc=&lt;SID&gt;echo&lt;cr&gt;g@
+	function! s:echo(type)
+		echo &#x27;abc&#x27;
+	endfunction
+
+## Call Function
+
+	:call Meow(&quot;hilo&quot;)
+	:echo Meow(&quot;hilo&quot;)
+		print result
+	:echo my:echo(&quot;v&quot;)
+
+### g@{motion}
+
+	g@{motion}
+		call function defined by `set operatorfunc`
+
+Example:
+
+	nnoremap &lt;leader&gt;g :set operatorfunc=GrepOperator&lt;cr&gt;g@
+
+	function! GrepOperator(type)
+		echom &quot;Test&quot;
+	endfunction
+
+On visual mode, you don not need `g@`:
+
+	vnoremap &lt;leader&gt;g :&lt;c-u&gt;call GrepOperator(visualmode())&lt;cr&gt;
+
+&gt; visualmode() return the last type of visual mode used:
+	&quot;v&quot; for characterwise, &quot;V&quot; for linewise, and a Ctrl-v character for blockwise.
+
+## Varargs:
+`a:var` can not be modified!
+
+	function Varg(...)
+	  echom a:0
+	  echom a:1
+	  echom a:2
+	  echo &#x27;------&#x27;
+	  echo a:000
+	endfunction
+	:call Varg(&quot;a&quot;, &quot;b&quot;)
+
+Result, `a:0` is `number of extra args`, `a:000` is a list contain extra args:
+
+	2
+	a
+	b
+	------------
+	[&#x27;a&#x27;, &#x27;b&#x27;]
+
+use varargs together with regular arguments too
+
+	function Varg2(foo, ...)
+	  echom a:foo
+	  echom a:0
+	  echom a:1
+	  echo a:000
+	endfunction
+	call Varg2(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;)
+
+Result:
+
+	a
+	2
+	b
+	[&#x27;b&#x27;, &#x27;c&#x27;]
+
+# 脚本文件
+
+## load script
+
+	:source %
+	:source file
+
+### autoload
+
+	:call somefile#Hello()
+
+If not loaded, Vim will look for a file called `autoload/somefile.vim` in your `runtimepath` directory (and any Pathogen bundles).
+
+	function somefile#Hello()
+		&quot; ...
+	endfunction
+
+`autoload/myplugin/somefile.vim`:
+
+	:call myplugin#somefile#Hello()
+
+## 查看脚本
+
+	:scrip	:scriptnames 查看加载的脚本
+	:version 查看编译项、配置文件
+
+	:echo $VIMRUNTIME
+	:vsplit $MYVIMRC
+
+	:set runtimepath?
+
+### 全局plugin
+
+	~/.vim/plugin/
+	$VIMRUNTIME/macros
+
+### 文件类型插件filetype plugin
+
+	$VIMRUNTIME/ftplugin
+
+## 文件类型(plugintype detection)
+开启插件检测：
+
+	&quot;enable file type detection
+	:filetype on
+
+	&quot;enable loading the plugin files for specific file types with:
+	:filetype plugin on
+
+	&quot;enable loading the indent file for specific file types with:
+	:filetype plugin indent on</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

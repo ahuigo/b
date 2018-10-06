@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/math/math-symbol.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>数学符号与古希腊字符</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: 数学符号与古希腊字符
+date: 2018-10-04
+updated: 2018-10-06
+---
+# 数学符号与古希腊字符
+
+## Greece, 希腊字符
+https://www.wolframalpha.com/input/?i=lnx
+
+$Α	α$	Alpha	a
+$Β	β$	Beta	b
+$Γ	γ$	Gamma	g
+$Δ	δ$	Delta	d
+$Ε	ε$	Epsilon	e
+$Ζ	ζ$	Zeta	z
+$Η	η$	Eta	h
+$Θ	θ$	Theta	th
+$Ι	ι$	Iota	i
+$Κ	κ$	Kappa	k
+$Λ	λ$	Lambda	l
+$Μ	μ$	Mu	m
+$Ν	ν$	Nu	n
+$Ξ	ξ$	Xi	x
+$Ο	ο$	Omicron	o
+$Π	π$	Pi	p
+$Ρ	ρ$	Rho	r
+$Σ	σ,ς$ *	Sigma	s
+$Τ	τ$	Tau	t
+$Υ	υ$	Upsilon	u
+$Φ	φ$	Phi	ph
+$Χ	χ$	Chi	ch
+$Ψ	ψ$	Psi	ps
+$Ω	ω$	Omega	o
+
+latex 表示
+
+    \alpha产生字符α;\beta产生字符β；\gamma产生字符γ；\delta产生字符δ;
+    \epsilon产生字符ε; \zeta产生字符ζ；
+    \eta产生字符η;
+    \iota I产生字符ι,I；
+    \kappa产生字符κ；
+    \1ambda产生字符λ；\mu产生字符μ；\xi产生字符ξ：
+    \nu产生字符ν；\o产生字符o； \pi产生字符π；
+    \rho P产生字符ρ,P；
+    \sigma \Sigma产生字符σ, Σ(⌥+w)；
+    \varsigma ς
+    \tau产生字符τ;
+    \upsilon产生字符υ；
+    \theta \Theta  øΘ(⌥ +o)
+    \phi \Phi产生字 𝛗ϕΦ
+    \psi \Psi产生字 ψΨ；
+    \chi X产生字符χ,Χ；
+    \omega $\omega$产生字符ω,Ω
+    \pi \Pi 得到: π, Π
+
+
+图片出处 知乎@ 錢奕輝的回答 - 知乎 https://www.zhihu.com/question/23655549/answer/477935737
+![](/img/math/math-symbol.jpg)
+
+### Mathematical Symbols, 数学符号
+https://www.howtotype.net/category/all_symbols/
+
+    √ (square root): OPTION + v
+    ÷ (division): OPTION + ?
+    ≤ (less than or equal to): OPTION + &lt;
+    ≥ (greater than or equal to): OPTION + &gt;
+    ^ (circumflex): OPTION + i
+    ≠ (not equal to): OPTION + =
+    ≈ (almost equal to): OPTION + x
+    ± (plus-minus): OPTION + shift + =
+    ∞ (infinity): OPTION + 5
+    ø (empty set): OPTION + o
+    ∑ (N-ary summation or Sigma): OPTION + w
+    ƒ (function): OPTION + f
+    ∫ (integral): OPTION + b
+    ∂ (partial differential): OPTION + d
+
+	Asymptotic	≈
+ 	Degree symbol	°
+ 	Delta	Δ
+ 	Division sign	÷
+ 	Fraction 1/2	½
+ 	Fraction 1/4	¼
+ 	Fraction 3/4	¾
+ 	Greater than	&gt;
+ 	Greater than or equal	≥
+ 	Infinity symbol	∞
+ 	Left Angle Bracket	〈
+ 	Less than	&lt;
+ 	Less than or equal	≤
+ 	Micro	µ
+ 	Multiplication sign	×
+ 	not symbol	¬
+ 	Ohm sign	Ω
+ 	Per Mille (1/1000) sign	‰
+ 	Pi symbol	π
+ 	Plus/minus sign	±
+ 	Right Angle Bracket	〉
+ 	square root radical sign	√
+ 	Sum sign	∑
+ 	Superscript one	¹
+ 	Superscript three - cubed	³
+ 	Superscript two - squared	²
+
+### Input Symbols, 常用输入符号
+
+	⌥ +K 
+	⌥ +R ‰
+	⌥ += ≠
+	⌥ ++ ±
+	⌥ +@ €
+	⌥ +2 ™
+	⌥ +3 £
+	⌥ +5 ∞
+	⌥ +6 §
+	⌥ +( ·
+	⌥ +z Ω
+	⌥ +o ø
+	⌥ +O Ø
+	⌥ +p π
+	⌥ +v √
+	⌥ +w ∑
+	⌥ +b ∫
+	⌥ +r ®
+	⌥ +g ©
+	⌥ +, ≤
+	⌥ +. ≥
+	⌥ +j ∆
+	⌥ +x ≈
+	⌥ +m µ
+	⌥ +f ƒ
+    苹果标志 （Shift+Option+K）
+    Copyright © (Option+G)
+    美元 $ (Shift+4)
+    美分 ￠ (Option+4)
+    英镑 ￡ （Option+3)
+    日元 ￥(Option+Y)
+    欧元 €（Shift+Option+2）
+    破折号 –(Option+-)
+    约等于 ≈（Option+X)
+    度 °(Shift+Option+8)
+    除号 ÷（Option+/)
+    循环 ∞（Option+5）
+    小于等于≤（Option+,)
+    大于等于≥（Option+.)
+    不等于≠（Option+=）
+    Pi π（Option+P）
+    正负号 ±(Shift+Option+=)
+    平方根√（Option+V)
+    求和 ∑（option+w）
+    产品标识 ™（Option+2)
+
+	¶•ªº–≠
+	`⁄€‹›ﬁﬂ‡°·‚—±
+
+	œ∑®†¥øπ“‘«
+	Œ„´‰ˇÁ¨ˆØ∏”’»
+
+	åß∂ƒ©˙∆˚¬…æ
+	ÅÍÎÏ˝ÓÔÒÚÆ
+
+	Ω≈ç√∫∫µ≤≥÷
+	¸˛Ç◊ı˜Â¯˘¿
+
+For more details,refer to [Type Symbols]
+http://www.wikihow.com/Type-Symbols-Using-the-ALT-Key</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

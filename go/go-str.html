@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/go/go-str.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>bytes</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: bytes
+date: 2018-09-27
+updated: 2018-10-06
+---
+# bytes
+
+  var out bytes.Buffer
+
+## read bytes
+
+  r := strings.NewReader(&quot;some input&quot;)
+  b := make([]byte, 8);//buffer
+  r.Read(b)
+
+# string
+
+## here doc str
+
+  str := `ab\bc`
+
+## rune
+单引号字符常量表  Unicode Code Point, 持 `\uFFFF、\U7FFFFFFF、\xFF` 格式。 对应 rune 类型,UCS-4。
+
+  var c1, c2 rune = &#x27;\u6211&#x27;, &#x27;们&#x27;
+  println(c1 == &#x27;我&#x27;, string(c2) == &quot;\xe4\xbb\xac&quot;)
+
+## change str
+要修改字符串,可先将其转换成 []rune 或 []byte,完成后再转换为 string。 论哪种转 换,都会重新分配内存,并复制字节数组。
+
+  s := &quot;abcd&quot;
+  bs := []byte(s)
+  bs[1] = &#x27;B&#x27;
+  println(string(bs))
+
+  u := &quot;电脑&quot;
+  us := []rune(u)
+  us[1] = &#x27;话&#x27;
+  println(string(us))
+
+### rune(code point)
+&quot;Code point&quot; is a bit of a mouthful, so Go introduces a shorter term for the concept: `rune`.
+The term appears in the libraries and source code, and means exactly the same as &quot;code point&quot;, with one interesting addition.
+
+The Go language defines the word rune as an alias for the `type int32`, so programs can be clear when an integer value represents a `code point`.
+Moreover, what you might think of as a character constant is called a rune constant in Go. The type and value of the expression
+
+  &#x27;⌘&#x27;
+
+is rune with integer value 0x2318.
+
+To summarize, here are the salient points:
+
+1. Go source code is always UTF-8.
+2. A string holds arbitrary bytes.
+3. A string literal, absent byte-level escapes, always holds valid UTF-8 sequences.
+4. Those sequences represent Unicode code points, called runes(int32).
+
+### range rune
+
+  const nihongo = &quot;日本語&quot;
+  for index, runeValue := range nihongo {
+      fmt.Printf(&quot;%#U starts at byte position %d\n&quot;, runeValue, index)
+      fmt.Printf(&quot;%U starts at byte position %d\n&quot;, runeValue, index)
+  }
+
+output:
+
+  U+65E5 &#x27;日&#x27; starts at byte position 0
+  U+65E5 starts at byte position 0
+  U+672C &#x27;本&#x27; starts at byte position 3
+  U+672C starts at byte position 3
+  U+8A9E &#x27;語&#x27; starts at byte position 6
+  U+8A9E starts at byte position 6
+
+### range byte
+
+  for i:0;i&lt;len(s);i++{
+    s[i]
+  }
+
+## Print string
+&gt; see go-fmt
+
+A string is in effect a read-only slice of bytes.
+
+  fmt.Sprintf(&quot;%x&quot;, &quot;\x31\x32&quot;[0])
+    31
+  fmt.Sprintf(&quot;%x&quot;, &quot;\x31\x32&quot;)
+    3132
+  fmt.Sprintf(&quot;%    x&quot;, &quot;12&quot;)
+    31 32
+
+quoted string as go syntax
+
+  fmt.Sprintf(&quot;%q&quot;, &quot;12\x00\u2318&quot;)
+    &quot;12\x00⌘&quot;
+  fmt.Sprintf(&quot;%+q&quot;, &quot;12\x00&quot;)
+    &quot;\x31\x32\x00\u2318&quot;
+
+
+# Fields
+
+## explode, str to slice
+If no content in reurn `empty slice`
+
+  import strings
+  fmt.Printf(&quot;Fields are: %q&quot;, strings.Fields(&quot;  foo bar  baz   &quot;))
+
+## join
+
+  strings.Join([]string{&quot;a&quot;,&quot;b&quot;}, &quot;,&quot;)
+
+# strconv
+
+## .Atoi
+str to int, strconv.Atoi
+
+  var t = []string{&quot;1&quot;, &quot;2&quot;, &quot;3&quot;}
+  var t2 = []int{}
+  for _, i := range t {
+      j, err := strconv.Atoi(i)
+      if err != nil {
+          panic(err)
+      }
+      t2 = append(t2, j)
+  }
+  a_
+
+## .Itoa
+
+  s := strconv.Itoa(-42)
+
+## byte2str
+
+  gore&gt; string([]byte{1,2,3})
+  &quot;\x01\x02\x03&quot;
+  gore&gt; string(1)
+  &quot;\x01&quot;
+
+# trim
+
+  strings.TrimSuffix(&quot;abc,&quot;, &quot;,&quot;)
+  func TrimSpace(s string) string</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

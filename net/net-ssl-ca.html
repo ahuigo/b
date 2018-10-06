@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/net/net-ssl-ca.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>Certificate Authority(CA)</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: Certificate Authority(CA)
+date: 2018-10-06
+updated: 2018-10-06
+---
+# Preface
+Refer to:
+https://workaround.org/certificate-authority
+
+Certificates usually do not come for free. An excellent exception is the first free CA: [CaCert](http://www.cacert.org/).
+Currently not all browsers have their certificate built in. Microsoft only seems to trust CAs if they pay an unrealistic amount of money - who&#x27;s surprised? It is worth spreading the word since this CA is about trust instead of money.
+
+If you do not really care whether the CA is contained in other people&#x27;s browsers. Then you should consider creating your own CA. 
+The only difference is that your clients will get a warning when contacting your server that the CA is not (yet) trusted. This can be either safely ignored or you can make them install your CA&#x27;s certificate. It is also a good solution if you need a company-wide CA.
+
+# Create Own CA
+First you need to to install OpenSSL. On Debian this means running apt-get install openssl. Go to the directory where you want to create the files that make up the CA. Next type(CA is a shell script): 
+
+	/usr/lib/ssl/misc/CA.pl -newca
+	/etc/pki/tls/misc/CA -newca
+
+The script will create a new directory named demoCA. 
+- The CA&#x27;s private key (keep it safe!) 
+- the public key/certificate (which you may need to give to your clients) will be put there.
+The public certificate is the demoCA/cacert.pem file. It does not matter really what you enter into the fields. Just pick a meaningful name for the common name field so that it&#x27;s clear you are looking at a CA - not a person. So name it &quot;ACME Lasagna Certifiate Authority&quot; instead of &quot;Peters Blaphemic&#x27;s Fun Certificate&quot;. Pick something that sounds official.
+
+&gt; Notice: the CA has an expiry date. The default setting is one year. You may want to edit the file CA.pl and set Days to ten years.
+
+# Create a certificate
+Now that you have your own CA you can create certificates for servers. That means you have to do two steps:
+
+Your &quot;client&quot; creates a private key (.key) and a certificate request (.req):
+
+	/usr/lib/ssl/misc/CA.pl -newreq
+
+You sign that request with your CA&#x27;s key and create a certificate (.crt) that you send to the client:
+
+	/usr/lib/ssl/misc/CA.pl -sign
+
+&gt; Note: If your &quot;client&quot; does not send you a certificate request you can create all the necessary files for them.
+
+To simplify things you may want to use my script makecert that you can use to quickly create new certificates for i.e. Apache SSL servers. Run it like this:
+
+	./makecert mailserver.mydomain.com
+
+You will get three files:
+
+	mailserver.mydomain.com.key (the client&#x27;s private key)
+	mailserver.mydomain.com.req (the client&#x27;s certificate request)
+	mailserver.mydomain.com.crt (the client&#x27;s signed certificate)
+
+The certificate request is just an intermediate file that is not necessary to run a server using that certificate. You just need the private key and the certificate.
+
+&gt; If you like to use that certificate for an Apache web server you need to put the private key (.key) and the certificate (.crt) into the same file and call it apache.pem.
+
+	cat mailserver.mydomain.com.key mailserver.mydomain.crt &gt; apache.pem
+
+# Sign a request
+Some server create a certificate request (SAP, IIS). You will get that request as a file from the client. Use the following command on that request file:
+
+	ca -policy policy_anything -notext -in clients.server.com.req -days 3650 -out clients.server.com.crt
+
+## Some tricks
+Show all information about a certificate:
+
+	openssl x509 -noout -text &lt; crt
+
+Calculate the MD5 fingerprint of a certificate:
+
+	openssl x509 -noout -fingerprint &lt; crt
+
+Calculate the SHA1 fingerprint of a certificate:
+
+	openssl x509 -sha1 -noout -fingerprint &lt; crt
+
+The &#x27;makecrt&#x27; script
+
+	#
+	# Create SSL certificates
+	# Christoph Haas &lt;email@christoph-haas.de&gt;
+	#
+	
+	DAYS=3650
+	OUTFILE=$1-apache.pem
+	
+	if [ -z &quot;$1&quot; ]; then
+	echo &quot;Usage: $0 [host.domain]&quot;
+	exit 10
+	fi
+	
+	echo &quot;Zertifikat für Host $1 wird erzeugt&quot;
+	
+	(
+	echo &quot;My Country&quot;
+	echo &quot;My Region&quot;
+	echo &quot;My City&quot;
+	echo &quot;My Company&quot;
+	echo &quot;My Department&quot;
+	echo $1
+	echo &quot;webmaster@$1&quot;
+	echo
+	echo
+	) |
+	openssl req -new -nodes -keyout $1.key -out $1.req -days $DAYS
+	openssl ca -policy policy_anything -notext -days $DAYS -out $1.crt -infiles $1.req
+	chmod go= $1.crt $1.key $1.req
+
+# Reference
+For more details:
+
+- http://datacenteroverlords.com/2012/03/01/creating-your-own-ssl-certificate-authority/
+
+&gt; 根证书(root.pem)本质上是自签名证书，根证书可以用于对其它子证书签名(参考上面的链接)
+</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/eng/listen-4.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>more and more, increasing / accumulating numbers</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: more and more, increasing / accumulating numbers
+date: 2018-09-27
+updated: 2018-10-06
+---
+more and more, increasing / accumulating numbers
+# listen traffic jam
+交通拥堵
+    traffic jam
+    traffic congestion
+    stuck in traffic
+    heavy traffic
+    worse traffic
+World famous landmark 地标
+at the mouth of golden gate straits 金门海峡入海口
+give sb. an idea of 这会让人想起...
+nightmare 恶梦 that every drivers faces 面临
+and of course we are not alone.
+42million
+what it costs the Americans to cope(deal 处理) with rush-hour traffic in time and money.
+you are problely right.
+There&#x27;s a combination of the factors of why I&#x27;m going to state-owned enterprise
+The amount of people, the amount of the roadway, it there set of  demand-supply relationship.(供需关系)
+urban mobility report .
+In average American city, people travel 85% more miles by car  in 2000 than in 1982.
+That&#x27;s not total travel time.
+That&#x27;s just the extra time spend going now.
+Waste/lose + ... hour stuck in traffic.
+
+Once you get into a big system, it&#x27;s difficult to maintance the pace of the roadway and transit system development(公交系统). railway
+You wind up falling behind. wind up= end up
+
+The traffic aren&#x27;t just annoying. They&#x27;re expensive.(time+money)
+75
+price tag 价格签
+68 billion dollars
+
+# listen 养老
+it is no longer a time when you will have your feet up.
+    have/put/get one&#x27;s feet up 休息
+according to the latest and largest study of aging and retirement(老龄化和退休) ever undertaken(实施)
+The report carried out found the old people across the global are staying in employment longer.
+That&#x27;s because of the fitter and healthier
+Mature economic 成熟经济
+huge contributors to their economy
+the report overturn 颠覆
+There was a view that old age can be a time of penury(贫穷), frailty(脆弱vulnerable), dependance on others(依赖别人)
+I think we show quite conclusively old people live much longer, and wilst living much longer, they are much healthier
+Old people in there 60s and 70s, are net givers. 
+    net profit 纯利润
+    net givers 纯贡献者
+    net contributors
+They are not takers, They made massive contribution to society.
+Family structures remain very durable.
+People worried about pension problem(养老金)
+Growing population, People living longer, means it will be rather hard for the rest of the population. to carry the burden of the retirement of future.
+What you say, turn on its head(overturn 颠覆). 
+In effect, quantitative analysis(定量分析), 21 coutries, they are not takers, but givers, how do we measures that? (如何得出结论)
+2% people are still in working. So they they make contribution by way of tax, You make people to do unpaid voluntary work(自愿的工作)
+And mass invalu  to that. 14 billions . 
+They can provide:
+social care 社会关怀
+child care 社会关怀
+Old people, grand chil
+survey 调查 
+
+People want to continue working, because of the social contribution they make;
+self-identity they get from work;  share enjoyment.
+These are win-win , low absenteeism(旷课旷工), greater loyalty(忠诚), fill a skill set which is hard to find from the younger generation.</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

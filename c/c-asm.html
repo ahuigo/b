@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/c/c-asm.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>c 与 汇编</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: c 与 汇编
+date: 2018-10-06
+updated: 2018-10-06
+---
+# Preface
+
+本文是 https://akaedu.github.io/book/ch19s01.html 相关的笔记
+
+# 函数调用
+
+	int bar(int c, int d) {
+		int e = c + d;
+		return e;
+	}
+
+	int foo(int a, int b) {
+		return bar(a, b);
+	}
+
+	int main(void) {
+		foo(2, 3);
+		return 0;
+	}
+
+以上源码很简单。
+
+	$ gcc main.c -g
+	$ objdump -dS a.out
+	...
+	08048394 &lt;bar&gt;:
+	int bar(int c, int d)
+	{
+	 8048394:	55                   	push   %ebp
+	 8048395:	89 e5                	mov    %esp,%ebp
+	 8048397:	83 ec 10             	sub    $0x10,%esp
+		int e = c + d;
+	 804839a:	8b 55 0c             	mov    0xc(%ebp),%edx
+	 804839d:	8b 45 08             	mov    0x8(%ebp),%eax
+	 80483a0:	01 d0                	add    %edx,%eax
+	 80483a2:	89 45 fc             	mov    %eax,-0x4(%ebp)
+		return e;
+	 80483a5:	8b 45 fc             	mov    -0x4(%ebp),%eax
+	}
+	 80483a8:	c9                   	leave  
+	 80483a9:	c3                   	ret    
+
+	080483aa &lt;foo&gt;:
+
+	int foo(int a, int b)
+	{
+	 80483aa:	55                   	push   %ebp
+	 80483ab:	89 e5                	mov    %esp,%ebp
+	 80483ad:	83 ec 08             	sub    $0x8,%esp
+		return bar(a, b);
+	 80483b0:	8b 45 0c             	mov    0xc(%ebp),%eax
+	 80483b3:	89 44 24 04          	mov    %eax,0x4(%esp)
+	 80483b7:	8b 45 08             	mov    0x8(%ebp),%eax
+	 80483ba:	89 04 24             	mov    %eax,(%esp)
+	 80483bd:	e8 d2 ff ff ff       	call   8048394 &lt;bar&gt;
+	}
+	 80483c2:	c9                   	leave  
+	 80483c3:	c3                   	ret    
+
+	080483c4 &lt;main&gt;:
+
+	int main(void)
+	{
+	 80483c4:	8d 4c 24 04          	lea    0x4(%esp),%ecx
+	 80483c8:	83 e4 f0             	and    $0xfffffff0,%esp
+	 80483cb:	ff 71 fc             	pushl  -0x4(%ecx)
+	 80483ce:	55                   	push   %ebp
+	 80483cf:	89 e5                	mov    %esp,%ebp
+	 80483d1:	51                   	push   %ecx
+	 80483d2:	83 ec 08             	sub    $0x8,%esp
+		foo(2, 3);
+	 80483d5:	c7 44 24 04 03 00 00 	movl   $0x3,0x4(%esp)
+	 80483dc:	00 
+	 80483dd:	c7 04 24 02 00 00 00 	movl   $0x2,(%esp)
+	 80483e4:	e8 c1 ff ff ff       	call   80483aa &lt;foo&gt;
+		return 0;
+	 80483e9:	b8 00 00 00 00       	mov    $0x0,%eax
+	}
+	 80483ee:	83 c4 08             	add    $0x8,%esp
+	 80483f1:	59                   	pop    %ecx
+	 80483f2:	5d                   	pop    %ebp
+	 80483f3:	8d 61 fc             	lea    -0x4(%ecx),%esp
+	 80483f6:	c3                   	ret   
+	...
+
+`$ gobjdump -dS a.out` 输出源码与汇编对照
+
+	(gdb) start
+	...
+	main () at main.c:14
+	14		foo(2, 3);
+	(gdb) s
+	foo (a=2, b=3) at main.c:9
+	9		return bar(a, b);
+	(gdb) s
+	bar (c=2, d=3) at main.c:3
+	3		int e = c + d;
+	(gdb) disassemble 
+	Dump of assembler code for function bar:
+	0x08048394 &lt;bar+0&gt;:	push   %ebp
+	0x08048395 &lt;bar+1&gt;:	mov    %esp,%ebp
+	0x08048397 &lt;bar+3&gt;:	sub    $0x10,%esp
+	0x0804839a &lt;bar+6&gt;:	mov    0xc(%ebp),%edx
+	0x0804839d &lt;bar+9&gt;:	mov    0x8(%ebp),%eax
+	0x080483a0 &lt;bar+12&gt;:	add    %edx,%eax
+	0x080483a2 &lt;bar+14&gt;:	mov    %eax,-0x4(%ebp)
+	0x080483a5 &lt;bar+17&gt;:	mov    -0x4(%ebp),%eax
+	0x080483a8 &lt;bar+20&gt;:	leave  
+	0x080483a9 &lt;bar+21&gt;:	ret    
+	End of assembler dump.
+	(gdb) si
+	0x0804839d	3		int e = c + d;
+	(gdb) si
+	0x080483a0	3		int e = c + d;
+	(gdb) si
+	0x080483a2	3		int e = c + d;
+	(gdb) si
+	4		return e;
+	(gdb) si
+	5	}
+	(gdb) bt
+	#0  bar (c=2, d=3) at main.c:5
+	#1  0x080483c2 in foo (a=2, b=3) at main.c:9
+	#2  0x080483e9 in main () at main.c:14
+	(gdb) info registers 
+	eax            0x5	5
+	ecx            0xbff1c440	-1074674624
+	edx            0x3	3
+	ebx            0xb7fe6ff4	-1208061964
+	esp            0xbff1c3f4	0xbff1c3f4
+	ebp            0xbff1c404	0xbff1c404
+	esi            0x8048410	134513680
+	edi            0x80482e0	134513376
+	eip            0x80483a8	0x80483a8 &lt;bar+20&gt;
+	eflags         0x200206	[ PF IF ID ]
+	cs             0x73	115
+	ss             0x7b	123
+	ds             0x7b	123
+	es             0x7b	123
+	fs             0x0	0
+	gs             0x33	51
+	(gdb) x/20 $esp
+	0xbff1c3f4:	0x00000000	0xbff1c6f7	0xb7efbdae	0x00000005
+	0xbff1c404:	0xbff1c414	0x080483c2	0x00000002	0x00000003
+	0xbff1c414:	0xbff1c428	0x080483e9	0x00000002	0x00000003
+	0xbff1c424:	0xbff1c440	0xbff1c498	0xb7ea3685	0x08048410
+	0xbff1c434:	0x080482e0	0xbff1c498	0xb7ea3685	0x00000001
+
+除了用`objdump`, 我们还可以用gdb 的`disassemble` 反汇编，它后面跟函数名，则反汇编函数. 默认是反汇编当前的函数. 我们用以了：
+
+1. si命令可以一条指令一条指令地单步调试。
+2. info registers可以显示所有寄存器的当前值。
+3. gdb中表示寄存器名时前面要加个$，例如p $esp可以打印esp寄存器的值，
+4. 在例子中esp寄存器的值是0xbff1c3f4，所以x/20 $esp命令查看内存中从0xbff1c3f4地址开始的20个32位数。
+
+在x86平台上这个栈是从高地址向低地址增长的，我们知道每次调用一个函数都要分配一个栈帧来保存参数和局部变量，现在我们详细分析这些数据在栈空间的布局，根据gdb的输出结果图示如下：
+
+![](/img/linux-c-asm.func-frame.png)
+
+分析下bar:
+
+	ebp: 进入frame 时，本身交给栈保存(push %esp)
+	ebp: 保存上一frame 的esp(mov %esp, %ebp)
+	esp: 指向本frome (sub 0x10, %esp)
+</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

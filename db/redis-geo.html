@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/db/redis-geo.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>redis-geo</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: redis-geo
+date: 2018-09-27
+updated: 2018-10-06
+---
+# Preface
+redis &gt; 3.2
+
+- geoadd: O(log(N))
+- geopos: O(log(N))
+- GEODIST: O(log(N))
+- GEORADIUS: O(log(N)+M)， 其中 N 为指定范围之内的元素数量， 而 M 则是被返回的元素数量。
+- GEOHASH: 返回多个元素的HASH 值
+
+# geoadd
+- 添加元素复杂度：`O(log(N))`
+- 存储形式：有序集合， 从而像 `GEORADIUS 和 GEORADIUSBYMEMBER` 这样的命令可以在之后通过位置查询取得这些元素。
+- 返回值：新添加元素数量， 不包括原来已经存在的或更新的元素
+
+将经、纬、名字 添加到key 里面，
+
+    GEOADD key longitude latitude member [longitude latitude member ...]
+
+精确的坐标限制由 `EPSG:900913 / EPSG:3785 / OSGEO:41001` 等坐标系统定义， 具体如下：
+
+    有效的经度介于 -180 度至 180 度之间。
+    有效的纬度介于 -85.05112878 度至 85.05112878 度之间。
+
+Example
+
+    redis&gt; GEOADD Sicily 13.361389 38.115556 &quot;Palermo&quot; 15.087269 37.502669 &quot;Catania&quot;
+    (integer) 2
+
+    redis&gt; GEODIST Sicily Palermo Catania
+    &quot;166274.15156960039&quot;
+
+    redis&gt; GEORADIUS Sicily 15 37 100 km
+    1) &quot;Catania&quot;
+
+    redis&gt; GEORADIUS Sicily 15 37 200 km
+    1) &quot;Palermo&quot;
+    2) &quot;Catania&quot;
+
+# geopos
+
+    redis&gt; GEOADD Sicily 13.361389 38.115556 &quot;Palermo&quot; 15.087269 37.502669 &quot;Catania&quot;
+    (integer) 2
+
+    redis&gt; GEOPOS Sicily Palermo Catania NonExisting
+    1) 1) &quot;13.361389338970184&quot;
+       2) &quot;38.115556395496299&quot;
+    2) 1) &quot;15.087267458438873&quot;
+       2) &quot;37.50266842333162&quot;
+    3) (nil)
+
+# GEODIST
+
+    GEODIST key member1 member2 [unit]
+
+指定单位的参数 `unit` 必须是以下单位的其中一个：
+
+    m 表示单位为米(default)。
+    km 表示单位为千米。
+    mi 表示单位为英里。
+    ft 表示单位为英尺。
+
+# GEORADIUS
+
+    GEORADIUS key longitude latitude radius m|km|ft|mi [WITHCOORD] [WITHDIST] [WITHHASH] [ASC|DESC] [COUNT count]
+
+在给定以下可选项时， 命令会返回额外的信息：
+
+    WITHDIST ： 返回位置元素与中心之间的距离
+    WITHCOORD ：将位置元素的经度和维度也一并返回。
+    WITHHASH ： 以 52 位有符号整数的形式， 返回位置元素经过原始 geohash 编码的有序集合分值。 这个选项主要用于底层应用或者调试
+
+命令默认返回未排序的位置元素。 通过以下两个参数， 用户可以指定被返回位置元素的排序方式：
+
+    ASC ：根据中心的位置， 按照从近到远的方式返回位置元素。
+    DESC：根据中心的位置， 按照从远到近的方式返回位置元素。
+
+`COUNT n`  只能减少返回元素数量，不会减少计算量
+
+在返回嵌套数组时， 子数组的第一个元素总是位置元素的名字。 至于额外的信息， 则会作为子数组的后续元素， 按照以下顺序被返回：
+
+    1. 距离
+    2. geohash 整数。
+    3. 经度和纬度。
+
+Example
+
+    redis&gt; GEOADD Sicily 13.361389 38.115556 &quot;Palermo&quot; 15.087269 37.502669 &quot;Catania&quot;
+    (integer) 2
+
+    redis&gt; GEORADIUS Sicily 15 37 200 km WITHDIST
+    1) 1) &quot;Palermo&quot;
+       2) &quot;190.4424&quot;
+    2) 1) &quot;Catania&quot;
+       2) &quot;56.4413&quot;
+
+    redis&gt; GEORADIUS Sicily 15 37 200 km WITHCOORD
+    1) 1) &quot;Palermo&quot;
+       2) 1) &quot;13.361389338970184&quot;
+          2) &quot;38.115556395496299&quot;
+    2) 1) &quot;Catania&quot;
+       2) 1) &quot;15.087267458438873&quot;
+          2) &quot;37.50266842333162&quot;
+
+    redis&gt; GEORADIUS Sicily 15 37 200 km WITHDIST WITHCOORD
+    1) 1) &quot;Palermo&quot;
+       2) &quot;190.4424&quot;
+       3) 1) &quot;13.361389338970184&quot;
+          2) &quot;38.115556395496299&quot;
+    2) 1) &quot;Catania&quot;
+       2) &quot;56.4413&quot;
+       3) 1) &quot;15.087267458438873&quot;
+          2) &quot;37.50266842333162&quot;
+
+## GEORADIUSBYMEMBER
+这个命令和 GEORADIUS 命令一样，
+
+    GEORADIUSBYMEMBER key member radius m|km|ft|mi [WITHCOORD] [WITHDIST] [WITHHASH] [ASC|DESC] [COUNT count]
+
+# GEOHASH
+返回一个或多个位置元素的 Geohash 表示。
+
+    GEOHASH key member [member ...]</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

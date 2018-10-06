@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/py/py-file-io.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>py-file-io</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: py-file-io
+date: 2018-09-28
+updated: 2018-10-06
+---
+# Preface
+
+# mmap
+1. 文件操作需要从磁盘到页缓存再到用户主存的两次数据拷贝。
+2. 而 mmap 操控文件，只需要从磁盘到用户主存的一次数据拷贝过程. 但是大文件： major page fault 多
+
+    In [6]: with open(&quot;2.txt&quot;,&quot;r+b&quot;) as f:
+    ...:     mm = mmap.mmap(f.fileno(),0,prot=mmap.PROT_READ)
+    ...:     for line in iter(lambda: mm.readline(), b&#x27;&#x27;):
+    ...:         print(line)
+    ...:
+
+# HTTP io
+
+	from urllib import urlopen
+
+readline:
+
+	urlp = urlopen(url);
+	while(line = urlp.readline()){
+
+	}
+
+readlines:
+
+	for line in urlopen(url).readlines():
+		print line.strip()
+
+# std io
+
+    for l in sys.stdin.readlines():
+        sys.stdout.write(l[::-1])
+
+## input
+输入一行，不含换行
+
+	str = input()
+	str = input(&quot;Input some string:&quot;)
+    # 不回显:
+    getpass.getpass(&quot;Please input your Password: &quot;)
+
+## stdin file
+接收多行: 包含换行
+
+    import fileinput
+    for line in fileinput.input():
+        sys.stdout.write(line)
+        print(line) # on more new line
+
+# StringIO和BytesIO
+
+## File-like Object
+像open()函数返回的这种有个read()方法的对象，在Python中统称为file-like Object。除了file外，还可以是内存的字节流，网络流，自定义流等等。file-like Object不要求从特定类继承，只要写个read()方法就行。
+
+    if hasattr(obj, &#x27;read&#x27;):
+        return read(obj)
+
+- StringIO/BytesIO 就是在内存中创建的file-like Object，常用作临时缓冲。
+
+## StringIO
+StringIO顾名思义就是在内存中读写str。
+
+要把str写入StringIO，我们需要先创建一个StringIO，然后，像文件一样写入即可：
+
+	&gt;&gt;&gt; from io import StringIO
+	&gt;&gt;&gt; f = StringIO()
+	&gt;&gt;&gt; f.write(&#x27;hello&#x27;)
+	5
+	&gt;&gt;&gt; f.write(&#x27; &#x27;)
+	1
+	&gt;&gt;&gt; f.write(&#x27;world!&#x27;)
+	6
+	&gt;&gt;&gt; print(f.getvalue())
+	hello world!
+
+### init: as file object
+
+
+	&gt;&gt;&gt; from PIL import Image
+	&gt;&gt;&gt; from io import StringIO
+	&gt;&gt;&gt; i = Image.open(StringIO(&#x27;Hello!\nHi!\nGoodbye!&#x27;)) # open(filename/file-object/Path)
+
+### read
+
+	f.read()
+	f.readline()
+	f.readlines()
+
+## BytesIO
+StringIO操作的只能是str，如果要操作二进制数据，就需要使用BytesIO。
+
+	&gt;&gt;&gt; from io import BytesIO
+	&gt;&gt;&gt; f = BytesIO()
+	&gt;&gt;&gt; f.write(&#x27;中文&#x27;.encode(&#x27;utf-8&#x27;))
+	6
+
+	&gt;&gt;&gt; print(f.getvalue())
+	b&#x27;\xe4\xb8\xad\xe6\x96\x87&#x27;
+
+string 与 bytes 相互转换
+
+	&gt;&gt;&gt; &#x27;123€20&#x27;.encode(&#x27;utf-8&#x27;)
+	b&#x27;123\xe2\x82\xac20&#x27;
+	&gt;&gt;&gt; b&#x27;\xe2\x82\xac20&#x27;.decode(&#x27;utf-8&#x27;)
+	&#x27;€20&#x27;
+	&gt;&gt;&gt; &#x27;123&#x27;.encode(&#x27;utf-8&#x27;)</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

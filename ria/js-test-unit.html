@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/ria/js-test-unit.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>Unit Test</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: Unit Test
+date: 2018-10-04
+updated: 2018-10-06
+---
+# Unit Test
+原生
+
+    function sum(...rest) {
+        var sum = 0;
+        for (let n of rest) {
+            sum += n;
+        }
+        return sum;
+    };
+    assert.strictEqual(sum(), 0);
+
+## 测试框架
+- mocha: 既可以在浏览器、Node.js环境下运行, 支持异步(js天生异步)
+
+# mocha
+是JavaScript的一种单元测试框架，既可以在浏览器环境下运行，也可以在Node.js环境下运行
+
+    $ package.json
+    // 正式打包发布时，devDependencies的包不会被包含进来。
+    {
+        &quot;dependencies&quot;: {},
+        &quot;devDependencies&quot;: {
+            &quot;mocha&quot;: &quot;3.0.2&quot;
+        }
+    }
+
+## 测试用例
+mocha默认会执行test目录下的所有测试，不要去改变默认目录
+
+    package.json
+    test/
+        hello-test.js 
+
+这里我们使用mocha默认的BDD-style的测试。describe可以任意嵌套，以便把相关测试看成一组测试
+hello-test.js内容如下：
+
+    const assert = require(&#x27;assert&#x27;);
+    const sum = require(&#x27;../hello&#x27;);
+
+    describe(&#x27;#hello.js&#x27;, () =&gt; {
+
+        describe(&#x27;#sum()&#x27;, () =&gt; {
+            it(&#x27;sum() should return 0&#x27;, () =&gt; {
+                assert.strictEqual(sum(), 0);
+            });
+
+            it(&#x27;sum(1) should return 1&#x27;, () =&gt; {
+                assert.strictEqual(sum(1), 1);
+            });
+
+            it(&#x27;sum(1, 2) should return 3&#x27;, () =&gt; {
+                assert.strictEqual(sum(1, 2), 3);
+            });
+
+            it(&#x27;sum(1, 2, 3) should return 6&#x27;, () =&gt; {
+                assert.strictEqual(sum(1, 2, 3), 6);
+            });
+        });
+    });
+
+## 运行测试
+
+1. $ ./node_modules/mocha/bin/mocha
+2. $ npm test
+3. vscode
+
+### npm test
+
+    $ cat package.json
+    &quot;scripts&quot;: {
+        &quot;test&quot;: &quot;mocha&quot;
+    },
+    $ npm test
+
+### vscode
+我们在VS Code中创建配置文件.vscode/launch.json，然后编写两个配置选项：
+
+    {
+        &quot;version&quot;: &quot;0.2.0&quot;,
+        &quot;configurations&quot;: [
+            {
+                &quot;name&quot;: &quot;Test&quot;,
+                &quot;type&quot;: &quot;node&quot;,
+                &quot;request&quot;: &quot;launch&quot;,
+                &quot;program&quot;: &quot;${workspaceRoot}/node_modules/mocha/bin/_mocha&quot;,
+                &quot;stopOnEntry&quot;: false,
+                &quot;args&quot;: [],
+                &quot;cwd&quot;: &quot;${workspaceRoot}&quot;,
+                &quot;preLaunchTask&quot;: null,
+                &quot;runtimeExecutable&quot;: null,
+                &quot;runtimeArgs&quot;: [
+                    &quot;--nolazy&quot;
+                ],
+                &quot;env&quot;: { &quot;NODE_ENV&quot;: &quot;test&quot; },
+                &quot;sourceMaps&quot;: false,
+            }
+        ]
+    }
+
+注意:
+1. 第一个配置选项Run是正常执行一个.js文件，
+2. 第二个配置选项Test我们填入`_mocha`(不是`mocha`):
+    1. `&quot;program&quot;: &quot;${workspaceRoot}/node_modules/mocha/bin/_mocha&quot;`，
+    2. 并设置env为`&quot;NODE_ENV&quot;: &quot;test&quot;`，
+3. 这样，就可以在VS Code中打开Debug面板，选择Test，运行，即可在Console面板中看到测试结果
+
+## before/after
+mocha提供了before、after、beforeEach和afterEach来实现这些功能。
+
+我们把hello-test.js改为：
+
+    const assert = require(&#x27;assert&#x27;);
+    const sum = require(&#x27;../hello&#x27;);
+
+    describe(&#x27;#hello.js&#x27;, () =&gt; {
+        describe(&#x27;#sum()&#x27;, () =&gt; {
+            before(function () {
+                console.log(&#x27;before:&#x27;);
+            });
+
+            after(function () {
+                console.log(&#x27;after.&#x27;);
+            });
+
+            beforeEach(function () {
+                console.log(&#x27;  beforeEach:&#x27;);
+            });
+
+            afterEach(function () {
+                console.log(&#x27;  afterEach.&#x27;);
+            });
+            ...
+
+## http test(supertest) 用例
+除了mocha外，我们还需要一个简单而强大的测试模块supertest(request)：
+
+    {
+        ...
+        &quot;devDependencies&quot;: {
+            &quot;mocha&quot;: &quot;3.0.2&quot;,
+            &quot;supertest&quot;: &quot;3.0.0&quot;
+        }
+    }
+
+运行npm install后，我们开始编写测试：
+
+    // app-test.js
+    const request = require(&#x27;supertest&#x27;),
+        app = require(&#x27;../app&#x27;);
+
+    describe(&#x27;#test koa app&#x27;, () =&gt; {
+
+        let server = app.listen(9900);
+
+        describe(&#x27;#test server&#x27;, () =&gt; {
+
+            it(&#x27;#test GET /&#x27;, async () =&gt; {
+                let res = await request(server)
+                    .get(&#x27;/&#x27;)                   //构造一个GET请求，发送给koa的应用，然后获得响应
+                    .expect(&#x27;Content-Type&#x27;, /text\/html/)
+                    .expect(200, &#x27;&lt;h1&gt;Hello, world!&lt;/h1&gt;&#x27;);
+            });
+
+            it(&#x27;#test GET /path?name=Bob&#x27;, async () =&gt; {
+                let res = await request(server)
+                    .get(&#x27;/path?name=Bob&#x27;)
+                    .expect(&#x27;Content-Type&#x27;, /text\/html/)
+                    .expect(200, &#x27;&lt;h1&gt;Hello, Bob!&lt;/h1&gt;&#x27;);
+            });
+        });
+    });</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

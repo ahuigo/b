@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/ria/js-indexedDB.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>IndexedDb 的使用之Dexie</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: IndexedDb 的使用之Dexie
+date: 2018-10-04
+updated: 2018-10-06
+---
+# IndexedDb 的使用之Dexie
+IndexedDb API 封装的很难用，[IndexedDB使用与出坑指南](https://juejin.im/post/5a9d65916fb9a028e46e257a) ，
+
+对比了各大lib, 发现Dexie 这个封装最好。
+
+# DDL
+## Create Database+Table
+
+    &lt;script src=&quot;https://unpkg.com/dexie@latest/dist/dexie.js&quot;&gt;&lt;/script&gt;
+    var db = new Dexie(&quot;Memory&quot;);
+    // db.verno
+    db.version(1).stores({
+        tasks: &#x27;name,index1&#x27;,
+        friends: &#x27;++id,name&#x27;,
+    });
+    // Open the database
+    db.open().catch(e=&gt;console.error(&quot;Open failed: &quot; + e));
+
+Curd will open it automatically and enqueue the operation to execute as soon as the database is finished opening. 
+没有 open, 也没有curd 操作, 会报错:
+
+    VM393 dexie.js:1541 Another connection wants to delete database &#x27;FriendsAndPetsDB&#x27;. Closing db now to resume the delete request
+
+### populate event
+This will only be called in case the `database` is initially created - not when it is upgraded.
+
+Init your DB with some default statuses:
+
+    db.version(1).stores({
+        statuses: &quot;++id,name,openess&quot;
+    });
+    db.on(&quot;populate&quot;, function() {
+        db.statuses.bulkAdd([{id: 1, name: &quot;opened&quot;, openess: true},...]);
+    });
+    db.open()
+
+## Alter Version
+Client Database 与 Server Database 不同，当时修改表结构时，每个Client 表结构都可能不同。所以IndexedDB 引入了database 的版本。所有的js的表结构操作都需要保留, 不能缺失，就是为了不能client migration 时的一致性。
+
+如果版本不全: UpgradeError Dexie specification of currently installed DB version is missing
+
+    //db.version(1).stores({friends: &quot;++id,name&quot;}); ////missing
+    db.version(2).stores({friends: &quot;++id,name,shoeSize&quot;}); 
+
+如果表结构已经存在：An index with the specified name already exists.
+
+    db.version(1).stores({friends: &quot;++id,name&quot;});
+    db.version(2).stores({friends: &quot;++id,name&quot;}); // exists
+    db.version(3).stores({friends: &quot;++id,name,shoeSize,haha&quot;});
+
+### upgrade
+Note: Dexie will provide the migration in backround in case a user with version 1 installed loads your version 2-app, but it would need to know the structure (how it looked like) in version 1 in order to do that.
+
+    db.version(1).stores({friends: &quot;++id,name&quot;});
+    db.version(2).stores({friends: &quot;++id,name,shoeSize&quot;});
+    db.version(3).stores({friends: &quot;++id,shoeSize,firstName,lastName&quot;}).upgrade(tx =&gt; {
+        // An upgrade function for version 3 will upgrade data based on version 2.
+        return tx.friends.toCollection().modify(friend =&gt; {
+            // Modify each friend:
+            friend.firstName = friend.name.split(&#x27; &#x27;)[0];
+            friend.lastName = friend.name.split(&#x27; &#x27;)[1];
+            delete friend.name;
+        });
+    });
+
+Note:
+1. Upgrade: Not yet support for changing primary key.(要先删除table) `++id` 变`id` 都不行
+Refer to: https://github.com/dfahlander/Dexie.js/issues/88
+
+### alter change
+
+    db.version(1).stores({
+        foo1: &#x27;id,x,y,z&#x27;,
+        foo2: &#x27;id,x,y,z&#x27;,
+        foo3: &#x27;id,x,y,z&#x27;
+    });
+    // Delete index &#x27;y&#x27; on &#x27;foo1&#x27;:
+    db.version(2).stores({
+        foo1: &#x27;id,x,z&#x27;
+    });
+    // Add index &#x27;x2&#x27; on &#x27;foo2&#x27;:
+    db.version(3).stores({
+        foo2: &#x27;id, x, x2, y, z&#x27;
+    });
+    // Drop table &#x27;foo3&#x27;:
+    db.version(4).stores({foo3: null});
+
+## primary key 
+out of line: &#x27;&#x27; empty key
+
+    db.version(1).stores({
+        simple: &#x27;&#x27;
+    });
+    db.simple.add(&#x27;one&#x27;, 1); // insert
+    db.simple.add({name:&#x27;ahui&#x27;}, 2); // insert
+    db.simple.put(&#x27;three&#x27;, 3); // insert    
+
+out of line: &#x27;++&#x27; auto increment
+
+    db.version(2).stores({
+        simple: &#x27;++,name&#x27;
+    });
+    db.simple.add(&#x27;one&#x27;, 1);
+    db.simple.put({name:&#x27;ahui&#x27;, skill:&#x27;code&#x27;}, 2); // update
+
+inline: key in object
+
+    db.version(1).stores({
+     objects: &#x27;++id,name&#x27;
+    });
+ 
+    db.objects.put({id: &#x27;one&#x27;, name: &#x27;ahuigo&#x27;}); 
+
+inline: key with dot notation(deep level)
+
+    db.version(1).stores({
+        objects: &#x27;pk.id&#x27;
+    });
+    db.objects.add({data: &#x27;one&#x27;, pk: {id: 1, ts: 1928198298}});
+    db.objects.add({data: &#x27;two&#x27;, pk: {id: 2, ts: 1928198299}});
+
+Composite keys
+
+    db.version(1).stores({
+        objects: &#x27;[first+last]&#x27;
+    });
+    
+    db.objects.add({first: &#x27;1&#x27;, last: 1, data: &#x27;test&#x27;}); //insert
+    db.objects.put({first: &#x27;2&#x27;, last: 2, data: &#x27;test2&#x27;}); //insert
+    const result = await db.objects.get([&#x27;2&#x27;,2]);
+    // {first: &quot;2&quot;, last: 2, data: &quot;test22&quot;
+
+## indexes
+4种:
+
+    property : hold duplicates
+    &amp;property : Unique index.
+    *property : Multi-entry index(array)
+    [property1+property2] : Compound index
+        where(&#x27;[properties.tsunami+properties.mag]&#x27;)
+
+e.g. 
+
+    db.version(1).stores({
+        contacts: &#x27;++id,name,&amp;email,*hobbies,[postCode+city]&#x27;
+    });
+    db.contacts.add({
+        name: &#x27;John&#x27;,
+        email: &#x27;john@test.com&#x27;,
+        hobbies: [&#x27;Reading&#x27;, &#x27;Traveling&#x27;, &#x27;Cycling&#x27;],
+        postCode: 11111,
+        city: &#x27;BigCity&#x27;
+    });
+    // use multi-entry index
+    const contact = await db.contacts.where(&#x27;hobbies&#x27;).equals(&#x27;Cycling&#x27;).first();
+
+## Detect DB changed
+
+    window.addEventListener(&#x27;storage&#x27;, function (event) {
+        if (event.key === &quot;Dexie.DatabaseNames&quot;) {
+            console.log(&quot;A database was added or removed&quot;);
+            console.log(&quot;Old list: &quot; + event.oldValue);
+            console.log(&quot;New list: &quot; + event.newValue);
+        }
+    });
+
+## List DB+Table
+IndexedDB 没有借口，Dexie 是通过`__dbnames` 记录的
+
+    const databases = await Dexie.getDatabaseNames();
+
+    db.tables.forEach(function (table) {
+        table.add(...)
+    });
+
+## Delete DB+Table
+    // Static method
+    Dexie.delete(&#x27;database_name&#x27;);
+    db.delete();
+
+    Dexie.getDatabaseNames((l)=&gt;{
+        l.forEach(console.log)
+    });
+
+delete table
+
+    db.version(x).stores(tableName:null)
+
+# CURD
+
+## add
+
+    //add
+    db.contacts.bulkAdd([{id:1, ....}, {id:2, ....},  ......  ,{id:100, ....} ]);
+
+    // put = add+update
+    db.friends.put({name: &quot;Nicolas&quot;, shoeSize: 8}).then (function(){
+        console.log(db.friends.get(&#x27;Nicolas&#x27;));
+    })
+
+## update
+put: insert+update
+
+    db.objects.put({first:&#x27;1&#x27;,last:1, data:2})
+
+update(partial update): given primarty key as first
+
+    db.friends.update(2, {name: &quot;ahui&quot;}).then(isUpdated=&gt;{}) 
+    // 区分&#x27;1&#x27; vs 1 
+    db.objects.update({first:&#x27;1&#x27;,last:1},{a:[1,2,3]})
+
+modify(partial update): based on query
+
+    db.inspections.where(&#x27;id&#x27;).equals(id).modify({a:[1,2,3]}) );
+    db.inspections.where(&#x27;id&#x27;).equals(id).modify(x =&gt; {x.a.push(6); delete x.age;});
+
+modify: override via ref.value
+
+    db.contacts.where(&#x27;name&#x27;).equals(&#x27;Jane&#x27;).modify((contact, ref) =&gt; {
+        ref.value = {id: 1, name: &#x27;Sarah&#x27;, hobbies: [&#x27;Reading&#x27;]}; //pk(id) 不能变
+    });
+    // delete record
+    delete ref.value
+
+## delete
+delete on query
+
+    db.contacts.where(&#x27;name&#x27;).equals(&#x27;Jane&#x27;).delete()
+        .then(function (deleteCount) {
+            console.log( &quot;Deleted &quot; + deleteCount + &quot; objects&quot;);
+        });
+
+delete on pk
+
+    db.objects.delete(2)
+    // {first:&#x27;1&#x27;,last:2}
+    db.objects.delete([&#x27;1&#x27;,2])
+
+批量删除
+
+    db.contacts.bulkDelete([1,2]);
+
+clear all:
+
+    Table.clear()
+
+## Read
+pk:
+
+    const contact = await db.contacts.get(1);
+
+each:
+
+    //each
+    db.contacts.each(contact =&gt; console.log(contact));
+
+    // reverse:
+    db.contacts.reverse().each(contact =&gt; console.log(contact));
+ 
+toArray:
+
+    const all = await db.contacts.toArray();
+
+### distinct:
+
+    .distinct().limit(10)
+
+### orderBy:
+
+    const allOrderedByAge = await db.contacts.orderBy(&#x27;age&#x27;).toArray();
+
+### limit, offset
+
+    db.contacts.reverse().limit(1)
+    db.contacts.offset(1000).limit(2)
+    table.first()
+    table.last()
+
+### count
+
+    db.contacts.count()
+
+### where
+`where(&lt;indexes&gt;)` accept indexed only. 
+
+`&#x27;:id&#x27;` allows you to create queries with the primary key. 
+
+    db.contacts.where(&#x27;:id&#x27;).below(3).
+
+equal:
+
+    db.users.where(&#x27;username&#x27;).equals(&#x27;usrname&#x27;).first() 
+        - will give you the user with username ‘usrname’
+    database.users.where(&#x27;id&#x27;).equals(2).delete();
+
+shortland equals:
+
+    db.contacts.where({firstName: &#x27;Ryan&#x27;, age: 35}).toArray();
+
+compound indexes 组合索引
+
+    db.objects.where(&#x27;[first+last]&#x27;).equals([&#x27;1&#x27;,1])
+
+string:startsWith + IngoreCase
+
+    db.users.where(&#x27;email&#x27;).startsWith(&#x27;david@&#x27;).distinct()
+    db.users.where(&#x27;name&#x27;).startsWithIgnoreCase(&#x27;da&#x27;) 
+    // dot indexes(多层)
+    db.users.where(&#x27;address.city&#x27;).equalsIgnoreCase(&#x27;malmö&#x27;) 
+
+above(), aboveOrEqual(), below(), belowOrEqual():
+
+    db.contacts.where(&#x27;age&#x27;).aboveOrEqual(35).toArray();
+
+between:
+
+    // [27, 35)
+    where(&#x27;age&#x27;).between(27, 35)
+    // (27, 35]
+    where(&#x27;age&#x27;).between(27, 35, false, true)
+
+`anyOf()`, `noneOf`
+
+    .where(&#x27;relation&#x27;).anyOf(&#x27;wife&#x27;, &#x27;husband&#x27;, &#x27;son&#x27;, &#x27;daughter&#x27;) 
+    .where(&#x27;relation&#x27;).noneOf(&#x27;wife&#x27;, &#x27;husband&#x27;, &#x27;son&#x27;, &#x27;daughter&#x27;) 
+
+`or()`, `and()`
+
+    db.relations.where(&#x27;userId1&#x27;).equals(2).or(&#x27;userId2&#x27;).equals(2) 
+        - will give you all relations that user with id 2 has to other users or other users have to user 2
+    .and(function(friend) { return friend.isCloseFriend; })
+
+pk:
+
+    db.relations.where(&#x27;[userId1+userId2]&#x27;).equals([2,3]) 
+        - will give you all the relations that user 2 has to user 3
+    db.relations.where(&#x27;[userId1+userId2]&#x27;).equals([2,3]).or(&#x27;[userId1+userId2]&#x27;).equals([3,2]) 
+        - will give you all the relations that user 2 has to user 3 or user 3 has to user 2.
+
+### Key results
+primary key values
+
+    await db.contacts.where(&#x27;age&#x27;).above(30).primaryKeys();
+    // [1, 5, 6, 2]
+
+keys() and uniqueKeys() return the index value
+
+    const result = await db.contacts.where(&#x27;age&#x27;).above(30).uniqueKeys(); 
+    // [32, 35, 40, 47]
+    const result = await db.contacts.orderBy(&#x27;hobbies&#x27;).keys();
+
+eachPrimaryKey, eachKey, eachUniqueKey
+
+    db.contacts.where(&#x27;age&#x27;).above(30).eachPrimaryKey(pk =&gt; console.log(pk));
+
+
+
+### Promise
+
+    Table.get()
+        db.friends.get(1).then(console.log)
+    Table.toArray()
+    Table.each()
+
+`ToArray+ then/catch`, `each`
+
+    var arrayPromise = db.friends.where(&#x27;name&#x27;).startsWithIgnoreCase(&#x27;arnold&#x27;).toArray();
+    arrayPromise.then(function(result) { console.log(result.length); });
+    arrayPromise.catch(function(err) { console.error(err); });
+
+    // 或则
+    db.friends.where(&#x27;name&#x27;).startsWithIgnoreCase(&#x27;arnold&#x27;).toArray(function(a) {
+        console.log(a.length);
+    }).catch(function(err) {
+        console.error(err);
+    });
+
+    db.foo1.where(&#x27;x&#x27;).equals(&#x27;x&#x27;).each(v=&gt;console.log(v))
+
+#### exception
+
+    db.friends.where(&#x27;name&#x27;).startsWithIgnoreCase(&#x27;arnold&#x27;).toArray(function(a) {
+        console.log(a.length);
+    }).catch(DOMError, function(e) {
+        console.error(&quot;DOMError occurred: &quot; + err);
+    }).catch(TypeError, function(e) {
+        console.error(&quot;TypeError occurred: &quot; + err);
+    }).catch(function(err) {
+        console.error(&quot;Unknown error occurred: &quot; + err);
+    }).finally(function(){
+        console.log(&quot;Finally the query succeeded or failed.&quot;);
+    });
+
+### CRUD Hooks (CREATE, READ, UPDATE, DELETE)
+常常用来做序列化、反序列化.
+delete hook 
+
+    db.[tableName].hook(&#x27;reading&#x27;).unsubscribe(yourListenerFunction)
+
+Hook Create 
+
+    db.[tableName].hook(&#x27;creating&#x27;, function (primKey, obj, transaction) {
+        // You may do additional database operations using given transaction object.
+        // You may also modify given obj
+        // You may set this.onsuccess = function (primKey){}. Called when autoincremented key is known.
+        // You may set this.onerror = callback if create operation fails.
+        // If returning any value other than undefined, the returned value will be used as primary key
+    });
+
+Hook Update:
+
+    db.emails.hook(&quot;updating&quot;, function (modifications, primKey, obj, trans) {
+        //modify price, while keep other fields&#x27; value
+        return {price: modifications.price+10}
+    })
+    db.emails.put({price:5, author:&#x27;ahuigo&#x27;})
+
+Hook READ:
+
+    db.[tableName].hook(&#x27;reading&#x27;, function (obj) {
+        // You may return another object or modify existing object.
+    });
+
+## transaction
+http://dexie.org/docs/Tutorial/Best-Practices
+
+    db.transaction(&quot;rw&quot;, db.friends, db.pets, function() {
+        db.friends.add({name: &quot;Måns&quot;, isCloseFriend: 1}); // unhandled promise = ok!
+        db.friends.add({name: &quot;Nils&quot;, isCloseFriend: 1}); // unhandled promise = ok!
+        db.friends.add({name: &quot;Jon&quot;, isCloseFriend: 1});  // unhandled promise = ok!
+        db.pets.add({name: &quot;Josephina&quot;, kind: &quot;dog&quot;});    // unhandled promise = ok!
+        // If any of the promises above fails, transaction will abort and it&#x27;s promise
+        // reject.
+
+        // Since we are in a transaction, we can query the table right away and
+        // still get the results of the write operations above.
+        var promise = db.friends.where(&quot;isCloseFriend&quot;).equals(1).toArray();
+
+        // Make the transaction resolve with the last promise result return promise;
+    }).then(function (closeFriends) {
+        // Transaction complete.
+        console.log(&quot;My close friends: &quot; + JSON.stringify(closeFriends));
+    }).catch(function (error) {
+        // Log or display the error.
+        console.error(error);
+        // Notice that when using a transaction, it&#x27;s enough to catch
+        // the transaction Promise instead of each db operation promise.
+    });
+
+### transaction level
+(&#x27;rw!&#x27;, &#x27;rw?&#x27;, &#x27;r!&#x27;, &#x27;r?&#x27;)
+
+    ! : Always start a new top level transaction
+    ? : Reuse parent transaction when they are compatible otherwise start a new top-level transaction
+
+### abort
+
+    Dexie.currentTransaction.abort(); 
+
+### Avoid using other async APIs inside transactions
+IndexedDB will commit a transaction as soon as it isn’t used within a tick
+1. A transaction is auto-committed Before `then/catch`. 
+2. So, if you do `setTimeout(cb, 0)` anywhere, don’t expect your transaction to live when the callback comes back! 
+
+In case you really need to call a short-lived async-API, Dexie 2.0 can actually keep your transaction alive for you if you use Dexie.waitFor().
+
+    // It will then just be equaivalent to Promise.resolve().
+    Dexie.waitFor(promise, timeout=60000)
+    function sleep (ms) {
+        return new Promise(resolve =&gt; setTimeout(resolve, ms));
+    }
+    await db.transaction(&#x27;rw&#x27;, db.friends, async ()=&gt; {
+        await Dexie.waitFor(sleep(100)); // Sleeps 100 milliseconds
+        await db.friends.put({id: 1, name: &quot;Åke&quot;});
+        await Dexie.waitFor(sleep(100)); // Sleeps 100 milliseconds
+        let theMan = await db.friends.get(1);
+        alert (`I still got the man: ${theMan.name}`);
+    });
+
+
+## Define Class(IDE 补全)
+### mapToClass
+
+    import Dexie from &#x27;dexie&#x27;;
+    var db = new Dexie(&quot;FriendsDB&quot;);
+    db.version(1).stores({
+        friends: &quot;++id,name,shoeSize,address.city&quot;
+    });
+
+    class Friend {
+        log() {
+            console.log(JSON.stringify(this));
+        }
+    }
+
+    db.friends.mapToClass(Friend); //IDE 关键
+    db.friends.where(&quot;name&quot;).startsWithIgnoreCase(&quot;d&quot;).each(function(friend) {
+        assert(friend instanceof Friend); //IDE 关键
+        friend.log();
+    })
+
+### defineClass()
+    var db = new Dexie(&quot;MyAppDB&quot;);
+    db.version(1).stores({
+        folders: &quot;++id,&amp;path&quot;,
+    });
+
+    // Notice
+    var Folder = db.folders.defineClass({
+        id: Number,
+        path: String,
+        description: String
+    });
+    Folder.prototype.save = function () {
+        return db.folders.put(this);
+    }
+    new Folder({....}).save()
+
+## Reference
+- http://dexie.org/docs/Tutorial/Design
+- https://golb.hplar.ch/2018/01/IndexedDB-programming-with-Dexie-js.html</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

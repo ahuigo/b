@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/vim/vim-help.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>vim-help</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: vim-help
+date: 2018-10-04
+updated: 2018-10-06
+---
+# Preface
+
+# help 帮助
+&gt; Refer to : http://vim.wikia.com/wiki/Learn_to_use_help
+
+之所以我把help放在最前面，是因为help实在是太重要了。关于d，大家一般是在normal mode使用.其实在:命令下也有:d。关于俩者的区别，直接help吧。
+
+	:h d
+	:h :d
+
+不同模式下命令的help:
+
+	:h CTRL-L　&quot;normal mode
+	:h g_CTRL-G &quot;normal mode
+	:h c_CTRL-L &quot;ex mode
+	:h CTRL-q &quot;normal mode
+	:h i_CTRL-R &quot;insert mode
+
+vim中的很多命令都可以结合使用，比如强大的`:g`。
+
+	:h :g
+
+如果我想删除所有的空行，怎么做呢？可以用:g 匹配出所有的空行，再:d
+
+	:g/^\s*$/d
+
+## help set
+
+    :h set
+    :h &#x27;smartcase&#x27;
+    :h &#x27;ignorecase&#x27;
+
+## help completion
+
+	:h {pat}
+
+Press `Ctrl-d` to list all mathed pattern. Then press `Tab` to select
+
+## help links
+
+	Enter :h to open the main help page.
+	Type /quick to search for &quot;quick&quot; (should find the quickref link).
+	Press `Ctrl-]` to follow the link (jump to the quickref topic).
+	After browsing the quickref topic, press `Ctrl-T` to go back to the previous topic.
+	You can also press `Ctrl-O` to jump to *older locations*, or `Ctrl-I` to jump to newer locations.
+
+## context
+Each help topic has a context:
+
+	Prefix	Example	Context
+	:	:h :r	ex command (command starting with a colon)
+	none	:h r	normal mode
+	v_	:h v_r	visual mode
+	i_	:h i_CTRL-W	insert mode
+	c_	:h c_CTRL-R	ex command line
+	/	:h /\r	search pattern (in this case, :h \r also works)
+	&#x27;	:h &#x27;ro&#x27;	option
+	-	:h -r	Vim argument (starting Vim)
+
+## helpgrep
+Search all the help files with the :helpgrep command, for example:
+
+	:helpgrep \csearch.\{,12}file
+
+`\c` means the pattern is case insensitive.
+The pattern finds &quot;search&quot; then up to 12 characters followed by &quot;file&quot;.
+
+Then open quickfix:
+
+	:cc
+
+## simplify help navigation
+The following mappings simplify navigation when viewing help:
+
+	Press Enter to jump to the subject (topic) under the cursor.
+	Press Backspace to return from the last jump.
+	Press s to find the next subject, or S to find the previous subject.
+	Press o to find the next option, or O to find the previous option.
+
+Create file `~/.vim/ftplugin/help.vim` (Unix) or `$HOME/vimfiles/ftplugin/help.vim` (Windows) containing:
+
+	nnoremap &lt;buffer&gt; &lt;CR&gt; &lt;C-]&gt;
+	nnoremap &lt;buffer&gt; &lt;BS&gt; &lt;C-T&gt;
+	nnoremap &lt;buffer&gt; o /&#x27;\l\{2,\}&#x27;&lt;CR&gt;
+	nnoremap &lt;buffer&gt; O ?&#x27;\l\{2,\}&#x27;&lt;CR&gt;
+	nnoremap &lt;buffer&gt; s /\|\zs\S\+\ze\|&lt;CR&gt;
+	nnoremap &lt;buffer&gt; S ?\|\zs\S\+\ze\|&lt;CR&gt;
+
+The following mappings (which can go in your vimrc) simplify navigating the results of quickfix commands such as (among others) :helpgrep
+
+	:nnoremap &lt;S-F1&gt;  :cc&lt;CR&gt;
+	:nnoremap &lt;F2&gt;    :cnext&lt;CR&gt;
+	:nnoremap &lt;S-F2&gt;  :cprev&lt;CR&gt;
+	:nnoremap &lt;F3&gt;    :cnfile&lt;CR&gt;
+	:nnoremap &lt;S-F3&gt;  :cpfile&lt;CR&gt;
+	:nnoremap &lt;F4&gt;    :cfirst&lt;CR&gt;
+	:nnoremap &lt;S-F4&gt;  :clast&lt;CR&gt;
+
+## 文档(doc)
+
+	.vim/doc
+	:helptags ~/.vim/doc #重建tags
+
+##　K(man)
+在一个单词上按K，可查看其man(ual).比如在ls上按K.等同于：
+
+	:!man ls
+
+如果想获得macvim 的menu 帮助
+
+	:h macvim-menu
+
+# help-write
+&gt; :help help-writing
+
+`figlet -f ogre &quot;Potion`命令来得到这些有趣的字符的. Figlet is a shell tool(`brew install figlet`)
+
+help doc example: http://learnvimscriptthehardway.stevelosh.com/chapters/54.html
+
+	*potion.txt* functionality for the potion programming language
+
+						  ___      _   _              ~
+						 / _ \___ | |_(_) ___  _ __   ~
+						/ /_)/ _ \| __| |/ _ \| &#x27;_ \  ~
+					   / ___/ (_) | |_| | (_) | | | | ~
+					   \/    \___/ \__|_|\___/|_| |_| ~
+
+			  Functionality for the Potion programming language.
+			Includes syntax highlighting, code folding, and more!
+	====================================================================
+	CONTENTS                                            *PotionContents*
+
+		1. Usage ................ |PotionUsage|
+		2. Mappings ............. |PotionMappings|
+		3. License .............. |PotionLicense|
+		4. Bugs ................. |PotionBugs|
+		5. Contributing ......... |PotionContributing|
+		6. Changelog ............ |PotionChangelog|
+		7. Credits .............. |PotionCredits|
+	====================================================================
+	Section 1: Usage                                       *PotionUsage*
+
+	This plugin with automatically provide syntax highlighting for
+	Potion files (files ending in .pn).
+
+	It also...</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

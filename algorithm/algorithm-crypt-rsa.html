@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/algorithm/algorithm-crypt-rsa.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>RSA</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: RSA
+date: 2018-09-26
+updated: 2018-10-06
+---
+# RSA
+参考 http://www.ruanyifeng.com/blog/2013/06/rsa_algorithm_part_one.html
+
+## math base
+&gt; Ref: 扩展欧几里得算法与中国剩余定理 
+    http://blog.miskcoo.com/2014/09/chinese-remainder-theorem
+
+### p1,p2互质的情况
+先来考虑只有两个方程, 并且模数p1,p2互质的情况。
+
+(1)假设现在有一个关于 x 的同余方程组(1)：
+
+$x \equiv a_1 \pmod {p_1}$\
+$x \equiv a_2 \pmod {p_2}$
+
+(2)两个方程等价于, (2):
+
+$x = a_1 + k_1{p_1}$\
+$x = a_2 + k_2{p_2}$
+
+(3)两个方程联立起来，再消去 x, (3):
+
+    a1 + k1p1 = a2 + k2p2
+
+(4)利用扩展欧几里得算法来求出一组整数解(k′1,k′2),根据(3)所有的整数解（p1,p2 互质的）：
+
+    k1=p2t+k′1
+    k2=p1t+k′2
+
+代入 (2) 中就可以得到这个同余方程组所有的解：
+
+    x=a1+k1p1
+     =a1+p1p2t+k′1p1
+     =x0+p1p2t
+
+价于下面这个同余方程：
+
+    x≡x0(mod p1p2)
+
+    如果x0 在 [0,p1p2) 有p1p2个
+    对应a1:[0,p1) a2:[0,p2) 也有p1p2个(a1,a2)
+    (a1,a2)与x0是一一对应的关系
+
+(5)对于一个同余方程组
+
+    x≡a1(mod p1)
+     ≡a2(mod p2)
+     ⋮
+     ≡an(mod pn)
+
+在这里模数两两互质, 按照刚刚的过程合并得到一个同余方程
+
+    x≡x0(mod p1p2⋯pn)
+
+在这里模数两两互质。
+
+### 模数不是两两互质的话该怎么办?
+从只含有两个方程的同余方程组开始
+
+    x≡a1(mod m1)
+    x≡a2(mod m2)
+
+和先前一样，展开消去 x 后得到
+
+    a1+k1m1=a2+k2m2
+
+根据裴蜀定理，我们可以知道如果 gcd(m1,m2)∣(a2−a1) 那么这个方程就有整数解，否则它就不存在整数解。
+
+假设我们已经根据扩展欧几里得算法求出了一组特殊解 (k′1,k′2)，那么所有的解是什么呢？
+设 g=gcd(m1,m2)，又由于 a2−a1 是 g 的倍数，那么就可以把 (4) 这个方程改写为(5)
+
+    k1m1/g−k2m2/g=(a2−a1)/g
+
+这样的话 m1g 和 m2g 就互质了，那么这个方程所有的整数解就是
+
+    k1=m2/gt+k′1
+    k2=m1/gt+k′2
+
+回代入可以得到
+
+    x=a1+k1m1
+     =x0+m1m2/gt
+     =x0+lcm(m1,m2)t
+
+这个解实际上等价于下面这个同余方程：
+
+    x≡x0(mod lcm(m1,m2))
+
+对于一个同余方程组
+
+    x≡a1(mod m1)
+     ≡a2(mod m2)
+     ⋮
+     ≡an(mod mn)
+
+它等价于
+
+    x≡x0(mod lcm(m1,m2,⋯,mn))</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/php/php-frame.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>php kiss</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: php kiss
+date: 2018-10-06
+updated: 2018-10-06
+---
+# Preface
+以前我做了一个关于KISS 的分享，但是太过抽象了。 本文将通过展示具体的问题，来表达我的观点。这些问题包括：
+
+- 接口参数太多
+- smarty
+
+# 接口的参数太多怎么办？
+我们在定义一个curl 请求方法时，往往会加太多的参数，比如：
+
+	class api{
+		function request($url, $method = &#x27;GET&#x27;, $parameters = [], $multi = false, $useTauthHeader = true, $is_json = false, $curlopt = []) {
+			....
+		}
+	}
+
+后来有人发现还需要加*更多的*参数，于是又定义了一个新的函数
+
+	function request2($url, $method = &#x27;GET&#x27;, $parameters = [], $multi = false, $useTauthHeader = true, $is_json = false, $paramsCallback = null) {
+			....
+	}
+
+这样做一点都不KISS, 这会导致产生大量重复的代码！怎么办呢？很多人想到了很多方法，但是大部分方法都将问题复杂化了
+
+## 尽量不要对接口进行再包装
+为了在调用request 时传递更多参数, 比如这两参数`skipCheck`, `async`, 又不想修改调用原型，我们可以在Api 之上包装一层ApiProxy:
+
+	class ApiProxy{
+		function skipCheck(){
+			self::$skipCheck = true;
+		}
+		function async(){
+			self::$async = true;
+		}
+		function __call($method, $args){
+			$res = call_user_func($api, $args)
+			$this-&gt;_clean();
+			return $res;
+		}
+		function _clean(){
+			self::$skipCheck = null;
+			self::$async = null;
+		}
+	}
+
+这样，request 就可以不用支持太多的参数了. 
+
+	$apiProxy-&gt;async()-&gt;request(...);
+
+可是这存在问题：
+
+1. 对接口不断的包装，会让调用变得更加复杂，还会影响性能. 这是过度设计的一种体现
+
+## 统一销毁参数的方法
+加一个统一销毁参数的方法`clean` 不失为一个好方法. 但是根本不需要再包装一层`apiProxy`.
+
+如果api 没有使用单例模式， 我会把`self::$async` 改成`$this-&gt;async`. 请求结束后，这个对象以及其内的成员属性`$this-&gt;async` 就随着`$api` 被弃用而被释放了
+
+如果api 使用了单例呢？我们可以 将这些在调用后`要销毁的参数` 统一放到一个数组里面. 然后利用`finally` 去统一销毁(限php &gt;= 5.5)
+
+	function request(....){
+		list($async, $skipCheck) = $this-&gt;_requestConfig;
+		try{
+			//do request here	
+			return $res;
+		}finally{
+			$this-&gt;clearRequestConfig();
+		}
+	}
+	protected function chearRequestConfig{
+		$this-&gt;_requestConfig = [&#x27;async&#x27;=&gt; false, &#x27;skipCheck&#x27;=&gt; false];
+	}
+
+# 应该使用smarty 吗？
+</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

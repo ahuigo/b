@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/c/c-func-inf.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>c语言函数接口</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: c语言函数接口
+date: 2018-10-06
+updated: 2018-10-06
+---
+# Preface
+
+# 可变参数
+printf 带有一个可变参数，可变参数是通过`va_` 实现定位并获取参数的，`va_` 定义于`stdarg.h`
+
+	#include &lt;stdio.h&gt;
+	#include &lt;stdarg.h&gt;
+
+	void myprintf(const char *format, ...) {
+		 va_list ap;
+		 char c;
+
+		 va_start(ap, format);
+		 while (c = *format++) {
+		  switch(c) {
+		  case &#x27;c&#x27;: {
+			   /* char is promoted to int when passed through &#x27;...&#x27; */
+			   char ch = va_arg(ap, int);
+			   putchar(ch);
+			   break;
+		  }
+		  case &#x27;s&#x27;: {
+			   char *p = va_arg(ap, char *);
+			   fputs(p, stdout);
+			   break;
+		  }
+		  default:
+			   putchar(c);
+		  }
+		 }
+		 va_end(ap);
+	}
+
+	int main(void) {
+		 myprintf(&quot;c\ts\n&quot;, &#x27;1&#x27;, &quot;hello&quot;);
+		 return 0;
+	}
+
+传入参数位于调用者(caller)所在的栈：
+
+	 myprintf(&quot;c\ts\n&quot;, &#x27;1&#x27;, &quot;hello&quot;);
+	 80484c5:	c7 44 24 08 b0 85 04 	movl   $0x80485b0,0x8(%esp) //pointer to &quot;hello&quot;
+	 80484cc:	08 
+	 80484cd:	c7 44 24 04 31 00 00 	movl   $0x31,0x4(%esp) //&#x27;1&#x27;
+	 80484d4:	00 
+	 80484d5:	c7 04 24 b6 85 04 08 	movl   $0x80485b6,(%esp) //pointer to &quot;c\ts\n&quot;
+	 80484dc:	e8 43 ff ff ff       	call   8048424 &lt;myprintf&gt;
+
+参数布局图：
+
+![](/img/c-func-inf-stdarg.png)
+
+c 语言的参数是从右往左依次压栈的，所以第一个参数位于栈顶，最后一个参数位于栈底。
+对于32位系统来说，每个参数会占用栈内4 个字节的空间(对齐4字节边界)，这是因为：方便寻址; 所有的参数压栈时都会占用4字节(字符串可能超过4字节，只能压指针)
+
+如何确定$0x80485b0 是一个pointer 而不是一个数值/字符呢？
+
+- 通过format 中的&quot;c&quot; 确定用数值 :`va_arg(ap, int)`
+- 通过format 中的&quot;s&quot; 确定用pointer :`va_arg(ap, char *)`
+
+stdarg.h的简单实现,这个实现出自[Standard C Library]，(在llvm 中已经将`va_` 集成了)
+
+	#ifndef _STDARG
+	#define _STDARG
+
+	/* type definitions */
+	typedef char *va_list;
+	/* macros */
+	# ap 用于移动指针到下一个参数，var_arg 用于返回当前ap 批向的参数的值
+	# 如果是int 那么 op += _Bnd(int, 3U)  即 op += 4, op 就指向int 元素后的单元
+	# 如果是char 那么 op += _Bnd(char, 3U)  即 op += 4, op 就指char 元素后面的单元
+	#define va_arg(ap, T) \
+		(* (T *)(((ap) += _Bnd(T, 3U)) - _Bnd(T, 3U)))
+	#define va_end(ap) (void)0
+
+	# 初始:让ap 移动到下一个参数, 即format 后的第一个参数, 这需要移动一个指针sizeof(char *) 长度， 这对于32位系统来说, 所有的指针sizeof(anytype *)都是4字节
+	#define va_start(ap, A) \
+		(void)((ap) = (char *)&amp;(A) + _Bnd(A, 3U))
+
+	// (tips: 优先级从高到低的顺序 !~ , */ 高于 +- 高于 &amp;|)
+	#define _Bnd(X, bnd) (sizeof (X) + (bnd) &amp; ~(bnd))
+
+	#endif
+
+_Bnd 用于将变量X的长度对齐到bnd+1字节的整数倍, 即bnd+1 对齐。
+比如4 字节对齐, 8 bytes 刚好对齐，则 8+3&amp;~3 还是为 8
+比如4 字节对齐, 11 bytes 未对齐，则 11+3&amp;~3 就对齐为 12
+
+# Reference
+- [如何实现malloc]
+- [linux c] linux c 一站式编程 by 宋劲杉
+
+[linuc c]: http://akaedu.github.io/book/ch24.html
+[如何实现malloc]: http://blog.codinglabs.org/articles/a-malloc-tutorial.html
+</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

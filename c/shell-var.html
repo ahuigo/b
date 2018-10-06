@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/c/shell-var.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>Shell 变量之数据类型</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: Shell 变量之数据类型
+date: 2018-09-27
+updated: 2018-10-06
+---
+# Shell 变量之数据类型
+## export
+
+	unset PYTHONPATH
+
+## String, 字符串
+
+### count_chars
+
+	echo &#x27;ahui ahui&#x27; | grep -o a | wc -l
+	a=&#x27;ahui ahui&#x27;; b=${a//[^a]}; echo ${#b}
+
+### expr
+ERE
+
+	expr &quot;$SHELL&quot; : &#x27;.*/\(.*\)&#x27;
+	expr &quot;/bin/zsh&quot; : &#x27;.*/\(.*\)&#x27;
+		zsh
+
+建议用awk 的match 更方便
+
+	match($2, /1(.*)/, m){}
+
+### Str2Hex &amp; Hex2Str
+
+	echo &#x27;12&#x27; | xxd -p
+	echo &#x27;3132&#x27; | xxd -r -p
+
+### print
+打印原始字符串，请用
+
+   `printf &quot;%s&quot; &quot;$var&quot;`
+
+Note:
+
+- `$(cmd)` , `\`cmd\`` 会过滤最后连续的换符符, 且被视为多个参数
+- `&quot;$(cmd)&quot;` , `&quot;\`cmd\`&quot;` 会过滤最后连续的换符符,且被视为1个参数
+
+#### shell 字符解析
+
+##### 单引号
+要注意的是shell中的单引号内所有字符都会原样输出.
+
+	str=&#x27;a  &#x27;\&#x27;\&quot;&#x27;  b&#x27;;
+	echoraw &#x27;It&#x27;\&#x27;&#x27;s Jack&#x27;; //output: It&#x27;s Jack
+
+##### 双引号
+而双引号内: `$`, `!`字符会被解析, 
+
+	echoraw &quot;${HOME}&quot;
+	echoraw &quot;$HOME&quot;
+     &quot;$(basename &quot;$PWD&quot;)&quot;
+	echoraw &quot;abc!ls&quot; #会将`!ls` expand 为最近的history 命令
+
+只有`\&quot;` 转义为`字面字符`, `\t\n\r`, `\&#x27;` 不处理，
+
+    echoraw &quot;0\t0\n0\rabc\&#x27;\&quot;&quot;
+        0\t0\n0\rabc\&#x27;&quot;
+
+shell 会将`!`(exclamation mark)作为 Expandsion Mark,（限交互模式）
+Or turn off history expandsion:
+
+	set +H
+	//or
+	set +o histexpand
+
+##### 无引号
+`\t\n\r\&#x27;\&quot;` 全部转义为`字面字符`
+
+    echoraw 0\t0\n0\rabc\&#x27;\&quot;
+        0t0n0rabc&#x27;&quot;
+
+##### 无引号`$&#x27;&#x27;`
+`\t\n\r` 转义为特殊字符，`\&#x27;\&quot;` 转义为字面字符
+
+    # Press Ctrl-v + Tab
+    cut -f2 -d&#x27;   &#x27; infile
+    cut -f2 -d$&#x27;\t&#x27; infile
+    printf $&quot;ab\tc\ne\rE&quot;
+
+    echoraw $&#x27;0\t0\n0\rabc\&#x27;\&quot;&#x27;
+        0	0
+        abc&#x27;&quot;
+
+##### 无引号`$`
+
+    cmd=&#x27;arg1 arg2&#x27;
+    echoraw $cmd
+        zsh: 一个参数
+        bash: 多个参数
+
+##### 无引号`$&quot;&quot;` 不要用
+shell 不兼容
+
+    # zsh
+	$ echoraw $&quot;var&quot;
+		$var
+    #bash
+	$ echoraw $&quot;var&quot;
+        var
+
+#### echo 命令
+对于`echo` 来说，它处理的字符已经是经过shell 解析过的。
+
+zsh 中的echo 会解析 \007 \x31 (建议不要这样使用)
+
+	echo &#x27;\n&#x27; //换行
+	echo &#x27;\x31&#x27; //1
+	echo &quot;\x31&quot; //1
+	echo  &#x27;\0116&#x27; //N的ASCII 的8进制是116
+
+在bash 下，必须加`-e`
+
+	echo -e &quot;\x31&quot; //1
+
+#### concat 拼接
+
+	$PATH:otherStr #拼接.
+	${var}otherStr
+    s=&#x27; a      b&#x27;
+    echo &#x27;left_&#x27;$s&#x27;_right&#x27; 
+
+or:
+
+	str=&#x27;hello &#x27;
+	str+=&#x27;world&#x27;
+
+
+#### length
+
+	echo ${#str}
+	echo -n &quot;1&quot; | wc -c #去掉换行符
+	echo &quot;1&quot; | awk &#x27;{print length($0)}&#x27; ;# awk 不会匹配换行，所以其结果是正确的
+
+	echo $((${#str}+2))
+
+#### index
+
+	awk -v str=&quot;$a&quot; -v substr=&quot;$b&quot; &#x27;BEGIN{print index(str,substr)}&#x27;; #
+
+#### match
+使用 grep
+
+	[ $(echo &quot;$st&quot; | grep -E &quot;^[0-9]{8}$&quot;) ] &amp;&amp; echo &quot;match&quot;
+
+使用字符串替换：
+
+	[[ ${str_a/${str_b}//} == $str_a ]]
+
+#### regex
+使用ERE or wildcard
+
+	# support zsh/bash
+	[[ &quot;$var&quot; =~ ^[[:space:]]*$ ]]
+
+	# only supported by zsh
+	[[ &quot;$var&quot; =~ &#x27;^[[:space:]]*$&#x27; ]]
+
+Example: match ip
+
+	[[ &quot;$var&quot; =~ ^[[:digit:].]*$ ]]
+    
+substr is beginning:
+
+    if [[ &quot;$string&quot; =~ ^hello ]]; then
+     do something here
+    fi
+
+#### substr 截取
+
+	echo ${str:start:length}
+	echo ${str: -1}; #负数前面需要有空格
+	echo ${str:(-1)}; #或者负数用括号. 否则负数不会生效
+
+	echo ${str:0:-1}; #remove last char(bash&gt;4.2)
+
+#### trim
+
+	&quot;trim any last char
+	echo ${str%?}
+	&quot;trim last char /
+	echo ${str%/}
+
+#### replace, 替换与删除
+
+    #...%
+	变量配置方式	说明
+    ${path#/private}
+	${变量#关键词}	若变量内容从头开始的数据符合『关键词』，则将符合的最短数据删除 
+	${变量##关键词}	若变量内容从头开始的数据符合『关键词』，则将符合的最长数据删除 
+
+    ${path%end}
+	${变量%关键词}	若变量内容从尾向前的数据符合『关键词』，则将符合的最短数据删除
+	${变量%%关键词}	若变量内容从尾向前的数据符合『关键词』，则将符合的最长数据删除
+
+    ${path/middle}
+	${变量/字符串}	若变量内容符合『字符串』则『第一次出现的字符串会被删除』
+	${变量//字符串}	若变量内容符合『字符串』则『全部出现的字符串会被删除』
+	${var//[^s|S]} 只保保留s|S
+
+	${变量/旧字符串/新字符串}	若变量内容符合『旧字符串』则『第一个旧字符串会被新字符串取代』
+	${变量//旧字符串/新字符串}	若变量内容符合『旧字符串』则『全部的旧字符串会被新字符串取代』
+
+支持glob wildcard
+
+	${var##??} 删除最前面的两个字符
+	${var//[^s|S]} 只保保留s|S
+
+#### dirname
+
+    dirname=$(dirname $path)
+
+#### var-test 变量测试
+
+	: 判断是否非空/默认判断是否声明
+	- 不存在则设置
+	+ 存在则设置
+	= 结合了- 和 改写原值
+	? 结合了- 和 输出expr到stderr
+	变量配置方式	str 没有配置	str 为空字符串	str 已配置为非空字符串
+	var=${str-expr}	var=expr		var=$str		var=$str
+	var=${str:-expr}var=expr		var=expr		var=$str
+	var=${str+expr}	var=			var=expr		var=expr
+	var=${str:+expr}var=			var=			var=expr
+	var=${str=expr}		same as: str=${str-expr}; var=str;
+	var=${str:=expr}	same as: str=${str:-expr}; var=str;
+	var=${str?expr}	expr输出至stderr var=$str		var=$str
+	var=${str:?expr}expr输出至stderr expr输出stderr	var=$str
+
+## Number 数字
+
+	$RANDOM 随机数
+	declare -i a=1
+
+### Calculate 运算
+下面介绍的inner运算和expr都不支持小数, 虽然不会报错, 但计算结果让人无语. 如果需要小数, 请使用bc(无论如何, shell 计算很鸡肋, 如果需要大量的运算请请使用python/octave等脚本)
+
+	# 不要用inner calc 和 expr 做 float 运算!!
+	➜  ~  a=-2+1.1; declare -p a;
+	typeset -i a=0
+	➜  ~  a=2+1.1; declare -p a;
+	typeset -i a=3
+
+#### Inner Calc
+
+	let ++a; let a++;//a也可以为字符串
+	let a=$a+2;
+
+//let 支持*/%
+
+	let a=$a*2;
+	let a=$a/2;
+
+或者 -i 型不用加`let`
+
+	declare -i a=1;
+	a+=2; #shell 不允许有空格
+
+#### expr 运算
+
+    expr 14 % 9 #需要有空格
+    expr 14 \* 3 #*在shell中有特别的含义(它是通配符wildcard)
+		expr &#x27;14 * 3&#x27; #expr 识别为一个参数
+	expr \( 1 + 2 \)  \* 3
+
+#### bc 运算
+
+	echo &#x27;14*3&#x27; | bc #bc更精确
+	echo &#x27;2.1*3&#x27; |bc #6.3
+
+### 生成数字序列
+这不是数组!而是以空格为间隔的字符串序列!
+
+	for i in {1..5}; do echo $i; done #Brace expansion是在其它所有类型的展开之前处理的包括参数和变量展开
+	for i in {a,b}{1,2}; do echo $i; done #Brace expansion是在其它所有类型的展开之前处理的包括参数和变量展开
+	END=5;
+	$ echo {1..5}
+	$ for i in `seq $END`; do echo $i; done #或者用 for i in $(seq $END); do echo $i; done
+	$ for i in `eval echo {1..$END}`; do echo $i; done
+
+seq 用法: man seq
+
+	seq [first [incr]] last
+
+### Format Num
+padding num
+
+	`printf &quot;%02i\n&quot; $num`
+	n=`printf %03d $n`
+
+## Array数组
+&gt; terminal: zsh 的数组, 其下标是从1 开始的，而bash 是从0 开始的。
+&gt; 在函数参数上看: 二者都是从0开始的，不过zsh 会指向函名，bash 则会指向脚本名. 不过`$@`与`$*` 都不会包含0
+
+定义(zsh下标从1 开始, bash 从0开始, 见上段话):
+
+	var=(1 2 3)
+	var=(1
+	2
+	3)
+	var[num]=content
+
+local 与 assignment 需要分开：
+
+	local -a arr
+	arr=(1 2 3)
+
+赋值:
+
+	var[num]=value;//num 可以不连续
+	var[字符]=value; #相当于var[0]=value; 但这在zsh 中,0 下标是非法的
+
+	var+=(val1 val2 ...)
+
+使用:
+
+	${var[index]}
+	$var or ${var[@]} or ${var[*]} #输出整个数组
+	${#var} or ${#var[@]} or ${#var[*]} #输出数组长度
+
+截取:
+
+	echo ${a[@]:start:length}
+	c=(${a[@]:1:4}) #加上()后生成一个新的数组c
+
+替换:
+
+	a=(1 2 3 13 4 5)
+	echo ${a[@]/3/ahui} #得到 1 2 ahui 1ahui 4 5
+
+清除:
+
+	unset var[0] #清除下标, 其它下标的顺序不会变
+    
+### access array
+    arr=(&#x27;1 2&#x27;
+    3)
+    printf &quot;%s -- &quot; &#x27;$arr:&#x27;
+    printf &quot;%s,&quot; $arr 
+    printf &quot;%s -- &quot; $&#x27;\n&quot;$arr&quot;:&#x27;
+    printf &quot;%s,&quot; &quot;$arr&quot; 
+    printf &quot;%s -- &quot; $&#x27;\n$arr[@]:&#x27;
+    printf &quot;%s,&quot; ${arr[@]}
+    printf &quot;%s -- &quot; $&#x27;\n&quot;$arr[@]&quot;:&#x27;
+    printf &quot;%s,&quot; &quot;${arr[@]}&quot;
+
+强烈建议只用`&quot;$arr[@]&quot;`
+
+    # bash test.sh
+    $arr: -- 1,2,
+    &quot;$arr&quot;: -- 1 2,
+    $arr[@]: -- 1,2,3,
+    &quot;$arr[@]&quot;: -- 1 2,3,%
+
+### pass array
+
+	arr=(&#x27;1 2&#x27; 3)
+	&quot;${arr[@]}&quot;
+		&#x27;1 2&#x27; 3 //zsh &amp; bash
+	${arr[@]}
+		1 2 3	//bash 按literal 字面处理
+
+### print array
+
+	printf &quot;%s,&quot; &quot;${array[@]}&quot;
+
+### copy array
+With Bash4.3, it only creates a reference to the original array, it doesn&#x27;t copy it:
+
+	declare -n arr2=arr
+
+正确的做法是：
+
+    a=(1 2 3)
+	b=(&quot;${a[@]}&quot;)
+
+错误的是
+
+    arr=(&#x27;1 2&#x27; 3 4)
+    b=&quot;${arr[@]}&quot;; # 结果: (&#x27;1 2 3 4&#x27; 3 4)
+	b=${arr[@]}&quot; ; # 结果: (&#x27;1 2 3 4&#x27; 3 4)
+
+### loop array
+
+	for i in (&#x27;1 2&#x27;, 3);
+	for i in ${array[@]}; //3 个
+	for i in &quot;${array[@]}&quot;;// 2个
+	do
+		echo $i
+	done
+
+参数可以省略为 `for i in &quot;$@&quot;`, 这在使用脚本参数时特别有用
+
+### in_array
+shell 参数不支持array传递. 只能变通实现[in_array](http://stackoverflow.com/questions/5788249/shell-script-function-and-for-loop)了
+
+- 用shift 实现
+
+shift: 左移出1 (注意:shell 不支持unshift push pop)
+shift 3: 左移出3
+
+	in_array(){
+		el=&quot;$1&quot;
+		shift
+		while test $# -gt 0; do
+				test $el = $1 &amp;&amp; return 0;		# for zsh
+				# test &quot;$el&quot; = &quot;$1&quot; &amp;&amp; return 0 # for bash and zsh
+				shift
+		done
+		return 1
+	}
+	arr=( 1 2 &#x27;Hello  Jack&#x27;);
+	in_array &#x27;Hello  Jack&#x27; $arr &amp;&amp; echo has;		# for zsh only
+	in_array &#x27;Hello  Jack&#x27; &quot;${arr[@]}&quot; &amp;&amp; echo has; # for zsh and bash
+
+- 利用eval 访问外围的arr
+
+	in_array(){
+		a=&quot;$2&quot;
+		eval &quot;for i in \${$a[@]}; do
+			echo \$i
+			test $1 = \$i &amp;&amp; return 1
+		done&quot;
+		return 0
+	}
+	arr=( 1 2 &#x27;It&#x27;\&#x27;&#x27;s Jack&#x27;);
+	in_array &#x27;Hello Jack&#x27; arr &amp;&amp; echo has;</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

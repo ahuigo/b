@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/ria/js-obj.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>js notes</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: js notes
+date: 2018-10-06
+updated: 2018-10-06
+---
+# Object
+
+## define
+
+    {toStr(){}, a:1}
+    &gt; a=1
+    &gt; b={a}
+    { a: 1 }
+
+    new cls().property
+
+动态属性:
+
+    let a = {
+        [ city + &#x27;population&#x27; ]: 350000
+    };
+
+### loop: entries(use keys())
+like python&#x27;s .items()
+
+    for(let [key, value] of Object.entries(myObject)) {
+        console.log(key, value); // &quot;first&quot;, &quot;one&quot;
+    }
+
+## keys
+list forEach
+
+	Object.keys({a:1, b:2})
+		[&quot;a&quot;, &quot;b&quot;]
+	Object.keys(obj).forEach(function(key){
+		console.log(key, obj[key])
+	})
+
+keys / for-in base / getOwnPropertyNames all
+
+    var o = Object.create({base:0})
+    Object.defineProperty(o, &#x27;yes&#x27;, {enumerable: true})
+    Object.defineProperty(o, &#x27;not&#x27;, {enumerable: false})
+
+    console.log(Object.keys(o))
+    // [ &#x27;yes&#x27; ]
+
+    console.log(Object.getOwnPropertyNames(o))
+    // [ &#x27;yes&#x27;, &#x27;not&#x27; ]
+
+    for (var x in o)
+        console.log(x)
+    // yes, base
+
+### has key
+1. keys: 不含proto, enumerable:false
+2. hasOwnProperty: 不包括原型链
+2. `in`: key 它可能是obj 继承的属性, 不一定是obj 本身的属性
+
+    &#x27;toString&#x27; in xiaoming; // true, 不是xiaoming 本身，而是object 都有
+
+	function hasValue(obj, key, value) {
+		return obj.hasOwnProperty(key) &amp;&amp; obj[key] === value;
+	}
+
+### delete key
+
+	delete variable
+	delete obj.name
+
+## values
+values:
+
+    Object.values({ one: 1, two: 2 })            //[1, 2]
+    Object.values({ 3: &#x27;a&#x27;, 4: &#x27;b&#x27;, 1: &#x27;c&#x27; })    //[&#x27;c&#x27;, &#x27;a&#x27;, &#x27;b&#x27;]
+
+items:
+
+    Object.entries({ one: 1, two: 2 })    //[[&#x27;one&#x27;, 1], [&#x27;two&#x27;, 2]]
+    Object.entries([1, 2])                //[[&#x27;0&#x27;, 1], [&#x27;1&#x27;, 2]]
+
+## merge, update
+
+    &gt; let merged = {...obj1, ...obj2};
+    &gt; let merged = Object.assign({}, {a:2}, {a:3},)
+    { a: 3 }
+
+## Property 属性
+
+    obj.constructor
+    obj.hasOwnProperty(&#x27;attr&#x27;) # 不是继承proto的
+    obj.propertyIsEnumerable(&#x27;attr&#x27;)
+        判断给定的属性是否可以用 for...in 语句进行枚举。
+    obj.__proto__
+
+## value
+
+	Object.prototype.hasOwnValue = function(val) {
+		for(var prop in this) {
+			if(this.hasOwnProperty(prop) &amp;&amp; this[prop] === val) {
+				return true;
+			}
+		}
+		return false;
+	};
+
+### uniqueId
+
+    (function() {
+        var id_counter = 1;
+        Object.defineProperty(Object.prototype, &quot;uniqueId&quot;, {
+            get: function() {
+                if (this.__uniqueId == undefined)
+                    this.__uniqueId = id_counter++;
+                return this.__uniqueId;
+            }
+        });
+    }());
+
+#### 不可变的变量的对像是临时生成的
+
+    a = 1
+    console.log(a.uniqueId); // 1
+    console.log(a.uniqueId); // 2
+    console.log(a.uniqueId); // 3
+
+#### hasOwnProperty 不会触发 get:
+
+    a={}
+    console.log(a.hasOwnProperty(&#x27;__uniqueId&#x27;)) // false
+    console.log(a.uniqueId)                     // 1
+    console.log(a.hasOwnProperty(&#x27;__uniqueId&#x27;)) // true
+
+### Object.defineProperty()
+
+	obj[name] = value;
+	//or
+    Object.defineProperty(obj, name, { 
+        # value: value, 
+        get(){
+            return value
+        },
+        writable: false ,
+        enumerable: false,
+    });
+
+如果想被实例继承，应该定义在`obj.prototype`:
+
+    Object.defineProperty(Object.prototype, &quot;__uniqueId&quot;, {
+        writable: false,
+    });
+    obj = {}
+    obj.__uniqueID = 1; //invalid
+
+Example1，在ES5 中Prototype 可以用来将定义魔法属性，可以实现类似 PHP 类的`__get`, `__set`
+
+	Number.prototype = Object.defineProperty(
+	  Number.prototype, &quot;double&quot;, {
+		get: function (){return (this + this)}
+	  }
+	);
+	3.double;//被当作小数点
+	(3).double;//6
+	3[&#x27;double&#x27;].double;//12
+	3..double;//6 第一个点被解析为小数点，第二个点被解释为操作符
+
+对原始类型做对象操作时，js 会用原始类型的对象wrapper 把变量包装一下，然后在临时对象上操作。
+
+	var a=3; //是数值，不是数值对象
+	a.key=1; //js 数据类型的对象wrapper 会将a 包装为临时的数值对象. 相当于`(new Number(a)).key=1`
+	a.key;//undefined 因为临时对象不存在了
+
+# observe
+
+## proxy 
+
+    let validator = {
+        set: function(obj, prop, value) {
+            if (prop === &#x27;age&#x27;) {
+                if (value &gt; 200) {
+                    throw new RangeError(&#x27;The age seems invalid&#x27;);
+                }
+            }
+            obj[prop] = value;
+            return true; // Indicate success
+        }
+        get: function(obj, prop) {
+            return prop in obj ? obj[prop] : 37;
+        }
+    };
+
+    let person = new Proxy({}, validator);
+    person.age = 100;
+
+## Object.observe
+
+    var obj = {
+        foo: 0,
+        bar: 1
+    };
+
+    Object.observe(obj, function(changes) {
+        console.log(changes);
+    });
+
+    obj.baz = 2;
+    // [{name: &#x27;baz&#x27;, object: &lt;obj&gt;, type: &#x27;add&#x27;}]
+
+    obj.foo = &#x27;hello&#x27;;
+    // [{name: &#x27;foo&#x27;, object: &lt;obj&gt;, type: &#x27;update&#x27;, oldValue: 0}]
+
+    delete obj.baz;
+    // [{name: &#x27;baz&#x27;, object: &lt;obj&gt;, type: &#x27;delete&#x27;, oldValue: 2}]
+
+# 定义与创建
+
+## Object Literal
+    var obj = {
+        // Computed (dynamic) property names
+        [ &quot;prop_&quot; + (() =&gt; 42)() ]: 42, //obj.prop_42
+
+        //obj.f1() === obj.__proto__.f1()
+        __proto__: {f1(){return &#x27;parent call1&#x27;}}, 
+
+        // duplicate __proto__ properties.
+        // 1. does not set prototype: obj.f2 === undefined 
+        // 2. obj.__proto__.f2() works
+        [&#x27;__proto__&#x27;]: {f2(){return &#x27;parent call2&#x27;}}, //
+
+        test() {
+         // Super calls
+         return &quot;call: &quot; + super.f1();
+        },
+    };
+
+## 对象实例的原型
+1. prototype是原型独有的属性,也就是有constructor可以实例化对象的方法才有;
+2. `__proto__` 是对象才有的属性, 指向原型属性，实现原型继承.
+
+    Object.prototype//{}
+    o=new Object()
+    o.__proto__ === Object.prototype
+
+    Object.__proto__//[function] 这个就别管它了
+
+### new 与 Object.create
+Object.create(func.prototype)相当于: `{__proto__:func.prototype}` 用于cls2 extends cls1
+Object.create(obj)相当于: `{__proto__:obj}` 相当于对象继承了
+
+    Object.create =  function (obj) {
+        var F = function () {};
+        F.prototype = obj;
+        return new F();
+    };
+
+new func() 相当于:
+        `{attrs:vals,__proto__:func.prototype}`
+
+    var o1 = new Object();
+        //func.prototype.constructor()
+        o1[&#x27;__proto__&#x27;] = func.prototype;
+        func.call(o1); 
+
+&gt; arrow函数不是匿名函数，它没有`[[Construct]] internal method` ，不能进行`new`,  
+
+### 对象继承对象
+
+    a={age:10, name:&#x27;xiao&#x27;}
+    b={age:12}
+    b.__proto__ = a
+
+### 类继承类
+原型继承原型
+
+    function ClassA(sColor){ }
+    function ClassB(){ 
+        //self.prototype = Object.getPrototypeOf(this)
+        self = this.constructor
+        //1. 原型链冒充 原类的静态成员(prototype).
+        if(self.__init === undefined){
+            self.__init === true
+            ClassB.prototype = Object.create(ClassA.prototype) //prototype隔离
+        }
+        // 2. 再冒充ClassB对象.
+        self.call(this, sColor);
+    }
+
+## class 定义类
+所有的方法都定义在prototype 上
+
+    class Animal{
+        constructor(name){
+            this.name = name
+        }
+        method1(){}
+    }
+    class Cat extends Animal{
+        constructor(name){
+            super(name) //super 是编译时确定 必须在前
+            super.method1()
+            this.xxx()
+        }
+        say(){
+            return `Hello, ${this.name}!`
+            return super.method1()
+        }
+    }
+    (new Cat(&#x27;ahui&#x27;)).say()
+
+class 定义的方法是不可keys 枚举定义值（除了assign值）, 不过可以用getOwnPropertyNames
+
+    class Point {
+        constructor(){ }
+        func1(){}
+    }
+
+    Object.assign(Point.prototype, {
+        toString(){},
+        toValue(){},
+        func2(){}
+    });
+
+    &gt; Object.keys(Point.prototype)
+    [ &#x27;toString&#x27;, &#x27;toValue&#x27;, &#x27;func2&#x27; ]
+    &gt; Object.getOwnPropertyNames(Point.prototype)
+    [ &#x27;constructor&#x27;, &#x27;func1&#x27;, &#x27;toString&#x27;, &#x27;toValue&#x27;, &#x27;func2&#x27; ]
+
+属性名可以用变量:
+
+     [methodName]() { }
+
+### property
+
+    //instance
+    class Foo { 
+        constructor(){
+            this.bar = 1; 
+        }
+    } 
+
+
+### constructor
+constructor方法默认返回实例对象（即this），完全可以指定返回另外一个对象。
+
+    class Foo {
+        constructor() {
+            return Object.create(null);
+        }
+    }
+
+### set/get
+
+    class MyClass {
+        constructor() {
+            // ...
+        }
+        get prop() {
+            return &#x27;getter&#x27;;
+        }
+        set prop(value) {
+            console.log(&#x27;setter: &#x27;+value);
+        }
+    }
+    var descriptor = Object.getOwnPropertyDescriptor( MyClass.prototype, &quot;prop&quot;);
+
+    &quot;get&quot; in descriptor  // true
+
+
+### new.target === class
+new.target会返回子类
+
+    class Rectangle {
+        constructor(length, width) {
+            console.log(new.target === Rectangle);
+            this.length = length;
+            this.width = width;
+        }
+    }
+
+    var obj = new Rectangle(3, 4); // 输出 true
+
+### private
+侵入式的不优雅 1. 只能用this[property], 不能用this.property
+
+    var property = Symbol();
+    var method = Symbol();
+    class Something {
+        constructor(){
+            this[property] = &quot;test&quot;;
+        }
+        [method](){
+            console.log(1)
+        }
+    }
+
+    var instance = new Something();
+
+    console.log(instance.property); //=&gt; undefined,
+
+private 用闭包:
+
+    new Person(&#x27;ahui&#x27;).getName()
+    class Person {
+        constructor(name) {
+            var _name = name
+            this.setName = function(name) { _name = name; }
+            this.getName = function() { return _name; }
+        }
+    }
+
+### static
+static 不可以被实例继承(因为不是prototype), static属于类自己(相当于proto)
+
+    Foo.prototype.bar=2 // prototype 才被继承
+
+#### static method
+1. 不可以用于实例
+2. 如果静态方法包含this关键字，这个this指的是类，而不是实例。
+3. super.staticMethod() ，super作为对象时，在普通方法中，指向父类的原型对象；在静态方法中，指向父类
+
+e.g.
+
+    class Foo {
+        static bar () {
+            this.baz();
+        }
+        static baz () {
+            console.log(&#x27;hello&#x27;);
+        }
+        baz () {
+            console.log(&#x27;world&#x27;);
+        }
+    }
+
+    Foo.bar() // hello
+
+#### static prop
+static const/variable, via get/set
+
+    class Foo {
+        static get PI() {
+            return 3.1415;
+        }
+        static get bar() {
+            return this._bar;
+        }
+        static set bar(v) {
+            this._bar = v
+            console.log(this)
+        }
+    }
+
+方式2：
+
+    // consructor
+    Foo.bar=1
+
+提案
+
+    class MyClass {
+    static myStaticProp = 42;
+
+
+### Generator 
+如果某个方法之前加上星号（*），就表示该方法是一个 Generator 函数。
+
+    class Foo {
+        constructor(...args) {
+            this.args = args;
+            console.log(typeof(Symbol.iterator)); //symbol
+        }
+        * [Symbol.iterator]() {
+            for (let arg of this.args) {
+                yield arg;
+            }
+        }
+        * it() {
+            for (let arg of this.args) {
+                yield arg;
+            }
+        }
+    }
+
+    for (let x of new Foo(&#x27;hello&#x27;, &#x27;world&#x27;)) {
+        console.log(x);
+    }
+    for (let x of new Foo(&#x27;hello&#x27;, &#x27;world&#x27;).it()) {
+        console.log(x);
+    }
+
+上面代码中，Foo类的Symbol.iterator方法前有一个星号，表示该方法是一个 Generator 函数。Symbol.iterator方法返回一个Foo类的默认遍历器，for...of循环会自动调用这个遍历器。
+
+### 直接定义对象：
+
+    let parent = {
+        method1() { .. },
+    }
+
+    let child = {
+        __proto__: parent,
+        method1() { return super.method1() },
+    }
+
+### 创建对象
+2. {}: person={firstname:&quot;John&quot;};
+1. new func constructor:
+4. new class constructor
+
+    obj = new func(param1, param2);
+    obj.constructor === func.prototype.constructor; // true
+
+    let person = new class {
+        constructor(name) {
+            this.name = name;
+        }
+
+        sayName() {
+            console.log(this.name);
+        }
+    }(&#x27;张三&#x27;);
+
+
+## 对象分类
+### 包装对象与原始primitive 对象
+number、boolean和string都有包装对象. (包装对象一点用处也没有，所以还是用primitive 吧)
+
+    typeof new Number(123); // &#x27;object&#x27;
+    typeof Number(123); // &#x27;number&#x27;
+    Number(123) === 123; // true
+
+    var x1 = {};            // new object
+    var x2 = &quot;&quot;;            // new primitive string
+    var x3 = 0;             // new primitive number
+    var x4 = false;         // new primitive boolean
+    var x5 = [];            // new array object
+    var x6 = /str/igm       // new RegExp(&#x27;str&#x27;, &#x27;igm&#x27;) object
+    var x7 = function(){};  // new function object
+
+临时包装销毁：
+
+    (123).toString(); // &#x27;123&#x27;; #加括号是为了防止解析为小数点
+    123..toString(); // &#x27;123&#x27;; #加括号是为了防止解析为小数点
+    &#x27;&#x27;+123
+
+### 对象原型判断
+
+    arr ----&gt; Array.prototype ----&gt; Object.prototype ----&gt; null
+
+注意null/Array/{}的类型是object, 不可以用typeof 判断
+
+	obj instanceof funcname// 函数原型名
+    null === null
+    Array.isArray(arr)
+
+全局/局部变量是否存在用:
+
+    typeof window.myVar === &#x27;undefined&#x27;
+    typeof myVar === &#x27;undefined&#x27;
+
+## 定义对象es5(deprecated)
+
+### 工厂方式(deprecated)
+工厂方式的点是:
+1. 每次new factory 都会创建单独的函数
+2. 太复杂
+
+	function factory(v1, v2){
+		obj = new Object();
+		obj.param1 = v1;
+		obj.param2 = v2;
+		obj.func = function(){};
+		return obj;
+	}
+	obj = factory(1,2)
+
+### 构造方式(deprecated)
+只避免了factory 的第二个缺点: 复杂性
+
+1. 每次都会生成新的function.
+
+	function construction(v1,v2){
+		this.p1 = v1;
+		this.p2 = v2;
+		this.func = function(){}; //为避免重复的func, 可在外部定义
+	}
+	obj = new constructor(1,2)
+
+### 原型方式(deprecated)
+没有工厂方法的缺点，但产生了新的缺点：
+
+- 不能传参数
+
+	function Car() {
+	}
+	Car.prototype.color = &quot;blue&quot;;
+	Car.prototype.showColor = function() {
+	  alert(this.color);
+	};
+	(new Car) instanceof Car;//true;
+	(new Car) instanceof Object;//true;
+	(new Car) instanceof Number;//false;
+
+### 静态的构造原型混合
+- 构造: 放私有的属性
+- 原型: 放公共的属性
+
+&gt; 批评静态构造函数原型混合方式的人认为，在构造函数内部找属性，在其外部找方法的做法不合逻辑: 所以就有一种动态 构造/原型混合
+
+#### 动态构造原型混合
+
+	function Car(color){
+		//private
+		this.color=color;
+
+		//public(prototype)
+		//if (typeof Car._initialized === &quot;undefined&quot;) {
+		if (Car._initialized === undefined) {
+			var self = Car;
+			self._initialized = true;//非prototype 的_initialized 不会被继承，但是它相当于Car 内的静态变量
+			self.prototype.showColor = function() {
+			  console.log(this.color);
+			};
+		}
+	  }
+	}
+
+## Extends 继承(deprecated)
+
+### 对象冒充
+#### 利用this 变化
+ClassB 继承 ClassA
+
+	function ClassA(color){
+		this.color = color;
+	}
+	function ClassB(color, num){
+		this.method = ClassA; //ClassB就冒充了ClassA中的this
+		this.method(color)
+		delete this.method;
+
+		this.method = ClassA1; //ClassB就冒充了ClassA1中的this(可以多重继承的)
+		this.method(num);
+		delete this.method;
+
+		this.color = value; //Notice; 会覆盖前面的属性. 请确保属性名不冲突
+	}
+	new ClassB(&#x27;red&#x27;, 5);
+
+### Call()
+
+	function sayColor(sPrefix,sSuffix) {
+		alert(sPrefix + this.color + sSuffix);
+	};
+
+	var obj = new Object();
+	obj.color = &quot;blue&quot;;
+
+	sayColor.call(obj, &quot;The color is &quot;, &quot;a very nice color indeed.&quot;);// saycolor中的this会指向obj, obj对象就冒充了saycolor.
+
+#### 用call 实现继承
+
+	function ClassB(sColor, sName) {
+		//this.newMethod = ClassA;
+		//this.newMethod(color);
+		//delete this.newMethod;
+		ClassA.call(this, sColor);//执行时，this冒充了ClassA
+
+		this.name = sName;
+		this.sayName = function () {
+			alert(this.name);
+		};
+	}
+
+### apply 方法冒充继承
+apply与call方法类似, 除了参数调用形式不一样.
+
+	function sayColor(sPrefix,sSuffix) {
+		alert(sPrefix + this.color + sSuffix);
+	};
+
+	var obj = new Object();
+	obj.color = &quot;blue&quot;;
+
+	sayColor.apply(obj, new Array(&quot;The color is &quot;, &quot;a very nice color indeed.&quot;));
+
+#### apply 实现继承.
+
+	function ClassB(sColor, sName) {
+		//this.newMethod = ClassA;
+		//this.newMethod(color);
+		//delete this.newMethod;
+		ClassA.apply(this, arguments);//arguments === new Array(sColor);
+
+		this.name = sName;
+		this.sayName = function () {
+			alert(this.name);
+		};
+	}
+
+还有一个bind 方法，但函数使用bind 时，函数不会执行 `var get = request.bind(this, &#x27;GET&#x27;, arg2, ... );` request 就不会执行。
+
+它主要用于定制一个新的 requset 的函数，并默认函数的this 及定制参数:
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind
+
+
+### 原型链（prototype chaining）
+用prototype 对象去继承.
+缺点: 不能控制被继承类的传参(一般都不会传参数)
+
+	function ClassA() {
+	}
+
+	ClassA.prototype.color = &quot;blue&quot;;
+	ClassA.prototype.sayColor = function () {
+		alert(this.color);
+	};
+
+	function ClassB() {
+	}
+
+	ClassB.prototype = new ClassA(); //继承了啦.
+
+### 混合方式
+对象冒充: 不能冒充静态成员(prototype public)
+原型链: 因为prototype 是公共的, 所以传argument(private)就不合适了.故产生了apply/call + 原型的混合方式.
+
+	function ClassA(color) {
+		this.color = color;
+		if(ClassA.init === undefined){
+			ClassA.init = true;
+			ClassA.prototype.sayColor = function () {
+				console.log(this.color);
+			};
+		}
+	}
+
+	function ClassB(sColor, sName) {
+		//var self.prototype = Object.getPrototypeOf(this)
+		var self = this.constructor
+		if( self.init === undefined){
+			self.init = true;
+            // 最好别传new ClassA(sColor),因为sColor应该是每个对象私有的.
+			//self.prototype = new ClassA(); 
+            
+            //1. 原型链冒充 原类的静态成员(prototype). 
+			self.prototype = Object.create(ClassA.prototype)
+			self.prototype = ClassA.prototype
+		}
+		ClassA.call(this, sColor);// 2. 再冒充ClasA对象.
+
+        //自身
+		this.name = sName;
+	}
+
+用Call 继承属性方法初始化，用`Object.create` 继承公共属性与方法
+再来一个例子：
+
+	//Shape - superclass
+	function Shape() {
+	  this.x = 0;
+	  this.y = 0;
+	}
+
+	Shape.prototype.move = function(x, y) {
+		this.x += x;
+		this.y += y;
+		console.info(&quot;Shape moved.&quot;);
+	};
+
+	// Rectangle - subclass
+	function Rectangle() {
+	  Shape.call(this); //call super constructor.
+	}
+
+    //不要共享prototype
+	Rectangle.prototype = Object.create(Shape.prototype);
+
+	var rect = new Rectangle();
+
+	rect instanceof Rectangle //true.
+	rect instanceof Shape //true.
+
+	rect.move(1, 1); //Outputs, &quot;Shape moved.&quot;
+
+# Reflect
+    var O = {a: 1};
+    Object.defineProperty(O, &#x27;b&#x27;, {value: 2});
+    O[Symbol(&#x27;c&#x27;)] = 3;
+
+    Reflect.ownKeys(O); // [&#x27;a&#x27;, &#x27;b&#x27;, Symbol(c)]
+
+    function C(a, b){
+    this.c = a + b;
+    }
+    var instance = Reflect.construct(C, [20, 22]);
+    instance.c; // 42</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/ria/js-jquery.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>selector</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: selector
+date: 2018-10-04
+updated: 2018-10-06
+---
+# selector
+# each
+
+## slice
+
+    $(&#x27;li&#x27;).slice(2, 4); 
+
+## map
+
+    var arr = langs.map(function () {
+        return this.innerHTML;
+    }).get(); // 用get()拿到包含string的Array：[&#x27;JavaScript&#x27;, &#x27;Python&#x27;
+
+## each selector
+
+	$(&quot;#navigation &gt;a&quot;).each(function() {
+		 console.log(this.href)
+	});
+
+## each array &amp; map
+
+	$.each(data[&#x27;list&#x27;], function(key, item) {
+			console.log(this);//item reference;
+	}
+	$.each(data[&#x27;list&#x27;], function(index, item) {
+			console.log(this);//item reference;
+	}
+
+## node
+### insertBefore insertAfter
+newNode.insertBefore(oldNode)
+
+	$( &quot;&lt;p&gt;Test&lt;/p&gt;&quot; ).insertBefore( &quot;#main&quot; );
+	//move h1 node
+	$( &quot;h1&quot; ).insertBefore( &quot;#main&quot; );
+	//clone h1 node
+	$( &quot;h1&quot; ).clone().insertBefore( &quot;#main&quot; );
+
+oldNode.before(node1,node2,...)
+
+	$(&quot;img&quot;).after(&quot;Some text after&quot;);
+		&lt;img&gt;some text after
+	$(&quot;img&quot;).after(node1, node2, ...);
+	$(&quot;img&quot;).before(&quot;Some text before&quot;);
+
+### prepend &amp; append
+基于  `appendChild, insertBefore` by DOM method
+
+    newNode.prependTo(oldNode)
+    newNode.prependTo(html_str)
+
+    newNode.appendTo(oldNode)
+    newNode.appendTo(html_str)
+
+    oldNode.prepend(node1, node2, ...)
+
+试下
+
+	 $(select).append(&#x27;hello world!&#x27;);
+	 $(&quot;p&quot;).prepend(&quot;&lt;img src=&#x27;xxx&#x27;&gt;&quot;);
+
+
+## remove &amp; empty
+
+	$(&quot;#div1&quot;).remove(); //删除自己
+	$(&quot;p&quot;).remove(&quot;.italic&quot;); //删除class=&quot;italic&quot; 的p node
+
+	$(&quot;#div1&quot;).empty(); //删除div1下的子元素
+
+# Dom
+
+## .attr,.prop
+
+	$(node).attr(&#x27;action&#x27;)
+        $(select).attr({name:value});
+	$(node).prop(&#x27;action&#x27;)
+	$(node).html()
+	$(node)[0].outerHTML
+	$(node).text();
+
+- prop 包括true/false 属性：checked(radio+checkbox),selected(select), disabled, etc..
+- attr 不包括true/false 属性
+
+
+### checked
+
+	$(&quot;#x&quot;).prop(&quot;checked&quot;, true);			//radio_checkbox.checked
+	$(&quot;input[type=&quot;radio&quot;]&quot;).val([&quot;1&quot;]); 	//val = 1
+	$(&quot;input[type=&quot;checkbox&quot;]&quot;).val([&quot;1&quot;, 2]); //val = 1,2
+
+bootstrap 好像有点问题, 只能这样
+
+	if(params[input.name]){
+		$(&#x27;input[type=&quot;checkbox&quot;]&#x27;).prop(&#x27;checked&#x27;, true);
+	}
+
+get checked val
+
+	$(&#x27;input[name=radioName]:checked&#x27;, &#x27;#myForm&#x27;).val()
+	$(&#x27;input[name=&quot;checkBox[]&quot;]:checked&#x27;, &#x27;#myForm&#x27;).val(); # return first val
+
+### selected
+
+	$(&quot;#x&quot;).prop(&quot;selected&quot;, true);			//select.selected
+	$(&#x27;select[name=selectName]:selected&#x27;, &#x27;#myForm&#x27;).val()
+
+## Table
+
+### create table
+	// convert string to JSON
+	response = $.parseJSON(response);
+
+	$.each(response, function(i, item) {
+		var $tr = $(&#x27;&lt;tr&gt;&#x27;).append(
+			$(&#x27;&lt;td&gt;&#x27;).text(item.rank),
+			$(&#x27;&lt;td&gt;&#x27;).text(item.content),
+			$(&#x27;&lt;td&gt;&#x27;).text(item.UID)
+		); //.appendTo(&#x27;#records_table&#x27;);
+		console.log($tr.wrap(&#x27;&lt;p&gt;&#x27;).html());
+	});
+
+# ajax
+&lt;script src=&quot;http://libs.baidu.com/jquery/2.0.0/jquery.min.js&quot;&gt;&lt;/script&gt;
+
+## head
+
+	beforeSend: function (xhr) {
+		xhr.setRequestHeader(&#x27;Accept&#x27;, &#x27;application/json&#x27;);
+		xhr.setRequestHeader(&#x27;X-Requested-With&#x27;, &#x27;XMLHttpRequest&#x27;);
+	},
+
+## load
+
+	$(selector).load(URL,data,callback);
+		如果data是对象, 则post, 否则get
+	$(selector).load(&#x27;http://host/a.txt&#x27;);// 用a.txt改变当前结节的innerHTML
+	$(selector).load(&#x27;a.txt #p1&#x27;);// 用a.txt中的#p1节点元素改变当前结节的innerHTML
+	$(selector).load(url, function(responseTxt,statusTxt,xhr){...});
+
+## .get &amp;&amp; .post
+不支持FormData
+
+	$.get(&quot;demo_test.asp&quot;,function(responseTxt,statusTxt){});
+	$.post(&quot;demo_test.asp&quot;,{a:1}, function(responseTxt,statusTxt){});
+
+### getJSON
+
+    $.getJSON(&#x27;/api/products&#x27;).done(function (data) {
+        vm.products = data.products;
+    }).fail(function (jqXHR, textStatus) {
+        alert(&#x27;Error: &#x27; + jqXHR.status);
+    });
+
+## ajax
+ajax(url, setting)
+
+	$.ajax(url, {&#x27;data&#x27;:{&#x27;post&#x27;:1}, &#x27;type&#x27;:&quot;POST&quot;, header:{&#x27;Origin&#x27;:&#x27;http://wiki.cn&#x27;}}
+	).done(function(data){
+        ajaxLog(&#x27;成功, 收到的数据: &#x27; + JSON.stringify(data));
+    }).fail(function (xhr, status) {
+        ajaxLog(&#x27;失败: &#x27; + xhr.status + &#x27;, 原因: &#x27; + status);
+    }).always(function () {
+        ajaxLog(&#x27;请求完成: 无论成功或失败都会调用&#x27;);
+    });
+
+ajax(setting):
+
+	res = $.ajax({
+		url:url,
+		data:new FormData(document.forms[0]),
+        dataType: &#x27;json&#x27;, //接收的数据格式 Content-Type
+		type:&#x27;POST&#x27;,
+		success:function(data, string textStatus, jqXHR jqXHR){}
+	});
+
+1. Setting `processData` to `false` lets you prevent jQuery from automatically transforming the data into a query string.
+2. It’s imperative that you set the `contentType` option to false, forcing jQuery not to add a `Content-Type` header for you,
+otherwise, the boundary string will be missing from it.
+
+	$.ajax({
+	  url: &#x27;http://example.com/script.php&#x27;,
+	  data: fd,
+	  processData: false,
+	  contentType: false,
+	  beforeSend: function (xhr) {
+			xhr.setRequestHeader(&#x27;Accept&#x27;, &#x27;application/json&#x27;);
+			xhr.setRequestHeader(&#x27;X-Requested-With&#x27;, &#x27;XMLHttpRequest&#x27;);
+	  },
+	  type: &#x27;POST&#x27;,
+	  success: function(data){
+		alert(data);
+	  }
+	});
+
+### hooks
+The callback hooks provided by $.ajax() are as follows:
+
+1. beforeSend
+	callback option is invoked; it receives the jqXHR object and the settings object as parameters.
+1. error
+	callback option is invoked, if the request fails. It receives the jqXHR, a string indicating the error type, and an exception object if applicable. Some built-in errors will provide a string as the exception object: &quot;abort&quot;, &quot;timeout&quot;, &quot;No Transport&quot;.
+1. dataFilter
+	callback option is invoked immediately upon successful receipt of response data. It receives the returned data and the value of dataType, and must return the (possibly altered) data to pass on to success.
+1. success
+	callback option is invoked, if the request succeeds. It receives the returned data, a string containing the success code, and the jqXHR object.
+1. Promise
+	callbacks — .done(), .fail(), .always(), and .then() — are invoked, in the order they are registered.
+1. complete
+	callback option fires, when the request finishes, whether in failure or success. It receives the jqXHR object, as well as a string containing the success or error code
+
+	$.ajaxSetup({dataFilter:function(data){
+		if(data.errno === -9 &amp;&amp; data.url){
+			location.href = data.url;
+		}
+		return data;
+	}});
+	dataFilter,success
+
+Note: Global callback functions should be set with their respective global Ajax event handler methods—.ajaxStart(), .ajaxStop(), .ajaxComplete(), .ajaxError(), .ajaxSuccess(), .ajaxSend()—rather than within the options object for $.ajaxSetup().
+
+# noConflict
+
+	jq = $.noConflict();
+	jq(document).ready(function($){
+		$(&quot;button&quot;).click(function(){
+		  $(&quot;p&quot;).text(&quot;jQuery 仍在运行！&quot;);
+		});
+	});
+
+# Event
+
+## Add Event handler
+1. Note, 同一元素可以为同一事件绑定多个事件处理，触发时所有的处理会按绑定顺序执行
+2. The .trigger() function cannot be used to mimic native browser events, such as clicking on a file input box or an anchor tag.
+
+	$( &quot;input#name&quot; ).click(function(eventObject) {
+		console.log(eventObject);
+		$( this ).slideUp();
+		this.value = this.value.toUpperCase();
+	  });
+	$( &quot;select&quot; ).select(function(eventObject) {
+
+更通用的:
+
+	.bind( eventType [, data ], handler(eventObject) );//data is passed to event.data
+	//Attach a handler to an event for the elements.
+    function handler(e){
+        event.data
+    }
+
+	.bind({click:function, mouseenter:function, ...})
+
+或者.on (for more events)
+
+	.on( events [, sub_selector ] [, data ], handler(eventObject) );//
+	.on( &#x27;click mouserover&#x27; [, selector ] [, data ], handler(eventObject) )
+	//Attach an event handler function for one or more events to the selected elements.
+
+### on change
+
+	$(&#x27;form&#x27;).change(function(){
+		$(this).submit();
+	});
+
+### on document
+sub_selector 可以是动态insert 的node
+
+	$(document).on(&#x27;change&#x27;, &#x27;.btn-file :file&#x27;, function() {})
+
+### Trigger Event
+不带参数时，就会触发事件(除了ready)
+
+	$(&#x27;p&#x27;).dbclick();
+	$(&#x27;p&#x27;).load();//加载成功
+	$(&#x27;p&#x27;).focus();
+	$(&#x27;p&#x27;).submit();
+	$(&#x27;p&#x27;).mouseover();
+	$(&#x27;p&#x27;).click();//a href 不会跳
+
+以后触发都可以用:
+
+	$(&#x27;p&#x27;).trigger(&#x27;click&#x27;);
+
+### scroll event
+滚动时
+
+	$(window).scroll(function(e) {console.log(e)})
+
+### ready event
+read 只能用于文档, (func 不能为空, 它不能触发ready)
+
+	$(document).ready(func);//文档就绪时
+	$().ready(func);//文档就绪时
+	$(func);//文档就绪时
+
+相当于
+
+	document.addEventListener(&quot;DOMContentLoaded&quot;, function(event) {
+	  //do work
+	});
+
+## Del Event
+
+### unbind specify event listener
+
+	$(&#x27;p&#x27;).unbind(&#x27;click&#x27;);
+	$(&#x27;p&#x27;).attr(&#x27;onclick&#x27;,&#x27;&#x27;).unbind(&#x27;click&#x27;);
+
+dom原生的click
+
+	$(&#x27;p&#x27;)[0].click();//dom 自己的click
+
+### remove all listener
+
+	.off()
+
+# link
+
+## link confirm
+
+	$(&#x27;.delete_row&#x27;).click(function(){
+		return confirm(&quot;Are you sure you want to delete?&quot;);
+	})
+
+# loadJs
+
+	$.getScript( &quot;ajax/test.js&quot;, function( data, textStatus, jqxhr ) {
+	  console.log( data ); // Data returned
+	  console.log( textStatus ); // Success
+	  console.log( jqxhr.status ); // 200
+	  console.log( &quot;Load was performed.&quot; );
+	});</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

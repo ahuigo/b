@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/rpc/rpc-thrift.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>rpc-thrift</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: rpc-thrift
+date: 2018-10-04
+updated: 2018-10-06
+---
+# Preface
+
+Thrift 与http 相比，有几个优点, 而不是速度的。
+
+1. thrift生成的客户端和服务器代码完全包括要传递的数据结构.所以你不必编写客户端server 代码: 包括参数和返回都会自动验证并进行解析。
+2. thrift比http更紧凑(没有head头),而且很容易被扩展为支持加密，压缩.非阻塞IO ,etc 。
+3. thrift可以将其设置为使用http和JSon很容易。 (如果客户端需要通过防火墙或者不稳定的网络环境)
+4. thrift支持持久连接， 避免了连续的TCP(http1.1/http2.0 也支持，不过受客户端限制)
+
+
+
+# thrift
+thrift 与protobuf 相比，不仅包括二进制数据格式部分，还包括网络部分: RPC、RMI、COM 等远程对象调用或远程方法调用。
+Protobuf 自身不带RPC 框架，需要第三方的RPC 框架支持(最近google 出了gRPC 框架)。
+
+&gt; thrift 比protobuf 重，文档也没有protobuf 丰富，个人倾向于protobuf.
+
+&gt; google 开源了gRPC 框架，基于protobuf 数据打包协议和HTTP/2 协议. 提供了PHP/JAVA/PYTHON/GO 等多种实现
+
+## install thrift
+
+	brew install thrift
+	git clone https://github.com/walkor/workerman-thrift
+
+## 生成client
+1. 写thrift
+
+	thrift -gen php:server punish.thrift
+	cat punish.thrift
+		namespace php A.B.C
+
+	autoload: Thrift
+		spl_autoload_register(function($class){
+            if(strpos($class, &#x27;Thrift&#x27;) === 0){
+                $file = str_replace(&#x27;\\&#x27;, &#x27;/&#x27;, $class);
+                require dirname(__DIR__).&quot;/{$file}.php&quot;;
+            }
+        });
+
+2. copy 组件
+
+	cp -r ./gen-php/Services/HelloWorld /yourdir/workerman/applications/ThriftRpc/Services/
+
+3. handler 组件
+在`Applications/ThriftRpc/Services/HelloWorld/`目录下创建 `HelloWorldHandler.php`如下
+
+	&lt;?php
+	// 统一使用Services\服务名 做为命名空间
+	namespace Services\HelloWorld;
+
+	class HelloWorldHandler implements HelloWorldIf {
+	  public function sayHello($name)
+	  {
+		  return &quot;Hello $name&quot;;
+	  }
+	}
+
+4. 初始化
+
+在Applications/ThriftRpc/start.php 中初始化服务，包括进端口和程数
+
+	require_once __DIR__ . &#x27;/ThriftWorker.php&#x27;;
+
+	// helloworld
+	$hello_worker = new ThriftWorker(&#x27;tcp://0.0.0.0:9090&#x27;);
+	$hello_worker-&gt;count = 16;
+	$hello_worker-&gt;class = &#x27;HelloWorld&#x27;;
+
+	// another worker
+
+5. client
+
+	// 引入客户端文件
+    require_once &#x27;applications/ThriftRpc/Clients/ThriftClient.php&#x27;;
+    use ThriftClient\ThriftClient;
+
+    // 传入配置，一般在某统一入口文件中调用一次该配置接口即可
+    ThriftClient::config(array(
+		 &#x27;HelloWorld&#x27; =&gt; array(
+		   &#x27;addresses&#x27; =&gt; array(
+			   &#x27;127.0.0.1:9090&#x27;,
+			   //&#x27;127.0.0.2:9191&#x27;,
+			 ),
+			 &#x27;thrift_protocol&#x27; =&gt; &#x27;TBinaryProtocol&#x27;,//不配置默认是TBinaryProtocol，对应服务端HelloWorld.conf配置中的thrift_protocol
+			 &#x27;thrift_transport&#x27; =&gt; &#x27;TBufferedTransport&#x27;,//不配置默认是TBufferedTransport，对应服务端HelloWorld.conf配置中的thrift_transport
+		   ),
+		   &#x27;UserInfo&#x27; =&gt; array(
+			 &#x27;addresses&#x27; =&gt; array(
+			   &#x27;127.0.0.1:9393&#x27;
+			 ),
+		   ),
+		 )
+	   );
+
+    // 初始化一个HelloWorld的实例
+    $client = ThriftClient::instance(&#x27;HelloWorld&#x27;);
+
+    // --------同步调用实例----------
+    var_export($client-&gt;sayHello(&quot;TOM&quot;));
+
+# php thrift
+autoload thrift
+
+		spl_autoload_register(function($class){
+            if(strpos($class, &#x27;Thrift&#x27;) === 0){
+                $file = str_replace(&#x27;\\&#x27;, &#x27;/&#x27;, $class);
+                require dirname(__DIR__).&quot;/{$file}.php&quot;;
+            }
+        });
+
+use
+
+        $socket = new Thrift\Transport\TSocket ($host, $port);
+        $transport = new Thrift\Transport\TBufferedTransport ($socket);
+        $protocol = new Thrift\Protocol\TBinaryProtocol($transport);
+
+        // Create a  client
+        $client = new NotifyCenterClient($protocol);
+        $transport-&gt;open();
+
+        $ret = $client-&gt;send_message($msg);
+        $transport-&gt;close();</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

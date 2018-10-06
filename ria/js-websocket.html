@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/ria/js-websocket.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>Socket.io</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: Socket.io
+date: 2018-10-04
+updated: 2018-10-06
+---
+# Socket.io
+ws 和 wss 均为 WebSocket 协议的 schema，一个是非安全的，一个是安全的tcp + ws as ws，tcp + tls + ws as wss 
+Socket.IO 支持: ：WebSocket, Adobe Flash Socket, AJAX long polling, AJAX multipart streaming, Forever Iframe, JSONP Polling
+
+# websocket
+廖雪峰老师课程笔记
+
+## 协议原理
+websocket 利用了HTTP协议来建立连接。
+
+首先，WebSocket连接必须由浏览器发起，因为请求协议是一个标准的HTTP请求，格式如下：
+
+    GET ws://localhost:3000/ws/chat HTTP/1.1
+    Host: localhost
+    Upgrade: websocket
+    Connection: Upgrade
+    Origin: http://localhost:3000
+    Sec-WebSocket-Key: client-random-string
+    Sec-WebSocket-Version: 13
+
+该请求和普通的HTTP请求有几点不同：
+
+1. GET请求的地址不是类似/path/，而是以ws://开头的地址；
+2. 请求头`Upgrade: websocket和Connection: Upgrade`表示这个连接将要被转换为WebSocket连接；
+3. `Sec-WebSocket-Key` 是用于标识这个连接，并非用于加密数据；
+4. `Sec-WebSocket-Version` 指定了WebSocket的协议版本。 版本号和子协议规定了双方能理解的数据格式，以及是否支持压缩等等。
+
+随后，服务器如果接受该请求，就会返回如下响应：
+
+    HTTP/1.1 101 Switching Protocols
+    Upgrade: websocket
+    Connection: Upgrade
+    Sec-WebSocket-Accept: server-random-string
+
+1. 该响应代码101表示本次连接的HTTP协议即将被更改，
+2. 更改后的协议就是`Upgrade: websocket`指定的WebSocket协议。
+
+
+## server
+
+    // 导入WebSocket模块:
+    const WebSocket = require(&#x27;ws&#x27;);
+    const WebSocketServer = WebSocket.Server;
+
+    // 实例化:
+    const wss = new WebSocketServer({
+        port: 3000
+    });
+
+    //响应
+    wss.on(&#x27;connection&#x27;, function (ws, wsinfo) {
+        console.log(`[SERVER] connection()`);
+        console.log(wsinfo.url);
+        url.parse(ws.upgradeReq.url, true);
+        for(let k in wsinfo){
+            //console.log(k,wsinfo[k])
+        }
+        ws.on(&#x27;message&#x27;, function (message) {
+            console.log(`[SERVER] Received: ${message}`);
+            ws.send(`ECHO: ${message}`, (err) =&gt; {              //可多次
+                if (err) {
+                    console.log(`[SERVER] error: ${err}`);
+                }
+            });
+        })
+    });
+
+### ws.upgradeReq
+`IncomingMessage=ws.upgradeReq` 是http request
+
+    ws.upgradeReq.url
+    ws.upgradeReq.headers
+    ws.upgradeReq.headers.cookie string
+
+    cookies = new Cookies(ws.upgradeReq, null);
+    cookies.get(&#x27;key&#x27;)
+
+### cookie/session
+http 有session或者cookie，但是，在响应WebSocket请求时，如何识别用户身份？
+
+在koa中，可以使用middleware解析Cookie，把用户绑定到ctx.state.user上。
+
+    app.use(async (ctx, next) =&gt; {
+        ctx.state.user = parseUser(ctx.cookies.get(&#x27;name&#x27;) || &#x27;&#x27;);
+        await next();
+    });
+
+WS请求也是标准的HTTP请求，所以，服务器也会把Cookie发送过来，这样，我们在用WebSocketServer处理WS请求时，就可以根据Cookie识别用户身份。
+
+    wss.on(&#x27;connection&#x27;, function (ws) {
+        // ws.upgradeReq是一个request对象:
+        let user = parseUser(ws.upgradeReq);
+        if (!user) {
+            // Cookie不存在或无效，直接关闭WebSocket:
+            ws.close(4001, &#x27;Invalid user&#x27;);
+        }
+        // 识别成功，把user绑定到该WebSocket对象:
+        ws.user = user;
+        // 绑定WebSocketServer对象:
+        ws.wss = wss;
+    });
+
+    //先把识别用户身份的逻辑提取为一个单独的函数：
+    function parseUser(obj) {
+        if (!obj) {
+            return;
+        }
+        console.log(&#x27;try parse: &#x27; + obj);
+        let s = &#x27;&#x27;;
+        if (obj.headers) {
+            let cookies = new Cookies(obj, null);
+            s = cookies.get(&#x27;name&#x27;);
+        }
+        if (s) {
+            try {
+                let user = JSON.parse(Buffer.from(s, &#x27;base64&#x27;).toString());
+                console.log(`User: ${user.name}, ID: ${user.id}`);
+                return user;
+            } catch (e) {
+                // ignore
+            }
+        }
+    }
+
+
+## client 请求
+    ws.onopen
+    ws.onclose
+    ws.onmessage
+    ws.onerror
+    ws.send()
+    ws.close()
+
+    // 打开一个WebSocket:
+    var ws = new WebSocket(&#x27;ws://localhost:3000/test/ahuigo&#x27;);
+
+    // 打开WebSocket连接后立刻发送一条消息:
+    ws.on(&#x27;open&#x27;, function () {
+        console.log(`[CLIENT] open()`);
+        ws.send(&#x27;Hello!&#x27;);
+    });
+
+    // 响应onmessage事件:
+    ws.onmessage = function(msg) { console.log(msg); };
+
+    // 给服务器发送一个字符串:
+    ws.send(&#x27;Hello!&#x27;);
+    ws.close()
+
+## 同源策略
+1. WebSocket协议本身不要求同源策略（Same-origin Policy）。
+2. 但是`ws://b.com`连接基于http，浏览器会发送Origin的HTTP头给服务器，服务器可以根据Origin拒绝这个WebSocket请求。
+
+## 路由
+客户端打开ws://localhost:3000/any/path可以写任意的路径。
+
+    //client
+    var ws = new WebSocket(&#x27;ws://localhost:3000/test/ahuigo?ahui=1&#x27;);
+    //server
+    wss.on(&#x27;connection&#x27;, function (ws, wsinfo) {
+        console.log(wsinfo[&#x27;url&#x27;]);
+
+# ws+koa
+                        |----N--&gt;Koa
+    HTTP--&gt;http.server-&gt;|is ws?
+                        |----Y--&gt;websocket
+
+ws/koa 可以用同一个端口, 比如3000。
+1. 3000端口并非由koa监听，而是koa调用Node标准的http模块创建的http.Server监听的。
+2. koa只是把响应函数注册到该http.Server中了。
+3. 类似，WebSocketServer也可以把自己的响应函数注册到http.Server中
+
+把WebSocketServer绑定到同一个端口的关键代码是先获取koa创建的http.Server的引用，再根据http.Server创建WebSocketServer：
+
+    // koa app的listen()方法返回http.Server:
+    const Koa = require(&#x27;koa&#x27;)
+    const app = new Koa();
+    let server = app.listen(3000);
+
+    // 创建WebSocketServer:
+    const WebSocketServer = require(&#x27;ws&#x27;).Server;
+    let wss = new WebSocketServer({
+        server: server
+    });
+
+WebSocketServer会首先判断请求是不是WS请求，如果是，它将处理该请求，如果不是，该请求仍由koa处理
+
+## nginx 反向代理
+
+    # 处理WebSocketServer连接: 第一次http
+    location ^~ /ws/ {
+        proxy_pass         http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header   Upgrade $http_upgrade;
+        proxy_set_header   Connection &quot;upgrade&quot;;
+    }
+
+    # 其他所有请求:
+    location / {
+        proxy_pass       http://127.0.0.1:3000;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+## wss.broadcast 封装
+除了为 WebSocket 绑定ws.onmessage、ws.onclose、ws.onerror等事件处理函数。
+
+对于聊天应用来说，每收到一条消息，就需要把该消息广播到所有ws 连接上
+
+    wss.broadcast = function (data) {
+        wss.clients.forEach(function (client) {
+            client.send(data);
+        });
+    };
+
+    // 收到消息后广播
+    ws.on(&#x27;message&#x27;, function (message) {
+        console.log(message);
+        if (message &amp;&amp; message.trim()) {
+            let msg = createMessage(&#x27;chat&#x27;, this.user, message.trim());
+            this.wss.broadcast(msg);
+        }
+    });
+
+    // 消息ID:
+    var messageIndex = 0;
+    function createMessage(type, user, data) {
+        messageIndex ++;
+        return JSON.stringify({
+            id: messageIndex,
+            type: type,
+            user: user,
+            data: data
+        });
+    }</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

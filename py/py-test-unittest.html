@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/py/py-test-unittest.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>py-test-unittest</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: py-test-unittest
+date: 2018-10-04
+updated: 2018-10-06
+---
+# Preface
+- unittest
+- doctest
+- nose
+&gt; 参考：http://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/00143191629979802b566644aa84656b50cd484ec4a7838000
+
+# Unittest
+编写一个Dict类，这个类的行为和dict一致，但是可以通过属性来访问，用起来就像下面这样：
+
+	&gt;&gt;&gt; d = Dict(a=1, b=2)
+	&gt;&gt;&gt; d[&#x27;a&#x27;]
+	1
+	&gt;&gt;&gt; d.a
+	1
+
+	class Dict(dict):
+
+		def __init__(self, **kw):
+			super().__init__(**kw)
+
+		def __getattr__(self, key):
+			try:
+				return self[key]
+			except KeyError:
+				raise AttributeError(r&quot;&#x27;Dict&#x27; object has no attribute &#x27;%s&#x27;&quot; % key)
+
+		def __setattr__(self, key, value):
+			self[key] = value
+
+## 测试类
+编写一个测试类，从unittest.TestCase继承
+
+	import unittest
+	from mydict import Dict
+
+	class TestDict(unittest.TestCase):
+
+		def test_init(self):
+			d = Dict(a=1, b=&#x27;test&#x27;)
+			self.assertEqual(d.a, 1)
+			self.assertEqual(d.b, &#x27;test&#x27;)
+			self.assertTrue(isinstance(d, dict))
+
+		def test_key(self):
+			d = Dict()
+			d[&#x27;key&#x27;] = &#x27;value&#x27;
+			self.assertEqual(d.key, &#x27;value&#x27;)
+
+		def test_attr(self):
+			d = Dict()
+			d.key = &#x27;value&#x27;
+			self.assertTrue(&#x27;key&#x27; in d)
+			self.assertEqual(d[&#x27;key&#x27;], &#x27;value&#x27;)
+
+		def test_keyerror(self):
+			d = Dict()
+			with self.assertRaises(KeyError):
+				value = d[&#x27;empty&#x27;]
+
+		def test_attrerror(self):
+			d = Dict()
+			with self.assertRaises(AttributeError):
+				value = d.empty
+
+以test开头的方法就是测试方法，不以test开头的方法不被认为是测试方法，测试的时候不会被执行。
+
+### 断言
+
+	self.assertEqual(abs(-1), 1); # 断言函数返回的结果与1相等
+
+另一种重要的断言就是期待抛出指定类型的Error，比如通过d[&#x27;empty&#x27;]访问不存在的key时，断言会抛出KeyError：
+
+	with self.assertRaises(KeyError):
+		value = d[&#x27;empty&#x27;]
+
+## 运行单元测试
+一旦编写好单元测试，我们就可以运行单元测试。最简单的运行方式是在mydict_test.py的最后加上两行代码：
+
+	if __name__ == &#x27;__main__&#x27;:
+		unittest.main()
+
+这样就可以把mydict_test.py当做正常的python脚本运行：
+
+	$ python3 mydict_test.py
+
+另一种方法是在命令行通过参数-m unittest直接运行单元测试：
+
+	$ python3 -m unittest mydict_test
+
+这是推荐的做法，因为这样可以一次批量运行很多单元测试，并且，有很多工具可以自动来运行这些单元测试。
+
+## setUp 与 tearDown
+可以在单元测试中编写两个特殊的setUp()和tearDown()方法。这两个方法会分别在每调用一个测试方法的前后分别被执行。
+
+setUp()和tearDown()方法有什么用呢？设想你的测试需要启动关闭一个数据库
+
+	class TestDict(unittest.TestCase):
+		def setUp(self):
+			print(&#x27;setUp...&#x27;)
+
+		def tearDown(self):
+			print(&#x27;tearDown...&#x27;)
+
+# doctest
+
+	def abs(n):
+		&#x27;&#x27;&#x27;
+		Function to get absolute value of number.
+
+		Example:
+
+		&gt;&gt;&gt; abs(1)
+		1
+		&gt;&gt;&gt; abs(-1)
+		1
+		&gt;&gt;&gt; abs(0)
+		0
+		&#x27;&#x27;&#x27;
+		return n if n &gt;= 0 else (-n)
+
+Python内置的“文档测试”（doctest）模块可以直接提取注释中的代码并执行测试。
+
+只有测试异常的时候，可以用...表示中间一大段烦人的输出。
+
+	# mydict2.py
+	class Dict(dict):
+		&#x27;&#x27;&#x27;
+		Simple dict but also support access as x.y style.
+
+		&gt;&gt;&gt; d1 = Dict()
+		&gt;&gt;&gt; d1[&#x27;x&#x27;] = 100
+		&gt;&gt;&gt; d1.x
+		100
+		&gt;&gt;&gt; d1.y = 200
+		&gt;&gt;&gt; d1[&#x27;y&#x27;]
+		200
+		&gt;&gt;&gt; d2 = Dict(a=1, b=2, c=&#x27;3&#x27;)
+		&gt;&gt;&gt; d2.c
+		&#x27;3&#x27;
+		&gt;&gt;&gt; d2[&#x27;empty&#x27;]
+		Traceback (most recent call last):
+			...
+		KeyError: &#x27;empty&#x27;
+		&gt;&gt;&gt; d2.empty
+		Traceback (most recent call last):
+			...
+		AttributeError: &#x27;Dict&#x27; object has no attribute &#x27;empty&#x27;
+		&#x27;&#x27;&#x27;
+		def __init__(self, **kw):
+			super(Dict, self).__init__(**kw)
+
+		def __getattr__(self, key):
+			try:
+				return self[key]
+			except KeyError:
+				raise AttributeError(r&quot;&#x27;Dict&#x27; object has no attribute &#x27;%s&#x27;&quot; % key)
+
+		def __setattr__(self, key, value):
+			self[key] = value
+
+	if __name__==&#x27;__main__&#x27;:
+		import doctest
+		doctest.testmod()
+
+测试：
+
+	$ python3 mydict2.py</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

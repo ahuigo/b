@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/py/py-asyncio.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>asyncio</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: asyncio
+date: 2018-09-28
+updated: 2018-10-06
+---
+# asyncio
+asyncio是基于coroutine 的，包括了:
+1. 具有特定系统实现的事件循环(event loop)
+2. 数据通讯和协议抽象(类似Twisted中的部分)
+3. TCP/UDP/SSL, 子进程线程管道(ThreadPoolExecutor)，延迟调用和其他
+4. Future类:包装coroutine; ensure_future: set_result() , .result()
+5. 同步支持
+
+## asyncio 生态
+同类
+1. curio： 比asyncio更轻量的协程网络库
+
+asyncio 的生态:
+1. sanic: 比aiohttp 轻量, sanic使用uvloop异步驱动，uvloop基于libuv使用Cython编写，性能比nodejs还要高
+2. aiohttp
+3. uvloop: asyncio 的eventloop 扩展
+
+## asyncio protocol
+Aysncio protocol twisted-like:
+
+    class Protocol(asyncio.Protocol):
+        def connection_made(self, transport):
+            self.transport = transport
+        def data_received(self, data):
+            self.transport.write(b&#x27;HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\nHello xxx&#x27;)
+            self.transport.close()
+        def eof_received(self):
+            if self.transport.can_write_eof():
+                self.transport.write_eof()
+        def connection_lost(self, exc):
+            supper().connection_lost(exc)
+
+
+## result
+### get coroutine result
+
+    async def func():
+        return 1
+    result = loop.run_until_complete(func()) # 1
+
+### get coroutine result from asyncio.wait
+    ```
+    async def func():
+        return 1
+
+    tasks = asyncio.wait([func(), func()])
+    tasks_finished, sets = loop.run_until_complete(tasks) # 不支持直接传run_until_complete([corotine_list])
+    for task in tasks_finished: print(task.result()) # 顺序不定
+    ```
+
+### asyncio.gather() to collect multiple results:
+
+    import asyncio
+    async def func():
+        return &#x27;saad&#x27;
+
+    loop = asyncio.get_event_loop()
+    tasks = func_normal(), func_infinite()
+    a, b = loop.run_until_complete(asyncio.gather([func(),func()]))
+    print(&quot;func()={a}, func()={b}&quot;.format(**vars()))
+    loop.close()
+
+### Future.set_result
+asyncio future.set_result() and result():
+
+    import asyncio
+    async def slow_operation(future):
+        aswait asyncio.sleep(1)
+        future.set_result(&#x27;future is done&#x27;)
+
+    loop asyncio.get_event_loop()
+    future = asyncio.Future()
+    asyncio.ensure_future(slow_operation(future))
+    loop.run_until_complete(future)
+    print(future.result())
+    loop.close()
+
+## create_subprocess_exec
+
+    p = await asyncio.create_subprocess_exec(&#x27;ping&#x27;, &#x27;-c&#x27;, &#x27;4&#x27;, ip, stdout=asyncio.subprocess.PIPE)
+    async for line in p.stdout:
+        print(line)
+    await p.wait()
+
+## Future
+&gt; http://blog.gusibi.com/post/python-concurrency-with-futures/
+Future 是 concurrent.futures 模块和 asyncio 包的重要组件。从Python3.4起，标准库中有两个为Future的类：concurrent.futures.Future 和 asyncio.Future。这两个Future作用相同。
+
+Future 是抽象的Task, Task is subclass of Future, Future 也是一种Awaitable
+
+1. Encapsulates(包括) the asynchronous execution of a callable.
+2. Future instances are created by `Executor.submit()` and should not be created directly except for testing.
+3. Future could wrap `coroutine` as task, and *store it&#x27;s return value*
+4. Future.set_result,result()
+
+Future is Not thread safe!
+
+### Future.executor.submit(包装多线程进程future)
+#### ThreadPoolExecutor.submit
+普通的函数包装成future, 类似这样:
+
+    async def wait_thread(load_url):
+        return ThreadPool(processes=1).apply_async(load_url, args).get()
+
+来一个ThreadPool的例子
+e.g. `[ThreadPoolExecutor.submit list], concurrent.futures.as_completed(futures)`
+
+    import concurrent.futures, urllib.request
+    URLS = [&#x27;http://baidu.com&#x27;,&#x27;https://qq.cn&#x27;]
+    def load_url(url,timeout):
+        with urllib.request.urlopen(url, timeout=timeout) as conn:
+            return conn.read()
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+        future_to_url = {executor.submit(load_url, url, 60): url for url in URLS}
+        for future in concurrent.futures.as_completed(future_to_url):
+            url=future_to_url[future]
+            data = future.result()
+
+#### ProcessPoolExecutor.submit
+
+    import concurrent.futures, urllib.request,math
+    def is_prime(n):
+        mid = int(math.sqrt(n))
+        flag = True
+        for i in range(3, mid+1,2):
+            if n%i == 0:
+                flag = False
+                break
+        return flag
+
+    nums = [25, 61, 29, 50, 109]
+
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        future_to_num = {executor.submit(is_prime, n ):n for n in nums}
+        for future in concurrent.futures.as_completed(future_to_num):
+            data = future.result()
+            print(future_to_num[future],data)
+
+不用async , 用multiprocessing 也可以做到的(只不过asyncio更优雅)
+
+    multiprocessing.Pool(4).apply_async(func, args).get() # get是阻塞的
+
+### Future.executor.map(包装多线程进程)
+map是有序的： [ProcessPoolExecutor](/demo/py/future-processpool-map.py)
+as_completed 以及dict是无序的
+
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        for x in zip(nums, executor.map(is_prime, nums)):
+            print(x)
+
+### Future Objects Method
+Future instances are created by future = asyncio.Future()
+
+    future.cancel()
+    Attempt to cancel the call. If the call is currently being executed then it cannot be cancelled and the method will return False,
+
+    future.cancelled()
+    Return True if the call was successfully cancelled.
+
+    future.running()
+    Return True if the call is currently being executed and cannot be cancelled.
+
+    future.done()
+    Return True if the call was successfully cancelled or finished running.
+
+    future.result(timeout=None)
+    Return the value returned by the call. If the call hasn’t yet completed then this method will wait up to timeout seconds.
+
+    asyncio.sleep(delay, result=None, *, loop=None)
+
+## Delayed calls
+&gt; asyncio.sleep is based on eventloop.call_later
+
+The event loop has its own *internal clock* for computing timeouts. Which will generally be a different clock than `time.time()`.
+
+    AbstractEventLoop.call_later(delay, callback, *args)
+    AbstractEventLoop.call_at(when, callback, *args)
+    AbstractEventLoop.time()
+        Return the current time, as a float value, according to the event loop’s internal clock.
+
+# uvloop
+基于libuv 的asyncio event-loop 实现
+
+    import asyncio,uvloop
+    loop = uvloop.new_event_loop()
+    asyncio.set_event_loop(loop)
+
+# curio
+比asyncio更轻量的协程网络库
+
+curio的作者是David Beazley，下面是使用curio创建tcp server的例子，据说这是dabeaz理想中的一个异步服务器的样子：
+
+    ```
+    from curio import run, spawn
+    from curio.socket import *
+
+    async def echo_server(address):
+        sock = socket(AF_INET, SOCK_STREAM)
+        sock.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
+        sock.bind(address)
+        sock.listen(5)
+        print(&#x27;Server listening at&#x27;, address)
+        async with sock:
+            while True:
+                client, addr = await sock.accept()
+                await spawn(echo_client, client, addr)
+
+    async def echo_client(client, addr):
+        print(&#x27;Connection from&#x27;, addr)
+        async with client:
+            while True:
+                data = await client.recv(100000)
+                if not data:
+                    break
+                await client.sendall(data)
+        print(&#x27;Connection closed&#x27;)
+
+    if __name__ == &#x27;__main__&#x27;:
+        run(echo_server, (&#x27;&#x27;,25000))
+    ```
+
+无论是asyncio还是curio，或者是其他异步协程库，在背后往往都会借助于IO的事件循环来实现异步，下面用几十行代码来展示一个简陋的基于事件驱动的echo服务器：
+[/demo](/demo/py/socket-selector-echo.py)
+验证一下：
+
+    # terminal 1,
+    $ nc localhost 8081
+    hello world
+    hello world
+
+    # terminal 2
+    $ nc localhost 8081
+    hello world
+    hello world
+
+# sanic
+基于uvloop, python3.5+的类flask的高性能web框架
+
+    from sanic import Sanic
+    from sanic.response import json
+    app = Sanic()
+
+    @app.route(&#x27;/&#x27;)
+    async def test(request):
+        return json({&#x27;hello&#x27;: &#x27;ahui&#x27;})
+
+    app.run(host=&#x27;0.0.0.0&#x27;, port=8000)</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

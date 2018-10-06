@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/ria/vue-tpl.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>Vue 的模板系统</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: Vue 的模板系统
+date: 2018-05-15
+updated: 2018-10-06
+---
+# 属性合并
+对于class/style 来说，它们会合并, 这是dom 自己决定的，不是vue 控制的
+
+    &lt;div is=&quot;tpl&quot; class=&quot;cls1 cls2&quot; :class=&quot;cls&quot; :title=&quot;&#x27;title&#x27;&quot;&gt;&lt;/div&gt;
+
+为了防止Render 冲突，外部的动态Render 应该放到Vue 后。参考这个例子：https://codepen.io/ahuigo/pen/dqPgJQ?
+
+# 值的绑定
+    new Vue({
+        el: &#x27;#app&#x27;,
+        data: {
+            message: &#x27;hello&#x27;,
+            seen: true
+        }
+    })
+
+## bind, 单向绑定
+### bind text
+
+    &lt;h1&gt;{{user.name}}&lt;/h1&gt;
+    //equal to
+    &lt;h1 v-text=&quot;user.name&quot;&gt;&lt;/h1&gt;
+
+### v-html: literal
+
+    &lt;span v-html=&quot;rawHtml&quot;&gt;&lt;/span&gt;
+    &lt;pre v-pre&gt;rawHTML&lt;/pre&gt;
+
+### bind attribute
+
+    &lt;span v-bind:title=&quot;message&quot;&gt;
+    &lt;!-- 传递真正的数值( 1 不是变量) --&gt;
+    &lt;comp v-bind:some-prop=&quot;1&quot;&gt;&lt;/comp&gt;
+
+    &lt;!-- 简写 --&gt;
+    &lt;a :href=&quot;url&quot;&gt; ... &lt;/a&gt;
+
+bind bool attribute:
+由于disabled/checked 本身是bool型，如果 isDisabled 的值为 null, undefined 或 false，`disabled 属性`不会被包含在渲染后的 `&lt;button&gt;` 元素中。
+
+   &lt;button :disabled=&quot;isDisabled&quot;&gt;Button&lt;/button&gt;
+
+### bind all:
+
+    &lt;div v-bind=&quot;all&quot;&gt;
+    等价于
+    &lt;div v-bind:x1=&quot;all.x1&quot;&gt;
+    &lt;div v-bind:x2=&quot;all.x2&quot;&gt;
+
+
+## v-model(双向)
+Notice: v-model 不会设置name, `new FormData(formobj)` 不能取值
+
+        &lt;p&gt;{{ message }}&lt;/p&gt;
+        &lt;input v-model=&quot;message&quot;&gt;
+        &lt;input :value=&quot;message&quot; @input=&quot;message=$event.target.value&quot;&gt;
+
+        v-model.message=&quot;message&quot; 等价
+
+list 应该用$set 修改:
+
+    &lt;input :value=&quot;list[1]&quot; @input=&quot;$root.$set(list, 1, $event.target.value)&quot;&gt;
+
+in select 
+
+        &lt;select v-model=&quot;selectedVal&quot;&gt;
+            &lt;option disabled value=&quot;&quot;&gt;请选择&lt;/option&gt;
+            &lt;option&gt;A&lt;/option&gt;
+            &lt;option&gt;B&lt;/option&gt;
+        &lt;/select&gt;
+
+type
+
+    &lt;input type=&quot;number&quot; v-model.number=&quot;product.num&quot;&gt;
+
+### select
+
+    &lt;select v-model=&quot;selected&quot;&gt;
+    &lt;option v-for=&quot;option in options&quot; v-bind:value=&quot;option.value&quot;&gt;
+        {{ option.text }}
+    &lt;/option&gt;
+    &lt;/select&gt;
+    &lt;span&gt;Selected: {{ selected }}&lt;/span&gt;
+
+### .lazy
+    &lt;!-- 在触发 &quot;change&quot; 事件后同步，而不是在触发 &quot;input&quot; 事件后更新 --&gt;
+    &lt;input v-model.lazy=&quot;msg&quot; &gt;
+
+### .number
+如果想要将用户的输入，自动转换为 Number 类型
+
+    &lt;input v-model.number=&quot;age&quot; type=&quot;number&quot;&gt;
+
+### .trim
+如果想要将用户的输入，自动过滤掉首尾空格，可以在 v-model 之后添加一个 trim 修饰符，来处理输入值：
+
+    &lt;input v-model.trim=&quot;msg&quot;&gt;
+
+## javascript
+任何js 表达式:
+
+    {{ message.split(&#x27;&#x27;).reverse().join(&#x27;&#x27;) }}
+
+每个绑定都只能包含单个表达式，所以以下示例都无法运行：
+
+    &lt;!-- 这是语句，不是表达式 --&gt;
+    {{ var a = 1 }}
+    &lt;!-- 流控制也无法运行，请使用三元表达式 --&gt;
+    {{ if (ok) { return message } }}
+
+## template 会被去掉
+
+    # template 会被去掉
+    &lt;template v-if=&quot;ok&quot;&gt; &lt;h1&gt;标题&lt;/h1&gt; &lt;/template&gt;
+
+## 指令
+### v-if:
+
+    &lt;div v-if=&quot;type === &#x27;A&#x27;&quot;&gt; A &lt;/div&gt;
+    &lt;div v-else-if=&quot;type === &#x27;C&#x27;&quot;&gt; C &lt;/div&gt;
+    &lt;div v-else&gt; 非 A/B/C &lt;/div&gt;
+
+#### 使用key 控制可复用
+使用key 以后，这些 input 将会在每次切换时从头重新渲染。（默认将保留输入值）
+
+    &lt;template v-if=&quot;loginType === &#x27;username&#x27;&quot;&gt;
+        &lt;label&gt;用户名&lt;/label&gt;
+      &lt;input placeholder=&quot;Enter your username&quot; key=&quot;username-input&quot;&gt;
+    &lt;/template&gt;
+    &lt;template v-else&gt;
+      &lt;input placeholder=&quot;Enter your email address&quot; key=&quot;email-input&quot;&gt;
+    &lt;/template&gt;
+
+### v-show
+show 控制display, 类似if
+具有 v-show 的元素会始终渲染并保留在 DOM 中
+
+    &lt;h1 v-show=&quot;ok&quot;&gt;Hello!&lt;/h1&gt;
+
+v-if 是“真实”的条件渲染，因为它会确保条件块(conditional block)在切换的过程中，完整地销毁(destroy)和重新创建(re-create)条
+
+v-if 也是惰性的：如果在初始渲染时条件为假，则什么也不做——直到条件第一次变为真时，才会开始渲染条件块。
+
+### for:
+
+    &lt;li v-for=&quot;todo in todos&quot;&gt; &lt;/li&gt;
+    &lt;span v-for=&quot;n in 10&quot;&gt;range(10): {{ n }}&lt;/span&gt;
+
+for with if:
+
+    &lt;li v-for=&quot;todo in todos&quot; v-if=&quot;!todo.isComplete&quot;&gt;
+
+for with index:
+
+    &lt;ul id=&quot;example-2&quot;&gt;
+        &lt;li v-for=&quot;(item, index) in items&quot;&gt;
+            {{ parentMessage }} - {{ index }} - {{ item.message }}
+        &lt;/li&gt;
+    &lt;/ul&gt;
+    var example2 = new Vue({
+        el: &#x27;#example-2&#x27;,
+        data: {
+            parentMessage: &#x27;Parent&#x27;,
+            items: [
+            { message: &#x27;Foo&#x27; },
+            { message: &#x27;Bar&#x27; }
+            ]
+        }
+    })
+
+for with object
+
+    &lt;div v-for=&quot;value in object&quot;&gt;
+    &lt;div v-for=&quot;(value, key) in object&quot;&gt;
+    &lt;div v-for=&quot;(value, key, index) in object&quot;&gt;
+
+#### key
+v-for 它默认用“就地复用”策略。如果数据项的顺序被改变，Vue 将不会移动 DOM 元素来匹配数据项的顺序
+
+为了便于 Vue 跟踪每个节点的身份，从而重新复用(reuse)和重新排序(reorder)现有元素，你需要为每项提供唯一的 key 属性，
+
+    &lt;div v-for=&quot;item in items&quot; :key=&quot;item.id&quot;&gt;
+
+#### 删除数据
+1. 删除事件
+    2. &lt;button v-on:click=&quot;$emit(&#x27;remove&#x27;)&quot;&gt;X&lt;/button&gt;\
+    2. v-on:remove=&quot;func&quot; 由func 执行数据删除
+2. o.pop(index)
+
+### 简写
+
+    &lt;!-- 完整语法 --&gt;
+    &lt;a v-bind:href=&quot;url&quot;&gt; ... &lt;/a&gt;
+
+    &lt;!-- 简写 --&gt;
+    &lt;a :href=&quot;url&quot;&gt; ... &lt;/a&gt;
+
+v-on 简写
+
+    &lt;!-- 完整语法 --&gt;
+    &lt;a v-on:click=&quot;doSomething&quot;&gt; ... &lt;/a&gt;
+
+    &lt;!-- 简写 --&gt;
+    &lt;a @click=&quot;doSomething&quot;&gt; ... &lt;/a&gt;
+
+
+# computed
+
+    {{reverseMessage}}
+    {{reverseMessage}}
+    console.log(vm.reversedMessage) // =&gt; &#x27;olleH&#x27;
+
+    data: {
+        message: &#x27;Hello&#x27;
+    },
+    computed: {
+        // 一个 computed 属性的 getter 函数
+        reversedMessage: function () {
+            return this.message.split(&#x27;&#x27;).reverse().join(&#x27;&#x27;)
+        }
+    }
+
+## computed 缓存 vs method 方法
+vm.computed
+vm.method() 会执行多次
+
+## computed setter
+computed 属性默认只设置 getter 函数，不过在需要时，还可以提供 setter 函数：
+
+    // ...
+    computed: {
+        fullName: {
+            // 默认getter 函数
+            get: function () {
+                return this.firstName + &#x27; &#x27; + this.lastName
+            },
+            // setter 函数
+            set: function (newValue) {
+                var names = newValue.split(&#x27; &#x27;)
+                this.firstName = names[0]
+                this.lastName = names[names.length - 1]
+            }
+        }
+    }
+
+
+# css
+## class
+class 只有两个值: true or false
+
+### class 单值对象
+active 这个 class 的存在与否，取决于 isActive 这个 data 属性的 truthy 值
+
+    &lt;div v-bind:class=&quot;{ active: isActive }&quot;&gt;&lt;/div&gt;
+
+### class 对象
+直接传classObject:
+
+    &lt;div v-bind:class=&quot;classObject&quot;&gt;&lt;/div&gt;
+    data: {
+        classObject: {
+            active: true,
+            &#x27;text-danger&#x27;: false
+        }
+    }
+
+也可以用computed、methods 返回对象
+
+    computed: {
+        classObject: function () {
+            return {
+            active: this.isActive &amp;&amp; !this.error,
+            &#x27;text-danger&#x27;: this.error &amp;&amp; this.error.type === &#x27;fatal&#x27;
+            }
+        }
+    }
+
+### 数组语法(传className)
+我们可以向 v-bind:class 传入一个数组，来与 class 列表对应：
+
+    &lt;div v-bind:class=&quot;[activeClass, errorClass]&quot;&gt;&lt;/div&gt;
+    data: {
+        activeClass: &#x27;active&#x27;,
+        errorClass: &#x27;text-danger&#x27;
+    }
+    会被渲染为：
+
+    &lt;div class=&quot;active text-danger&quot;&gt;&lt;/div&gt;
+
+判断：
+
+    &lt;div v-bind:class=&quot;[isActive ? activeClass : &#x27;&#x27;, errorClass]&quot;&gt;&lt;/div&gt;
+
+### 组件追加
+
+    Vue.component(&#x27;my-component&#x27;, {
+        template: &#x27;&lt;p class=&quot;foo bar&quot;&gt;Hi&lt;/p&gt;&#x27;
+    })
+
+然后，在调用组件时，再添加一些 class：
+
+    &lt;my-component class=&quot;baz boo&quot;&gt;&lt;/my-component&gt;
+
+那么，最终渲染的 HTML 就是：
+
+    &lt;p class=&quot;foo bar baz boo&quot;&gt;Hi&lt;/p&gt;
+
+同样，class 绑定也是如此：
+
+    &lt;my-component v-bind:class=&quot;{ active: isActive }&quot;&gt;&lt;/my-component&gt;
+
+## style
+
+    &lt;div v-bind:style=&quot;{ color: activeColor, fontSize: fontSize + &#x27;px&#x27; }&quot;&gt;&lt;/div&gt;
+    data: {
+        activeColor: &#x27;red&#x27;,
+        fontSize: 30
+    }
+
+通常，一个比较好的做法是，直接与 data 中的 style 对象绑定，这样模板看起来更清晰：
+
+    &lt;div v-bind:style=&quot;styleObject&quot;&gt;&lt;/div&gt;
+    data: {
+        styleObject: {
+            color: &#x27;red&#x27;,
+            fontSize: &#x27;13px&#x27;
+        }
+    }
+
+或者数组:
+
+    &lt;div v-bind:style=&quot;[baseStyles, overridingStyles]&quot;&gt;&lt;/div&gt;
+    data:{
+        baseStyles:{...}
+    }
+
+</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

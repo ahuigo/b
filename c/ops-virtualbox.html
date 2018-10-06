@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/c/ops-virtualbox.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>全屏</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: 全屏
+date: 2018-09-27
+updated: 2018-10-06
+---
+# 全屏
+
+# 网络
+
+## Vitual Machine share network
+局域网交换机-主机A-X-虚拟机
+Host-Only: 局域网交换机 -&gt; 主机A -&gt; 通过虚拟交换机VMnet1 -&gt;虚拟机 
+NAT: 局域网交换机 -&gt; VMnet0虚拟交换机 -&gt; NAT 路由器 -&gt; VMnet8虚拟交换机 -&gt; 虚拟机 
+Bridged: 局域网交换机 -&gt; VMnet0虚拟交换机 -&gt; 虚拟机 
+
+### host only
+要求将真实环境和虚拟环境隔离开，这时你就可采用host-only模式。在host-only模式中，所有的虚拟系统是可以相互通信的，但虚拟系统和真实的网络是被隔离开的。
+
+&gt; 提示:在host-only模式下，虚拟系统和宿主机器系统是可以相互通信的，相当于这两台机器通过双绞线互连。
+
+在host-only模式下，虚拟系统的TCP/IP配置信息(如IP地址、网关地址、DNS服务器等)，都是由VMnet1(host-only)虚拟网络的DHCP服务器来动态分配的。
+
+这应该是最为灵活的方式，有兴趣的话可以进行各种网络实验。和nat唯一的不同的是，此 种方式下，没有地址转换服务，因此，模认情况下，虚拟机只能到主机访问，这也是hostonly的名字的意义。
+
+默认情况下，也会有一个dhcp服务加载到vmnet1上。这样连接到vmnet1上的虚拟机仍然可以设置成dhcp，方便系统的配置.
+
+是不是这种方式就没有办法连接到外网呢，当然不是，事实上，这种方式更为灵活，你可以使用自己的方式，从而达到最理想的配置，例如：
+
+1. 使用自己dhcp服务：首先停掉vmware自带的dhcp服务，使dhcp服务更为统一。
+2. 使用自己的nat,方便加入防火墙。windows host可以做nat的方法很多，简单的如windows xp的internet共享，复杂的如windows server里的nat服务。
+3. 使用自己的防火墙。因为你可以完全控制vmnet1,你可以加入（或试验）防火墙在vmnet1和外网的网卡间。
+
+### NAT
+让虚拟系统借助NAT(网络地址转换)功能，通过*宿主机器所在的网络*来访问*公网*。相当于外网的机器
+&gt; Network Address Translation (NAT) is used to give your device a public IP address. 
+&gt; A router will have a public IP address and every device connected to the router will have a private IP address.
+&gt; Requests will be translated from the device’s private IP to the router’s public IP with a unique port.
+&gt; That way you don’t need a unique public IP for each device but can still be discovered on the Internet.
+
+NAT模式下的虚拟系统的TCP/IP配置信息是由*VMnet8*(NAT)虚拟网络的DHCP服务器提供的，无法进行手工修改，因此虚拟系统也 就无法和本局域网中的其他真实主机进行通讯。
+
+    Bridaged Adapter
+    	#Attanched to Interface:
+    	en0: Wifi(AirPort)
+    	Adapter Type: Intel PRO/1000 MT desktop(82540EM)
+    	en1: Thunderbolt1
+    	p2p0:
+    	bridaged0:
+
+    Promiscuous Mode: 
+    	allow all
+
+    cable connetct: selected
+    
+&gt; 这种方式也可以实现Host OS与Guest OS的双向访问。但网络内其他机器不能访问Guest OS，Guest OS可通过Host OS用NAT协议访问网络内其他机器。
+
+### bridged adapter
+将虚拟网卡桥接到一个物理网卡上面，和linux下一个网卡 绑定两个不同地址类似，实际上是将网卡设置为混杂模式，从而达到侦听多个IP的能力
+
+	Interface: en0 Wifi(ApiPort)
+	Adapter Type: Intel PRO/1000 MT desktop(82540EM)
+	Promisuous Mode: Allow All
+	MAC Address: 0800273***
+    
+#### replicate physical network connection state 
+　　Select if the virtual machine uses a bridged network connection and if you use the virtual machine on a laptop or other mobile device. As you move from one wired or wireless network to another, the IP address is automatically renewed.
+
+　　单机多网卡 或者 笔记本和移动设备使用虚拟机时，当在有线网络和无线网络切换时，勾选了Replicate physical network connection state，虚拟机网卡的ip地址会自动更新，不需要重新设置。
+
+### virutalbox 下windows使用socks5
+IE选项卡-局域网代理(跳过本地地址的代理)-高级-套接字
+
+## renew ip
+1. release ip
+
+	sudo dhclient -r [interface]
+
+2. obtain ip
+
+	sudo dhclient [interface]
+
+Refer to: [](/p/linux-net)
+
+## query Guest Ip
+
+	# Update arp table
+	for i in {1..255}; do ping -c 1 192.168.0.$i &amp; done
+	for i in {1..255}; do ping -c 1 10.209.0.$i &amp; done
+
+	# Find vm name
+	VBoxManage list runningvms
+
+	# Find MAC: subsitute vmname with your vm&#x27;s name
+	VBoxManage showvminfo vmname
+
+	# Find IP: substitute vname-mac-addr with your vm&#x27;s mac address in &#x27;:&#x27; notation
+	arp -a | grep vmname-mac-addr</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

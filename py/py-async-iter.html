@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/py/py-async-iter.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>py-async-iter</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: py-async-iter
+date: 2018-09-28
+updated: 2018-10-06
+---
+# Preface
+http://nvie.com/posts/iterators-vs-generators/
+## Iterable
+
+
+## Iterable, 迭代器,
+### iterable vs iterator
+区别:
+1. Iterable(能用for的都是): type(obj)-&gt;__iter__(), iter(obj)是否真的返回 Iterator, isinstance 其实判断不出来(按协议是应该考虑的).
+2. Iterator(能用next的都是): type(obj)-&gt;__iter__(), type(obj)-&gt;__next__() 同时定义,
+
+An *iterable* is any object, not necessarily a data structure, that can *return an iterator via iter*:
+```
+    &gt;&gt;&gt; hasattr(str, &#x27;__iter__&#x27;)
+    True  
+    &gt;&gt;&gt; hasattr(bool, &#x27;__iter__&#x27;)
+    False
+```
+
+*Iterator* protocol is implemented whenever you *iterate* over a sequence of data.
+when you use a for loop, the following is happened in background.
+1. first *iter()* method is called on the object to *converts it to an iterator object*.
+2. the *next()* method is called on the iterator object to get the next element of the sequence.
+3. A `StopIteration exception` is raised when there are no elements left to call.
+
+```
+    &gt;&gt;&gt; simple_list = [1]
+    &gt;&gt;&gt; my_iterator = iter(simple_list)
+    &gt;&gt;&gt; print(my_iterator)
+    &lt;list_iterator object at 0x7f66b6288630&gt;  
+    &gt;&gt;&gt; next(my_iterator)
+    1  
+    &gt;&gt;&gt; next(my_iterator)
+    Traceback (most recent call last):  
+      File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+    StopIteration
+```
+
+### Iterable 有哪些
+1. str-dict 都是Iterable(同时有__iter__)
+2. Iterable 可以生成Iterator: Iterator = iter(Iterable)
+
+&gt; *Often*, for pragmatic reasons, iterable classes will implement both `__iter__() and __next__()` in the same class, and have `__iter__()` return self, which makes the class both *an iterable and its own iterator*. It is perfectly fine to return a different object as the iterator, though. While `dict, str...`  only has `__iter__()`
+
+
+集合数据类型如list、dict、str等是Iterable但不是Iterator，不过可以通过iter()函数获得一个Iterator对象。
+Python的for循环本质上就是通过不断调用next()函数实现的，例如：
+
+    for x in [1, 2, 3, 4, 5]:
+        pass
+
+实际上完全等价于：
+
+    # 首先获得Iterator对象:
+    it = iter([1, 2, 3, 4, 5])
+    while True:
+        try:
+            # 获得下一个值:
+            x = next(it)
+        except StopIteration:
+            # 遇到StopIteration就退出循环
+            break
+
+### 判断iterable/iterator
+
+	import collections
+	class fib:
+	    def __init__(self):
+	        self.prev = 0
+	        self.curr = 1
+	    def __iter__(self):
+	        return self
+
+	    def __next__(self):
+	        value = self.curr
+	        self.curr += self.prev
+	        self.prev = value
+	        return value
+
+	f=fib()
+
+	## False: type(fib)==type has no __iter__/__next__
+	print(isinstance(fib, collections.Iterable));
+    hasattr(type(fib), &#x27;__iter__&#x27;)
+	print(isinstance(fib, collections.Iterator));
+    hasattr(type(fib), &#x27;__next__&#x27;)
+
+	## True: &#x27;fib&#x27;  has __iter__/__next__
+	print(isinstance(f, collections.Iterable));
+    hasattr(type(f), &#x27;__iter__&#x27;)
+	print(isinstance(f, collections.Iterator));
+    hasattr(type(f), &#x27;__next__&#x27;)
+	print(next(f))
+	print(next(f))
+	for x in f: print(x);quit()
+
+## Iterator
+&gt; Not all Iterator is generate from Iterable, but also `class &lt;type&gt;`
+
+Any object that has a `__next__()` and `__iter__()` method is therefore an iterator(support `for and next statement`)
+There are countless examples of iterators. All of the itertools functions return iterators. Some produce infinite sequences:
+
+	&gt;&gt;&gt; from itertools import count
+	&gt;&gt;&gt; counter = count(start=13)
+	&gt;&gt;&gt; next(counter)
+	13
+	&gt;&gt;&gt; next(counter)
+	14
+
+Some produce infinite sequences from finite sequences:
+
+	&gt;&gt;&gt; from itertools import cycle
+	&gt;&gt;&gt; colors = cycle([&#x27;red&#x27;, &#x27;white&#x27;, &#x27;blue&#x27;])
+	&gt;&gt;&gt; next(colors)
+	&#x27;red&#x27;
+	&gt;&gt;&gt; next(colors)
+	&#x27;white&#x27;
+
+Some produce finite sequences from infinite sequences:
+
+	&gt;&gt;&gt; from itertools import islice
+	&gt;&gt;&gt; colors = cycle([&#x27;red&#x27;, &#x27;white&#x27;, &#x27;blue&#x27;])  # infinite
+	&gt;&gt;&gt; limited = islice(colors, 0, 4)            # finite
+	&gt;&gt;&gt; for x in limited:                         # so safe to use for-loop on
+	...     print(x)
+	red
+	white
+	blue
+	red
+
+iterator support for-next: e.g. permutations
+```
+&gt;&gt;&gt; horses = [1, 2, 3, 4]
+&gt;&gt;&gt; races = itertools.permutations(horses)
+&gt;&gt;&gt; print(races)
+&gt;&gt;&gt; print(list(itertools.permutations(horses)))
+&lt;itertools.permutations object at 0xb754f1dc&gt;
+[(1, 2, 3, 4),
+ (1, 2, 4, 3),.......
+ ```
+
+## generator, 生成器
+ A generator is a special kind of iterator—the elegant kind: 使用yield 代替了复杂的iter(), next()
+
+- container: an object is a container when it can be asked whether it contains a certain element
+
+You can perform such membership tests on lists, sets, or tuples alike:
+
+	&gt;&gt;&gt; assert 1 in [1, 2, 3]      # lists
+	&gt;&gt;&gt; assert 4 not in [1, 2, 3]
+	&gt;&gt;&gt; assert 1 in {1, 2, 3}      # sets
+	&gt;&gt;&gt; assert 4 not in {1, 2, 3}
+	&gt;&gt;&gt; assert 1 in (1, 2, 3)      # tuples
+	&gt;&gt;&gt; assert 4 not in (1, 2, 3)
+
+Dict membership will check the keys:
+
+	&gt;&gt;&gt; d = {1: &#x27;foo&#x27;, 2: &#x27;bar&#x27;, 3: &#x27;qux&#x27;}
+	&gt;&gt;&gt; assert 1 in d
+	&gt;&gt;&gt; assert 4 not in d
+	&gt;&gt;&gt; assert &#x27;foo&#x27; not in d  # &#x27;foo&#x27; is not a _key_ in the dict
+
+Finally you can ask a string if it &quot;contains&quot; a substring:
+
+	&gt;&gt;&gt; s = &#x27;foobar&#x27;
+	&gt;&gt;&gt; assert &#x27;b&#x27; in s
+	&gt;&gt;&gt; assert &#x27;x&#x27; not in s
+	&gt;&gt;&gt; assert &#x27;foo&#x27; in s  # a string &quot;contains&quot; all its substrings
+
+&gt; Not all containers are necessarily iterable. An example of this is a Bloom filter. Probabilistic data structures like this can be asked whether they contain a *certain element*, but they are *unable to return their individual elements*.
+
+### Generator Expressions
+Generator is an *iterable* created using a function with a `yield` statement.
+
+    def my_gen():
+    ...     for x in range(5):
+    ...             yield x
+
+### generator comprehension
+Generator expressions allow the creation of a generator on-the-fly *without a yield keyword*.
+
+    &gt;&gt;&gt; g = (i for i in range(7) if i%2==0)
+    &lt;generator object &lt;genexpr&gt; at 0x1066f9468&gt;
+    &gt;&gt;&gt; list(g)
+    [0, 2, 4, 6]
+
+We can check how much memory is taken by both types using `sys.getsizeof()` method.
+
+    gen = (i for i in range(7) if i%2==0)
+    &gt;&gt;&gt; sys.getsizeof(gen)
+
+
+# yield
+it require for the `first send()` to be `None`
+&gt; You can&#x27;t send() a value the first time because the generator did not execute until the point where you have the yield statement, so there is nothing to do with the value.(没有停在yield 语句)
+
+## send next close
+1. r = c.send(n); # 向generator yield 传值, 并启动generator 执行
+1. r = next(c); # 等价于：r = c.send(None)
+2. c.close()
+
+	def cc():
+		n = 1
+		while True:
+			n += 1;
+			if n&gt;=4: return &#x27;done&#x27;
+			yield n
+
+	c = cc()
+	print(next(c))
+	print(next(c))
+	print(next(c))
+
+next(c) 等价于c.send(None)
+
+	2
+	3
+	Traceback (most recent call last):
+	  File &quot;a.py&quot;, line 11, in &lt;module&gt;
+	    print(next(c))
+	StopIteration: done
+
+这个Stop是可以捕获的:
+
+    def f():
+        x=yield 0
+        return x
+    b=f()
+    try:
+        print(b.send(None)) # 0
+        print(b.send(11))
+        print(b.send(12))
+    except StopIteration as e:
+        print(e.value) # 11
+
+
+# data comprehension
+## list comprehension
+list comprehension finishes evaluation, not Iterator
+
+    &gt;&gt;&gt; [x ** 2 for x in range(7) if x % 2 == 0]
+    [0, 4, 16, 36]
+    &gt;&gt;&gt; comp_list = [x if x !=&quot; &quot; else 0 for x in &quot;some text&quot; ]
+
+use list comprehension to combine several lists
+
+    &gt;&gt;&gt; nums = [1, 2, 3, 4, 5]
+    &gt;&gt;&gt; letters = [&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;, &#x27;D&#x27;, &#x27;E&#x27;]
+    &gt;&gt;&gt; nums_letters = [[n, l] for n in nums for l in letters]
+    [[1, &#x27;A&#x27;], [1, &#x27;B&#x27;], [1, &#x27;C&#x27;]....] # 注意，这是二维数组的关系, 还可以是多维
+    &gt;&gt;&gt; nums_letters = [(n, l) for n in nums for l in letters]
+
+发挥你的想像：
+
+    &gt;&gt;&gt; [(i,i) for i in range(3)]
+    [(0, 0), (1, 1), (2, 2)]
+    &gt;&gt;&gt; [(i,j) for i in range(3) for j in range(20) if j%10==0]
+    [(0, 0), (0, 10), (1, 0), (1, 10), (2, 0), (2, 10)]
+
+### 二维变一维
+
+	list_1 = [[1, 2], [3, 4, 5], [6, 7], [8], [9]]
+	[i for k in list_1 for i in k]
+
+或者：
+
+	list_1 = [[1, 2], [3, 4, 5], [6, 7], [8], [9]]
+	sum(list_1, [])
+
+或者：
+
+	itertools.chain(*list_1)
+	itertools.chain.from_iterable(list_1)
+
+或者
+
+	from numpy import array
+	array(list_1).flatten().tolist()
+
+## dict comprehension
+    &gt;&gt;&gt; dict_comp = {x:chr(65+x) for x in range(1, 11)}
+    {1: &#x27;B&#x27;, 2: &#x27;C&#x27;, 3: &#x27;D&#x27;, 4: &#x27;E&#x27;, 5: &#x27;F&#x27;, 6: &#x27;G&#x27;, 7: &#x27;H&#x27;, 8: &#x27;I&#x27;, 9: &#x27;J&#x27;, 10: &#x27;K&#x27;}
+    &gt;&gt;&gt; type(dict_comp)
+    &lt;class &#x27;dict&#x27;&gt;  
+
+	{n:m for n, m in {1:2,3:4}.items()}
+	dict((n*2, n) for n, m in {1:2,3:4}.items())
+
+
+## set comprehension
+    &gt;&gt;&gt; set_comp = {x ** 3 for x in range(10) if x % 2 == 0}
+    {0, 8, 64, 512, 216}
+    &gt;&gt;&gt; type(set_comp)
+    &lt;class &#x27;set&#x27;&gt;  
+
+## generator comprehension
+list generator:
+
+	g = (x * x for x in range(10))
+	&gt;&gt;&gt; print(g)
+	&lt;generator object &lt;genexpr&gt; at 0x10c7dd888&gt;
+	&gt;&gt;&gt; next(g)
+	0
+	&gt;&gt;&gt; &#x27;&#x27;.join(str(i) for i in [1,2])
+	&#x27;12&#x27;
+
+斐波拉契数列用列表生成式写不出来，但是，用函数把它打印出来却很容易：
+
+	def fib(max):
+		n, a, b = 0, 0, 1
+		while n &lt; max:
+			print(b)
+			a, b = b, a + b
+			n = n + 1
+		return &#x27;done&#x27;
+
+上面的函数可以输出斐波那契数列的前N个数, 改成generator 就是：
+
+	def fib(max):
+		n, a, b = 0, 0, 1
+		while n &lt; max:
+			yield b
+			a, b = b, a + b
+			n = n + 1
+		return &#x27;done&#x27;</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

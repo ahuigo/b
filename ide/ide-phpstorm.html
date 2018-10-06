@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/ide/ide-phpstorm.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>intellij 使用简介</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: intellij 使用简介
+date: 2018-10-06
+updated: 2018-10-06
+---
+# Preface
+在vim/netbeans中混迹了数年后，终于还是投奔到idea的门下了。原因：
+
+- intellij idea 原生支持readline(emacs keymap)
+- 足够的扩展性
+- intellij 的设置窗口非常人性化: 一个`Cmd+,`就呼出来的，一目了然。
+- vim 自身的历史遗留问题：map不支持&lt;C-1&gt;， &lt;C-A-char&gt; ,
+- vim 不支持Gui 菜单
+- 强悍的开发环境不存在IDE太慢的问题，再说了intellij 本性的性能就不错
+- IDE更易学：几乎没有学习的时间成本
+
+&gt; 我并没有在intellij上吊死，写小文件和博客时，我就用vim, 现在也在深度用emacs.
+
+## 360 server&#x27;s certificate:
+Accepted certificate will be saved in truststore with default password changeit:
+	/Users/hilojack/Library/Caches/WebIde100/tasks/cacerts
+
+# where is the plugin,cache store
+https://www.jetbrains.com/phpstorm/help/directories-used-by-phpstorm-to-store-settings-caches-plugins-and-logs.html
+Library//App
+
+	Configuration
+	~/Library/Preferences/&lt;PRODUCT&gt;&lt;VERSION&gt;
+
+	Caches
+	~/Library/Caches/&lt;PRODUCT&gt;&lt;VERSION&gt;
+
+	Plugins
+	~/Library/Application Support/&lt;PRODUCT&gt;&lt;VERSION&gt;
+	~/Library/Application\ Support/WebIde80/
+
+	Logs
+	~/Library/Logs/&lt;PRODUCT&gt;&lt;VERSION&gt;
+
+# preperty-read
+
+经常用netbeans写代码，当一个项目的代码到达足够复杂时，手动去查找一个类是很麻烦的事儿。这时，netbeans的自动补全提供了很多便利。要让自动补全足够“智能”，你可能需要注释上进行一些认识。
+现在我罗列下大家可能经常用到的一些doc注释.
+
+1. 成员对象 启用预读
+
+	classA.php:
+	class ClassA{
+	  public $var1;
+	  function __construct(){
+		****
+	  }
+	}
+
+再建立一个classB.php：
+
+	/**
+	 * @property-read ClassA $objName // 方法一 启用对classA的预读
+	 */
+	class classB{
+	 /**
+	  * @var SDK\classA [$objName] //方法二 启用对classA的预读,成员对象是$objName（可忽略）
+	  */
+	  public $objName;
+	  function __construct(){
+		 $this-&gt;objName=new classA;
+		 $this-&gt;objName-&gt; //预读后，可以在这儿自动补全成员对象objName所含的成员了
+	  }
+	}
+
+2.普通变量对象 启用预读
+variable.php:
+
+	/**
+	 * @var $objName ClassA  //你用vdoc[tab]键 可以实现自动补全
+	 */
+	$objName=new ClassA;
+	$objName-&gt; //自动补全
+
+3.指定预读属性
+很多时候，我们不会显式的定义$var,比如使用__get()时，这个时候就加入$property注释吧
+
+	classA.php:
+	/**
+	 * @property $varName //classA被预读时，属性$varName会被提示
+	 */
+	class ClassA{
+	  public $var1;
+	  function __construct(){
+		****
+	  }
+	}
+
+4.返回对象的预读
+
+	class ClassA{
+	/**
+	 * @return ClassName
+	 * @return static
+	 * @return static object
+	 */
+	  static function __construct(){
+		return self::$objName;
+	  }
+	}
+
+# Definition
+
+	Ctrl+Shift+I view definition
+
+# java project
+
+1. new project
+2. java EE
+3. sdk: /Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk or /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/ or /Library/Java/Home(link)
+4. in project structure
+	Project: sdk 1.7 + out
+	module:
+		soruce tab:
+			set source dir(src)
+		dependence:
+			add jar or Library(such as apache commons codec)
+
+structure:
+
+	/project
+		/src
+		/out
+	/External Library
+		sdk1.7
+			*.jar # 基础的jar 包
+
+## demo configuration
+
+# Refactor
+php提供了很强大的重构支持, `Ctrl+Shift+Alt+T` 即可弹出重构选项
+
+## rename
+选择任意一个变量/类名, 然后按`Shift+F6` 即可完成对其的重构
+
+## change signature
+如果你想为调整函数/方法的参数顺序，或者增加新的参数，那就可以在函数定义处按`Ctrl+F6`. 重构后，所有调用此函数的代码都会被同步更新（你可以在确认重构前点preview）.
+
+# Terminal
+	Alt+F12
+
+# view
+
+	alt+Shift+c recent changes
+	Ctrl+Shift+E recent changed files
+
+## theme主题
+
+	Ctrl+`	 (view-&gt;switch scheme)
+
+## tool windows
+
+	alt+1  project
+	alt+7  file struct (在nb中是command+7)
+	Ctrl+F12 :  file struct (Float window)
+	alt+9 changes
+	alt+F12 terminal
+
+## toolBar
+你可以在这里点击“custom”
+
+# Tools
+
+## deployment 部署
+deployment 可以通过 右键项目文件呼出(前提是你成功配置了ftp upload path)
+
+### ftp
+如果不能查看到Browse Remote Host , 可以试试将mode 改成passive mode
+
+
+## use
+打开ftp 目录：
+
+	Tools-&gt;deployment-&gt;configruation-&gt;Browse Remote host 可打目录，支持拖放文件上传/下载
+
+右键项目compare with ..
+右键项目sync with ..
+
+# Laravel Plugin
+http://blog.jetbrains.com/phpstorm/2015/01/laravel-development-using-phpstorm/
+
+# File
+
+## open file
+	double `shift`
+
+## history
+
+	右键 -&gt; local history -&gt; show history
+	Alt+Shift+C 查看文件的历史
+
+## move
+
+	drag file in File Structure
+
+## copy
+	drag file while hold on `Alt` in File Structure
+
+# keymap
+这里我罗列一下我的emacs 按键
+如果不知道配置在哪里， 可以通过` Ctrl+Shift+A` 再输入关键字`keymap`找到
+
+	Forward/backward C-I/O
+
+## Editor
+
+	Alt+up/down 在方法间跳转
+	Ctrl+Space 路径补全
+	Ctrl+Shift+v 选择需要粘贴的最近内容
+	start new line 				Shift+Enter
+	start new line before current Ctrl+Alt+Enter
+
+	complete current statement Ctrl+Shift+Enter
+
+## Format
+
+### Reformat Code
+
+	Ctrl+CMD+F
+
+code style - php
+
+## select
+
+    Ctrl+Alt+w
+        select word
+
+## Main menu
+
+### completion
+
+	Basic Alt+/
+	SmartType Ctrl+Alt+/
+	Cyclic expand word Shift+alt+/
+
+### navigation
+
+	goto line Alt+G
+
+### find(search) / replace
+
+	Cmd+F find next
+	Shift+Cmd+F find previous
+
+	Ctrl+Shift+F find in project
+	Ctrl+Shift+R replace in project
+
+### tab
+
+	Command + Left/Right switch tab
+
+### code move
+
+	Alt+Shift+ UP/Down : move line Up/Down
+	Ctrl+Shift+ UP/Down : move statement Up/Down
+
+### fold
+折叠
+
+	ctrl + -/+  (不需要按shift)
+
+### code navigation
+
+#### move caret
+移动光标
+
+	Ctrl+[  move caret to code block start
+	Ctrl+Shift+[  move to caret code block start (with selection)
+	Ctrl+]  move caret to code block end
+	Ctrl+Shift+]  move to caret code block end (with selection)
+
+### file
+
+	Ctrl+Alt+F12: file path
+	Ctrl+E: 可以快速打开你最近编辑的文件。
+
+## Alt-key map in mac
+在mac中有些`Alt-key`是不可以用的，比如`Alt-B`, 这个问题6年都没有解决，参见[some alt-key combinations are not mappable](http://youtrack.jetbrains.com/issueMobile/IDEA-17392)
+
+这个可以通过修改keyboard layout解决， 编辑`~/Library/KeyBindings/DefaultKeyBinding.dict`(只影响intellij):
+
+	{
+	/* Override symbols so other apps can bind */
+	&quot;~j&quot; = &quot;noop:&quot;;
+	&quot;~i&quot; = &quot;noop:&quot;;
+
+	/* Additional Emacs bindings */
+	&quot;~f&quot; = &quot;moveWordForward:&quot;;
+	&quot;~b&quot; = &quot;moveWordBackward:&quot;;
+	&quot;~&lt;&quot; = &quot;moveToBeginningOfDocument:&quot;;
+	&quot;~&gt;&quot; = &quot;moveToEndOfDocument:&quot;;
+	&quot;~v&quot; = &quot;pageUp:&quot;;
+	&quot;^v&quot; = &quot;pageDown:&quot;;
+	&quot;~d&quot; = &quot;deleteWordForward:&quot;;
+	&quot;~w&quot; = &quot;deleteWordBackward:&quot;;
+	&quot;\UF729&quot; = &quot;moveToBeginningOfDocument:&quot;; /* Home */
+	&quot;\UF72B&quot; = &quot;moveToEndOfDocument:&quot;; /* End */
+	&quot;@\UF729&quot; = &quot;moveToBeginningOfParagraph:&quot;; /* Cmd-Home */
+	&quot;@\UF72B&quot; = &quot;moveToEndOfParagraph:&quot;; /* Cmd-End */
+	&quot;@\UF700&quot; = &quot;moveToBeginningOfDocument:&quot;; /* Command-Up arrow */
+	&quot;@\UF701&quot; = &quot;moveToEndOfDocument:&quot;; /* Command-Down arrow */
+	&quot;^\UF700&quot; = &quot;pageUp:&quot;; /* Control-Up arrow */
+	&quot;^\UF701&quot; = &quot;pageDown:&quot;; /* Control-Down arrow */
+	&quot;\UF72C&quot; = &quot;pageUp:&quot;; /* Page-up */
+	&quot;\UF72D&quot; = &quot;pageDown:&quot;; /* Page-down */
+
+	&quot;^/&quot; = &quot;undo:&quot;;
+	&quot;~/&quot; = &quot;complete:&quot;; /* escape */
+	&quot;^j&quot; = &quot;insertNewline:&quot;; /* Ctrl-j in case TextExtras isn&#x27;t around */
+
+	/* Some useful commands that are not bound by default. */
+	&quot;~p&quot; = &quot;selectParagraph:&quot;;
+	&quot;~l&quot; = &quot;selectLine:&quot;;
+	&quot;~w&quot; = &quot;selectWord:&quot;;
+
+	/* Mark-point stuff (Emacs-style mark and point bindings are implemented but not bound by default. In the text system the mark and point are ranges, not just locations. The &quot;point&quot; is the selected range.) */
+	&quot;^ &quot; = &quot;setMark:&quot;;
+	&quot;^m&quot; = &quot;setMark:&quot;;
+	&quot;^s&quot; = (&quot;swapWithMark:&quot;, &quot;centerSelectionInVisibleArea:&quot;);
+	&quot;^w&quot; = &quot;deleteToMark:&quot;;
+	&quot;^x&quot; = {
+	&quot;^x&quot; = (&quot;swapWithMark:&quot;, &quot;centerSelectionInVisibleArea:&quot;);
+	&quot;^m&quot; = &quot;selectToMark:&quot;;
+	};
+	}
+
+# Exclude Directory
+Open `Project Window`, right click and select `Mark Directory as` and `Excluded` from project.
+
+# html
+
+	快速查看样式：在HTML标签上进行右键，选择Show Applied Styles For Tag
+
+## z-coding
+&gt; help z-coding on internet.
+
+	ul.nav&gt;li*5&gt;a
+
+
+# Path
+
+## config path
+phpstorm7.* 8.*
+
+	u -sh ~/Library/Preferences/WebIde70
+	u -sh ~/Library/Preferences/WebIde80
+
+# intelliJ idea
+http://www.jetbrains.com/idea/webhelp/enabling-php-support.html
+</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

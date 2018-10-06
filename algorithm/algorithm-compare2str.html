@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/algorithm/algorithm-compare2str.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>字符比较问题</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: 字符比较问题
+date: 2018-09-26
+updated: 2018-10-06
+---
+# 字符比较问题
+这个问题是在德问上看到的.
+
+有两个字符串，比如：
+$str1 = &#x27;abcdef&#x27;;
+$str2 = &#x27;efabcd&#x27;;
+
+[怎么快速比较两个字符串中字符完全相同呢](http://www.dewen.org/q/913/%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E6%AF%94%E8%BE%83%E4%B8%A4%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E5%AD%97%E7%AC%A6%E5%AE%8C%E5%85%A8%E7%9B%B8%E5%90%8C%EF%BC%9F)，两个字符串的长度一样，只是字符排序不一样，有可能出现重复的字符。
+
+大伙回答得有点意思,总结下.具体实例就不写了
+	
+对于两种字符串相同,我们定义两种规则:
+&gt;EqualRule-sensitive :str1与str2所包含的字符种类和每种字符出现的次数完全相同(对重复字符敏感)
+&gt;EqualRule-insensitive :str1与str2所包含的字符种类相同(对重复字符不敏感)
+
+# 转为hashTable作比较
+## sensitive
+使用count_chars得到hashTable再比较(对重复字符敏感)
+&gt;EqualRule-sensitive &lt;==&gt; hashTableA == hashTableB
+	
+	&lt;?php 
+	$str1 = &#x27;abcdef&#x27;;
+	$str2 = &#x27;efabcd&#x27;;
+	count_chars($str1,1) === count_chars($str2,1)?&#x27;Y&#x27;:&#x27;N&#x27;;
+
+## insensitive
+使用count_chars得到hashTable再比较(对重复字符不敏感)
+&gt;EqualRule-insensitive &lt;==&gt; hashTableA == hashTableB
+	
+	&lt;?php 
+	$str1 = &#x27;abcdef&#x27;;
+	$str2 = &#x27;efabcd&#x27;;
+	array_keys(count_chars($str1,1)) === array_keys(count_chars($str2,1))?&#x27;Y&#x27;:&#x27;N&#x27;;
+
+
+# 转为一个特征值再比较
+## sensitive
+
+&gt;EqualRule-sensitive &lt;==&gt; F(str1)==F(str2) #F是一个公式,返回的是一个数(特征值)
+
+@江南烟雨给出的思路是利用质数原理构成一个F.
+
+&gt;需要事先准备好足够的质数
+&gt; 给每个字符取一个独立唯一的质数:比如a-&gt;2 b-&gt;3 c-&gt;5 ....
+&gt; 对于每个字符串取的特征值为: 每个字符特征值的乘积.
+
+比如:
+
+	F(&#x27;abc&#x27;) = 2*3*5	
+
+
+## insensitive
+&gt;EqualRule-insensitive &lt;==&gt; F(str1)==F(str2) #F是一个公式,返回的是一个数(特征值)
+
+F表达式可以利用二进制定义:
+&gt;需要足够位数的数(或者通过字符串代替数)
+&gt;每个字符定义一个二进制数特征值(4字节): 如a-&gt;&quot;0x01&quot; b=&gt;&quot;0x01&quot;&lt;&lt;1 (&quot;0x02&quot;) c=&gt;&quot;0x01&quot;&lt;&lt;2 (&quot;0x04&quot;) ...
+&gt;遍历并与每个字符串的特征值相或.
+
+比如:
+	
+	F(&#x27;aabc&#x27;) =F(&#x27;a&#x27;) | F(&#x27;a&#x27;) | F(&#x27;b&#x27;) | F(&#x27;c&#x27;) = &quot;0x01&quot; |&quot;0x01&quot;|&quot;0x02&quot;|&quot;0x04&quot; =&quot;0x07&quot; = &quot;0111&quot;;
+
+
+# 转为桶集判断
+&gt;EqualRule &lt;==&gt; 桶集判断
+&gt;相对以上算法,桶的效率最快.时间o(2n)-&gt;o(n),因为str1+str2包含有限的字符种数&lt;有限的字符集总数,所以空间是o(1)
+&gt;本节定义的桶集本身就是一个hashTable.但只对str1生成一次hashTable.(放球到桶里)
+
+@肥猫的主意
+&gt; 数组a，26个英文字母，当然，你要大小写区分用52个。大小写不区分位运算一下。 
+扫描第一个数组扫描一次，然后buckets[s]++;s为你扫描到的那个字符(就叫往s桶放一个球吧) 
+&gt;再扫描第二个数组一次，然后buckets[s]--；s为扫描到的那个字符(s桶弄出一个球吧)
+若两次扫描后，桶为空，则相等。
+
+## sensitive
+以下是示例. 我本想正则的*平衡组*应该也可以做充当这样的桶吧(冒充放球出球的动作),不过反向引用无法区分不同的桶(不同的字符),所以....
+给一个php示例:
+
+	&lt;?php
+		$str1= &#x27;aba&#x27;;
+		$str2= &#x27;baa&#x27;;
+		$buckets = array();//桶集
+		$i = 0;
+		while($k=$str1[$i++]){
+			++$buckets[$k];//放一个球$str1[$i]
+		}
+		$i = 0;
+		while($k=$str2[$i++]){
+			--$buckets[$k];//拿一个球$str1[$i]
+			if(0===$buckets[$k]){
+				unset($buckets[$k]);//把空桶拿走吧	
+			}
+		}
+
+		echo empty($buckets)?&#x27;Y&#x27;:&#x27;N&#x27;;
+
+
+
+## insensitive
+如果对重复的球不敏感,我就换一种说法吧,叫涂色(对桶来说,多次涂色不敏感)
+
+	&lt;?php
+		$str1= &#x27;aba&#x27;;
+		$str2= &#x27;baa&#x27;;
+		$buckets = array();//桶集
+		$throwBuckets = array();//被丢弃的桶集
+		$i = 0;
+		while($k=$str1[$i++]){
+			$buckets[$k]=1;//给桶涂色$str1[$i](涂色不敏感)
+		}
+		$i = 0;
+		while($k=$str2[$i++]){
+			if(isset( $buckets[$k])){
+				unset( $buckets[$k] );//把空桶拿走吧	
+				$throwBuckets[$k] = 1;//丢弃的桶我们登记一下.	
+			}elseif(!isset($throwBuckets[$k])){
+				$buckets[$k] = 1;//如果找不到以前涂过色的桶,则清桶失败(str2有字符不被str1所包括)
+				break;
+			}
+
+		}
+		echo empty($buckets)?&#x27;Y&#x27;:&#x27;N&#x27;;
+
+# 查找字符集
+&gt;EqualRule &lt;==&gt; 按定义:查找一方字符集是否完全出现在另一方(并集)
+&gt;EqualRule &lt;==&gt; 按定义:查找一方字符集是否完全不出现在另一方(差集)
+&gt;这个只是按定义求解.(时间o(n^2),空间o(1)). 
+
+## insensitive
+### 利用正则查找
+
+	&lt;?php
+	$str1=&#x27;abc&#x27;;
+	$str2=&#x27;cab&#x27;;
+	echo preg_match(&#x27;#^[&#x27;.$str1.&#x27;]*$#&#x27;, $str2) ?&#x27;Y&#x27;: &#x27;N&#x27;;//交集
+
+也可以用差集:
+
+	echo preg_match(&#x27;[^&#x27;.$str1.&#x27;]+&#x27;, $str2) || preg_match(&#x27;[^&#x27;.$str2.&#x27;]+&#x27;, $str1) ?&#x27;N&#x27;: &#x27;Y&#x27;;//差集
+
+$str1,$str2可能有&quot;恶意的字符&quot;,可以先转为十六进制表示(或者转义特殊字符)
+
+	$str1=&#x27;a*bc#&#x27;;
+	$str2=&#x27;#*cab&#x27;;
+	for($pattern1=&#x27;&#x27;,$i=0,$max=strlen($str1);$i&lt;$max;$i++){
+		$pattern1.=&#x27;\x&#x27;.dechex(ord($str1[$i]));
+	}
+	echo preg_match(&#x27;#^[&#x27;.$pattern1.&#x27;]*$#&#x27;, $str2) ?&#x27;Y&#x27;: &#x27;N&#x27;;
+
+### 利用字符函数查找
+php有strspn
+
+	strlen($str1) === strspn($str1,$str2)?&#x27;Y&#x27;:&#x27;N&#x27;;//并集
+
+
+# 字符排序再比较
+&gt;EqualRule &lt;==&gt; sortedStrCompare
+排序效率应该是依赖于排序算法本身.
+对排序后的两个字符串做比较可以有:*并运算* 或者 *字符全等*都可以比较
+
+## sensitive
+伪代码:
+	
+	(sort($str1) &amp; sort($str2)) ? &#x27;Y&#x27;:&#x27;N&#x27;;
+	sort($str1) === sort($str2) ? &#x27;Y&#x27;:&#x27;N&#x27;;
+## insensitive
+伪代码:
+	
+	unique(sort($str1)) === unique(sort($str2)) ? &#x27;Y&#x27;:&#x27;N&#x27;;
+
+php有现成的:
+
+	&lt;?php
+	count_chars($str1,3) === count_chars($str2,3)?&#x27;Y&#x27;:&#x27;N&#x27;;</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

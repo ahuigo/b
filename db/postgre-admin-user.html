@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/db/postgre-admin-user.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>Postgre User and Authentication</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: Postgre User and Authentication
+date: 2018-09-27
+updated: 2018-10-06
+---
+# Postgre User and Authentication
+vim /var/lib/pgsql/10/data/pg_hba.conf
+
+    host    all             all             127.0.0.1/32            md5
+    host    all             all             0.0.0.0/0               md5
+
+auth method:
+1. Peer : use kernel os system user name, only supported on local connections.
+2. indent:  client&#x27;s operating system user name, only supported on TCP/IP connections,  *for a local (non-TCP/IP) connection, peer is used instead*
+3. password: 独立的帐号密码
+
+## password method(md5)
+password method 使用独立的帐号，使用ROLE管理
+
+# User Role
+
+    psql -U user_name -d database_name -h 127.0.0.1 -W
+        \W prompt enter password
+
+Non interactive password:
+
+1. vim ~/.pgpass:
+    `hostname:port:database:username:password`
+2. PGPASSWORD=pass1234 psql -U MyUsername myDatabaseName
+3. URI: https://www.postgresql.org/docs/current/static/libpq-connect.html#LIBPQ-CONNSTRING
+
+    psql postgresql://
+    psql postgresql://localhost
+    psql postgresql://localhost:5433
+    psql postgresql://localhost/mydb
+    psql postgresql://user@localhost
+    psql postgresql://user:secret@localhost
+    psql postgresql://other@localhost/otherdb?connect_timeout=10&amp;application_name=myapp
+    psql postgresql://host1:123,host2:456/somedb?target_session_attrs=any&amp;application_name=myapp
+
+## create
+两种
+1. $ createuser --interactive
+2. CREATE ROLE new_role_name;
+
+    CREATE ROLE role_name WITH optional_permissions;
+
+`create user` 默认带login 权限(唯一区别):
+
+    create user demo_role
+    # give ability to ligin in
+    CREATE ROLE demo_role WITH LOGIN;
+
+通过shell: creat super user
+
+    sudo -u postgres createuser --superuser dbuser
+
+### password
+By default, users are only allowed to login locally with the system username
+如果用host 登录，则pg的帐号需要设定自己的密码：
+
+    \password test_user
+
+non interactive:
+
+    ALTER USER postgres WITH PASSWORD &#x27;newpassword&#x27;;
+
+### group user
+
+    CREATE ROLE temporary_users;
+    GRANT temporary_users TO demo_role;
+    GRANT temporary_users TO test_user;
+
+       Role name    |                   Attributes                   |     Member of 
+    ----------------------------------------------------------------------------------
+    demo_role       |                                                | {temporary_users}
+    temporary_users | Cannot login                                   | {}
+    test_user       |                                                | {temporary_users}
+
+Let a user the &quot;inherit&quot; group property with no need &quot;set role&quot; command:
+
+    ALTER ROLE test_user INHERIT;
+
+### swich role
+    SET ROLE role_name;
+    RESET ROLE;
+
+比如如果你想用test_user, 或者用temporary_user 这个分组创建talble
+
+    &gt; set role temporary_user;
+    &gt; CREATE TABLE hello ( name varchar(25), start_date date); 
+     Schema|      Name       |   Type   |      Owner
+    -------+-----------------+----------+-----------------
+    public | hello           | table    | temporary_users
+
+### table role
+
+    ALTER TABLE hello OWNER TO demo_role;
+
+
+## delete
+DROP ROLE role_name;
+DROP ROLE IF EXISTS role_name;
+
+## alter
+
+    ALTER ROLE role_name WITH attribute_options;
+    ALTER ROLE demo_role WITH NOLOGIN;
+
+## query roles
+
+    \du
+
+### default user
+如果使用test1 帐号登录，psql 会默认以test1 连接数据库test1
+
+    psql -d &lt;dbname&gt;
+    psql -d postgres
+    psql -d test1
+    \conninfo
+
+### super user
+postgre 默认添加名为`postgres`的super user，到linux和postgre 帐户：
+
+    sudo postgresql-setup initdb
+    sudo su - postgres
+
+# Grant Permissions
+1. GRANT permission_type ON table_name TO role_name|PUBLIC;
+1. GRANT permission_type ON DATABASE db_name TO role_name|PUBLIC;
+2. REVOKE permission_type ON table_name FROM user_name;
+
+    GRANT UPDATE ON demo TO demo_role;
+    GRANT ALL ON demo TO demo_role;
+    # to everyone
+    GRANT INSERT ON demo TO PUBLIC;
+
+To view the grant table
+
+    \z</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

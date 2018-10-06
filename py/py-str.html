@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/py/py-str.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>Python 字符处理</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: Python 字符处理
+date: 2017-08-09
+updated: 2018-10-06
+---
+# Python 字符处理
+- serialize
+见/py/py-serial.md
+
+# String
+same as js:
+
+	print &quot;a\nb&quot; ;# The character here &quot;\n&quot; is new line
+	print &#x27;a\nb&#x27;
+	print &#x27;\x30\x31&#x27;; 01
+
+	&#x27;\x87&#x27; == &#x27;\u0087&#x27; == b&#x27;\xc2\x87&#x27;.decode() ; #表示的是双位unicode
+    &#x27;\x87&#x27; == bytes([0xc2,0x87]).decode() == chr(0x87)
+
+## ord/chr(unicode)
+
+	ord(&#x27;A&#x27;); 65
+	chr(65); &#x27;A&#x27;
+
+## multi line
+
+	s=(&quot;str1&quot;
+		&quot;str2&quot; )
+
+## string number
+    int: 123
+        str.isdecimal()
+        str.isdigit() 
+        str.isnumeric()
+
+    float:
+        .isalnum() 123.43
+	.isalpha
+
+## format
+https://pyformat.info/
+
+old
+
+	&gt;&gt;&gt; print &#x27;This is (%r) (%s)&#x27; % (&quot;Hilojack\&quot;&quot;, &quot;Blog&quot;)
+	This is (&#x27;Hilojack&quot;&#x27;) (Blog)
+	&gt;&gt;&gt; print &#x27;&#x27;&#x27;This is (%r) (%s)&#x27;&#x27;&#x27; % (&quot;Hilojack\&quot;&quot;, &quot;Blog&quot;)
+	This is (&#x27;Hilojack&quot;&#x27;) (Blog)
+
+&gt; %r displays the &quot;raw&quot; data
+
+### f-string
+    x=1; user={&#x27;name&#x27;:&#x27;ahui&#x27;};
+    f&#x27;x={x}, user[&quot;name&quot;]={user[&quot;name&quot;]}, id(user)={id(user)}&#x27;
+        &#x27;x=1, user[&quot;name&quot;]=ahui, id(user)=4500547264&#x27;
+
+    f&#x27;{{&quot;str&quot;}}&#x27;
+        {&quot;str&quot;}
+    &#x27;{0}&#x27;.format(&#x27;{&#x27;)
+
+### string Template
+
+    from string import Template
+    Template(&#x27;$who likes $what&#x27;).substitute(who=&#x27;Tom&#x27;, what=&#x27;cat&#x27;)
+    Template(&#x27;$who&#x27;).substitute({&#x27;who&#x27;:1})
+
+### tab length(to space)
+&#x27;\t&#x27;.expandtabs(4)
+
+## format()
+### value type
+```
+&#x27;{:s}&#x27;.format(&#x27;str&#x27;)
+&#x27;{:d}&#x27;.format(123)
+&#x27;{:f}&#x27;.format(123.0)
+```
+
+### value conversion(str &amp; repr)
+```
+class Data0(object):
+    def __repr__(self):
+        return &#x27;räpr&#x27;
+class Data1(object):
+    def __str__(self):
+        return &#x27;str&#x27;
+
+//Old
+&#x27;%s %r %a&#x27; % (Data0(), Data1())
+//New: !r 代表 repr, !s 代表 str, !a 代表repr
+&#x27;{1!s} {0!r} {0!a}&#x27;.format(Data0(), Data1())
+```
+Output
+```
+str räpr r\xe4pr
+```
+
+### Padding and aligning strings
+
+    # align left
+    &#x27;%-10s&#x27; % (&#x27;test&#x27;)
+    &#x27;{:10}&#x27;.format(&#x27;test&#x27;)
+    &#x27;{:&lt;10}&#x27;.format(&#x27;test&#x27;)
+
+    # align center
+    &#x27;{:^10}&#x27;.format(&#x27;test&#x27;)
+
+    # align right
+    &#x27;%5s&#x27; % (&#x27;test&#x27;,)
+    &#x27;{:&gt;5}&#x27;.format(&#x27;test&#x27;)
+    &#x27; test&#x27;
+
+string default left, number/float default right:
+
+    &gt;&gt;&gt; &#x27;{:5s}&#x27;.format(&#x27;a&#x27;)
+    &#x27;a    &#x27;
+    &gt;&gt;&gt; &#x27;{:5d}&#x27;.format(3)
+    &#x27;    3&#x27;
+
+padding with _
+
+    &#x27;{:_&lt;10}&#x27;.format(&#x27;test&#x27;)
+    &#x27;{:_^10}&#x27;.format(&#x27;test&#x27;)
+    &#x27;{:_&gt;10}&#x27;.format(&#x27;test&#x27;)
+
+padding with space(default)
+
+    &gt;&gt;&gt; &#x27;%6.2f&#x27; % (3.141592653589793,)
+    &gt;&gt;&gt; &#x27;{:6.2f}&#x27;.format (3.141592653589793,)
+    &#x27;  3.14&#x27;
+
+padding with zero
+
+    &gt;&gt;&gt; &#x27;%06.2f&#x27; % (3.141592653589793,)
+    &#x27;003.14&#x27;
+    &gt;&gt;&gt; &#x27;{:06.2f}&#x27;.format (3.141592653589793,)
+    &#x27;003.14&#x27;
+
+padding with signed number(`=`没啥用)
+
+    &gt;&gt;&gt; &#x27;{:+07.2f}&#x27;.format (+3.141592653589793,)
+    &#x27;+003.14&#x27;
+    &gt;&gt;&gt; &#x27;{:=+07.2f}&#x27;.format (+3.141592653589793,)
+    &#x27;+003.14&#x27;
+
+padding with signed number position:
+
+    &gt;&gt;&gt; &#x27;{:+6d}&#x27;.format (3)
+    &#x27;    +3&#x27;
+    &gt;&gt;&gt; &#x27;{:=+6d}&#x27;.format (3)
+    &#x27;+    3&#x27;
+
+
+### Truncating long strings
+```
+&gt;&gt;&gt; &#x27;%-.2s&#x27; % &#x27;12345&#x27;
+&gt;&gt;&gt; &#x27;{:.2}&#x27;.format(&#x27;12345&#x27;)
+&#x27;12&#x27;
+&gt;&gt;&gt; &#x27;%-3.2s&#x27; % &#x27;12345&#x27;
+&gt;&gt;&gt; &#x27;{:3.2}&#x27;.format(&#x27;12345&#x27;)
+&#x27;12 &#x27;
+```
+Truncating float
+```
+&#x27;{:.6f}&#x27;.format(123.0)
+&#x27;123.000000&#x27;
+```
+
+combining truncating and padding
+```
+&#x27;{:12.2f}&#x27;.format(123.0)
+&#x27;      123.00&#x27;
+```
+
+### named placeholder
+```
+&#x27;hello, {name} {obj[&quot;a&quot;]} {{literal}}&#x27;.format(name=&#x27;Wang&#x27;)
+&#x27;hello, {0}-{1}&#x27;.format(&#x27;Wang&#x27;, &#x27;Kang&#x27;)
+&#x27;{p[first]} {p[last]}&#x27;.format(p={&#x27;first&#x27;:1, &#x27;last&#x27;:2})
+```
+with object:
+```
+&#x27;{p.type}&#x27;.format(p=Plant())
+```
+### datetime
+```
+from datetime import datetime
+&#x27;{:%Y-%m-%d %H:%M}&#x27;.format(datetime(2001, 2, 3, 4, 5))
+```
+### parametrized formats
+```
+&#x27;{:^10}&#x27;.format(&#x27;test&#x27;)
+&#x27;{:{align}{width}}&#x27;.format(&#x27;test&#x27;, align=&#x27;^&#x27;, width=&#x27;10&#x27;)
+
+&#x27;%2,2f&#x27; % ( 2.7182)
+&#x27;%*.*f&#x27; % (5, 2, 2.7182)
+&#x27;{:{width}.{prec}f}&#x27;.format(2.7182, width=5, prec=2)
+
+&#x27;{:{dfmt} {tfmt}}&#x27;.format(dt, dfmt=&#x27;%Y-%m-%d&#x27;, tfmt=&#x27;%H:%M&#x27;)
+```
+
+### custom objects
+```
+class HAL9000(object):
+    def __format__(self, format):
+        if (format == &#x27;open-the-pod-bay-doors&#x27;):
+            return &quot;I&#x27;m afraid I can&#x27;t do that.&quot;
+        return &#x27;HAL 9000&#x27;
+&#x27;{:open-the-pod-bay-doors}&#x27;.format(HAL9000())
+```
+
+## encoding
+python 内存中string 全部是以unicode编码的，而bytes则可以任何特定的编码
+
+### unicode
+以下三个等价, 且都是 class str
+
+	&gt;&gt;&gt; &#x27;中&#x27;
+    &gt;&gt;&gt; &quot;\u4e2d&quot;
+	&gt;&gt;&gt; u&#x27;中&#x27;
+    &gt;&gt;&gt; u&quot;\u4e2d&quot;
+    &#x27;中&#x27;
+
+    &gt;&gt;&gt; ord(&#x27;A&#x27;)
+    65
+    &gt;&gt;&gt; ord(&#x27;中&#x27;) \x4e2d = 20013
+    20013
+    &gt;&gt;&gt; chr(66)
+    &#x27;B&#x27;
+    &gt;&gt;&gt; chr(25991)
+    &#x27;文&#x27;
+
+### Bytes
+bytes对象b&#x27;\xa420&#x27;只是一堆比特位而已。define bytes
+
+    &gt;&gt;&gt; &#x27;\x00\x01\x61&#x27;.encode()
+    &gt;&gt;&gt; bytes([0, 1, 0x61])
+    b&#x27;\x00\x01a&#x27;
+
+	&gt;&gt;&gt; type(b&#x27;abc&#x27;)
+	&lt;class &#x27;bytes&#x27;&gt;
+	&gt;&gt;&gt; type(&#x27;abc&#x27;)
+	&lt;class &#x27;str&#x27;&gt;
+
+    &gt;&gt;&gt; &#x27;abc&#x27;[0]
+    &#x27;a&#x27;
+    &gt;&gt;&gt; &#x27;abc&#x27;.encode()[0]
+    97
+
+对于字符串操作，我们并不关心它们内部编码。除非需要字节包用于传输时
+1. str 是无关编码的unicode: utf8,gbk, 是纯字符串表示: python3 采用unicode
+1. bytes 是关编码: utf8,gbk, 是纯字符经过编码过后的二进制数据
+
+#### string to bytes:
+ascii 不变, 其它则用16进制表示
+
+	&#x27;abc&#x27;.encode(&#x27;ascii&#x27;)
+		b&#x27;abc&#x27;
+	&#x27;中国&#x27;.encode() # 默认utf8
+		b&#x27;\xe4\xb8\xad&#x27;
+	&#x27;中国&#x27;.encode(&#x27;GB2312&#x27;)
+		b&#x27;\xd6\xd0&#x27;
+
+	b&#x27;\xd6\xd0&#x27;.decode(&#x27;GB2312&#x27;)
+		&#x27;中&#x27;
+
+detect bytes encoding:
+
+    &gt;&gt;&gt; chardet.detect(&#x27;中国人民&#x27;.encode())
+    {&#x27;encoding&#x27;: &#x27;utf-8&#x27;, &#x27;confidence&#x27;: 0.938125, &#x27;language&#x27;: &#x27;&#x27;}
+
+#### utf8声明源码
+1. 第二行注释是为了告诉Python解释器，按照UTF-8编码读取源代码
+2. 编辑器要without BOM
+
+    #!/usr/bin/env python3
+    # -*- coding: utf-8 -*-
+
+### raw string
+string literals: r&#x27;...&#x27;, r&#x27;&#x27;&#x27;...&#x27;&#x27;&#x27;, r&quot;...&quot;, r&quot;&quot;&quot;...&quot;&quot;&quot; are all literal strings for regex
+
+    &gt;&gt;&gt; r&#x27;a\n\t&#x27;
+    &#x27;a\\n\\t&#x27;
+    &gt;&gt;&gt; r&#x27;&#x27;&#x27;start
+     end&#x27;&#x27;&#x27;
+    
+for var
+
+    &gt;&gt;&gt; print(&#x27;%r&#x27; % &#x27;\n&#x27;)
+    &#x27;\n&#x27;
+    &gt;&gt;&gt; print(r&#x27;\n&#x27;)
+    \n
+
+## len
+python3:
+
+	len(&#x27;中&#x27;); 1
+	len(&#x27;中&#x27;.encode(&#x27;utf8&#x27;)); 3
+	len(&#x27;ab&#x27;); 2
+	len(&#x27;ab&#x27;.encode(&#x27;utf8&#x27;)); 2
+
+
+## Access String
+like list
+
+	&#x27;hilojack&#x27;[4:]
+	&#x27;hilo&#x27; in &#x27;hilojack&#x27;
+
+## string func
+
+	## substring count
+	&#x27;hilo hilo&#x27;.count(&#x27;hilo&#x27;)
+
+	## capitalize
+	&#x27;hilo&#x27;.capitalize()
+	&#x27;hilo&#x27;.upper()
+	&#x27;hilo&#x27;.lower()
+
+	## len
+	len(&#x27;abc&#x27;)
+
+## split
+&#x27;ab cd&#x27;.split(&#x27; &#x27;) # [&#x27;ab&#x27;, &#x27;cd&#x27;]
+&#x27;word1 word2 word3&#x27;.split(&#x27; &#x27;, 1) # &#x27;word2 word3&#x27;
+
+	## sorted
+	sorted(&#x27;a zx&#x27;) # [&#x27; &#x27;, &#x27;a&#x27;, &#x27;x&#x27;, &#x27;z&#x27;]
+
+## search replace
+
+	&#x27;hilojack&#x27;.find(&#x27;jack&#x27;);//4
+	&#x27;hilo&#x27; in &#x27;hilojack&#x27;
+	str.replace(needle, word, 1); //replace the first needle with word
+
+    &#x27;ab&#x27;.replace([&#x27;a&#x27;,&#x27;b&#x27;], [&#x27;A&#x27;,&#x27;B&#x27;]) # wrong
+
+replace with dict(不能出现干扰的边界字符`%{}`)
+
+    address = &quot;123 %(direction)s anywhere street&quot;
+    address % {&quot;direction&quot;: &quot;N&quot;}
+
+    &#x27;{direction}&#x27;.format(**{&#x27;direction&#x27;:&#x27;Y&#x27;})
+
+### translate
+
+    a_string.translate(str.maketrans({&quot;a&quot;:  &quot;A&quot;})
+
+### startwith
+
+    aString.startswith(&quot;hello&quot;)
+    aString.startswith(tuple([&quot;hello&quot;, &#x27;hi&#x27;]))
+
+	if any(map(l.startswith, x)):
+	if any([l.startswith(s) for s in x])
+
+### endswith
+
+    &#x27;abc&#x27;.endswith(&#x27;bc&#x27;)
+    &#x27;abc&#x27;.endswith((&#x27;bd&#x27;, &#x27;bc&#x27;)) # tuple only
+
+### find and index
+### rfind and rindex
+
+    str.find(substr, start=0, end=len(string))
+        Index if found and -1 otherwise.
+         S.index(sub[, start[, end]]) -&gt; int
+         Like S.find() but raise ValueError when the substring is not found.
+
+## pad- zfill
+
+	$ print &#x27;1&#x27;.zfill(2);
+	01
+
+## repeat
+```
+	&#x27;pad&#x27;*2
+	&#x27;.&#x27;.join([&#x27;pad&#x27;]*2)
+```
+
+## trim
+包括\n, &#x27; &#x27;, &#x27;\t\r&#x27;
+
+	&#x27;a\n  &#x27;.strip() + &#x27;,end&#x27;
+    s.lstrip()
+
+## Concat String
+
+	&gt;&gt;&gt; print &#x27;a&#x27;+&#x27;b&#x27;+&#x27;c&#x27;	# with no space
+	abc	# &quot;abc\n&quot;
+	&gt;&gt;&gt; print &#x27;a&#x27; &#x27;b&#x27; 	&#x27;c&#x27;   # with no space
+	&gt;&gt;&gt; print &#x27;a&#x27;&#x27;b&#x27;&#x27;c&#x27;   # with no space
+	abc # &quot;abc\n&quot;
+	&gt;&gt;&gt; print var1 var2   # syntax error
+	&gt;&gt;&gt; print &#x27;-&#x27;*6
+	------
+	&gt;&gt;&gt; print &#x27;-&#x27; * 6
+	------
+
+long delimiter `&quot;&quot;&quot;` and `&#x27;&#x27;&#x27;`(same): `\n` is still transfered by python
+
+	print &quot;&quot;&quot;
+	a\nbc
+	&quot;&quot;&quot;
+	print &quot;&quot;&quot;ab\nc&quot;&quot;&quot;
+	print &#x27;&#x27;&#x27;ab\nc&#x27;&#x27;&#x27;
+
+### Escape Sequences
+
+	\n	ASCII linefeed (LF)
+	\N{name}	Character named name in the Unicode database (Unicode only)
+	\r ASCII	Carriage Return (CR)
+	\uxxxx	Character with 16-bit hex value xxxx (Unicode only)
+	\Uxxxxxxxx	Character with 32-bit hex value xxxxxxxx (Unicode only)
+	\v	ASCII vertical tab (VT)
+	\ooo	Character with octal value ooo
+	\xhh	Character with hex value hh
+
+#### not Escape
+use repr encode
+
+	&gt;&gt;&gt; string = &quot;abc\ndef&quot;
+	&gt;&gt;&gt; print (repr(string))
+	&gt;&gt;&gt; &#x27;abc\ndef&#x27;
+
+	&gt;&gt;&gt; print(repr(&quot;\n&quot;))
+	&#x27;\n&#x27;
+	&gt;&gt;&gt; print(r&quot;\n&quot;)
+    \n
+    repr(obj, /)
+        Return the canonical string representation of the object.
+
+### print
+
+	&gt;&gt;&gt; print(&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;) # with space and new line
+	a b c	# &quot;a b c\n&quot;
+	&gt;&gt;&gt; print(&#x27;.&#x27;, end=&#x27;&#x27;) # with space only, no new line
+
+	# If you are having trouble with buffering, or with: sys.stdout.flush()
+	&gt;&gt;&gt; print(&#x27;.&#x27;, end=&#x27;&#x27;, flush=True) 
+
+with no space and new line:
+
+	&gt;&gt; sys.stdout.write(&#x27;string&#x27;)
+	string
+
+## string like list
+
+	print &quot;abc&quot;[-1]
+	for in &quot;abc&quot;
+
+## chunk
+利用range+step:
+
+    def ChunkStr1(string, length):
+        return (string[0+i:length+i] for i in range(0, len(string), length))
+
+    # 利用regex:
+    import re
+    def ChunkStr2(string, length):
+    	return re.findall(&#x27;.{1,&#x27;+str(length)+&#x27;}&#x27;,string)
+
+    list(ChunkStr1(s,10))
+
+</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

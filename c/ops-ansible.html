@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/c/ops-ansible.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>Ansible</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: Ansible
+date: 2018-09-27
+updated: 2018-10-06
+---
+# Ansible
+Ansible 是一个比Puppet, Chef 更轻量的provisioning 工具，不需要启动daemon进程。这点跟跟pssh差不多，但是比pssh更加强大。
+
+	$ yum install -y ansible
+	$ ansible --version
+	  ansible 2.0.0.2
+	    config file = /etc/ansible/ansible.cfg
+	    configured module search path = Default w/o overrides
+
+# directory
+/etc/ansible:
+
+	hosts
+	group-vars/
+
+# basic run
+
+	$ ansible all -s -m apt -a &#x27;pkg=nginx state=installed update_cache=true&#x27;
+	all - Use all defined servers from the inventory file
+	-m ping - Use the &quot;ping&quot; module, which simply runs the ping command and returns the results
+	-s - Use &quot;sudo&quot; to run the commands
+	-k - Ask for a password rather than use key-based authentication
+	-u vagrant - Log into servers using user vagrant
+
+
+# inventory
+
+    -i PATH, --inventory=PATH
+       The PATH to the inventory, which defaults to /etc/ansible/hosts.
+       Alternatively you can use a *comma separated list* of hosts or single host with traling comma
+
+cat /etc/ansible/hosts
+
+	host0.example.org ansible_host=192.168.33.10 ansible_user=root
+	host1.example.org ansible_host=192.168.33.11 ansible_user=root
+	host2.example.org ansible_host=192.168.33.12 ansible_user=root
+
+## sshpass
+
+	[all:vars]
+	ansible_user=admin
+
+
+# module
+Try ping module
+
+    ansible -m ping all -i step-01/hosts
+    ansible -m ping all -u admin
+
+The output should look like this:
+
+    host0.example.org | success &gt;&gt; {
+        &quot;changed&quot;: false,
+        &quot;ping&quot;: &quot;pong&quot;
+    }
+
+    host1.example.org | success &gt;&gt; {
+        &quot;changed&quot;: false,
+        &quot;ping&quot;: &quot;pong&quot;
+    }
+
+Modules that take arguments pass them via -a switch. Let&#x27;s see a few other modules.
+
+## shell module
+Shell module
+
+    ansible -i step-02/hosts -m shell -a &#x27;uname -a&#x27; host0.example.org
+
+Output should look like:
+
+    host0.example.org | success | rc=0 &gt;&gt;
+    Linux host0.example.org 3.2.0-23-generic-pae #36-Ubuntu SMP Tue Apr 10 22:19:09 UTC 2012 i686 i686 i386 GNU/Linux
+
+## Copy module
+Lets say we want to copy our /etc/motd to /tmp of our target node:
+
+    ansible -i step-02/hosts -m copy -a &#x27;src=/etc/motd dest=/tmp/&#x27; host0.example.org
+
+Output should look similar to:
+
+    host0.example.org | success &gt;&gt; {
+        &quot;changed&quot;: true,
+        &quot;dest&quot;: &quot;/tmp/motd&quot;,
+        &quot;src&quot;: &quot;/root/.ansible/tmp/ansible-1362910475.9-246937081757218/motd&quot;,
+    }
+
+## Many hosts, same command
+all is a shortcut meaning &#x27;all hosts found in inventory file&#x27;. It would return:
+
+    ansible -i step-02/hosts -m shell -a &#x27;grep DISTRIB_RELEASE /etc/lsb-release&#x27; all
+
+## Many more facts: setup
+if we wanted more information (ip addresses, RAM size, etc...).
+
+    ansible -i step-02/hosts -m setup host0.example.org
+
+replies with lots of information:
+
+    &quot;ansible_facts&quot;: {
+        &quot;ansible_all_ipv4_addresses&quot;: [
+            &quot;192.168.0.60&quot;
+        ],
+        &quot;ansible_all_ipv6_addresses&quot;: [],
+        &quot;ansible_architecture&quot;: &quot;x86_64&quot;,
+        &quot;ansible_bios_date&quot;: &quot;01/01/2007&quot;,
+        &quot;ansible_bios_version&quot;: &quot;Bochs&quot;
+        },
+        ---snip---
+
+You may also filter returned keys,let&#x27;s say you want to know how much memory
+
+    ansible -i step-02/hosts -m setup -a &#x27;filter=ansible_memtotal_mb&#x27; all:
+
+    host2.example.org | success &gt;&gt; {
+        &quot;ansible_facts&quot;: {
+            &quot;ansible_memtotal_mb&quot;: 187
+        },
+
+BTW, when using the setup module, you can use `*` in the `filter=` expression. It will act like a shell glob.
+
+# hosts
+
+## Selecting hosts
+We saw that all means &#x27;all hosts&#x27;, but ansible provides a lot of other ways to select hosts:
+
+1. *host0.example.org:host1.example.org* would run on host0.example.org and host1.example.
+2. `host*.example.org` would run on all hosts starting with &#x27;host&#x27; and ending with &#x27;.example.org&#x27;
+
+Pattern：
+
+	:::shell
+	ansible &lt;pattern_goes_here&gt; -m &lt;module_name&gt; -a &lt;arguments&gt;
+
+pattern可以直接指定某一机器地址或hosts中的组名，同时指定多个组或者多个ip使用:分割：
+
+	all
+	*
+	192.168.1.*
+
+	用!表示非：
+	v1:!v2   #表示在v1分组中，但是不在v2中的hosts
+
+	用&amp;表示交集部分：
+	webservers:&amp;dbservers  #表示在webservers分组中，同时也在dbservers分组中的hosts:w
+
+	v1[0]
+	v1[0:100]
+
+	也可以用~开头来使用正则：
+	~(web|db).*\.example\.com
+	~v\d
+
+## Grouping hosts
+Hosts in inventory* can be grouped arbitrarily.
+
+    [debian]
+    host0.example.org
+    host1.example.org
+
+This can even be expressed shorter:
+
+    [debian]
+    host[0:2].example.org
+
+If you wish to use child groups:
+
+    [ubuntu]
+    host0.example.org
+
+    [debian]
+    host[1:2].example.org
+
+    [linux:children]
+    ubuntu
+    debian
+
+# Setting variables
+You can assign variables to hosts in several places: inventory file, host vars files, group vars files, etc...
+
+When using *ansible-playbook* command , variables can also be set with *--extra-vars (or -e)* command line switch.
+ansible-playbook command will be covered in the next step.
+
+    [ubuntu]
+    host0.example.org ansible_host=192.168.0.12 ansible_port=2222
+
+Ansible will look for additional variables definitions in group and host variable files.
+
+    group_vars/linux
+    group_vars/ubuntu
+    host_vars/host0.example.org
+
+Now that we know the basics of modules, inventories and variables, let&#x27;s explore the real power of Ansible with playbooks.
+
+# Ansible playbooks
+Playbook concept is very simple: it&#x27;s just a series of ansible commands (tasks),
+These tasks are targeted at a specific set of hosts/groups.
+
+The necessary files for this step should have appeared magically and you don&#x27;t even have to type them.
+
+## Apache example (a.k.a. Ansible&#x27;s &quot;Hello World!&quot;)
+We assume we have the following inventory file (let&#x27;s name it hosts):
+
+    [web]
+    host1.example.org
+
+Lets build a playbook that will install apache on machines in the web group.
+
+    - hosts: web
+      tasks:
+        - name: Installs apache web server
+          apt: pkg=apache2 state=installed update_cache=true
+
+Here, we&#x27;re using the apt module that can install debian packages. We also ask this module to update the package cache.
+
+&gt; We also added a name for this task. While this is not necessary, it&#x27;s very informative when the playbook runs, so it&#x27;s highly recommended.
+
+You can run the playbook (lets call it *apache.yml*):
+
+    ansible-playbook -i step-04/hosts -l host1.example.org step-04/apache.yml
+
+`-l` limits the run only to *host1.example.org and apache.yml* is our playbook. output:</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

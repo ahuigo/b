@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/c/shell-io-file.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>Shell IO及文件操作</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: Shell IO及文件操作
+date: 2018-10-06
+updated: 2018-10-06
+---
+# Shell IO及文件操作
+
+# file
+
+## hexdump
+	hexdump file
+
+## od
+od 支持更丰富的格式化输出
+
+	od -tx1 -tc -Ax file
+
+	-t type
+		[d|o|u|x][C|S|I|L|n]
+			 Signed decimal (d), octal (o), unsigned decimal (u) or hexadecimal (x).  Followed by an optional size specifier, which may be either C (char), S (short), I (int), L (long), or a byte count as a decimal integer.
+
+		c
+			Characters in the default character set.  Non-printing characters are represented as 3-digit octal character codes
+	-A base
+		Specify the input address base.  base may be one of d, o, x or n, which specify decimal, octal, hexadecimal addresses or no address, respectively.
+
+
+# I/O Redirection 重定向
+
+	2&gt;&amp;1 # stderr&gt;stdout
+	&amp;&gt;err_out.txt # stderr and stdout
+
+## tee 双向重导向
+tee 用于将stdin的内容保存至文件， 再将其stdin 定向给下一个命令
+
+	 cmd | tee file1 file2 |cmd
+	 cmd | tee file &gt;(cmd)
+	 cmd | tee -a file |cmd
+	 cmd | tee /dev/tty |cmd
+	 cmd | tee /dev/stdout |cmd
+
+	if true ; then
+		cat &lt;&lt;- MM | sudo tee -a a.txt &gt; /dev/null
+		The leading tab is ignored.
+		MM
+	fi
+
+	cat &lt;&lt;- MM &gt;&gt; a.txt
+	The leading tab is ignored.
+		MM
+
+## pipe
+管道(pipe)实现了将上一进程的stdout 重定向到下一进程的stdin.
+很多命令可以通过加参数 &quot;-&quot; 支持pipe.
+
+	cat file | expand -
+	tar -cvf - /home | tar -xvf - #tar 将打包结果送到stdout, 这个stdout再通过管道送给tar解包.
+
+### pipe with sub_process
+
+	c=0
+	cat &lt;&lt;-MM | while read; do ((c++)); done;
+	a
+	b
+	MM
+	echo $c
+
+对于bash 来说，管道中的命令是在`sub process` 中执行的，`parent process`的`$c` 保持不变。
+而zsh 的管道不会使用子进程。
+
+### named pipe, 命名管道
+
+	process1 &gt; named_pipe
+	process2 &lt; named_pipe
+
+表现出来就像这样：
+
+	process1 | process2
+
+创建named pipe:
+
+	$ mkfifo pipe1
+	$ ls -l pipe1
+	prw-r--r-- 1 pipe1
+
+在第一个终端中，将输出定向到管道，*命令会被挂起*, 因为在管道的另一端没有任何接受数据, `管道被阻塞了`：
+
+	$ ls -l &gt; pipe1
+
+直到在第二个终端中，另一个进程读取些命名管理的输出端, 它就不再阻塞了：
+
+	$ cat &lt; pipe1
+
+</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

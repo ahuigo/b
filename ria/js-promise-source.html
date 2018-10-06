@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/ria/js-promise-source.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>如何实现一个 Promise</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: 如何实现一个 Promise
+date: 2018-10-04
+updated: 2018-10-06
+---
+# 如何实现一个 Promise 
+
+## 什么是Promise?
+Promise 是在es6/7 中出现的，在此之前，jquery 已经实现过类似于 promise的defered  `defered = $.Defered()`了。
+
+在过去我们写异步调用时往往要通过层层回调，这会导致回调地狱(callback hell)问题，callback hell 会导致难以编码和调试的问题, 这对于复杂页面来说是无法忍受的。
+
+Promise 的出现正是为了避免callback hell, 而用链式调用取而代之。
+
+## ES6 的promise 用法
+我们以前写异步调用往往是层层回调:
+
+        callback = console.log.bind(console)
+        setTimeout(v=&gt;{
+            callback(v)
+        }, 1000, &#x27;success&#x27;);
+
+通过promise 我们可以将callback 提出来:
+
+    new Promise((resolve, reject)=&gt;{
+        setTimeout(v=&gt;{
+            resolve(v)
+        }, 1000, &#x27;success&#x27;);
+    }).then(callback)
+
+## Promise 的实现
+先来分析下Promise 需要支持的语法
+1. then/catch 链式调用: 用来代替callback hell
+2. resolve/reject 暂存异步调用结果：当我们执行异步调用并得到返回结果后, 这个结果值必须暂存起来，这个值未来还要被传给链式调用
+3. fire 执行: 当异步调用结果暂存起来后, 我们需要fire 执行已经绑定的then/catch 回调函数
+
+### Promise 的构造函数
+首先，Promise 属性中肯定需要一个 status 代表状态, fire 会在不同状态下执行不同的回调函数:
+1. pending : 当异步调用没有返回时的状态
+2. resolved: 当异步调用返回成功时的状态
+3. rejected: 当异步调用返回失败时的状态
+
+其次, 还需要一个`this.children_*` 数组, 存放次级Promise。什么时候用到这个数组呢？看到下面这代码你就明白了
+
+    p = new Promise(r=&gt;setTimeout(r(10), 5000));
+    child1 = p.then(v=&gt;console.log(v+1))
+    child2 = p.then(v=&gt;console.log(v+2))
+
+最后，再加上其他必要的属性，我们就可以完成Promise 的构造器了：
+
+    class MyPromise {
+        constructor(task) {
+            this.firing = false
+            this.status = &#x27;pending&#x27;
+            this.v = undefined
+            this.children_resolved = []
+
+            if (task) {
+                this.children_rejected = []
+                task(this.resolve.bind(this), this.reject.bind(this))
+            }
+        }
+
+    }
+
+
+
+### then/catch 链式回调
+then/catch 的链式回调要做几件事：
+1. 绑定fnDone/fnFail 函数
+2. 由于`then(fnDone)`支持串行的链式结构，所以它还需要返回次级 promise: `child_p`
+3. 如果此时已经有异步返回值了，那么就是执行`fire` 的时机了
+
+最终then 的实现代码如下：
+
+    then(fnDone, fnFail) {
+        var child_p;
+        if (typeof (fnDone) === &#x27;function&#x27; || typeof (fnFail) === &#x27;function&#x27;) {
+
+            if (typeof (fnDone) === &#x27;function&#x27; ){
+                child_p = this.createChild()
+
+                child_p.fnDone = fnDone
+                this.children_resolved.push(child_p)
+
+                if ( (this.isDone &amp;&amp; child_p.fnDone)) {
+                    child_p.fire(this.v, this.status)
+                }
+            }else{
+                var root = this.findCatchRoot()
+                if(root){
+                    child_p = this.createChild()
+                    child_p.fnFail = fnFail
+                    root.children_rejected.push(child_p)
+
+                    if ( (this.isFail &amp;&amp; child_p.fnFail)) {
+                        child_p.fire(this.v, this.status)
+                    }
+                }
+
+                //this.root[&#x27;fnFail&#x27;] = fnFail
+            }
+        }
+        return child_p ? child_p : this
+    }
+
+### resolve/reject 暂存调用返回
+当调用返回值后，我们要：
+1. 通过resolve/reject 将返回值和状态存起来; 
+2. 然后判断是否存在fnDone/fnFail, 如果有就立即执行fire
+
+实现:
+
+    resolve(v) {
+        if (this.status !== &#x27;pending&#x27;) return
+        this.status = &#x27;resolved&#x27;
+        this.v = v
+
+        if (!this.firing &amp;&amp; this.isDone) {
+            for(let child_p of this.children_resolved){
+                child_p.fire(this.v, this.status)
+            }
+        }
+    }
+
+    reject(v) {
+        if (this.status !== &#x27;pending&#x27;) return
+        this.status = &#x27;rejected&#x27;
+        this.v = v
+
+        if (!this.firing &amp;&amp; this.isFail) {
+            for(let child_p of this.children_rejected){
+                child_p.fire(this.v, this.status)
+            }
+        }
+    }
+
+
+### fire 执行回调函数
+fire 负责:
+1. 执行then/catch 链式绑定的回调函数
+2. 将回调函数的返回值`child_v`, 传给次级的promise(`child_p`)
+3. 如果次级的promise 已经准备好了，就执行次级的fire: `child_p.fire()`
+
+实现：
+
+    /**
+     */
+    fire(v, status) {
+        this.firing = true
+        if(this.parent.isDone){
+            this.v= this.fnDone(v)
+        }else{
+            this.v = this.fnFail(v)
+        }
+        this.status = &#x27;resolved&#x27;
+        
+        //var children = this.isDone? this.children_resolved : this.root.children_rejected
+        for (let child_p of this.children_resolved) {
+            child_p.fire(this.v, this.status)
+        }
+
+        this.firing = false
+    }
+
+### eventLoop
+虽然js 的异步模型是基于eventLoop+callback 机制的，
+
+由于js 是单线程的，所以eventLoop 没有线程安全的问题啊,  不会导致变量冲突。
+
+    p = new Promise((resolve,reject)=&gt;
+        setTimeout(v=&gt;resolve(22),0)     // 只有当主线程空闲后才执行 event callback
+    )
+    log = v=&gt;console.log(v+1)
+    p.then(log);
+    for(i of Array(2000)){console.log(i)}; //这里耗时较长，会阻塞其他的event task
+
+### 最终的源代码
+[mypromise](https://github.com/ahuigo/js-lib/blob/master/es6/mypromise.js)</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/sec/security-web.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>security-web</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: security-web
+date: 2018-10-04
+updated: 2018-10-06
+---
+# Preface
+
+
+# click-jacking vulnerability
+
+## opacity
+
+	&lt;a href=&quot;http://example.com/attack.html&quot; style=&quot;display: block; z-index: 100000; opacity: 0.1; position: fixed; top: 0px; left: 0; width: 1000000px; height: 100000px; background-color: red;&quot;&gt; &lt;/a&gt;
+
+# CSP 白名单(XSS)
+W3C 的 Content Security Policy，简称 CSP，主要是用来定义页面可以加载哪些资源，减少 XSS 的发生
+
+    只允许本站资源
+    Content-Security-Policy: default-src &#x27;self&#x27;
+    只允许本站资源以及trusted.com
+    Content-Security-Policy: default-src &#x27;self&#x27; *.trusted.com
+    Content-Security-Policy： default-src ‘self’； img-src *；
+    script-src http://trustedscripts.example.com
+
+# SSRF 的防范
+通过 Server-Side Request Forgery(SSRF), 攻击者可以操作内部网络的资源. 比如sina url
+
+# iframe
+X-Frame-Options 这个安全头来防止 iframe 钓鱼。默认值为 SAMEORIGIN，只允许同域把本页面当作 iframe 嵌入。
+
+# CSRF
+Cross-site request forgery跨站请求伪造，也被称为“one click attack”或者session riding，
+
+Solutions:
+
+- check referer
+- one time token(一次性令牌)
+
+## token
+1. 通过cookie
+2. 通过url query/body
+3. Header: xhr.setRequestHeader(&#x27;x-csrf-token&#x27;, Cookies.get(&#x27;csrfToken&#x27;));
+
+egg-view-nunjucks 等 View 插件会自动对 Form 进行注入
+
+    &lt;form method=&quot;POST&quot; action=&quot;/upload?_csrf={{ ctx.csrf | safe }}&quot; enctype=&quot;multipart/form-data&quot;&gt;
+    // config/config.default.js
+    module.exports = {
+        security: {
+            csrf: {
+                queryName: &#x27;_csrf&#x27;, // 通过 query 传递 CSRF token 的默认字段为 _csrf
+                bodyName: &#x27;_csrf&#x27;, // 通过 body 传递 CSRF token 的默认字段为 _csrf
+            },
+        },
+    };
+
+## Referer
+
+### 为空
+利用ftp://,http://,https://,file://,javascript:,data:这个时候浏览器地址栏是file://开头的，如果这个HTML页面向任何http站点提交请求的话，这些请求的Referer都是空的。
+
+    &lt;iframe src=&quot;data:text/html;base64,PGZvcm0gbWV0aG9kPXBvc3QgYWN0aW9uPWh0dHA6Ly9hLmIuY29tL2Q+PGlucHV0IHR5cGU9dGV4dCBuYW1lPSdpZCcgdmFsdWU9JzEyMycvPjwvZm9ybT48c2NyaXB0PmRvY3VtZW50LmZvcm1zWzBdLnN1Ym1pdCgpOzwvc2NyaXB0Pg==&quot;&gt;
+
+利用https协议（https向http跳转的时候Referer为空）
+
+    &lt;iframe src=&quot;https://xxxxx.xxxxx/attack.php&quot;&gt;
+
+利用:
+    x.126.com.xxx.com
+
+## SameSite
+
+    Set-Cookie: sess=abc123; path=/; SameSite
+
+SameSite 分两种:
+1. SameSite=Strict  A站，直接点击facebook.com 没有cookie
+2. SameSite=Lax,  GET、HEAD、OPTIONS 和 TRACE 跨域带cookie, POST 跨域不带cookie
+
+
+# url 钓鱼
+由于是从可信的站点跳转出去的，用户会比较信任
+
+
+# app
+
+## 本地存储密钥
+
+比如某app 将手势密码存放到本地，并以md5 加密。我们可以通过彩虹表破解这个key
+
+## Active 保护
+根据android 的官方说明，如果acitity，默认没有声明export，其在声明了filter，该acitity将默认发布出去。
+
+	Intent qq = new Intent();
+	ComponentName com = new ComponentName(&quot;com.tencent.mobileqq&quot;, &quot;com.tencent.mobileqq.activity.ForwardRecentActivity&quot;);
+	qq.setComponent(com);
+	startActivity(qq);
+
+如果该activity只是qq内部使用，建议将sign级别的签名或者干脆就不要暴露出去，即添加android:exported=&quot;false&quot;
+
+- app内使用的私有Activity不应配置intent-filter，如果配置了intent-filter需设置exported属性为false。
+- 签名验证内部（in-house）app
+- 当Activity返回数据时候需注意目标Activity是否有泄露信息的风险
+- 验证目标Activity是否恶意app，以免受到intent欺骗，可用hash签名验证
+
+## 跨域和明文存储
+遵守同源策略
+
+# Session
+- 定期生成session
+- 检测ip
+- 二次令牌: 验证码，短信，动态口令
+
+# File System
+
+## File Inclusion, 文件包含
+不要以用户输入做文件名
+
+	$file = $_GET[&#x27;file&#x27;];
+
+限制文件打开范围
+
+	;open_basedir = /dir #限制php的访问路径
+
+## Dir Loop
+避免目录遍历, nginx 一般都打到index.php
+
+## File Upload, 文件上传
+
+# References
+http://wiki.open.qq.com/wiki/Web%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B%E5%8F%8A%E4%BF%AE%E5%A4%8D#1.2_XSS.E6.BC.8F.E6.B4.9E</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/algorithm/algo-young-tableau-topk.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>杨氏矩阵（Young Tableau）的topK 算法</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: 杨氏矩阵（Young Tableau）的topK 算法
+date: 2014-10-10
+updated: 2018-10-06
+---
+# 杨氏矩阵（Young Tableau）的topK
+sg上有一个[问题](http://segmentfault.com/q/1010000000715010):
+
+有两个长度都为n的有序递增数组A、 B, 它们的任意两个元素相加构成一个矩阵M(n, n), 求这个矩阵的前K 个最小数。
+这个矩阵属于杨氏矩阵（Young Tableau）.
+
+# 数据集定义
+&gt; 非常感谢 @brayden 的启发, 我将M(n*n)矩阵分为三个区域：
+
+- **已经遍历 &amp;&amp; 已经选择(结果集R)**
+- **已经遍历 &amp;&amp; 未选择(待选集S, 使用最小堆结构)**，
+- **未遍历(待遍历集U)**
+
+R的所有的元素不大于S, S所有的元素不大于R:
+
+- R &lt;= S &lt;= U
+
+# 操作
+
+1. 初始化，将(a0b0)放到S集（最小堆）,S 集为空
+2. 从S 集删除最小元素(即堆顶)，最小元素(ai,bi)放到R 结果集。(如果R足够K, 就结束)
+3. 从待遍历集U中: 将(ai,bi+1)放到S集中；如果bi=0, 还得把(ai+1, 0) 放到S集中.
+4. 回到步骤2 继续
+
+![](/img/topK-of-matrix-column-row-sorted.png)
+
+# 复杂度
+S集元素个数最多为min(K, n). 所以时间复杂度为`O(K*log(min(K, n)))`.
+
+S集需要的空间为`O(min(K,n))`, R集需要的空间`O(K)`, U集不需要空间。
+
+# 代码示例
+
+	#include &lt;stdio.h&gt;
+	#include &lt;stdlib.h&gt;
+	#include &lt;math.h&gt;
+	
+	struct heap{
+		int ai,bi;
+		int v;
+	};
+	int S_n= 0;
+	
+	void print_heap(struct heap *S){
+		int i=0,j=0;
+		int pad = (int)log2((float)S_n);
+		int k = 1;
+		printf(&quot;\n---- print S start --------\n&quot;);
+		while(i&lt;S_n){
+			for(j=0; j&lt;pad;j++){
+				printf(&quot;%8c&quot;, &#x27; &#x27;);
+			}
+			for(j = i+k; i&lt;j &amp;&amp; i&lt;S_n; i++){
+				printf(&quot;%-2d(%d,%d)\t\t&quot;, S[i].v, S[i].ai, S[i].bi);
+			}
+			printf(&quot;\n&quot;);
+			k *=2;
+			pad--;
+		}
+		printf(&quot;\n---- print S end --------\n&quot;);
+	}
+	void heap_swap(struct heap *a, struct heap *b){
+		struct heap t;
+		t=*a;
+		*a=*b;
+		*b=t;
+	}
+	
+	/**
+	 * 向下调整堆: O(logN)
+	 */
+	void min_heap_down(struct heap *S, int i){
+		int left,right;
+		while(2*i+1&lt;S_n){
+			int mini;
+			left = 2*i+1;
+			right = left+1;
+			mini = left;
+			if(right &lt; S_n &amp;&amp; S[right].v &lt; S[left].v){
+				mini = right;
+			}
+			if(S[mini].v &lt; S[i].v){
+				heap_swap(S+mini, S+i);
+				i = mini;
+			}else{
+				break;
+			}
+		}
+	}
+	/**
+	 * min_heap_insert: O(logN)
+	 */
+	void min_heap_insert(struct heap *S, int ai, int bi, int v){
+		int i,j,temp;
+		struct heap node = {ai, bi, v};
+		S[S_n] = node;
+		i = S_n;
+		while(i &gt; 0){
+			j = (i-1)/2;
+			if(S[j].v &gt; S[i].v){
+				heap_swap(S+i, S+j);
+			}else{
+				break;
+			}
+			i = j;
+		}	
+		S_n++;
+	}
+	
+	/**
+	 * min_heap_del: O(logN)
+	 */
+	void min_heap_del(struct heap *S, int i){
+		heap_swap(&amp;S[i], &amp;S[--S_n]);
+		min_heap_down(S, i);
+	}
+	
+	/**
+	 * topK of matrix[a , b]
+	 * 时间复杂度为: O(K * log(min(K,n)))
+	 */
+	int topK(int *a, int *b, int n, int K, int *R){
+		int k=0;
+		struct heap *S;
+		S = malloc( sizeof(struct heap) * (K&lt;n ? K :n));
+	
+		//用(a0, b0) 初始化S集
+		min_heap_insert(S, 0, 0, a[0]+b[0]);
+	
+		while(S_n &gt;0){
+			struct heap node = S[0];
+			min_heap_del(S, 0);
+			R[k] = node.v;
+			printf(&quot;Result: %d k=%d \n&quot;, node.v, k);
+	
+			if(++k &lt; K){
+				if(node.bi + 1 &lt; n){
+					min_heap_insert(S, node.ai, node.bi+1, a[node.ai] + b[node.bi+1]);
+				}
+				if(node.bi == 0 &amp;&amp; node.ai+1 &lt; n){
+					//这个点就是图中左下的粗体小S (node.ai+1, 0), 这个点之所以要加入S集，是为了保证S集小于U集。如果这个点留在U集，就不能保证S &lt;= R了。
+					min_heap_insert(S, node.ai+1, 0, a[node.ai+1] + b[0]);
+				}
+			}else{
+				break;
+			}
+			//print_heap(S);
+		};
+		free(S);
+		return k;
+	}
+	
+	#define N 3
+	int main(void) {
+		int a[N] = {2,4,5};
+		int b[N] = {1,2,6};
+		int n=N;
+		int K = 6;
+		int *R = malloc( sizeof(int) * K);
+		int k = topK(a, b, n, K, R);
+		return 0;
+	}
+	
+# 继续优化
+经 @brayden 的提醒, 图中S列的纵列，只需要一个元素(时间复杂度不变)。
+这需要增加一个数组(初始值-1, 大小为min(K, n))：arr[ai] = bi, 如果bi &gt;= 0, 代表 (ai,bi) 这个点及左边的点在R集，否则该行还没有元素加入到R集。	
+
+加入S的标准就变成了(这样纵列和横列就最多有一个元素加入到S集了)：
+
+- 选中元素的右边的点B，如果B上面的点属于R集，则B 点应该加入到S集.
+- 选中元素的下边的点A，如果A左边的点属于R集，则A 点应该加入到S集.
+
+代码可以优化为：
+
+	int topK(int *a, int *b, int n, int K, int *R){
+		int k=0;
+		struct heap *S;
+		S = malloc( sizeof(struct heap) * (K&lt;n ? K :n));
+	
+		//用(a0, b0) 初始化S集
+		min_heap_insert(S, 0, 0, a[0]+b[0]);
+
+		//heap_x[ai] = bi . ai 行属于R集的点中，最右边的点在(ai, bi)
+		int * heap_x = malloc( sizeof(int) * (K&lt;n ? K :n));
+		int i,j;
+		for(i=0, j=K&lt;n?K:n,; i&lt;j;i++){
+			heap_x[i] = -1;
+		}
+
+		struct heap node;
+		while(S_n &gt;0){
+			node = S[0];
+			min_heap_del(S, 0);
+			R[k] = node.v;
+			printf(&quot;Result: %d k=%d \n&quot;, node.v, k);
+	
+			heap_x[node.ai] = node.bi;
+			if(++k &lt; K){
+				if(node.bi + 1 &lt; n &amp;&amp; (node.ai ==0 || node.bi+1 &lt;= heap_x[node.ai-1])){
+					min_heap_insert(S, node.ai, node.bi+1, a[node.ai] + b[node.bi+1]);
+				}
+				if(node.ai+1 &lt; n &amp;&amp; (node.bi == 0 || node.bi-1 == heap_x[node.ai+1])){
+					min_heap_insert(S, node.ai+1, node.bi, a[node.ai+1] + b[node.bi]);
+				}
+			}else{
+				break;
+			}
+			//print_heap(S);
+		};
+		free(S);
+		free(heap_x);
+		return k;
+	}
+
+# 推广
+- 如果是M(n,n,n) 三维矩阵呢？那么复杂度为`O(K*log(min(K,n))^2)`, 如果 `K&lt;n` 那么时间复杂度为`O(K*log(K)^2)`
+- 如果是M(m,n,o) 矩阵呢？那么复杂度为`O(K*log(min(K,m) * min(K,n) * min(K, o)/ max(K,m,n,o)))`
+</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

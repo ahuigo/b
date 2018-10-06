@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/mac/android-adb.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>Install ADB on Mac OSX</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: Install ADB on Mac OSX
+date: 2018-10-06
+updated: 2018-10-06
+---
+# Install android sdk Manager
+	$ brew cask install android-sdk
+    &#x27;export ANDROID_SDK_ROOT=&quot;/usr/local/share/android-sdk&quot;&#x27;
+    android-sdk requires Java 8. You can install it with
+        brew cask install caskroom/versions/java8
+    -------------
+	==&gt; Caveats
+	Now run the `android&#x27; tool to install the actual SDK stuff.
+	&quot; Bash completion has been installed to:
+
+	  /usr/local/etc/bash_completion.d
+
+## Install 
+执行android 选择sdk：
+
+	$ android
+
+如果你只是想操作android手机或者刷机用，只需要勾选Platform-tools和Tools (这是ADT必须的)。
+完成后就可以使用 adb（Android Debug Bridge）命令来调试手机了，输入： adb version 出现版本结果就大功告成。
+
+# adb + fastboot
+android debug bridge
+ADB是android sdk里的一个工具, 用这个工具可以直接操作管理android模拟器或者真实的andriod设备. 它的主要功能有:
+
+    运行设备的shell(命令行)
+    管理模拟器或设备的端口映射
+    计算机和设备之间上传/下载文件
+    将本地apk软件安装至模拟器或android设备
+
+## download adb and fastboot(platform-tools)
+https://developer.android.com/studio/releases/platform-tools#download
+
+
+## set phone debug mode
+1. Tap the About Phone option 
+2. Then tap the Build Number option 7 times to enable Developer Mode. 
+3. enable the USB Debugging mode option.
+
+## 查看adb 设备
+	$ adb devices #在手机上点authorized this device
+	* daemon not running. starting it now on port 5037 *
+	* daemon started successfully *
+	List of devices attached
+	034e5ae9828df5d1	unauthorized
+
+## adb 常用命令
+https://lifehacker.com/the-most-useful-things-you-can-do-with-adb-and-fastboot-1590337225
+
+	$ adb shell # 交互
+	$ adb shell [command]
+
+    Copy files to phone
+    $ adb push [source] [destination]
+	$ adb push ~/file /sdcard/file
+
+    Copy files from your phone to your computer.
+	$ adb pull /sdcard/file
+
+    adb install [source.apk]
+
+reboot:
+
+    adb reboot bootloader
+    adb reboot recovery
+
+### backup
+adb backup 
+Function: Create a full backup of your phone and save to the computer.
+
+adb restore restorefile.zip
+Function: Restore a backup to your phone.
+
+### ROM
+adb sideload
+Function: Push and flash custom ROMs and zips from your computer.
+
+## fastboot
+adb 不能访问bootloader 区，fastboot可以：
+
+    fastboot oem unlock
+    Function: Unlock your bootloader, making root access possible.
+    fastboot oem lock
+
+    fastboot devices
+    Function: Check connection and get basic information about devices connected to the computer.
+    This is essentially the same command as adb devices from earlier. However, it works in the bootloader, which ADB does not
+
+    fastboot flash recovery
+    Function: Flash a custom recovery image to your phone.
+
+
+
+# 刷机
+hammerhead D820(H) 16G
+HW Version rev_11
+Bootloader version: HHZ12h
+BASEBAND VERSION: M8974A-2.0.50.2.26
+SECURE BOOT: enabled
+Lock state: unlocked (原来是locked)
+
+1. platfrom sdk: adb+fastboot 
+    0. PATH=$PATH:~/Download/n5/platform-tools
+    1. adb devices
+2. n5 connect to mac osx: set debug mode
+3. install:
+    5. adb reboot bootloader
+    2. Fastboot OEM unlock
+    3. install rom:
+        1. via twrap recovery
+            0. http://www.androiddevs.net/downloads/
+            1. Inside TWRP -&gt; Press wipe -&gt; advance wipe -&gt; enable cache, Dalvik cache, data, and system. 
+            2. Tap on install and choose the downloaded ROM package 
+            2. Now install Gapps (based on Android Nougat)
+        2. via fastboot: 
+            1. 到官网（http://developer.android.com/preview/setup-sdk.html）下载Android ROM file L/M/N/O整包，并解压。
+            3. cd unzip_rom_dir &amp;&amp; sh flash-all.sh 
+        3. 其他方法： https://www.jianshu.com/p/e5e9ef0eec4b
+
+## install twrp recovery
+https://dl.twrp.me/hammerhead/
+
+    fastboot flash recovery twrp-2.8.x.x-xxx.img
+
+
+# software
+## fastboot
+Fastboot 类似BIOS 固件。
+1. fastboot可以将电脑上的recovery镜像（非手机上），加载到手机。
+2. 不需要依赖于recovery，甚至linux底层刷坏了recovery模式
+3. astboot模式其实是调用spl进行刷机的，所以如果刷spl坏了就变砖了
+4. fastboot方法需要电脑上有fastboot程序，同时手机要进入fastboot模式才可以操作
+
+另外
+1. Recovery - wipe data/partition tool
+1. Bootloader 更为原始的BIOS，然后选择进入fastboot还是recovery/rom
+
+
+# java sdk
+/Library/Java/Home/lib/
+
+# Reference
+- [adb on Mac][] 
+- [android on mac]
+
+[adb on Mac]: http://www.izhangheng.com/mac-os-x-homebrew-install-android-sdk/
+[android on mac]: http://forum.xda-developers.com/showthread.php?t=1917237
+
+
+# root
+http://www.androidrootz.com/2013/11/nexus-5-one-click-toolkit-for-mac.html
+</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/ria/js-str.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>Js 字符串大全</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: Js 字符串大全
+date: 2015-03-15
+updated: 2018-10-06
+---
+# Js 字符串大全
+字符定义与python 一样, 而且不区分双引号：
+
+    &#x27;\x00&#x27; == &#x27;\u0000&#x27;
+	&#x27;\x31&#x27; == &quot;\x31&quot;
+
+	&#x27;好&#x27; === &#x27;\u597D&#x27; // true
+	&#x27;好&#x27; === &#x27;\u{597D}&#x27; // true (js only)
+
+Note: &#x27;\x87&#x27; 并不是单字节字符！它其实表示的是双位uicode(所以是合法的)
+
+    &#x27;\u0087&#x27; == b&#x27;\xc2\x87&#x27;.decode()
+        &#x27;\x87&#x27; == bytes([0xc2,0x87]).decode() == chr(0x87)
+        &#x27;\x87&#x27; === Buffer.from([0xc2,0x87]).toString() === String.fromCharCode(0x87)
+
+## es6 string
+支持backquote 多行(es6):
+
+	`multiple
+	line`
+
+    # 可能适合用于复杂的正则
+    String.raw`\a` === `\\a`
+
+### charcode(unicode)
+length/slice/substr/都是基于字符的
+
+	&#x27;中&#x27;.charAt(0) str[pos=0]
+        &#x27;中&#x27;
+	&#x27;中&#x27;.charCodeAt(pos) //返回unicode 十进制表示
+        30475
+	String.fromCharCode(97,98)
+
+但是js 对四字节utf8 的unicode 支持不好
+
+    // same as ES5.1
+    &quot;𠮷&quot;.length == 2
+
+    // new RegExp behaviour, opt-in ‘u’
+    &quot;𠮷&quot;.match(/./u)[0].length == 2
+
+    // new form
+    &quot;\u{20BB7}&quot; == &quot;𠮷&quot; == &quot;\uD842\uDFB7&quot;
+
+    // new String ops
+    &quot;𠮷&quot;.codePointAt(0) == 0x20BB7
+
+    // for-of iterates code points
+    for(var c of &quot;𠮷&quot;) {
+        console.log(c);
+    }
+
+### 模板字符
+
+	name=&#x27;ahui&#x27;
+	`Hello, ${name}`
+
+### buffer
+see py-str-struct: like bytes
+
+string:
+
+    // Buffer -&gt; String: text = buf+&#x27;&#x27;
+    var text = buf.toString(&#x27;utf-8&#x27;);  
+    // String -&gt; Buffer
+    var buf = Buffer.from(text, &#x27;utf-8&#x27;);
+
+base64
+
+    Buffer.from(&#x27;a&#x27;)
+    Buffer.from(&#x27;YQ==&#x27;, &#x27;base64&#x27;)
+    Buffer.from(&#x27;a&#x27;).toString(&#x27;base64&#x27;)
+
+    ### base64(chrome)
+	btoa(str)
+	atob(str)
+
+hex:
+
+    &gt; Buffer.from(&#x27;ab&#x27;).toString(&#x27;hex&#x27;)
+    &#x27;6162&#x27;
+    &gt; Buffer.from(&#x27;6162&#x27;, &#x27;hex&#x27;)
+
+array:
+
+    var buffer = Buffer.from([1,2,3])
+    arr = [...buffer]
+
+    &gt; Buffer.from(Array(5))
+    &lt;Buffer 00 00 00 00 00&gt;
+    &gt; Buffer.from([...Array(5).keys()])
+
+repeat(alloc)
+
+    &gt; Buffer.alloc(5,&#x27;\x01\x02&#x27;);
+    &lt;Buffer 01 02 01 02 01&gt;
+    &gt; Buffer.alloc(5, &#x27;str&#x27;);
+
+    &gt; Buffer.alloc(5, Buffer.from([1,2]))
+    &lt;Buffer 01 02 01 02 01&gt;
+
+    &gt; Buffer.alloc(5, 15)
+    &lt;Buffer 0f 0f 0f 0f 0f&gt;
+
+## pad+repeat
+
+    (&#x27;0&#x27;+6).slice(-2)
+    &#x27;6&#x27;.padStart(3)             //&#x27;006&#x27;
+    &#x27;Vue&#x27;.padStart(10)          //&#x27;       Vue&#x27;
+    &#x27;Vue&#x27;.padStart(10, &#x27;_*&#x27;)    //&#x27;_*_*_*_Vue&#x27;
+    &#x27;Vue&#x27;.padEnd(10, &#x27;_*&#x27;)      //&#x27;Vue_*_*_*_&#x27;
+
+    &#x27;abc&#x27;.repeat(2);    // &#x27;abcabc&#x27;
+
+    [...Array(2)].map(()=&gt;&#x27;value&#x27;); //[&#x27;value&#x27;, &#x27;value&#x27;]
+
+## 字符串是不可变的
+    var s = &#x27;Test&#x27;;
+    s[0] = &#x27;X&#x27;;
+    alert(s); // s仍然为&#x27;Test&#x27;
+
+## function
+
+	#搜索
+	.indexOf(sub_string)
+	.lastIndexOf(sub_str)
+	#compare
+	.localeCompare(str) //return 1 0 -1
+	#截取(只用slice)
+	.slice(start, [end]) //start, end可为负, py: str[slice]
+	.substr(start,[length])//start可为负
+    .substring(start, [end]) //不可为负
+
+### startsWith
+endsWith
+
+###	case
+
+	.toLowerCase() / .toUpperCase()
+    //p:first-letter { text-transform:capitalize; }
+    String.prototype.capitalize = function() {
+        return this.charAt(0).toUpperCase() + this.slice(1);
+    }
+
+### isNumber
+
+    isNaN(s) // check +s
+    s.match(/^-?\d+$/)
+
+### .trim()
+trim space only
+
+	&#x27; a &#x27;.trim()
+
+replace strip
+
+    &#x27;#adf#&#x27;.replace(/^#+|#+$/g,&#x27;&#x27;)
+
+### for
+
+	for(var i=0; i &lt; str.length; i++ ){
+		str[i];
+	}
+
+### split
+支持regexp
+
+	stringObject.split(separator,[maxSize]);
+	&#x27;1,2,3,4,5&#x27;.split(&#x27;,&#x27;, 3);//[1,2,3]
+        python: &#x27;1,2,3,4,5&#x27;.split(&#x27;,&#x27;, 2); //[1,2,3]
+	&#x27;12345&#x27;.split(&#x27;&#x27;, 3);//[1,2,3]
+	&#x27;1,2,3,4,5&#x27;.split(/,/);//[1,2,3,4,5]
+
+### font
+
+	str.link(url)
+	str.bold()
+	str.sup() 上标
+	str.sub() 下标 //&quot;&lt;sub&gt;str&lt;/sub&gt;&quot;
+	str.small() 小字号
+	str.big()
+	str.fontcolor(&#x27;red&#x27;) &quot;&lt;font color=&quot;red&quot;&gt;s&lt;/font&gt;&quot;
+	&#x27;s&#x27;.fontsize(&#x27;1px&#x27;)
+
+### map,reduce
+
+    &#x27;12345&#x27;.split(&#x27;&#x27;, 3).map()
+
+### Match
+
+	//return 存放匹配结果的数组
+	stringObject.match(searchvalue)
+
+	stringObject.match(regexp)
+	matches = &quot;1 2 3 &quot;.match(/\d+/g); //[1,2,3]
+	&quot;1 2 3&quot;.match(/(\d) s/g); //return null
+
+#### match group
+
+	//如果regexp没有g, 则会匹配子模式
+    &quot;first 1 second 1&quot;.match(/(\w+) 1/);  [ &#x27;first 1&#x27;, &#x27;first&#x27;, index: 0, input: &#x27;first 1 second 1&#x27;]
+        matches.index //0 相当于indexOf返回的位置
+
+    &quot;first 1 second 1&quot;.match(/(\w+) 1/g); // [ &#x27;first 1&#x27;, &#x27;second 1&#x27; ]
+
+&gt; 如果需要同时支持regExp global 及 子表达式, 请使用RegExp.prototype.exec
+&gt; match 成功后，`RegExp.$1~$9` 代表子组，`RegExp.$0` 不存在
+
+### search
+返回字符位置, 不支持regexp global; 这个像indexOf()
+
+	str.search(&#x27;string&#x27;) equal to str.indexOf(&#x27;string&#x27;); //返回字符位置
+	str.search(/Hilo/i);
+
+### replace
+支持regexp global.
+
+	str = stringObject.replace(substr,replacement); //once
+	str = stringObject.replace(/substr/g,replacement); //all
+
+	str = stringObject.replace(regexp/substr,replacement)
+	replacement:
+		string:
+			字符	替换文本
+			$1、$2、...、$99	与 regexp 中的第 1 到第 99 个子表达式相匹配的文本。
+			$&amp;	与 regexp 相匹配的子串。
+			$`	位于匹配子串左侧的文本。
+			$&#x27;	位于匹配子串右侧的文本。
+			$$	$转义
+		function:
+			function(mathStr, first, second, ...){return replace;}
+
+eg:
+
+	//reference
+	&#x27;funing smoking &#x27;.replace(/(\w+)ing/g, &#x27;$1&#x27;);// &quot;fun smok &quot;
+	//func
+	card = &#x27;[card]google[/card]http://g.cn&#x27;; // to &quot;&lt;a href=&quot;http://g.cn&quot;&gt;google&lt;/a&gt;&quot;
+	card.replace(/\[card\](\w+)\[\/card\]([\w:\/.]+)/,function(ori,card,url){
+		return &#x27;&lt;a href=&quot;&#x27;+url+&#x27;&quot;&gt;&#x27;+card+&#x27;&lt;/a&gt;&#x27;;
+	})
+
+## RegExp
+Create RegExp：test, exec
+
+	/pattern/attributes
+	/str/igm
+	new RegExp(&#x27;pattern&#x27;, &#x27;attributes&#x27;);
+	new RegExp(&quot;str&quot;,&#x27;igm&#x27;)
+	new RegExp(&quot;^str$&quot;,&#x27;igm&#x27;)
+	new RegExp(&quot;(^|&amp;)str$&quot;,&#x27;igm&#x27;)
+
+
+	/\u1321/.test(&#x27;\u1321&#x27;);//true
+	/\x31/u.test(&#x27;\x31&#x27;);//true
+
+### zero-width 断言
+正向断言，假定该位置后跟的是X
+
+	(?&lt;=X)	zero-width positive lookbehind
+	(?=X)	zero-width positive lookahead
+
+	(?&lt;!X)	zero-width negative lookbehind&gt;
+	(?!X)	zero-width negative lookahead
+
+    &gt; &#x27;my pre-word&#x27;.match(/my.*(?&lt;!pre-)word/)
+    null
+    &gt; &#x27;my pre1-word&#x27;.match(/my.*(?&lt;!pre-)word/)
+    my pre1-word
+
+### $,^
+不会成功
+
+    /($end)/
+    /(head^)/
+
+
+### test
+
+	test	检索字符串中指定的值。返回 true 或 false。
+	str=&#x27; 1 2 3&#x27;;
+	r=/\d/igm;
+	while(r.test(str) === true){
+		console.log(r.lastIndex);//2 4 6 下次要匹配的字符串起始位置
+	}
+
+### comile
+
+	r.compile(/\d/); //改变正则表达式
+
+### exec 
+like python findall/finditer(返回分组)
+
+	str=&#x27; 1ing 2ing 3ing&#x27;;
+	r=/\d(ing)/igm;
+	while((match = r.exec(str)) !== null){
+		console.log(match,r.lastIndex);
+		//第1次输出 [&quot;1ing&quot;, &quot;ing&quot;, index: 1, input: &quot; 1ing 2ing 3ing&quot;] 5
+		//第2次输出 [&quot;2ing&quot;, &quot;ing&quot;, index: 6, input: &quot; 1ing 2ing 3ing&quot;] 10
+		//第3次输出 [&quot;3ing&quot;, &quot;ing&quot;, index: 11, input: &quot; 1ing 2ing 3ing&quot;] 15
+	}
+
+## html转码:
+URI:
+
+	encodeURI()	把字符串编码为 URI。
+		encodeURI(&quot;http://a.cn/b?=&#x27;1&#x27;#\&quot;|看&quot;); //转码所有非URI字符转码: &#x27;|&quot; Ò&#x27; 等等
+			&#x27;http://a.cn/b?=\&#x27;1\&#x27;#%22%7C%E7%9C%8B&#x27;
+	encodeURIComponent()	把字符串编码为 URI 组件(utf8)。(所有URI特殊字符 将被转码)
+		encodeURIComponent(&quot;看&quot;);
+			&#x27;%E7%9C%8B&#x27;
+        decodeURIComponent
+
+unicode:
+
+	escape()	对字符串进行编码(unicode)。Don&#x27;t use it, as it has been deprecated since ECMAScript v3.
+		escape(&quot;看 &quot;);
+			&#x27;%u770B%20&#x27;
+        unescape(&#x27;%20&#x27;);
+	str.replace(/&#x27;/g, &quot;\\&#x27;&quot;);//addslashes
+	eval()	计算 JavaScript 字符串，并把它作为脚本代码来执行。
+
+htmlentities:
+
+	function htmlEntities(str) {
+		return String(str).replace(/&amp;/g, &#x27;&amp;amp;&#x27;).replace(/&lt;/g, &#x27;&amp;lt;&#x27;).replace(/&gt;/g, &#x27;&amp;gt;&#x27;).replace(/&quot;/g, &#x27;&amp;quot;&#x27;);
+    }
+	// via html dom
+		div.innerText=div.innerHTML
+		entities=div.innerHTML
+
+## math
+
+    &#x27;11&#x27;*&#x27;33&#x27; //363
+
+### hex2str &amp; str2hex
+
+	function str2hex(str) {
+		var hex = &#x27;&#x27;;
+		for(var i=0;i&lt;str.length;i++) {
+			hex += (&#x27;0&#x27;+str.charCodeAt(i).toString(16)).substr(-2);
+		}
+		return hex;
+	}
+	function hex2str(hex) {
+		var str = &#x27;&#x27;;
+		for (var i = 0; i &lt; hex.length; i += 2)
+			str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+		return str;
+	}</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

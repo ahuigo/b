@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/py/py-var.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>python 变量笔记</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: python 变量笔记
+date: 20180303
+updated: 2018-10-06
+---
+# const
+
+	from inspect import currentframe, getframeinfo
+	__name__ == &#x27;__main__&#x27;; # module name
+		在模块 “foo.bar.my_module” 中调用 logger.getLogger(__name__) 等价于调用logger.getLogger(“foo.bar.my_module”)
+	__file__ == &#x27;path_to_current_file&#x27;
+	frameinfo = getframeinfo(currentframe())
+	print frameinfo.filename, frameinfo.lineno
+
+# variable
+To check the existence of a local variable:
+
+	if &#x27;myVar&#x27; in locals(): 函数内部定义的
+	  # myVar exists.
+
+To check the existence of a global variable:
+
+	if &#x27;myVar&#x27; in globals():
+	  # myVar exists.
+
+calling a func by name
+
+    getattr(foo, &#x27;func&#x27;)()
+    locals()[&quot;func&quot;]()
+    globals()[&quot;func&quot;]()
+
+## equal
+判断两个变量是否相等（值相同）使用==， 而判断两个变量是否指向同一个对象使用 is。
+
+    &gt;&gt;&gt; a1, a2 = [], []
+    &gt;&gt;&gt; a1 == a2
+    True
+    &gt;&gt;&gt; a1 is a2
+    False
+
+### is
+is 比较的是id
+
+    &gt;&gt;&gt; &#x27;a&#x27;[:]+&#x27;b&#x27; == &#x27;ab&#x27;
+    True
+    &gt;&gt;&gt; &#x27;a&#x27;[:]+&#x27;b&#x27; is &#x27;ab&#x27;
+    False
+    &gt;&gt;&gt; id(&#x27;a&#x27;[:]+&#x27;b&#x27;) == id(&#x27;ab&#x27;)
+    False
+
+## reference
+不同于string/number 之外，list, tuple, dict 都是引用型的，无论是赋值，还是func 传值, 还是线程`threading.Thread(target=run_thread, args=(list,))`
+
+    def f(d):
+        d[1]=1
+    d={}
+    f(d)
+    print(d) # {1:1}
+
+## copy
+string,bytes,int 都是不可变值类型
+
+    &gt;&gt;&gt; a=&#x27;&#x27;; b=a; b=&#x27;&#x27;
+    &gt;&gt;&gt; id(a),id(b)
+    (80080, 80080)
+    &gt;&gt;&gt; a=&#x27;&#x27;; b=a; b=&#x27;a&#x27;
+    &gt;&gt;&gt; id(a),id(b)
+    (18780080, 20291280)
+
+complex data : list,set,是引用型，tuple 是不可变引用型(从这个意义上说，tuple 相当于值类型)
+
+    &gt;&gt;&gt; a=1,; b=a; b=2,
+    &gt;&gt;&gt; a,b
+    ((1,), (2,))
+    &gt;&gt;&gt; id(a),id(b)
+    (4321539240, 4321598824)
+
+copy list:
+
+    L_copy = L[:]
+    id(L_copy)!=id(L)
+
+    list.copy()
+    dict.copy()
+
+deepcopy:
+
+    from copy import deepcopy
+    myCopy = deepcopy(myDict)
+
+## sequence unpacking assign(解包赋值)
+
+    &gt;&gt;&gt; person = (&#x27;Bob&#x27;, 20, 50, (11, 20, 2000))
+    &gt;&gt;&gt; name, *_, (*_, year) = person
+    &gt;&gt;&gt; name
+    &#x27;Bob&#x27;
+    &gt;&gt;&gt; year
+    2000
+
+Divide a dictionary into variables
+
+    // 有可能是无序的! warn
+    (_, a),(_,b) = {&#x27;a&#x27;:1, &#x27;b&#x27;:2}.items()
+
+# Data Type
+数据类型
+
+- String
+- List( Array)
+- None
+
+Example
+
+	type(range(1)) is list
+	type(9.0) is float
+
+Convert data type:
+
+	int(&#x27;07&#x27;)
+	float(9)
+	str(9)
+
+## type
+
+	&gt;&gt;&gt; type(fn)==types.FunctionType
+	True
+	&gt;&gt;&gt; type(className); types.type
+	&gt;&gt;&gt; type(obj); class className
+	&gt;&gt;&gt; type(abs)==types.BuiltinFunctionType
+	True
+	&gt;&gt;&gt; type(lambda x: x)==types.LambdaType
+	True
+	&gt;&gt;&gt; type((x for x in range(10)))==types.GeneratorType
+	True
+
+## isinstance
+可用来判断数据类型
+
+	isinstance(&#x27;abc&#x27;, str); # True
+	isinstance(b&#x27;abc&#x27;, bytes); # True
+	isinstance(1, int); # True
+	isinstance(1, (int, str)); # True
+	isinstance(&#x27;abc&#x27;, Iterable); # True
+	isinstance([1, 2, 3], (list, tuple))
+
+	&gt;&gt;&gt; isinstance(1, int)
+	True
+	&gt;&gt;&gt; isinstance(1, type)
+	False
+
+判断子类:
+
+	issubclass(obj.__class__, (list, tuple))
+	issubclass(list, (list, tuple)); # true
+
+# boolean
+False
+
+    {} or [1]: [1]
+    [1] or {2}: [1]
+    [1] and {2}: {2}
+    [1] and None: None
+	if {} or None or []: print([])
+
+True
+
+	if not {}
+
+
+# set
+set和dict类似，也是一组key的集合，但不存储value。由于key不能重复，所以，在set中，没有重复的key。
+
+	myset = {&#x27;x&#x27;, 1, &#x27;y&#x27;, 2, 2,100}
+	&gt;&gt;&gt; x = set(&#x27;ssppaamm&#x27;)
+	&gt;&gt;&gt; y = set([&#x27;s&#x27;,&#x27;p&#x27;,&#x27;a&#x27;,&#x27;m&#x27;])
+    {&#x27;s&#x27;, &#x27;a&#x27;, &#x27;m&#x27;, &#x27;p&#x27;}
+	&gt;&gt;&gt; x, y
+	(set([&#x27;a&#x27;, &#x27;p&#x27;, &#x27;s&#x27;, &#x27;m&#x27;]), set([&#x27;a&#x27;, &#x27;p&#x27;, &#x27;s&#x27;,&#x27;m&#x27;]))
+
+set 只能存不可变hashable: 字符串、数字、bytes
+
+    &gt;&gt;&gt; set([1,2,3,[1]])
+    TypeError: unhashable type: &#x27;list
+    &gt;&gt;&gt; a = &#x27;abc&#x27;
+
+set 是无序的
+
+## set 元素
+会改变s本身，返回None
+
+	s.add(item);
+	s.update([x1,x2]); union a set
+
+通过remove(key)方法可以删除元素：
+
+	&gt;&gt;&gt; if 4 in s: s.remove(4)
+	{1, 2, 3}
+
+set和dict的唯一区别仅在于没有存储对应的value，但是，set的原理和dict一样
+
+## issubset(t)
+
+	s.issubset(t)
+	s &lt;= t
+	测试是否 s 中的每一个元素都在 t 中
+
+	s.issuperset(t)
+	s &gt;= t
+	测试是否 t 中的每一个元素都在 s 中
+
+## operate set
+
+	s.union(t)
+	s | t
+
+	s.intersection(t)
+	s &amp; t
+
+	s.difference(t)
+	s - t
+
+	s.symmetric_difference(t)
+	s ^ t 返回一个新的 set 包含 s 和 t 中不重复的元素
+
+	s.copy() 返回 set “s”的一个浅复制
+
+### multi operator
+
+	s.update(t); 返回None,改变s
+	s |= t
+	返回增加了 set “t”中元素后的 set “s”
+
+	s.intersection_update(t)
+	s &amp;= t
+	....
+
+## loop set
+
+	if x in set
+	for x in set
+	len(set)
+
+## frozenset
+frozenset() 返回一个冻结的不可变集合
+
+    foo = frozenset([1,2,3,4])
+
+# Enum(__members__)
+默认从1开始计数。
+
+	&gt;&gt;&gt; from enum import Enum
+	&gt;&gt;&gt; Month = Enum(&#x27;Month&#x27;, (&#x27;Jan&#x27;, &#x27;Feb&#x27;, &#x27;Mar&#x27;, &#x27;Apr&#x27;, &#x27;May&#x27;, &#x27;Jun&#x27;, &#x27;Jul&#x27;, &#x27;Aug&#x27;, &#x27;Sep&#x27;, &#x27;Oct&#x27;, &#x27;Nov&#x27;, &#x27;Dec&#x27;))
+	&gt;&gt;&gt; for name, member in Month.__members__.items():
+	...      print(name, &#x27;=&gt;&#x27;, member, &#x27;,&#x27;, member.value)
+	...
+	Jan =&gt; Month.Jan , 1
+	Feb =&gt; Month.Feb , 2
+
+如果需要更精确地控制枚举类型，可以从Enum派生出自定义类：
+@unique装饰器可以帮助我们检查保证没有重复值。
+```
+from enum import Enum, unique
+
+@unique
+class Weekday(Enum):
+	Sun = 0 # Sun的value被设定为0
+	Mon = 1
+	Tue = 2
+```
+
+多种访问方法：
+
+    &gt;&gt;&gt; Weekday.Mon == 1
+    False
+	&gt;&gt;&gt; day1 = Weekday.Mon
+	&gt;&gt;&gt; print(day1)
+	Weekday.Mon
+	&gt;&gt;&gt; print(Weekday.Tue)
+	Weekday.Tue
+	&gt;&gt;&gt; print(Weekday[&#x27;Tue&#x27;])
+	Weekday.Tue
+	&gt;&gt;&gt; print(Weekday.Tue.value)
+	2
+	&gt;&gt;&gt; print(Weekday(1))
+	Weekday.Mon
+</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

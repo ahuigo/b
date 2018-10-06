@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/c/c-debug.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>c debug</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: c debug
+date: 2018-10-06
+updated: 2018-10-06
+---
+# Preface
+
+- First, let excute file records Source file a.c via gcc parameter &quot;-g&quot;
+
+	gcc -g a.c
+
+- Second, start gdb
+
+	gdb a.out
+
+- Set breakpoint
+
+	gdb&gt; b 9
+
+- Run program
+
+	gdb&gt; run
+
+# gdb &amp; lldb
+&gt; On mac , gdb has been replaced by lldb. [lldb vs gdb](http://lldb.llvm.org/lldb-gdb.html)
+
+## EXECUTION COMMANDS
+
+### launch
+
+#### launch with args
+
+	% gdb --args a.out 1 2 3
+	% lldb -- a.out 1 2 3
+
+or
+
+	gdb&gt; set args 1 2 3
+	lldb&gt; settings set target.run-args 1 2 3
+
+* set env
+
+	gdb&gt; set env DEBUG 1
+	(lldb) env DEBUG=1
+	(lldb) set se target.env-vars DEBUG=1
+	(lldb) settings set target.env-vars DEBUG=1
+
+* unset env
+
+	gdb&gt; unset env DEBUG
+	(lldb) settings remove target.env-vars DEBUG
+	(lldb) set rem target.env-vars DEBUG
+
+* show args
+
+	gdb&gt; show args
+	lldb&gt; settings show target.run-args
+
+* set env and run
+
+	lldb&gt;  process launch -v DEBUG=1
+
+## process
+
+### pid  Attach to a process with pid 123
+
+	gdb&gt; attach 123
+	(lldb) process attach --pid 123
+	(lldb) attach -p 123
+
+### pname Attach to a process named &quot;a.out&quot;
+	gdb&gt; attach a.out
+	(lldb) process attach --name a.out
+	(lldb) pro at -n a.out
+
+### Attach to a remote gdb protocol server running on system &quot;eorgadd&quot;, port 8000.
+	(gdb) target remote eorgadd:8000
+	(lldb) gdb-remote eorgadd:8000
+
+### Attach to a remote gdb protocol server running on the local system, port 8000.
+	(gdb) target remote localhost:8000
+	(lldb) gdb-remote 8000
+
+### Attach to a Darwin kernel in kdp mode on system &quot;eorgadd&quot;.
+	(gdb) kdp-reattach eorgadd	(lldb) kdp-remote eorgadd
+
+## info &amp; image
+
+### info symbol
+Look up information for a raw address in the executable or any shared libraries.
+
+	gdb &gt;  info symbol 0x1ec4
+	gdb &gt;  info symbol func
+	lldb &gt; image lookup --address 0x1ec4
+	lldb &gt; im loo -a 0x1ec4
+
+## list source code
+
+	# list source code from line 1
+	gdb&gt; list 1
+	# list next 10 line of Source code
+	gdb&gt; list &lt;or&gt; &lt;enter&gt;
+	gdb&gt; list main
+
+&gt; `list` is usually  abbrevited to `l`
+
+## step
+
+	# step in( source level)
+	&gt; s &lt;or&gt; step
+	# step over( source level)
+	&gt; n &lt;or&gt; &lt;enter&gt;
+	# step in ( instruction level )
+	&gt; si
+	# step over ( instruction level )
+	&gt; ni
+	# Step out of the currently selected frame.
+	&gt; finish or fin
+
+### Watchpoint
+
+	# watch var when it is written to
+	gdb&gt; watch var
+	lldb&gt; watch set variable var
+	lldb&gt; wa s v var
+
+	# delete
+	watch del 1
+	wa l
+
+### breakpoint(stop)
+
+	#break on line 9
+	b 9
+	# break on func main
+	b main
+	# on file
+	b a.c:12
+	# continue excute instead of step excute
+	c
+	# list
+	gdb&gt; i break
+	lldb&gt; breakpoint list
+	lldb&gt; br l
+	lldb&gt; b
+	# delete
+	gdb&gt; delete 1
+	lldb&gt; br del 1
+
+#### condition
+
+	gdb&gt; break foo if sum != 0
+	(lldb) breakpoint set --name foo --condition &#x27;(int)sum != 0&#x27;
+	(lldb) br s -n foo -c &#x27;(int) sum != 0&#x27;
+	(lldb) b foo -c &#x27;(int) sum != 0&#x27;
+
+### stop-hook
+
+#### display var when stop
+	gdb lldb &gt; display var
+	lldb &gt;
+		target stop-hook add -o &quot;fr v var&quot;
+		ta st a -o &quot;fr v var&quot;
+	&gt; undisplay
+
+#### display var when func main stop
+
+	lldb &gt; ta st a -n main -o &quot;fr v var&quot;
+
+### backtrace
+View call stack:
+
+	(gdb lldb) bt
+	#0 add_range (low=1, high=10) at main.c:6
+	#1 0x080483c1 in main () at main.c:14
+
+There are 2 frames: 0, 1.
+
+## Variable
+gdb 参数：
+
+	x/7db
+	x/7w
+	f, the display format
+		`print`
+		`s&#x27; (null-terminated string), or
+		`i&#x27; (machine instruction).
+		`x&#x27; (hexadecimal) initially.
+		`d` decimal
+	u, the unit size
+		7 size 7
+		b Bytes.
+		h Halfwords (two bytes).
+		w Words (four bytes). This is the initial default.
+		g Giant words (eight bytes).
+
+其中, lldb 参数 :
+
+	-f format
+		x hex(default)
+		d decimal
+		b binary
+
+### show register
+
+	gdb&gt; p $rsp
+
+#### 寄存器间接寻址
+
+	# via register($) 20bytes
+	gdb lldb&gt; x/20 $rsp
+	gdb lldb&gt; x/20 $rsp+4
+
+### show variable
+
+	gdb&gt; p var	&quot;show var
+	gdb&gt; x/1b &amp;var
+	gdb&gt; p &amp;var	&quot;show var&#x27;s address
+
+show var var pointer:
+
+	gdb&gt; p *pointer
+	gdb&gt; x/1b pointer
+
+### show via address (x,memory read)
+相当于show pointer
+
+#### read memory
+
+	### Read memory from address 0xbffff3c0 and show 4 hex uint32_t values. 推荐用gdb 语法
+	(gdb) x/4xw 0xbffff3c0
+	(lldb) x/4xw 0xbffff3c0
+	(lldb) memory read --size 4 --format x --count 4 0xbffff3c0
+	(lldb) me r -s4 -fx -c4 0xbffff3c0
+	(lldb) x -s4 -fx -c4 0xbffff3c0
+
+	### 对变量取地址input
+	lldb&gt; x/7xb &amp;var
+	lldb&gt; x/7 &amp;var
+	lldb&gt; x -fx -c7 &amp;var
+
+
+#### save results to a local file as text.
+
+	(gdb) set logging on
+	(gdb) set logging file /tmp/mem.txt
+	(gdb) x/512bx 0xbffff3c0
+	(gdb) set logging off
+	(lldb) x/512bx -o/tmp/mem.txt 0xbffff3c0
+	(lldb) memory read --outfile /tmp/mem.txt --count 512 0xbffff3c0
+	(lldb) me r -o/tmp/mem.txt -c512 0xbffff3c0
+
+### view local Variable(info)
+info,i
+frame,fr/f
+print,p
+
+&gt; Mac OSX has no info, but frame has integrated info
+
+View *all locals* in current frames
+
+	gdb &gt; i locals + i args
+	lldb &gt; fr v
+
+	gdb &gt; i locals
+	lldb &gt; fr v -a (frame variable --no-args)
+
+View specified local variable:
+
+	gdb lldb&gt; p variable
+	lldb&gt; fr v variable
+
+	gdb lldb&gt; x/1x &amp;variable
+
+	# show contents of local variable &quot;bar&quot; formatted as hex.
+	gdb lldb&gt; p/x bar
+	lldb&gt; fr v -fx bar
+
+#### view variable&#x27;s address
+
+	gdb lldb&gt; p &amp;var
+	gdb lldb&gt; p *&amp;var
+	gdb lldb&gt; p 0x10
+
+#### print result
+
+	gdb lldb&gt; p 11+3&amp;~3
+	gdb lldb&gt; p sizeof(char *)
+
+### Show the global/static variables
+
+	gdb &gt; N/A
+	(lldb) target variable
+	lldb &gt; ta v
+
+	# show contents of global variable &quot;baz&quot;
+	gdb lldb&gt; p paz
+	(lldb) ta v baz
+
+
+### reassign Variable with new value(p)
+
+	gdb&gt; set var sum=0
+	gdb&gt; set var arr[1]=0
+	gdb lldb&gt; p arr[1]=0
+	gdb lldb&gt; p printf(&quot;The arr&#x27;s first value is:%d&quot;, arr[1])
+		The arr&#x27;s first value is:0
+		$6 = 26 //The printf will return length of string.
+
+
+## Register
+gdb 中register  前有`$`
+
+### view register
+
+
+	# via p($)
+	gdb&gt; p $rax (10进制)
+	lldb&gt; p $rax
+
+	# via info/register read (hex)
+	gdb &gt; info registers 显示寄存器的值
+	lldb &gt; register read
+	lldb &gt; reg r
+	lldb &gt; register read rax
+
+### write
+	gdb &gt; p $rax = 123
+	lldb &gt;  register write rax 123
+	gdb &gt;  jump *$pc+8
+	lldb &gt; register write pc `$pc+8`
+
+## disassemble
+
+	gdb&gt; disassemble
+	lldb&gt; disassemble
+	lldb&gt;  disassemble --frame
+	lldb&gt;  di -f
+
+# assert
+断言, 如果定义了NODEBUG (或者直接在编译时加上选项-DNDEBUG), 则assert函数则不被编译
+
+	#define NDEBUG
+	assert(111)
+
+# objdump &amp; otool
+objdump 是linux 下的工具，用于将源代码、文件名、与汇编码对应显示
+otool/gobjdump 是mac 下类似的工具， 与objdump -SI 相近的命令是otool -tV
+
+	gcc -g a.c
+	&quot; -dS 与 -SI 好像是一样的
+	objdump -dS a.out
+	gobjdump -dS a.out
+	otool -tV a.out
+
+objdump:
+
+	-d, --disassemble        Display assembler contents of executable sections
+	-D, --disassemble-all    Display assembler contents of all sections
+	-S, --source             Intermix source code with disassembly
+
+otool
+
+	- otool -tV &lt;executable&gt;
+	-t   Display the contents of the (__TEXT,__text) section.
+		 With the -v flag, this disassembles the text.
+		 And with -V, it also symbolically disassembles the operands.
+
+	-d     Display the contents of the (__DATA,__data) section.
+
+&gt; 除了用`objdump`, 我们还可以用gdb 的`disassemble` 反汇编，它后面跟函数名，则反汇编函数. 默认是反汇编当前的函数. 我们用以了：
+
+# strace
+&gt; 最新的strace 有一个-k 参数, 显示调用栈. Mac 下没有strace 但是有很好用的: sample
+[/p/c-debug-strace](/p/c-debug-strace)
+
+- strace 跟踪进程系统调用
+- pstack 跟踪进程栈
+
+# heap
+Refer [c-debug-heap](/p/linux-c-debug-heap)
+</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/db/mongo-crud.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>Mongo crud 操作</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: Mongo crud 操作
+date: 2018-09-27
+updated: 2018-10-06
+---
+# index
+By default, mongo has no index at all(include `_id`, it does not occur in the condition)
+
+    $ db.COLLECTION_NAME.ensureIndex({KEY:1}) asc
+    $ db.COLLECTION_NAME.ensureIndex({KEY:-1}) desc
+
+ensureIndex() 方法中你也可以设置使用多个字段创建索引（关系型数据库中称作复合索引）。
+
+    &gt;db.col.ensureIndex({&quot;title&quot;:1,&quot;description&quot;:-1})
+
+To create an index in php:
+
+    $collection-&gt;ensureIndex( array( &quot;i&quot; =&gt; 1 ) );  // create an ascending index on &quot;i&quot;
+    $collection-&gt;ensureIndex( array( &quot;i&quot; =&gt; -1, &quot;j&quot; =&gt; 1 ) );  // index on &quot;i&quot; descending, &quot;j&quot; ascending
+
+## Index params
+ensureIndex() 接收可选参数，可选参数列表如下：
+
+    Parameter	Type	Description
+    background	Boolean	建索引过程会阻塞其它数据库操作，background可指定以后台方式创建索引，即增加 &quot;background&quot; 可选参数。 &quot;background&quot; 默认值为false。
+    unique	Boolean	建立的索引是否唯一。指定为true创建唯一索引。默认值为false.
+    name	string	索引的名称。如果未指定，MongoDB的通过连接索引的字段名和排序顺序生成一个索引名称。
+    dropDups	Boolean	在建立唯一索引时是否删除重复记录,指定 true 创建唯一索引。默认值为 false.
+    sparse	Boolean	对文档中不存在的字段数据不启用索引；这个参数需要特别注意，如果设置为true的话，在索引字段中不会查询出不包含对应字段的文档.。默认值为 false.
+    expireAfterSeconds	integer	指定一个以秒为单位的数值，完成 TTL设定，设定集合的生存时间。
+    v	index version	索引的版本号。默认的索引版本取决于mongod创建索引时运行的版本。
+    weights	document	索引权重值，数值在 1 到 99,999 之间，表示该索引相对于其他索引字段的得分权重。
+    default_language	string	对于文本索引，该参数决定了停用词及词干和词器的规则的列表。 默认为英语
+    language_override	string	对于文本索引，该参数指定了包含在文档中的字段名，语言覆盖默认的language，默认值为 language.
+
+### Background
+在后台创建索引：
+
+    db.values.ensureIndex({open: 1, close: 1}, {background: true})
+
+## drop indexes
+
+    db.collection.dropIndex(index)
+    db.collection.dropIndex({index:1, index2:-1})
+
+## show indexes
+
+    db.collection.getIndexes(); //php: $db-&gt;col-&gt;getIndexInfo();
+    {
+        &quot;v&quot; : 1,
+        &quot;name&quot; : &quot;uid_1_ctime_-1&quot;,
+        &quot;key&quot; : {
+            &quot;uid&quot; : 1,
+            &quot;ctime&quot; : -1
+        },
+        &quot;ns&quot; : &quot;test.a&quot;
+    }
+
+## explain index
+mongodb 同样只支持最左索引, ctime 就不行:
+
+    db.collection.find({uid:{&#x27;$gt&#x27;:1}}).explain()
+    //$cursor-&gt;explain()
+        &quot;indexBounds&quot; : {
+            &quot;uid&quot; : [
+                [
+                    1,
+                    1.7976931348623157e+308
+                ]
+            ],
+            &quot;ctime&quot; : [
+                [
+                    {
+                        &quot;$maxElement&quot; : 1
+                    },
+                    {
+                        &quot;$minElement&quot; : 1
+                    }
+                ]
+            ]
+
+# insert
+
+    use test
+    db.users.insert({&quot;k&quot;:&quot;v&quot;})
+
+insert multiple:
+
+    db.users.insert([{&quot;k&quot;:&quot;v&quot;}])
+
+\_id is 12 bytes hexadecimal number unique for every document in a collection. 12 bytes are divided as follows
+
+    \_id: ObjectId(4 bytes timestamp, 3 bytes machine id, 2 bytes process id, 3 bytes incrementer)
+
+# update
+1. The update() method *update* values in the existing document
+2. while the save() method *replaces*(insert) the existing document with the document(`_id`) passed in save() method.
+
+严格的类型匹配
+
+    db.COLLECTION_NAME.update(SELECTIOIN_CRITERIA, UPDATED_DATA)
+    db.mycol.update({n:&#x27;1&#x27;},{$set:{n:2}})
+    db.mycol.update({&#x27;title&#x27;:&#x27;old&#x27;},{$set:{&#x27;title&#x27;:&#x27;New&#x27;}})
+
+To update multiple:
+
+    db.mycol.update({&#x27;title&#x27;:&#x27;old&#x27;},{$set:{&#x27;title&#x27;:&#x27;New&#x27;}}, {multi:true})
+
+The save() method replaces the existing document with the new document passed in save() method
+
+    db.COLLECTION_NAME.save({_id:ObjectId(),NEW_DATA})
+
+# delete
+Syntax:
+Basic syntax of remove() method is as follows
+
+    db.COLLECTION_NAME.remove(DELLETION_CRITTERIA)
+
+Following example will remove all the documents whose title is &#x27;MongoDB Overview&#x27; and num is 1
+
+    db.mycol.remove({&#x27;title&#x27;:&#x27;MongoDB Overview&#x27;, &#x27;num&#x27;:1})
+
+Remove only one
+
+    db.COLLECTION_NAME.remove(DELETION_CRITERIA,1)
+
+Remove All documents, If you don&#x27;t specify deletion criteria,
+
+    db.mycol.remove()
+
+# select
+
+## group
+
+
+    db.fruit.group( {
+                 key: { category: 1},
+                 cond: { _id: { $gt: 2 } },
+                 reduce: function(obj, prev) {
+                    prev.items.push(obj.name);
+                    prev.count++;
+                 },
+                 initial: { items : [] ,count:0}
+               }
+            );
+
+结果:
+
+    [ { &quot;category&quot; : &quot;fruit&quot;,
+            &quot;items&quot; : [
+                &quot;banana&quot;
+            ],
+            &quot;count&quot; : 1
+        },
+        { &quot;category&quot; : &quot;veggie&quot;,
+            &quot;items&quot; : [
+                &quot;corn&quot;,
+                &quot;broccoli&quot;
+            ],
+            &quot;count&quot; : 2
+        }
+    ]
+
+php
+
+    $keys = array(&quot;category&quot; =&gt; 1);
+    $initial = array(&quot;items&quot; =&gt; array(),&#x27;count&#x27;=&gt;0);
+    $reduce = &quot;function (obj, prev) { &quot; .
+                  &quot;prev.items.push(obj.name); &quot; .
+                  &quot;prev.count++;&quot; .
+              &quot;}&quot;;
+    $condition = array(&#x27;condition&#x27; =&gt; array(&quot;_id&quot; =&gt; array( &#x27;$gt&#x27; =&gt; 2)));
+    $g = $collection-&gt;group($keys, $initial, $reduce, $condition);
+
+### aggregate group
+
+    db.fruit.aggregate([
+         { $match: { _id: {$gt:0} } },
+         { $group: { _id: &quot;$category&quot;, count: { $sum: 1 } } },
+         { $sort: { count: -1 } }
+       ]);
+    { &quot;_id&quot; : &quot;fruit&quot;, &quot;count&quot; : 3 }
+    { &quot;_id&quot; : &quot;veggie&quot;, &quot;count&quot; : 2 }
+
+## mapReduce
+syntax:
+
+    db.collection.mapReduce(
+       function() {emit(key,value);},  //map function
+       function(key,values) {return reduceFunction}, {   //reduce function
+          out: collection,
+          query: document,
+          sort: document,
+          limit: number
+       }
+    )
+
+Now, we will use a mapReduce function on our posts collection to select all the active posts, group them on the basis of user_name and then count the number of posts by each user:
+
+    db.posts.mapReduce(
+       function() { emit(this.user_id,1); },
+       function(key, values) {return Array.sum(values)}, {
+          query:{status:&quot;active&quot;},
+          out:&quot;post_total&quot;
+       }
+
+The above mapReduce query outputs the following result −
+
+       {
+          &quot;result&quot; : &quot;post_total&quot;,
+          &quot;timeMillis&quot; : 9,
+          &quot;counts&quot; : {
+             &quot;input&quot; : 4,
+             &quot;emit&quot; : 4,
+             &quot;reduce&quot; : 2,
+             &quot;output&quot; : 2
+          },
+          &quot;ok&quot; : 1,
+       }
+
+To see the result of this mapReduce query use the find:
+
+    db.posts.mapReduce(
+       function() { emit(this.user_id,1); },
+       function(key, values) {return Array.sum(values)}, {
+          query:{status:&quot;active&quot;},
+          out:&quot;post_total&quot;
+       }
+    ).find()
+
+    { &quot;_id&quot; : &quot;tom&quot;, &quot;value&quot; : 2 }
+    { &quot;_id&quot; : &quot;mark&quot;, &quot;value&quot; : 2 }
+
+### mapReduce in php
+This will sum all values in the news field to new collection called news created in command by adding (&quot;out&quot; =&gt; &quot;news&quot;).
+
+    $map = new MongoCode(&#x27;function() {
+               var total = 0;
+               for (count in this.news) {
+               total +=  this.news[count];
+               }
+               emit(this._id, {id: this.id, total: total});
+           }&#x27;);
+    $reduce = new MongoCode(&#x27;function(key, values) {
+               var result = {id: null, total: 0};
+               values.forEach(function(v) {
+               result.id = v.id;
+               result.total = v.total;
+                });
+               return result;
+           }&#x27;);
+
+    $sales = $db-&gt;command(array(
+       &#x27;mapreduce&#x27; =&gt; &#x27;mycollection&#x27;, // collection name
+       &#x27;map&#x27; =&gt; $map,
+       &#x27;reduce&#x27; =&gt; $reduce,
+       &#x27;query&#x27; =&gt; array(&#x27;table&#x27; =&gt; &#x27;people&#x27;),
+       &quot;out&quot; =&gt; &quot;news&quot; // new collection name
+    ));
+
+Get all users with at least on &quot;sale&quot; event, and how many times each of these users has had a sale.
+
+    // sample event document
+    $events-&gt;insert(array(&quot;user_id&quot; =&gt; $id,
+        &quot;type&quot; =&gt; $type,
+        &quot;time&quot; =&gt; new MongoDate(),
+        &quot;desc&quot; =&gt; $description));
+
+    // construct map and reduce functions
+    $map = new MongoCode(&quot;function() { emit(this.user_id,1); }&quot;);
+    $reduce = new MongoCode(&quot;function(k, vals) { &quot;.
+        &quot;var sum = 0;&quot;.
+        &quot;for (var i in vals) {&quot;.
+            &quot;sum += vals[i];&quot;.
+        &quot;}&quot;.
+        &quot;return sum; }&quot;);
+
+    $sales = $db-&gt;command(array(
+        &quot;mapreduce&quot; =&gt; &quot;events&quot;,
+        &quot;map&quot; =&gt; $map,
+        &quot;reduce&quot; =&gt; $reduce,
+        &quot;query&quot; =&gt; array(&quot;type&quot; =&gt; &quot;sale&quot;),
+        &quot;out&quot; =&gt; array(&quot;merge&quot; =&gt; &quot;eventCounts&quot;)));
+
+    $users = $db-&gt;selectCollection($sales[&#x27;result&#x27;])-&gt;find();
+
+    foreach ($users as $user) {
+        echo &quot;{$user[&#x27;_id&#x27;]} had {$user[&#x27;value&#x27;]} sale(s).\n&quot;;
+    }
+
+## group
+group 好像不支持: multiple subitem
+但支持: reduce item + finalize
+
+    SELECT ord_dt, sku, SUM(amount) as total FROM orders WHERE ord_dt &gt; &#x27;01/01/2012&#x27; GROUP BY ord_dt, sku
+    db.orders.group(
+       {
+         key: { ord_dt: 1, &#x27;sku&#x27;: 1 },
+         cond: { ord_dt: { $gt: new Date( &#x27;01/01/2012&#x27; ) } },
+         reduce: function( curr, result ) {
+                     result.total += curr.amount;
+                 },
+         initial: { total : 0 }
+       }
+    )
+
+group by keyf:
+The following example groups by the calculated day_of_week field:
+
+    db.orders.group(
+    {
+         keyf: function(doc) {
+                   return { day_of_week: doc.ord_dt.getDay() };
+               },
+         cond: { ord_dt: { $gt: new Date( &#x27;01/01/2012&#x27; ) } },
+        reduce: function( curr, result ) {
+                    result.total += curr.item.qty;
+                    result.count++;
+                },
+        initial: { total : 0, count: 0 },
+        finalize: function(result) {
+                      var weekdays = [
+                           &quot;Sunday&quot;, &quot;Monday&quot;, &quot;Tuesday&quot;,
+                           &quot;Wednesday&quot;, &quot;Thursday&quot;,
+                           &quot;Friday&quot;, &quot;Saturday&quot;
+                          ];
+                      result.day_of_week = weekdays[result.day_of_week];
+                      result.avg = Math.round(result.total / result.count);
+                  }
+        }
+    )
+
+## find
+To query mongo
+
+    db.COLLECTION_NAME.find()
+
+To display the results in a formatted way
+
+    db.COLLECTION_NAME.find().pretty();
+
+check how mongodb works with your query
+
+    db.collection.find(...).explain()
+
+### Return the Specified Fields and the _id Field Only
+In the result set, only the item and qty fields and, by default, the _id field return in the matching documents. specify column
+
+    db.inventory.find( { type: &#x27;food&#x27; }, { item: 1, qty: 1 } )
+
+### count
+
+    db.test.find().count()
+
+### Equality
+
+    Operation	Syntax	Example	RDBMS Equivalent
+    Equality
+        {&lt;key&gt;:&lt;value&gt;}	db.mycol.find({&quot;by&quot;:&quot;tutorials point&quot;}).pretty()	where by = &#x27;tutorials point&#x27;
+    Less Than
+        {&lt;key&gt;:{$lt:&lt;value&gt;}}	db.mycol.find({&quot;likes&quot;:{$lt:50}}).pretty()	where likes &lt; 50
+    Less Than Equals
+    	{&lt;key&gt;:{$lte:&lt;value&gt;}}	db.mycol.find({&quot;likes&quot;:{$lte:50}}).pretty()	where likes &lt;= 50
+    Greater Than
+    	{&lt;key&gt;:{$gt:&lt;value&gt;}}	db.mycol.find({&quot;likes&quot;:{$gt:50}}).pretty()	where likes &gt; 50
+    Greater Than Equals
+    	{&lt;key&gt;:{$gte:&lt;value&gt;}}	db.mycol.find({&quot;likes&quot;:{$gte:50}}).pretty()	where likes &gt;= 50
+    Not Equals
+    	{&lt;key&gt;:{$ne:&lt;value&gt;}}	db.mycol.find({&quot;likes&quot;:{$ne:50}}).pretty()	where likes != 50
+
+### find And
+
+    where key1=value1 and key2=value2
+    db.mycol.find({key1:value1, key2:value2}).pretty()
+
+### filter results
+Following example will display the title of the document while quering the document.
+
+    &gt;db.mycol.find({},{&quot;title&quot;:1,_id:0})
+    {&quot;title&quot;:&quot;MongoDB Overview&quot;}
+    {&quot;title&quot;:&quot;NoSQL Overview&quot;}
+    {&quot;title&quot;:&quot;Tutorials Point Overview&quot;}
+
+Please note `_id` field is always displayed while executing `find()` method, if you don&#x27;t want this field,
+then you need to set it as 0
+
+### find or
+
+    db.mycol.find(
+        { $or: [
+             {key1: value1}, {key2:value2}
+          ]
+        }
+    )
+
+where likes&gt;10 AND (by = &#x27;tutorials point&#x27; OR title = &#x27;MongoDB Overview&#x27;):
+
+    db.mycol.find({&quot;likes&quot;: {$gt:10}, $or: [{&quot;by&quot;: &quot;tutorials point&quot;}, {&quot;title&quot;: &quot;MongoDB Overview&quot;}]}).pretty()
+
+## aggregate, 聚合
+集合计算每个作者所写的文章数，使用 aggregate()计算结果如下：
+
+     db.mycol.aggregate([{$group : {_id : &quot;$by_user&quot;, num_tutorial : {$sum : 1}}}])
+    {
+       &quot;result&quot; : [
+          {
+             &quot;_id&quot; : &quot;w3cschool.cc&quot;,
+             &quot;num_tutorial&quot; : 2
+          },
+          {
+             &quot;_id&quot; : &quot;Neo4j&quot;,
+             &quot;num_tutorial&quot; : 1
+          }
+       ],
+       &quot;ok&quot; : 1
+    }_
+
+以上实例类似sql语句： select by_user, count(1) from mycol group by by_user
+
+在上面的例子中，我们通过字段by_user字段对数据进行分组，并计算by_user字段相同值的总和。</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

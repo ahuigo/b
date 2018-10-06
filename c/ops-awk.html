@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/c/ops-awk.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>awk 简介</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: awk 简介
+date: 2018-10-06
+updated: 2018-10-06
+---
+# Preface
+awk  命令行的基本语法为
+
+	awk option &#x27;script&#x27; file1 file2 ...
+	awk option -f scriptfile file1 file2 ...
+
+awk 编辑命令的格式为:
+
+	/pattern/{actions}
+	condition{actions}
+	0{actions} //0是false
+	1{actions} //1是true
+
+pattern 可以是
+
+	/egrep/
+	line_num
+	BEGIN
+	END
+
+其中
+
+	BEGIN{ 这里面放的是执行前的语句 } #BEGIN不需要读取file文件
+	END {这里面放的是处理完所有的行后要执行的语句 }
+	{这里面放的是处理每一行时要执行的语句}
+	[condition1]{actions1}  [condition2]{actions2}
+
+actions 由awk 语句组成, 可以用`next` 忽略后面的actions
+
+	[condition1]{actions1;next}  [condition2]{actions2} ...
+
+也可以忽略actions
+
+	awk &#x27;{if(NR==1) next; print}&#x27;
+	awk &#x27;NR&gt;1{print}&#x27;
+	awk &#x27;NR&gt;1 &amp;&amp; NR&lt;=5{print}&#x27;
+
+可以省略print
+
+	awk &#x27;NR&gt;1&#x27;
+	awk &#x27;NR&gt;1 &amp;&amp; NR&lt;=5&#x27;
+	echo $&#x27;abc\nabcd&#x27; | gawk &#x27;!arr[$0]++&#x27;
+
+## condtion
+
+	start_condition,end_condition {action}
+
+Example
+
+	seq 10|gawk &#x27;/start_pattern/,/end_pattern/{print}&#x27;
+
+# Variable
+
+## Inner Variables
+说到了内建变量，我们可以来看看awk的一些内建变量：
+
+- $0	当前记录（这个变量中存放着整个行的内容）
+- $1~$n	当前记录的第n个字段，字段间由FS分隔
+- $(NF-1)	当前记录的第n个字段，字段间由FS分隔
+- NF	当前记录中的字段个数，就是有多少列(Num of Field)
+- NR	已经读出的记录数(Line Recoder)，就是行号，从1开始，如果有多个文件话，这个值也是不断累加中。(Num of Record)
+- FNR	当前记录数，与NR不同的是，这个值会是各个文件自己的行号
+- FS	输入字段分隔符 默认是空格和Tab (Field Separator)
+- RS	输入的记录分隔符， 默认为换行符
+- OFS	输出字段分隔符， 默认也是空格
+- ORS	输出的记录分隔符，默认为换行符
+- FILENAME	当前输入文件的名字
+- $5+ENVIRON[&quot;y&quot;] 系统环境变量
+- $ awk -v val=$x &#x27;{print $1+val}&#x27; a.txt val 是参数
+
+### delimiter, 指定分隔符
+
+	$  awk  &#x27;BEGIN{FS=&quot;:&quot;} {print $1,$3,$6}&#x27; /etc/passwd
+	# It same as
+	$ awk  -F: &#x27;{print $1,$3,$6}&#x27; /etc/passwd
+
+multiple delimiter:
+
+	cat file | awk -F&#x27;[/=]&#x27; &#x27;{print $3 &quot;\t&quot; $5 &quot;\t&quot; $8}&#x27;
+
+escape delimiter:
+
+	-F &#x27;\\|\\|&#x27;
+
+# array
+
+	#awk 将 myarr[&quot;1&quot;] 和 myarr[1] 指向同一元素, 这类似于索引php不区别引号
+    # 索引从1开始
+	myarray[1]=&quot;jim&quot;
+	myarray[&#x27;name&#x27;]=&quot;Ye&quot;
+
+## delete
+
+	delete arr[1]
+
+## in_array
+In array:
+
+	if(&#x27;Ye&#x27; in myarray){
+		print &quot;Yep! It&#x27;s here!&quot;
+	}
+	if(&#x27;Ye&#x27; in myarray == 1){
+		print &quot;Yep! It&#x27;s here!&quot;
+	}
+
+Not in array
+
+	!(&#x27;Ye&#x27; in myarray){
+		print &quot;No in array&quot;
+	}
+	(&#x27;Ye&#x27; in myarray == 0){
+		print &quot;No in array&quot;
+	}
+
+取两文件的差集(difference set)(ori.txt - filter.txt):
+
+	awk -F&#x27;|&#x27; &#x27;NR==FNR{check[$0];next} !($1 in check){print $0}&#x27; filter.txt ori.txt
+	awk -F&#x27;|&#x27; &#x27;NR==FNR{check[$0];next} $1 in check{print $0}&#x27; filter.txt ori.txt
+
+	-F&#x27;|&#x27;
+		-- sets the field separator
+	&#x27;NR==FNR{check[$0];next}
+		-- if the total record number matches the file record number (i.e. we&#x27;re reading the first file provided), then we populate an array and continue.
+	$2 in check
+		-- If the second field was mentioned in the array we created, print the line (which is the default action if no actions are provided).
+	file2 file1
+		-- the files. Order is important due to the NR==FNR construct.
+
+## sort
+sort and keep association:
+
+	//asort
+	gawk &#x27;BEGIN{
+		arr[&quot;a&quot;]=1;arr[&quot;b&quot;]=5;arr[&quot;c&quot;]=4;
+		n=asort(arr);
+		for(i in arr){
+			print i,arr[i];
+		}
+	}&#x27;
+
+
+sort via index
+
+	n=asorti(arr, sorted)
+	for (i=1; i&lt;=n; i++) {
+			print sorted[i] &quot; : &quot; arr[sorted[i]]
+	}
+
+sort via shell:
+
+	for(i in arr) print arr[i] | &quot;sort&quot;;
+
+## for-in
+
+	for ( x in myarray ) {
+	for (x in myarray) { # wrong!
+		print myarray[x]
+		//continue; break;
+	}
+
+
+# printf &amp;&amp; print
+
+	printf(&quot;%s got a %03d on the last test\n&quot;,&quot;Jim&quot;,83)
+	myout=(&quot;%s-%d&quot;,b,x)
+	print myout
+
+	#print 打印字符串
+	print &quot;a&quot; &quot;b&quot;;#ab
+	print &quot;a&quot;&quot;b&quot;;#ab
+	print &quot;a&quot;,&quot;b&quot;;#a b
+
+	print &quot;Hi&quot; &quot;,&quot; &quot;how are you&quot;;# Hi how are you
+
+## space pad
+
+	awk &#x27;{printf &quot;%04x&quot;, strtonum(&quot;0x&quot;$1)}&#x27;
+	awk &#x27;{printf &quot;%04d&quot;, 9}&#x27;
+		$1=9; output: 0009
+
+# control
+
+	exit
+	break
+	continue
+
+# Math
+() 用于数学计算:
+
+	awk &#x27;BEGIN{print (1.5^2)}&#x27;
+
+	x ^ y
+	x ** y
+
+Exponentiation; x raised to the y power. ‘2 ^ 3’ has the value eight; the character sequence ‘**’ is equivalent to ‘^’. (c.e.)
+
+	- x
+	Negation.
+
+	+ x
+	Unary plus; the expression is converted to a number.
+
+	x * y
+	x / y
+	int(x/y); floor
+
+Division; because all numbers in awk are floating-point numbers, the result is not rounded to an integer—‘3 / 4’ has the value 0.75. (It is a common mistake, especially for C programmers, to forget that all numbers in awk are floating point, and that division of integer-looking constants produces a real number, not an integer.)
+
+	x % y
+
+Remainder; further discussion is provided in the text, just after this list.
+
+	x + y
+
+Addition.
+
+	x - y
+
+Subtraction.
+
+## ceil floor
+
+    int(1.5)
+    ceil(3/8)
+    function ceiling(x) {
+        return (x == int(x)) ? x : int(x)+1
+    }
+
+you could also write a `round(2.5)` function.
+
+# time
+
+	systime(); unix timestamp
+
+# String
+
+## quotation marks 引号
+awk 的字符串是以双引号括起来的 不可用单引号
+
+	print &quot;aa\\ a \t b&quot;;
+
+在shell 中使用引号真是令人难受（你需要考虑错综复杂的shell转义）
+
+## regex
+
+gsub - replace
+
+	echo &#x27;abc,123 ,&#x27; | awk -F\, &#x27;{gsub(/[ \t]+$/, &quot;&quot;, $2); print $2 &quot;:&quot;}&#x27;
+		123:
+
+### capture group(match as capture)
+The GAWK regular expression engine capture its groups.
+
+    gawk &#x27;match($0, pattern, ary) {print ary[1]}&#x27;
+    echo &quot;abcdef&quot; | gawk &#x27;match($0, /b(.*)e/, a) {print a[1]}&#x27;
+    gawk &#x27;match($0, /&lt;td&gt;(.*)&lt;\/td&gt;/, arr){n++;}&#x27;
+
+Use perl instead:
+
+    perl -n -e&#x27;/test(\d+)/ &amp;&amp; print $1&#x27;
+
+The `-n` flag causes perl to loop over every line like awk does.
+
+### match as index
+awk 中的位置都是从1开始的
+
+	match(str, needle);//return the position of needle
+	match(mystring,/you/); # 如果没有找到, 返回0
+	index(&quot;mainstr&quot;, &#x27;str&#x27;); #5 从1开始
+
+## String Func
+
+	tolower(str)
+	toupper(str)
+	split(s,a,fs)：在fs上将s分成序列a
+
+### strpad
+start from 1
+
+	function strpad(string) {return substr(&quot;0000&quot; string, length(string) + 1)}
+	awk &#x27;function pad(string) {return substr(&quot;0000&quot; string, length(string) + 1)} {print pad($1), pad($2)}&#x27;
+
+### replace
+self replace self:
+
+	sub(regexp,replstring[,mystring=$0])
+	gsub(regexp,replstring[,mystring=$0]); #全局替换
+
+Example
+
+	echo &#x27;2014-1-1 hilojack hilojack&#x27; | awk &#x27;gsub(&quot;hilojack&quot;,&quot;ahui&quot;)&#x27;
+	echo &#x27;2014-1-1 hilojack hilojack&#x27; | awk &#x27;gsub(&quot;hilojack&quot;,&quot;ahui&quot;){print $0}&#x27;
+		2014-1-1 ahui ahui
+	echo &#x27;2014-1-1 hilojack hilojack&#x27; | awk &#x27;gsub(&quot;hilojack&quot;,&quot;ahui&quot;, $3)&#x27;
+		2014-1-1 hilojack ahui
+	echo &#x27;2014-1-1 hilojack hilojack&#x27; | awk &#x27;$1=gsub(&quot;-&quot;,&quot;ahui&quot;, $1)&#x27;;#返回替换次数
+		2 hilojack hilojack
+	echo &#x27;2014-1-1 hilojack hilojack&#x27; | awk &#x27;length()&#x27;
+        2014-1-1 hilojack hilojack
+
+### substr
+
+	substr(mystring,startpos,maxlen=infinite); pos 从1 开始
+
+## length
+
+	{print length(str=$0)}
+	echo &#x27;2014-1-1 hilojack hilojack&#x27; | awk &#x27;$0=length()&#x27;;$0 被改写了
+	26
+
+### Concat
+
+	var=var $2
+	varA=&quot;string&quot; varB		$2
+
+### Split
+
+	n=split(&quot;Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec&quot;,mymonths,&quot;,&quot;)
+	调用 split() 时，第一个自变量包含要切开文字字符串或字符串变量。在第二个自变量中，应该指定 split() 将填入片段部分的数组名称。在第三个元素中，指定用于切开字符串的分隔符。split() 返回时，它将返回分割的字符串元素的数量。split() 将每一个片段赋值给下标从 1 开始的数组，因此以下代码：
+	print mymonths[1],mymonths[n]
+
+### 简短注释
+调用 `length($0)、sub($0) 或 gsub($0)` 时，可以去掉最后一个自变量`$0`。要打印文件中每一行的长度，使用以下 awk 脚本：
+
+	{ print length() }
+
+## 字符串匹配
+
+	$ awk &#x27;$6 ~ /FIN/ || NR==1 {print NR,$4,$5,$6}&#x27; OFS=&quot;\t&quot; netstat.txt #~ 模式匹配开始
+
+	$ awk &#x27;/LISTEN/&#x27; netstat.txt
+	# Same as Below
+	$ grep -F &#x27;LISTEN&#x27; netstat.txt
+	$ awk &#x27;/FIN|TIME/&#x27; netstat.txt
+
+	awk &#x27;/[0-9]+\.[0-9]*/ { print }&#x27;
+		$1 == &quot;fred&quot; { print $3 }
+		$5 ~ /root/ { print $3 }
+
+Ignore Case:
+
+	x = &quot;aB&quot;
+	if (tolower(x) ~ /ab/) ...   # this test will succeed
+
+	IGNORECASE = 1
+	if (x ~ /ab/) ...   # now it will succeed
+
+### NOT
+可参考`Comparision Operators`
+
+	$ awk &#x27;$6 !~ /WAIT/ || NR==1 {print NR,$4,$5,$6}&#x27; OFS=&quot;\t&quot; netstat.txt # ~ 模式匹配开始
+	$ awk &#x27;$6 !~ /WAIT/&#x27; netstat.txt
+	$ awk &#x27;!/WAIT/&#x27; netstat.txt
+    
+# func
+
+## strpad
+start from 1
+
+	function strpad(string) {return substr(&quot;0000&quot; string, length(string) + 1)}
+	awk &#x27;function pad(string) {return substr(&quot;0000&quot; string, length(string) + 1)} {print pad($1), pad($2)}&#x27;
+
+# Number
+支持+、-、*、/、%、++、–、+=、-=等诸多操作；
+
+	gawk &#x27;BEGIN{i=9;j=1; i+=j;print i}&#x27;
+	gawk &#x27;BEGIN{i=9;j=1; i+=j;print i&gt;j}&#x27;
+
+支持==、!=、&gt;、=&gt;、~（匹配于）等诸多判断操作；
+
+## math
+
+	print sin(1)
+	print int(rand()*100);
+	print sqrt(4)
+
+## float
+默认显示float 时，awk 会对float 4舍5入：
+
+	awk &#x27;BEGIN{printf(&quot;%f\n&quot;, 111199989/100)&#x27;
+
+# Expresion
+
+## Comparision Operators
+Comparision Operators:
+
+	== &gt;= &lt;= !=
+	Expression	Result
+	x &lt; y	True if x is less than y
+	x &lt;= y	True if x is less than or equal to y
+	x &gt; y	True if x is greater than y
+	x &gt;= y	True if x is greater than or equal to y
+	x == y	True if x is equal to y
+	x != y	True if x is not equal to y
+	x ~ y	True if the string x matches the regexp denoted by y
+	x !~ y	True if the string x does not match the regexp denoted by y
+	subscript in array	True if the array array has an element with the subscript subscript
+
+	$ awk &#x27;$3==0 &amp;&amp; $6==&quot;LISTEN&quot; &#x27; netstat.txt
+	$ awk &#x27; $3&gt;0 {print $0}&#x27; netstat.txt
+	# 如果需要第一行(NR表示行数)
+	$ awk &#x27;$3==0 &amp;&amp; $6==&quot;LISTEN&quot; || NR==1 &#x27; netstat.txt
+
+## Logical Operators
+
+	( $1 == &quot;foo&quot; ) &amp;&amp; ( $2 == &quot;bar&quot; ) { print } #cmd line
+	$1 == &quot;foo&quot;  ||  $2 == &quot;bar&quot;  { print } #cmd line
+	&amp;&amp; || !
+
+## if
+去重
+
+	echo $&#x27;abc\nabc&#x27; | gawk &#x27;!arr[$0]++&#x27;
+
+## Condition Expresion
+1. 命令行
+
+	$ awk &#x27;NR!=1{if($6 ~ /TIME|ESTABLISHED/) print &gt; &quot;1.txt&quot;;
+		else if($6 ~ /LISTEN/) {print &gt; &quot;2.txt&quot;;}
+		else print &gt; &quot;3.txt&quot; }&#x27; netstat.txt
+
+2. Script脚本
+
+	cat condition.awk
+		{
+			 if ( $1 == &quot;foo&quot; ) {
+				if ( $2 == &quot;foo&quot; ) {
+				   print &quot;uno&quot;
+				} else {
+				   print &quot;one&quot;
+				}
+			 } else if ($1 == &quot;bar&quot; ) {
+				print &quot;two&quot;
+			 } else {
+				print &quot;three&quot;
+			 }
+		}
+
+多个条件(if 是可以省略的):
+
+	( $1 == &quot;foo&quot; ) &amp;&amp; ( $2 == &quot;bar&quot; ) { print } #cmd line
+	$1 == &quot;foo&quot;  &amp;&amp;  $2 == &quot;bar&quot;  { print } #cmd line
+
+## sub expression
+
+	echo &#x27;ab,1203: , &#x27; | gawk -F\, &#x27;{
+		gsub(/[ \t]+$/, &quot;&quot;, $2);
+		if(match($2, /1(.*)/, ary)){
+			print(ary[1])
+		}
+	}&#x27;
+
+## do-while
+
+	{
+		 count=1
+		 do {
+				print &quot;I get printed at least once no matter what&quot;
+			if( x == 10 ){
+				break
+				continue
+			}
+		 } while ( count != 1 )
+	}
+
+## for
+
+	for ( x = 1; x &lt;= 4; x++ ) {
+		 print &quot;iteration&quot;,x
+	}
+
+### statistic, 统计
+
+	$ ls -l  *.cpp *.c *.h | awk &#x27;{sum+=$5} END {print sum}&#x27;
+	$ awk &#x27;NR!=1{a[$6]++;} END {for (i in a) print i &quot;, &quot; a[i];}&#x27; netstat.txt
+
+# Split File
+&gt; split -l&lt;line_count&gt; -a &lt;suffix_num&gt; -d prefix
+
+按第6列拆分文件:
+
+	$ awk &#x27;NR!=1{print &gt; $6}&#x27; netstat.txt #$6 是文件名
+
+指定列
+
+	$ awk &#x27;NR!=1{print $4,$5 &gt; $6}&#x27; netstat.txt; # &gt; 其实是append
+
+# Script
+
+	 awk -f my.awk file
+	 cat my.awk
+
+	 	BEGIN {
+			 FS=&quot;:&quot;
+		 }
+		 { print $1 }
+
+## comments
+
+	# comments
+
+## 语句
+多条语句可以使用换行，或者分号。这类似于js
+
+	awk &#x27;BEGIN{str=&quot;abc&quot;;print length(str)}&#x27;
+
+## shell
+awk 中使用shell 命令
+
+	&quot;shell_cmd1&quot;|&quot;shell_cmd2&quot;; //return output of cmd2
+	&quot;shell_cmd1&quot;|awk_cmd;
+
+Example:
+
+	awk &#x27;BEGIN{print &quot;abc&quot;|&quot;grep c&quot;}&#x27;
+
+	&quot;shell_cmd&quot; | getline;//no output
+	(&quot;shell_cmd&quot; | getline);//1: succ 0:failed(getline will not run)
+	system(shell_cmd);//0:succ, not 0:failed
+
+或者使用system 开启shell 子进程
+
+	awk &#x27;BEGIN{system(&quot;echo abc | grep c&quot;)}&#x27;
+
+system, 成功返回0，失败返回非0(如127)
+
+## read file
+使用getline 命令 读重定向
+
+	awk &#x27;BEGIN{while(getline&lt;&quot;date.txt&quot;){print $0}}&#x27; #$0 可省略
+
+使用getline 命令 读取管道定向的流, 成功返回1, 失败返回0
+读取第一行
+
+	awk &#x27;BEGIN{&quot;cat a.txt&quot;|getline line; print line}&#x27;
+	awk &#x27;BEGIN{&quot;cat date.txt&quot;|getline; print $0}&#x27;
+
+## pipe
+get output from shell command
+
+	cmd = &quot;strip &quot;$1
+	while ( ( cmd | getline result ) &gt; 0 ) {
+	  print  result
+	}
+	close(cmd); # close pipe or file
+
+Closing Input and Output Redirections(Pipe) via `close(cmd)`
+</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

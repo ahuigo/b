@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/vim/vim-cmd.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>vim-cmd</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: vim-cmd
+date: 2018-10-04
+updated: 2018-10-06
+---
+# Preface
+
+# autocmd
+Syntax:
+
+	:au[tocmd] [group] {event} {pat} [nested] {cmd}
+			Add {cmd} to the list of commands that Vim will
+			execute automatically on {event} for a file matching
+			{pat} |autocmd-patterns|.
+
+	:autocmd BufNewFile * :write
+         ^          ^ ^
+         |          | |
+         |          | The command to run.
+         |          |
+         |          A &quot;pattern&quot; to filter the event.
+         |
+         The &quot;event&quot; to watch for.
+
+## event
+&gt; :help autocmd-events
+
+### io event
+
+	BufNewFile
+	BufRead
+	BufWrite
+	BufWritePre &quot;same as BufWrite
+	BufWritePre,BufRead
+
+Example:
+
+	:autocmd BufWritePre *.html :normal gg=G
+	:autocmd BufWritePre *.html normal gg=G
+
+### FileType event
+excute when filetype is set or vim starts
+
+	:autocmd FileType javascript nnoremap &lt;buffer&gt; &lt;localleader&gt;c I//&lt;esc&gt;
+	:autocmd FileType python nnoremap &lt;buffer&gt; &lt;localleader&gt;c I//&lt;esc&gt;
+
+Refer to: [vim-filetype](/p/vim-filetype)
+
+## pattern
+
+	*
+	*.txt
+	javascript
+
+multi pattern:
+
+	:autocmd FileType c,cpp  map &lt;buffer&gt; &lt;leader&gt;&lt;space&gt; :w&lt;cr&gt;:make&lt;cr&gt;
+
+## group
+&gt; :help autocmd-groups
+
+To solove the problem: duplicated autocmd group, we can use `autocmd!` to clear current group
+
+	:augroup testgroup
+	:    autocmd!
+	:    autocmd BufWrite * :echom &quot;Cats&quot;
+	:    autocmd BufWrite * :echom &quot;Dogs&quot;
+	:augroup END
+
+Vim automatically wraps the contents of ftdetect/*.vim files in autocommand groups for you, so you don&#x27;t need to use an autocommand group like we usually would.
+
+## specical characters
+*specical characters* in the `:autocmd` arguments are *not expanded*. The only excetion is `sfile`:
+
+	:au BufNewFile,BufRead *.html so &lt;sfile&gt;:h/html.vim
+
+# command
+
+## command exist
+
+	echo has(&#x27;autocmd&#x27;)
+
+## execute command
+
+	:execute &quot;echom &#x27;Hello, world!&#x27;&quot;
+
+multi args:
+
+	:exec arg1   arg2 ...
+		:arg1 arg2 arg3 will be concat to command seperated by &quot;&lt;space&gt;&quot;
+	:exe &quot;echom&quot; &quot;&#x27;Hello,&quot; &quot;world!&#x27;&quot;
+
+It will parse such args:
+
+	function: eg. expand(),etc.
+
+	:exec &quot;!echo&quot; expand(&#x27;%:&#x27;)
+
+## multi command
+
+	:cmd1|cmd2|cmd3
+	:!shell cmd only
+		:!ls | wc -l
+
+## silent
+To disalbe command&#x27;s output.
+
+	:silent echo &quot;abc&quot;
+	:silent !echo &quot;abc&quot;
+	:silent execute &quot;normal! ..&quot;
+
+## normal command
+
+	:normal gg=G
+
+	&quot;If then [!] is given, mapping will not be used
+	:normal! gg=G
+
+normal does not recognize special charactors, but `execute` with *double quotes* can!
+
+	&quot;wrong
+	:normal! gg/a&lt;cr&gt;
+	:execute &#x27;normal! gg/a&lt;cr&gt;&#x27;
+	:execute &quot;normal! gg/a&lt;cr&gt;&quot;
+	:execute &#x27;normal! gg/a\r&#x27;
+
+	&quot;right
+	:execute &quot;normal! gg/a\&lt;cr&gt;&quot;
+	:execute &quot;normal! gg/a\r&quot;
+
+Refer to `:h expr-quote` and [vim-var](/p/vim-var)
+
+
+
+# user defined command
+The rules of user defined commmand
+
+1. User-defined Command must start with an `upppercase letter`, to avoid confusion with builtin commands. Exceptions are these builtin commands:
+	:Next
+	:X
+2. Fllowing letter and digits (exclude `_`)
+	:E1 	ok
+	:EA 	ok
+	:E_ 	wrong
+
+## list user defined commands
+
+	:com[mand] {cmd}	List all user-defined command that start with {cmd}
+
+When `&#x27;verbose&#x27;` is non-zero, listing a command will also display where it was
+last defined. Example:
+
+    :verbose command TOhtml
+	Name	    Args Range Complete  Definition ~
+	TOhtml	    0	 %		 :call Convert2HTML(&lt;line1&gt;, &lt;line2&gt;) ~
+	    Last set from /usr/share/vim/vim-7.0/plugin/tohtml.vim ~
+
+See `|:verbose-cmd|` and `:h &#x27;vbs&#x27;` for more information.
+
+## define command
+
+	:com [{attr}...] {cmd} {rep}
+			Define a user command.  The name of the command is
+			{cmd} and its replacement text is {rep}.  The command&#x27;s
+			attributes (see below) are {attr}.
+
+### args
+There are a number of attributes, split into four categories:
+
+1. argument handling,
+2. completion behavior,
+3. range handling,
+4. special cases.
+
+#### Argument handling
+Argument:
+
+	-nargs=0    No arguments are allowed (the default)
+	-nargs=1    Exactly one argument is required, it includes spaces
+	-nargs=*    Any number of arguments are allowed (0, 1, or many),
+		    separated by white space
+	-nargs=?    0 or 1 arguments are allowed
+	-nargs=+    Arguments must be supplied, but any number are allowed
+
+##### Separated character:
+
+1. Arguments are considered to be separated by (unescaped) `spaces or tabs` in this
+context.
+2. Except when there is `one argument`, then the white space is part of the argument.
+
+##### Argument expressions:
+that `arguments` are used as `text`, `not as expressions`. Except functions
+
+Specifically, `s:var` will use the script-local variable in the script where the command was
+`defined`, not where it is invoked!  Example:
+
+    script1.vim: &gt;
+	:let s:error = &quot;None&quot;
+	:command -nargs=1 Error echoerr &lt;args&gt;
+
+	script2.vim: &gt;
+	:source script1.vim
+	:let s:error = &quot;Wrong!&quot;
+	:Error s:error
+
+Executing `script2.vim` will result in `None` being echoed.
+
+&gt; Calling a function may be an alternative.
+
+#### Completion behavior
+By default, the arguments of user defined commands do not undergo completion.
+However, by specifying one or the other of the following attributes, argument
+completion can be enabled:
+
+	-complete=augroup	autocmd groups
+	-complete=buffer	buffer names
+	-complete=behave	:behave suboptions
+	-complete=color		color schemes
+	-complete=command	Ex command (and arguments)
+	-complete=compiler	compilers
+	-complete=cscope	|:cscope| suboptions
+	-complete=dir		directory names
+	-complete=environment	environment variable names
+	-complete=event		autocommand events
+	-complete=expression	Vim expression
+	-complete=file		file and directory names
+	-complete=file_in_path	file and directory names in |&#x27;path&#x27;|
+	-complete=filetype	filetype names |&#x27;filetype&#x27;|
+	-complete=function	function name
+	-complete=help		help subjects
+	-complete=highlight	highlight groups
+	-complete=history	:history suboptions
+	-complete=locale	locale names (as output of locale -a)
+	-complete=mapping	mapping name
+	-complete=menu		menus
+	-complete=option	options
+	-complete=shellcmd	Shell command
+	-complete=sign		|:sign| suboptions
+	-complete=syntax	syntax file names |&#x27;syntax&#x27;|
+	-complete=syntime	|:syntime| suboptions
+	-complete=tag		tags
+	-complete=tag_listfiles	tags, file names are shown when CTRL-D is hit
+	-complete=user		user names
+	-complete=var		user variables
+	-complete=custom,{func} custom completion, defined via {func}
+	-complete=customlist,{func} custom completion, defined via {func}
+
+&gt; Note: That some completion methods might expand environment variables.
+
+##### Custom completion
+It is possible to define customized completion schemes via the `custom,{func}`
+or the `customlist,{func}` completion argument.  The `{func}` part should be a
+function with the following signature: &gt;
+
+	:function {func}(ArgLead, CmdLine, CursorPos)
+		ArgLead		the leading portion of the argument currently being completed on
+		CmdLine		the entire command line
+		CursorPos	the cursor position in it (byte index)
+
+
+- `custom` argument, the function should return the completion candidates `one per line` in a newline separated string
+- `customlist` argument, the function should return the completion candidates as `vim list`
+
+	com -complete=custom,ListUsers -nargs=1 Finger !finger &lt;args&gt;
+	fun ListUsers(A,L,P)
+		return system(&quot;cut -d: -f1 /etc/passwd&quot;)
+	endfun
+
+#### 3. Range handling,
+By default, `user-defined` commands do not accept a line number range.
+
+However, it is possible to specify that the command does take a range,
+	either in the `line number` position (`-range=N`, like the `|:split|` command)
+	or as a `&quot;count&quot;` argument (`-count=N`, like the `|:Next|` command).
+
+Possible attributes are:
+
+	-range	    Range allowed, default is current line
+	-range=%    Range allowed, default is whole file (1,$)
+	-range=N    A count (default N) which is specified in the line
+		    number position (like |:split|); allows for zero line number.
+	-count=N    A count (default N) which is specified either in the line
+		    number position, or as an initial argument (like |:Next|).
+		    Specifying -count (without a default) acts like -count=0
+
+Note that `-range=N` and `-count=N` are `mutually exclusive` - only one should be specified.
+
+It is possible that the special characters in the range like `.`, `$` or `%` which
+by default correspond to the current line, last line and the whole buffer,
+
+Possible `:command-addr` values are:
+
+	-addr=lines		Range of lines (this is the default)
+	-addr=arguments		Range for arguments
+	-addr=buffers		Range for buffers (also not loaded buffers)
+	-addr=loaded_buffers	Range for loaded buffers
+	-addr=windows		Range for windows
+	-addr=tabs		Range for tab pages
+
+#### Special cases
+There are some special cases as well:
+
+	-bang	    The command can take a ! modifier (like :q or :w)
+	-bar	    The command can be followed by a &quot;|&quot; and another command.
+		    A &quot;|&quot; inside the command argument is not allowed then.
+		    Also checks for a &quot; to start a comment.
+	-register   The first argument to the command can be an optional
+		    register name (like :del, :put, :yank).
+	-buffer	    The command will only be available in the current buffer.
+
+In the cases of the -count and -register attributes, if the optional argument
+is supplied, it is removed from the argument list and is available to the
+replacement text separately.
+
+#### Replacement text
+To avoid the replacement use `&lt;lt&gt;` in place of the initial `&lt;`.  Thus to include &quot;`&lt;bang&gt;`&quot; literally use &quot;`&lt;lt&gt;bang&gt;`&quot;.
+
+The valid escape sequences are
+
+						*&lt;line1&gt;*
+	&lt;line1&gt;	The starting line of the command range.
+						*&lt;line2&gt;*
+	&lt;line2&gt;	The final line of the command range.
+						*&lt;count&gt;*
+	&lt;count&gt;	Any count supplied (as described for the &#x27;-range&#x27;
+		and &#x27;-count&#x27; attributes).
+						*&lt;bang&gt;*
+	&lt;bang&gt;	(See the &#x27;-bang&#x27; attribute) Expands to a ! if the
+		command was executed with a ! modifier, otherwise
+		expands to nothing.
+						*&lt;reg&gt;* *&lt;register&gt;*
+	&lt;reg&gt;	(See the &#x27;-register&#x27; attribute) The optional register,
+		if specified.  Otherwise, expands to nothing.  &lt;register&gt;
+		is a synonym for this.
+						*&lt;args&gt;*
+	&lt;args&gt;	The command arguments, exactly as supplied (but as
+		noted above, any count or register can consume some
+		of the arguments, which are then not part of &lt;args&gt;).
+	&lt;lt&gt;	A single &#x27;&lt;&#x27; (Less-Than) character.  This is needed if you
+		want to get a literal copy of one of these escape sequences
+		into the expansion - for example, to get &lt;bang&gt;, use
+		&lt;lt&gt;bang&gt;.
+
+#### q-args(signle)
+If the first two characters of an escape sequence are `q-` (for example, `&lt;q-args&gt;`)
+then `the value is quoted` in such a way as to make it a valid value for use in an expression.
+
+&gt; This uses the argument as one single value.
+
+#### f-args(multi)
+To allow commands to pass their arguments on to a `user-defined function`,
+there is a special form `&lt;f-args&gt; (&quot;function args&quot;)`.
+
+This splits the command arguments at `spaces and tabs`, quotes each argument individually, and the
+`&lt;f-args&gt;` sequence is replaced by the `comma-separated list of quoted arguments`.
+
+See the Mycmd example below.
+
+	command		   &lt;f-args&gt; ~
+	XX ab		   &#x27;ab&#x27;
+	XX a\b		   &#x27;a\b&#x27;
+	XX a\ b		   &#x27;a b&#x27;
+	XX a\  b	   &#x27;a &#x27;, &#x27;b&#x27;
+	XX a\\b		   &#x27;a\b&#x27;
+	XX a\\ b	   &#x27;a\&#x27;, &#x27;b&#x27;
+	XX a\\\b	   &#x27;a\\b&#x27;
+	XX a\\\ b	   &#x27;a\ b&#x27;
+	XX a\\\\b	   &#x27;a\\b&#x27;
+	XX a\\\\ b	   &#x27;a\\&#x27;, &#x27;b&#x27;
+
+Examples &gt;
+
+	&quot; Delete everything after here to the end
+	:com Ddel +,$d
+
+	&quot; Rename the current buffer
+	:com -nargs=1 -bang -complete=file Ren f &lt;args&gt;|w&lt;bang&gt;
+
+	&quot; Replace a range with the contents of a file
+	&quot; (Enter this all as one line)
+	:com -range -nargs=1 -complete=file
+	 Replace &lt;line1&gt;-pu_|&lt;line1&gt;,&lt;line2&gt;d|r &lt;args&gt;|&lt;line1&gt;d
+
+	&quot; Count the number of lines in the range
+	:com! -range -nargs=0 Lines  echo &lt;line2&gt; - &lt;line1&gt; + 1 &quot;lines&quot;
+
+	&quot; Call a user function (example of &lt;f-args&gt;)
+	:com -nargs=* Mycmd call Myfunc(&lt;f-args&gt;)
+
+When executed as: &gt;
+
+	:Mycmd arg1 arg2
+
+This will invoke: &gt;
+
+	:call Myfunc(&quot;arg1&quot;,&quot;arg2&quot;)
+
+	:&quot; A more substantial example
+	:function Allargs(command)
+	:   let i = 0
+	:   while i &lt; argc()
+	:	  if filereadable(argv(i))
+	:	     execute &quot;e &quot; . argv(i)
+	:	     execute a:command
+	:      endif
+	:      let i = i + 1
+	:   endwhile
+	:endfunction
+	:command -nargs=+ -complete=command Allargs call Allargs(&lt;q-args&gt;)
+
+The command Allargs takes any Vim command(s) as argument and executes it on all
+files in the argument list.  Usage example (note use of the &quot;e&quot; flag to ignore
+errors and the &quot;update&quot; command to write modified buffers): &gt;
+
+	:Allargs %s/foo/bar/ge|update
+
+This will invoke: &gt;
+
+	:call Allargs(&quot;%s/foo/bar/ge|update&quot;)
+
+When the user invokes the user command, it will run in the context of the script it was defined in.
+This matters if `|&lt;SID&gt;|` is used in a command.
+
+## delete
+
+	&quot;clear all
+	:comc :comclear
+
+	&quot;delete the user-defined command {cmd}
+	:delc {cmd}
+
+# Multi commands  one line
+see [/p/vim-script](/p/vim-script#if)
+
+	:if 0
+	:    echom &quot;if&quot;
+	:elseif &quot;nope!&quot;
+	:    echom &quot;elseif&quot;
+	:else
+	:    echom &quot;finally!&quot;
+	:endif
+
+	if 1| echo &quot;true&quot; | endif
+
+# References
+- [learnvim]
+
+[learnvim]: http://learnvimscriptthehardway.stevelosh.com/chapters/12.html</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

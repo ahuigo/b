@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/ria/vue-component.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>Vue 组件</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: Vue 组件
+date: 2018-07-15
+updated: 2018-10-06
+---
+# Vue 组件
+
+    &lt;div id=&quot;app-7&quot;&gt;
+    &lt;ol&gt;
+        &lt;todo-item v-for=&quot;item in groceryList&quot; v-bind:todo=&quot;item&quot;&gt;&lt;/todo-item&gt;
+    &lt;/ol&gt;
+    &lt;/div&gt;
+    &lt;script&gt;
+        Vue.component(&#x27;todo-item&#x27;, {
+            props: [&#x27;todo&#x27;],
+            template: &#x27;&lt;li&gt;{{ todo.text }}&lt;/li&gt;&#x27;
+        })
+        var app7 = new Vue({
+            el: &#x27;#app-7&#x27;,
+            data: {
+                groceryList: [
+                { text: &#x27;Vegetables&#x27; },
+                { text: &#x27;Cheese&#x27; },
+                { text: &#x27;Whatever else humans are supposed to eat&#x27; }
+                ]
+            }
+        })
+    &lt;/script&gt;
+
+## ignore component
+v-pre
+
+    &lt;com v-pre&gt;
+
+## 简单组件
+组件不能直接引用data全局变量
+
+    // 定义一个被命名为 todo-item 的新组件
+    Vue.component(&#x27;todo-item&#x27;, {
+        template: &#x27;&lt;li&gt;这是一个 todo 项&lt;/li&gt;&#x27;
+    })
+
+使用组件：
+
+    &lt;todo-item :title=&quot;&#x27;中国人&#x27;&quot;&gt;&lt;/todo-item&gt;
+
+## 访问元素、组件
+
+### refs
+*refs 相当于id*\
+当 ref 和 v-for 一起使用时，获取到的引用会是一个数组
+ref 指向comp
+
+    &lt;div id=&quot;parent&quot;&gt;
+        &lt;user-profile ref=&quot;profile&quot;&gt;&lt;/user-profile&gt;
+    &lt;/div&gt;
+    var parent = new Vue({ el: &#x27;#parent&#x27; })
+    // 访问子组件实例
+    var child = parent.$refs.profile
+
+ref也可以组件内部的元素
+
+    template: &#x27; &lt;input ref=&quot;input&quot; v-on:input=&quot;updateValue($event.target.value)&quot;&#x27;,
+    props: [&#x27;value&#x27;],
+    methods: {
+        updateValue: function (value) {
+            this.$refs.input.value = value.toUpperCase()
+        }
+    }
+
+`$refs` 只会在组件渲染完成之后生效。
+1. 你应该避免在`模板`或`计算属性`中访问 `$refs`
+
+### $root
+子组件可以通过$root 修改父组件的变量:
+
+    &lt;div :root=&quot;$root&quot; :is=&quot;tpl&quot;&gt;
+    &lt;tpl&gt;
+        &lt;input :value=&quot;list[1]&quot; @input=&quot;$root.$set(list, 1, $event.target.value)&quot;/&gt;
+    &lt;/tpl&gt;
+
+在子组件内访问$root:
+
+    new Vue({
+        data: {foo:1}
+    })
+    //component
+    this.$root.foo
+    this.$root.func1
+
+### $parent
+$parent 属性可以用来从一个子组件访问父组件的实例. eg. `this.$parent.getMap`: https://jsfiddle.net/chrisvfritz/ttzutdxh/
+
+
+### 依赖注入(大范围有效的 prop)
+深层次的google-map-markers 访问google-map的话
+
+    &lt;google-map&gt;
+    &lt;google-map-region v-bind:shape=&quot;cityBoundaries&quot;&gt;
+        &lt;google-map-markers v-bind:places=&quot;iceCreamShops&quot;&gt;&lt;/google-map-markers&gt;
+    &lt;/google-map-region&gt;
+    &lt;/google-map&gt;
+
+我们需要hack, 它就会失控。
+
+    var map = this.$parent.map || this.$parent.$parent.map
+
+任意更深层级的组件提供上下文信息时推荐依赖注入, 它用到了两个新的实例选项：provide 和 inject
+
+#### provice
+provide 选项允许我们指定我们想要`提供`给`后代`组件的`数据/方法`。在这个例子中，就是 `&lt;google-map&gt;` 内部的 getMap 方法：
+
+    provide: function () {
+      return {
+        getMap: this.getMap
+      }
+    }
+#### inject
+在任何`后代组件`里，我们都可以使用 inject 选项来`接收`指定的我们`想要添加`在这个实例上的`属性`：
+
+    inject: [&#x27;getMap&#x27;]
+
+示例：https://jsfiddle.net/chrisvfritz/tdv8dt3s/ (中间的组件不需要层层传递)
+
+#### 结语
+这样的属性共享，是的组件偶合起来，重构困难。
+
+如果你想要共享的这个属性是你的应用特有的，或者如果你想在祖先组件中更新所提供的数据:
+1. 你可能需要换用一个像 Vuex 这样真正的状态管理方案了。
+
+## 传值
+1. prop 是单向绑定的：
+    1. prop 属性不会出现在html DOM(inherits). `非prop`才可以继承
+    2. 当父组件的属性变化时，将传导给子组件
+2. $emit(event value) 是反向传达到父组件的
+
+### props
+todo-item 组件现在接受一个 &quot;prop&quot;，
+
+    Vue.component(&#x27;todo-item&#x27;, {
+        props: [&#x27;todo&#x27;],
+        template: &#x27;&lt;li&gt;{{ todo.text }}\
+            &lt;button v-on:click=&quot;$emit(\&#x27;remove\&#x27;)&quot;&gt;X&lt;/button&gt;\
+        &lt;/li&gt;&#x27;
+    })
+
+必须显式传入todo: `:todo=&quot;value_expression&quot;`, `tode=&quot;string&quot;`
+
+    &lt;todo-item todo=&quot;{text:&#x27;haha1&#x27;}&quot;&gt;&lt;/todo-item&gt; # 传字符串
+    &lt;todo-item v-bind:todo=&quot;{text:&#x27;haha2&#x27;}&quot;&gt;&lt;/todo-item&gt; # 传对象dict
+
+    &lt;todo-item
+      v-for=&quot;item in groceryList&quot;
+      v-bind:todo=&quot;item&quot;
+      v-bind:key=&quot;item.id&quot;&gt;
+    &lt;/todo-item&gt;
+
+`&lt;todo-item&gt;` 与`&lt;tag is=&quot;todo-item&quot;&gt;` 完全等价:
+
+    &lt;li
+      is=&quot;todo-item&quot;
+      v-for=&quot;(todo, key) in todos&quot;
+      v-bind:key=&quot;todo.id&quot;
+      v-on:remove=&quot;todos.splice(index, 1)&quot;
+    &gt;没有组件时的默认值&lt;/li&gt;
+
+#### new add prop
+
+    node={name:&#x27;xxx&#x27;}
+    &lt;comp :show=&quot;node.show&quot;&gt;
+
+新添加的参数不能触发钩子：Vue.set(node, &#x27;show&#x27;, 1)
+
+#### access props and data
+data 只是before render 生成。lmsg 不是响应式的(即使是数组，也是deep-copy)
+
+    props: [&#x27;msg&#x27;],
+    data: function() {
+        return {
+            lmsg: this.msg,
+            // other object attributes
+        }
+    },
+    methods:{
+        fun1(){
+            console.log{this.lmsg, this.msg, this.$parent.msg}
+        }
+    }
+
+#### camelCase
+HTML 特性是不区分大小写的。所以，当使用的不是字符串模板时，camelCase (驼峰式命名) 的 prop 需要转换为相对应的 kebab-case (短横线分隔式命名)：
+
+    Vue.component(&#x27;child&#x27;, {
+        // 在 JavaScript 中使用 camelCase
+        props: [&#x27;myMessage&#x27;],
+        template: &#x27;&lt;span&gt;{{ myMessage }}&lt;/span&gt;&#x27;
+    })
+    &lt;!-- 在 HTML 中使用 kebab-case 传值--&gt;
+    &lt;child my-message=&quot;hello!&quot;&gt;&lt;/child&gt;
+
+#### 非prop(this.$attrs)
+非prop 属性会被inherit 在模板的根元素上, 而prop 会被移除;\
+`inheritAttrs: false`时，所有都不被继承
+
+    &lt;child-com1 foo=&quot;foo&quot; boo=&quot;boo&quot;&gt;
+
+    props: [&#x27;foo&#x27;],
+    inheritAttrs: true, //default
+    created () {
+        console.log(this.$attrs) // { boo: &#x27;boo&#x27;} 当inheritAttrs 为true 时,只有boo被继承
+    }
+
+子组件可以再把 所有的 $attrs 传给下一层
+
+    &lt;child-com2 v-bind=&quot;$attrs&quot;&gt;
+
+除了$attrs, 父作用域中通过 v-on 监听的事件可以在 子组件中通过 `v-on=&quot;$listeners&quot;` 传递下去
+
+#### 占位属性与模板本身属性 
+DOM 决定的
+1. 一般，传递给组件的值会覆盖组件本身设定的值
+1. 但是class 与style 来说, 会合并
+
+    &lt;op is=&quot;tpl&quot; class=&quot;cls1 cls2&quot; type=&quot;text&quot;&gt;&lt;/op&gt;
+    &lt;tpl&gt;
+        &lt;input type=&quot;radio&quot; class=&quot;cls3&quot;&gt; # 实际type=&quot;text&quot;, class=&quot;cls1 cls2 cls3&quot;
+    &lt;/tpl&gt;
+
+#### props 验证
+
+    Vue.component(&#x27;example&#x27;, {
+    props: {
+        // 基础类型检测 (`null` 指允许任何类型)
+        propA: Number,
+        // 可能是多种类型
+        propB: [String, Number],
+        // 必传且是字符串
+        propC: {
+        type: String,
+        required: true
+        },
+        // 数值且有默认值
+        propD: {
+        type: Number,
+        default: 100
+        },
+        // 数组/对象的默认值应当由一个工厂函数返回
+        propE: {
+        type: Object,
+        default: function () {
+            return { message: &#x27;hello&#x27; }
+        }
+        },
+        // 自定义验证函数
+        propF: {
+        validator: function (value) {
+            return value &gt; 10
+        }
+        }
+    }
+    })
+
+### 创建副本
+props 传给子组件的值，作为局部变量是不允许直接修改的(为了不影响父组件)。你可以用data/computed 隔离、反传值:
+1. 利用data 定义局部变量, 不会影响父组件
+2. 定义一个computed 属性，处理 prop 的值并返回：
+
+#### data 局部变量
+不需要`&lt;child :value=&quot;local_data_count&quot;&gt;`传递
+1. 组件的 data 选项`必须是一个函数`，
+2. 以便每个实例都可以维护「函数返回的数据对象」的彼此独立的数据副本.
+3. `this.$data.value`,`this.value` 可以访问：https://codepen.io/ahuigo/pen/yqERxd
+
+    // 定义一个新的组件，名称为 button-counter
+    Vue.component(&#x27;button-counter&#x27;, {
+        props: [&#x27;count&#x27;, &#x27;list&#x27;],
+        data: function () {
+            return {
+                //count: 0,
+                count: this.count, //创建副本
+                mutableList: JSON.parse(JSON.stringify(this.list)); //创建副本
+            }
+        },
+        template: &#x27;&lt;button v-on:click=&quot;count++&quot;&gt;你点击了 {{ count }} 次。&lt;/button&gt;&#x27;
+    })
+
+data 本身是组件局部变量，但是可以对象共享(引用传值):
+
+    data: function () {
+        return global_obj; #相同的对象
+    },
+
+#### computed 副本
+这个data是属于组件本身的，单向传值时内外组件应该隔离：
+
+    props: [&#x27;size&#x27;],
+    computed: {
+        normalizedSize: function () {
+            return this.size.trim().toLowerCase()
+        }
+    }
+
+每次set 后，自动触发get()
+
+    normalizedSize:{
+        get:function(){
+            return this.size
+        },
+        set:function(new_val){
+            this.size=&#x27;ahui&#x27; //test
+        },
+    },
+
+### event 反向传值（内外耦合）
+子组件可以通过event 向父组件传值:
+1. event handler 必须作用于组件`占位tag`本身，或者`is`修饰的节点`tag`:
+2. 所有事件input,change, 必须显式的用$emit 向上传传递
+
+    &lt;div :style=&quot;{fontSize:sss+&#x27;em&#x27;}&quot;&gt;
+        &lt;div is=&quot;button-counter&quot; v-on:enlarge-text1=&quot;sss+=1&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    button-counter:
+        template: &#x27;&lt;span v-on:click=&quot;$emit(\&#x27;enlarge-text1\&#x27;)&quot;  &gt;ahui&lt;/span&gt;&#x27;
+
+event:custom 发送/接收一个值, 
+
+        template: &#x27;&lt;span v-on:click=&quot;$emit(\&#x27;enlarge-text1\&#x27;, 3)&quot;  &gt;ahui&lt;/span&gt;&#x27;
+        &lt;div is=&quot;button-counter&quot; v-on:enlarge-text1=&quot;sss+=$event&quot;&gt;&lt;/div&gt;
+
+event:input 发送$event.target.value +接收:
+
+    &lt;custom-input v-model=&quot;searchText&quot;&gt;
+    &lt;custom-input v-bind:value=&quot;searchText&quot; v-on:input=&quot;searchText = $event&quot; &gt;
+        template: `&lt;span v-on:input=&quot;$emit(&#x27;input&#x27;, $event.target.value)&quot;  &gt;ahui&lt;/span&gt;`
+
+&gt; custom-tag 上的on:event 只能接收子组件 emit 发出的事件
+
+#### checked
+
+    $event.target.checked
+
+#### .sync
+sync 简化了父组件修改props 的过程（$emit 还是要手动）
+
+    &lt;comp :foo.sync=&quot;bar&quot;&gt;&lt;/comp&gt;
+    #会被扩展为：
+    &lt;comp :foo=&quot;bar&quot; @update:foo=&quot;val =&gt; bar = val&quot;&gt;&lt;/comp&gt;
+
+当子组件需要更新 foo 的值时，它需要显式地触发一个更新事件：
+
+    this.$emit(&#x27;update:foo&#x27;, newValue)
+
+当使用一个对象一次性设置多个属性的时候，这个 .sync 修饰符也可以和 v-bind 一起使用：
+
+    &lt;comp v-bind.sync=&quot;doc&quot;&gt;&lt;/comp&gt;
+
+在一个字面量的对象上，例如 `v-bind.sync=”{ title: doc.title }”`，是无法正常工作的，因为在解析一个像这样的复杂表达式的时候，有很多边缘情况需要考虑
+
+### 非父子组件的通信
+有时候，非父子关系的两个组件之间也需要通信。在简单的场景下，可以使用一个空的 Vue 实例作为事件总线：
+
+    var bus = new Vue()
+
+    // 触发组件 A 中的事件
+    bus.$emit(&#x27;id-selected&#x27;, 1)
+
+    // 在组件 B 创建的钩子中监听事件
+    bus.$on(&#x27;id-selected&#x27;, function (id) {
+        // ...
+    })
+
+
+### 双向绑定
+1. vue2 props 是局部变量，不能使用v-model 直接修改，除非是按引用传值: `v-model=&quot;list[1]&quot;`
+2. 如果是非引用传值，则可以利用computed set-get实现双绑定
+3. 或者利用watch 实现双绑定
+
+后两种都需要父组件接收$event 事件向父组件传递
+
+#### computed: set-get:
+每次set 后，computed 会自动触发get()
+
+    &lt;div id=&quot;app&quot;&gt;
+        {{list}}
+        &lt;input v-model=&quot;list&quot;&gt;
+        &lt;div is=&quot;form-input&quot; :list=&quot;list&quot; @input=&quot;list=$event&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+    Vue.component(&quot;form-input&quot;, {
+        template: `&lt;input v-model=&quot;fieldModelValue&quot;/&gt;`,
+        props: [&#x27;list&#x27;],
+        computed: {
+            fieldModelValue: {
+                get() {
+                    return this.list;
+                },
+                set(newValue) {
+                    this.$emit(&#x27;input&#x27;, newValue);
+                }
+            }
+        }
+    })
+    new Vue({
+        data:{
+            list:&quot;[1,2,3]&quot;
+        },
+        el:&#x27;#app&#x27;,
+    })
+
+#### watch:set-get
+
+    Vue.component(&quot;switchbtn&quot;, {
+        props: [&quot;result&quot;],
+        data: function () {
+            return {
+                myResult: this.result
+            };
+        },
+        watch: {
+            result(val) {
+                this.myResult = val;
+            },
+            myResult(val){
+                this.$emit(&quot;change&quot;,val);
+            }
+        }
+## slot, 插槽
+有了slot 后，comp 的template 可以直接写slot 引入了:
+
+    template: &#x27;&lt;div class=&quot;comp1&quot;&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/div&gt;&#x27; //child 的slot 直接包含站位comp1 的dom
+
+slot 允许对组件占位中的内容重载: js-demo/vue-slot.html:
+    https://codepen.io/ahuigo/pen/rrKqJB
+
+1. child 子模板`&lt;slot name=&quot;xx&quot;&gt;` 会被父模板`slot=&quot;xxx&quot;`覆盖
+1. child 子模板`&lt;slot&gt;` 会被父模板`&lt;child&gt;`覆盖
+
+slot 也像是普通元素那样使用v-for:
+
+    &lt;slot v-for=&quot;text in list&quot; :text=&quot;text&quot;&gt;&lt;/slot&gt;
+
+### slot-scope 传值
+见: https://juejin.im/post/5a69ece0f265da3e5a5777ed
+
+`&lt;slot&gt;`是插槽，里面可以有默认值，也可以向他传
+
+    &lt;slot :todo=&quot;todo&quot;&gt;&lt;/slot&gt;
+
+然后, 模板通过slot-scope 获取值
+
+    &lt;child&gt;
+      &lt;template slot-scope=&quot;{ todo }&quot;&gt;
+        {{ todo.text }}
+      &lt;/template&gt;
+    &lt;/child&gt;
+
+slot-scope 也可以用命名作用域
+
+    &lt;child&gt;
+      &lt;template slot-scope=&quot;slotProps&quot;&gt;
+        {{ slotProps.todo.text }}
+      &lt;/template&gt;
+    &lt;/child&gt;
+
+## 组合
+### 异步组件
+你可以在工厂函数中返回一个 Promise
+
+    Vue.component(&#x27;async-example&#x27;, function (resolve, reject) {
+      setTimeout(function () {
+        resolve({
+          template: &#x27;&lt;div&gt;I am async!&lt;/div&gt;&#x27;
+        })
+      }, 1000)
+    })
+
+setTimeout 是为了演示用的，如何获取组件取决于你自己。一个推荐的做法是将异步组件和 webpack 的 code-splitting 功能一起配合使用：
+
+    Vue.component(&#x27;async-webpack-example&#x27;, function (resolve) {
+      // 这个特殊的 `require` 语法将会告诉 webpack
+      // 自动将你的构建代码切割成多个包，这些包
+      // 会通过 Ajax 请求加载
+      require([&#x27;./my-async-component&#x27;], resolve)
+    })
+
+局部异步:
+
+    components: {
+        &#x27;my-component&#x27;: () =&gt; import(&#x27;./my-async-component&#x27;)
+    }
+
+#### 处理加载状态
+如果想在加载时，显示loading 状态组件, 
+
+    const AsyncComponent = () =&gt; ({
+      // 需要加载的组件 (应该是一个 `Promise` 对象)
+      component: import(&#x27;./MyComponent.vue&#x27;),
+      // 异步组件加载时使用的组件
+      loading: LoadingComponent,
+      // 加载失败时使用的组件
+      error: ErrorComponent,
+      // 展示加载时组件的延时时间。默认值是 200 (毫秒)
+      delay: 200,
+      // 如果提供了超时时间且组件加载也超时了，
+      // 则使用加载失败时使用的组件。默认值是：`Infinity`
+      timeout: 3000
+    })
+
+
+### 组件命名
+这意味着 PascalCase 是最通用的声明约定而 kebab-case 是最通用的使用约定。
+
+    components: {
+        &#x27;kebab-cased-component&#x27;: { /* ... */ },
+        camelCasedComponent: { /* ... */ },
+        PascalCasedComponent: { /* ... */ }
+    }
+    &lt;kebab-cased-component&gt;&lt;/kebab-cased-component&gt;
+
+    &lt;camel-cased-component&gt;&lt;/camel-cased-component&gt;
+    &lt;camelCasedComponent&gt;&lt;/camelCasedComponent&gt;
+
+    &lt;pascal-cased-component&gt;&lt;/pascal-cased-component&gt;
+    &lt;pascalCasedComponent&gt;&lt;/pascalCasedComponent&gt;
+    &lt;PascalCasedComponent&gt;&lt;/PascalCasedComponent&gt;
+
+### 全局组件
+全局组件可以用于之后创建的所有Vue 根实例、子组件的内部
+
+    Vue.component(&#x27;my-component-name&#x27;, {
+    // ... options ...
+    })
+
+### 局部组件
+
+    var Child = {
+        template: &#x27;&lt;div&gt;A child component!&lt;/div&gt;&#x27;
+    }
+    new Vue({
+        components: {
+            &#x27;my-component&#x27;: Child
+        }
+    })
+
+注意局部注册的组件在其子组件中不可用。如果你希望 ComponentA 在 ComponentB 中可用，则你需要这样写：
+
+    var ComponentA = { /* ... */ }
+    var ComponentB = {
+        components: {
+            &#x27;component-a&#x27;: ComponentA
+        },
+        // ...
+    }
+
+或者如果你通过 Babel 和 webpack 使用 ES2015 模块，那么代码看起来更像：
+
+    import ComponentA from &#x27;./ComponentA.vue&#x27;
+
+    export default {
+        components: {
+            ComponentA
+        },
+    }
+
+## 递归组件
+构建一个文件目录树，tree-folder 组件，模板是这样的：
+
+    &lt;p&gt;
+        &lt;span&gt;{{ folder.name }}&lt;/span&gt;
+        &lt;tree-folder-contents :children=&quot;folder.children&quot;/&gt;
+    &lt;/p&gt;
+
+还有一个 tree-folder-contents 组件，模板是这样的：
+
+    &lt;ul&gt;
+      &lt;li v-for=&quot;child in children&quot;&gt;
+        &lt;tree-folder v-if=&quot;child.children&quot; :folder=&quot;child&quot;/&gt;
+        &lt;span v-else&gt;{{ child.name }}&lt;/span&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+
+### 相互依赖
+1. Vue 可以处理: A 依赖 B，B 又依赖 A, 
+2. 然而，如果你使用一个`模块系统`依赖导入组件(例如 webpack 或 Browserify)，你会遇到一个错误: mounted: template not defined.
+
+需要告诉模糊系统一个点：解析A时， 不需要先解析 B. 
+1. tree-folder 组件设为了那个点
+2. tree-folder-contents 要等到生命周期钩子 beforeCreate 时去注册它
+
+code:
+
+    beforeCreate: function () {
+        this.$options.components.TreeFolderContents = require(&#x27;./tree-folder-contents.vue&#x27;).default
+    }
+
+或者，在本地注册组件的时候，你可以使用 webpack 的异步 import：
+
+    components: {
+      TreeFolderContents: () =&gt; import(&#x27;./tree-folder-contents.vue&#x27;)
+    }
+
+## 动态组件
+通过is 改变:
+
+    &lt;script src=&quot;https://unpkg.com/vue&quot;&gt;&lt;/script&gt;
+    &lt;div id=&quot;app&quot;&gt;
+        &lt;button
+            v-for=&quot;tab in tabs&quot;
+            v-bind:key=&quot;tab&quot;
+            v-bind:class=&quot;[&#x27;tab-button&#x27;, { active: currentTab === tab }]&quot;
+            v-on:click=&quot;currentTab = tab&quot;
+        &gt;{{ tab }}&lt;/button&gt;
+
+        &lt;component
+            v-bind:is=&quot;currentTab&quot;
+            class=&quot;tab&quot;
+        &gt;&lt;/component&gt;
+    &lt;/div&gt;
+
+### keep-alive(dom 常驻)
+如果把切换出去的组件保留在内存中，可以保留它的状态或避免重新渲染。比如表单数据
+
+    &lt;keep-alive&gt;
+    &lt;component :is=&quot;currentView&quot;&gt;
+        &lt;!-- 非活动组件将被缓存！ --&gt;
+    &lt;/component&gt;
+    &lt;/keep-alive&gt;
+
+### 静态 v-html:
+
+    &lt;div class=&quot;blog-post&quot;&gt;
+        &lt;h3&gt;{{ post.title }}&lt;/h3&gt;
+        &lt;div v-html=&quot;post.content&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+### 异步
+    Vue.component(&#x27;async-example&#x27;, function (resolve, reject) {
+      setTimeout(function () {
+        // 将组件定义对象(component definition)传递给 resolve 回调函数
+        resolve({
+          template: &#x27;&lt;div&gt;I am async!&lt;/div&gt;&#x27;
+        })
+      }, 1000)
+    })
+    
+# tpl
+
+## 强制更新
+你可能还没有留意到`数组或对象`的变更检测注意事项，或者你可能依赖了一个未被 Vue 的响应式系统追踪的状态。
+
+极少数的情况下需要手动强制更新，那么你可以通过 `$forceUpdate` 来做这件事。
+
+## v-once
+当组件中包含大量静态内容时，\
+你可以在根元素上添加 v-once 特性
+1. 以确保这些内容只计算一次然后缓存起来(数据再次变更就不会响应更新了)
+
+code
+
+    Vue.component(&#x27;terms-of-service&#x27;, {
+        template: &#x27;\
+            &lt;div v-once&gt;\
+                &lt;h1&gt;Terms of Service&lt;/h1&gt; ...很多静态内容...\
+            &lt;/div&gt;\
+        &#x27;
+    })
+
+## 内联模板
+当 inline-template 这个组件将会使用其里面的内容作为模板.（代替了`&lt;slot&gt;&lt;/slot&gt;`）占位符内容就是模板
+
+    &lt;my-component inline-template&gt;
+      &lt;div&gt;
+        &lt;p&gt;These are compiled as the component&#x27;s own template.&lt;/p&gt;
+        &lt;p&gt;Not parent&#x27;s transclusion content.&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/my-component&gt;
+
+## X-Templates(不推荐)
+另一个定义模板的方式是在一个 script 元素中x-template
+
+    &lt;script type=&quot;text/x-template&quot; id=&quot;hello-world-template&quot;&gt;
+        &lt;p&gt;Hello hello hello&lt;/p&gt;
+    &lt;/script&gt;
+    template: &#x27;#hello-world-template&#x27;
+
+# program
+
+## Add component to DOM (popsData)
+https://jsfiddle.net/4fn2h4vL/545/
+
+    &lt;div id=&quot;mount&quot;&gt;&lt;/div&gt;
+    const Hello = {
+      props: [&#x27;text&#x27;],
+      template: &#x27;&lt;div class=&quot;hello&quot;&gt;{{ text }}&lt;/div&gt;&#x27;,
+    };
+
+    const HelloCtor = Vue.extend(Hello);
+    const vm = new HelloCtor({
+      propsData: {
+        text: &#x27;HI :)&#x27;
+      }
+    }).$mount(&#x27;#mount&#x27;);</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

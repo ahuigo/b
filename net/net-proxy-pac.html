@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/net/net-proxy-pac.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>pac(Proxy Auto Config)</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: pac(Proxy Auto Config)
+date: 2018-09-28
+updated: 2018-10-06
+---
+# pac(Proxy Auto Config)
+iOS实际上支持socks代理的，但在 iPhone和iPad设备的`Setting -&gt; WLAN` 下只能看到HTTP Proxy
+
+用自动配置文件，就可以支持socks代理
+
+    function FindProxyForURL(url, host)
+    {
+         return &quot;SOCKS proxy_host:proxy_port&quot;;
+    }
+
+Safari (OSX, iOS)只认识SOCKS,虽然它默认也是使用SOCKS5协议
+
+    SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080; DIRECT
+
+保存到 http://xxx.com/proxy.pac, 在 iPhone设备中，添加自动配置 URL 为上面的地址，就可以使用socks代理了
+
+&gt; PAC是一个javascript脚本，浏览器在每次请求一个URL之前，都会运行它． 用　file:///var/run/x.pac 这样的路径
+
+# 规则
+
+## Headers
+为了完整性和最佳的兼容性，我们应该设置网页服务器(apache或者nginx,lighttpd等等)将这个pac文件的MIME类型声明为
+
+    前者: 被更多的客户端所支持
+    application/x-ns-proxy-autoconfig
+    或者
+    application/x-javascript-config
+
+## 返回
+FindProxyForURL的返回值，可以是以下３种之一，或者是它们的组合
+
+    DIRECT
+       直接连接，不使用代理
+
+    PROXY host:port;host2:port
+    　　　使用指定的http代理
+
+    SOCKS host:port;host2:port
+    　　　使用指定的SOCKS代理
+
+## Function
+http://findproxyforurl.com/pac-functions/
+
+### isInNet(host_or_ip, pattern, mask)
+isInNet 判断host 是否在一个网段
+dnsResolve(host) 将host解析为ip地址
+
+    if (isInNet(host, &quot;192.168.1.0&quot;, &quot;255.255.255.0&quot;))
+        return &quot;DIRECT&quot;;
+    if (isInNet(dnsResolve(host), &quot;172.16.0.0&quot;, &quot;255.240.0.0&quot;))
+        return &quot;DIRECT&quot;;
+
+    if (isInNet(myIpAddress(), &quot;10.10.1.0&quot;, &quot;255.255.255.0&quot;))
+        return &quot;PROXY 10.10.5.1:8080&quot;;
+
+
+    var resolved_ip = dnsResolve(host);
+    if (isInNet(dnsResolve(host), &quot;10.0.0.0&quot;, &quot;255.0.0.0&quot;) ||
+        isInNet(dnsResolve(host), &quot;172.16.0.0&quot;,  &quot;255.240.0.0&quot;) ||
+        isInNet(dnsResolve(host), &quot;192.168.0.0&quot;, &quot;255.255.0.0&quot;) ||
+        isInNet(dnsResolve(host), &quot;127.0.0.0&quot;, &quot;255.255.255.0&quot;))
+        return &quot;DIRECT&quot;;
+
+判断host的一级域名
+
+    if (dnsDomainIs(host, &quot;.google.com&quot;))
+        return &quot;DIRECT&quot;;</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

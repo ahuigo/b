@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/db/mysql-slave.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>Mysql 主从设置</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: Mysql 主从设置
+date: 2018-09-27
+updated: 2018-10-06
+---
+# mysql
+
+1. 主从复制（Master-Slave）的方式来同步数据，
+2. 再通过读写分离（MySQL-Proxy）来提升数据库的并发负载能力
+2. 从服务器可作为备份
+
+# Mysql 主从案例
+参考: http://369369.blog.51cto.com/319630/790921
+
+## 主从延迟
+实时性要求高的，建议中间层加redis
+
+
+## 1、主从服务器分别作以下操作：
+  1.1、版本一致
+  1.2、初始化表，并在后台启动mysql
+  1.3、修改root的密码
+
+假如有两个db:
+
+    db1 : 10.10.10.10
+    db2 : 11.11.11.11
+
+## 2、修改主服务器master:
+
+   #vi /etc/my.cnf
+       [mysqld]
+       log-bin=mysql-bin   //[必须]启用二进制日志
+       server-id=10      //[必须]服务器唯一ID，默认是1，一般取IP最后一段, 其实是任意取
+
+## 3、修改从服务器slave:
+   #vi /etc/my.cnf
+       [mysqld]
+       log-bin=mysql-bin   //[不是必须]启用二进制日志
+       server-id=11       //[必须]服务器唯一ID，默认是1，一般取IP最后一段
+
+## 4、重启两台服务器的mysql
+   /etc/init.d/mysql restart
+
+## 5、在主服务器上建立帐户并授权slave:
+
+    master &gt;GRANT REPLICATION SLAVE ON *.* to &#x27;mysync&#x27;@&#x27;%&#x27; identified by &#x27;q123456&#x27;;
+        %表示所有客户端都可以连， 也可以指定ip 比如slave 的ip 11.11.11.11
+        *.* 表示所有的db.table
+
+## 6、登录主服务器的mysql，查询master的状态
+    mysql&gt;show master status;
+    +------------------+----------+--------------+------------------+
+    | File             | Position | Binlog_Do_DB | Binlog_Ignore_DB |
+    +------------------+----------+--------------+------------------+
+    | mysql-bin.000004 |      308 |              |                  |
+    +------------------+----------+--------------+------------------+
+    1 row in set (0.00 sec)
+    记录下 FILE 及 Position 的值，在后面进行从服务器操作的时候需要用到。
+
+## 7、配置从服务器Slave：
+   mysql&gt;change master to master_host=&#x27;10.10.10.10&#x27;,master_user=&#x27;mysync&#x27;,master_password=&#x27;q123456&#x27;,
+         master_log_file=&#x27;mysql-bin.000004&#x27;,master_log_pos=308;
+
+   Mysql&gt;start slave;    //启动从服务器复制功能
+
+## 8、检查从服务器复制功能状态：
+
+    mysql&gt; show slave status\G
+    Slave_IO_State: Waiting for master to send event
+    Master_Host: 10.10.10.10  //主服务器地址
+    Master_User: mysync   //授权帐户名，尽量避免使用root
+    Master_Port: 3306    //数据库端口，部分版本没有此行
+    Connect_Retry: 60
+    Master_Log_File: mysql-bin.000004
+    Read_Master_Log_Pos: 600     //#同步读取二进制日志的位置，大于等于Exec_Master_Log_Pos
+    Relay_Log_File: ddte-relay-bin.000003
+    Relay_Log_Pos: 251
+    Relay_Master_Log_File: mysql-bin.000004
+    Slave_IO_Running: Yes    //此状态必须YES
+    Slave_SQL_Running: Yes     //此状态必须YES
+        ......
+    Master_Server_Id: 10
+
+注：Slave_IO及Slave_SQL进程必须正常运行，即YES状态，否则都是错误的状态(如：其中一个NO均属错误)。
+
+## 停机做主从同步
+如果主服务器已经存在应用数据，则在进行主从复制时，需要做以下处理：
+
+    (1)主数据库进行锁表操作，不让数据再进行写入动作
+    mysql&gt; FLUSH TABLES WITH READ LOCK;
+
+    (2)查看主数据库状态
+    mysql&gt; show master status;
+
+    (3)记录下 FILE 及 Position 的值。
+    将主服务器的数据文件（整个/opt/mysql/data目录）复制到从服务器，建议通过tar
+
+    (4)取消主数据库锁定
+    mysql&gt; UNLOCK TABLES;
+
+假如有两个db:
+
+    db1 master: 10.10.10.10
+    db2 slave: 11.11.11.11
+
+我们想让db1 做Master, db2 做slave.
+
+1. 先查下db1 的状态: 备份+查看状态 应该原子的, 一般要停master 写数据
+
+    mysql -h10.10.10.10 &gt;10.sql
+    mysql&gt;show master status\G;
+    *************************** 1. row ***************************
+      File: mysql-bin.000001    (slave)
+      Position: 111   (slave 同步位置)
+      Binlog_Do_DB: dbname
+      Binlog_Ignore_DB: mysql
+
+
+然后操作db2 就好了
+
+    mysql -uroot -h11.11.11.11 &lt; 10.sql
+    mysql -uroot -h11.11.11.11
+    mysql &gt; stop  slave;
+    mysql &gt; change master to master_host=&#x27;10.10.10.10&#x27;, master_user=&#x27;root&#x27;, master_password=&#x27;root@passwd&#x27;, master_log_file=&#x27;mysql-bin.000001&#x27;, master_log_pos=111;
+    mysql &gt; start slave;
+
+查看从库的状态
+
+    mysql&gt;show slave status\G;
+    Slave_IO_Running: Yes
+    Slave_SQL_Running: Yes</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

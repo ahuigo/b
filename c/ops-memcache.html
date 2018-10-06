@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/c/ops-memcache.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>memcached</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: memcached
+date: 2018-10-06
+updated: 2018-10-06
+---
+# Preface
+
+# 集成式Cache 分布式扩展
+Refer to: http://blog.csdn.net/cenwenchu79/article/details/2981863
+
+Memcached 服务端单实例的，但是可以通过客户端按照Key的hash 实现分布式存储, 或者通过一致性hash(Consistent Hashing) 分布存储
+所以 Memcached 是集中式cache, 另外它支持分布式横向扩展.
+
+## 集中式Cache 分两种架构
+
+1. 节点均衡的网状(JBoss Tree Cache), 利用JGroup 的多播通信机制同步数据
+2. Master-Slaves模式：Master 管理Slaves Master 存在单点问题
+
+集中式Cache: 没有分布式Cache 的传播问题，但需要非单点(比如将多个Memcached 作为虚拟的cluster)支持
+
+## Memcached支持*分布式扩展*:
+将多台机器上的多个memcached 服务组成一个虚拟的服务端，对于调用者来说完全屏蔽和透明。这很容易scale out 扩展
+
+使用一致性hash
+
+	setOption(Memcached::OPT_DISTRIBUTION, Memcached::DISTRIBUTION_CONSISTENT)
+
+
+# 跨机房同步mcproxy
+Refer: http://www.ooso.net/archives/558
+
+mcproxy 是facebook 开发的memcached 与 proxy结合。利用mcproxy来进行跨机房的全球同步或分发。facebook还没开源mcproxy，不过有两个替代:
+
+	memagent
+		a simple but useful proxy program for memcached servers.
+	moxi
+		memcached + integrated proxy
+
+# 数据一致性
+*并发数据一致性* 
+Memcached提供了cas(Check And Set)命令，可以保证多个并发访问操作同一份数据的一致性问题。 redis 没有cas 但是提供的事务可以保证操作的原子性。
+
+&gt; http://weibo.com/p/1001603862417250608209
+
+## CAS
+
+	do {
+		/* fetch IP list and its token */
+		$ips = $m-&gt;get(&#x27;ip_block&#x27;, null, $cas);
+		/* if list doesn&#x27;t exist yet, create it and do
+		   an atomic add which will fail if someone else already added it */
+		if ($m-&gt;getResultCode() == Memcached::RES_NOTFOUND) {
+			$ips = array($_SERVER[&#x27;REMOTE_ADDR&#x27;]);
+			$m-&gt;add(&#x27;ip_block&#x27;, $ips);
+		/* otherwise, add IP to the list and store via compare-and-swap
+		   with the token, which will fail if someone else updated the list */
+		} else { 
+			$ips[] = $_SERVER[&#x27;REMOTE_ADDR&#x27;];
+			$m-&gt;cas($cas, &#x27;ip_block&#x27;, $ips);
+		}   
+	} while ($m-&gt;getResultCode() != Memcached::RES_SUCCESS);
+
+*memcached 与 mysql 的一致性*
+
+- HandlerSocket is a NoSQL plugin for MySQL/MariaDB. 集成了nosql, 不用担心与mysql 间的数据一致性
+- 像网易那样用mysq user define UDF主动trigger 更新Cacher 会涉及到锁机制的问题
+
+# Expire 超时时间
+失效秒数不能超过60×60×24×30（30天时间的秒数）;如果失效的值大于这个值， 服务端会将其作为一个真实的Unix时间戳来处理而不是 自当前时间的偏移。
+
+如果失效值被设置为0（默认），此元素永不过期（但是它可能由于服务端为了给其他新的元素分配空间而被删除）
+
+# Daemon
+`memcached -h`
+
+	-p &lt;num&gt;      TCP port number to listen on (default: 11211)
+	-U &lt;num&gt;      UDP port number to listen on (default: 11211, 0 is off)
+	-s &lt;file&gt;     UNIX socket path to listen on (disables network support)
+	-A            enable ascii &quot;shutdown&quot; command
+	-a &lt;mask&gt;     access mask for UNIX socket, in octal (default: 0700)
+	-d 			run as daemon
+	-m &lt;num&gt;
+              Use  &lt;num&gt;  MB  memory  max  to  use  for  object storage; the default is 64
+              megabytes.
+	-p &lt;PORT&gt;
+
+Example:
+
+	memcached -s /tmp/mc.sock -a 0755 -d -p 11211
+
+## status
+
+	-v            verbose (print errors/warnings while in event loop)
+	-vv           very verbose (also print client commands/reponses)
+	-vvv          extremely verbose (also print internal state transitions)
+
+# Client
+
+## shell client
+To make a connection to Memcached using Telnet, use the following command:
+
+	$ telnet localhost 11211
+		Trying 127.0.0.1...
+		Connected to localhost.
+		Escape character is &#x27;^]&#x27;.
+		If at any time you wish to terminate the Telnet session, simply type &quot;quit&quot; and hit return:
+
+	&gt; stats
+	&gt; quit
+	Connection closed by foreign host.
+
+## php client
+
+	$m = new memcached;
+	$m-&gt;setOption ( memcached::OPT_DISTRIBUTION, memcached::DISTRIBUTION_CONSISTENT );
+	$m-&gt;setOption ( memcached::OPT_LIBKETAMA_COMPATIBLE, true );
+	$m-&gt;setOption ( memcached::OPT_NO_BLOCK, true );
+	$m-&gt;setOption ( memcached::OPT_COMPRESSION, true);
+	$m-&gt;setOption ( memcached::OPT_CONNECT_TIMEOUT, 200 );
+	$m-&gt;setOption ( memcached::OPT_RETRY_TIMEOUT, 1 );
+	$m-&gt;addServers ($servers = [[&#x27;host&#x27;,&#x27;port&#x27;,&#x27;weight&#x27;]]);
+	$m-&gt;addServer (&#x27;localhost&#x27;, 11211);
+	$m-&gt;set(&#x27;key&#x27;, 1, 3600);
+	echo $m-&gt;get(&#x27;key&#x27;);
+
+To use unix socket, you should:
+
+	$m-&gt;addServer(&#x27;/tmp/mc.sock&#x27;, 0); // Socket port is 0, and do not use `unix:` prefix like `unix:/tmp/mc.sock`
+
+## touch(expiration)
+
+	public bool Memcached::touch ( string $key , int $expiration= time() + secs )
+
+## increment
+
+	public int Memcached::increment ( string $key [, int $offset = 1 ] )
+	public int Memcached::decrement ( string $key [, int $offset = 1 ] )
+
+## getDelayed
+获取多个keys
+
+	$m = new Memcached();
+	$m-&gt;addServer(&#x27;/tmp/mc.sock&#x27;, 0);
+
+	$m-&gt;set(&#x27;int&#x27;, 99);
+	$m-&gt;set(&#x27;string&#x27;, &#x27;a simple string&#x27;);
+	$m-&gt;set(&#x27;array&#x27;, array(11, 12));
+
+	//延迟的获取int和array这两个key的值
+	$m-&gt;getDelayed(array(&#x27;int&#x27;, &#x27;array&#x27;), true);
+	//循环抓取上面的延迟抓取得到的结果
+	while ($result = $m-&gt;fetch()) {
+		var_dump($result);
+	}
+
+Results:
+
+	array(3) {
+	  [&quot;key&quot;]=&gt;
+	  string(3) &quot;int&quot;
+	  [&quot;value&quot;]=&gt;
+	  int(99)
+	  [&quot;cas&quot;]=&gt;
+	  float(1)
+	}
+
+## proxy
+Twemproxy(/usr/sbin/nutcracker)是一个代理服务器，可以通过它减少Memcached或Redis服务器所打开的连接数。Twemproxy速度很快，真的很快，它几乎与直接访问Redis速度一样快
+https://github.com/twitter/twemproxy
+
+	通过代理的方式减少缓存服务器的连接数
+	自动在多台缓存服务器间共享数据
+	通过不同的策略与散列函数支持一致性散列
+	通过配置的方式禁用失败的结点
+	运行在多个实例上，客户端可以连接到首个可用的代理服务器
+	支持请求的流式与批处理，因而能够降低来回的消耗
+
+&gt; Refer: http://www.infoq.com/cn/news/2012/12/twemproxy
+
+twemorxy config
+
+	$ cat /etc/nutcracker/nutcracker.yml
+	group1:
+	  listen: /dev/mc1.sock
+	  hash: fnv1a_64
+	  distribution: ketama //setOption(Memcached::OPT_DISTRIBUTION, Memcached::DISTRIBUTION_CONSISTENT)
+	  preconnect: true
+	  backlog: 65535
+	  timeout: 1000
+	  server_connections: 16
+	  auto_eject_hosts: false
+	  server_retry_timeout: 1000
+	  server_failure_limit: 5
+	  servers:
+	   - 192.168.0.1:11211:10
+	   - 192.168.0.2:11211:10
+
+# debug
+&gt; SERVER HAS FAILED AND IS DISABLED UNTIL TIMED RETRY
+
+很可能是servers ip 不可用
+
+# Security
+This method is only available when the memcached extension is built with SASL support. Please refer to Memcached setup for how to do this.
+
+	$mc-&gt;setSaslAuthData ( string $username , string $password )
+
+you&#x27;ll have to set the Memcached::OPT_BINARY_PROTOCOL option to true:
+
+	$mc-&gt;setOption(Memcached::OPT_BINARY_PROTOCOL, true);
+</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

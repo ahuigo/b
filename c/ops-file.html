@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/c/ops-file.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>linux 文件管理</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: linux 文件管理
+date: 2018-10-06
+updated: 2018-10-06
+---
+# Preface
+本该讲述的是与shell 相关的 Linux文件管理
+
+# ls
+
+	ll -S 按文件大小排序
+	ll -i 查看文件的inode
+
+# find
+
+	find [-H | -L | -P] [-EXdsx] [-f path] path ... [expression]
+
+## -exec
+
+	find . -inum INODE -exec cmd #根据-exec
+		-inum #指定文件的inode
+		-exec cmd #对匹配文件执行cmd. 特殊字符需要转义. eg. `rm {} \;`
+	find . -inum 123 -o -inum 132 -exec rm {} \;
+
+## -name
+find -name 支持wildcard(&quot;[,],*,?&quot;)
+	-name pattern
+		 True if the last component of the pathname being examined matches pattern.  Special shell pattern matching characters (``[&#x27;&#x27;, ``]&#x27;&#x27;, ``*&#x27;&#x27;, and ``?&#x27;&#x27;) may be used as part of pattern.  These characters may be matched explicitly by escaping them with a backslash (``\&#x27;&#x27;).
+
+eg:
+
+	find . -name &#x27;[AB].txt&#x27;
+	find . -name &#x27;*.txt&#x27;  #或者 find -name \*.txt
+
+## -regex &amp; -iregex
+这个参数是匹配path 而不是像-name那样只匹配filename(-iregex same as -regex but ther match is case isensitive)
+It support POSIX Basic regular expressions by default (and so does grep).
+
+	$ find  . -maxdepth 1  -regex &#x27;./\(Ale[xe]\).*&#x27;
+		a/Alex.SpeechVoice
+		a/Alee.SpeechVoice
+
+开启-E 后就可以支持ERE了.
+
+	$ find . -maxdepth -regex &#x27;./(Alex|John).*&#x27;
+
+注意-regex -iregex内部实现强制使用了^$. 即&#x27;^Alex$&#x27; ,&#x27;^Alex&#x27;, &#x27;Alex$&#x27;是等价的, 如果相部分匹配, 一定要加.*
+
+	-regex &#x27;.*Alex.*&#x27;
+
+
+## -not &amp; !
+实现条件反转, 比如寻找txt文件但过滤掉a.txt
+
+	find . -name \*.txt ! -name &#x27;a.txt&#x27;
+	find . -name \*.txt -not -name &#x27;a.txt&#x27;
+
+# du
+du -s dir/* | sort -nr &gt; dir.du
+
+# operater
+
+## truncate
+
+	sudo truncate -s0 path_to_file
+
+
+# ulimit限制
+ulimit 命令设置或报告用户进程资源极限，如 `/etc/security/limits*` `/Library/LaunchDaemons/limit.maxfiles.plist` 及`.profile` 文件所定义。文件包含以下缺省值极限：
+
+	fsize = 2097151
+	core = 2097151
+	cpu = -1
+	data = 262144
+	rss = 65536
+	stack = 65536
+	nofiles = 2000
+
+## ulimit 语法
+
+	ulimit [-acdfHlmnpsStvw] [size]
+	选项与参数：
+	-a : 显示当前所有的资源限制.
+	-n : file descriptors
+	-f ：此 shell 可以创建的最大文件容量(一般可能配置为 2GB)单位为 Kbytes
+	-t ：可使用的最大 CPU 时间 (单位为秒)
+	-d : 设置程序可用数据段(segment)的最大值.单位:kbytes
+	-m : 设置可以使用的常驻内存的最大值.单位:kbytes
+	-l : 设置在内存中锁定进程的最大值.单位:kbytes
+	-v : 设置虚拟内存的最大值.单位:kbytes 5,简单实例:
+	-u ：单一用户可以使用的最大程序(process)数量。
+	-H ：hard limit ，严格的配置，必定不能超过这个配置的数值；
+	-S ：soft limit ，警告的配置，可以超过这个配置值，但是若超过则有警告信息。
+	     在配置上，通常 soft 会比 hard 小，举例来说，soft 可配置为 80 而 hard
+	     配置为 100，那么你可以使用到 90 (因为没有超过 100)，但介于 80~100 之间时，
+	     系统会有警告信息通知你！
+	-a ：后面不接任何选项与参数，可列出所有的限制额度；
+	-c : 设置core文件的最大值.单位:blocks
+	     当某些程序发生错误时，系统可能会将该程序在内存中的信息写成文件(除错用)，
+	     这种文件就被称为核心文件(core file)。此为限制每个核心文件的最大容量。
+	-p : 设置管道缓冲区的最大值.单位:kbytes
+	-s : 设置堆栈的最大值.单位:kbytes
+
+Example:
+    ulimit -SHn 65535
+	ulimit -n 65535
+
+&gt; 省略 Limit 参数时，将会打印出当前资源极限。除非用户指定 -H 标志，否则打印出软极限。当用户指定一个以上资源时，极限名称和单元在值之前打印。如果未给予选项，则假定带有了 -f 标志。
+
+##　列出所有限制
+
+	ulimit -a
+	ulimit -f 10240 #用户只能创建10M以下的文件
+
+## 限制文件大小
+如果我们想要对由shell创建的文件大小作些限制,如:
+
+	ulimit -f 100 #设置创建文件的最大块(一块=512字节)
+
+	$ cat h&gt;newh
+	$ ll h newh
+	-rw-r--r-- 1 lee lee 150062 7月 22 02:39 h
+	-rw-r--r-- 1 lee lee 51200 11月 8 11:47 newh
+
+文件h的大小是150062字节,而我们设定的创建文件的大小是512字节x100块=51200字节，当然系统就会根据你的设置生成了51200字节的newh文件.
+
+## 限制堆栈
+在Linux下写程序的时候，如果程序比较大，经常会遇到“段错误”（segmentationfault）这样的问题，这主要就是由于Linux系统初始的堆栈大小（stack size）太小的缘故，一般为10M。我一般把stacksize设置成256M，这样就没有段错误了！命令为：
+
+	ulimit   -s 262140
+
+如果要系统自动记住这个配置，就添加到`/etc/profile`文件
+</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

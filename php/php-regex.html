@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/php/php-regex.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>php 正则简介</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: php 正则简介
+date: 2018-10-06
+updated: 2018-10-06
+---
+# 序
+本文描述的是php中正则与通用正则的特殊性以及[30分钟正则入门]不曾提及的东西.
+关于正则表达基础, 请参阅[30分钟正则入门](http://deerchao.net/tutorials/regex/regex.htm).
+
+# Configuration
+
+	default_charset=&#x27;UTF-8&#x27;
+
+# 转义序列
+
+	\ddd
+
+&gt;8进制或者后向引用（当字组数量大于等于ddd/dd所表示的十进数时或者只有一个d时，就表示后向引用，否则就尝试解析为８进制,不成功就将&quot;\&quot;解析为单字节&quot;\x00&quot;中纯数字本身的含义）eg:\40 当字组有40个以上时,就表示后向引用. \81 先尝试解析为后向引用,否则尝试角析为8进制,最后才解析为&quot;\x0081&quot;
+
+具体来说:
+
+	&#x27;#\40#&#x27; 匹配 &quot;\040&quot; //echo preg_match(&#x27;#\40#&#x27;, &quot;\040&quot;);
+	&#x27;#\040#&#x27; 匹配 &quot;\040&quot; //echo preg_match(&#x27;#\040#&#x27;, &quot;\040&quot;);
+	&#x27;#\81#&#x27; 匹配 &quot;\x0081&quot; //echo preg_match(&#x27;#\81#&#x27;, &quot;\x0081&quot;);
+	&#x27;#\7#&#x27; 匹配 后向引用分组7
+
+其它:
+
+	\xhh #16进制
+	\p{xx} #符合xx属性的字符(unicode) eg: &quot;\p{Sc}&quot;匹配货币符号&#x27;$&#x27;
+	\P{xx} \p{^xx} #不符合xx属性的字符(unicode)
+
+
+# 内部修饰符
+语法为：
+
+	(?修饰符)
+
+	&#x27;/(?i)sss/&#x27; #(?i)忽略大小写敏感
+	&#x27;/(?Ui)sss/&#x27; #(?Ui)去贪婪且忽略大小写敏感,或者在量词后面加&#x27;?&#x27;号实现贪婪逆转,如&#x27;*?&#x27;,&#x27;+?&#x27;
+	&#x27;/(?s)sss/&#x27; #(?s)使得.可以匹配换行符
+
+Internal option letters
+
+    i	for PCRE_CASELESS
+    m	for PCRE_MULTILINE
+    s	for PCRE_DOTALL
+    x	for PCRE_EXTENDED
+    U	for PCRE_UNGREEDY
+    X	for PCRE_EXTRA
+    J	for PCRE_INFO_JCHANGED
+
+# 外部模式修正符
+
+	i 忽略字符敏感
+	s .号匹配换行
+	u 匹配utf8字符(unicode)(与perl不兼容)
+	U 去贪婪(与perl不兼容)
+	e 仅在perg_replace时生效，当有e时，会对replace后的字符进行eval（不建议使用e）
+
+# 分组(子模式)
+php叫子组(子模式)
+
+	&#x27;/(sum) min/&#x27; #捕获一个子组(子组序号最多99个)
+	&#x27;/(?&lt;total&gt;sum) min/&#x27; #命名一个子组
+	&#x27;/(?P&lt;total&gt;sum) min/&#x27; #命名一个子组
+	&#x27;/(?:sum) min/&#x27; #不捕获子组(捕获子组和非捕获子组最多200个)
+	&#x27;/(?|(sum)|(total)) min/&#x27; #不捕获本子组,但在有&#x27;|&#x27;时,(sum)与(total)反向引用都占1.如果使用&#x27;?:&#x27;,&quot;sum&quot;与&quot;total&quot;会分别占用\1和\2
+	&#x27;/(?Ui:sum) min/&#x27; #?与:之间可以加修饰符.等价于&#x27;/(?:(?Ui)sum) min/&#x27;
+
+分组默认索引: 0 是整个匹配，1 是第一个括号分组，2是第二个括号分组(或子括号也算). 不捕获子组不会占用索引
+
+    preg_match(&quot;#((1)(2)(3))#&quot;, &quot;123&quot;, $m);
+
+## 反向引用
+也叫后向引用:
+
+	//同义
+	&#x27;/(sum)\1/&#x27;
+	&#x27;/(sum)\g{1}/&#x27;
+
+	//同义
+	&#x27;/(sum)(total)\2/&#x27;		#等同于 &#x27;/(sum)(total)total/&#x27;
+	&#x27;/(sum)(total)\g{2}/&#x27;	#等同于 &#x27;/(sum)(total)total/&#x27;
+	&#x27;/(sum)(total)\g{-1}/&#x27;	#负数是相对的反向引用(-1指往前数第一个分组)
+
+*php 5.2.4后已经支持对子组名称的引用*
+
+	&#x27;/(?&lt;name&gt;xuehui)(total)\g{name}/&#x27;
+
+## 非回溯子表达式
+也叫一次性子组
+
+	(\d+foo) #在匹配123bar时,第一次失败,回溯匹配23bar,又失败,再回溯匹配3bar,再回溯.
+	(?&gt;\d+foo) ?&gt;分组匹配失败后,不会再回溯.
+	(?&gt;foo|bar) 匹配了foo 成功，后续失败后，不会再回来匹配bar
+
+## Conditional subpatterns 条件子组
+php 不支持平衡树, 但支持条件子组:
+
+	(?(condition)yes-pattern)
+	(?(condition)yes-pattern|no-pattern)
+
+对于condition 而言:
+
+	condition 可以为引用/(?(1)yes|no)/
+	condition 可以为断言/(?(?=[a-z])yes|no)/
+    参考py-str-regex
+
+	$str = &#x27;(abc)&#x27;;
+	$p = &#x27;#(\()?\w+(?(1)\))#&#x27;;//条件子组不会被捕获(它属于反引用)
+	preg_match($p,$str, $m);
+		//对于(?(1)\)) 而言，如果返引用有匹配的值，就匹配右括号`\)` 否则没有no-pattern, 就不用匹配了
+
+	$str = &#x27;$America&#x27;;
+	preg_match(&#x27;#(?(?&lt;=\$)America|China)#&#x27;,$str, $m);
+
+为何这个断言条件子组匹配不成功呢？
+
+	$str = &#x27;a$America&#x27;;
+	echo preg_match(&#x27;#a(?(?&lt;=\$)America|China)#&#x27;,$str, $m);//0 &quot;$ 不占位置
+	echo preg_match(&#x27;#\S+(?(?&lt;=\$)America|China)#&#x27;,$str, $m);//1
+
+## Recursive patterns 递归子组
+php5.4之后,会支持递归子组.
+
+	(?R)  #这个?R反向引用正则本身
+	(?num)  #这个?num反向引用第num个子分组, 而非子分组所匹配的字符\num
+
+比如:
+
+	#\((?R)*\)#		就可匹配 &quot;((()))&quot;括号对
+	#\(((?&gt;[^()]+)|(?R))*\)#	可包含内容的括号对
+
+`?num` 可反引用pattern
+
+	#(blue|red) (\1)#		只能匹配 &quot;blue blue&quot;,&quot;red red&quot;
+	#(blue|red) (?1)#		还可匹配 &quot;blue red&quot;
+
+# 字符匹配
+
+## 字符元
+除了\d、\D、 \s、\S、\w 和 \W 外，perl支持posix.比如：
+
+	[:digit:] #等同于数字\d
+	[:^digit:] #等同于非数字\D
+	[:lower:] #小写
+	[12[:lower:]] #作为元字符
+
+
+&lt;table class=&quot;doctable table&quot;&gt; &lt;caption&gt;&lt;strong&gt;Character classes&lt;/strong&gt;&lt;/caption&gt; &lt;tbody class=&quot;tbody&quot;&gt; &lt;tr&gt;&lt;td&gt;&lt;em&gt;alnum&lt;/em&gt;&lt;/td&gt;&lt;td&gt;字母和数字&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td&gt;&lt;em&gt;alpha&lt;/em&gt;&lt;/td&gt;&lt;td&gt;字母&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td&gt;&lt;em&gt;ascii&lt;/em&gt;&lt;/td&gt;&lt;td&gt;0 - 127的ascii字符&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td&gt;&lt;em&gt;blank&lt;/em&gt;&lt;/td&gt;&lt;td&gt;空格和水平制表符&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td&gt;&lt;em&gt;cntrl&lt;/em&gt;&lt;/td&gt;&lt;td&gt;控制字符&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td&gt;&lt;em&gt;digit&lt;/em&gt;&lt;/td&gt;&lt;td&gt;十进制数(same as \d)&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td&gt;&lt;em&gt;graph&lt;/em&gt;&lt;/td&gt;&lt;td&gt;打印字符, 不包括空格&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td&gt;&lt;em&gt;lower&lt;/em&gt;&lt;/td&gt;&lt;td&gt;小写字母&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td&gt;&lt;em&gt;print&lt;/em&gt;&lt;/td&gt;&lt;td&gt;打印字符,包含空格&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td&gt;&lt;em&gt;punct&lt;/em&gt;&lt;/td&gt;&lt;td&gt;打印字符, 不包括字母和数字&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td&gt;&lt;em&gt;space&lt;/em&gt;&lt;/td&gt;&lt;td&gt;空白字符 (比\s多垂直制表符)&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td&gt;&lt;em&gt;upper&lt;/em&gt;&lt;/td&gt;&lt;td&gt;大写字母&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td&gt;&lt;em&gt;word&lt;/em&gt;&lt;/td&gt;&lt;td&gt;单词字符(same as \w)&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td&gt;&lt;em&gt;xdigit&lt;/em&gt;&lt;/td&gt;&lt;td&gt;十六进制数字&lt;/td&gt;&lt;/tr&gt; &lt;/tbody&gt; &lt;/table&gt;
+
+## 匹配汉字
+汉字编码都是多字节的,而关于多字节元字符,目前php仅支持utf8的unicode.
+要想元字符支持多字节,必须启用修正符u,见[php 修正符](http://php.net/manual/zh/reference.pcre.pattern.modifiers.php)
+示例:
+
+	preg(&#x27;/[\x{4444}-\x{9555}]/u&#x27;,&#x27;新01&#x27;,$m);//4444 指的是utf8字符对应的unicode码位,而非utf8码值(我们常说的utf8编码)
+	preg(&#x27;/[\x{4444}-\x{9555}]/u&#x27;,&quot;\xe6\x96\xb001&quot;,$m);//与上面的是等价的,&#x27;新&#x27;的utf8编码是\xe696b0. unicode码位是\x65b0.
+
+&gt;ps:网上所搜索的php gbk正则匹配 大多是错的.php的/u修正符并不包含gbk,仅包括utf-8.
+
+&gt;ps:如果你安装了vim,让光标处于这个汉字上,按ga显示其unicode编码,按g8显示其utf-8编码.另,fcitx中,可以按`ctrl+shift+alt+u`,然后输入&#x27;0x65b0&#x27;这个unicode找到对应汉字.
+
+### 匹配gbk
+如果需要用php 匹配gbk, 需要先了解[gbk的编码规则](http://ahuigo.github.io/p/character-code/#8.2.GBK)，基于其规则，正则可以这么写：
+
+	function isGBK($str){
+		//利用gbk定义
+		return preg_match(&#x27;#^([\x00-\x7f]|([\xa1-\xa9\xb0-\xf7][\xa1-\xfe])|([\x81-\xa0][\x40-\x7e\x80-\xfe])|([\xa8-\xfe][\x40-\x7e\x80-\xa0]))+$#&#x27;, $str);
+		//假设编码就是GBK, 这个方法并不严谨，有可能非GBK编码经过 GBK-&gt;UTF8-&gt;GBK 转换后外码不会改变
+		return $str === iconv(&#x27;UTF8&#x27;, &#x27;GBK&#x27;, iconv(&#x27;GBK&#x27;, &#x27;UTF-8&#x27;, $str));
+	}
+	function isGB2312($str){
+		return preg_match(&#x27;#^(?:[\x00-\x7f]|(?:[\xa1-\xf7][\xa1-\xfe]))+$#&#x27;, $str); //GB2312
+	}
+	function isUTF8($str){
+		preg_match(&#x27;#^[\w\-\.\x{0800}-\x{D7FF}\x{E000}-\x{FFFF}]+$#u&#x27;, $str);
+	}
+
+    function utf8($line){
+        if(json_encode($line) === false){
+            $line = iconv(&#x27;gbk&#x27;, &#x27;utf8&#x27;, $line);
+        }
+        return $line;
+    }
+
+&gt; 注意，gbk与其它字符编码有时没有严格的界限，比如：&quot;\xce\xb1&quot; 即可以表示为utf8中的&quot;α&quot;, 也可以表示gbk中的&quot;伪&quot;字.
+
+此时, 如果你认为`\xce\xb1`是gbk，那么判断时就优先使用 isGBK():
+
+- 如果认为gbk优先: `$codeType = isGBK() ? &#x27;GBK&#x27; : (isUTF8() ? &#x27;UTF-8&#x27;: &#x27;other&#x27;);`
+- 如果认为UTF-8优先: `$codeType = isUTF8() ? &#x27;UTF-8&#x27; : (isGBK() ? &#x27;GBK&#x27;: &#x27;other&#x27;);`
+
+## 切割汉字
+利用`prge_split` 切割，切割位置不能位于最前最后`&lt;!^, !$`
+
+	preg_split(&#x27;/(?&lt;!^)(?!$)/u&#x27;, &quot;中国人!&quot;)
+
+# 参考
+[php pcre]
+
+[php pcre]:
+http://www.php.net/manual/zh/reference.pcre.pattern.syntax.php
+</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

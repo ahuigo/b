@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/algorithm/algorithm-bloom-filter.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>一个bloom filter 的redis实现</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: 一个bloom filter 的redis实现
+date: 2018-09-26
+updated: 2018-10-06
+---
+# 一个bloom filter 的redis实现	
+问题:
+
+&gt; 判断uid是否在一个uids集合中。假设uids集合有n=10^7(1k万)，同时假设uid最多10位，那么其值域范围是10^10(100亿)
+
+# 方案
+
+1. 使用哈希表（hash），至少占用10^7*4个字节
+特点：0错误率，如果hash的后的uid使用4个字节存储，那么空间占用至少4n bytes. 但是考虑到hash表的存储结构(未利用的hash节点)和碰撞问题(链表消耗)，占用率可不只这么点。
+比如用redis的集合实现的话，每个uid平均会耗用64个字节（redis: info memory），一千万的uid会耗用6.4亿bytes(0.64G)；
+
+2. 使用bitmap. 每一个uid对应一个bit.
+特点：0错误率.空间利用率低 空间利用效率=（集合大小/值域范围）× 100%，速度最快！
+如果uid值域范围是100亿，那么需要12.5亿bytes(1.25G)
+
+3. 使用bloom filter
+特点：不适合0错误率场景，空间利用率极高
+10^7个uid集合，在低于0.01错误率的情况下，耗用 10*10^7 bits &lt; 2^27bits(16M bytes)
+如果错误率低于0.001,空间耗用为15*10^8 bits &lt; 2^28 bits(32M bytes)
+
+# bloom filter错误率
+如果元素数量是确定的n，位空间大小为m(其中m&gt;n)，k为hash算法的个数，f为错误率,则当k=ln2*(m/n)时错误率f最小.此时k，f的计算公式为:
+
+	k=	ln2*(m/n) 
+	f = 0.5^k = 0.5^ (ln2*(m/n))
+	1/f = 2^(ln2*(m/n))
+
+如果想让错误率低于f,那么m,k分别满足：
+
+	m&gt;n * log2(1/f) / ln2 = n * log2(1/f) * log2(e)
+	k=ln2*(m/n) &gt; log2(1/f)
+
+如果我想使错误率低于0.01 ，那么：
+
+	m ~ 10*n, k ~ log2(1/0.01) ~ 7 
+
+假使n=10^7(1k万),那么m可以取2^27(1.34亿)。
+
+
+
+# bloomFilet的redis实现示例
+
+	&lt;?php
+
+	/**
+	 * bloomFilter
+	 */
+	class bloomFilter
+	{
+		public $redis;
+		/**
+		 * Index action is the default action in a controller.
+		 */
+		public function __construct($id, $module = null) {
+			parent::__construct($id, $module);
+			$this-&gt;redis = new Redis();
+			$this-&gt;redis-&gt;connect(&#x27;127.0.0.1&#x27;);
+		}
+		public function __destruct(){
+			$this-&gt;redis-&gt;close();
+		}
+		public function actionIndex()
+		{
+			$uid = rand();
+			$str = (string)$uid;
+			$this-&gt;setBloomBits($str);//写值
+			var_dump($this-&gt;getBloomBits($str));//判断是否在集合内
+		}
+		private function setBloomBits($str) {
+			foreach (array(7, 11, 13, 17, 19, 23, 29) as $seed) {
+				$hash = $this-&gt;hash($str, $seed);
+				$this-&gt;redis-&gt;setBit($key = &#x27;uids&#x27;, $hash, 1);
+			}
+		}
+
+		private function getBloomBits($str) {
+			foreach (array(7, 11, 13, 17, 19, 23, 29) as $seed) {
+				$hash = $this-&gt;hash($str, $seed);
+				$bit = $this-&gt;redis-&gt;getBit($key = &#x27;uids&#x27;, $hash);
+				if($bit === 0){
+					return false;
+				}
+			}
+			return true;
+		}
+
+		/**
+		 * 
+		 * @param type $str
+		 * @param type $seed 7,11,13,17,19,23,29
+		 * @return type
+		 */
+		private function hash($str, $seed){
+			$hash = 0;
+			for($len = strlen($str),$i=0; $i&lt;$len; $i++){
+				$hash = $seed * $hash + ord($str{$i});
+			}
+			return $hash &amp; 0x3FFFFFF;//2^27
+		}
+		
+	}
+
+# Implement
+
+## Memcache bloom filter
+何跃的[mc bloom filter](http://www.heyues.com/mc_bloom_filter/)
+
+#参考
+- [bloom filter]
+- [hash]	
+- [BloomFilter2]	
+- [常见的Hash算法]	
+
+[bloom filter]: http://blog.csdn.net/v_july_v/article/details/6685894
+[BloomFilter2]: http://www.cnblogs.com/heaad/archive/2011/01/02/1924195.html
+[hash]: http://blog.csdn.net/v_JULY_v/article/details/6256463
+[常见的Hash算法]: http://blog.csdn.net/eaglex/article/details/6310727#t0</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

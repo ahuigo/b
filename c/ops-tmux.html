@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/c/ops-tmux.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>linux-tmux</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: linux-tmux
+date: 2018-10-06
+updated: 2018-10-06
+---
+# Preface
+tmux 用于复用终端窗口, 安装tmux 很简单
+
+	brew install tmux
+	sudo yum install tmux -y
+
+&gt; 除了tmux 还有screen. 另一个只用于保持会话的最小可选方案是 dtach。
+
+# Usage:
+
+	$ tmux
+	$ node server.js
+
+	# 返回原来的session
+	$ tmux detach
+
+除了tmux detach，另一种方法是按下`Ctrl + B和d` ，也可以回到原来的 session。
+
+	# 下次登录时，返回后台正在运行服务session
+	$ tmux attach
+	如果新建多个 session，就需要为每个 session 指定名字。
+
+	# 新建 session
+	$ tmux new -s session_name
+
+	# 切换到指定 session
+	$ tmux attach -t session_name
+
+	# 列出所有 session
+	$ tmux list-sessions
+
+	# 退出当前 session，返回前一个 session
+	$ tmux detach
+
+	# 杀死指定 session
+	$ tmux kill-session -t session-name
+
+# Shortcuts
+The default shortcuts prefix is `ctrl+b`, you and set it to `ctrl+d`
+
+	$ vim ~/.tmux.conf
+	unbind C-b
+	set -g prefix C-d
+
+如果你希望新的配置项能够立即生效，那么你可以将下面这一行配置加入到文件 ~/.tmux.conf 中。
+
+	# bind a reload key
+	bind R source-file ~/.tmux.conf ; display-message &quot;Config reloaded..&quot;
+
+这样配置了之后，每当向 `~/.tmux.conf` 文件中添加了新的配置，只需要按下 `Ctrl-b r` 就可以重新加载配置并使新的配置生效，从而免去了开启一个新的会话。
+
+# 窗格面板
+新加窗格面板
+
+	&quot; 竖直
+	Ctrl-b %
+	&quot; 水平
+	Ctrl-b &quot;
+
+在面板间移动光标
+
+	Ctrl-b Up/left/right/down
+	C-b o 下一面板
+
+关闭面板
+
+	C-b x 关闭当前面板
+
+# 窗口
+窗口由多个面板组成
+创建窗口
+
+	C-b c 创建窗口
+	C-b &amp; 关闭当前窗口
+
+切换窗口
+
+	Ctrl-b Num_Of_Window
+	C-b p 切换到上一个窗口
+	C-b n 切换到下一个窗口
+
+# 会话
+会话由多个窗口组成
+
+## 创建会话:
+
+	# 在命令行内(非tmux 环境)
+	tmux new -s &lt;session_name&gt;
+	# 同时指定第一个窗口的名字为mysql
+	tmux new -s &lt;session_name&gt; -n mysql 
+
+在tmux 环境下
+
+	Ctrl-b : new -s &lt;session_name&gt;
+
+创建会话时，创建project 窗口
+
+	tmux new-window -n project -t work
+
+
+在创建会话和窗口时甚至可以指定要执行的命令：创建work会话后，在其第一个窗口的控制台中执行SSH命令以远程连接到服务器中。
+
+	tmux new-session -s work -n dev -d &quot;ssh user@example.com&quot;
+
+创建会话时，`-d` 表示不自动attache 会话
+
+	tmux new-session -s work -d
+
+## 关闭会话
+在tmux 外
+
+	tmux kill-session -t work
+
+## 会话列表
+在列表中，按`jk` 选择，按`space` 展开，按`Enter` 确认. 也可按`session_id` 直接选择确认
+
+	Ctrl-b s
+
+在tmux 外查看会话
+
+	$ tmux ls
+
+## session attache &amp; detach
+关于会话有两个非常重要的操作，即attach和detach，attach就是让某个会话到前台来运行，而detach则是将某个会话放到后台。通常，当我们打开tmux时，tmux在创建一个会话的同时也会attach到这个会话，所以我们会立即看到tmux的窗口。在某个会话中，我们按C-b d会detach这个会话，也就会回到原先的终端控制台，但实际上并没有退出这个会话，比如你可以通过在终端中输入下列命令重新attach到work会话：
+
+	tmux attach -t work
+
+# 复制文本
+1. `prefix [` 进入vi 模式
+2. `&lt;space&gt;` 选择，`v` 在垂直选择和行选择之间切换
+3. `&lt;enter&gt;` 复制
+
+# Reference
+http://blog.jobbole.com/87584/
+http://abyssly.com/2013/11/04/tmux_intro/
+</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

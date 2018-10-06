@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+<title>Ahuigo 的网络日志</title>
+<link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
+<updated>2018-10-06T20:48:17Z</updated>
+<subtitle>ahuigo's Blog</subtitle>
+<entry xml:base="https://ahuigo.github.io">
+<title>查找两有序数组中第N 大的值</title>
+<link href="/b/algorithm/algorithm-find-the-nth-of-2-sorted-array" rel="alternate" type="text/html"/>
+<updated>2018-10-06T20:48:17+00:00</updated>
+<summary/>
+<published>2018-10-06T20:48:17+00:00</published>
+<content></content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Analysis of Algorithm</title>
+<link href="/b/algorithm/1.time-complex" rel="alternate" type="text/html"/>
+<updated>2018-10-06T20:36:29+00:00</updated>
+<summary/>
+<published>2018-10-06T20:36:29+00:00</published>
+<content/>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>广度优先算法(BFS)</title>
+<link href="/b/algorithm/algorithm-bfs" rel="alternate" type="text/html"/>
+<updated>2018-10-06T20:36:29+00:00</updated>
+<summary/>
+<published>2018-10-06T20:36:29+00:00</published>
+<content/>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>杨氏矩阵（Young Tableau）的topK 算法</title>
+<link href="/b/algorithm/algo-young-tableau-topk" rel="alternate" type="text/html"/>
+<updated>2018-10-06T20:36:29+00:00</updated>
+<summary/>
+<published>2018-10-06T20:36:29+00:00</published>
+<content/>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>BFPRT 算法</title>
+<link href="/b/algorithm/algo-topk" rel="alternate" type="text/html"/>
+<updated>2018-10-06T20:36:29+00:00</updated>
+<summary/>
+<published>2018-10-06T20:36:29+00:00</published>
+<content/>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>经典排序算法的实现</title>
+<link href="/b/algorithm/algo-sort" rel="alternate" type="text/html"/>
+<updated>2018-10-06T20:36:29+00:00</updated>
+<summary/>
+<published>2018-10-06T20:36:29+00:00</published>
+<content/>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>CAP 理论</title>
+<link href="/b/algorithm/algo-distribute-cap" rel="alternate" type="text/html"/>
+<updated>2018-10-06T20:36:29+00:00</updated>
+<summary/>
+<published>2018-10-06T20:36:29+00:00</published>
+<content/>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>算法分治法(divide and conquer)</title>
+<link href="/b/algorithm/2.divide-conquer" rel="alternate" type="text/html"/>
+<updated>2018-10-06T20:36:29+00:00</updated>
+<summary/>
+<published>2018-10-06T20:36:29+00:00</published>
+<content/>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>text2audio</title>
+<link href="/b/ai/text-audio" rel="alternate" type="text/html"/>
+<updated>2018-10-06T20:36:29+00:00</updated>
+<summary/>
+<published>2018-10-06T20:36:29+00:00</published>
+<content/>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>吴恩达给你的人工智能第一课</title>
+<link href="/b/ai/book-deeplearning" rel="alternate" type="text/html"/>
+<updated>2018-10-06T20:36:29+00:00</updated>
+<summary/>
+<published>2018-10-06T20:36:29+00:00</published>
+<content/>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Neural Network</title>
+<link href="/b/ai/ai-neural-network" rel="alternate" type="text/html"/>
+<updated>2018-10-06T20:36:29+00:00</updated>
+<summary/>
+<published>2018-10-06T20:36:29+00:00</published>
+<content/>
+</entry></feed>

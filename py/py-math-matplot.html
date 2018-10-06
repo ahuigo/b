@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/py/py-math-matplot.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>matplotlib</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: matplotlib
+date: 2018-10-04
+updated: 2018-10-06
+---
+# matplotlib
+
+&gt; 原文:
+http://www.labri.fr/perso/nrougier/teaching/matplotlib/
+&gt; 译文:
+http://liam0205.me/2014/09/11/matplotlib-tutorial-zh-cn/
+
+    ipython --matplotlib
+
+When we start it with the command line argument -pylab (--pylab since IPython version 0.12), it allows interactive matplotlib sessions that have Matlab/Mathematica-like functionality.
+
+    $ ipython --pylab; #  matplotlib 的interactive 版
+    1. pylab 默认: 
+        import matplotlib.*.*
+        from matplotlib import *
+        from matplotlib.pyplot import *
+
+        import numpy
+        import numpy as np
+        from numpy import *
+        ....
+    2. 自动plot.show(), 限命令行
+            --pylab
+            --matplotlib
+
+### plot
+plot any:
+
+    plt.plot([1,2],[1,2])
+    plot([&#x27;ahui&#x27;,&#x27;hilo&#x27;], [1,2])
+
+plot sin
+
+    ```python
+        $ ipython --matplotlib
+    #import numpy as np
+    #import matplotlib.pyplot as plt
+    from pylab import *
+
+    X = np.linspace(-np.pi, np.pi, 256, endpoint=True)
+    C,S = np.cos(X), np.sin(X)
+
+    plt.plot(X,C)
+    plt.plot(X,S)
+
+    plt.show()
+    ```
+
+
+### 线条颜色 样式 宽度
+添加线条图例legend (label 放到左上)
+
+    plt.plot(X, C, color=&quot;blue&quot;, linewidth=2.5, linestyle=&quot;-&quot;, label=&quot;cosine&quot;)
+    plt.plot(X, S, color=&quot;red&quot;,  linewidth=2.5, linestyle=&quot;-&quot;, label=&quot;sine&quot;)
+    plt.legend(loc=&#x27;upper left&#x27;, frameon=False)
+
+figure output legend at upper left:
+
+    -- cosine
+    -- sine
+
+### plot limit 图片边界
+
+    xlim(X.min()-1, X.max()+1)
+
+### annotate, 注释
+在 2π/3 的位置上画一个点；然后，向横轴引一条垂线，以虚线标记；最后，写上标签。
+
+    t = 2*np.pi/3
+    plt.plot([t,t],[0,np.cos(t)], color =&#x27;blue&#x27;, linewidth=1.5, linestyle=&quot;--&quot;)
+    plt.scatter([t,],[np.cos(t),], 50, color =&#x27;blue&#x27;) # size=50
+
+    plt.annotate(r&#x27;$\sin(\frac{2\pi}{3})=\frac{\sqrt{3}}{2}$&#x27;,
+                 xy=(t, np.sin(t)), # 位置
+                 xytext=(+10, +30), textcoords=&#x27;offset points&#x27;, fontsize=16, # 右上角依稀
+                 arrowprops=dict(arrowstyle=&quot;-&gt;&quot;, connectionstyle=&quot;arc3,rad=.2&quot;)) # 注释形状
+
+Annotation: http://matplotlib.org/1.5.1/users/annotations_intro.html
+
+    textcoords=&#x27;data&#x27; # 数据位置
+        offset points # 点偏移
+        offset pixels
+
+### text 标注数据
+按数据的位置：
+
+    plt.text(-0.01, -0.01, &#x27;中国&#x27;, ha=&#x27;right&#x27;, va= &#x27;bottom&#x27;)
+
+### title
+
+    plt.title(&#x27;Center Title&#x27;)
+    plt.title(&#x27;Left Title&#x27;, loc=&#x27;left&#x27;)
+    ax.set_title(&#x27;xxx&#x27;)
+
+# Figures, Subplots, Axes and Ticks
+Figures 是一个画布，一个figure 可包括多个subplot, 一个subplot默认一个坐标axis(但可以装多个axes)
+- subplot 是一个子图, 将画布分成多块子画布. 
+- axes, 坐标轴和子图功能类似，不过它可以放在图像的任意位置。因此，如果你希望在一副图中绘制一个小图，就可以用这个功能。
+
+## Figures
+f = figure(figsize=(8,6), dpi=80)
+
+    Argument	Default	Description
+    num	1	number of figure
+    figsize	figure.figsize	figure size in in inches (width, height)
+    dpi	figure.dpi	resolution in dots per inch
+    facecolor	figure.facecolor	color of the drawing background
+    edgecolor	figure.edgecolor	color of edge around the drawing background
+    frameon	True	draw figure frame or not
+
+close figure:
+
+    close(f)
+    close(); # current figure
+
+将figure 分成两个subplot:
+
+    fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(9, 4))
+
+## subplot
+
+    ```python
+    subplot(1,1,1)
+    # subplot(2,3,2); # 选择2*3=6块中的第二块
+
+    # 以分辨率 72 来保存图片
+    savefig(&quot;exercice_2.png&quot;,dpi=72)
+    ```
+
+## Axes, 坐标轴
+(0.3,0.3) 是偏移, (.5,.5) 是宽长(单位是0-1), 
+
+    # 选择一个坐标轴
+    plt.axes([left,bottom,width,heigh])
+    plt.axes([0.5,0.5,.5,.5]), 右上角
+    plt.axes([0,0,.5,.5]), 左下角
+
+## ticks,记号
+
+    xticks( [-np.pi, -np.pi/2, 0, np.pi/2, np.pi])
+    yticks([-1, 0,0.5, +1])
+
+![python-chart-matplot-1.png](/img/python-chart-matplot-1.png)
+
+### 记号的标签
+第二个参数就是标签, 常用于date+latex
+
+    plt.xticks([-np.pi, -np.pi/2, 0, np.pi/2, np.pi],
+           [r&#x27;$-\pi$&#x27;, r&#x27;$-\pi/2$&#x27;, r&#x27;$0$&#x27;, r&#x27;$+\pi/2$&#x27;, r&#x27;$+\pi$&#x27;])
+
+    plt.yticks([-1, 0, +1],
+           [r&#x27;$-1$&#x27;, r&#x27;$0$&#x27;, r&#x27;$+1$&#x27;])
+
+说明:
+
+    $\pi$ 会被识别latex 表达式
+
+xticks与label 可一起设置：
+
+    plt.setp(axes, xticks=[1,2,3,4], xticklabels=[&#x27;x1&#x27;, &#x27;x2&#x27;, &#x27;x3&#x27;, &#x27;x4&#x27;])
+    plt.setp(plt.gca(), xticks=[1,2,3,4], xticklabels=[&#x27;x1&#x27;, &#x27;x2&#x27;, &#x27;x3&#x27;, &#x27;x4&#x27;])
+
+##### Date ticks
+http://stackoverflow.com/questions/14440171/matplotlib-x-axis-ticks-dates-formatting-and-locations
+doc for AutoDateFormatter
+
+    from pylab import *
+    import matplotlib.dates as mdates
+    from datetime import datetime, timedelta
+
+    # datetime.strptime(&#x27;12/31/1991 10:21&#x27;,&#x27;%m/%d/%Y %H:%M&#x27;)
+    X = [datetime.now() + timedelta(minutes=2) * j for j in range(500)]
+    Y = range(500)
+
+    ax = plt.gca() # get the current axes
+    ax.fill_between(X, 0, Y, color=&#x27;#4695da&#x27;, alpha=0.5)
+
+    xax = ax.get_xaxis() # get the x-axis
+    xax.set_major_formatter(mdates.DateFormatter(&#x27;%m/%d %H:%M:%S&#x27;))
+
+    plt.gcf().autofmt_xdate() # 自动控制xdate的位置，否则可能重叠
+    show()
+    # 以下是默认的
+    # adf = xax.get_major_formatter() # the the auto-formatter
+    # adf.scaled[1./24] = &#x27;%H:%M&#x27;  # set the &lt; 1d scale to H:M
+    # adf.scaled[1.0] = &#x27;%Y-%m-%d&#x27; # set the &gt; 1d &lt; 1m scale to Y-m-d
+    # adf.scaled[30.] = &#x27;%Y-%m&#x27; # set the &gt; 1m &lt; 1Y scale to Y-m
+    # adf.scaled[365.] = &#x27;%Y&#x27; # set the &gt; 1y scale to Y
+
+其它设置，使用date tick
+
+    ax.xaxis_date()
+
+
+#### 记号: 字体大小、颜色、alpha透明...
+
+    for label in ax.get_xticklabels() + ax.get_yticklabels():
+        label.set_fontsize(16)
+        label.set_bbox(dict(facecolor=&#x27;white&#x27;, edgecolor=&#x27;None&#x27;, alpha=0.65 ))
+
+## locator
+locator 代表了切割的尺度，如果数据点太多显示不全label，那么横坐标切割尺度要大
+去掉坐标
+
+    ax=plt.gca()
+    ax.xaxis.set_major_locator(plt.NullLocator())
+
+### date locator
+
+    from matplotlib.dates import DateFormatter, WeekdayLocator,DayLocator, MONDAY
+    mondays = WeekdayLocator(MONDAY)        # major ticks on the mondays
+    alldays = DayLocator()              # minor ticks on the days
+    weekFormatter = DateFormatter(&#x27;%b %d&#x27;)  # e.g., Jan 12
+    dayFormatter = DateFormatter(&#x27;%d&#x27;)      # e.g., 12
+
+    ax.xaxis.set_major_locator(mondays)
+    ax.xaxis.set_major_formatter(weekFormatter)
+    ax.xaxis.set_minor_locator(alldays)
+    # ax.xaxis.set_minor_formatter(dayFormatter) 小尺度不加label, 重叠看不清
+
+### move spines, 移动脊柱坐标
+we&#x27;ll discard the top and right by setting their color to none and we&#x27;ll move the bottom and left ones to coordinate 0 in data space coordinates.
+
+    ...
+    ax = plt.gca() # 获取坐标对象
+    # 右上坐标消失
+    ax.spines[&#x27;right&#x27;].set_color(&#x27;none&#x27;)
+    ax.spines[&#x27;top&#x27;].set_color(&#x27;none&#x27;)
+
+    # 移动坐标到数据为0处
+    ax.spines[&#x27;bottom&#x27;].set_position((&#x27;data&#x27;,0))
+    ax.spines[&#x27;left&#x27;].set_position((&#x27;data&#x27;,0))
+
+    # 设定记号位置
+    ax.xaxis.set_ticks_position(&#x27;bottom&#x27;)
+    ax.yaxis.set_ticks_position(&#x27;left&#x27;)
+
+![python-chart-matplot-2.png](/img/python-chart-matplot-2.png)
+
+# shape
+- plot 线
+- fill_between 面
+- bar 条
+- scatter 点
+
+## fill_between
+
+    import numpy as np
+    import matplotlib.pyplot as plt
+
+    X = np.linspace(-np.pi,np.pi,256,endpoint=True)
+    Y = np.sin(2*X)
+
+    plt.plot(X, Y+1, color=&#x27;blue&#x27;, alpha=1.00)
+    # 1与Y+1之间
+    plt.fill_between(X, 1, Y+1, color=&#x27;blue&#x27;, alpha=.25)
+
+    plt.plot(X, Y-1, color=&#x27;blue&#x27;, alpha=1.00)
+    # -1与Y-1之间，且Y-1在-1之上时
+    plt.fill_between(X, -1, Y-1, (Y-1) &gt; -1, color=&#x27;blue&#x27;, alpha=.25)
+    plt.fill_between(X, -1, Y-1, (Y-1) &lt; -1, color=&#x27;red&#x27;,  alpha=.25)
+
+    plt.show()
+
+![python-chart-matplot-4.png](/img/python-chart-matplot-4.png)
+
+    plt.fill_between(X, Y_from, Y_to, [Y_limit,] color=&#x27;blue&#x27;, alpha=1.00)
+
+## bar, 条形
+
+    import numpy as np
+    import matplotlib.pyplot as plt
+
+    n = 12
+    X = np.arange(n)
+    Y1 = (1-X/float(n)) * np.random.uniform(0.5,1.0,n)
+    plt.bar(X, +Y1, facecolor=&#x27;#9999ff&#x27;, edgecolor=&#x27;white&#x27;)
+
+    for x,y in zip(X,Y1):
+        plt.text(x+0.4, y+0.05, &#x27;%.2f&#x27; % y, ha=&#x27;center&#x27;, va= &#x27;bottom&#x27;)
+
+    plt.ylim(-1.25,+1.25)
+    plt.show()
+
+## point:scatter, 画点
+
+    n = 1024
+    X = np.random.normal(0,1,n)
+    Y = np.random.normal(0,1,n)
+    scatter(X,Y)
+    scatter([t,],[np.cos(t),], 50, color =&#x27;blue&#x27;) # size=50
+
+## pie, 饼图
+
+    pie([1,2,3,4])
+
+## rectangle
+    plt.gca().add_patch(
+        plt.Rectangle( 
+            (0.1, 0.1),   # (x,y)
+            0.5,          # width
+            0.5,          # height
+            facecolor=&#x27;orange&#x27;, edgecolor=&#x27;blue&#x27;
+        )
+    )
+
+## boxplot
+box plots show data points outside 1.5 
+
+    all_data = [np.random.normal(0, std, 100) for std in range(6, 10)]
+    plt.gca().boxplot(all_data)
+
+    plt.gca().boxplot([[1,2,3,4,2],[0,1,5,6,2]])
+
+## more charts
+http://matplotlib.org/gallery.html#lines_bars_and_markers
+
+## save
+show() 后会清数据..
+
+    plt.savefig(&#x27;foo.png&#x27;)
+
+whitespace around the image. Remove it with:
+
+    savefig(&#x27;foo.png&#x27;, bbox_inches=&#x27;tight&#x27;)</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

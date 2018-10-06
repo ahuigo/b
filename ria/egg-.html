@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/ria/egg-.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>Egg</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: Egg
+date: 2018-10-04
+updated: 2018-10-06
+---
+# Egg 
+http://mirror.eggjs.org/zh-cn/advanced/loader.html
+
+## ctx
+    ctx.app
+    // /app/router.js
+    { router, controller } = app;
+
+## request
+### headers 
+ctx.headers，ctx.header，ctx.request.headers，ctx.request.header：这几个方法是等价
+
+    ctx.get(&#x27;user-agent&#x27;) || &#x27;&#x27;; //自动处理大小写
+    ctx.get(&#x27;content-type&#x27;) ===&#x27;application/json&#x27;
+
+    ctx.host
+    ctx.protocol
+    ctx.ip
+
+### query
+    //router.get(&#x27;/user/:id&#x27;
+    ctx.params.id
+    ctx.query.page
+        ctx.queries.page array
+    ctx.request.body // json, form-urlencode
+        ctx.request.rawBody //after bodyParser
+
+config:
+
+    exports.bodyParser = {
+        jsonLimit: &#x27;5mb&#x27;,
+        formLimit: &#x27;6mb&#x27;,
+    };
+
+### raw body(based on koa)
+
+    const rawBody = require(&#x27;raw-body&#x27;)
+    const rawRequestBody = await rawBody(ctx.req) //Buffer
+
+### cookie &amp; session
+http://mirror.eggjs.org/zh-cn/basics/controller.html
+
+    ctx.cookies.get(&#x27;count&#x27;);
+    ctx.cookies.set(&#x27;count&#x27;, null);
+
+    ctx.session.userId
+    ctx.session.visited = ctx.session.visited ? ++ctx.session.visited : 1;
+    this.ctx.session = null;
+    ctx.session.maxAge = require(&#x27;ms&#x27;)(&#x27;30d&#x27;);// 记住我
+
+    // config/config.default.js
+    module.exports = {
+        session: {
+            renew: true, //仅剩下最大有效期一半的时候，重置 
+            key: &#x27;EGG_SESS&#x27;,
+            maxAge: 24 * 3600 * 1000, // 1 天
+            httpOnly: true,
+            encrypt: true,
+        },
+    };
+
+### form
+
+    stream = await ctx.getFileStream()
+    stream.fields
+
+    const parts = this.ctx.multipart({ autoFields: true });
+    while ((part = await parts()) != null) {}
+    parts.field[key]
+
+
+#### file
+新增支持的文件扩展名
+
+    // config/config.default.js
+    module.exports = {
+        multipart: {
+            fileExtensions: [ &#x27;.apk&#x27; ], // 增加对 .apk 扩展名的支持
+        },
+    };
+
+single file:
+
+    // FileStream != ReadStream
+    const stream = await ctx.getFileStream();
+    
+    try {
+      stream.read().toString()
+    } catch (err) {
+      // 必须将上传的文件流消费掉，要不然浏览器响应会卡死
+      const sendToWormhole = require(&#x27;stream-wormhole&#x27;);
+      await sendToWormhole(stream);
+      throw err;
+    }
+    ctx.body = {
+      url: result.url,
+      // 所有表单字段都能通过 `stream.fields` 获取到
+      fields: stream.fields,
+    };
+
+multi file:
+
+    const [files, fields] = await this.multipart()
+
+http://mirror.eggjs.org/zh-cn/basics/controller.html#%E8%8E%B7%E5%8F%96%E4%B8%8A%E4%BC%A0%E7%9A%84%E6%96%87%E4%BB%B6
+
+### router
+router.js
+
+    // / -&gt; /home/index
+    app.router.redirect(&#x27;/&#x27;, &#x27;/home/index&#x27;, 302);
+
+controller:
+
+    ctx.recirect(&#x27;http://baidu.com&#x27;)
+        exports.security = {
+            domainWhiteList:[&#x27;.domain.com&#x27;],  // 安全白名单，以 . 开头
+        };
+    ctx.unsafeRedirect(url) 一般不建议使用，明确了解可能带来的风险后使用
+
+## response
+### set header
+
+    ctx.set(&#x27;show-response-time&#x27;, used.toString());
+    ctx.set(headers)
+
+### response stream
+node 流式特性, 框架也支持直接将 body 设置成一个 Stream，并会同时处理好这个 Stream 上的错误事件。
+
+    class ProxyController extends Controller {
+        async proxy() {
+            const ctx = this.ctx;
+            const result = await ctx.curl(url, { streaming: true, });
+            ctx.set(result.header);
+            // result.res 是一个 stream
+            ctx.body = result.res;
+        }
+    };
+
+## render
+
+    await ctx.render(&#x27;home.tpl&#x27;, { name: &#x27;egg&#x27; });
+    // ctx.body = await ctx.renderString(&#x27;hi, {{ name }}&#x27;, { name: &#x27;egg&#x27; });
+
+## controller
+
+    this.ctx
+    this.app === this.ctx.app
+    this.service
+    this.config
+    this.logger.warn
+
+### define controller
+module.exports 不能少
+
+    //module.exports = 
+    module.exports = (app) =&gt;
+        class ClipboardController extends app.BaseController {
+
+### ctx.validate
+    // config/plugin.js
+    exports.validate = {
+        enable: true,
+        package: &#x27;egg-validate&#x27;,
+    };
+
+    //异常的状态码为 422 
+    const createRule = {
+        title: { type: &#x27;string&#x27; },
+        content: { type: &#x27;string&#x27; },
+    };
+    // 如果不传第二个参数会自动校验 `ctx.request.body`
+    ctx.validate(createRule); 
+
+定制rule:
+
+    // app.js
+    app.validator.addRule(&#x27;json&#x27;, (rule, value) =&gt; {
+        try {
+            JSON.parse(value);
+        } catch (err) {
+            return &#x27;must be json string&#x27;;
+        }
+    });
+
+    //使用
+    const rule = { test: &#x27;json&#x27; };
+    ctx.validate(rule, ctx.query);
+
+## schedule 定时任务
+egg 多个 worker 不会竞争schedule
+
+    //app/schedule/update_cache.js
+    module.exports = {
+        schedule: {
+            interval: &#x27;1m&#x27;, // 1 分钟间隔
+            type: &#x27;all&#x27;, // 指定所有的 worker 都需要执行
+        },
+        async task(ctx) {
+            const res = await ctx.curl(&#x27;http://www.api.com/cache&#x27;, { dataType: &#x27;json&#x27;, });
+            ctx.app.cache = res.data;
+        },
+    };
+
+### 定时 参数:
+
+    type:
+        &#x27;worker&#x27;, //随机一个 worker 执行
+    interval: &#x27;10s&#x27;,
+         &#x27;5000&#x27;,//5s
+         app.config.cacheTick
+    // 每三小时准点执行一次
+    cron: &#x27;0 0 */3 * * *&#x27;,
+        *    *    *    *    *    *
+        ┬    ┬    ┬    ┬    ┬    ┬
+        │    │    │    │    │    └ day of week (0 - 7) (0 or 7 is Sun)
+        │    │    │    │    └───── month (1 - 12)
+        │    │    │    └────────── day of month (1 - 31)
+        │    │    └─────────────── hour (0 - 23)
+        │    └──────────────────── minute (0 - 59)
+        └───────────────────────── second (0 - 59, optional)
+
+### 执行日志:
+会输出到 `${appInfo.root}/logs/{app_name}/egg-schedule.log`，默认不会输出到控制台，可以通过 config.customLogger.scheduleLogger 来自定义。
+
+    // config/config.default.js
+    config.customLogger = {
+        scheduleLogger: {
+            // consoleLevel: &#x27;NONE&#x27;,
+            // file: path.join(appInfo.root, &#x27;logs&#x27;, appInfo.name, &#x27;egg-schedule.log&#x27;),
+        },
+    };
+
+### 手动执行 定时任务
+
+    // app.js
+    module.exports = app =&gt; {
+        app.beforeStart(async () =&gt; {
+            await app.runSchedule(&#x27;update_cache&#x27;);
+        });
+    };
+
+## inner object
+http://mirror.eggjs.org/zh-cn/basics/objects.html
+
+1. app 继承自 Koa.Application 的实例。 注意: app!==require(&#x27;egg&#x27;), 尽管他们指向同一个Controller
+    1. controller.app === ctx.app
+2. ctx 是一个请求级别的对象，继承自 Koa.Contex. 支持热加载
+    1. 在有些非用户请求的场景下我们需要访问 service / model 等 
+        1. const ctx = app.createAnonymousContext();
+        2. await ctx.service.posts.load();
+3. controller
+4. helper
+    1. ctx.helper.formatUser(user);
+    2. in html: {{ helper.shtml(value) }}
+
+## helper
+
+    // app/extend/helper.js
+    module.exports = {
+      formatMoney(val) {
+        const lang = this.ctx.get(&#x27;Accept-Language&#x27;);
+        if (lang.includes(&#x27;zh-CN&#x27;)) {
+          return `￥ ${val}`;
+        }
+        return `$ ${val}`;
+      },
+    };
+
+
+# dev
+http://mirror.eggjs.org/zh-cn/advanced/loader.html
+
+## loader
+    加载 plugin: 以及config/plugin.js
+    加载 config， 加载 config/config.{env}.js
+    加载 extend，遍历 loadUnit 加载 app/extend/xx.js
+    自定义初始化，遍历 loadUnit 加载 app.js 和 agent.js
+    加载 service，遍历 loadUnit 加载 app/service 目录
+    加载 middleware，遍历 loadUnit 加载 app/middleware 目录
+    加载 controller，加载应用的 app/controller 目录
+    加载 router，加载应用的 app/router.js
+
+    // app.js
+    // 获取所有的 loadUnit
+    const servicePaths = app.loader.getLoadUnits().map(unit =&gt; path.join(unit.path, &#x27;app/service&#x27;));
+
+## 生命周期
+Egg提供了应用启动(beforeStart), 启动完成(ready), 关闭(beforeClose)这三个生命周期方法。
+
+    Master: init master process
+                    ⬇
+    Agent:  init *agent* worker process
+                    ⬇
+            loader.load | beforeStart
+                    ⬇
+            await agent worker ready
+                    ⬇
+            call ready callback
+                    ⬇
+    APP:    init app worker processes
+                    ⬇
+            loader.load | beforeStart
+                    ⬇
+            await app workers ready
+                    ⬇
+            call ready callback
+                    ⬇
+    Ready:  send egg-ready to master,
+                agent,app workers
+
+
+## plugin &amp; extend
+一个插件其实就是一个『迷你的应用』，和应用（app）几乎一样：
+
+plugin 可以支持扩展：
+1. Application this.ctx.app合并 app/extend/application.js 中定义的对象 
+2. Helper
+3. context.js 为this.ctx 加属性, **请求级别**的
+4. Request  **请求级别**的
+5. Response **请求级别**的
+
+### context extend
+以context 为例子: app.context
+
+    // app/extend/context.js
+    module.exports = {
+        get isIOS() {
+            const iosReg = /iphone|ipad|ipod/i;
+            return iosReg.test(this.get(&#x27;user-agent&#x27;));
+        },
+    };
+
+### config/plugin.js 安装配置
+当我们把extend/context.js 移动到 `/lib/plugin/egg-ua/app/extend/context.js` 就需要安装配置
+
+    exports.nunjucks = {
+        enable: true,
+        package: &#x27;egg-view-nunjucks&#x27;
+    };
+
+plugin.js 安装:
+
+    {Boolean} enable - 是否开启此插件，默认为 true
+        对于内置插件的关闭，只需要: exports.inner_plugin_name = false
+    {String} package - npm 模块名称，通过 npm 模块形式引入插件
+    {String} path - 插件绝对路径，跟 package 配置互斥
+        path: path.join(__dirname, &#x27;../lib/plugin/egg-ua&#x27;),
+    {Array} env - 只有在指定运行环境才能开启，会覆盖插件自身 package.json 中的配置
+
+plugin.{env}.js根据环境配置: 比如只希望在本地环境加载，可以egg-dev 安装到 devDependencies，然后
+
+    // config/plugin.local.js ; // local is for unittest/dev
+    exports.dev = {
+        enable: true,
+        package: &#x27;egg-dev&#x27;,
+    };
+
+这样在生产环境可以 `npm i --production` 不需要下载 egg-dev 的包了
+
+### plugin &amp; middleware 共用配置
+
+    // config/config.default.js
+    exports.mysql = {
+        client: {
+            host: &#x27;mysql.com&#x27;,
+            port: &#x27;3306&#x27;,
+            user: &#x27;test_user&#x27;,
+            password: &#x27;test_password&#x27;,
+            database: &#x27;test&#x27;,
+        },
+    };
+
+## lib
+    // {app_root}/lib/foo.js
+    module.exports = class Foo {
+      constructor(app) {
+        this.app = app;
+      }
+      sayHi() {}
+    }
+    
+    // {app_root}/app/extend/application.js
+    const Foo = require(&#x27;../../lib/foo&#x27;);
+    const FOO = Symbol(&#x27;Application#foo&#x27;);
+    module.exports = {
+      get foo() {
+        if (!this[FOO]) {
+          this[FOO] = new Foo(this);
+        }
+        return this[FOO];
+      }
+    }
+    
+    // 使用
+    this.app.foo.sayHi()
+
+也可以通过 loader 方式：
+    
+    // app.js
+    app.xx = app.loader.loadFile(&#x27;path/to/file&#x27;);
+
+## middleware
+与koa midllerware 兼容，所以可以直接用koa-compress, koa-bodyParser
+
+### define middleware:
+
+    // app/middleware/report.js
+    module.exports = (options, app) =&gt; {
+        return async function (ctx, next) {
+            const startTime = Date.now();
+            await next();
+            // 上报请求时间
+            reportTime(Date.now() - startTime);
+        }
+    };
+
+### coreMiddleware
+都会被加载器加载，并挂载到 app.middleware 上. app不能覆盖core
+1. 应用层中间件（app.config.appMiddleware）
+2. 框架默认中间件（app.config.coreMiddleware）
+
+框架和插件不支持在 config.default.js 中匹配 middleware，需要通过以下方式：
+
+    // app.js
+    module.exports = app =&gt; {
+        // 在中间件最前面统计请求时间
+        app.config.coreMiddleware.unshift(&#x27;report&#x27;);
+    };
+
+    // middleware = report(app.config.report,app)
+
+### appMiddleware
+该配置最终将在启动时合并到 app.config.appMiddleware。
+
+    //config.default.js
+    module.exports = {
+        // 配置需要的中间件，数组顺序即为中间件的加载顺序
+        middleware: [ &#x27;gzip&#x27; ],
+
+        // 配置 gzip 中间件的配置
+        gzip: {
+            threshold: 1024, // 小于 1k 的响应体不压缩
+        },
+    };
+
+### router 中间件
+以上两种方式配置的中间件是全局的，会处理每一次请求。 如果你只想针对单个路由生效，
+
+    //直接在 app/router.js 中实例化和挂载：
+    module.exports = app =&gt; {
+        const gzip = app.middleware.gzip({ threshold: 1024 });
+        app.router.get(&#x27;/needgzip&#x27;, gzip, app.controller.handler);
+    };
+
+### Koa 的中间件
+in koa:
+
+    const compress = require(&#x27;koa-compress&#x27;);
+    const options = { threshold: 2048 };
+    app.use(compress(options));
+
+in egg:
+
+    / app/middleware/compress.js
+    // koa-compress 暴露的接口(`(options) =&gt; middleware`)和框架对中间件要求一致
+    module.exports = require(&#x27;koa-compress&#x27;);
+
+    // config/config.default.js
+    module.exports = {
+        middleware: [ &#x27;compress&#x27; ],
+        compress: {
+            threshold: 2048,
+        },
+    };
+
+如果使用到的 Koa 中间件不符合入参规范，则可以自行处理下：
+
+    // config/config.default.js
+    module.exports = {
+        webpack: {
+            compiler: {},
+            others: {},
+        },
+    };
+
+    // app/middleware/webpack.js
+    const webpackMiddleware = require(&#x27;some-koa-middleware&#x27;);
+
+    module.exports = (options, app) =&gt; {
+        return webpackMiddleware(options.compiler, options.others);
+    }
+
+### 通用配置
+无论是应用层加载的中间件还是框架自带中间件，都支持几个通用的配置项：
+
+    enable：控制中间件是否开启。
+    match：设置只有符合某些规则的请求才会经过这个中间件。
+    ignore：设置符合某些规则的请求不经过这个中间件。
+
+#### enable example:
+
+    module.exports={
+        bodyParser: {
+            enable: false,
+        },
+    }
+
+##### match/ignore:
+1. 字符串：匹配 url 的路径前缀
+2. 正则：匹配满足正则验证的 url 的路径。
+2. 函数：ctx传递给这个函数
+
+match example:
+
+    gzip: {
+        match: &#x27;/static&#x27;,
+        match(ctx) {
+            // 只有 ios 设备才开启
+            const reg = /iphone|ipad|ipod/i;
+            return reg.test(ctx.get(&#x27;user-agent&#x27;));
+        },
+    },</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

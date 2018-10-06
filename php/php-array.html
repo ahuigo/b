@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/php/php-array.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>PHP Array</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: PHP Array
+date: 2018-10-04
+updated: 2018-10-06
+---
+# Array
+
+## 像mysql 一样对多列数据排序
+
+	$ar = array(
+       array(&quot;10&quot;, 11, 100, 100, &quot;a&quot;),
+       array(   1,  2, &quot;2&quot;,   3,   1)
+      );
+	array_multisort($ar[0], SORT_ASC, SORT_STRING,
+	                $ar[1], SORT_NUMERIC, SORT_DESC);
+	var_dump($ar);
+
+本例中在排序后，第一个数组将变成 &quot;10&quot;，100，100，11，&quot;a&quot;（被当作字符串以升序排列）。第二个数组将包含 1, 3, &quot;2&quot;, 2, 1（被当作数字以降序排列）。
+
+	array(2) {
+	  [0]=&gt; array(5) {
+	    [0]=&gt; string(2) &quot;10&quot;
+	    [1]=&gt; int(100)
+	    [2]=&gt; int(100)
+	    [3]=&gt; int(11)
+	    [4]=&gt; string(1) &quot;a&quot;
+	  }
+	  [1]=&gt; array(5) {
+	    [0]=&gt; int(1)
+	    [1]=&gt; int(3)
+	    [2]=&gt; string(1) &quot;2&quot;
+	    [3]=&gt; int(2)
+	    [4]=&gt; int(1)
+	  }
+	}
+
+## next end
+
+	$transport = array(&#x27;foot&#x27;, &#x27;bike&#x27;, &#x27;car&#x27;, &#x27;plane&#x27;);
+	$mode = current($transport); // $mode = &#x27;foot&#x27;;
+	$mode = next($transport);    // $mode = &#x27;bike&#x27;;
+	$mode = next($transport);    // $mode = &#x27;car&#x27;;
+	$mode = prev($transport);    // $mode = &#x27;bike&#x27;;
+	$mode = end($transport);     // $mode = &#x27;plane&#x27;;
+
+## compact and extract
+
+### compact
+For each of these, `compact()` looks for a variable with that name in the current symbol table
+and adds it to the output array such that the variable name becomes the key and the contents of the variable become the value for that key.
+In short, it does the opposite of extract().
+
+	&lt;?php
+	$out1 = &#x27;234&#x27;;
+	$out2 = &#x27;234&#x27;;
+	function a(){
+		$var1 = &#x27;1&#x27;;
+		$var2 = &#x27;2&#x27;;
+		var_dump(compact(&#x27;var1&#x27;, [&#x27;var2&#x27;, &#x27;out1&#x27;, &#x27;out2&#x27;]));// not work for out
+	}
+	a();
+
+Results:
+
+	array(2) {
+	  [&quot;var1&quot;]=&gt; string(1) &quot;1&quot;
+	  [&quot;var2&quot;]=&gt; string(1) &quot;2&quot;
+	}
+
+### extract
+
+	int extract ( array &amp;$array [, int $flags = EXTR_OVERWRITE [, string $prefix = NULL ]] )
+		Key as variable name, and val for that key as content of variable
+
+	extract($var_array, EXTR_PREFIX_SAME, &quot;prefix&quot;);
+
+## Pointer, 指针
+prev, current, next, reset, end
+
+list($k, $v) = each($arr)
+
+## Iterator
+Interface for external iterators or objects that can be iterated themselves internally.(current/key/next/rewind/valid)
+
+### array_keys array_values
+array_keys 与 array_values 得到的元素顺序不会变
+http://stackoverflow.com/questions/21092095/is-elements-order-the-same-after-array-being-split-by-array-keys-and-array-val
+
+### walk
+
+	//用于改变原数组 或者 通过闭包函数返回新的数组或者结果集
+	bool array_walk ( array &amp;$array , callable $callback [, mixed $userdata = NULL ] );//$callback(&amp;$item, $key, $userdata = null). 始终返回true. 但是外部的$userdata 始终是按值传递进去的:&amp;$userdata 是没有用的
+	//用于生成新数组
+	$b = array_map($func, $a, $b, ...);//返回一个数组：array($func($a_item,$b_item,...)); //$func 按引用传值 无效
+	array_map(&#x27;sum&#x27;, $a, $b);
+
+	//累积,累加,累...
+	mixed array_reduce($arr, $func[, $init_value = null]); //sum($carry = $init_value, $item)  不支持传$key
+
+### filter array
+返回过滤后的数组
+
+	array array_filter ( array $input [, callable $callback = &quot;&quot; ] );//1. bool $callback($v); true 保留 2. $callback 可以按引用传值
+
+Example:
+
+	$arr = [&#x27;a&#x27;=&gt;1, &#x27;b&#x27;=&gt;0, &#x27;c&#x27;=&gt;false, &#x27;d&#x27;=&gt;&#x27;&#x27;];
+	var_dump(array_filter($arr));
+	array(1) {
+	  [&quot;a&quot;]=&gt;
+	  int(1)
+	}
+
+### filter array keys
+
+	$arr = [&#x27;foo&#x27;=&gt;&#x27;value1&#x27;, &#x27;bar&#x27; =&gt; &#x27;value2&#x27;];
+	$allowed = [&#x27;foo&#x27;];
+	var_dump(array_intersect_key($arr, array_flip($allowed)));
+		array(1) {
+		  [&quot;foo&quot;]=&gt;
+		  string(6) &quot;value1&quot;
+		}
+
+	var_dump(array_diff_key($arr, array_flip($allowed)));
+		  &quot;bar&quot;=&gt; &quot;value2&quot;
+
+### array_column
+
+	$b = array_column([[&#x27;a&#x27;=&gt;1,&#x27;b&#x27;=&gt;2], [&#x27;a&#x27;=&gt;3,&#x27;b&#x27;=&gt;4]],&#x27;b&#x27;);
+	print_r($b); //[2, 4]
+	$b = array_column([[&#x27;a&#x27;=&gt;1,&#x27;b&#x27;=&gt;2], [&#x27;a&#x27;=&gt;3,&#x27;b&#x27;=&gt;4]],&#x27;b&#x27;, &#x27;a&#x27;);
+	[1=&gt;2, 3=&gt;4]
+
+## 统计频度
+
+### array_count_values
+
+	$array = array(1, &quot;hello&quot;, 1, &quot;world&quot;, &quot;hello&quot;);
+	print_r(array_count_values($array));//1=&gt;2 hello=&gt;2 world=&gt;1
+
+### array_unique
+
+	array_unique();
+
+## sort 排序
+Trim index association
+
+	sort($arr)
+	rsort
+	usort
+	shuffle
+
+Maintain index association
+
+	asort
+	ksort
+	natsort
+
+	uasort
+	uksort
+
+With no params reference:
+
+	array_reverse
+	array_flip
+
+array_flip 跟array_merge 一样，后面的key 会覆盖前面的
+
+	var_dump(array_flip([&#x27;a&#x27;=&gt;&#x27;b&#x27;, &#x27;c&#x27;=&gt;&#x27;b&#x27;]));
+	array(1) {
+	  [&quot;b&quot;]=&gt;
+	  string(1) &quot;c&quot;
+	}
+
+## 合并-拆分
+
+	array_combine($keys, $values)
+	array_merge([&quot;k&quot;=&gt;1, 2=&gt;3], [&quot;k&quot;=&gt;0, 4=&gt;5]); //Array ( [k] =&gt; 0 [0] =&gt; 3 [1] =&gt; 5)
+	[&quot;k&quot;=&gt;1, 2=&gt;3]+[&quot;k&quot;=&gt;0, 2=&gt;5]; //不覆盖 Array ( [k] =&gt; 1 [2] =&gt; 3)
+	array_slice($arr, $start, $length, $preserve_key = false)
+	array_splice
+
+## array_remove
+
+	array_diff($array, [$element]);
+	or
+	if(($key = array_search($del_val, $arr)) !== false) {
+		unset($arr[$key]);
+	}
+
+
+## array intersection Difference Union 交差并集
+
+### array union 并
+
+	var_dump([&#x27;a&#x27;=&gt;1]+[&#x27;a&#x27;=&gt;2]);
+	array(1) {
+	  [&quot;a&quot;]=&gt;
+	  int(1)
+	}
+
+### 交差
+
+	array_intersect();		# inte value only
+	array_intersect_assoc();# inte value and key
+	array_intersect_key();# inte key only
+	array_diff(); 			# diff value only
+	array_udiff(); 			# diff value only via user defined function
+	array_diff_assoc();		# diff value and key
+	array_diff_key();		# diff key only
+
+array_remove_key
+
+	array_diff_key($data, array_flip($bad_keys));
+
+array_keep_key
+
+	function array_keep_key($data, $keep_keys) {
+        $arr = [];
+        foreach ($keep_keys as $k) {
+            //isset($data[$k]) &amp;&amp; $arr[$k] = $data[$k];
+            array_key_exists($k, $data) &amp;&amp; $arr[$k] = $data[$k];
+        }
+        return $arr;
+    }
+	function array_keep_key($data, $keep_keys){
+		array_diff_key($data,array_flip(array_diff(array_keys($data), $keep_keys)));
+	}
+
+
+## rand
+
+	array_rand($arr[, $num = 1]);//返回rand_key or rand_keys
+	shuffle()
+
+## range
+
+	range(1, 10);//1,2,3...10
+	range(1, 5, 3);//1,4
+
+## 求和
+
+	array_sum
+
+## chunk(split)
+
+	array_chunk($array, $size)
+    array_partition($array, $num); //costum by php-lib/lib/array.php
+
+## fill &amp; pad
+
+	Array array_fill($start, $num, $value);
+		 var_dump(array_fill(5, 2, &#x27;?&#x27;));
+		array(2) {
+		  [5]=&gt;
+		  string(1) &quot;?&quot;
+		  [6]=&gt;
+		  string(1) &quot;?&quot;
+		}
+	Array array_pad($arr, $len, $value);</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

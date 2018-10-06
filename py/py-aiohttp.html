@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/py/py-aiohttp.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>Requests</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: Requests
+date: 2018-09-28
+updated: 2018-10-06
+---
+# Requests
+Refer to: http://aiohttp.readthedocs.io/en/stable/tutorial.html#aiohttp-tutorial
+```
+import aiohttp
+import asyncio
+import async_timeout
+
+async def fetch(session, url):
+    with async_timeout.timeout(10):
+        async with session.get(url) as response:
+            return await response.text()
+
+async def main():
+    async with aiohttp.ClientSession() as session:
+        html = await fetch(session, &#x27;http://python.org&#x27;)
+        print(html)
+
+loop = asyncio.get_event_loop()
+loop.run_until_complete(main())
+```
+
+## options
+
+    async with session.options(url, headers=headers) as r:
+
+## post
+Your dictionary of data will automatically be form-encoded when the request is made:
+
+    payload = {&#x27;key1&#x27;: &#x27;value1&#x27;, &#x27;key2&#x27;: &#x27;value2&#x27;}
+    # data = json.dumps(payload)
+    async with session.post(&#x27;http://httpbin.org/post&#x27;, data=payload) as resp:
+        print(await resp.text())
+
+## post file
+To upload Multipart-encoded files:
+
+    url = &#x27;http://httpbin.org/post&#x27;
+    files = {&#x27;file1&#x27;: open(&#x27;report.xls&#x27;, &#x27;rb&#x27;), &#x27;key&#x27;:&#x27;value&#x27;, &#x27;file2&#x27;:b&#x27;binary_file&#x27;}
+    await session.post(url, data=files)
+
+You can set the filename, content_type explicitly:
+
+    url = &#x27;http://httpbin.org/post&#x27;
+    data = aiohttp.helpers.FormData(
+        {&#x27;key1&#x27;:&#x27;str1&#x27;, &#x27;key2&#x27;:&#x27;str2&#x27;} # not allow int
+    )
+    data.add_fields([(&#x27;key1&#x27;, &#x27;val1&#x27;), {&#x27;key2&#x27;:&#x27;val2&#x27;, &#x27;key3&#x27;:&#x27;val3&#x27;}])
+    data.add_field(&#x27;file&#x27;,
+                   open(&#x27;report.xls&#x27;, &#x27;rb&#x27;),
+                   filename=&#x27;report.xls&#x27;,
+                   content_type=&#x27;application/vnd.ms-excel&#x27;)
+
+    await session.post(url, data=data)
+
+### Streaming uploads
+aiohttp supports multiple types of streaming uploads, which allows you to send large files without reading them into memory.
+
+As a simple case, simply provide a file-like object for your body:
+
+    with open(&#x27;massive-body&#x27;, &#x27;rb&#x27;) as f:
+       await session.post(&#x27;http://some.url/streamed&#x27;, data=f)
+
+Or you can provide an coroutine that yields bytes objects:
+
+    @asyncio.coroutine
+    def my_coroutine():
+       chunk = yield from read_some_data_from_somewhere()
+       if not chunk:
+          return
+       yield chunk
+
+#### upload StreamReader object
+Also it is possible to use a StreamReader object.
+Lets say we want to upload a file from another request and calculate the file SHA1 hash:
+
+       async def feed_stream(resp, stream):
+           h = hashlib.sha256()
+
+           while True:
+               chunk = await resp.content.readany()
+               if not chunk:
+                   break
+               h.update(chunk)
+               stream.feed_data(chunk)
+
+           return h.hexdigest()
+
+       resp = session.get(&#x27;http://httpbin.org/post&#x27;)
+       stream = StreamReader()
+       loop.create_task(session.post(&#x27;http://httpbin.org/post&#x27;, data=stream))
+
+       file_hash = await feed_stream(resp, stream)
+
+Because the response content attribute is a StreamReader, you can chain get and post requests together (aka HTTP pipelining):
+
+    r = await session.get(&#x27;http://python.org&#x27;)
+    await session.post(&#x27;http://httpbin.org/post&#x27;, data=r.content)
+
+# Headers
+
+    headers = {&#x27;content-type&#x27;: &#x27;application/json&#x27;}
+    await session.post(url, data=json.dumps(payload), headers=headers)
+
+# Cookie
+
+## Custom Cookies
+To send your own cookies to the server, you can use the cookies parameter of ClientSession constructor:
+
+    url = &#x27;http://httpbin.org/cookies&#x27;
+    cookies = {&#x27;cookies_are&#x27;: &#x27;working&#x27;}
+    async with aiohttp.ClientSession(cookies=cookies) as session:
+        async with session.get(url) as resp:
+            assert await resp.json() == { &quot;cookies&quot;: {&quot;cookies_are&quot;: &quot;working&quot;}}
+
+## update cookie
+vim /usr/local/lib/python3.5/site-packages/aiohttp/cookiejar.py +80
+
+    session.cookie_jar.update_cookies(cookies, response_url=None)
+    session.cookie_jar.update_cookies({&#x27;a&#x27;:&#x27;bbbbbb&#x27;}, response_url=&quot;http://qq.com&quot;);
+        Update cookies returned by server in Set-Cookie header.
+        cookies – a collections.abc.Mapping (e.g. dict, SimpleCookie) or iterable of pairs with cookies returned by server’s response.
+
+    session.cookie_jar.clear()
+    session.cookie_jar.__dict__[&#x27;_cookies&#x27;]
+        defaultdict(&lt;class &#x27;http.cookies.SimpleCookie&#x27;&gt;, {&#x27;qq.com&#x27;: &lt;SimpleCookie: a=&#x27;bbbbbb&#x27; cookies_are=&#x27;working&#x27;&gt;})
+    session.cookie_jar.__dict__[&#x27;_cookies&#x27;][&#x27;qq.com&#x27;][&#x27;a&#x27;].value
+        bbbb
+    session.cookie_jar.__dict__[&#x27;_cookies&#x27;][&#x27;qq.com&#x27;][&#x27;a&#x27;].key
+        a
+
+Note:
+
+    session.cookie_jar.update_cookies({&#x27;a&#x27;:&#x27;bbbbbb&#x27;}, response_url=&quot;http://qq.com&quot;);# support qq.com only
+    session.cookie_jar.update_cookies({&#x27;a&#x27;:&#x27;bbbbbb&#x27;}, response_url=&quot;http://.qq.com&quot;);# support *.qq.com
+    session.cookie_jar.update_cookies({&#x27;a&#x27;:&#x27;bbbbbb&#x27;}, response_url=&quot;qq.com&quot;);       # support *.qq.com
+
+## iterate
+These cookies may be iterated over:
+
+    for cookie in session.cookie_jar:
+        print(cookie.key)
+        print(cookie.value)
+        print(cookie[&quot;domain&quot;])
+
+## response
+    async with aiohttp.ClientSession(cookies=cookies) as session:
+        async with session.get(url) as resp:
+            await resp.json()
+
+
+# proxy
+Proxy support
+
+    async with aiohttp.ClientSession() as session:
+        async with session.get(&quot;http://python.org&quot;, proxy=&quot;http://127.0.0.1:8888&quot;) as resp:
+            print(resp.status)
+
+it also supports proxy authorization:
+
+    async with aiohttp.ClientSession() as session:
+        proxy_auth = aiohttp.BasicAuth(&#x27;user&#x27;, &#x27;pass&#x27;)
+        async with session.get(&quot;http://python.org&quot;, proxy=&quot;http://some.proxy.com&quot;, proxy_auth=proxy_auth) as resp:
+            print(resp.status)
+
+Authentication credentials can be passed in proxy URL:
+
+    session.get(&quot;http://python.org&quot;, proxy=&quot;http://user:pass@some.proxy.com:8888&quot;
+
+## ssl
+for aiohttp:
+
+    # for request
+    connector = aiohttp.TCPConnector(verify_ssl=False)
+    aiohttp.request(&#x27;get&#x27;, url, connector=connector)
+
+    # for session
+    aiohttp.ClientSession(connector=aiohttp.TCPConnector(verify_ssl=False))
+
+for requests:
+
+    session.post(url, verify=False)
+        verify:
+            True
+            False
+            Path to a CA_BUNDLE file for Requests to use to validate the certificates.</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

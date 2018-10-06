@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/ide/framework-laravel.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>laravel 使用</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: laravel 使用
+date: 2018-10-06
+updated: 2018-10-06
+---
+# Preface
+最近在看一款优雅的php 框架 —— laravel, 做个小结。
+
+# install
+
+	composer create-project laravel/laravel learnlaravel5 5.0.22
+	├── app
+	├── bootstrap
+	├── config
+	├── database
+	├── public
+	├── resources
+	├── storage
+	├── tests
+	└── vendor
+
+# Config
+- config 包含了配置项，而大部分配置项位于Config/app 目录:
+- .env 配置了开发与线上环境的环境变量，它会覆盖`$_ENV`变量
+
+## env
+
+	//在Application 中获取当前环境
+	$environment = $app-&gt;environment();//develepment,local,product
+
+## 项目命令空间
+项目默认的命名是`App`, 你可以通过以下命令修改默认的命名空间, 比如`Blog`:
+
+	php artisan app:name Blog
+
+## config/app.php
+
+	debug =&gt; env(&#x27;APP_DEBUG&#x27;), //.env
+	&#x27;aliases&#x27; =&gt; [
+		&#x27;App&#x27; =&gt; &#x27;Illuminate\Support\Facades\App&#x27;,
+
+## 查看当前
+
+# Route
+查看路由文件 `app/Http/routes.php` 的代码：
+
+	Route::get(&#x27;/&#x27;, &#x27;WelcomeController@index&#x27;);
+
+	Route::get(&#x27;home&#x27;, &#x27;HomeController@index&#x27;);
+
+	Route::controllers([
+		&#x27;auth&#x27; =&gt; &#x27;Auth\AuthController&#x27;,
+		&#x27;password&#x27; =&gt; &#x27;Auth\PasswordController&#x27;,
+	]);
+
+我们在`app/Http/routes.php` 的末尾添加以下代码：
+
+	Route::group([&#x27;prefix&#x27; =&gt; &#x27;admin&#x27;, &#x27;namespace&#x27; =&gt; &#x27;Admin&#x27;], function()
+	{
+	  Route::get(&#x27;/&#x27;, &#x27;AdminHomeController@index&#x27;);
+	});
+
+这表示创建了一个路由组。
+
+1. `&#x27;prefix&#x27; =&gt; &#x27;admin&#x27;` 表示这个路由组的 url 前缀是 /admin，也就是说中间那一行代码 `Route::get(&#x27;/&#x27;` 对应的链接不是 http://fuck.io:88/ 而是 http://fuck.io:88/admin ，如果这段代码是 `Route::get(&#x27;fuck&#x27;` 的话，那么 URL 就应该是 http://fuck.io:88/admin/fuck 。
+
+2. `&#x27;namespace&#x27; =&gt; &#x27;Admin&#x27;` 表示下面的 `AdminHomeController@index` 不是在 `\App\Http\Controllers\AdminHomeController@index` 而是在 `\App\Http\Controllers\Admin\AdminHomeController@index`，加上了一个命名空间的前缀
+
+# Controllers
+使用 Artisan 非常方便地构建控制器：
+
+	php artisan make:controller Admin/AdminHomeController
+
+得到 `learnlaravel5/app/Http/Controllers/Admin/AdminHomeController.php` 文件。
+
+在 `class AdminHomeController extends Controller {` 上面增加一行：
+
+	use App\Page;
+
+修改 index() 的代码如下：
+
+	public function index() {
+	  return view(&#x27;AdminHome&#x27;)-&gt;withPages(Page::all());
+	}
+
+控制器中文文档：http://laravel-china.org/docs/5.0/controllers
+
+
+# DB
+`.env`，打开这个文件，编辑下面四项，修改为正确的信息：
+
+	DB_HOST=localhost
+	DB_DATABASE=laravel5
+	DB_USERNAME=root
+	DB_PASSWORD=password
+
+`config/database.php`:
+
+	&#x27;unix_socket&#x27;=&gt; &#x27;/tmp/mysql.sock&#x27;,
+
+创建数据库迁移：
+
+	php artisan migrate
+
+# Model
+[深入Eloquent ORM](http://lvwenhan.com/laravel/421.html)， 运行一下命令：
+
+	php artisan make:model Article
+	php artisan make:model Page
+
+`database/migrations/` 下改 ***_create_articles_table.php ：
+
+	Schema::create(&#x27;articles&#x27;, function(Blueprint $table) {
+		$table-&gt;increments(&#x27;id&#x27;);
+		$table-&gt;string(&#x27;title&#x27;);
+		$table-&gt;string(&#x27;slug&#x27;)-&gt;nullable();
+		$table-&gt;text(&#x27;body&#x27;)-&gt;nullable();
+		$table-&gt;string(&#x27;image&#x27;)-&gt;nullable();
+		$table-&gt;integer(&#x27;user_id&#x27;);
+		$table-&gt;timestamps();
+	});
+
+然后执行：
+
+	php artisan migrate
+
+## seed 数据填充
+`database/seeds/` 下新建 `PageTableSeeder.php` 文件，内容如下：
+
+	use Illuminate\Database\Seeder;
+	use App\Page;
+
+	class PageTableSeeder extends Seeder {
+
+	  public function run() {
+		DB::table(&#x27;pages&#x27;)-&gt;delete();
+
+		for ($i=0; $i &lt; 10; $i++) {
+		  Page::create([
+			&#x27;title&#x27;   =&gt; &#x27;Title &#x27;.$i,
+			&#x27;slug&#x27;    =&gt; &#x27;first-page&#x27;,
+			&#x27;body&#x27;    =&gt; &#x27;Body &#x27;.$i,
+			&#x27;user_id&#x27; =&gt; 1,
+		  ]);
+		}
+	  }
+
+	}
+
+然后修改同一级目录下的 `DatabaseSeeder.php`中：
+
+	// $this-&gt;call(&#x27;UserTableSeeder&#x27;);
+	这一句为
+	$this-&gt;call(&#x27;PageTableSeeder&#x27;);
+
+然后运行命令进行数据填充：
+
+	composer dump-autoload
+	php artisan db:seed
+
+# config
+/app/config 下
+
+	Config::set(&#x27;database.default&#x27;, &#x27;sqlite&#x27;);
+	Config::get(&#x27;app.timezone&#x27;);
+
+app/config/local 也环境名同名
+
+
+# debug
+laravel 的debug 模式在`.env`
+
+	APP_DEBUG=true
+
+# 生命周期
+	bootstrap/start.php applications
+		Foundation/start.php
+			$app-&gt;booted()	
+					app/start/global.php
+						log
+						app/filter
+							App::before after finish shutdown
+					app/start/local.php 环境
+					app/start/routes.php
+					artisan.php
+	$app-&gt;run
+		StackedHttpKernel-&gt;handle
+			Illuminate\Cookie\Guard-&gt;handle
+				Illuminate\Cookie\Queue-&gt;handle
+					Illuminate\Session\Middleware-&gt;handle
+						$app-&gt;handle()-&gt;boot-&gt;bootApplication-&gt;fireAppCallbacks
+</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

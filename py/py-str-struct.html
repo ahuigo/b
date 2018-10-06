@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/py/py-str-struct.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>python3 的struct 字节处理工具</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+<link href="/b/../a/css/main2.css" rel="stylesheet">
+<script src="/b/../a/js/marked.js"></script>
+<script src="/b/../a/js/toc.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: python3 的struct 字节处理工具
+date: 20180505
+updated: 2018-10-06
+---
+# python3 的字节处理
+1. 而在C语言中，我们可以很方便地用struct、union来处理字节，以及字节和int，float的转换。
+2. Python3 中处理bytes 字节也很方便，同时还提供了强大的struct 处理工具
+
+# 一般的字节处理
+在Python中，比方说要把一个32位无符号整数变成字节，也就是4个长度的bytes，你得配合位运算符这么写：
+
+	&gt;&gt;&gt; n = 10240099
+	&gt;&gt;&gt; b1 = (n &amp; 0xff000000) &gt;&gt; 24
+	&gt;&gt;&gt; b2 = (n &amp; 0xff0000) &gt;&gt; 16
+	&gt;&gt;&gt; b3 = (n &amp; 0xff00) &gt;&gt; 8
+	&gt;&gt;&gt; b4 = n &amp; 0xff
+	&gt;&gt;&gt; bs = bytes([b1, b2, b3, b4])
+	&gt;&gt;&gt; bs
+	b&#x27;\x00\x9c@c&#x27;
+
+非常麻烦。如果换成浮点数就无能为力了。
+
+好在Python提供了一个struct模块来解决bytes和其他二进制数据类型的转换。
+
+## int to bytes(Buffer) 
+int to bytes： as Js&#x27;s `Buffer.from([1,2,3])`
+
+	&gt;&gt;&gt; bytes([0, 1, 97])
+	b&#x27;\x00\x01a&#x27;
+
+int to strhex
+
+    &gt;&gt;&gt; hex(16)
+    &#x27;0x10&#x27;
+
+### str2hex
+
+    &#x27;abc&#x27;.encode().hex()
+        &#x27;616263&#x27;
+    bytes.fromhex(&#x27;6162&#x27;)
+        b&#x27;abc&#x27;
+
+Refer: py/py-strack for unpack
+
+## base64
+
+    import base64
+    &gt;&gt;&gt; base64.b64encode(b&#x27;a&#x27;)
+    b&#x27;YQ==&#x27;
+    &gt;&gt;&gt; base64.b64decode(b&#x27;a&#x27;)
+
+# struct
+
+## pack
+struct的pack函数把任意数据类型变成bytes：
+
+	&gt;&gt;&gt; import struct
+	&gt;&gt;&gt; struct.pack(&#x27;&gt;I&#x27;, 8) # big-endian
+    b&#x27;\x00\x00\x00\x08&#x27;
+	&gt;&gt;&gt; struct.pack(&#x27;&lt;I&#x27;, 8) # big-endian
+    b&#x27;\x08\x00\x00\x00&#x27;
+
+pack的第一个参数是处理指令，`&gt;I`的意思是：
+
+	&gt; 表示字节顺序是big-endian，也就是网络序，
+	I 表示4字节无符号整数。
+
+后面的参数个数要和处理指令一致。
+
+## unpack
+unpack把bytes变成相应的数据类型：
+
+	&gt;&gt;&gt; struct.unpack(&#x27;&gt;IH&#x27;, b&#x27;\xf0\xf0\xf0\xf0\x80\x80&#x27;)
+	(4042322160, 32896)
+
+根据`&gt;IH`的说明，后面的bytes依次变为:
+
+    c	char
+    b	signed char	    B	unsigned char
+    h: 2 bytes integer  H：2字节无符号整数。
+	i: 4bytes integer   I：4字节无符号整数和
+    l: 8bytes           L: 8 byte unsigned
+
+所以，尽管Python不适合编写底层操作字节流的代码，但在对性能要求不高的地方，利用struct就方便多了。
+
+struct模块定义的数据类型可以参考Python官方文档：
+
+https://docs.python.org/3/library/struct.html#format-characters
+
+## bmp
+Windows的位图文件（.bmp）是一种非常简单的文件格式，我们来用struct分析一下。
+
+首先找一个bmp文件，没有的话用“画图”画一个。
+
+读入前30个字节来分析：
+
+	&gt;&gt;&gt; s = b&#x27;\x42\x4d\x38\x8c\x0a\x00\x00\x00\x00\x00\x36\x00\x00\x00\x28\x00\x00\x00\x80\x02\x00\x00\x68\x01\x00\x00\x01\x00\x18\x00&#x27;
+
+BMP格式采用小端方式存储数据，文件头的结构按顺序如下：
+
+1. 两个字节：&#x27;BM&#x27;表示Windows位图，&#x27;BA&#x27;表示OS/2位图；
+1. 一个4字节整数：表示位图大小；
+1. 一个4字节整数：保留位，始终为0；
+1. 一个4字节整数：实际图像的偏移量；
+1. 一个4字节整数：Header的字节数；
+1. 一个4字节整数：图像宽度；
+1. 一个4字节整数：图像高度；
+1. 一个2字节整数：始终为1；
+1. 一个2字节整数：颜色数。
+
+所以，组合起来用unpack读取：
+
+	&gt;&gt;&gt; struct.unpack(&#x27;&lt;ccIIIIIIHH&#x27;, s)
+	(b&#x27;B&#x27;, b&#x27;M&#x27;, 691256, 0, 54, 40, 640, 360, 1, 24)
+
+结果显示，b&#x27;B&#x27;、b&#x27;M&#x27;说明是Windows位图，位图大小为640x360，颜色数为24。
+</pre>
+<div id="pager" v-pre></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>
