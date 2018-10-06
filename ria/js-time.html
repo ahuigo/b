@@ -26,7 +26,7 @@ const MD_URL='post/ria/js-time.md';
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><img :src="imgsrc"></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -51,9 +51,9 @@ const MD_URL='post/ria/js-time.md';
 <pre id="markdown" v-pre>---
 title: js-time
 date: 2018-10-04
-updated: 2018-10-06
+updated: 2018-10-07
 ---
-# Date
+# Date Format
 &gt; https://zh.wikipedia.org/wiki/ISO_8601
 
 The only format in the spec is a simplified version of ISO-8601:
@@ -97,7 +97,7 @@ Then you can clear it like so:
         return new Promise(resolve=&gt;setTimeout(resolve, ms))
     }
 
-# getdate
+# Date
 
 ## yesterday
 
@@ -105,7 +105,7 @@ Then you can clear it like so:
 	date ; //# =&gt; Fri Apr 01 2011 11:14:50 GMT+0200 (CEST)
 	date.setDate(date.getDate() - 1);
 
-## Date
+## get
 
 	$d = new Date(&quot;October 13, 1975 11:13:00&quot;);
 	$d = new Date(miliseconds);
@@ -158,11 +158,11 @@ short:
 	}
     (new Date()).format()
 
-### compare
+## compare
 
 	d1 &gt; d2
 
-### set
+## set
 
 	//day
 	.setDate()	设置 Date 对象中月的某一天 (1 ~ 31)。

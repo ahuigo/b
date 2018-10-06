@@ -26,7 +26,7 @@ const MD_URL='post/p/p9.md';
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><img :src="imgsrc"></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -50,8 +50,8 @@ const MD_URL='post/p/p9.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: AHUIGO
-date: 2018-10-06
-updated: 2018-10-06
+date: 2018-10-07
+updated: 2018-10-07
 ---
 # AHUIGO
 - 2018-09-27 [dd](/b/c/ops-dd) 
