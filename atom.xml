@@ -2,22 +2,43 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2018-10-06T21:21:19Z</updated>
+<updated>2018-10-06T22:40:20Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>js-time</title>
+<link href="/b/ria/js-time" rel="alternate" type="text/html"/>
+<updated>2018-10-06T22:40:20+00:00</updated>
+<summary/>
+<published>2018-10-06T22:40:20+00:00</published>
+<content></content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Shell 变量之数据类型</title>
+<link href="/b/c/shell-var" rel="alternate" type="text/html"/>
+<updated>2018-10-06T22:40:20+00:00</updated>
+<summary/>
+<published>2018-10-06T22:40:20+00:00</published>
+<content></content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>coder试题:有几个bing?</title>
+<link href="/b/algorithm/game-countword" rel="alternate" type="text/html"/>
+<updated>2018-10-06T22:40:20+00:00</updated>
+<summary/>
+<published>2018-10-06T22:40:20+00:00</published>
+<content></content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>字符编码简介</title>
 <link href="/b/code/code-character" rel="alternate" type="text/html"/>
 <updated>2018-10-06T21:21:19+00:00</updated>
 <summary/>
 <published>2018-10-06T21:21:19+00:00</published>
-<content></content>
+<content/>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>关于抢票以及12306 的票仓的sku 设计</title>
 <link href="/b/news/ticketing-software" rel="alternate" type="text/html"/>
 <updated>2018-10-06T21:21:19+00:00</updated>
 <summary/>
 <published>2018-10-06T21:21:19+00:00</published>
-<content></content>
+<content/>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>查找两有序数组中第N 大的值</title>
 <link href="/b/algorithm/algorithm-find-the-nth-of-2-sorted-array" rel="alternate" type="text/html"/>
