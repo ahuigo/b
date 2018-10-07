@@ -2,9 +2,21 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2018-10-07T17:56:03Z</updated>
+<updated>2018-10-07T18:04:59Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>写npm 包</title>
+<link href="/b/ria/node-npm-pkg" rel="alternate" type="text/html"/>
+<updated>2018-10-07T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># 写npm 包
+1. 生成包信息package.json
+    npm init
+2. https://www.npmjs.com/ 注册账号
+3. `npm adduser` 添加账号
+3. `</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>原生js 写的SlideUp、SlideDown 教程(收藏)</title>
 <link href="/b/ria/js-dom-event-slide" rel="alternate" type="text/html"/>
 <updated>2018-10-07T00:00:00Z</updated>
