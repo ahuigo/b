@@ -9,7 +9,7 @@ const MD_URL='post/p/p14.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO</title>
+<title>AHUIGO 的笔记</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -25,53 +25,6 @@ const MD_URL='post/p/p14.md';
 <script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
-<pre id="markdown">---
-title: AHUIGO
-date: 2018-10-07
-updated: 2018-10-07
----
-# AHUIGO
-- 2018-10-04 [matplotlib](/b/py/py-math-matplot) 
-- 2018-10-04 [操作符重载](/b/py/py-magic) 
-- 2018-10-04 [ipython](/b/py/py-ipython) 
-- 2018-09-28 [py-import](/b/py/py-import) 
-- 2018-09-28 [py-http](/b/py/py-http) 
-- 2018-09-28 [用BeautifulSoup 处理 html/xml](/b/py/py-html) 
-- 2018-09-28 [python lxml 的使用](/b/py/py-html-xml) 
-- 2018-09-28 [py-gui](/b/py/py-gui) 
-- 2018-03-01 [Python 语法](/b/py/py-grammar) 
-- 2018-09-28 [Context Managers](/b/py/py-grammar-context) 
-- 2018-09-28 [Demo](/b/py/py-fw-bottle) 
-- 2018-09-28 [py-func](/b/py/py-func) 
-- 2018-09-28 [framework list](/b/py/py-framework) 
-- 2018-09-28 [py-framework-lpthw](/b/py/py-framework-lpthw) 
-- 2018-09-28 [tempfile](/b/py/py-file-path) 
-- 2018-09-28 [py-file-io](/b/py/py-file-io) 
-- 2018-09-28 [Extending Python 3 in Go](/b/py/py-ext-go) 
-- 2018-09-28 [py-excel-zip](/b/py/py-excel-zip) 
-- 2018-09-28 [py-email](/b/py/py-email) 
-- 2018-09-28 [Disassemble](/b/py/py-disassemble) 
-- 2018-09-28 [py-debug](/b/py/py-debug) 
-- 2018-09-28 [pylint](/b/py/py-debug-pylint) 
-- 2018-09-28 [perf](/b/py/py-debug-perf) 
-- 2018-09-28 [PEP8 代码风格指南](/b/py/py-debug-pep8) 
-- 2018-09-28 [py-debug-pdb](/b/py/py-debug-pdb) 
-- 2018-09-28 [py-debug-log](/b/py/py-debug-log) 
-- 2018-09-28 [py-debug-log-inspect](/b/py/py-debug-log-inspect) 
-- 2018-09-28 [FUTEX_WAIT_PRIVATE](/b/py/py-debug-futex) 
-- 2018-09-28 [py-db](/b/py/py-db) 
-- 2018-09-28 [SQLite](/b/py/py-db-sqlite) 
-- 2018-09-28 [help](/b/py/py-db-postgre) 
-- 2018-09-28 [python 加密实例](/b/py/py-crypt) 
-- 2018-09-28 [py-collections](/b/py/py-collections) 
-- 2018-09-28 [asyncio](/b/py/py-asyncio) 
-- 2018-09-28 [py-async](/b/py/py-async) 
-- 2018-09-28 [py-async-iter](/b/py/py-async-iter) 
-- 2018-09-28 [py-argv](/b/py/py-argv) 
-- 2018-09-28 [py-appkit](/b/py/py-appkit) 
-- 2018-09-28 [Requests](/b/py/py-aiohttp) 
-- 2018-09-28 [server](/b/py/py-aiohttp-server) 
-</pre>
 <div id="app">
 <div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><img :src="imgsrc"></div>
 <div class="pure-menu pure-menu-horizontal">
@@ -95,6 +48,51 @@ updated: 2018-10-07
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
+<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+
+<ul>
+<li>2018-10-04 <a href="/b/py/py-math-matplot">matplotlib</a> </li>
+<li>2018-10-04 <a href="/b/py/py-magic">操作符重载</a> </li>
+<li>2018-10-04 <a href="/b/py/py-ipython">ipython</a> </li>
+<li>2018-09-28 <a href="/b/py/py-import">py-import</a> </li>
+<li>2018-09-28 <a href="/b/py/py-http">py-http</a> </li>
+<li>2018-09-28 <a href="/b/py/py-html">用BeautifulSoup 处理 html/xml</a> </li>
+<li>2018-09-28 <a href="/b/py/py-html-xml">python lxml 的使用</a> </li>
+<li>2018-09-28 <a href="/b/py/py-gui">py-gui</a> </li>
+<li>2018-03-01 <a href="/b/py/py-grammar">Python 语法</a> </li>
+<li>2018-09-28 <a href="/b/py/py-grammar-context">Context Managers</a> </li>
+<li>2018-09-28 <a href="/b/py/py-fw-bottle">Demo</a> </li>
+<li>2018-09-28 <a href="/b/py/py-func">py-func</a> </li>
+<li>2018-09-28 <a href="/b/py/py-framework">framework list</a> </li>
+<li>2018-09-28 <a href="/b/py/py-framework-lpthw">py-framework-lpthw</a> </li>
+<li>2018-09-28 <a href="/b/py/py-file-path">tempfile</a> </li>
+<li>2018-09-28 <a href="/b/py/py-file-io">py-file-io</a> </li>
+<li>2018-09-28 <a href="/b/py/py-ext-go">Extending Python 3 in Go</a> </li>
+<li>2018-09-28 <a href="/b/py/py-excel-zip">py-excel-zip</a> </li>
+<li>2018-09-28 <a href="/b/py/py-email">py-email</a> </li>
+<li>2018-09-28 <a href="/b/py/py-disassemble">Disassemble</a> </li>
+<li>2018-09-28 <a href="/b/py/py-debug">py-debug</a> </li>
+<li>2018-09-28 <a href="/b/py/py-debug-pylint">pylint</a> </li>
+<li>2018-09-28 <a href="/b/py/py-debug-perf">perf</a> </li>
+<li>2018-09-28 <a href="/b/py/py-debug-pep8">PEP8 代码风格指南</a> </li>
+<li>2018-09-28 <a href="/b/py/py-debug-pdb">py-debug-pdb</a> </li>
+<li>2018-09-28 <a href="/b/py/py-debug-log">py-debug-log</a> </li>
+<li>2018-09-28 <a href="/b/py/py-debug-log-inspect">py-debug-log-inspect</a> </li>
+<li>2018-09-28 <a href="/b/py/py-debug-futex">FUTEX<em>WAIT</em>PRIVATE</a> </li>
+<li>2018-09-28 <a href="/b/py/py-db">py-db</a> </li>
+<li>2018-09-28 <a href="/b/py/py-db-sqlite">SQLite</a> </li>
+<li>2018-09-28 <a href="/b/py/py-db-postgre">help</a> </li>
+<li>2018-09-28 <a href="/b/py/py-crypt">python 加密实例</a> </li>
+<li>2018-09-28 <a href="/b/py/py-collections">py-collections</a> </li>
+<li>2018-09-28 <a href="/b/py/py-asyncio">asyncio</a> </li>
+<li>2018-09-28 <a href="/b/py/py-async">py-async</a> </li>
+<li>2018-09-28 <a href="/b/py/py-async-iter">py-async-iter</a> </li>
+<li>2018-09-28 <a href="/b/py/py-argv">py-argv</a> </li>
+<li>2018-09-28 <a href="/b/py/py-appkit">py-appkit</a> </li>
+<li>2018-09-28 <a href="/b/py/py-aiohttp">Requests</a> </li>
+<li>2018-09-28 <a href="/b/py/py-aiohttp-server">server</a> </li>
+</ul>
+</div>
 <div id="pager"> <a href="/b/index">p0</a> <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a> <a href="/b/p/p3">p3</a> <a href="/b/p/p4">p4</a> <a href="/b/p/p5">p5</a> <a href="/b/p/p6">p6</a> <a href="/b/p/p7">p7</a> <a href="/b/p/p8">p8</a> <a href="/b/p/p9">p9</a> <a href="/b/p/p10">p10</a> <a href="/b/p/p11">p11</a> <a href="/b/p/p12">p12</a> <a href="/b/p/p13">p13</a> p14 <a href="/b/p/p15">p15</a> <a href="/b/p/p16">p16</a> <a href="/b/p/p17">p17</a> <a href="/b/p/p18">p18</a></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
@@ -117,7 +115,7 @@ updated: 2018-10-07
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
 <input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">

@@ -9,7 +9,7 @@ const MD_URL='post/p/p1.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO</title>
+<title>AHUIGO 的笔记</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -25,53 +25,6 @@ const MD_URL='post/p/p1.md';
 <script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
-<pre id="markdown">---
-title: AHUIGO
-date: 2018-10-07
-updated: 2018-10-07
----
-# AHUIGO
-- 2018-09-26 [一个bloom filter 的redis实现](/b/algorithm/algorithm-bloom-filter) 
-- 2018-10-06 [删除mavericks 10.9 自带的输入法](/b/mac/mac-inputmethod) 
-- 2018-09-26 [字符比较问题](/b/algorithm/algorithm-compare2str) 
-- 2018-10-04 [x5 调试](/b/wx/wx-debug) 
-- 2018-10-04 [Wx app](/b/wx/wx-app) 
-- 2018-10-04 [smb server](/b/win/win-server) 
-- 2018-10-04 [BAT](/b/win/win-bat) 
-- 2018-10-04 [babun](/b/win/win-babun) 
-- 2018-10-04 [Vsc for python](/b/vsc/vsc-python) 
-- 2018-10-04 [py-pkg-setuptool](/b/py/py-pkg-setuptool) 
-- 2018-10-04 [py-pil](/b/py/py-pil) 
-- 2018-10-04 [py-os](/b/py/py-os) 
-- 2018-10-04 [py-obj](/b/py/py-obj) 
-- 2018-10-04 [php-yaf](/b/php/php-yaf) 
-- 2018-10-04 [php-tpl](/b/php/php-tpl) 
-- 2018-10-04 [Time](/b/php/php-time) 
-- 2018-10-04 [php-session](/b/php/php-session) 
-- 2018-10-04 [pipe](/b/php/php-posix) 
-- 2018-10-04 [php-new](/b/php/php-new) 
-- 2018-10-04 [php-mysql-pdo](/b/php/php-mysql-pdo) 
-- 2018-10-04 [php-flight](/b/php/php-flight) 
-- 2018-10-04 [php-expression](/b/php/php-expression) 
-- 2018-10-04 [php-dom](/b/php/php-dom) 
-- 2018-10-04 [php-composer](/b/php/php-composer) 
-- 2018-10-06 [CI Framework 改造](/b/php/php-ci) 
-- 2018-10-06 [php beanstalk](/b/php/php-beanstalk) 
-- 2018-10-06 [nginx 的变量类型](/b/nginx/nginx-var) 
-- 2012-05-05 [Apache 的配置备忘录](/b/nginx/apache-httpd-conf) 
-- 2018-10-04 [py-process](/b/py/py-process) 
-- 2018-10-04 [Python replace with dict](/b/py/py-str-replace) 
-- 2018-10-06 [js dom file](/b/ria/js-dom-file) 
-- 2018-10-04 [Vscode 插件的开发](/b/vsc/vsc-pkg) 
-- 2018-10-04 [path](/b/vsc/vsc-path) 
-- 2018-10-04 [ajax cors](/b/ria/js-ajax-cors) 
-- 2018-10-04 [egg model](/b/ria/egg-model) 
-- 2018-10-04 [egg-test](/b/ria/egg-debug-test) 
-- 2018-10-04 [egg debug](/b/ria/egg-debug-log) 
-- 2018-10-04 [Agent](/b/ria/egg-agent) 
-- 2018-10-04 [Egg](/b/ria/egg-) 
-- 2018-09-28 [request](/b/py/flask/flask-dev-request) 
-</pre>
 <div id="app">
 <div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><img :src="imgsrc"></div>
 <div class="pure-menu pure-menu-horizontal">
@@ -95,6 +48,51 @@ updated: 2018-10-07
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
+<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+
+<ul>
+<li>2018-09-26 <a href="/b/algorithm/algorithm-geo">geohash</a> </li>
+<li>2018-09-26 <a href="/b/algorithm/algorithm-fourier">傅里叶变换</a> </li>
+<li>2018-09-26 <a href="/b/algorithm/algorithm-dp">动态规划(Dynamic programing, DP)</a> </li>
+<li>2018-09-26 <a href="/b/algorithm/algorithm-cycle-detection">单链表是否有环之龟兔算法(tortoise-hare)</a> </li>
+<li>2018-09-26 <a href="/b/algorithm/algorithm-crypt">加密算法简介</a> </li>
+<li>2018-09-26 <a href="/b/algorithm/algorithm-crypt-rsa">RSA</a> </li>
+<li>2018-09-26 <a href="/b/algorithm/algorithm-crc">crc 循环冗余校验</a> </li>
+<li>2018-09-26 <a href="/b/algorithm/algorithm-bfs">广度优先算法(BFS)</a> </li>
+<li>20180402 <a href="/b/py/py-time">python 时间函数的用法笔记</a> </li>
+<li>2018-10-06 <a href="/b/py/py-thread">python thread 线程笔记</a> </li>
+<li>2018-10-04 <a href="/b/py/py-test">py-test</a> </li>
+<li>2017-08-09 <a href="/b/py/py-str">Python 字符处理</a> </li>
+<li>2018-10-06 <a href="/b/doc/doc-hexo">将博客迁移到hexo</a> </li>
+<li>2018-09-28 <a href="/b/net/net-tcp-optimize">net-tcp-optimize</a> </li>
+<li>2018-09-10 <a href="/b/ria/egg-http">egg request 相关笔记</a> </li>
+<li>2018-10-04 <a href="/b/ria/egg-sec">Eggjs 之 Security</a> </li>
+<li>2018-09-26 <a href="/b/algorithm/algorithm-bloom-filter">一个bloom filter 的redis实现</a> </li>
+<li>2018-10-06 <a href="/b/mac/mac-inputmethod">删除mavericks 10.9 自带的输入法</a> </li>
+<li>2018-09-26 <a href="/b/algorithm/algorithm-compare2str">字符比较问题</a> </li>
+<li>2018-10-04 <a href="/b/wx/wx-debug">x5 调试</a> </li>
+<li>2018-10-04 <a href="/b/wx/wx-app">Wx app</a> </li>
+<li>2018-10-04 <a href="/b/win/win-server">smb server</a> </li>
+<li>2018-10-04 <a href="/b/win/win-bat">BAT</a> </li>
+<li>2018-10-04 <a href="/b/win/win-babun">babun</a> </li>
+<li>2018-10-04 <a href="/b/vsc/vsc-python">Vsc for python</a> </li>
+<li>2018-10-04 <a href="/b/py/py-pkg-setuptool">py-pkg-setuptool</a> </li>
+<li>2018-10-04 <a href="/b/py/py-pil">py-pil</a> </li>
+<li>2018-10-04 <a href="/b/py/py-os">py-os</a> </li>
+<li>2018-10-04 <a href="/b/py/py-obj">py-obj</a> </li>
+<li>2018-10-04 <a href="/b/php/php-yaf">php-yaf</a> </li>
+<li>2018-10-04 <a href="/b/php/php-tpl">php-tpl</a> </li>
+<li>2018-10-04 <a href="/b/php/php-time">Time</a> </li>
+<li>2018-10-04 <a href="/b/php/php-session">php-session</a> </li>
+<li>2018-10-04 <a href="/b/php/php-posix">pipe</a> </li>
+<li>2018-10-04 <a href="/b/php/php-new">php-new</a> </li>
+<li>2018-10-04 <a href="/b/php/php-mysql-pdo">php-mysql-pdo</a> </li>
+<li>2018-10-04 <a href="/b/php/php-flight">php-flight</a> </li>
+<li>2018-10-04 <a href="/b/php/php-expression">php-expression</a> </li>
+<li>2018-10-04 <a href="/b/php/php-dom">php-dom</a> </li>
+<li>2018-10-04 <a href="/b/php/php-composer">php-composer</a> </li>
+</ul>
+</div>
 <div id="pager"> <a href="/b/index">p0</a> p1 <a href="/b/p/p2">p2</a> <a href="/b/p/p3">p3</a> <a href="/b/p/p4">p4</a> <a href="/b/p/p5">p5</a> <a href="/b/p/p6">p6</a> <a href="/b/p/p7">p7</a> <a href="/b/p/p8">p8</a> <a href="/b/p/p9">p9</a> <a href="/b/p/p10">p10</a> <a href="/b/p/p11">p11</a> <a href="/b/p/p12">p12</a> <a href="/b/p/p13">p13</a> <a href="/b/p/p14">p14</a> <a href="/b/p/p15">p15</a> <a href="/b/p/p16">p16</a> <a href="/b/p/p17">p17</a> <a href="/b/p/p18">p18</a></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
@@ -117,7 +115,7 @@ updated: 2018-10-07
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
 <input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">

@@ -9,7 +9,7 @@ const MD_URL='post/p/p9.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO</title>
+<title>AHUIGO 的笔记</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -25,53 +25,6 @@ const MD_URL='post/p/p9.md';
 <script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
-<pre id="markdown">---
-title: AHUIGO
-date: 2018-10-07
-updated: 2018-10-07
----
-# AHUIGO
-- 2018-09-27 [dd](/b/c/ops-dd) 
-- 2018-10-06 [curl manual](/b/c/ops-curl) 
-- 2018-09-27 [ops-crontab](/b/c/ops-crontab) 
-- 2018-09-27 [ops-config](/b/c/ops-config) 
-- 2018-10-06 [centos 安装记录](/b/c/ops-centos-install) 
-- 2018-10-06 [test](/b/c/ops-benchmark) 
-- 2018-10-06 [awk 简介](/b/c/ops-awk) 
-- 2018-09-27 [Ansible](/b/c/ops-ansible) 
-- 2018-09-27 [tool](/b/c/ops-0) 
-- 2018-10-06 [linux c tool](/b/c/c-tool) 
-- 2018-10-06 [linux c 线程](/b/c/c-thread) 
-- 2018-10-06 [linux c 终端、作业与守护进程](/b/c/c-terminal) 
-- 2018-10-06 [linux c socket 编程](/b/c/c-socket) 
-- 2018-10-06 [linux c 信号](/b/c/c-signal) 
-- 2018-05-17 [c 语言的正则库](/b/c/c-regex) 
-- 2018-10-06 [c 语言之指针](/b/c/c-pointer) 
-- 2018-10-06 [计算机结构](/b/c/c-os) 
-- 2018-10-06 [c 语言运算符](/b/c/c-operator) 
-- 2018-10-06 [nasm helloworld](/b/c/c-nasm-hello) 
-- 2018-09-27 [c-mem](/b/c/c-mem) 
-- 2018-09-27 [GC](/b/c/c-mem-gc) 
-- 2018-09-27 [C futex 同步机制](/b/c/c-lock-futex) 
-- 2018-10-06 [linux c link 详解](/b/c/c-link) 
-- 2018-10-06 [c lib 库](/b/c/c-lib) 
-- 2018-10-06 [vim fold](/b/vim/vim-fold) 
-- 2018-10-06 [Emacs](/b/vim/vim-emacs) 
-- 2018-10-04 [diffget all file](/b/vim/vim-diff) 
-- 20180509 [vim plug 插件系统](/b/vim/nvim-plugin) 
-- 2018-10-04 [install](/b/vim/nvim-install) 
-- 2018-10-06 [vim vundle插件管理](/b/vim/2013-2-2-vim-vundle) 
-- 2018-10-06 [svn merge diff 脚本](/b/svn/svn-merge-sh) 
-- 2018-10-06 [svn-cmds](/b/svn/svn-cmds) 
-- 2018-10-06 [sql injection](/b/sec/security-sql) 
-- 2018-10-06 [php 后门](/b/sec/security-php) 
-- 2018-10-06 [Distributed Denial of Service](/b/sec/security-ddos) 
-- 2018-10-04 [xss](/b/sec/sec-xss) 
-- 2018-10-06 [hash](/b/sec/sec-hash) 
-- 2018-10-06 [密码安全与签名安全](/b/sec/sec-cryptography) 
-- 2018-05-15 [Vue 的模板系统](/b/ria/vue-tpl) 
-- 2018-10-04 [vue router 笔记](/b/ria/vue-route) 
-</pre>
 <div id="app">
 <div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><img :src="imgsrc"></div>
 <div class="pure-menu pure-menu-horizontal">
@@ -95,6 +48,51 @@ updated: 2018-10-07
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
+<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+
+<ul>
+<li>2018-09-27 <a href="/b/c/ops-dd">dd</a> </li>
+<li>2018-10-06 <a href="/b/c/ops-curl">curl manual</a> </li>
+<li>2018-09-27 <a href="/b/c/ops-crontab">ops-crontab</a> </li>
+<li>2018-09-27 <a href="/b/c/ops-config">ops-config</a> </li>
+<li>2018-10-06 <a href="/b/c/ops-centos-install">centos 安装记录</a> </li>
+<li>2018-10-06 <a href="/b/c/ops-benchmark">test</a> </li>
+<li>2018-10-06 <a href="/b/c/ops-awk">awk 简介</a> </li>
+<li>2018-09-27 <a href="/b/c/ops-ansible">Ansible</a> </li>
+<li>2018-09-27 <a href="/b/c/ops-0">tool</a> </li>
+<li>2018-10-06 <a href="/b/c/c-tool">linux c tool</a> </li>
+<li>2018-10-06 <a href="/b/c/c-thread">linux c 线程</a> </li>
+<li>2018-10-06 <a href="/b/c/c-terminal">linux c 终端、作业与守护进程</a> </li>
+<li>2018-10-06 <a href="/b/c/c-socket">linux c socket 编程</a> </li>
+<li>2018-10-06 <a href="/b/c/c-signal">linux c 信号</a> </li>
+<li>2018-05-17 <a href="/b/c/c-regex">c 语言的正则库</a> </li>
+<li>2018-10-06 <a href="/b/c/c-pointer">c 语言之指针</a> </li>
+<li>2018-10-06 <a href="/b/c/c-os">计算机结构</a> </li>
+<li>2018-10-06 <a href="/b/c/c-operator">c 语言运算符</a> </li>
+<li>2018-10-06 <a href="/b/c/c-nasm-hello">nasm helloworld</a> </li>
+<li>2018-09-27 <a href="/b/c/c-mem">c-mem</a> </li>
+<li>2018-09-27 <a href="/b/c/c-mem-gc">GC</a> </li>
+<li>2018-09-27 <a href="/b/c/c-lock-futex">C futex 同步机制</a> </li>
+<li>2018-10-06 <a href="/b/c/c-link">linux c link 详解</a> </li>
+<li>2018-10-06 <a href="/b/c/c-lib">c lib 库</a> </li>
+<li>2018-10-06 <a href="/b/vim/vim-fold">vim fold</a> </li>
+<li>2018-10-06 <a href="/b/vim/vim-emacs">Emacs</a> </li>
+<li>2018-10-04 <a href="/b/vim/vim-diff">diffget all file</a> </li>
+<li>20180509 <a href="/b/vim/nvim-plugin">vim plug 插件系统</a> </li>
+<li>2018-10-04 <a href="/b/vim/nvim-install">install</a> </li>
+<li>2018-10-06 <a href="/b/vim/2013-2-2-vim-vundle">vim vundle插件管理</a> </li>
+<li>2018-10-06 <a href="/b/svn/svn-merge-sh">svn merge diff 脚本</a> </li>
+<li>2018-10-06 <a href="/b/svn/svn-cmds">svn-cmds</a> </li>
+<li>2018-10-06 <a href="/b/sec/security-sql">sql injection</a> </li>
+<li>2018-10-06 <a href="/b/sec/security-php">php 后门</a> </li>
+<li>2018-10-06 <a href="/b/sec/security-ddos">Distributed Denial of Service</a> </li>
+<li>2018-10-04 <a href="/b/sec/sec-xss">xss</a> </li>
+<li>2018-10-06 <a href="/b/sec/sec-hash">hash</a> </li>
+<li>2018-10-06 <a href="/b/sec/sec-cryptography">密码安全与签名安全</a> </li>
+<li>2018-05-15 <a href="/b/ria/vue-tpl">Vue 的模板系统</a> </li>
+<li>2018-10-04 <a href="/b/ria/vue-route">vue router 笔记</a> </li>
+</ul>
+</div>
 <div id="pager"> <a href="/b/index">p0</a> <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a> <a href="/b/p/p3">p3</a> <a href="/b/p/p4">p4</a> <a href="/b/p/p5">p5</a> <a href="/b/p/p6">p6</a> <a href="/b/p/p7">p7</a> <a href="/b/p/p8">p8</a> p9 <a href="/b/p/p10">p10</a> <a href="/b/p/p11">p11</a> <a href="/b/p/p12">p12</a> <a href="/b/p/p13">p13</a> <a href="/b/p/p14">p14</a> <a href="/b/p/p15">p15</a> <a href="/b/p/p16">p16</a> <a href="/b/p/p17">p17</a> <a href="/b/p/p18">p18</a></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
@@ -117,7 +115,7 @@ updated: 2018-10-07
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
 <input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">

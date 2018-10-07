@@ -9,7 +9,7 @@ const MD_URL='post/p/p11.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO</title>
+<title>AHUIGO 的笔记</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -25,53 +25,6 @@ const MD_URL='post/p/p11.md';
 <script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
-<pre id="markdown">---
-title: AHUIGO
-date: 2018-10-07
-updated: 2018-10-07
----
-# AHUIGO
-- 2018-10-06 [夸夸我家程序员](/b/idea/idea-work-efficiency) 
-- 2018-09-27 [日常生活中有哪些十分钟就能学会并可以终生受用的技能？](/b/idea/idea-study) 
-- 2018-09-27 [接活网站：](/b/idea/idea-job) 
-- 2018-10-04 [extend，扩展 插件](/b/ria/js-jquery-extend) 
-- 2018-10-04 [Css](/b/ria/js-jquery-css) 
-- 2018-10-04 [IndexedDb 的使用之Dexie](/b/ria/js-indexedDB) 
-- 2017-07-11 [js 的函数](/b/ria/js-func) 
-- 2018-10-04 [Js 中的this scope](/b/ria/js-func-scope) 
-- 2018-10-04 [js fuck](/b/ria/js-expr) 
-- 2018-09-27 [go-test](/b/go/go-test) 
-- 2018-09-27 [bytes](/b/go/go-str) 
-- 2016-01-23 [Js dom 笔记](/b/ria/js-dom) 
-- 2018-08-19 [让innerHTML 执行js](/b/ria/js-dom-innerhtml-js) 
-- 2018-10-06 [html5](/b/ria/js-dom-html5) 
-- 2018-10-04 [python shell 子进程](/b/py/py-shell) 
-- 2018-10-04 [vim-file](/b/vim/vim-file) 
-- 2018-10-04 [vim-complete](/b/vim/vim-complete) 
-- 2018-10-04 [vim-cmd](/b/vim/vim-cmd) 
-- 2018-10-04 [vim-cmd-ex](/b/vim/vim-cmd-ex) 
-- 2018-10-04 [vim-change](/b/vim/vim-change) 
-- 2018-10-04 [vim-abbreviate](/b/vim/vim-abbreviate) 
-- 2018-10-04 [svn-diff](/b/svn/svn-diff) 
-- 2018-10-04 [security-web](/b/sec/security-web) 
-- 2018-10-04 [security-](/b/sec/security-) 
-- 2018-10-04 [rpc](/b/rpc/rpc) 
-- 2018-10-04 [rpc-thrift](/b/rpc/rpc-thrift) 
-- 2018-10-04 [vue-sample-mvc](/b/ria/vue-sample-mvc) 
-- 2018-10-04 [Nunjucks(=Jinjia2)](/b/ria/node-koa) 
-- 2018-10-04 [js-time](/b/ria/js-time) 
-- 2018-10-04 [js-react](/b/ria/js-react) 
-- 2018-10-04 [selector](/b/ria/js-jquery) 
-- 2018-10-04 [js-dom-scroll](/b/ria/js-dom-scroll) 
-- 2018-10-04 [js-debug-compress](/b/ria/js-debug-compress) 
-- 2018-10-06 [js charts](/b/ria/js-chart) 
-- 2018-10-06 [js ajax legacy](/b/ria/js-ajax) 
-- 2018-10-04 [py-virtualenv](/b/py/py-virtualenv) 
-- 2018-10-04 [js-css-less](/b/ria/js-css-less) 
-- 2018-10-06 [发音](/b/eng/eng-prononciation) 
-- 2018-09-27 [1.名词复数的规则变化](/b/eng/eng-noun) 
-- 2018-10-04 [font](/b/ria/js-css-font) 
-</pre>
 <div id="app">
 <div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><img :src="imgsrc"></div>
 <div class="pure-menu pure-menu-horizontal">
@@ -95,6 +48,51 @@ updated: 2018-10-07
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
+<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+
+<ul>
+<li>2018-10-06 <a href="/b/idea/idea-work-efficiency">夸夸我家程序员</a> </li>
+<li>2018-09-27 <a href="/b/idea/idea-study">日常生活中有哪些十分钟就能学会并可以终生受用的技能？</a> </li>
+<li>2018-09-27 <a href="/b/idea/idea-job">接活网站：</a> </li>
+<li>2018-10-04 <a href="/b/ria/js-jquery-extend">extend，扩展 插件</a> </li>
+<li>2018-10-04 <a href="/b/ria/js-jquery-css">Css</a> </li>
+<li>2018-10-04 <a href="/b/ria/js-indexedDB">IndexedDb 的使用之Dexie</a> </li>
+<li>2017-07-11 <a href="/b/ria/js-func">js 的函数</a> </li>
+<li>2018-10-04 <a href="/b/ria/js-func-scope">Js 中的this scope</a> </li>
+<li>2018-10-04 <a href="/b/ria/js-expr">js fuck</a> </li>
+<li>2018-09-27 <a href="/b/go/go-test">go-test</a> </li>
+<li>2018-09-27 <a href="/b/go/go-str">bytes</a> </li>
+<li>2016-01-23 <a href="/b/ria/js-dom">Js dom 笔记</a> </li>
+<li>2018-08-19 <a href="/b/ria/js-dom-innerhtml-js">让innerHTML 执行js</a> </li>
+<li>2018-10-06 <a href="/b/ria/js-dom-html5">html5</a> </li>
+<li>2018-10-04 <a href="/b/py/py-shell">python shell 子进程</a> </li>
+<li>2018-10-04 <a href="/b/vim/vim-file">vim-file</a> </li>
+<li>2018-10-04 <a href="/b/vim/vim-complete">vim-complete</a> </li>
+<li>2018-10-04 <a href="/b/vim/vim-cmd">vim-cmd</a> </li>
+<li>2018-10-04 <a href="/b/vim/vim-cmd-ex">vim-cmd-ex</a> </li>
+<li>2018-10-04 <a href="/b/vim/vim-change">vim-change</a> </li>
+<li>2018-10-04 <a href="/b/vim/vim-abbreviate">vim-abbreviate</a> </li>
+<li>2018-10-04 <a href="/b/svn/svn-diff">svn-diff</a> </li>
+<li>2018-10-04 <a href="/b/sec/security-web">security-web</a> </li>
+<li>2018-10-04 <a href="/b/sec/security-">security-</a> </li>
+<li>2018-10-04 <a href="/b/rpc/rpc">rpc</a> </li>
+<li>2018-10-04 <a href="/b/rpc/rpc-thrift">rpc-thrift</a> </li>
+<li>2018-10-04 <a href="/b/ria/vue-sample-mvc">vue-sample-mvc</a> </li>
+<li>2018-10-04 <a href="/b/ria/node-koa">Nunjucks(=Jinjia2)</a> </li>
+<li>2018-10-04 <a href="/b/ria/js-time">js-time</a> </li>
+<li>2018-10-04 <a href="/b/ria/js-react">js-react</a> </li>
+<li>2018-10-04 <a href="/b/ria/js-jquery">selector</a> </li>
+<li>2018-10-04 <a href="/b/ria/js-dom-scroll">js-dom-scroll</a> </li>
+<li>2018-10-04 <a href="/b/ria/js-debug-compress">js-debug-compress</a> </li>
+<li>2018-10-06 <a href="/b/ria/js-chart">js charts</a> </li>
+<li>2018-10-06 <a href="/b/ria/js-ajax">js ajax legacy</a> </li>
+<li>2018-10-04 <a href="/b/py/py-virtualenv">py-virtualenv</a> </li>
+<li>2018-10-04 <a href="/b/ria/js-css-less">js-css-less</a> </li>
+<li>2018-10-06 <a href="/b/eng/eng-prononciation">发音</a> </li>
+<li>2018-09-27 <a href="/b/eng/eng-noun">1.名词复数的规则变化</a> </li>
+<li>2018-10-04 <a href="/b/ria/js-css-font">font</a> </li>
+</ul>
+</div>
 <div id="pager"> <a href="/b/index">p0</a> <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a> <a href="/b/p/p3">p3</a> <a href="/b/p/p4">p4</a> <a href="/b/p/p5">p5</a> <a href="/b/p/p6">p6</a> <a href="/b/p/p7">p7</a> <a href="/b/p/p8">p8</a> <a href="/b/p/p9">p9</a> <a href="/b/p/p10">p10</a> p11 <a href="/b/p/p12">p12</a> <a href="/b/p/p13">p13</a> <a href="/b/p/p14">p14</a> <a href="/b/p/p15">p15</a> <a href="/b/p/p16">p16</a> <a href="/b/p/p17">p17</a> <a href="/b/p/p18">p18</a></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
@@ -117,7 +115,7 @@ updated: 2018-10-07
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
 <input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">

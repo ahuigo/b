@@ -9,7 +9,7 @@ const MD_URL='post/p/p3.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO</title>
+<title>AHUIGO 的笔记</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -25,53 +25,6 @@ const MD_URL='post/p/p3.md';
 <script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
-<pre id="markdown">---
-title: AHUIGO
-date: 2018-10-07
-updated: 2018-10-07
----
-# AHUIGO
-- 2018-09-28 [句子](/b/eng/s/either-or) 
-- 2018-09-27 [询问时间](/b/eng/s-time) 
-- 2018-09-27 [more and more, increasing / accumulating numbers](/b/eng/listen-4) 
-- 2018-09-27 [lession9](/b/eng/lesson-9) 
-- 2018-09-27 [背单词](/b/eng/eng-word) 
-- 2018-09-27 [in general term](/b/eng/eng-word-test) 
-- 2018-09-27 [eng-word-root](/b/eng/eng-word-root) 
-- 2018-09-27 [动词分类](/b/eng/eng-verb) 
-- 2018-09-27 [动词时态, verb tense](/b/eng/eng-verb-tense-taste) 
-- 2018-09-27 [分词 participle](/b/eng/eng-verb-participle) 
-- 2018-09-27 [动词不定式, Verb infinitive](/b/eng/eng-verb-infinitive) 
-- 2018-09-27 [eng-thanks](/b/eng/eng-thanks) 
-- 2018-10-04 [vim-window](/b/vim/vim-window) 
-- 2018-10-04 [vim-tags](/b/vim/vim-tags) 
-- 2018-09-28 [APP context](/b/py/flask/10.flask-ctx) 
-- 2018-09-28 [insall](/b/py/flask/1.flask-run) 
-- 2018-10-04 [webspider](/b/py/py-webspider) 
-- 2018-09-27 [go 的变量](/b/go/go-var) 
-- 20180303 [python 变量笔记](/b/py/py-var) 
-- 2018-10-04 [setup.py](/b/py/py-test-pkg) 
-- 2018-10-04 [vim-syntax](/b/vim/vim-syntax) 
-- 2018-10-04 [vim-style](/b/vim/vim-style) 
-- 2018-10-04 [vim-script](/b/vim/vim-script) 
-- 2018-10-04 [vim-quickfix](/b/vim/vim-quickfix) 
-- 2018-10-04 [vim-plugin](/b/vim/vim-plugin) 
-- 2018-10-04 [vim-pattern](/b/vim/vim-pattern) 
-- 2018-10-04 [vim-options](/b/vim/vim-options) 
-- 2018-10-04 [vim-math](/b/vim/vim-math) 
-- 2018-09-27 [eng-desc-sb](/b/eng/eng-desc-sb) 
-- 2018-10-06 [Causative Verb 使役动词](/b/eng/eng-causative-verb) 
-- 2018-09-27 [冠词](/b/eng/eng-article) 
-- 2018-09-27 [形容词和副词, adjective and adverb](/b/eng/eng-adj-adverb) 
-- 2018-09-27 [在线项目管理软件的选择](/b/em/em-software-select) 
-- 2018-10-06 [风险与质量管理](/b/em/em-risk-quality) 
-- 2018-09-27 [知识产权课程总结](/b/em/em-property-rights) 
-- 2018-09-27 [五大过程组，十大知识领域](/b/em/em-project-management) 
-- 2018-09-27 [工程造价](/b/em/em-price) 
-- 2018-10-04 [install:](/b/py/py-str-yaml) 
-- 20180505 [python3 的struct 字节处理工具](/b/py/py-str-struct) 
-- 2018-10-04 [serialize](/b/py/py-str-serial) 
-</pre>
 <div id="app">
 <div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><img :src="imgsrc"></div>
 <div class="pure-menu pure-menu-horizontal">
@@ -95,6 +48,51 @@ updated: 2018-10-07
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
+<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+
+<ul>
+<li>2018-09-27 <a href="/b/go/go-hello">go-hello</a> </li>
+<li>2018-09-27 <a href="/b/go/go-func">go-func</a> </li>
+<li>2018-09-27 <a href="/b/go/go-fmt">fmt</a> </li>
+<li>2018-09-27 <a href="/b/go/go-file">filepath</a> </li>
+<li>2018-09-27 <a href="/b/go/go-expr">go expression</a> </li>
+<li>2018-09-27 <a href="/b/go/go-doc">godoc</a> </li>
+<li>2018-09-27 <a href="/b/go/go-debug">go-debug</a> </li>
+<li>2018-09-27 <a href="/b/git/git-svn">git svn</a> </li>
+<li>2018-03-03 <a href="/b/git/git-submodule">git submodule</a> </li>
+<li>2018-10-06 <a href="/b/git/git-struct">git 数据结构</a> </li>
+<li>2018-09-27 <a href="/b/git/git-server">搭建 git server</a> </li>
+<li>2018-10-06 <a href="/b/go/go-time">go time</a> </li>
+<li>2014-05-07 <a href="/b/git/git-hooks">git hooks</a> </li>
+<li>2018-09-27 <a href="/b/git/git-ci">git-ci</a> </li>
+<li>2018-09-28 <a href="/b/eng/s/s-if">if</a> </li>
+<li>2018-09-28 <a href="/b/eng/s/hence">In isolation, this discrepancy is fine,</a> </li>
+<li>2018-09-28 <a href="/b/eng/s/either-or">句子</a> </li>
+<li>2018-09-27 <a href="/b/eng/s-time">询问时间</a> </li>
+<li>2018-09-27 <a href="/b/eng/listen-4">more and more, increasing / accumulating numbers</a> </li>
+<li>2018-09-27 <a href="/b/eng/lesson-9">lession9</a> </li>
+<li>2018-09-27 <a href="/b/eng/eng-word">背单词</a> </li>
+<li>2018-09-27 <a href="/b/eng/eng-word-test">in general term</a> </li>
+<li>2018-09-27 <a href="/b/eng/eng-word-root">eng-word-root</a> </li>
+<li>2018-09-27 <a href="/b/eng/eng-verb">动词分类</a> </li>
+<li>2018-09-27 <a href="/b/eng/eng-verb-tense-taste">动词时态, verb tense</a> </li>
+<li>2018-09-27 <a href="/b/eng/eng-verb-participle">分词 participle</a> </li>
+<li>2018-09-27 <a href="/b/eng/eng-verb-infinitive">动词不定式, Verb infinitive</a> </li>
+<li>2018-09-27 <a href="/b/eng/eng-thanks">eng-thanks</a> </li>
+<li>2018-10-04 <a href="/b/vim/vim-window">vim-window</a> </li>
+<li>2018-10-04 <a href="/b/vim/vim-tags">vim-tags</a> </li>
+<li>2018-09-28 <a href="/b/py/flask/10.flask-ctx">APP context</a> </li>
+<li>2018-09-28 <a href="/b/py/flask/1.flask-run">insall</a> </li>
+<li>2018-10-04 <a href="/b/py/py-webspider">webspider</a> </li>
+<li>2018-09-27 <a href="/b/go/go-var">go 的变量</a> </li>
+<li>20180303 <a href="/b/py/py-var">python 变量笔记</a> </li>
+<li>2018-10-04 <a href="/b/py/py-test-pkg">setup.py</a> </li>
+<li>2018-10-04 <a href="/b/vim/vim-syntax">vim-syntax</a> </li>
+<li>2018-10-04 <a href="/b/vim/vim-style">vim-style</a> </li>
+<li>2018-10-04 <a href="/b/vim/vim-script">vim-script</a> </li>
+<li>2018-10-04 <a href="/b/vim/vim-quickfix">vim-quickfix</a> </li>
+</ul>
+</div>
 <div id="pager"> <a href="/b/index">p0</a> <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a> p3 <a href="/b/p/p4">p4</a> <a href="/b/p/p5">p5</a> <a href="/b/p/p6">p6</a> <a href="/b/p/p7">p7</a> <a href="/b/p/p8">p8</a> <a href="/b/p/p9">p9</a> <a href="/b/p/p10">p10</a> <a href="/b/p/p11">p11</a> <a href="/b/p/p12">p12</a> <a href="/b/p/p13">p13</a> <a href="/b/p/p14">p14</a> <a href="/b/p/p15">p15</a> <a href="/b/p/p16">p16</a> <a href="/b/p/p17">p17</a> <a href="/b/p/p18">p18</a></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
@@ -117,7 +115,7 @@ updated: 2018-10-07
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
 <input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">

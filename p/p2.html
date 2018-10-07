@@ -9,7 +9,7 @@ const MD_URL='post/p/p2.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO</title>
+<title>AHUIGO 的笔记</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -25,53 +25,6 @@ const MD_URL='post/p/p2.md';
 <script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
-<pre id="markdown">---
-title: AHUIGO
-date: 2018-10-07
-updated: 2018-10-07
----
-# AHUIGO
-- 2018-09-28 [Views](/b/py/flask/9.flask-views) 
-- 2018-09-28 [signal](/b/py/flask/8.flask-signal) 
-- 2018-09-28 [mail log](/b/py/flask/7.flask-log) 
-- 2018-09-28 [cli](/b/py/flask/6.flask-cli) 
-- 2018-09-28 [test client](/b/py/flask/5.flask-unittest) 
-- 2018-09-28 [app](/b/py/flask/4.flask-conf) 
-- 2018-09-28 [Template](/b/py/flask/3.flask-tpl) 
-- 2018-09-28 [flask route request response](/b/py/flask/2.flask-route) 
-- 2018-09-28 [blueprint](/b/py/flask/11.flask-blueprint) 
-- 2018-10-06 [Install ADB on Mac OSX](/b/mac/android-adb) 
-- 2018-09-27 [socket](/b/go/go-socket) 
-- 2018-09-27 [struct](/b/go/go-slice) 
-- 2018-09-27 [go routines](/b/go/go-routines) 
-- 2018-09-27 [Pointers](/b/go/go-pointer) 
-- 2018-09-27 [go-pkg](/b/go/go-pkg) 
-- 2018-09-27 [系统调用](/b/go/go-os) 
-- 2018-09-27 [rand](/b/go/go-num) 
-- 2018-09-27 [map](/b/go/go-map) 
-- 2018-09-27 [make](/b/go/go-make) 
-- 2018-09-27 [go fatal](/b/go/go-log) 
-- 2018-09-27 [go-io](/b/go/go-io) 
-- 2018-09-27 [Interfaces](/b/go/go-interface) 
-- 2018-09-27 [image](/b/go/go-image) 
-- 2018-09-27 [help command](/b/go/go-help) 
-- 2018-09-27 [go-hello](/b/go/go-hello) 
-- 2018-09-27 [go-func](/b/go/go-func) 
-- 2018-09-27 [fmt](/b/go/go-fmt) 
-- 2018-09-27 [filepath](/b/go/go-file) 
-- 2018-09-27 [go expression](/b/go/go-expr) 
-- 2018-09-27 [godoc](/b/go/go-doc) 
-- 2018-09-27 [go-debug](/b/go/go-debug) 
-- 2018-09-27 [git svn](/b/git/git-svn) 
-- 2018-03-03 [git submodule](/b/git/git-submodule) 
-- 2018-10-06 [git 数据结构](/b/git/git-struct) 
-- 2018-09-27 [搭建 git server](/b/git/git-server) 
-- 2018-10-06 [go time](/b/go/go-time) 
-- 2014-05-07 [git hooks](/b/git/git-hooks) 
-- 2018-09-27 [git-ci](/b/git/git-ci) 
-- 2018-09-28 [if](/b/eng/s/s-if) 
-- 2018-09-28 [In isolation, this discrepancy is fine,](/b/eng/s/hence) 
-</pre>
 <div id="app">
 <div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><img :src="imgsrc"></div>
 <div class="pure-menu pure-menu-horizontal">
@@ -95,6 +48,51 @@ updated: 2018-10-07
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
+<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+
+<ul>
+<li>2018-10-06 <a href="/b/php/php-ci">CI Framework 改造</a> </li>
+<li>2018-10-06 <a href="/b/php/php-beanstalk">php beanstalk</a> </li>
+<li>2018-10-06 <a href="/b/nginx/nginx-var">nginx 的变量类型</a> </li>
+<li>2012-05-05 <a href="/b/nginx/apache-httpd-conf">Apache 的配置备忘录</a> </li>
+<li>2018-10-04 <a href="/b/py/py-process">py-process</a> </li>
+<li>2018-10-04 <a href="/b/py/py-str-replace">Python replace with dict</a> </li>
+<li>2018-10-06 <a href="/b/ria/js-dom-file">js dom file</a> </li>
+<li>2018-10-04 <a href="/b/vsc/vsc-pkg">Vscode 插件的开发</a> </li>
+<li>2018-10-04 <a href="/b/vsc/vsc-path">path</a> </li>
+<li>2018-10-04 <a href="/b/ria/js-ajax-cors">ajax cors</a> </li>
+<li>2018-10-04 <a href="/b/ria/egg-model">egg model</a> </li>
+<li>2018-10-04 <a href="/b/ria/egg-debug-test">egg-test</a> </li>
+<li>2018-10-04 <a href="/b/ria/egg-debug-log">egg debug</a> </li>
+<li>2018-10-04 <a href="/b/ria/egg-agent">Agent</a> </li>
+<li>2018-10-04 <a href="/b/ria/egg-">Egg</a> </li>
+<li>2018-09-28 <a href="/b/py/flask/flask-dev-request">request</a> </li>
+<li>2018-09-28 <a href="/b/py/flask/9.flask-views">Views</a> </li>
+<li>2018-09-28 <a href="/b/py/flask/8.flask-signal">signal</a> </li>
+<li>2018-09-28 <a href="/b/py/flask/7.flask-log">mail log</a> </li>
+<li>2018-09-28 <a href="/b/py/flask/6.flask-cli">cli</a> </li>
+<li>2018-09-28 <a href="/b/py/flask/5.flask-unittest">test client</a> </li>
+<li>2018-09-28 <a href="/b/py/flask/4.flask-conf">app</a> </li>
+<li>2018-09-28 <a href="/b/py/flask/3.flask-tpl">Template</a> </li>
+<li>2018-09-28 <a href="/b/py/flask/2.flask-route">flask route request response</a> </li>
+<li>2018-09-28 <a href="/b/py/flask/11.flask-blueprint">blueprint</a> </li>
+<li>2018-10-06 <a href="/b/mac/android-adb">Install ADB on Mac OSX</a> </li>
+<li>2018-09-27 <a href="/b/go/go-socket">socket</a> </li>
+<li>2018-09-27 <a href="/b/go/go-slice">struct</a> </li>
+<li>2018-09-27 <a href="/b/go/go-routines">go routines</a> </li>
+<li>2018-09-27 <a href="/b/go/go-pointer">Pointers</a> </li>
+<li>2018-09-27 <a href="/b/go/go-pkg">go-pkg</a> </li>
+<li>2018-09-27 <a href="/b/go/go-os">系统调用</a> </li>
+<li>2018-09-27 <a href="/b/go/go-num">rand</a> </li>
+<li>2018-09-27 <a href="/b/go/go-map">map</a> </li>
+<li>2018-09-27 <a href="/b/go/go-make">make</a> </li>
+<li>2018-09-27 <a href="/b/go/go-log">go fatal</a> </li>
+<li>2018-09-27 <a href="/b/go/go-io">go-io</a> </li>
+<li>2018-09-27 <a href="/b/go/go-interface">Interfaces</a> </li>
+<li>2018-09-27 <a href="/b/go/go-image">image</a> </li>
+<li>2018-09-27 <a href="/b/go/go-help">help command</a> </li>
+</ul>
+</div>
 <div id="pager"> <a href="/b/index">p0</a> <a href="/b/p/p1">p1</a> p2 <a href="/b/p/p3">p3</a> <a href="/b/p/p4">p4</a> <a href="/b/p/p5">p5</a> <a href="/b/p/p6">p6</a> <a href="/b/p/p7">p7</a> <a href="/b/p/p8">p8</a> <a href="/b/p/p9">p9</a> <a href="/b/p/p10">p10</a> <a href="/b/p/p11">p11</a> <a href="/b/p/p12">p12</a> <a href="/b/p/p13">p13</a> <a href="/b/p/p14">p14</a> <a href="/b/p/p15">p15</a> <a href="/b/p/p16">p16</a> <a href="/b/p/p17">p17</a> <a href="/b/p/p18">p18</a></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
@@ -117,7 +115,7 @@ updated: 2018-10-07
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
 <input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">

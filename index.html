@@ -9,7 +9,7 @@ const MD_URL='post/index.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO</title>
+<title>AHUIGO 的笔记</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -25,53 +25,6 @@ const MD_URL='post/index.md';
 <script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
-<pre id="markdown">---
-title: AHUIGO
-date: 2018-10-07
-updated: 2018-10-07
----
-# AHUIGO
-- 2018-10-04 [关于抢票以及12306 的票仓的sku 设计](/b/news/ticketing-software) 
-- 2018-09-26 [查找两有序数组中第N 大的值](/b/algorithm/algorithm-find-the-nth-of-2-sorted-array) 
-- 2018-09-26 [coder试题:有几个bing?](/b/algorithm/game-countword) 
-- 2018-10-06 [投票类网站的排序算法](/b/algorithm/sort-vote) 
-- 2014-03-05 [Shell Programming](/b/c/shell-) 
-- 2014-10-10 [杨氏矩阵（Young Tableau）的topK 算法](/b/algorithm/algo-young-tableau-topk) 
-- 2018-10-06 [shell 表达式](/b/c/shell-grammar) 
-- 2018-09-27 [linux 的帮助系统](/b/c/shell-help) 
-- 2012-07-08 [GMT,UTC,DST,CST 各种时间标准](/b/c/shell-time) 
-- 2018-09-27 [Shell 变量之数据类型](/b/c/shell-var) 
-- 2018-10-06 [shell 终端使用技巧](/b/c/shell-zsh) 
-- 2014-05-10 [字符编码简介](/b/code/code-character) 
-- 2018-09-27 [开源软件的版权保护](/b/em/em-copyright-open-source) 
-- 2015-03-04 [红包飞的概率问题](/b/math/math-envelope) 
-- 2018-10-04 [数学符号与古希腊字符](/b/math/math-symbol) 
-- 2018-10-06 [Bellard 大神的项目 -- jslinux](/b/news/geek-proj) 
-- 2018-10-06 [哪些python lib 让你相见恨晚](/b/py/py-lib) 
-- 2018-04-04 [用 Python mathplot 画K 线图](/b/py/py-math-mathplot-kline) 
-- 2018-10-06 [Python 的math 语法](/b/py/py-math) 
-- 2018-03-03 [python 的list/tuple 笔记](/b/py/py-var-list) 
-- 2018-09-10 [egg request 相关笔记](/b/ria/egg-http) 
-- 2018-10-04 [Eggjs 之 Security](/b/ria/egg-sec) 
-- 2018-10-04 [Js Array 整理](/b/ria/js-array) 
-- 2018-10-06 [安全的帐号设计](/b/sec/security-account) 
-- 2018-10-06 [vim 笔记](/b/vim/vim-notes) 
-- 2018-10-06 [vim 使用之变量](/b/vim/vim-var) 
-- 2018-09-26 [二叉查找树和红黑树](/b/algorithm/ds-binary-search-tree) 
-- 2018-09-26 [跳跃表](/b/algorithm/ds-skiplist) 
-- 2018-09-15 [Analysis of Algorithm](/b/algorithm/1.time-complex) 
-- 2018-09-26 [数据结构之树](/b/algorithm/algorithm-tree) 
-- 2013-09-26 [经典排序算法的实现](/b/algorithm/algo-sort) 
-- 2018-10-06 [tcp/ip 协议](/b/net/net-tcpip) 
-- 2018-10-06 [python 字典](/b/py/py-var-dict) 
-- 2018-10-04 [named tuples](/b/py/py-var-collections) 
-- 20180402 [python 时间函数的用法笔记](/b/py/py-time) 
-- 2018-10-06 [python thread 线程笔记](/b/py/py-thread) 
-- 2018-10-04 [py-test](/b/py/py-test) 
-- 2017-08-09 [Python 字符处理](/b/py/py-str) 
-- 2018-10-06 [将博客迁移到hexo](/b/doc/doc-hexo) 
-- 2018-09-28 [net-tcp-optimize](/b/net/net-tcp-optimize) 
-</pre>
 <div id="app">
 <div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><img :src="imgsrc"></div>
 <div class="pure-menu pure-menu-horizontal">
@@ -95,6 +48,51 @@ updated: 2018-10-07
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
+<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+
+<ul>
+<li>2018-10-04 <a href="/b/news/ticketing-software">关于抢票以及12306 的票仓的sku 设计</a> </li>
+<li>2018-09-26 <a href="/b/algorithm/algorithm-find-the-nth-of-2-sorted-array">查找两有序数组中第N 大的值</a> </li>
+<li>2018-09-26 <a href="/b/algorithm/game-countword">coder试题:有几个bing?</a> </li>
+<li>2018-10-06 <a href="/b/algorithm/sort-vote">投票类网站的排序算法</a> </li>
+<li>2014-03-05 <a href="/b/c/shell-">Shell Programming</a> </li>
+<li>2014-10-10 <a href="/b/algorithm/algo-young-tableau-topk">杨氏矩阵（Young Tableau）的topK 算法</a> </li>
+<li>2018-10-06 <a href="/b/c/shell-grammar">shell 表达式</a> </li>
+<li>2018-09-27 <a href="/b/c/shell-help">linux 的帮助系统</a> </li>
+<li>2012-07-08 <a href="/b/c/shell-time">GMT,UTC,DST,CST 各种时间标准</a> </li>
+<li>2018-09-27 <a href="/b/c/shell-var">Shell 变量之数据类型</a> </li>
+<li>2018-10-06 <a href="/b/c/shell-zsh">shell 终端使用技巧</a> </li>
+<li>2014-05-10 <a href="/b/code/code-character">字符编码简介</a> </li>
+<li>2018-09-26 <a href="/b/algorithm/ds-binary-search-tree">二叉查找树和红黑树</a> </li>
+<li>2018-09-27 <a href="/b/em/em-copyright-open-source">开源软件的版权保护</a> </li>
+<li>2015-03-04 <a href="/b/math/math-envelope">红包飞的概率问题</a> </li>
+<li>2018-10-04 <a href="/b/math/math-symbol">数学符号与古希腊字符</a> </li>
+<li>2018-10-06 <a href="/b/news/geek-proj">Bellard 大神的项目 -- jslinux</a> </li>
+<li>2018-10-06 <a href="/b/py/py-lib">哪些python lib 让你相见恨晚</a> </li>
+<li>2018-09-26 <a href="/b/algorithm/algo-topk">BFPRT 算法</a> </li>
+<li>2018-09-15 <a href="/b/algorithm/1.time-complex">Analysis of Algorithm</a> </li>
+<li>2018-09-26 <a href="/b/algorithm/ds-skiplist">跳跃表</a> </li>
+<li>2018-09-26 <a href="/b/algorithm/algorithm-tree">数据结构之树</a> </li>
+<li>2013-09-26 <a href="/b/algorithm/algo-sort">经典排序算法的实现</a> </li>
+<li>2018-10-06 <a href="/b/net/net-tcpip">tcp/ip 协议</a> </li>
+<li>2018-10-06 <a href="/b/py/py-var-dict">python 字典</a> </li>
+<li>2018-10-04 <a href="/b/py/py-var-collections">named tuples</a> </li>
+<li>2018-04-04 <a href="/b/py/py-math-mathplot-kline">用 Python mathplot 画K 线图</a> </li>
+<li>2018-10-06 <a href="/b/py/py-math">Python 的math 语法</a> </li>
+<li>2018-03-03 <a href="/b/py/py-var-list">python 的list/tuple 笔记</a> </li>
+<li>2018-10-04 <a href="/b/ria/js-array">Js Array 整理</a> </li>
+<li>2018-10-06 <a href="/b/sec/security-account">安全的帐号设计</a> </li>
+<li>2018-10-06 <a href="/b/vim/vim-notes">vim 笔记</a> </li>
+<li>2018-10-06 <a href="/b/vim/vim-var">vim 使用之变量</a> </li>
+<li>2018-09-26 <a href="/b/algorithm/algorithm-trie-filter">trie-filter</a> </li>
+<li>2018-09-26 <a href="/b/algorithm/algorithm-self-call">如何避免深度递归</a> </li>
+<li>2018-09-26 <a href="/b/algorithm/algorithm-pigeonhole_principle">Pigeonhole principle, 鸽巢（抽屉）原理</a> </li>
+<li>2018-09-26 <a href="/b/algorithm/algorithm-pi">圆周率算法</a> </li>
+<li>2018-09-26 <a href="/b/algorithm/algorithm-otp">利用google authentication 构建otp 动态口令</a> </li>
+<li>2018-09-26 <a href="/b/algorithm/algorithm-np">NPC, NP完全</a> </li>
+<li>2018-10-06 <a href="/b/algorithm/algorithm-libsvm">LibSvm</a> </li>
+</ul>
+</div>
 <div id="pager"> p0 <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a> <a href="/b/p/p3">p3</a> <a href="/b/p/p4">p4</a> <a href="/b/p/p5">p5</a> <a href="/b/p/p6">p6</a> <a href="/b/p/p7">p7</a> <a href="/b/p/p8">p8</a> <a href="/b/p/p9">p9</a> <a href="/b/p/p10">p10</a> <a href="/b/p/p11">p11</a> <a href="/b/p/p12">p12</a> <a href="/b/p/p13">p13</a> <a href="/b/p/p14">p14</a> <a href="/b/p/p15">p15</a> <a href="/b/p/p16">p16</a> <a href="/b/p/p17">p17</a> <a href="/b/p/p18">p18</a></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
@@ -117,7 +115,7 @@ updated: 2018-10-07
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
 <input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">

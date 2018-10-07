@@ -9,7 +9,7 @@ const MD_URL='post/p/p18.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO</title>
+<title>AHUIGO 的笔记</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -25,22 +25,6 @@ const MD_URL='post/p/p18.md';
 <script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
-<pre id="markdown">---
-title: AHUIGO
-date: 2018-10-07
-updated: 2018-10-07
----
-# AHUIGO
-- 2018-09-27 [mac-sip](/b/mac/mac-sip) 
-- 2018-10-06 [Mac shortcuts](/b/mac/mac-shortcuts) 
-- 2018-09-27 [python -m http.server](/b/mac/mac-sendfile) 
-- 2018-10-06 [rime 鼠须管输入法](/b/mac/mac-rime) 
-- 2018-09-27 [adapter](/b/mac/mac-power) 
-- 2018-09-27 [brew](/b/mac/mac-brew) 
-- 2018-10-06 [brew dev](/b/mac/mac-brew-dev) 
-- 2018-09-27 [AppleScript](/b/mac/mac-applescript) 
-- 2018-09-27 [android-root](/b/mac/android-root) 
-</pre>
 <div id="app">
 <div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><img :src="imgsrc"></div>
 <div class="pure-menu pure-menu-horizontal">
@@ -64,6 +48,20 @@ updated: 2018-10-07
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
+<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+
+<ul>
+<li>2018-09-27 <a href="/b/mac/mac-sip">mac-sip</a> </li>
+<li>2018-10-06 <a href="/b/mac/mac-shortcuts">Mac shortcuts</a> </li>
+<li>2018-09-27 <a href="/b/mac/mac-sendfile">python -m http.server</a> </li>
+<li>2018-10-06 <a href="/b/mac/mac-rime">rime 鼠须管输入法</a> </li>
+<li>2018-09-27 <a href="/b/mac/mac-power">adapter</a> </li>
+<li>2018-09-27 <a href="/b/mac/mac-brew">brew</a> </li>
+<li>2018-10-06 <a href="/b/mac/mac-brew-dev">brew dev</a> </li>
+<li>2018-09-27 <a href="/b/mac/mac-applescript">AppleScript</a> </li>
+<li>2018-09-27 <a href="/b/mac/android-root">android-root</a> </li>
+</ul>
+</div>
 <div id="pager"> <a href="/b/index">p0</a> <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a> <a href="/b/p/p3">p3</a> <a href="/b/p/p4">p4</a> <a href="/b/p/p5">p5</a> <a href="/b/p/p6">p6</a> <a href="/b/p/p7">p7</a> <a href="/b/p/p8">p8</a> <a href="/b/p/p9">p9</a> <a href="/b/p/p10">p10</a> <a href="/b/p/p11">p11</a> <a href="/b/p/p12">p12</a> <a href="/b/p/p13">p13</a> <a href="/b/p/p14">p14</a> <a href="/b/p/p15">p15</a> <a href="/b/p/p16">p16</a> <a href="/b/p/p17">p17</a> p18</div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
@@ -86,7 +84,7 @@ updated: 2018-10-07
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
 <input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">

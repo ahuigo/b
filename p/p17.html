@@ -9,7 +9,7 @@ const MD_URL='post/p/p17.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO</title>
+<title>AHUIGO 的笔记</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -25,53 +25,6 @@ const MD_URL='post/p/p17.md';
 <script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
-<pre id="markdown">---
-title: AHUIGO
-date: 2018-10-07
-updated: 2018-10-07
----
-# AHUIGO
-- 2018-10-06 [iptable on mac osx](/b/net/net-iptables-mac) 
-- 2018-09-28 [get public ip](/b/net/net-ip) 
-- 2018-09-28 [net-ip-pfctl](/b/net/net-ip-pfctl) 
-- 2018-09-28 [comcast](/b/net/net-ip-comcast) 
-- 2018-09-28 [ICMP, Internet Control Message Protocol](/b/net/net-icmp) 
-- 2018-09-28 [net-dns](/b/net/net-dns) 
-- 2018-09-28 [connection refused](/b/net/net-debug-connect) 
-- 2018-09-28 [c10k 问题](/b/net/net-c10k) 
-- 2018-10-06 [Linux Network](/b/net/net-) 
-- 2018-09-28 [http/2 的特点](/b/net/http2) 
-- 2018-10-06 [About Http](/b/net/http) 
-- 2018-09-28 [http-spider](/b/net/http-spider) 
-- 2018-09-28 [http-p3p](/b/net/http-p3p) 
-- 2018-10-04 [向量(vector)](/b/math/vetor) 
-- 2018-10-06 [数学名词中英文对照 Mathematical Sign](/b/math/math-word) 
-- 2018-10-04 [Variance, 方差](/b/math/math-variance) 
-- 2018-10-04 [wolframalpha](/b/math/math-tool-wolframalpha) 
-- 2018-10-06 [Octave 使用](/b/math/math-tool-octave) 
-- 2018-10-06 [蓄水抽样](/b/math/math-reservoir-sampling) 
-- 2018-09-27 [combination](/b/math/math-probability) 
-- 2018-09-27 [数字的分类](/b/math/math-num) 
-- 2018-09-27 [sequence of numbers](/b/math/math-num-seq) 
-- 2018-09-27 [对数](/b/math/math-num-log) 
-- 2018-09-27 [Fibonacii and gold(φ)](/b/math/math-num-fibonacii) 
-- 2018-09-27 [matrix67 用的工具](/b/math/math-matrix67) 
-- 2018-10-06 [latex 数学公式](/b/math/math-latex) 
-- 2018-09-27 [整式, integral expression](/b/math/math-integral-exp) 
-- 2018-09-27 [找规则1](/b/math/math-find) 
-- 2018-09-27 [math-bezier_curve](/b/math/math-bezier_curve) 
-- 2018-09-27 [目录](/b/math/geo) 
-- 2018-09-27 [三角形triangle](/b/math/geo-triangle) 
-- 2018-09-27 [计算距离](/b/math/geo-distance) 
-- 2018-09-27 [圆](/b/math/geo-circle) 
-- 2018-09-27 [Analytic Geometry, 解析几何](/b/math/geo-analytic) 
-- 2018-09-27 [Finite Field, 有限域](/b/math/finite-field) 
-- 2018-09-27 [Field, 域论](/b/math/field) 
-- 2018-09-27 [safari](/b/mac/safari) 
-- 2018-09-27 [mac-vpn](/b/mac/mac-vpn) 
-- 2018-10-06 [mac user manager](/b/mac/mac-user) 
-- 2018-10-06 [mac 工具集](/b/mac/mac-tool) 
-</pre>
 <div id="app">
 <div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><img :src="imgsrc"></div>
 <div class="pure-menu pure-menu-horizontal">
@@ -95,6 +48,51 @@ updated: 2018-10-07
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
+<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+
+<ul>
+<li>2018-10-06 <a href="/b/net/net-iptables-mac">iptable on mac osx</a> </li>
+<li>2018-09-28 <a href="/b/net/net-ip">get public ip</a> </li>
+<li>2018-09-28 <a href="/b/net/net-ip-pfctl">net-ip-pfctl</a> </li>
+<li>2018-09-28 <a href="/b/net/net-ip-comcast">comcast</a> </li>
+<li>2018-09-28 <a href="/b/net/net-icmp">ICMP, Internet Control Message Protocol</a> </li>
+<li>2018-09-28 <a href="/b/net/net-dns">net-dns</a> </li>
+<li>2018-09-28 <a href="/b/net/net-debug-connect">connection refused</a> </li>
+<li>2018-09-28 <a href="/b/net/net-c10k">c10k 问题</a> </li>
+<li>2018-10-06 <a href="/b/net/net-">Linux Network</a> </li>
+<li>2018-09-28 <a href="/b/net/http2">http/2 的特点</a> </li>
+<li>2018-10-06 <a href="/b/net/http">About Http</a> </li>
+<li>2018-09-28 <a href="/b/net/http-spider">http-spider</a> </li>
+<li>2018-09-28 <a href="/b/net/http-p3p">http-p3p</a> </li>
+<li>2018-10-04 <a href="/b/math/vetor">向量(vector)</a> </li>
+<li>2018-10-06 <a href="/b/math/math-word">数学名词中英文对照 Mathematical Sign</a> </li>
+<li>2018-10-04 <a href="/b/math/math-variance">Variance, 方差</a> </li>
+<li>2018-10-04 <a href="/b/math/math-tool-wolframalpha">wolframalpha</a> </li>
+<li>2018-10-06 <a href="/b/math/math-tool-octave">Octave 使用</a> </li>
+<li>2018-10-06 <a href="/b/math/math-reservoir-sampling">蓄水抽样</a> </li>
+<li>2018-09-27 <a href="/b/math/math-probability">combination</a> </li>
+<li>2018-09-27 <a href="/b/math/math-num">数字的分类</a> </li>
+<li>2018-09-27 <a href="/b/math/math-num-seq">sequence of numbers</a> </li>
+<li>2018-09-27 <a href="/b/math/math-num-log">对数</a> </li>
+<li>2018-09-27 <a href="/b/math/math-num-fibonacii">Fibonacii and gold(φ)</a> </li>
+<li>2018-09-27 <a href="/b/math/math-matrix67">matrix67 用的工具</a> </li>
+<li>2018-10-06 <a href="/b/math/math-latex">latex 数学公式</a> </li>
+<li>2018-09-27 <a href="/b/math/math-integral-exp">整式, integral expression</a> </li>
+<li>2018-09-27 <a href="/b/math/math-find">找规则1</a> </li>
+<li>2018-09-27 <a href="/b/math/math-bezier_curve">math-bezier_curve</a> </li>
+<li>2018-09-27 <a href="/b/math/geo">目录</a> </li>
+<li>2018-09-27 <a href="/b/math/geo-triangle">三角形triangle</a> </li>
+<li>2018-09-27 <a href="/b/math/geo-distance">计算距离</a> </li>
+<li>2018-09-27 <a href="/b/math/geo-circle">圆</a> </li>
+<li>2018-09-27 <a href="/b/math/geo-analytic">Analytic Geometry, 解析几何</a> </li>
+<li>2018-09-27 <a href="/b/math/finite-field">Finite Field, 有限域</a> </li>
+<li>2018-09-27 <a href="/b/math/field">Field, 域论</a> </li>
+<li>2018-09-27 <a href="/b/mac/safari">safari</a> </li>
+<li>2018-09-27 <a href="/b/mac/mac-vpn">mac-vpn</a> </li>
+<li>2018-10-06 <a href="/b/mac/mac-user">mac user manager</a> </li>
+<li>2018-10-06 <a href="/b/mac/mac-tool">mac 工具集</a> </li>
+</ul>
+</div>
 <div id="pager"> <a href="/b/index">p0</a> <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a> <a href="/b/p/p3">p3</a> <a href="/b/p/p4">p4</a> <a href="/b/p/p5">p5</a> <a href="/b/p/p6">p6</a> <a href="/b/p/p7">p7</a> <a href="/b/p/p8">p8</a> <a href="/b/p/p9">p9</a> <a href="/b/p/p10">p10</a> <a href="/b/p/p11">p11</a> <a href="/b/p/p12">p12</a> <a href="/b/p/p13">p13</a> <a href="/b/p/p14">p14</a> <a href="/b/p/p15">p15</a> <a href="/b/p/p16">p16</a> p17 <a href="/b/p/p18">p18</a></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
@@ -117,7 +115,7 @@ updated: 2018-10-07
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
 <input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">

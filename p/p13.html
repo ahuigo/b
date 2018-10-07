@@ -9,7 +9,7 @@ const MD_URL='post/p/p13.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO</title>
+<title>AHUIGO 的笔记</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -25,53 +25,6 @@ const MD_URL='post/p/p13.md';
 <script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
-<pre id="markdown">---
-title: AHUIGO
-date: 2018-10-07
-updated: 2018-10-07
----
-# AHUIGO
-- 2018-10-06 [linux c 之 编译](/b/c/c-compile) 
-- 2018-09-27 [c-bit](/b/c/c-bit) 
-- 2018-10-06 [c 与 汇编](/b/c/c-asm) 
-- 2018-10-06 [Assemble in Mac OSX](/b/c/c-as-mac) 
-- 2018-10-06 [linux c 简介](/b/c/c-) 
-- 2015-07-13 [ELF 文件格式](/b/c/as-elf) 
-- 2018-10-06 [Assemble in Mac OSX](/b/c/as-) 
-- 2018-09-27 [量化](/b/bc/stock-quant) 
-- 2018-09-27 [stock index](/b/bc/stock-index) 
-- 2018-09-27 [stock select](/b/bc/stock-gt) 
-- 2018-09-26 [Futures, 期货](/b/bc/stock-futures) 
-- 2018-09-26 [券商](/b/bc/stock-fee) 
-- 2018-09-26 [ETF](/b/bc/stock-etf) 
-- 2018-09-26 [股票交易的手续费](/b/bc/stock-data) 
-- 2018-09-26 [数据](/b/bc/stock-book) 
-- 2018-09-26 [bank](/b/bc/stock-bank) 
-- 2018-09-26 [openApi for paipai](/b/bc/p2p) 
-- 2018-09-26 [价格与需求](/b/bc/model-price) 
-- 2018-09-26 [https://www.zhihu.com/question/54313941](/b/bc/foreign-currency) 
-- 2018-09-26 [bitfinex](/b/bc/btc) 
-- 2018-09-26 [支付宝商户授权](/b/bc/alipay) 
-- 2018-09-26 [Atom插件安装](/b/atom/atom-shortcuts) 
-- 2018-10-04 [client](/b/ria/node-crypt) 
-- 2018-10-04 [为什么用Node](/b/ria/node-) 
-- 2018-10-04 [Socket.io](/b/ria/js-websocket) 
-- 2018-10-04 [js-var](/b/ria/js-var) 
-- 2018-10-04 [通用array,obj,..](/b/ria/js-underscore) 
-- 2018-10-06 [前端自动化测试](/b/ria/js-test) 
-- 2018-10-04 [Unit Test](/b/ria/js-test-unit) 
-- 2015-03-15 [Js 字符串大全](/b/ria/js-str) 
-- 2018-10-04 [JSON](/b/ria/js-str-serial) 
-- 2018-08-20 [用rollup 代替webpack](/b/ria/js-rollup) 
-- 2018-10-04 [Rollup 该支持HMR 吗?](/b/ria/js-rollup-hmr) 
-- 2018-10-04 [JS Promise](/b/ria/js-promise) 
-- 2018-10-04 [如何实现一个 Promise](/b/ria/js-promise-source) 
-- 2018-10-06 [ria optimize](/b/ria/js-optimize) 
-- 2018-10-06 [js notes](/b/ria/js-obj) 
-- 2018-10-04 [用js proxies 继承别的对象](/b/ria/js-obj-proxies) 
-- 2018-04-05 [ES6 Modudle 使用](/b/ria/js-module) 
-- 2018-08-18 [Node import/export 支持](/b/ria/js-module-node) 
-</pre>
 <div id="app">
 <div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><img :src="imgsrc"></div>
 <div class="pure-menu pure-menu-horizontal">
@@ -95,6 +48,51 @@ updated: 2018-10-07
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
+<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+
+<ul>
+<li>2018-10-06 <a href="/b/c/c-compile">linux c 之 编译</a> </li>
+<li>2018-09-27 <a href="/b/c/c-bit">c-bit</a> </li>
+<li>2018-10-06 <a href="/b/c/c-asm">c 与 汇编</a> </li>
+<li>2018-10-06 <a href="/b/c/c-as-mac">Assemble in Mac OSX</a> </li>
+<li>2018-10-06 <a href="/b/c/c-">linux c 简介</a> </li>
+<li>2015-07-13 <a href="/b/c/as-elf">ELF 文件格式</a> </li>
+<li>2018-10-06 <a href="/b/c/as-">Assemble in Mac OSX</a> </li>
+<li>2018-09-27 <a href="/b/bc/stock-quant">量化</a> </li>
+<li>2018-09-27 <a href="/b/bc/stock-index">stock index</a> </li>
+<li>2018-09-27 <a href="/b/bc/stock-gt">stock select</a> </li>
+<li>2018-09-26 <a href="/b/bc/stock-futures">Futures, 期货</a> </li>
+<li>2018-09-26 <a href="/b/bc/stock-fee">券商</a> </li>
+<li>2018-09-26 <a href="/b/bc/stock-etf">ETF</a> </li>
+<li>2018-09-26 <a href="/b/bc/stock-data">股票交易的手续费</a> </li>
+<li>2018-09-26 <a href="/b/bc/stock-book">数据</a> </li>
+<li>2018-09-26 <a href="/b/bc/stock-bank">bank</a> </li>
+<li>2018-09-26 <a href="/b/bc/p2p">openApi for paipai</a> </li>
+<li>2018-09-26 <a href="/b/bc/model-price">价格与需求</a> </li>
+<li>2018-09-26 <a href="/b/bc/foreign-currency">https://www.zhihu.com/question/54313941</a> </li>
+<li>2018-09-26 <a href="/b/bc/btc">bitfinex</a> </li>
+<li>2018-09-26 <a href="/b/bc/alipay">支付宝商户授权</a> </li>
+<li>2018-09-26 <a href="/b/atom/atom-shortcuts">Atom插件安装</a> </li>
+<li>2018-10-04 <a href="/b/ria/node-crypt">client</a> </li>
+<li>2018-10-04 <a href="/b/ria/node-">为什么用Node</a> </li>
+<li>2018-10-04 <a href="/b/ria/js-websocket">Socket.io</a> </li>
+<li>2018-10-04 <a href="/b/ria/js-var">js-var</a> </li>
+<li>2018-10-04 <a href="/b/ria/js-underscore">通用array,obj,..</a> </li>
+<li>2018-10-06 <a href="/b/ria/js-test">前端自动化测试</a> </li>
+<li>2018-10-04 <a href="/b/ria/js-test-unit">Unit Test</a> </li>
+<li>2015-03-15 <a href="/b/ria/js-str">Js 字符串大全</a> </li>
+<li>2018-10-04 <a href="/b/ria/js-str-serial">JSON</a> </li>
+<li>2018-08-20 <a href="/b/ria/js-rollup">用rollup 代替webpack</a> </li>
+<li>2018-10-04 <a href="/b/ria/js-rollup-hmr">Rollup 该支持HMR 吗?</a> </li>
+<li>2018-10-04 <a href="/b/ria/js-promise">JS Promise</a> </li>
+<li>2018-10-04 <a href="/b/ria/js-promise-source">如何实现一个 Promise</a> </li>
+<li>2018-10-06 <a href="/b/ria/js-optimize">ria optimize</a> </li>
+<li>2018-10-06 <a href="/b/ria/js-obj">js notes</a> </li>
+<li>2018-10-04 <a href="/b/ria/js-obj-proxies">用js proxies 继承别的对象</a> </li>
+<li>2018-04-05 <a href="/b/ria/js-module">ES6 Modudle 使用</a> </li>
+<li>2018-08-18 <a href="/b/ria/js-module-node">Node import/export 支持</a> </li>
+</ul>
+</div>
 <div id="pager"> <a href="/b/index">p0</a> <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a> <a href="/b/p/p3">p3</a> <a href="/b/p/p4">p4</a> <a href="/b/p/p5">p5</a> <a href="/b/p/p6">p6</a> <a href="/b/p/p7">p7</a> <a href="/b/p/p8">p8</a> <a href="/b/p/p9">p9</a> <a href="/b/p/p10">p10</a> <a href="/b/p/p11">p11</a> <a href="/b/p/p12">p12</a> p13 <a href="/b/p/p14">p14</a> <a href="/b/p/p15">p15</a> <a href="/b/p/p16">p16</a> <a href="/b/p/p17">p17</a> <a href="/b/p/p18">p18</a></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
@@ -117,7 +115,7 @@ updated: 2018-10-07
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
 <input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
