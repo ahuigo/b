@@ -2,9 +2,17 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2018-10-07T15:57:58Z</updated>
+<updated>2018-10-07T17:02:24Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>二叉查找树和红黑树</title>
+<link href="/b/algorithm/ds-binary-search-tree" rel="alternate" type="text/html"/>
+<updated>2018-10-07T00:00:00Z</updated>
+<summary/>
+<published>2018-09-26T00:00:00Z</published>
+<content># 二叉查找树和红黑树
+二叉查找树（Binary Search Tree），也称二叉搜索树、有序二叉树（ordered binary tree），排序二叉树（sorted binary tree），是</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>css 布局</title>
 <link href="/b/ria/js-css-layout" rel="alternate" type="text/html"/>
 <updated>2018-10-07T00:00:00Z</updated>

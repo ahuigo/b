@@ -23,7 +23,7 @@ const MD_URL='post/ria/js-css-layout.md';
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -365,6 +365,26 @@ example:
     overflow: hidden; #浮动元素不会被hidden，而会撑大容器
     overflow: auto; #浮动元素不会被hidden，而会撑大容器
     overflow: scroll; #浮动元素不会被hidden，而会撑大容器
+
+    &lt;style type=&quot;text/css&quot;&gt;
+    div {
+        background-color:#00FFFF;
+        width:50px;
+        height:50px;
+        overflow: scroll;
+    }
+    .sub{width:100px;height:100px;background:red}
+    &lt;/style&gt;
+    &lt;div&gt;&lt;div class=&quot;sub&quot;&gt;abc&lt;/div&gt;&lt;/div&gt;
+
+#### img + overflow
+
+    .img-wrapper{
+        max-width:100%;
+        max-height:100%;
+        overflow:auto;
+    }
+    img { border: 0; }
 
 #### overflow + list-style conflict
 包一层div 避免conflict
