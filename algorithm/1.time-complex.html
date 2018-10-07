@@ -25,33 +25,10 @@ const MD_URL='post/algorithm/1.time-complex.md';
 <script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
-<div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
-<div class="pure-menu pure-menu-horizontal">
-<div>
-<ul class="pure-menu-list">
-<li class="pure-menu-item">
-<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
-</div>
-</li>
-<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
-</ul>
-</div>
-</div>
-<div class="main">
-<div :class="{left:true, 'active':showMenu}" >
-<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
-</div>
-<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
-<router-view></router-view>
-<pre id="markdown" v-pre>---
+<pre id="markdown">---
 title: Analysis of Algorithm
 date: 2018-09-15
-updated: 2018-10-06
+updated: 2018-10-07
 ---
 # Analysis of Algorithm
 本文整理下算法的分析方法
@@ -175,7 +152,30 @@ http://homepages.math.uic.edu/~leon/cs-mcs401-s08/handouts/extended_master_theor
 ## Reference
 - Analysis of Algorithm | Set 4 
  https://www.geeksforgeeks.org/analysis-algorithm-set-4-master-method-solving-recurrences/</pre>
-<div id="pager" v-pre></div>
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><img :src="imgsrc"></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
