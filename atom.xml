@@ -2,9 +2,20 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2018-10-07T18:15:33Z</updated>
+<updated>2018-10-07T19:55:04Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>圆周率算法</title>
+<link href="/b/algorithm/algorithm-pi" rel="alternate" type="text/html"/>
+<updated>2018-10-07T00:00:00Z</updated>
+<summary/>
+<published>2018-09-26T00:00:00Z</published>
+<content># 圆周率算法
+- [pi]
+- [梅钦类公式]
+- [Machin's formula Proof]
+- http://en.wikipedia.org/wiki/Arithmetic%E2%80%</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>前端自动化测试</title>
 <link href="/b/ria/js-test" rel="alternate" type="text/html"/>
 <updated>2018-10-07T00:00:00Z</updated>
