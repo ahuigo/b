@@ -26,7 +26,7 @@ const MD_URL='post/py/py-time.md';
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><img :src="imgsrc"></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -50,8 +50,8 @@ const MD_URL='post/py/py-time.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: python 时间函数的用法笔记
-date: 20180402
-updated: 2018-10-06
+date: 2018-04-02
+updated: 2018-10-07
 ---
 # time 工具
 time 提供基本的时间，sleep
@@ -182,7 +182,7 @@ formater: https://docs.python.org/3/library/datetime.html
 	2015-04-19 04:20:00
 	&gt;&gt;&gt; datetime.now().timestamp()
 
-### by formate
+### by format
 
     from dateutil.parser import parse as strptime
     strptime(&#x27;2011-12-31&#x27;)
@@ -300,7 +300,7 @@ datetime.now().timestamp()-datetime.utcnow().timestamp() = 28800
     &gt;&gt;&gt; local.humanize(locale=&#x27;ko_kr&#x27;)
     &#x27;1시간 전&#x27;
 </pre>
-<div id="pager" v-pre></div>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -322,7 +322,7 @@ datetime.now().timestamp()-datetime.utcnow().timestamp() = 28800
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
 <input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">

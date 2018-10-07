@@ -2,15 +2,37 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2018-10-07T11:12:17Z</updated>
+<updated>2018-10-07T11:32:48Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>python 时间函数的用法笔记</title>
+<link href="/b/py/py-time" rel="alternate" type="text/html"/>
+<updated>2018-10-07T00:00:00Z</updated>
+<summary/>
+<published>2018-04-02T00:00:00Z</published>
+<content># time 工具
+time 提供基本的时间，sleep
+
+	import time
+	time.time()
+		19972314124.05238
+        time.localetime(</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>LibSvm</title>
+<link href="/b/algorithm/algorithm-libsvm" rel="alternate" type="text/html"/>
+<updated>2018-10-07T00:00:00Z</updated>
+<summary/>
+<published>2014-03-03T00:00:00Z</published>
+<content># SVM
+支持向量机（Support vector machine）是在统计学习理论的基础上发展起来的新一代学习算法，它在文本分类、手写识别、图像分类、生物信息学等领域中获行较好的应用。  
+如果你</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>BFPRT 算法</title>
 <link href="/b/algorithm/algo-topk" rel="alternate" type="text/html"/>
 <updated>2018-10-07T11:12:17+00:00</updated>
 <summary/>
 <published>2018-10-07T11:12:17+00:00</published>
-<content></content>
+<content/>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>js-time</title>
 <link href="/b/ria/js-time" rel="alternate" type="text/html"/>
