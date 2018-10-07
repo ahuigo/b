@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2018-10-07T12:01:54Z</updated>
+<updated>2018-10-07T12:08:50Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
 <title>python 时间函数的用法笔记</title>
@@ -64,10 +64,13 @@ time 提供基本的时间，sleep
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>关于抢票以及12306 的票仓的sku 设计</title>
 <link href="/b/news/ticketing-software" rel="alternate" type="text/html"/>
-<updated>2018-10-06T21:21:19+00:00</updated>
+<updated>2018-10-07T00:00:00Z</updated>
 <summary/>
-<published>2018-10-06T21:21:19+00:00</published>
-<content/>
+<published>2018-10-04T00:00:00Z</published>
+<content># 为什么抢票这么难?
+抢不到票其实太正常了，而且不是你刷的次数多你就有票，而是是你刷得快、带宽大、机器配置好才可能有票。
+看看一下数据就知道抢票有多么的疯狂了。
+1. 2018.1.12 [1230</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>查找两有序数组中第N 大的值</title>
 <link href="/b/algorithm/algorithm-find-the-nth-of-2-sorted-array" rel="alternate" type="text/html"/>
