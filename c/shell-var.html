@@ -20,13 +20,10 @@ const MD_URL='post/c/shell-var.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -51,7 +48,7 @@ const MD_URL='post/c/shell-var.md';
 <pre id="markdown" v-pre>---
 title: Shell 变量之数据类型
 date: 2018-09-27
-updated: 2018-10-06
+updated: 2018-10-08
 ---
 # Shell 变量之数据类型
 ## export
@@ -91,15 +88,15 @@ Note:
 - `$(cmd)` , ``` `cmd` ``` 会过滤最后连续的换符符, 且被视为多个参数
 - `&quot;$(cmd)&quot;` , ```&quot;`cmd`&quot;``` 会过滤最后连续的换符符,且被视为1个参数
 
-#### shell 字符解析
+### shell 字符解析
 
-##### 单引号
+#### 单引号
 要注意的是shell中的单引号内所有字符都会原样输出.
 
 	str=&#x27;a  &#x27;\&#x27;\&quot;&#x27;  b&#x27;;
 	echoraw &#x27;It&#x27;\&#x27;&#x27;s Jack&#x27;; //output: It&#x27;s Jack
 
-##### 双引号
+#### 双引号
 而双引号内: `$`, `!`字符会被解析, 
 
 	echoraw &quot;${HOME}&quot;
@@ -119,13 +116,13 @@ Or turn off history expandsion:
 	//or
 	set +o histexpand
 
-##### 无引号
+#### 无引号
 `\t\n\r\&#x27;\&quot;` 全部转义为`字面字符`
 
     echoraw 0\t0\n0\rabc\&#x27;\&quot;
         0t0n0rabc&#x27;&quot;
 
-##### 无引号`$&#x27;&#x27;`
+#### 无引号`$&#x27;&#x27;`
 `\t\n\r` 转义为特殊字符，`\&#x27;\&quot;` 转义为字面字符
 
     # Press Ctrl-v + Tab
@@ -137,14 +134,14 @@ Or turn off history expandsion:
         0	0
         abc&#x27;&quot;
 
-##### 无引号`$`
+#### 无引号`$`
 
     cmd=&#x27;arg1 arg2&#x27;
     echoraw $cmd
         zsh: 一个参数
         bash: 多个参数
 
-##### 无引号`$&quot;&quot;` 不要用
+#### 无引号`$&quot;&quot;` 不要用
 shell 不兼容
 
     # zsh
@@ -154,8 +151,8 @@ shell 不兼容
 	$ echoraw $&quot;var&quot;
         var
 
-#### echo 命令
-对于`echo` 来说，它处理的字符已经是经过shell 解析过的。
+### echo 命令
+对于`echo` 来说，它是将经过shell 解析过的字符，再用自己的规则解析一次。
 
 zsh 中的echo 会解析 \007 \x31 (建议不要这样使用)
 
@@ -168,6 +165,7 @@ zsh 中的echo 会解析 \007 \x31 (建议不要这样使用)
 
 	echo -e &quot;\x31&quot; //1
 
+### str 函数
 #### concat 拼接
 
 	$PATH:otherStr #拼接.
@@ -260,6 +258,7 @@ substr is beginning:
 
 	${var##??} 删除最前面的两个字符
 	${var//[^s|S]} 只保保留s|S
+    [ &quot;$answer&quot; != &quot;${answer#[Yy]}&quot; ]
 
 #### dirname
 
@@ -480,7 +479,7 @@ shift 3: 左移出3
 	}
 	arr=( 1 2 &#x27;It&#x27;\&#x27;&#x27;s Jack&#x27;);
 	in_array &#x27;Hello Jack&#x27; arr &amp;&amp; echo has;</pre>
-<div id="pager" v-pre></div>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -502,7 +501,7 @@ shift 3: 左移出3
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
 <input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
@@ -527,6 +526,9 @@ shift 3: 左移出3
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>

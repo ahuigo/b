@@ -48,7 +48,7 @@ const MD_URL='post/ria/node-npm-pkg.md';
 <pre id="markdown" v-pre>---
 title: 写npm 包
 date: 2018-10-04
-updated: 2018-10-07
+updated: 2018-10-08
 ---
 # 写npm 包
 1. 生成包信息package.json
@@ -77,7 +77,22 @@ npm install 的bin 位于`/usr/local/bin/{mocha, egg-bin}`
     $ cd example-app
     $ npm link ../egg-ua
     $ npm i
-    $ npm test</pre>
+    $ npm test
+
+## install
+
+    yarn add ./your-project
+
+npm:
+
+    cd ~/projects/node-bloggy  # go into the dir of your main project
+    npm link ../node-redis     # link the dir of your dependency
+
+you can declare local dependencies in package.json
+
+    &quot;dependencies&quot;: {
+        &quot;bar&quot;: &quot;file:../foo/bar&quot;
+    }</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">

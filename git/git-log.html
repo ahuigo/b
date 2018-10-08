@@ -20,13 +20,10 @@ const MD_URL='post/git/git-log.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -50,8 +47,8 @@ const MD_URL='post/git/git-log.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: git 使用之日志、数据恢复
-date: 2018-10-06
-updated: 2018-10-06
+date: 2018-10-08
+updated: 2018-10-08
 ---
 # 日志过滤
 
@@ -272,7 +269,7 @@ git reglog 就可以找到丢失的commit 引用记录
     $ git branch -D recover-branch
     $ rm -Rf .git/logs/
 
-`reflog` 数据是保存在 `.git/logs/` 目录下的，这样就没有 reflog 了. 就需要`fsck`
+`reflog` 数据是保存在 `.git/logs/` 目录下的，这样就没有 reflog 了. 此时找回commit 就需要`fsck`
 
 ## git fsck（数据恢复）
 git fsck 工具，该工具会检查仓库的数据完整性。如果指定 --full 选项，该命令显示所有未被其他对象引用 (指向) 的所有对象：
@@ -316,7 +313,7 @@ e.g.
     e3f094f522629ae358806b17daf78246c27c007b blob   1486 734 4667
     05408d195263d853f09dca71d55116663690c27c blob   12908 3478 1189
     7a9eb2fba2b1811321254ac360970fc169ba2330 blob   2056716 2056872 5401
-    # note: pack 包含 blog/tree/commit
+    # note: pack 包含 blob/tree/commit
 
 最底下blob 的2MB, 查看这到底是哪个大文件，用rev-list 命令。
 若给 rev-list 命令传入 --objects 选项，它会列出所有 commit SHA 值，blob SHA 值及相应的文件路径。可以这样查看 blob 的文件名：
@@ -347,6 +344,7 @@ note:
 1. git rm 的 --ignore-unmatch 选项指定当你试图删除的内容并不存在时不显示错误
 2. --index-filter: 要用`git rm --cached`
 2. 如果用 --tree-filter: 要用`git rm`
+4. `6df7640^..` 指后来的commit.  也可以用`--all`
 
 ### 清理ref+打包
 commit 中的引用已经被清除, 但是还有一些引用
@@ -374,7 +372,7 @@ commit 中的引用已经被清除, 但是还有一些引用
 - [git-scm]
 
 [git-scm]:https://git-scm.com/book/zh/v1/Git-%E5%86%85%E9%83%A8%E5%8E%9F%E7%90%86-%E7%BB%B4%E6%8A%A4%E5%8F%8A%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D</pre>
-<div id="pager" v-pre></div>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -396,7 +394,7 @@ commit 中的引用已经被清除, 但是还有一些引用
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
 <input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
@@ -421,6 +419,9 @@ commit 中的引用已经被清除, 但是还有一些引用
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>
