@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/p/p18.md';
+const MD_URL='post/math/geo-distance-geohash.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO 的笔记</title>
+<title>搜索附近的地点</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -45,24 +45,56 @@ const MD_URL='post/p/p18.md';
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
-<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+<pre id="markdown" v-pre>---
+title: 搜索附近的地点
+date: 2018-10-08
+updated: 2018-10-08
+---
+# 搜索附近的地点
+我们经常在地图搜索附近的地点。这背后就涉及二维数据的搜索。
 
-<ul>
-<li>2018-09-27 <a href="/b/mac/mac-vpn">mac-vpn</a> </li>
-<li>2018-10-06 <a href="/b/mac/mac-user">mac user manager</a> </li>
-<li>2018-10-06 <a href="/b/mac/mac-tool">mac 工具集</a> </li>
-<li>2018-09-27 <a href="/b/mac/mac-sip">mac-sip</a> </li>
-<li>2018-10-06 <a href="/b/mac/mac-shortcuts">Mac shortcuts</a> </li>
-<li>2018-09-27 <a href="/b/mac/mac-sendfile">python -m http.server</a> </li>
-<li>2018-10-06 <a href="/b/mac/mac-rime">rime 鼠须管输入法</a> </li>
-<li>2018-09-27 <a href="/b/mac/mac-power">adapter</a> </li>
-<li>2018-09-27 <a href="/b/mac/mac-brew">brew</a> </li>
-<li>2018-10-06 <a href="/b/mac/mac-brew-dev">brew dev</a> </li>
-<li>2018-09-27 <a href="/b/mac/mac-applescript">AppleScript</a> </li>
-<li>2018-09-27 <a href="/b/mac/android-root">android-root</a> </li>
-</ul>
-</div>
-<div id="pager"> <a href="/b/index">p0</a> <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a> <a href="/b/p/p3">p3</a> <a href="/b/p/p4">p4</a> <a href="/b/p/p5">p5</a> <a href="/b/p/p6">p6</a> <a href="/b/p/p7">p7</a> <a href="/b/p/p8">p8</a> <a href="/b/p/p9">p9</a> <a href="/b/p/p10">p10</a> <a href="/b/p/p11">p11</a> <a href="/b/p/p12">p12</a> <a href="/b/p/p13">p13</a> <a href="/b/p/p14">p14</a> <a href="/b/p/p15">p15</a> <a href="/b/p/p16">p16</a> <a href="/b/p/p17">p17</a> p18</div>
+一维数据搜索我们常常用B 树平衡树这种结构，然后用二分法去添加、删除、搜索, 复杂度 $O(log n)$
+
+地图这种二维数这也可以采用类似的方法，用来完成附近的地点搜索。主要算法有:
+1. geohash：这个比较简单，就是将经纬度基于区域划分进行编码
+2. R 树：实际是B树在高维空间的扩展，同样也是平衡树
+
+## geohash 算法
+geohash 的编码是按照四象限进行的划分
+
+    1. 第0位将经度分割为(-180,0),(0,180)
+    1. 第1位将纬度分割为(-90,0),(0,90) 划分出第1层四象限
+    1. 第2位将经度偏移分为(-90),(0,90)
+    1. 第3位将纬度偏移分为(-45,0),(0,45) 划分出第2层子四象限
+    1. ...
+
+比如我们用8位geohash编码计算：(-130, 39)
+
+    0   -130-(-90)  (-180,0) ±90
+    0   -40-(-45)   (-90,0)  ±45
+    1   5-(22.5)    (-45,0) ±22.5
+    0   -17.5-(-11.25) (-22.5,0) ±11.25
+
+    1   39-90       (-180,0) (0,180)
+    0   -51-(-45)   (-90,0)
+    0   -6-(-22.5)    (-45,0) (0,45)
+    1   16.5-(11.25) (-22.5,0) (0,22.5)
+
+将经纬度编码交叉合并: 0010 + 1001 = 01001001, 然后用 0-9、b-z（去掉a, i, l, o）这32个字母进行base32编码
+
+# 参考
+- GeoHash核心原理解析
+http://www.cnblogs.com/LBSer/p/3310455.html
+
+- 附近的地点搜索
+https://wizardforcel.gitbooks.io/the-art-of-programming-by-july/content/a.14.html
+
+- 只有八维数字，才能还原宇宙的本质？
+https://mp.weixin.qq.com/s?__biz=MjM5NDA1Njg2MA==&amp;mid=2651989711&amp;idx=1&amp;sn=b424e589a1d630d9333b70932e18f2a1
+
+- 超越三维空间的奇异数系：没有它，就没有现代代数
+https://mp.weixin.qq.com/s?__biz=MjM5NDA1Njg2MA==&amp;mid=2651990501&amp;idx=1&amp;sn=17f2553a49b12c555fd3fe0ead6fbb0b </pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
