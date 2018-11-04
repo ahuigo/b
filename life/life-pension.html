@@ -9,7 +9,7 @@ const MD_URL='post/life/life-pension.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>重要</title>
+<title>社保及养老保险</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -20,13 +20,10 @@ const MD_URL='post/life/life-pension.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -36,6 +33,7 @@ const MD_URL='post/life/life-pension.md';
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
@@ -49,16 +47,16 @@ const MD_URL='post/life/life-pension.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: 重要
+title: 社保及养老保险
 date: 2018-09-27
-updated: 2018-10-06
+updated: 2018-11-04
 ---
 # 重要
 
 ## 北京社保代理
 代缴社保和在公司缴纳的社保都是一样的: 五险:三金包括社保金（养老保险，失业保险）、医保金（医疗保险，工伤保险，生育保险）、还有住房公积金。
 
-蚂蚁HR(上海): 技术感觉可以 http://www.mayishebao.com/ 1362+470 = 1832
+蚂蚁HR(上海): 技术感觉可以 http://www.mayishebao.com/
 九八社保(朝阳): 据说办事效率高
 人事能手(朝阳): 名气小, 全国都有, 招人: http://www.baoshijie-hr.com/caseInfo.html
 人人保: 曼帕尔开的, 在北京丰台, 名气小
@@ -73,7 +71,7 @@ updated: 2018-10-06
 &gt; 如果到了退休年龄，还是不够最低缴费年限，北京户口可以办理延期缴费，外地户口交够10年才能办理延期缴费，不够10年的就只能转回户口所在地续交了。
 
 # 不重要
-其他的保险断了倒没有太大影响，失业保险、生育保险、住房公积金这三样，只要在用之前交够1年就行，工伤保险即交即用。
+其他的保险断了倒没有太大影响，失业保险、生育保险、住房公积金这三样，只要在用之前交够1年就行(北京)，工伤保险即交即用。
 
 ## 公积金(12%+12%)
 http://wap.mybj.gov.cn/gjj
@@ -85,17 +83,17 @@ http://wap.mybj.gov.cn/gjj
 单位缴纳的公积金是截止在每月15日, 交下月的, 不减员是不能交的
 而第三方代缴机构进行减员的时间是在25日, 25日至次月5日公积金系统是无法操作的，
 
-
 ## 失业(0.2%+1%)
 ## 生育(0+0.8%)
 ## 工伤(0+0.7%)
 
 # 总结
-五险: 北京办理通行证, 小孩小学
+五险很重要: 涉及到北京办理通行证, 小孩小学
+
 ## 个税
 (工资-五险一金)*税率-扣除数
 http://www.rong360.com/calculator/wuxianyijin.html</pre>
-<div id="pager" v-pre></div>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -117,7 +115,7 @@ http://www.rong360.com/calculator/wuxianyijin.html</pre>
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
 <input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
@@ -142,6 +140,9 @@ http://www.rong360.com/calculator/wuxianyijin.html</pre>
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>
