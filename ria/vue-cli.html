@@ -20,13 +20,10 @@ const MD_URL='post/ria/vue-cli.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -36,6 +33,7 @@ const MD_URL='post/ria/vue-cli.md';
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
@@ -51,7 +49,7 @@ const MD_URL='post/ria/vue-cli.md';
 <pre id="markdown" v-pre>---
 title: Vue Cli 使用
 date: 2018-10-04
-updated: 2018-10-06
+updated: 2018-12-06
 ---
 # Vue Cli 使用
 Vue CLI 是一个基于 Vue.js 进行快速开发的完整系统，提供：
@@ -72,7 +70,7 @@ Vue CLI 是一个基于 Vue.js 进行快速开发的完整系统，提供：
 4. 一套完全`图形化的创建和管理` Vue.js 项目的用户界面: `vue ui`
 
 ## 快速原型开发
-global 能自动解决依赖，安装后就可以: vue serve 和 vue build 命令对单个 *.vue 文件进行快速原型开发，
+global 能自动解决依赖，安装后就可以: `vue serve 和 vue build` 命令对单个 `*.vue` 文件进行快速原型开发，
 
     npm install -g @vue/cli-service-global
     echo &#x27;&lt;template&gt;&lt;h1&gt;Hello!&lt;/h1&gt;&lt;/template&gt;&#x27; &gt; App.vue
@@ -510,7 +508,7 @@ vscode https://vuejs.org/v2/cookbook/debugging-in-vscode.html
 ### HMR
 vue-cli 默认支持webpack HMR
 https://zhuanlan.zhihu.com/p/30669007</pre>
-<div id="pager" v-pre></div>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -532,7 +530,7 @@ https://zhuanlan.zhihu.com/p/30669007</pre>
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
 <input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
@@ -557,6 +555,9 @@ https://zhuanlan.zhihu.com/p/30669007</pre>
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>

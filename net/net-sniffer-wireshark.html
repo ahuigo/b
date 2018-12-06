@@ -20,13 +20,10 @@ const MD_URL='post/net/net-sniffer-wireshark.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -36,6 +33,7 @@ const MD_URL='post/net/net-sniffer-wireshark.md';
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
@@ -51,7 +49,7 @@ const MD_URL='post/net/net-sniffer-wireshark.md';
 <pre id="markdown" v-pre>---
 title: wireshark
 date: 2018-09-28
-updated: 2018-10-06
+updated: 2018-11-30
 ---
 # wireshark
 Refer : http://www.bo56.com/tcpdump-%E5%92%8C-wireshark%E7%BB%84%E5%90%88%E6%8B%B3%EF%BC%8C%E6%8F%AA%E5%87%BA%E6%9C%89%E9%97%AE%E9%A2%98%E7%9A%84%E6%9C%BA%E5%99%A8/
@@ -98,7 +96,7 @@ WireShark 主要分为这几个界面
 一种是捕获过滤器，用来过滤捕获的封包，以免捕获太多的记录。 在Capture -&gt; Capture Filters 中设置
 
 ### Display Filter
-位于主界面Filter. Example:
+位于主界面Filter expression. Example:
 
 	ip.src==192.168.1.1 or ip.dst==192.168.1.2
 	ip.src==10.17.10.138
@@ -115,9 +113,11 @@ Shortcuts:
 	tcp，只显示TCP协议。
 	http
 	udp
+    tcp.port eq 25 or icmp
 
 2. IP 过滤
 
+    ip.addr == 192.168.1.102
 	比如 ip.src ==192.168.1.102 显示源地址为192.168.1.102，
 	ip.dst==192.168.1.102, 目标地址为192.168.1.102
 
@@ -126,6 +126,7 @@ Shortcuts:
 	tcp.port ==80,  端口为80的
 	tcp.port eq 80,  端口为80的
 	tcp.srcport == 80,  只显示TCP协议的愿端口为80的。
+	tcp.dstport == 80,  只显示TCP协议的愿端口为80的。
 
 4. Http模式过滤
 
@@ -135,7 +136,8 @@ Shortcuts:
 
 5. 逻辑运算符为 and or
 
-	adn &amp;&amp;
+    ip.src_host == wap.baidu.com and ip.src == ....
+	and &amp;&amp;
 	or ||
 
 Example:
@@ -150,7 +152,7 @@ Select the filter you no longer want and click Remove.
 	Edit &gt; Preferences &gt; Filter Expressions.
 
 ### Capture Filter</pre>
-<div id="pager" v-pre></div>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -172,7 +174,7 @@ Select the filter you no longer want and click Remove.
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
 <input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
@@ -197,6 +199,9 @@ Select the filter you no longer want and click Remove.
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>

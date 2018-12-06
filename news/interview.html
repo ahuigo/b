@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/p/p3.md';
+const MD_URL='post/news/interview.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO 的笔记</title>
+<title>“第一次”面试</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -46,52 +46,29 @@ const MD_URL='post/p/p3.md';
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
-<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+<pre id="markdown" v-pre>---
+title: “第一次”面试
+date: 2018-12-06
+updated: 2018-12-07
+---
+两年多前裸辞，两年以后又裸面，过程还真是尴尬。总结下我的失败之处：
+1. 态度太敷衍。上午在雪场，下午才穿着一身的装备就匆匆赶到百度面试，什么也没换，有些不得体。
+2. 没有提前准备。话说工作了这么多年了，应该能应付自如了。
+但是我没有提前准备吧，导致我第二轮我就崩了。实在回忆不起来过去的记忆犹新的项目我是怎么具体实现的了，泛泛而谈的皮毛，现场及其尴尬。
+即使提示让我讲讲接触的比较多的网络协议，tcp 协议就扯了扯三次握手，我过去挖bug的经历都，backlog
+3. 太看重结果了。我现在挺需要一份正常的工作了，由于担心患得患失，现场放不开了，脑子就抽。
+4. 晚上没休息好。昨晚不该聚餐那么晚的，回来的一路上都犯困。
 
-<ul>
-<li>2018-09-27 <a href="/b/go/go-pkg">go-pkg</a> </li>
-<li>2018-09-27 <a href="/b/go/go-os">系统调用</a> </li>
-<li>2018-09-27 <a href="/b/go/go-num">rand</a> </li>
-<li>2018-09-27 <a href="/b/go/go-map">map</a> </li>
-<li>2018-09-27 <a href="/b/go/go-make">make</a> </li>
-<li>2018-09-27 <a href="/b/go/go-log">go fatal</a> </li>
-<li>2018-09-27 <a href="/b/go/go-io">go-io</a> </li>
-<li>2018-09-27 <a href="/b/go/go-interface">Interfaces</a> </li>
-<li>2018-09-27 <a href="/b/go/go-image">image</a> </li>
-<li>2018-09-27 <a href="/b/go/go-help">help command</a> </li>
-<li>2018-09-27 <a href="/b/go/go-hello">go-hello</a> </li>
-<li>2018-09-27 <a href="/b/go/go-func">go-func</a> </li>
-<li>2018-09-27 <a href="/b/go/go-fmt">fmt</a> </li>
-<li>2018-09-27 <a href="/b/go/go-file">filepath</a> </li>
-<li>2018-09-27 <a href="/b/go/go-expr">go expression</a> </li>
-<li>2018-09-27 <a href="/b/go/go-doc">godoc</a> </li>
-<li>2018-09-27 <a href="/b/go/go-debug">go-debug</a> </li>
-<li>2018-09-27 <a href="/b/git/git-svn">git svn</a> </li>
-<li>2018-03-03 <a href="/b/git/git-submodule">git submodule</a> </li>
-<li>2018-10-06 <a href="/b/git/git-struct">git 数据结构</a> </li>
-<li>2018-09-27 <a href="/b/git/git-server">搭建 git server</a> </li>
-<li>2018-10-06 <a href="/b/go/go-time">go time</a> </li>
-<li>2014-05-07 <a href="/b/git/git-hooks">git hooks</a> </li>
-<li>2018-09-27 <a href="/b/git/git-ci">git-ci</a> </li>
-<li>2018-09-28 <a href="/b/eng/s/s-if">if</a> </li>
-<li>2018-09-28 <a href="/b/eng/s/hence">In isolation, this discrepancy is fine,</a> </li>
-<li>2018-09-28 <a href="/b/eng/s/either-or">句子</a> </li>
-<li>2018-09-27 <a href="/b/eng/s-time">询问时间</a> </li>
-<li>2018-09-27 <a href="/b/eng/listen-4">more and more, increasing / accumulating numbers</a> </li>
-<li>2018-09-27 <a href="/b/eng/lesson-9">lession9</a> </li>
-<li>2018-09-27 <a href="/b/eng/eng-word">背单词</a> </li>
-<li>2018-09-27 <a href="/b/eng/eng-word-test">in general term</a> </li>
-<li>2018-09-27 <a href="/b/eng/eng-word-root">eng-word-root</a> </li>
-<li>2018-09-27 <a href="/b/eng/eng-verb">动词分类</a> </li>
-<li>2018-09-27 <a href="/b/eng/eng-verb-tense-taste">动词时态, verb tense</a> </li>
-<li>2018-09-27 <a href="/b/eng/eng-verb-participle">分词 participle</a> </li>
-<li>2018-09-27 <a href="/b/eng/eng-verb-infinitive">动词不定式, Verb infinitive</a> </li>
-<li>2018-09-27 <a href="/b/eng/eng-thanks">eng-thanks</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-window">vim-window</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-tags">vim-tags</a> </li>
-</ul>
-</div>
-<div id="pager"> <a href="/b/index">p0</a> <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a> p3 <a href="/b/p/p4">p4</a> <a href="/b/p/p5">p5</a> <a href="/b/p/p6">p6</a> <a href="/b/p/p7">p7</a> <a href="/b/p/p8">p8</a> <a href="/b/p/p9">p9</a> <a href="/b/p/p10">p10</a> <a href="/b/p/p11">p11</a> <a href="/b/p/p12">p12</a> <a href="/b/p/p13">p13</a> <a href="/b/p/p14">p14</a> <a href="/b/p/p15">p15</a> <a href="/b/p/p16">p16</a> <a href="/b/p/p17">p17</a> <a href="/b/p/p18">p18</a></div>
+在未来的面试要好好改正这4点：
+1. 态度认真、不迟到
+2. 提前准备。
+    1. 我感觉讲讲过去的项目细节对我来说有些难度。如果大脑想不起来时，应该主动大方承认我忘记了，即使这些情况很多。不要冷场！
+    2. 总结下没有回答的问题：
+        1. 过去的项目框架：翻翻过去的笔记
+        2. tcp 相关：backlog 拥塞，各种状态(SYN_SEND,FIN_WAIT1/2-Close_WAIT,ESTABLISHED,TIME_WAIT-LAST_ACK/CLOSED)，抓包分析的经历
+3. 不在乎结果，尽力去答就是
+4. 面试前早睡</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>

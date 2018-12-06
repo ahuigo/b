@@ -2,9 +2,229 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2018-11-04T19:36:54Z</updated>
+<updated>2018-12-07T01:21:59Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>tcp/ip 协议</title>
+<link href="/b/net/net-tcpip" rel="alternate" type="text/html"/>
+<updated>2018-12-07T00:00:00Z</updated>
+<summary/>
+<published>2018-12-07T00:00:00Z</published>
+<content># Preface
+
+# 互联网协议栈
+分为链路层(link), 网络层(Network), 传输层(Transport), 应用层(Application)
+
+应用层
+	DHCP DHCPv6 DN</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>“第一次”面试</title>
+<link href="/b/news/interview" rel="alternate" type="text/html"/>
+<updated>2018-12-07T00:00:00Z</updated>
+<summary/>
+<published>2018-12-06T00:00:00Z</published>
+<content>两年多前裸辞，两年以后又裸面，过程还真是尴尬。总结下我的失败之处：
+1. 态度太敷衍。上午在雪场，下午才穿着一身的装备就匆匆赶到百度面试，什么也没换，有些不得体。
+2. 没有提前准备。话说工作了这么多</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Vue 组件</title>
+<link href="/b/ria/vue-component" rel="alternate" type="text/html"/>
+<updated>2018-12-06T00:00:00Z</updated>
+<summary/>
+<published>2018-07-15T00:00:00Z</published>
+<content># Vue 组件
+
+    &lt;div id="app-7"&gt;
+    &lt;ol&gt;
+        &lt;todo-item v-for="item in groceryList" v-bind:todo="</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Vue Cli 使用</title>
+<link href="/b/ria/vue-cli" rel="alternate" type="text/html"/>
+<updated>2018-12-06T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Vue Cli 使用
+Vue CLI 是一个基于 Vue.js 进行快速开发的完整系统，提供：
+
+1. 通过 @vue/cli 搭建交互式的项目`脚手架`: `vue create`
+2. 通过 </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>js charts</title>
+<link href="/b/ria/js-chart" rel="alternate" type="text/html"/>
+<updated>2018-12-06T00:00:00Z</updated>
+<summary/>
+<published>2018-12-06T00:00:00Z</published>
+<content># Preface
+http://socialcompare.com/en/comparison/javascript-graphs-and-charts-libraries
+
+# chartjs
+h</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>风险与质量管理</title>
+<link href="/b/em/em-risk-quality" rel="alternate" type="text/html"/>
+<updated>2018-12-06T00:00:00Z</updated>
+<summary/>
+<published>2018-12-06T00:00:00Z</published>
+<content># 风险管理(Project Risk management)
+风险管理是： 为最好地达到项目目标，参与者通过风险识别、风险分析、风险评估，并以此为基础合理地*使用多种管理方法、技术和手段*对项目活动</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>写论文要用到的网站</title>
+<link href="/b/em/em-paper" rel="alternate" type="text/html"/>
+<updated>2018-12-06T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># 写论文要用到的网站
+## 参考文献格式生成
+https://www.bigan.net/reference/
+
+## 查重
+http://www.paperyy.com/ 和
+http://www</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>五大过程组，十大知识领域</title>
+<link href="/b/em/em-" rel="alternate" type="text/html"/>
+<updated>2018-12-06T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># 五大过程组，十大知识领域
+https://www.jianshu.com/p/33dda2e06225
+
+# PM 项目管理(10大)
+&gt; 管理制度+(掌握管理方法的)人+管理信息系统
+1. 项目</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Event</title>
+<link href="/b/ria/js-dom-event" rel="alternate" type="text/html"/>
+<updated>2018-12-02T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Event
+
+## DOM MutationObserver
+http://javascript.ruanyifeng.com/dom/mutationobserver.html
+
+### DOM</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>js copy to clipboard</title>
+<link href="/b/ria/js-dom-clipboard" rel="alternate" type="text/html"/>
+<updated>2018-12-06T00:00:00Z</updated>
+<summary/>
+<published>2018-05-30T00:00:00Z</published>
+<content># js copy to clipboard
+&gt; http://stackoverflow.com/questions/400212/how-do-i-copy-to-the-clipboard-in</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Sth. About Mobile Communication</title>
+<link href="/b/life/life-mobile" rel="alternate" type="text/html"/>
+<updated>2018-12-02T00:00:00Z</updated>
+<summary/>
+<published>2018-12-02T00:00:00Z</published>
+<content># Preface
+&gt; ps: 绝大部分业务在月末是无法办理的.
+
+# 大宝卡
+移动大王卡、联通大王卡和电信超牛卡、到底谁划算?
+https://zhuanlan.zhihu.com/p/242492</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>时间管理工具</title>
+<link href="/b/em/em-time" rel="alternate" type="text/html"/>
+<updated>2018-12-06T00:00:00Z</updated>
+<summary/>
+<published>2018-12-06T00:00:00Z</published>
+<content># 时间管理工具
+1. 双代号网络计划 (进度网络图)
+https://www.jianshu.com/p/c94701d8bfd2
+
+1. 双代号时标网络计划 
+https://wenku.baid</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>同一主体账号迁移</title>
+<link href="/b/wx/wx-account" rel="alternate" type="text/html"/>
+<updated>2018-11-30T00:00:00Z</updated>
+<summary/>
+<published>2018-11-30T00:00:00Z</published>
+<content># 同一主体账号迁移
+http://kf.qq.com/faq/170217RjMjQz170217buuIZj.html
+https://kf.qq.com/faq/170221uQ7Vz21702</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>群共享</title>
+<link href="/b/wx/qq-group" rel="alternate" type="text/html"/>
+<updated>2018-11-30T00:00:00Z</updated>
+<summary/>
+<published>2018-11-30T00:00:00Z</published>
+<content># 群共享
+http://qun.qzone.qq.com/group#!/927331255/share
+</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>vim-pattern</title>
+<link href="/b/vim/vim-pattern" rel="alternate" type="text/html"/>
+<updated>2018-11-30T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Preface
+
+# pattern
+
+	:h pattern
+
+## charlist
+Character classes
+
+	\s	whitespace character: &lt;Space&gt; </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>matplotlib</title>
+<link href="/b/py/py-math-matplot" rel="alternate" type="text/html"/>
+<updated>2018-11-30T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># matplotlib
+
+&gt; 原文:
+http://www.labri.fr/perso/nrougier/teaching/matplotlib/
+&gt; 译文:
+http://liam0205.me</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>wireshark</title>
+<link href="/b/net/net-sniffer-wireshark" rel="alternate" type="text/html"/>
+<updated>2018-11-30T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># wireshark
+Refer : http://www.bo56.com/tcpdump-%E5%92%8C-wireshark%E7%BB%84%E5%90%88%E6%8B%B3%EF%BC</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>net-netstat</title>
+<link href="/b/net/net-netstat" rel="alternate" type="text/html"/>
+<updated>2018-11-30T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Preface
+- netstat
+- ss 参数形式如netstat
+
+# netstat
+&gt; http://billie66.github.io/TLCL/book/zh/chap17.htm</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>biology</title>
+<link href="/b/course/biology" rel="alternate" type="text/html"/>
+<updated>2018-11-30T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Preface
+缓步动物门 具有全部四种隐生（Cryptobiosis）性（即Anhydrobiosis、Cryobiosis、Osmobiosis及Anoxybiosis），能够在恶劣环境下停止</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>ops-process-lsof</title>
+<link href="/b/c/ops-process-lsof" rel="alternate" type="text/html"/>
+<updated>2018-11-30T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># lsof
+[/p/linux-process-lsof](/p/linux-process-lsof)
+
+List Open File
+
+## format
+
+	-n  inhibits  the</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>社保及养老保险</title>
 <link href="/b/life/life-pension" rel="alternate" type="text/html"/>
 <updated>2018-11-04T00:00:00Z</updated>
@@ -19,7 +239,7 @@
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>ADHD：分心者的自我认知训练</title>
 <link href="/b/life/adhd" rel="alternate" type="text/html"/>
-<updated>2018-11-04T00:00:00Z</updated>
+<updated>2018-11-30T00:00:00Z</updated>
 <summary/>
 <published>2018-11-04T00:00:00Z</published>
 <content># 前言
@@ -199,7 +419,7 @@ http://www.codeasily.net/course/plugin_course/4/</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>css 布局</title>
 <link href="/b/ria/js-css-layout" rel="alternate" type="text/html"/>
-<updated>2018-10-07T00:00:00Z</updated>
+<updated>2018-12-06T00:00:00Z</updated>
 <summary/>
 <published>2018-03-03T00:00:00Z</published>
 <content># CSS 布局
@@ -235,80 +455,5 @@ time 提供基本的时间，sleep
 <updated>2018-10-07T11:12:17+00:00</updated>
 <summary/>
 <published>2018-10-07T11:12:17+00:00</published>
-<content/>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>js-time</title>
-<link href="/b/ria/js-time" rel="alternate" type="text/html"/>
-<updated>2018-10-07T00:53:46+00:00</updated>
-<summary/>
-<published>2018-10-07T00:53:46+00:00</published>
-<content/>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Shell 变量之数据类型</title>
-<link href="/b/c/shell-var" rel="alternate" type="text/html"/>
-<updated>2018-10-08T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Shell 变量之数据类型
-## export
-
-	unset PYTHONPATH
-
-## String, 字符串
-
-### count_chars
-
-	echo 'ahui ahui' | g</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>coder试题:有几个bing?</title>
-<link href="/b/algorithm/game-countword" rel="alternate" type="text/html"/>
-<updated>2018-10-06T22:40:20+00:00</updated>
-<summary/>
-<published>2018-10-06T22:40:20+00:00</published>
-<content/>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>字符编码简介</title>
-<link href="/b/code/code-character" rel="alternate" type="text/html"/>
-<updated>2018-10-06T21:21:19+00:00</updated>
-<summary/>
-<published>2018-10-06T21:21:19+00:00</published>
-<content/>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>关于抢票以及12306 的票仓的sku 设计</title>
-<link href="/b/news/ticketing-software" rel="alternate" type="text/html"/>
-<updated>2018-10-07T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># 为什么抢票这么难?
-抢不到票其实太正常了，而且不是你刷的次数多你就有票，而是是你刷得快、带宽大、机器配置好才可能有票。
-看看一下数据就知道抢票有多么的疯狂了。
-1. 2018.1.12 [1230</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>查找两有序数组中第N 大的值</title>
-<link href="/b/algorithm/algorithm-find-the-nth-of-2-sorted-array" rel="alternate" type="text/html"/>
-<updated>2018-10-06T20:48:17+00:00</updated>
-<summary/>
-<published>2018-10-06T20:48:17+00:00</published>
-<content/>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Analysis of Algorithm</title>
-<link href="/b/algorithm/1.time-complex" rel="alternate" type="text/html"/>
-<updated>2018-10-07T08:23:21+00:00</updated>
-<summary/>
-<published>2018-10-07T08:23:21+00:00</published>
-<content/>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>广度优先算法(BFS)</title>
-<link href="/b/algorithm/algorithm-bfs" rel="alternate" type="text/html"/>
-<updated>2018-10-06T20:36:29+00:00</updated>
-<summary/>
-<published>2018-10-06T20:36:29+00:00</published>
-<content/>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>杨氏矩阵（Young Tableau）的topK 算法</title>
-<link href="/b/algorithm/algo-young-tableau-topk" rel="alternate" type="text/html"/>
-<updated>2018-10-07T00:53:46+00:00</updated>
-<summary/>
-<published>2018-10-07T00:53:46+00:00</published>
 <content/>
 </entry></feed>
