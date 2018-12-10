@@ -2,9 +2,93 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2018-12-07T12:21:30Z</updated>
+<updated>2018-12-10T22:18:00Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>egg model</title>
+<link href="/b/ria/egg-model" rel="alternate" type="text/html"/>
+<updated>2018-12-10T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># egg model
+https://eggjs.org/zh-cn/tutorials/sequelize.html
+
+1.config/plugin.js 中引入 egg-sequelize 插</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>学习的本质、效率</title>
+<link href="/b/course/1.study" rel="alternate" type="text/html"/>
+<updated>2018-12-10T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># 学习的本质是什么？
+机器学习的本质就是寻找输入(input) 与输出(output)之间关系的过程, 我们的大脑的也是如此。 我们的大脑学习的过程分两种类型：
+1. 具象的学习：指我们适应从感官系</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>linux</title>
+<link href="/b/c/ops-pssh" rel="alternate" type="text/html"/>
+<updated>2018-12-10T00:00:00Z</updated>
+<summary/>
+<published>2018-12-10T00:00:00Z</published>
+<content># Preface
+在工作中，我们可能会有同步操作多台linux 服务器的需要。过去的做法是用for 循环执行: `ssh $ip &lt; work.sh $1 $2 &amp;`
+
+其实，我们还可以借助以下这些</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>网络扫描器nmap、zmap</title>
+<link href="/b/net/net-nmap-zmap" rel="alternate" type="text/html"/>
+<updated>2018-12-07T00:00:00Z</updated>
+<summary/>
+<published>2016-10-10T00:00:00Z</published>
+<content># nmap
+常见的网络扫描器有 SSS，X-Scan，Superscan等，功能最强大的当然是[Nmap](http://www.aiezu.com/system/linux/linux_nmap_</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Linux Network</title>
+<link href="/b/net/net-" rel="alternate" type="text/html"/>
+<updated>2018-12-07T00:00:00Z</updated>
+<summary/>
+<published>2018-12-07T00:00:00Z</published>
+<content># linux tool
+网络相关的工具有:
+
+	dns: ip 或 ifconfig，dig
+	monitor: netstat -lntp 或 ss -plat
+	socket: lsof 查看套</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>ifconfig</title>
+<link href="/b/net/2.tool-ifconfig" rel="alternate" type="text/html"/>
+<updated>2018-12-07T00:00:00Z</updated>
+<summary/>
+<published>2018-12-07T00:00:00Z</published>
+<content>## ifconfig
+ifconfig 是用于查看网卡接口的。
+对于linux 来说，它会显示网关gateway(route), 而对于mac 它不会显示网关.
+不过
+1. mac可以使用通过路由表</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>centos网络配置</title>
+<link href="/b/net/1.net-config" rel="alternate" type="text/html"/>
+<updated>2018-12-07T00:00:00Z</updated>
+<summary/>
+<published>2018-12-07T00:00:00Z</published>
+<content># centos网络配置
+网络配置分手动设置，自动获取2种方法
+
+## 设置网络链接ifcfg-eth0
+
+	cat /etc/sysconfig/network-scripts/ifcfg-eth0</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>mac 工具集</title>
+<link href="/b/mac/mac-tool" rel="alternate" type="text/html"/>
+<updated>2018-12-10T00:00:00Z</updated>
+<summary/>
+<published>2018-10-10T00:00:00Z</published>
+<content># Preface
+本文是我所用的mac 工具集大杂烩。
+
+一些mac osx 能做而linux 桌面级OS 目前不能做的事情：
+
+- mac 支持全局readline , 字符编辑的效率非常非常高(</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>test</title>
 <link href="/b/c/ops-benchmark" rel="alternate" type="text/html"/>
 <updated>2018-12-07T00:00:00Z</updated>
@@ -22,14 +106,12 @@
 <link href="/b/net/net-tcpip" rel="alternate" type="text/html"/>
 <updated>2018-12-07T00:00:00Z</updated>
 <summary/>
-<published>2018-12-07T00:00:00Z</published>
-<content># Preface
-
-# 互联网协议栈
+<published>2011-11-11T00:00:00Z</published>
+<content># 互联网协议栈
 分为链路层(link), 网络层(Network), 传输层(Transport), 应用层(Application)
 
 应用层
-	DHCP DHCPv6 DN</content>
+	DHCP DHCPv6 DNS FTP Gophe</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>“第一次”面试</title>
 <link href="/b/news/interview" rel="alternate" type="text/html"/>
@@ -379,87 +461,4 @@ http://billie66.github.io/TLCL/book/zh/chap37.html</content>
 1. `A..B` means from A to B(exclude A)
 
 	git log [repo/]bra</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>圆周率算法</title>
-<link href="/b/algorithm/algorithm-pi" rel="alternate" type="text/html"/>
-<updated>2018-10-07T00:00:00Z</updated>
-<summary/>
-<published>2018-09-26T00:00:00Z</published>
-<content># 圆周率算法
-- [pi]
-- [梅钦类公式]
-- [Machin's formula Proof]
-- http://en.wikipedia.org/wiki/Arithmetic%E2%80%</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>前端自动化测试</title>
-<link href="/b/ria/js-test" rel="alternate" type="text/html"/>
-<updated>2018-10-07T00:00:00Z</updated>
-<summary/>
-<published>2018-10-07T00:00:00Z</published>
-<content># 前端自动化测试
-原文: http://fex.baidu.com/blog/2015/07/front-end-test/
-前端自动化测试可以在几个方向进行尝试：
-
-- 界面回归测试 测试界面是否</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>写npm 包</title>
-<link href="/b/ria/node-npm-pkg" rel="alternate" type="text/html"/>
-<updated>2018-10-08T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># 写npm 包
-1. 生成包信息package.json
-    npm init
-2. https://www.npmjs.com/ 注册账号
-3. `npm adduser` 添加账号
-3. `</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>原生js 写的SlideUp、SlideDown 教程(收藏)</title>
-<link href="/b/ria/js-dom-event-slide" rel="alternate" type="text/html"/>
-<updated>2018-10-07T00:00:00Z</updated>
-<summary/>
-<published>2018-10-07T00:00:00Z</published>
-<content># 原生js 写的SlideUp、SlideDown 教程(收藏)
-http://www.codeasily.net/course/plugin_course/4/</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>二叉查找树和红黑树</title>
-<link href="/b/algorithm/ds-binary-search-tree" rel="alternate" type="text/html"/>
-<updated>2018-10-07T00:00:00Z</updated>
-<summary/>
-<published>2018-09-26T00:00:00Z</published>
-<content># 二叉查找树和红黑树
-二叉查找树（Binary Search Tree），也称二叉搜索树、有序二叉树（ordered binary tree），排序二叉树（sorted binary tree），是</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>css 布局</title>
-<link href="/b/ria/js-css-layout" rel="alternate" type="text/html"/>
-<updated>2018-12-06T00:00:00Z</updated>
-<summary/>
-<published>2018-03-03T00:00:00Z</published>
-<content># CSS 布局
-&gt; 参考: http://zh.learnlayout.com/position.html
-
-# display
-1. block: This makes the element a</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>python 时间函数的用法笔记</title>
-<link href="/b/py/py-time" rel="alternate" type="text/html"/>
-<updated>2018-10-07T00:00:00Z</updated>
-<summary/>
-<published>2018-04-02T00:00:00Z</published>
-<content># time 工具
-time 提供基本的时间，sleep
-
-	import time
-	time.time()
-		19972314124.05238
-        time.localetime(</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>LibSvm</title>
-<link href="/b/algorithm/algorithm-libsvm" rel="alternate" type="text/html"/>
-<updated>2018-10-07T00:00:00Z</updated>
-<summary/>
-<published>2014-03-03T00:00:00Z</published>
-<content># SVM
-支持向量机（Support vector machine）是在统计学习理论的基础上发展起来的新一代学习算法，它在文本分类、手写识别、图像分类、生物信息学等领域中获行较好的应用。  
-如果你</content>
 </entry></feed>
