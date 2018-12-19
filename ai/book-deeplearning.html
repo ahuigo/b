@@ -20,13 +20,10 @@ const MD_URL='post/ai/book-deeplearning.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -36,6 +33,7 @@ const MD_URL='post/ai/book-deeplearning.md';
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
@@ -51,8 +49,11 @@ const MD_URL='post/ai/book-deeplearning.md';
 <pre id="markdown" v-pre>---
 title: 吴恩达给你的人工智能第一课
 date: 2018-09-26
-updated: 2018-10-06
+updated: 2018-12-19
 ---
+学习观+ 超智能体
+https://zhuanlan.zhihu.com/p/27857399
+
 # 吴恩达给你的人工智能第一课
 https://mooc.study.163.com/smartSpec/detail/1001319001.htm?forcelogin=true&amp;edusave=1
 https://study.163.com/topics/deepLearning/
@@ -61,8 +62,10 @@ https://study.163.com/topics/deepLearning/
 http://blog.jobbole.com/108395/
 
 ## 量化数学
-https://www.joinquant.com/study?f=home&amp;m=memu</pre>
-<div id="pager" v-pre></div>
+https://www.joinquant.com/study?f=home&amp;m=memu
+
+## 李沐MXNet公开课</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -84,7 +87,7 @@ https://www.joinquant.com/study?f=home&amp;m=memu</pre>
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
 <input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
@@ -109,6 +112,9 @@ https://www.joinquant.com/study?f=home&amp;m=memu</pre>
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>
