@@ -2,9 +2,19 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2018-12-19T17:39:24Z</updated>
+<updated>2018-12-19T20:04:17Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>关于抢票以及12306 的票仓的sku 设计</title>
+<link href="/b/news/ticketing-software" rel="alternate" type="text/html"/>
+<updated>2018-12-19T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># 为什么抢票这么难?
+抢不到票其实太正常了，而且不是你刷的次数多你就有票，而是是你刷得快、带宽大、机器配置好才可能有票。
+看看一下数据就知道抢票有多么的疯狂了。
+1. 2018.1.12 [1230</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>css 布局</title>
 <link href="/b/ria/js-css-layout" rel="alternate" type="text/html"/>
 <updated>2018-12-19T00:00:00Z</updated>
@@ -45,14 +55,15 @@ https://eggjs.org/zh-cn/tutorials/sequelize.html
 
 1.config/plugin.js 中引入 egg-sequelize 插</content>
 </entry><entry xml:base="https://ahuigo.github.io">
-<title>谈学习的本质和效率</title>
+<title>人脑学习的本质</title>
 <link href="/b/course/1.study" rel="alternate" type="text/html"/>
 <updated>2018-12-19T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># 学习的本质是什么？
-机器学习的本质就是寻找输入(input) 与输出(output)之间关系的过程, 我们的大脑的也是如此。 我们的大脑学习的过程分两种类型：
-1. 运动类知识的学习(Implic</content>
+&gt; YJango 在知乎专栏中开了关于机器学习的专栏，本篇章是其中的读后有感。
+
+机器学习的本质就是寻找输入(input) 与输出(output)之间关系的过程, 我们的大脑的</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>linux</title>
 <link href="/b/c/ops-pssh" rel="alternate" type="text/html"/>
@@ -440,18 +451,4 @@ http://caniuse.com/
 # Signal, 信号(trap)
 Refer to:
 http://billie66.github.io/TLCL/book/zh/chap37.html</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>计算球面两点的距离</title>
-<link href="/b/math/geo-distance" rel="alternate" type="text/html"/>
-<updated>2018-10-08T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># 计算球面两点的距离
-球面坐标(也就是经纬度)对应的直角坐标为
-
-- $R*sin(a)$
-- $R*cos(a)cos(m)$
-- $R*cos(a)sin(m)$
-
-假设球面半径R=1, 两点A</content>
 </entry></feed>
