@@ -20,13 +20,10 @@ const MD_URL='post/sec/sec-cryptography.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -36,6 +33,7 @@ const MD_URL='post/sec/sec-cryptography.md';
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
@@ -50,15 +48,18 @@ const MD_URL='post/sec/sec-cryptography.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: 密码安全与签名安全
-date: 2018-10-06
-updated: 2018-10-06
+date: 2018-12-20
+updated: 2018-12-20
 ---
 # Signature, 签名
 MAC(Message Authentication Code) 与 hash 的区别: http://stackoverflow.com/questions/2836100/what-is-the-difference-between-a-hash-and-mac-message-authentication-code
 
 - HASH 验证消息(message)没有被篡改 `hash = hash(message)`
 - MAC 不仅验证消息没有被篡改，还通过一个`private key`验证*谁*加密的消息, 用`key` 保证消息真实性 `mac = hash(key + message)`. 
+mac只可被持有key的角色来认证
 这个key 类似于salt, 但是意义不一样，key 是需要严格保密的, salt 是用于加固弱密的(加盐)，salt 公开后的风险非常小
+    - HMAC 是构建MAC 的方式，H代表Hash, 就叫做hmac
+    - 也可以使用对称加密函数来构造。
 
 MAC 是用于身份认证的，并且依靠其中的密钥来防止攻击者篡改消息。如果攻击者无需知道密钥和消息，也能构造出包含`key + message + extra` 的一个有效的哈希值, 也就破解了身份验证。
 
@@ -367,7 +368,7 @@ http://blog.jobbole.com/61872/
 	C/C++ (Windows API)	CryptGenRandom
 	Any language on GNU/Linux or Unix	Read from /dev/random or /dev/urandom
 </pre>
-<div id="pager" v-pre></div>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -389,7 +390,7 @@ http://blog.jobbole.com/61872/
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
 <input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
@@ -414,6 +415,9 @@ http://blog.jobbole.com/61872/
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>
