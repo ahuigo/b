@@ -20,13 +20,10 @@ const MD_URL='post/algorithm/algorithm-tree.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -36,6 +33,7 @@ const MD_URL='post/algorithm/algorithm-tree.md';
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
@@ -51,7 +49,7 @@ const MD_URL='post/algorithm/algorithm-tree.md';
 <pre id="markdown" v-pre>---
 title: 数据结构之树
 date: 2018-09-26
-updated: 2018-10-06
+updated: 2018-12-24
 ---
 # 数据结构之树
 
@@ -109,20 +107,23 @@ updated: 2018-10-06
 #### 顺序存储
 只适合完全二叉树(包括满二叉)，否则非常浪费空间
 
-#### 二叉链表存储
-适合存储所有的二叉树，查找父结点需要遍历整个链表
+#### 链表存储
+1. 二叉链表存储: 左右指针指向左右子树
+1. 三叉链表存储: 增加一个指向parent 的指针
 
-#### 三叉链表存储
-改进于二叉链表，增加父节点的指引，能更好地实现节点间的访问，不过算法相对复杂。
+链表存储要申请一堆空间:` struct node{}[10000]`
+https://stackoverflow.com/questions/3951664/array-of-linked-lists-on-disk
 
-* 线索二叉树 (threaded binary tree)
-在后序线索树中找到结点的后继分三种情况：
-
-- 若结点是二叉树的根，则其后继为空；
-- 若结点是其双亲的右孩子，或是其双亲的左孩子且其双亲没有右子树，则其后继即为双亲结点；
-- 若结点是其双亲的左孩子，且其双亲有右子树，则其后继为双亲右子树上按后序遍历列出的第一个结点。
+Many UNIX file systems support *sparse* allocation, which means that if you allocate block 365 it doesn&#x27;t have to allocate blocks 0 through 364.(实际存储不是连续的) 
 
 ### 遍历二叉树
+
+#### 线索二叉树 (threaded binary tree)
+二叉树添加了直接指向节点的前驱和后继的指针的二叉树称为线索二叉树。
+线索二叉树能线性地遍历二叉树，从而比递归的 中序遍历更快。
+
+![](/img/ds/treaded-binary-tree.png)
+
 
 #### 深度优先遍历（Deep First Search）
 DFS是沿着树的深度遍历树的节点，尽可能深的搜索树的分支。
@@ -196,11 +197,16 @@ BFS 搜索时因为要遍历所有的点(V)+路径(E), 所以其时间复杂度�
 2. 对每个结点，除了其左孩子外，去除其与其余孩子之间的联系；
 3. 以树的根结点为轴心，将整树顺时针转45度。
 
+# 搜索树
+- M==2: 二叉查找树，二叉平衡树（红黑树、AVL树）
+- M&gt;=3: B树，B+树，`B*`树,层次更少. 因为子节点数量多，不需要频繁地重新保持平衡(可能浪费一些空间)
+B树适用于读写相对大的数据块的存储系统，例如磁盘
+
 # References
 - [树]
 
 [树]: http://zh.wikipedia.org/wiki/%E6%A0%91_(%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84)</pre>
-<div id="pager" v-pre></div>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -222,7 +228,7 @@ BFS 搜索时因为要遍历所有的点(V)+路径(E), 所以其时间复杂度�
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
 <input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
@@ -247,6 +253,9 @@ BFS 搜索时因为要遍历所有的点(V)+路径(E), 所以其时间复杂度�
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>

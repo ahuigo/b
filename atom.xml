@@ -2,9 +2,99 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2018-12-20T13:56:16Z</updated>
+<updated>2018-12-24T11:15:24Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>关于php的调试方法</title>
+<link href="/b/php/2014-3-5-php-debug" rel="alternate" type="text/html"/>
+<updated>2018-12-24T00:00:00Z</updated>
+<summary/>
+<published>2015-09-11T00:00:00Z</published>
+<content># PHP 调试方法
+
+## 基本调试方法
+
+### var_dump 与 二分法
+相信大家确认问题点最常用的就是 以下函数结合二分法了：
+
+	var_dump($var);
+
+这种做法会导致一些问题</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Redis</title>
+<link href="/b/db/redis-" rel="alternate" type="text/html"/>
+<updated>2018-12-24T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Redis
+redis所有的数据都是redisObject存储的。redisObject来表示所有的key/value数据是比较浪费内存的(为了支持各种数据类型嘛)，还好redis 作者也考虑了很</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>mysql lock</title>
+<link href="/b/db/mysql-lock" rel="alternate" type="text/html"/>
+<updated>2018-12-24T00:00:00Z</updated>
+<summary/>
+<published>2018-12-24T00:00:00Z</published>
+<content># Preface
+
+
+# todo
+基于锁的原子操作 http://ifeve.com/inter-64-ia-32-8-1/
+Java的多线程机制: 缓存一致性和CAS http://www.bd</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>mysql 索引</title>
+<link href="/b/db/mysql-index" rel="alternate" type="text/html"/>
+<updated>2018-12-24T00:00:00Z</updated>
+<summary/>
+<published>2018-12-24T00:00:00Z</published>
+<content># Preface
+
+# todo
+- [索引原理-meituan]
+
+# clustered index
+聚合索引(clustered index) / 非聚合索引(nonclustered ind</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>跳跃表</title>
+<link href="/b/algorithm/ds-skiplist" rel="alternate" type="text/html"/>
+<updated>2018-12-24T00:00:00Z</updated>
+<summary/>
+<published>2017-09-26T00:00:00Z</published>
+<content># 跳跃表
+我们实现redis 的有序集合用什么结构呢？
+1. list: 插入的复杂度是O(n)
+2. 链表: 查找的复杂度是O(n)
+
+跳跃表(skiplist) 是一种随机化的数据结构，相当于为</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>二叉查找树和红黑树</title>
+<link href="/b/algorithm/ds-binary-search-tree" rel="alternate" type="text/html"/>
+<updated>2018-12-24T00:00:00Z</updated>
+<summary/>
+<published>2018-09-26T00:00:00Z</published>
+<content># 二叉查找树
+二叉查找树（Binary Search Tree），也称二叉搜索树、有序二叉树（ordered binary tree），排序二叉树（sorted binary tree），是指一棵空</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>数据结构之树</title>
+<link href="/b/algorithm/algorithm-tree" rel="alternate" type="text/html"/>
+<updated>2018-12-24T00:00:00Z</updated>
+<summary/>
+<published>2018-09-26T00:00:00Z</published>
+<content># 数据结构之树
+
+树状图是一种数据结构，它是由n（n&gt;=1）个有限节点组成一个具有层次关系的集合。把它叫做“树”是因为它看起来像一棵倒挂的树，也就是说它是根朝上，而叶朝下的。它具有以下的特点：
+
+1</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>一个bloom filter 的redis实现</title>
+<link href="/b/algorithm/algorithm-bloom-filter" rel="alternate" type="text/html"/>
+<updated>2018-12-24T00:00:00Z</updated>
+<summary/>
+<published>2018-09-26T00:00:00Z</published>
+<content># 一个bloom filter 的redis实现	
+问题:
+
+&gt; 判断uid是否在一个uids集合中。假设uids集合有n=10^7(1k万)，同时假设uid最多10位，那么其值域范围是10^10(</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>安全的帐号设计</title>
 <link href="/b/sec/security-account" rel="alternate" type="text/html"/>
 <updated>2018-12-20T00:00:00Z</updated>
@@ -103,13 +193,13 @@ https://eggjs.org/zh-cn/tutorials/sequelize.html
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>人脑学习的本质</title>
 <link href="/b/course/1.study" rel="alternate" type="text/html"/>
-<updated>2018-12-19T00:00:00Z</updated>
+<updated>2018-12-24T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># 学习的本质是什么？
-&gt; YJango 在知乎专栏中开了关于机器学习的专栏，本篇章是其中的读后有感。
+&gt; YJango 在知乎专栏中开了关于机器学习的专栏，本篇是专栏读后有感。
 
-机器学习的本质就是寻找输入(input) 与输出(output)之间关系的过程, 我们的大脑的</content>
+机器学习的本质就是寻找输入(input) 与输出(output)之间关系的过程, 我们的大脑的也是</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>linux</title>
 <link href="/b/c/ops-pssh" rel="alternate" type="text/html"/>
@@ -178,9 +268,9 @@ ifconfig 是用于查看网卡接口的。
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>test</title>
 <link href="/b/c/ops-benchmark" rel="alternate" type="text/html"/>
-<updated>2018-12-07T00:00:00Z</updated>
+<updated>2018-12-24T00:00:00Z</updated>
 <summary/>
-<published>2018-12-07T00:00:00Z</published>
+<published>2018-12-24T00:00:00Z</published>
 <content># Preface
 
 性能/压力测试的内涵：
@@ -352,92 +442,4 @@ http://qun.qzone.qq.com/group#!/927331255/share
 Character classes
 
 	\s	whitespace character: &lt;Space&gt; </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>matplotlib</title>
-<link href="/b/py/py-math-matplot" rel="alternate" type="text/html"/>
-<updated>2018-11-30T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># matplotlib
-
-&gt; 原文:
-http://www.labri.fr/perso/nrougier/teaching/matplotlib/
-&gt; 译文:
-http://liam0205.me</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>wireshark</title>
-<link href="/b/net/net-sniffer-wireshark" rel="alternate" type="text/html"/>
-<updated>2018-11-30T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># wireshark
-Refer : http://www.bo56.com/tcpdump-%E5%92%8C-wireshark%E7%BB%84%E5%90%88%E6%8B%B3%EF%BC</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>net-netstat</title>
-<link href="/b/net/net-netstat" rel="alternate" type="text/html"/>
-<updated>2018-11-30T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># Preface
-- netstat
-- ss 参数形式如netstat
-
-# netstat
-&gt; http://billie66.github.io/TLCL/book/zh/chap17.htm</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>biology</title>
-<link href="/b/course/biology" rel="alternate" type="text/html"/>
-<updated>2018-11-30T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Preface
-缓步动物门 具有全部四种隐生（Cryptobiosis）性（即Anhydrobiosis、Cryobiosis、Osmobiosis及Anoxybiosis），能够在恶劣环境下停止</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>ops-process-lsof</title>
-<link href="/b/c/ops-process-lsof" rel="alternate" type="text/html"/>
-<updated>2018-11-30T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># lsof
-[/p/linux-process-lsof](/p/linux-process-lsof)
-
-List Open File
-
-## format
-
-	-n  inhibits  the</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>社保及养老保险</title>
-<link href="/b/life/life-pension" rel="alternate" type="text/html"/>
-<updated>2018-11-04T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># 重要
-
-## 北京社保代理
-代缴社保和在公司缴纳的社保都是一样的: 五险:三金包括社保金（养老保险，失业保险）、医保金（医疗保险，工伤保险，生育保险）、还有住房公积金。
-
-蚂蚁HR(上海): 技术</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>ADHD：分心者的自我认知训练</title>
-<link href="/b/life/adhd" rel="alternate" type="text/html"/>
-<updated>2018-11-30T00:00:00Z</updated>
-<summary/>
-<published>2018-11-04T00:00:00Z</published>
-<content># 前言
-我是从去年开始关注到ADHD的，然后参加了北医六院潘医生组织的ADHD 团体行为认知训练。
-
-本想训练课快要结束之时，对本期训练及ADHD 本身做一个总结。
-但是我发现 [ADHD？没什么大</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>算法分治法(divide and conquer)</title>
-<link href="/b/algorithm/2.divide-conquer" rel="alternate" type="text/html"/>
-<updated>2018-11-01T00:00:00Z</updated>
-<summary/>
-<published>2018-09-26T00:00:00Z</published>
-<content># 算法分治法(divide and conquer)
-fibonacii 可以用分治法来做，复杂度非常高.$O(2^n)$
-
-## fibonacii numbers: 
-fibonacii num</content>
 </entry></feed>
