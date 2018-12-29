@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/algorithm/algo-distribute-cap.md';
+const MD_URL='post/db/mysql-ddl-id.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>CAP 理论</title>
+<title>mysql tddl sequence</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -20,13 +20,10 @@ const MD_URL='post/algorithm/algo-distribute-cap.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -36,6 +33,7 @@ const MD_URL='post/algorithm/algo-distribute-cap.md';
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
@@ -49,24 +47,30 @@ const MD_URL='post/algorithm/algo-distribute-cap.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: CAP 理论
-date: 2018-09-26
-updated: 2018-10-06
+title: mysql tddl sequence
+date: 2018-12-29
+updated: 2018-12-29
 ---
-# CAP 理论
-在理论计算机科学中，CAP定理（CAP theorem），又被称作布鲁尔定理（Brewer&#x27;s theorem），它指出对于一个分布式计算系统来说，不可能同时满足以下三点:
+# 如何生成全局id
 
-- 一致性（Consistency)（等同于所有节点访问同一份最新的数据副本）
-- 可用性（Availability）（对数据更新具备高可用性）
-- 容忍网络分区（Partition tolerance）（以实际效果而言，分区相当于对通信的时限要求。系统如果不能在时限内达成数据一致性，就意味着发生了分区的情况，必须就当前操作在C和A之间做出选择[3]。）
+1. 单点:
+	1. mysql auto_increment
+	2. redis incrnx
+2. 分布:
+	1. stepN: 可以部署N 台mysql, 每台机器生成的id: N*id+n, n 是机器号(0 ~ N-1)
+		1. snowflake
 
-http://www.infoq.com/cn/articles/cap-twelve-years-later-how-the-rules-have-changed
+## snowflake 生成唯一id
+Twitter在把存储系统从MySQL迁移到Cassandra的过程中由于Cassandra没有顺序ID生成机制，于是自己开发了一套全局唯一ID生成服务：Snowflake。GitHub地址：https://github.com/twitter/snowflake。根据twitter的业务需求，snowflake系统生成64位的ID。由3部分组成：
 
-# References
-- [cap]
+	41位的时间序列（精确到毫秒，41位的长度可以使用69年）
+	10位的机器标识（10位的长度最多支持部署1024个节点）
+	12位的计数顺序号（12位的计数顺序号支持每个节点每毫秒产生4096个ID序号）如果序号不够，就等待nextMiliseconds
+	最高位是符号位，始终为0。
 
-[cap]: http://zh.wikipedia.org/wiki/CAP%E5%AE%9A%E7%90%86</pre>
-<div id="pager" v-pre></div>
+php 实现: https://github.com/ahuigo/php-lib/blob/master/id/snowflake.php
+</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -88,7 +92,7 @@ http://www.infoq.com/cn/articles/cap-twelve-years-later-how-the-rules-have-chang
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
 <input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
@@ -113,6 +117,9 @@ http://www.infoq.com/cn/articles/cap-twelve-years-later-how-the-rules-have-chang
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>
