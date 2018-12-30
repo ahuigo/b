@@ -9,7 +9,7 @@ const MD_URL='post/db/mysql-ddl-id.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>mysql tddl sequence</title>
+<title>如何生成全局id</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -47,12 +47,11 @@ const MD_URL='post/db/mysql-ddl-id.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: mysql tddl sequence
-date: 2018-12-29
-updated: 2018-12-29
+title: 如何生成全局id
+date: 2015-03-29
+updated: 2018-12-30
 ---
 # 如何生成全局id
-
 1. 单点:
 	1. mysql auto_increment
 	2. redis incrnx

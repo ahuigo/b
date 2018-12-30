@@ -2,9 +2,66 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2018-12-29T19:01:03Z</updated>
+<updated>2018-12-30T10:42:40Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Python 字符处理</title>
+<link href="/b/py/py-str" rel="alternate" type="text/html"/>
+<updated>2018-12-30T00:00:00Z</updated>
+<summary/>
+<published>2017-08-09T00:00:00Z</published>
+<content># Python 字符处理
+- serialize
+见/py/py-serial.md
+
+# String
+same as js:
+
+	print "a\nb" ;# The character he</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>python shell 子进程</title>
+<link href="/b/py/py-shell" rel="alternate" type="text/html"/>
+<updated>2018-12-30T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># python shell 子进程
+很多时候，子进程并不是自身，而是一个外部进程。我们创建了子进程后，还需要控制子进程的输入和输出。
+
+subprocess模块可以让我们非常方便地启动一个子进程，然</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>字符编码简介</title>
+<link href="/b/code/code-character" rel="alternate" type="text/html"/>
+<updated>2018-12-30T00:00:00Z</updated>
+<summary/>
+<published>2014-05-10T00:00:00Z</published>
+<content># 字符编码简介
+本文试图理清字符编码系统的整体结构.如有理解不对请指正.
+
+# 字符编码
+按照[现代的编码模型],字符编码的主要概念分为：有哪些字符(字符表)、它们的编号(编码字符集)、这些编号如何</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>全屏</title>
+<link href="/b/c/ops-virtualbox" rel="alternate" type="text/html"/>
+<updated>2018-12-30T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># 网络
+
+## Vitual Machine share network
+- Internal（内网模式）: 
+  只限VM 之间访问，不能访问主机和外网
+- NAT: 
+  VM --虚拟的NAT</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>傅里叶变换</title>
+<link href="/b/algorithm/algorithm-fourier" rel="alternate" type="text/html"/>
+<updated>2018-12-30T00:00:00Z</updated>
+<summary/>
+<published>2015-09-26T00:00:00Z</published>
+<content># 傅里叶变换
+
+今天看到一篇韩昊写的好文 [傅里叶分析之掐死教程](http://zhuanlan.zhihu.com/wille/19763358)，生动形象的讲解了傅里叶的本质： 将时域变换到频</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>mysql explain 的使用</title>
 <link href="/b/db/mysql-index-explain" rel="alternate" type="text/html"/>
 <updated>2018-12-29T00:00:00Z</updated>
@@ -30,18 +87,17 @@
 
 mysql 下所有引擎的其表结构保存在`tb_name.frm` 中, 而数据结构在不同的引擎下，保存的文件有所不</content>
 </entry><entry xml:base="https://ahuigo.github.io">
-<title>mysql tddl sequence</title>
+<title>如何生成全局id</title>
 <link href="/b/db/mysql-ddl-id" rel="alternate" type="text/html"/>
-<updated>2018-12-29T00:00:00Z</updated>
+<updated>2018-12-30T00:00:00Z</updated>
 <summary/>
-<published>2018-12-29T00:00:00Z</published>
+<published>2015-03-29T00:00:00Z</published>
 <content># 如何生成全局id
-
 1. 单点:
 	1. mysql auto_increment
 	2. redis incrnx
 2. 分布:
-	1. stepN: 可以部署N 台mysql, 每台机器生成的</content>
+	1. stepN: 可以部署N 台mysql, 每台机器生成的i</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>mysql 查询</title>
 <link href="/b/db/mysql-ddl-crud" rel="alternate" type="text/html"/>
@@ -391,58 +447,4 @@ ifconfig 是用于查看网卡接口的。
 <content>两年多前裸辞，两年以后又裸面，过程还真是尴尬。总结下我的失败之处：
 1. 态度太敷衍。上午在雪场，下午才穿着一身的装备就匆匆赶到百度面试，什么也没换，有些不得体。
 2. 没有提前准备。话说工作了这么多</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Vue 组件</title>
-<link href="/b/ria/vue-component" rel="alternate" type="text/html"/>
-<updated>2018-12-06T00:00:00Z</updated>
-<summary/>
-<published>2018-07-15T00:00:00Z</published>
-<content># Vue 组件
-
-    &lt;div id="app-7"&gt;
-    &lt;ol&gt;
-        &lt;todo-item v-for="item in groceryList" v-bind:todo="</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Vue Cli 使用</title>
-<link href="/b/ria/vue-cli" rel="alternate" type="text/html"/>
-<updated>2018-12-06T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Vue Cli 使用
-Vue CLI 是一个基于 Vue.js 进行快速开发的完整系统，提供：
-
-1. 通过 @vue/cli 搭建交互式的项目`脚手架`: `vue create`
-2. 通过 </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>js charts</title>
-<link href="/b/ria/js-chart" rel="alternate" type="text/html"/>
-<updated>2018-12-06T00:00:00Z</updated>
-<summary/>
-<published>2018-12-06T00:00:00Z</published>
-<content># Preface
-http://socialcompare.com/en/comparison/javascript-graphs-and-charts-libraries
-
-# chartjs
-h</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>风险与质量管理</title>
-<link href="/b/em/em-risk-quality" rel="alternate" type="text/html"/>
-<updated>2018-12-06T00:00:00Z</updated>
-<summary/>
-<published>2018-12-06T00:00:00Z</published>
-<content># 风险管理(Project Risk management)
-风险管理是： 为最好地达到项目目标，参与者通过风险识别、风险分析、风险评估，并以此为基础合理地*使用多种管理方法、技术和手段*对项目活动</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>写论文要用到的网站</title>
-<link href="/b/em/em-paper" rel="alternate" type="text/html"/>
-<updated>2018-12-06T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># 写论文要用到的网站
-## 参考文献格式生成
-https://www.bigan.net/reference/
-
-## 查重
-http://www.paperyy.com/ 和
-http://www</content>
 </entry></feed>
