@@ -20,15 +20,36 @@ const MD_URL='post/algorithm/1.time-complex.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
-<pre id="markdown">---
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
 title: Analysis of Algorithm
 date: 2018-09-15
-updated: 2018-10-07
+updated: 2018-12-31
 ---
 # Analysis of Algorithm
 本文整理下算法的分析方法
@@ -59,17 +80,15 @@ $$
 ## 数学归纳法(代换法：Substitution Method)
 求以下算法的big O
 
-    T(n) = 4T(n/2) + n
+$$ T(n) = 4T(n/2) + n $$
 
-Solution: 
+先尝试证明下: 
 
 1. guess O(n^2)
 2. Assume: T(k) = C * k^2
 3. Then: 
 $$ 
-    T(n) = 4(C*(\frac{n}{2})^2) +n 
-$$
-$$
+T(n) = 4(C*(\frac{n}{2})^2) +n \\
     = Cn^2+n
 $$
 4. n 无法消去
@@ -78,10 +97,10 @@ $$
 1. Assume: $T(k) = C1 * k^2 - C2*k$
 2. Then: 
 $$ 
-T(n) = 4(C1*(n/2)^2 - C2*n/2) +n 
-    = C1n^2 - 2*C2n +n
-    = C1n^2 - C2n - (C2 -1)n
-    &lt;= C1n^2 - C2n      (if C2&gt;=1)
+T(n) = 4(C1*(n/2)^2 - C2*n/2) +n \\
+    = C1n^2 - 2*C2n +n  \\
+    = C1n^2 - C2n - (C2 -1)n    \\
+    &lt;= C1n^2 - C2n      \qquad(if C2&gt;=1)  \\
 $$
 3. T(1) 满足肯定满足, 证毕
 
@@ -146,35 +165,12 @@ https://sites.google.com/site/algorithmssolution/home/c4/master_method
 扩展case2 的证明: An Extension to The Master Theorem
 http://homepages.math.uic.edu/~leon/cs-mcs401-s08/handouts/extended_master_theorem.pdf
 
-我的手动证明:
+我的手工证明:
 ![](/img/algo/master-theorem-case2-extended-proof.png)
 
 ## Reference
 - Analysis of Algorithm | Set 4 
  https://www.geeksforgeeks.org/analysis-algorithm-set-4-master-method-solving-recurrences/</pre>
-<div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><img :src="imgsrc"></div>
-<div class="pure-menu pure-menu-horizontal">
-<div>
-<ul class="pure-menu-list">
-<li class="pure-menu-item">
-<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
-</div>
-</li>
-<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
-</ul>
-</div>
-</div>
-<div class="main">
-<div :class="{left:true, 'active':showMenu}" >
-<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
-</div>
-<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
-<router-view></router-view>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
@@ -197,10 +193,10 @@ http://homepages.math.uic.edu/~leon/cs-mcs401-s08/handouts/extended_master_theor
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
@@ -222,6 +218,9 @@ http://homepages.math.uic.edu/~leon/cs-mcs401-s08/handouts/extended_master_theor
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>
