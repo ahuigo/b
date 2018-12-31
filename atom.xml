@@ -2,9 +2,112 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2018-12-30T10:42:40Z</updated>
+<updated>2018-12-31T16:49:13Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>防火墙</title>
+<link href="/b/net/net-iptables" rel="alternate" type="text/html"/>
+<updated>2018-12-31T00:00:00Z</updated>
+<summary/>
+<published>2018-12-31T00:00:00Z</published>
+<content># 原理
+参考[Iptables防火墙原理详解](http://segmentfault.com/a/1190000002540601)
+
+## netfilter/iptables
+Netfilte</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Linux Network Tool</title>
+<link href="/b/net/3.net-tool" rel="alternate" type="text/html"/>
+<updated>2018-12-31T00:00:00Z</updated>
+<summary/>
+<published>2016-10-20T00:00:00Z</published>
+<content># Linux Network Tool
+网络相关的工具有:
+
+	dns: ip 或 ifconfig，dig
+	monitor: netstat -lntp 或 ss -plat
+	socket: </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>latex 数学公式</title>
+<link href="/b/math/math-latex" rel="alternate" type="text/html"/>
+<updated>2018-12-31T00:00:00Z</updated>
+<summary/>
+<published>2018-12-31T00:00:00Z</published>
+<content># Preface
+数学公式：
+- [latex 数学公式](http://zh.wikipedia.org/wiki/Help:%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>红包飞的概率问题</title>
+<link href="/b/math/math-envelope" rel="alternate" type="text/html"/>
+<updated>2018-12-31T00:00:00Z</updated>
+<summary/>
+<published>2015-03-04T00:00:00Z</published>
+<content># 红包飞的概率问题
+100元的红包，分给10个人，每个人得的数额是随机的。请设计一个公平的算法，保证每个人得到的金额从数学期望上是相等的。
+
+# 生成红包时就拆分好
+
+## 此时生成10个随机数作权</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>英语的否定</title>
+<link href="/b/eng/s/1.not" rel="alternate" type="text/html"/>
+<updated>2018-12-31T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># 句子
+&gt; 本文是eng-sentence-complex.md 的补充
+
+英语里面的否定和中文的是不一样的
+
+    1. I do not know all of them.
+    误：对他们</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Shell 工具集合</title>
+<link href="/b/c/shell-tool" rel="alternate" type="text/html"/>
+<updated>2018-12-31T00:00:00Z</updated>
+<summary/>
+<published>2016-09-27T00:00:00Z</published>
+<content># System debug, 系统调试工具
+
+- web: 对于 Web 调试，curl 和 curl -I 很方便灵活，或者也可以使用它们的同行 wget，或者更现代的 httpie。
+- dis</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>tool</title>
+<link href="/b/c/ops-user" rel="alternate" type="text/html"/>
+<updated>2018-12-31T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># tool
+last #显示最后登录者
+who #显示当前登录者
+w：谁登录进来了
+id：用户/组身份信息
+
+# su
+
+    su -c 'whoami' - root
+    /bin/su </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>OM(Operation Maintenance) 运维工具</title>
+<link href="/b/c/ops-tool" rel="alternate" type="text/html"/>
+<updated>2018-12-31T00:00:00Z</updated>
+<summary/>
+<published>2016-09-27T00:00:00Z</published>
+<content># 运维工具
+OM(Operation Maintenance) 运维工具
+
+1. Bootstrapping： Kickstart、Cobbler、rpmbuild/xen、kvm、lxc</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Systemd</title>
+<link href="/b/c/ops-systemd" rel="alternate" type="text/html"/>
+<updated>2018-12-31T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Systemd
+使用了 Systemd，就不需要再用init了。Systemd 取代了initd，成为系统的第一个进程（PID 等于 1），其他进程都是它的子进程。
+
+	$ systemctl -</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Python 字符处理</title>
 <link href="/b/py/py-str" rel="alternate" type="text/html"/>
 <updated>2018-12-30T00:00:00Z</updated>
@@ -137,21 +240,17 @@ linux 中每个进程都是由进程控制块(PCB) 控制的，PCB是一个task_
 
 - 进程id。系统中每个</content>
 </entry><entry xml:base="https://ahuigo.github.io">
-<title>Shell 变量之数据类型</title>
+<title>Shell 变量的数据类型</title>
 <link href="/b/c/1.shell-var" rel="alternate" type="text/html"/>
-<updated>2018-12-29T00:00:00Z</updated>
+<updated>2018-12-31T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
-<content># Shell 变量之数据类型
-## export
+<content># Shell 变量的数据类型
+shell 主要支持字符串 和 数组 两种数据类型。数组功能很弱，如果想做复杂的处理，建议用python 等脚本处理。
 
-	unset PYTHONPATH
+## 变量定义与删除
 
-## String, 字符串
-
-### count_chars
-
-	echo 'ahui ahui' | g</content>
+    VAR='he</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>动态规划(Dynamic programing, DP)</title>
 <link href="/b/algorithm/algorithm-dp" rel="alternate" type="text/html"/>
@@ -349,102 +448,4 @@ https://eggjs.org/zh-cn/tutorials/sequelize.html
 &gt; YJango 在知乎专栏中开了关于机器学习的专栏，本篇是专栏读后有感。
 
 机器学习的本质就是寻找输入(input) 与输出(output)之间关系的过程, 我们的大脑的也是</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>linux</title>
-<link href="/b/c/ops-pssh" rel="alternate" type="text/html"/>
-<updated>2018-12-10T00:00:00Z</updated>
-<summary/>
-<published>2018-12-10T00:00:00Z</published>
-<content># Preface
-在工作中，我们可能会有同步操作多台linux 服务器的需要。过去的做法是用for 循环执行: `ssh $ip &lt; work.sh $1 $2 &amp;`
-
-其实，我们还可以借助以下这些</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>网络扫描器nmap、zmap</title>
-<link href="/b/net/net-nmap-zmap" rel="alternate" type="text/html"/>
-<updated>2018-12-07T00:00:00Z</updated>
-<summary/>
-<published>2016-10-10T00:00:00Z</published>
-<content># nmap
-常见的网络扫描器有 SSS，X-Scan，Superscan等，功能最强大的当然是[Nmap](http://www.aiezu.com/system/linux/linux_nmap_</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Linux Network</title>
-<link href="/b/net/net-" rel="alternate" type="text/html"/>
-<updated>2018-12-07T00:00:00Z</updated>
-<summary/>
-<published>2018-12-07T00:00:00Z</published>
-<content># linux tool
-网络相关的工具有:
-
-	dns: ip 或 ifconfig，dig
-	monitor: netstat -lntp 或 ss -plat
-	socket: lsof 查看套</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>ifconfig</title>
-<link href="/b/net/2.tool-ifconfig" rel="alternate" type="text/html"/>
-<updated>2018-12-07T00:00:00Z</updated>
-<summary/>
-<published>2018-12-07T00:00:00Z</published>
-<content>## ifconfig
-ifconfig 是用于查看网卡接口的。
-对于linux 来说，它会显示网关gateway(route), 而对于mac 它不会显示网关.
-不过
-1. mac可以使用通过路由表</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>centos网络配置</title>
-<link href="/b/net/1.net-config" rel="alternate" type="text/html"/>
-<updated>2018-12-07T00:00:00Z</updated>
-<summary/>
-<published>2018-12-07T00:00:00Z</published>
-<content># centos网络配置
-网络配置分手动设置，自动获取2种方法
-
-## 设置网络链接ifcfg-eth0
-
-	cat /etc/sysconfig/network-scripts/ifcfg-eth0</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>mac 工具集</title>
-<link href="/b/mac/mac-tool" rel="alternate" type="text/html"/>
-<updated>2018-12-10T00:00:00Z</updated>
-<summary/>
-<published>2018-10-10T00:00:00Z</published>
-<content># Preface
-本文是我所用的mac 工具集大杂烩。
-
-一些mac osx 能做而linux 桌面级OS 目前不能做的事情：
-
-- mac 支持全局readline , 字符编辑的效率非常非常高(</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>test</title>
-<link href="/b/c/ops-benchmark" rel="alternate" type="text/html"/>
-<updated>2018-12-24T00:00:00Z</updated>
-<summary/>
-<published>2018-12-24T00:00:00Z</published>
-<content># Preface
-
-性能/压力测试的内涵：
-
-	基准/基线测试 base line testing / benchmark testing
-	负载测试 load testing
-	压力测试 stre</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>tcp/ip 协议</title>
-<link href="/b/net/net-tcpip" rel="alternate" type="text/html"/>
-<updated>2018-12-19T00:00:00Z</updated>
-<summary/>
-<published>2011-11-11T00:00:00Z</published>
-<content># 互联网协议栈
-分为链路层(link), 网络层(Network), 传输层(Transport), 应用层(Application)
-
-应用层
-	DHCP DHCPv6 DNS FTP Gophe</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>“第一次”面试</title>
-<link href="/b/news/interview" rel="alternate" type="text/html"/>
-<updated>2018-12-07T00:00:00Z</updated>
-<summary/>
-<published>2018-12-06T00:00:00Z</published>
-<content>两年多前裸辞，两年以后又裸面，过程还真是尴尬。总结下我的失败之处：
-1. 态度太敷衍。上午在雪场，下午才穿着一身的装备就匆匆赶到百度面试，什么也没换，有些不得体。
-2. 没有提前准备。话说工作了这么多</content>
 </entry></feed>

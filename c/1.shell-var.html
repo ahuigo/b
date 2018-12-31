@@ -9,7 +9,7 @@ const MD_URL='post/c/1.shell-var.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>Shell 变量之数据类型</title>
+<title>Shell 变量的数据类型</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -47,14 +47,17 @@ const MD_URL='post/c/1.shell-var.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: Shell 变量之数据类型
+title: Shell 变量的数据类型
 date: 2018-09-27
-updated: 2018-12-29
+updated: 2018-12-31
 ---
-# Shell 变量之数据类型
-## export
+# Shell 变量的数据类型
+shell 主要支持字符串 和 数组 两种数据类型。数组功能很弱，如果想做复杂的处理，建议用python 等脚本处理。
 
-	unset PYTHONPATH
+## 变量定义与删除
+
+    VAR=&#x27;hello&#x27;
+	unset VAR
 
 ## String, 字符串
 
@@ -64,13 +67,13 @@ updated: 2018-12-29
 	a=&#x27;ahui ahui&#x27;; b=${a//[^a]}; echo ${#b}
 
 ### expr
-ERE
+expr 命令支持ERE 正则匹配
 
 	expr &quot;$SHELL&quot; : &#x27;.*/\(.*\)&#x27;
 	expr &quot;/bin/zsh&quot; : &#x27;.*/\(.*\)&#x27;
 		zsh
 
-建议用awk 的match 更方便
+建议用awk 的match 匹配更方便
 
 	match($2, /1(.*)/, m){}
 
@@ -105,7 +108,7 @@ Note:
      &quot;$(basename &quot;$PWD&quot;)&quot;
 	echoraw &quot;abc!ls&quot; #会将`!ls` expand 为最近的history 命令
 
-只有`\&quot;` 转义为`字面字符`, `\t\n\r`, `\&#x27;` 不处理，
+只有`\&quot;` 被转义为`字面字符`, 其他的`\t\n\r`, `\&#x27;` 则原样输出，
 
     echoraw &quot;0\t0\n0\rabc\&#x27;\&quot;&quot;
         0\t0\n0\rabc\&#x27;&quot;
@@ -118,7 +121,7 @@ Or turn off history expandsion:
 	set +o histexpand
 
 #### 无引号
-`\t\n\r\&#x27;\&quot;` 全部转义为`字面字符`
+`\t\n\r\&#x27;\&quot;` 全部被转义为`字面字符`
 
     echoraw 0\t0\n0\rabc\&#x27;\&quot;
         0t0n0rabc&#x27;&quot;
