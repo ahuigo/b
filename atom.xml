@@ -2,9 +2,21 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2018-12-31T17:33:13Z</updated>
+<updated>2019-01-01T19:44:29Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>券商</title>
+<link href="/b/bc/stock-fee" rel="alternate" type="text/html"/>
+<updated>2019-01-01T00:00:00Z</updated>
+<summary/>
+<published>2018-09-26T00:00:00Z</published>
+<content># 券商
+
+## 区别
+&gt; 本节出处: https://www.jisilu.cn/question/46153
+
+IB、 Scottrade 、 Firstrade 、Sogotrad、老虎证券、冨</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Analysis of Algorithm</title>
 <link href="/b/algorithm/1.time-complex" rel="alternate" type="text/html"/>
 <updated>2018-12-31T00:00:00Z</updated>
@@ -41,16 +53,16 @@ Netfilte</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>latex 数学公式</title>
 <link href="/b/math/math-latex" rel="alternate" type="text/html"/>
-<updated>2018-12-31T00:00:00Z</updated>
+<updated>2019-01-01T00:00:00Z</updated>
 <summary/>
-<published>2018-12-31T00:00:00Z</published>
+<published>2019-01-01T00:00:00Z</published>
 <content># Preface
 数学公式：
 - [latex 数学公式](http://zh.wikipedia.org/wiki/Help:%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>红包飞的概率问题</title>
 <link href="/b/math/math-envelope" rel="alternate" type="text/html"/>
-<updated>2018-12-31T00:00:00Z</updated>
+<updated>2019-01-01T00:00:00Z</updated>
 <summary/>
 <published>2015-03-04T00:00:00Z</published>
 <content># 红包飞的概率问题
@@ -439,14 +451,4 @@ https://zhuanlan.zhihu.com/p/27857399
 
 # 吴恩达给你的人工智能第一课
 https://mooc.study.163.com/smartSpe</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>egg model</title>
-<link href="/b/ria/egg-model" rel="alternate" type="text/html"/>
-<updated>2018-12-10T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># egg model
-https://eggjs.org/zh-cn/tutorials/sequelize.html
-
-1.config/plugin.js 中引入 egg-sequelize 插</content>
 </entry></feed>
