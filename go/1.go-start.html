@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/go/go-expr.md';
+const MD_URL='post/go/1.go-start.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>go expression</title>
+<title>go-hello</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -20,13 +20,10 @@ const MD_URL='post/go/go-expr.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -36,6 +33,7 @@ const MD_URL='post/go/go-expr.md';
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
@@ -49,102 +47,149 @@ const MD_URL='post/go/go-expr.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: go expression
+title: go-hello
 date: 2018-09-27
-updated: 2018-10-06
+updated: 2019-01-02
 ---
-# for
+# Preface
 
-  sum := 0
-	for i := 0; i &lt; 10; i++ {
-		sum += i
+# install
+
+	brew install go
+
+# hello
+
+## 1.set workspace
+
+	export GOPATH=$HOME/www/go
+	# 默认的
+	GOROOT=/usr/local/Cellar/go/1.6.2/libexec/
+
+## hello
+cat www/go/src/A/hello/hello.go
+
+	package main
+
+	import &quot;fmt&quot;
+
+	func main() {
+		fmt.Printf(&quot;hello, world\n&quot;)
 	}
 
-or
 
-  for ; sum &lt; 1000; {
-		sum += sum
-	}
+## compile:
+会默认去$GOROOT/$GOPATH 找`src/A/hello/hello.go`
 
-## while
+	$ go install A/hello
 
-  for sum &lt; 1000 {
-		sum += sum
-	}
+得到目录树
 
-## forever
-  for {
-	}
+	.
+	├── pkg			编译生成的包文件
+	├── bin 		生成的可执行文件
+	│   └── hello
+	└── src
+		└── A
+			└── hello
+				└── hello.go
 
-# if
-  if x &lt; 0 {
-	}
+# run
 
-## pre if
-Variables `v` declared by the statement are only in scope until the end of the if.
+	run         compile and run Go program (no bin)
+	build       compile packages and dependencies(test, This won&#x27;t produce an output file)
+	get         download and install packages and dependencies
+	install     compile and install packages and dependencies(no download)
 
-  if v := math.Pow(x, n); v &lt; 5 {
-		return v
-	}else{
+可以直接run (compile and excute) 不产生bin
 
+	$ go run a.go
+
+或者
+
+	$ go build a.go;# gen binary excute file ./a
+
+## Your first library
+see go/hello
+
+  mkdir -p $GOPATH/src/github.com/user/stringutil
+  vim reverse.go
+
+in that directory with the following contents.
+
+  // Package stringutil contains utility functions for working with strings.
+  package stringutil
+
+  // Reverse returns its argument string reversed rune-wise left to right.
+  func Reverse(s string) string {
+  	r := []rune(s)
+  	for i, j := 0, len(r)-1; i &lt; len(r)/2; i, j = i+1, j-1 {
+  		r[i], r[j] = r[j], r[i]
+  	}
+  	return string(r)
   }
-	fmt.Println(v);undefined: v
 
-# switch
+Now, test that the package compiles with go build:
+
+  $ go build github.com/user/stringutil
+
+Or, if you are working in the package&#x27;s source directory, just:
+
+  $ go build
+
+This won&#x27;t produce an output file. To do that, you must use go install, which places the package object inside the pkg directory of the workspace.
+
+### import other package
+edit $GOPATH/src/github.com/user/hello/hello.go
 
   package main
+
   import (
   	&quot;fmt&quot;
-  	&quot;runtime&quot;
+
+  	&quot;github.com/user/stringutil&quot;
   )
 
   func main() {
-  	fmt.Print(&quot;Go runs on &quot;)
-  	switch os := runtime.GOOS; os {
-  	case &quot;darwin&quot;:
-  		fmt.Println(&quot;OS X.&quot;)
-  	case &quot;linux&quot;:
-  		fmt.Println(&quot;Linux.&quot;)
-  	default:
-  		// freebsd, openbsd,
-  		// plan9, windows...
-  		fmt.Printf(&quot;%s.&quot;, os)
-  	}
+  	fmt.Printf(stringutil.Reverse(&quot;!oG ,olleH&quot;))
   }
 
-## short switch
+Whenever the go tool installs a package or binary, it also installs whatever dependencies it has. So when you install the hello program
 
-  switch {
-	case t.Hour() &lt; 12:
-		fmt.Println(&quot;Good morning!&quot;)
-	case t.Hour() &lt; 17:
-		fmt.Println(&quot;Good afternoon.&quot;)
-	default:
-		fmt.Println(&quot;Good evening.&quot;)
-	}
+  $ go install github.com/user/hello
 
-# defer
-  func main() {
-  	defer fmt.Println(&quot;world&quot;)
+the stringutil package will be installed as well, automatically.
 
-  	fmt.Println(&quot;hello&quot;)
-  }
+Running the new version of the program, you should see a new, reversed message:
 
-# Stacking defers
-Deferred function calls are pushed onto a stack.
+  $ hello
+  Hello, Go!
 
-When a function returns, its deferred calls are executed in last-in-first-out order
+After the steps above, your workspace should look like this:
 
-  func main() {
-  	fmt.Println(&quot;counting&quot;)
+  bin/
+      hello                 # command executable
+  pkg/
+      linux_amd64/          # this will reflect your OS and architecture
+          github.com/user/
+              stringutil.a  # package object
+  src/
+      github.com/user/
+          hello/
+              hello.go      # command source
+          stringutil/
+              reverse.go    # package source
 
-  	for i := 0; i &lt; 10; i++ {
-  		defer fmt.Println(i)
-  	}
+Note that go install placed the `stringutil.a` object in a directory inside `pkg/linux_amd64` that mirrors its source directory.
 
-  	fmt.Println(&quot;done&quot;)
-  }</pre>
-<div id="pager" v-pre></div>
+# Remote Package
+An import path can describe how to obtain the package source code using a revision control system such as Git or Mercurial. 
+
+	$ go get github.com/golang/example/hello
+	$ $GOPATH/bin/hello
+	Hello, Go examples!
+
+    go get github.com/mkouhei/gosh</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -166,10 +211,10 @@ When a function returns, its deferred calls are executed in last-in-first-out or
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
@@ -191,6 +236,9 @@ When a function returns, its deferred calls are executed in last-in-first-out or
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>

@@ -5,7 +5,7 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/go/go-var.md';
+const MD_URL='post/go/7.go-var.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
@@ -20,13 +20,10 @@ const MD_URL='post/go/go-var.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -36,6 +33,7 @@ const MD_URL='post/go/go-var.md';
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
@@ -50,33 +48,10 @@ const MD_URL='post/go/go-var.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: go 的变量
-date: 2018-09-27
-updated: 2018-10-06
+date: 2016-09-27
+updated: 2019-01-02
 ---
 # go 的变量
-
-# new make
-new 的作用是:为其分配零值内存, 初始化 一个指向类型的指针 `(*T)`，
-`someInt := new(int)` 相当于:
-
-    func newInt *int {
-        var i int
-        return &amp;i; //golang 和 c 语言不一样，栈区分配的存储空间不会随着函数的返回而释放，本地变量地址所占据的存储空间会生存下来。 
-    }
-    someInt := newInt()
-
-make 的作用是为 slice, map 或者 channel 初始化，并且返回引用 `T`
-
-	a := []int{0, 0, 0}
-	a[1] = 10
-
-	// makeslice
-	b := make([]int, 3)
-	b[1] = 10
-
-	// Error: invalid operation: c[1] (index of type *[]int)
-	c := new([]int)
-	c[1] = 10
 
 # Variables
 The var statement declares a list of variables
@@ -142,6 +117,13 @@ Inside a function, the `:=` short assignment statement can be used in place of `
     var input float64
     fmt.Scanf(&quot;%f&quot;, &amp;input)
 
+pointer type:
+
+    i:=make([]int,2)
+    j = &amp;i
+    k := j //k is pointer too!
+    fmt.Printf(&quot;%T, %T&quot;, j,k) //*[]int, **[]int%
+
 # Datatype
 Go&#x27;s basic types are
 
@@ -188,8 +170,11 @@ When you need an integer value you should use `int` unless you have a specific r
 
 ## Get Type
 
-	var i unint8 = 5;
+    import &quot;reflect&quot;
+	var i uint8 = 5;
+
 	fmt.Printf(&quot;type :%s\n&quot;,reflect.TypeOf(i))
+	fmt.Printf(&quot;type :%T\n&quot;,i)
 
 ## Alias Type
 
@@ -204,6 +189,7 @@ The expression T(v) converts the value v to the type T.
 	i:= ([]byte{1,2,3})
 	j := byteArr(i)
 	j[0]=111; // slice assign is reference(array is not)
+    uint(1.0)
 
 ## String
 
@@ -246,7 +232,7 @@ Example
 	}
 ```
 
-# declared and not used
+# declared not used
 
 	import (
 	    &quot;fmt&quot; // imported and not used: &quot;fmt&quot;
@@ -301,7 +287,8 @@ const (
   bit00 uint32 = 1 &lt;&lt; iota //bit00=1
   bit01                    //bit01=2
   bit02                    //bit02=4
-  bit03 = itoa             //bit02=4
+  bit03                    //bit03=8
+  bit04 = iota             //bit04=4
  )
 
 iota可在表达式中(b=iota也是表达式)
@@ -336,7 +323,7 @@ iota可在表达式中(b=iota也是表达式)
 			a2
 			a3
 	)</pre>
-<div id="pager" v-pre></div>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -358,10 +345,10 @@ iota可在表达式中(b=iota也是表达式)
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
@@ -383,6 +370,9 @@ iota可在表达式中(b=iota也是表达式)
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>

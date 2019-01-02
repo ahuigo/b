@@ -2,9 +2,122 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-01-01T19:44:29Z</updated>
+<updated>2019-01-02T22:36:46Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>make</title>
+<link href="/b/go/7.go-var-make" rel="alternate" type="text/html"/>
+<updated>2019-01-02T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># new make
+new 的作用是:为其分配零值内存, 初始化 一个指向类型的指针 `(*T)`，
+`someInt := new(int)` 相当于:
+
+    func newInt *int</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Golang fmt</title>
+<link href="/b/go/6.go-fmt" rel="alternate" type="text/html"/>
+<updated>2019-01-02T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># fmt
+
+- Println : with newline
+- Print : without newline
+- Printf : format
+
+## Printf
+
+    fmt.Prin</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Golang func</title>
+<link href="/b/go/5.go-func" rel="alternate" type="text/html"/>
+<updated>2019-01-02T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Golang func
+func 是func-value
+
+# Function Closures
+https://stackoverflow.com/questions/21961615/why</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Golang math</title>
+<link href="/b/go/3.go-math" rel="alternate" type="text/html"/>
+<updated>2019-01-02T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Golang math
+## rand
+
+  import "math/rand"
+
+    //生成随机种子
+    rand.Seed(time.Now().Unix())
+    rand.</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>golang-pkg</title>
+<link href="/b/go/2.go-import" rel="alternate" type="text/html"/>
+<updated>2019-01-02T00:00:00Z</updated>
+<summary/>
+<published>2016-09-27T00:00:00Z</published>
+<content># package
+Go Programs start running in package main.
+
+
+	package main
+
+	import (
+		"fmt"
+		"math/rand</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Golang struct(array, slice)</title>
+<link href="/b/go/10.go-slice" rel="alternate" type="text/html"/>
+<updated>2019-01-02T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># struct
+
+	type Vertex struct {
+		X int
+		Y int
+	}
+
+	v := Vertex{1, 2}
+	v.X = 4
+	Vertex{1, 2}.X
+
+def</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>go-hello</title>
+<link href="/b/go/1.go-start" rel="alternate" type="text/html"/>
+<updated>2019-01-02T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Preface
+
+# install
+
+	brew install go
+
+# hello
+
+## 1.set workspace
+
+	export GOPATH=$HOME/www/go
+	# </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Start Golang</title>
+<link href="/b/go/0.go-book" rel="alternate" type="text/html"/>
+<updated>2019-01-02T00:00:00Z</updated>
+<summary/>
+<published>2016-06-19T00:00:00Z</published>
+<content># Start golang
+1. start
+https://tour.golang.org/basics/5
+1. https://go101.org/article/101.html
+1. sp</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>券商</title>
 <link href="/b/bc/stock-fee" rel="alternate" type="text/html"/>
 <updated>2019-01-01T00:00:00Z</updated>
@@ -72,9 +185,9 @@ Netfilte</content>
 
 ## 此时生成10个随机数作权</content>
 </entry><entry xml:base="https://ahuigo.github.io">
-<title>英语的否定</title>
+<title>英语中的否定语句</title>
 <link href="/b/eng/s/1.not" rel="alternate" type="text/html"/>
-<updated>2018-12-31T00:00:00Z</updated>
+<updated>2019-01-02T00:00:00Z</updated>
 <summary/>
 <published>2018-09-28T00:00:00Z</published>
 <content># 句子
@@ -227,9 +340,9 @@ mysql 下所有引擎的其表结构保存在`tb_name.frm` 中, 而数据结构�
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>mysql 查询</title>
 <link href="/b/db/mysql-ddl-crud" rel="alternate" type="text/html"/>
-<updated>2018-12-29T00:00:00Z</updated>
+<updated>2019-01-02T00:00:00Z</updated>
 <summary/>
-<published>2018-12-29T00:00:00Z</published>
+<published>2019-01-02T00:00:00Z</published>
 <content># database/table/column ddl crud
 
 ## database
@@ -365,90 +478,4 @@ redis所有的数据都是redisObject存储的。redisObject来表示所有的ke
 问题:
 
 &gt; 判断uid是否在一个uids集合中。假设uids集合有n=10^7(1k万)，同时假设uid最多10位，那么其值域范围是10^10(</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>安全的帐号设计</title>
-<link href="/b/sec/security-account" rel="alternate" type="text/html"/>
-<updated>2018-12-20T00:00:00Z</updated>
-<summary/>
-<published>2018-12-20T00:00:00Z</published>
-<content># Preface
-帐号设计可以涉及到很多细节，本文主要从安全的角度作一个总结:
-
-1. password 安全
-1. sid 的设计
-3. 内部Api 授权
-4. SSO 单点登录
-
-# passw</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>密码安全与签名安全</title>
-<link href="/b/sec/sec-cryptography" rel="alternate" type="text/html"/>
-<updated>2018-12-20T00:00:00Z</updated>
-<summary/>
-<published>2018-12-20T00:00:00Z</published>
-<content># Signature, 签名
-MAC(Message Authentication Code) 与 hash 的区别: http://stackoverflow.com/questions/2836</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>py-pkg-setuptool</title>
-<link href="/b/py/py-pkg-setuptool" rel="alternate" type="text/html"/>
-<updated>2018-12-20T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Preface
-https://packaging.python.org/tutorials/packaging-projects/
-
-setuptools 与 disutils
-1. distu</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>BFPRT 算法</title>
-<link href="/b/algorithm/algo-topk" rel="alternate" type="text/html"/>
-<updated>2018-12-20T00:00:00Z</updated>
-<summary/>
-<published>2018-09-26T00:00:00Z</published>
-<content># Topk 算法之BFPRT算法
-基于最大/小堆的TopK 算法复杂度为 $O(n\log n)$
-
-其实还有O(n)的算法 —— BFPRT 基于减治法，采用类似二分法的快排分区减低复杂度。
-
-#</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>关于抢票以及12306 的票仓的sku 设计</title>
-<link href="/b/news/ticketing-software" rel="alternate" type="text/html"/>
-<updated>2018-12-20T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># 为什么抢票这么难?
-抢不到票其实太正常了，而且不是你刷的次数多你就有票，而是是你刷得快、带宽大、机器配置好才可能有票。
-看看一下数据就知道抢票有多么的疯狂了。
-1. 2018.1.12 [1230</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>css 布局</title>
-<link href="/b/ria/js-css-layout" rel="alternate" type="text/html"/>
-<updated>2018-12-19T00:00:00Z</updated>
-<summary/>
-<published>2018-03-03T00:00:00Z</published>
-<content># CSS 布局
-&gt; 参考: http://zh.learnlayout.com/position.html
-
-# display
-1. block: This makes the element a</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Dependency Injector(IoC)</title>
-<link href="/b/code/code-di-pattern" rel="alternate" type="text/html"/>
-<updated>2018-12-19T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Dependency Injector(IoC)
-依赖注入（Dependency Injection）又称控制反转（Inversion of Control）主要用来实现不同模块或类之间的解耦，可</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>吴恩达给你的人工智能第一课</title>
-<link href="/b/ai/book-deeplearning" rel="alternate" type="text/html"/>
-<updated>2018-12-19T00:00:00Z</updated>
-<summary/>
-<published>2018-09-26T00:00:00Z</published>
-<content>学习观+ 超智能体
-https://zhuanlan.zhihu.com/p/27857399
-
-# 吴恩达给你的人工智能第一课
-https://mooc.study.163.com/smartSpe</content>
 </entry></feed>

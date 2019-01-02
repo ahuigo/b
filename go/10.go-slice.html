@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/go/go-slice.md';
+const MD_URL='post/go/10.go-slice.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>struct</title>
+<title>Golang struct(array, slice)</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -20,13 +20,10 @@ const MD_URL='post/go/go-slice.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -36,6 +33,7 @@ const MD_URL='post/go/go-slice.md';
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
@@ -49,9 +47,9 @@ const MD_URL='post/go/go-slice.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: struct
+title: Golang struct(array, slice)
 date: 2018-09-27
-updated: 2018-10-06
+updated: 2019-01-02
 ---
 # struct
 
@@ -66,56 +64,64 @@ updated: 2018-10-06
 
 define+init:
 
-  j:=struct{
-    x int
-    y int
-  }{5,6}
-  j.x
-  (&amp;j).x
+    j:=struct{
+        x int
+        y int
+    }{5,6}
+    j.x
+    (&amp;j).x
 
 ## pointer to structs
 struct pointer:
 
-  v := Vertex{1, 2}
+    v := Vertex{1, 2}
 	p := &amp;v
 	p.X = 1e9
 
 copy:
 
-  p := v
+    v_copy := v
 
 ## Struct Literals Pointer
 A struct literal denotes a newly allocated struct value by listing the values of its fields
 
-  var (
-  	v1 = Vertex{1, 2}  // has type Vertex
-  	v2 = Vertex{X: 1}  // Y:0 is implicit
-  	v3 = Vertex{}      // X:0 and Y:0
-  	p  = &amp;Vertex{1, 2} // has type *Vertex
-  )
-  fmt.Println(v1, p, v2, v3, x,j,3)
+    var (
+        v1 = Vertex{1, 2}  // has type Vertex
+        v2 = Vertex{X: 1}  // Y:0 is implicit
+        v3 = Vertex{}      // X:0 and Y:0
+        v3 Vertex         // X:0 and Y:0
+        p  = &amp;Vertex{1, 2} // has type *Vertex
+    )
+    fmt.Println(v1, p, v2, v3, x,j,3)
 
 # Arrays
 The type `[n]T` is an array of `n` values of type `T`
 
-  var a [10]int
-  var a [2]string
-	primes := [6]int{2, 3, 5, 7, 11, 13}
+    var a [10]int           //0,0,0,0,0....
+    var a [2]string         //&quot;&quot;,&quot;&quot;,&quot;&quot;,...
+	primes := [30]int{2, 3} //2,3,0,0,0..
 	fmt.Println(primes)
+
+也可以通过initial确定size:
+
+    b := [...]string{&quot;Penn&quot;, &quot;Teller&quot;}
 
 ## array assign is not reference
 
-  b := a
-
-&gt; slice assign/pass-arguments is Reference, point to original slice but not array
+    a_copy := a
 
 # Slices
 An array has fixed size, a slice is a dynamically-sized. `[]T` is a slice with elements of type `T`
+&gt; slice assign/pass-arguments is Reference, point to original slice but not array
 
 ## create slice
-declare slice
+declare slice(no sized)
 
-  var s []int;
+    var s []int;
+
+Create a slice of the init array :
+
+    s := []int{1,2,3}
 
 Create a slice of the array primes:
 
@@ -123,13 +129,9 @@ Create a slice of the array primes:
   	var s []int = primes[4:6]
   	fmt.Println(s); # [11 13]
 
-Create a slice of the init array :
-
-  s := []int{1,2,3}
-
 ## Slices are like reference to arrays
 
-  names := [4]string{
+    names := [4]string{
 		&quot;John&quot;,
 		&quot;Paul&quot;,
 		&quot;George&quot;,
@@ -138,32 +140,32 @@ Create a slice of the init array :
 
 	a := names[0:2]
 	b := names[1:3]
-  b[0] = &#x27;XXX&#x27;
+    b[0] = &#x27;XXX&#x27;
 	fmt.Println(a, b)
-  [John XXX] [XXX George]
+        [John XXX] [XXX George]
 
 ## slice literals
 This is an array literal:
 
-  [3]bool{true, true, false}
+    [3]bool{true, true, false}
 
-And this creates the same array as above, then builds a `slice` that `references` it:
+And this builds a `slice` that `references` array:
 
-  []bool{true, true, false}
+    []bool{true, true, false}
 
 slice structs:
 
-  s := []struct {
-    i int
-    b bool
-  }{
-    {2, true},
-    {3, false},
-    {5, true},
-    {7, true},
-    {11, false},
-    {13, true},
-  }
+    s := []struct {
+        i int
+        b bool
+    }{
+        {2, true},
+        {3, false},
+        {5, true},
+        {7, true},
+        {11, false},
+        {13, true},
+    }
 
 ### slice literals is reference
 Array is not reference:
@@ -171,117 +173,141 @@ Array is not reference:
 	var a = [6]int{1,2,3}
 	b := a
 	b[0] = 100
-	fmt.Println(a,b);# [100 2 3] [100 2 3]
+	fmt.Println(a,b);   // [1 2 3] [100 2 3]
 
 Slice is reference:
 
 	var a = []int{1,2,3}
 	b := a
 	b[0] = 100
-	fmt.Println(a,b);# [1 2 3] [100 2 3]
+	fmt.Println(a,b);# [100 2 3] [100 2 3]
 
 ## slice bounds
 For array `var a [10]int `, these slice expressions are equivalent:
 
-  a[0:10]
-  a[:10]
-  a[0:]
-  a[:]
+    a[0:10]
+    a[:10]
+    a[0:]
+    a[:]
 
-  a[start:end:cap_end]
+    a[start:end:cap_end] //end&lt;=cap_end
 
-## slice length and capacity
+## length and capacity
 The length and capacity of a slice s can be obtained using the expressions `len(s)` and `cap(s)`.
 
-  len(s)  - The number of elements it contains.
-  cap(s)  - The number of elements in the underlying array
+    len(s)  - The number of elements it contains.
+    cap(s)  - The number of elements in the underlying array
 
 You adn extend a slice&#x27;s length within its capacity:
 
-  func main() {
-  	s := []int{2, 3, 5, 7, 11, 13}
-  	printSlice(s)
+    func main() {
+        s := []int{2, 3, 5, 7, 11, 13}
+        printSlice(s)
 
-  	// Slice the slice to give it zero length.
-  	s = s[:0]
-  	printSlice(s)
+        // Slice the slice to give it zero length.
+        s = s[:0]
+        printSlice(s)
 
-  	// Extend its length.
-  	s = s[:4]
-  	printSlice(s)
+        // Extend its length.
+        s = s[:4]
+        printSlice(s)
 
-  	// Drop its first two values.
-  	s = s[2:]
-  	printSlice(s)
-  }
+        // Drop its first two values.
+        s = s[2:]
+        printSlice(s)
+    }
 
-  func printSlice(s []int) {
-  	fmt.Printf(&quot;len=%d cap=%d %v\n&quot;, len(s), cap(s), s)
-  }
+    func printSlice(s []int) {
+        fmt.Printf(&quot;len=%d cap=%d %v\n&quot;, len(s), cap(s), s)
+    }
 
 output:
 
-  len=6 cap=6 [2 3 5 7 11 13]
-  len=0 cap=6 []
-  len=4 cap=6 [2 3 5 7]
-  len=2 cap=4 [5 7]
+    len=6 cap=6 [2 3 5 7 11 13]
+    len=0 cap=6 []
+    len=4 cap=6 [2 3 5 7]
+    len=2 cap=4 [5 7]
 
 ## Nil slices
 A nil slice has a length and capacity of 0 and has `no underlying array`(no pointer):
 
-  var s []int
-  fmt.Println(s, len(s), cap(s))
-  if s == nil {
-    fmt.Println(&quot;nil!&quot;)
-  }
+    var s []int
+    fmt.Println(s, len(s), cap(s))
+    if s == nil {
+        fmt.Println(&quot;nil!&quot;) //yes! 
+    }
+
+但是常量 []int{}==nil 不成立，常量不是空指针nil
 
 ## make slice
 This is how you create dynamically-sized arrays.
 
+    func make([]T, len, cap) []T
+
 The make function allocates a zeroed array and returns a slice that refers to that array:
 
-  a := make([]int, 5)  // len(a)=5 a=[0 0 0 0 0]
+    a := make([]int, 5)  // len(a)=5 a=[0 0 0 0 0]
 
 To specify a capacity, pass a third argument to make:
 
-  b := make([]int, 0, 5) // len(b)=0, cap(b)=5, a=[]
+    b := make([]int, 0, 5) // len(b)=0, cap(b)=5, a=[]
 
-  b = b[:cap(b)] // len(b)=5, cap(b)=5
-  b = b[1:]      // len(b)=4, cap(b)=4
+    b = b[:cap(b)] // len(b)=5, cap(b)=5
+    b = b[1:]      // len(b)=4, cap(b)=4
 
 ## join slice
 
-  :import strings
-  s := [2]string{&quot;hello&quot;, &quot;world&quot;}
-  strings.Join(s[:], &quot;,&quot;)
+    :import strings
+    s := [2]string{&quot;hello&quot;, &quot;world&quot;}
+    strings.Join(s[:], &quot;,&quot;)
+
+## expand argument
+参数展开
+
+    copy(s, src[:]...)
+
+## copy
+slice 和 array 类型不同不可以复制, 扩容下
+
+    //func copy(dst, src []T) int
+    t := make([]byte, len(s), (cap(s)+1)*2)
+    copy(t, s)
+    s = t
 
 ## append slice
-The documentation of the built-in package describes append.
-
-  func append(s []T, vs ...T) []T
-
 The first parameter `s` of append is a slice of `type T`, and the rest are T values to append to the slice.
+
+    func append(s []T, x...T) []T
+
+新分配空间 append 会copy 并扩容
+
+    s2 = append(s,1,2) //s!=s2
+
+如果不分配空间就用:
+
+    copy(slice[len(s):], data)
+
 
 ### slice allocate
 If the backing array of `s` is too small to fit all the given values, a bigger array will be allocated(double cap).
 
 The returned slice will point to the newly allocated array.
 
-  var a = [3]int{1,2,3}
-  b := a[:];  # cap(b)=3
-  b = append(b,4,5);  # cap(b)=6, b=[1,2,3,4,5], a=[1,2,3] ; and b will not point to a
+    var a = [3]int{1,2,3}
+    b := a[:];  # cap(b)=3
+    b = append(b,4,5);  # cap(b)=6, b=[1,2,3,4,5], a=[1,2,3] ; and b will not point to a
 
 Otherwise, slice still points to underlying array
 
-  var a = [3]int{1,2,3}
-  b := a[:1];  # cap(b) = 3
-  b = append(b,4);   # cap(b)=3, b=[1,4], a=[1,4,3] and b still point to a
+    var a = [3]int{1,2,3}
+    b := a[:1];  # cap(b) = 3
+    b = append(b,4);   # cap(b)=3, b=[1,4], a=[1,4,3] and b still point to a
 
-## range
+## range loop
 The `range` form the `for loop iterates` over a `array, slice, string or map`, or values received on a channel.
 
-  for i, v := range [2]int{1,2} {
-		fmt.Printf(&quot;2**%d = %d\n&quot;, i, v)
+    for i, v := range [2]int{1,2} {
+		fmt.Printf(&quot;index=%d, %d\n&quot;, i, v)
 	}
 
 &gt; range is not reference!
@@ -289,14 +315,24 @@ The `range` form the `for loop iterates` over a `array, slice, string or map`, o
 ### skip range index
 You can skip the index or value by assigning to _.
 
-  for _, v := range [2]int{1,2} {
-		fmt.Printf(&quot;2**%d = %d\n&quot;, _, v)
-	}
+    for _, v := range [2]int{1,2} {
+            fmt.Printf(&quot;2**%d = %d\n&quot;, _, v)
+        }
 
 skip value:
 
-  for i := range [2]int{1,2} {</pre>
-<div id="pager" v-pre></div>
+    for i := range [2]int{1,2} {
+
+## Memory
+Since a slice doesn&#x27;t make a copy of the underlying array. To decrease memory  memory, release the reference for array.
+
+    func copy(bigarray []int) []byte{
+        b = bigarray[2:3]
+        c := make([]byte, len(b))
+        copy(c, b)
+        return c
+    }</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -318,10 +354,10 @@ skip value:
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
@@ -343,6 +379,9 @@ skip value:
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>
