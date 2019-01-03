@@ -2,9 +2,30 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-01-02T22:36:46Z</updated>
+<updated>2019-01-03T09:47:36Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>golang help</title>
+<link href="/b/go/11.go-help" rel="alternate" type="text/html"/>
+<updated>2019-01-03T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># help command
+Use "go help [command]" for more information about a command.
+
+    go help fmt
+
+# go </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>经典排序算法的实现</title>
+<link href="/b/algorithm/algo-sort" rel="alternate" type="text/html"/>
+<updated>2019-01-03T00:00:00Z</updated>
+<summary/>
+<published>2013-09-26T00:00:00Z</published>
+<content># 经典排序算法实现
+常规的几种排序算法, 参考[维基sort](http://zh.wikipedia.org/wiki/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95)
+</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>make</title>
 <link href="/b/go/7.go-var-make" rel="alternate" type="text/html"/>
 <updated>2019-01-02T00:00:00Z</updated>
@@ -166,9 +187,9 @@ Netfilte</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>latex 数学公式</title>
 <link href="/b/math/math-latex" rel="alternate" type="text/html"/>
-<updated>2019-01-01T00:00:00Z</updated>
+<updated>2019-01-03T00:00:00Z</updated>
 <summary/>
-<published>2019-01-01T00:00:00Z</published>
+<published>2019-01-03T00:00:00Z</published>
 <content># Preface
 数学公式：
 - [latex 数学公式](http://zh.wikipedia.org/wiki/Help:%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8</content>
@@ -457,25 +478,4 @@ redis所有的数据都是redisObject存储的。redisObject来表示所有的ke
 <published>2018-09-26T00:00:00Z</published>
 <content># 二叉查找树
 二叉查找树（Binary Search Tree），也称二叉搜索树、有序二叉树（ordered binary tree），排序二叉树（sorted binary tree），是指一棵空</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>数据结构之树</title>
-<link href="/b/algorithm/algorithm-tree" rel="alternate" type="text/html"/>
-<updated>2018-12-24T00:00:00Z</updated>
-<summary/>
-<published>2018-09-26T00:00:00Z</published>
-<content># 数据结构之树
-
-树状图是一种数据结构，它是由n（n&gt;=1）个有限节点组成一个具有层次关系的集合。把它叫做“树”是因为它看起来像一棵倒挂的树，也就是说它是根朝上，而叶朝下的。它具有以下的特点：
-
-1</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>一个bloom filter 的redis实现</title>
-<link href="/b/algorithm/algorithm-bloom-filter" rel="alternate" type="text/html"/>
-<updated>2018-12-24T00:00:00Z</updated>
-<summary/>
-<published>2018-09-26T00:00:00Z</published>
-<content># 一个bloom filter 的redis实现	
-问题:
-
-&gt; 判断uid是否在一个uids集合中。假设uids集合有n=10^7(1k万)，同时假设uid最多10位，那么其值域范围是10^10(</content>
 </entry></feed>
