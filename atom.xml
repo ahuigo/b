@@ -2,9 +2,19 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-01-07T21:02:44Z</updated>
+<updated>2019-01-07T23:34:44Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>如何避免深度递归</title>
+<link href="/b/algorithm/algorithm-self-call" rel="alternate" type="text/html"/>
+<updated>2019-01-07T00:00:00Z</updated>
+<summary/>
+<published>2018-09-26T00:00:00Z</published>
+<content># 如何避免深度递归
+我们先看看函数与递归的本质：
+
+- 函数调用的本质是: 我们在做一件事过程中，我们发现必须要先完成另外一件事，于是中断当前的工作，并把当前的工作信息保存到栈(stack); 当别</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>学习下Golang 的反射</title>
 <link href="/b/go/17.go-reflect" rel="alternate" type="text/html"/>
 <updated>2019-01-07T00:00:00Z</updated>
@@ -470,16 +480,4 @@ mysql 下所有引擎的其表结构保存在`tb_name.frm` 中, 而数据结构�
 	//create
 	&gt; CREATE DATABASE dbName;
 	$ mysqladmin cr</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>数据库</title>
-<link href="/b/db/db-" rel="alternate" type="text/html"/>
-<updated>2018-12-29T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># 数据库
-
-## CAP定理（CAP theorem）
-CAP定理（CAP theorem), 指出对于一个分布式计算系统来说，不可能同时满足以下三点:
-
-1. 一致性(Consistency) (</content>
 </entry></feed>
