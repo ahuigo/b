@@ -49,19 +49,8 @@ const MD_URL='post/go/9.go-str.md';
 <pre id="markdown" v-pre>---
 title: golang string
 date: 2018-09-27
-updated: 2019-01-02
+updated: 2019-01-07
 ---
-# bytes
-
-## read bytes
-
-    import &quot;strings&quot;
-
-    b := make([]byte, 8);//buffer
-    r := strings.NewReader(&quot;0123&quot;)
-    r.Read(b) 
-    println(b)      //&quot;0123&quot; byte==uint8
-
 # string
 
 ## define
@@ -177,7 +166,9 @@ If no content, reurn `empty slice`
 
 # strconv
 
-## .Atoi,int(s)
+    fmt.Sprintf(&quot;%v&quot;, v)
+
+## .Atoi
 str to int, strconv.Atoi
 
     import &quot;strconv&quot;
@@ -192,15 +183,62 @@ str to int, strconv.Atoi
         t2 = append(t2, j)
     }
 
-## .Itoa,string(i)
+## .Itoa
 
-  s := strconv.Itoa(-42)
+    s := strconv.Itoa(-42)
+    s := fmt.Sprintf(&quot;%v&quot;,-42)
 
-## byte2str
+string
 
-  gore&gt; string([]byte{1,2,3})
-  &quot;\x01\x02\x03&quot;
-  gore&gt; []byte(s)
+    string(49) //&quot;1&quot;
+
+## bytes
+
+    &gt; string([]byte{1,2,3})
+        &quot;\x01\x02\x03&quot;
+
+str2bytes:
+
+    // method 1
+    []byte(s)
+
+    // method 1
+    import &quot;strings&quot;
+
+    b := make([]byte, 8);//buffer
+    r := strings.NewReader(&quot;0123&quot;)
+    n, err := r.Read(b) 
+        //if err == io.EOF 
+    println(b[:n]) 
+        //&quot;0123&quot; byte is uint8
+    
+### io.Copy
+
+		io.Copy(os.Stdout, &amp;r)
+			调用r.Read(buf []byte)
+
+### wrap Read
+
+	import (
+		&quot;io&quot;
+		&quot;os&quot;
+		&quot;strings&quot;
+	)
+
+	type rot13Reader struct {
+		r io.Reader
+	}
+	func (r *rot13Reader) Read(b []byte) (int, error){
+			n, err:= (*r).r.Read(b)
+			return n, err
+	}
+
+
+	func main() {
+		s := strings.NewReader(&quot;Lbh penpxrq gur pbqr!&quot;)
+		r := rot13Reader{s}
+		io.Copy(os.Stdout, &amp;r)
+	}
 
 # trim
 

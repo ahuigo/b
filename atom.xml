@@ -2,9 +2,109 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-01-03T09:47:36Z</updated>
+<updated>2019-01-07T21:02:44Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>学习下Golang 的反射</title>
+<link href="/b/go/17.go-reflect" rel="alternate" type="text/html"/>
+<updated>2019-01-07T00:00:00Z</updated>
+<summary/>
+<published>2019-01-07T00:00:00Z</published>
+<content># Golang 的Reflection
+Go 的反射有三个基础概念: Types Types, Kinds, and Values. 
+
+## 获取变量反射类型 TypeOf
+你可以通过`refTy</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Golang Interfaces</title>
+<link href="/b/go/16.go-interface" rel="alternate" type="text/html"/>
+<updated>2019-01-07T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Interfaces
+Interface：
+1. Interface 可以用来模拟泛型，但是是运行时模拟，没有编译时快
+1. method 没有 public protecte..., 如果要被其</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Golang func</title>
+<link href="/b/go/16.go-func" rel="alternate" type="text/html"/>
+<updated>2019-01-07T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Golang func
+func 是func-value
+
+# Function Closures
+https://stackoverflow.com/questions/21961615/why</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>go-test</title>
+<link href="/b/go/15.go-test" rel="alternate" type="text/html"/>
+<updated>2019-01-07T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Preface
+Go has a lightweight test framework composed of the go test command and the testing packag</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Pointers</title>
+<link href="/b/go/13.go-pointer" rel="alternate" type="text/html"/>
+<updated>2019-01-07T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Pointers
+支持指针类型 *T,指针的指针 **T,以及包含包名前缀的 *&lt;package&gt;.T。
+The type `*T` is a pointer to a T value. Its </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>filepath</title>
+<link href="/b/go/12.go-file" rel="alternate" type="text/html"/>
+<updated>2019-01-07T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># filepath
+
+  import "path/filepath"
+  fileext := filepath.Ext(filename)
+
+# file
+
+## read
+
+  "io/iou</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>english punctuation</title>
+<link href="/b/eng/eng-punctuation" rel="alternate" type="text/html"/>
+<updated>2019-01-07T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># English punctuation
+https://zh.wikipedia.org/wiki/%E8%84%B1%E5%AD%97%E7%AC%A6
+
+	punctuation mark	n</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>c debug</title>
+<link href="/b/c/c-debug" rel="alternate" type="text/html"/>
+<updated>2019-01-07T00:00:00Z</updated>
+<summary/>
+<published>2019-01-07T00:00:00Z</published>
+<content># assert
+断言, 如果定义了NODEBUG (或者直接在编译时加上选项-DNDEBUG), 则assert函数则不被编译
+
+	#define NDEBUG
+	assert(111)
+
+# ob</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>c-debug-gdb</title>
+<link href="/b/c/c-debug-gdb" rel="alternate" type="text/html"/>
+<updated>2019-01-07T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># 启动gdb
+- First, let excute file records Source file a.c via gcc parameter "-g"
+
+	gcc -g a.c
+
+- Seco</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>golang help</title>
 <link href="/b/go/11.go-help" rel="alternate" type="text/html"/>
 <updated>2019-01-03T00:00:00Z</updated>
@@ -94,10 +194,11 @@ Go Programs start running in package main.
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Golang struct(array, slice)</title>
 <link href="/b/go/10.go-slice" rel="alternate" type="text/html"/>
-<updated>2019-01-02T00:00:00Z</updated>
+<updated>2019-01-07T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># struct
+define:
 
 	type Vertex struct {
 		X int
@@ -106,9 +207,7 @@ Go Programs start running in package main.
 
 	v := Vertex{1, 2}
 	v.X = 4
-	Vertex{1, 2}.X
-
-def</content>
+	Vertex{1, 2</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>go-hello</title>
 <link href="/b/go/1.go-start" rel="alternate" type="text/html"/>
@@ -383,99 +482,4 @@ mysql 下所有引擎的其表结构保存在`tb_name.frm` 中, 而数据结构�
 CAP定理（CAP theorem), 指出对于一个分布式计算系统来说，不可能同时满足以下三点:
 
 1. 一致性(Consistency) (</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>linux 之进程</title>
-<link href="/b/c/ops-process" rel="alternate" type="text/html"/>
-<updated>2018-12-29T00:00:00Z</updated>
-<summary/>
-<published>2018-12-29T00:00:00Z</published>
-<content># Preface
-本文总结下进程那些事儿
-
-# PCB 进程控制块
-linux 中每个进程都是由进程控制块(PCB) 控制的，PCB是一个task_struct 结构体。
-
-- 进程id。系统中每个</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Shell 变量的数据类型</title>
-<link href="/b/c/1.shell-var" rel="alternate" type="text/html"/>
-<updated>2018-12-31T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Shell 变量的数据类型
-shell 主要支持字符串 和 数组 两种数据类型。数组功能很弱，如果想做复杂的处理，建议用python 等脚本处理。
-
-## 变量定义与删除
-
-    VAR='he</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>动态规划(Dynamic programing, DP)</title>
-<link href="/b/algorithm/algorithm-dp" rel="alternate" type="text/html"/>
-<updated>2018-12-29T00:00:00Z</updated>
-<summary/>
-<published>2018-09-26T00:00:00Z</published>
-<content># 动态规划(Dynamic programing, DP)
-
-动态规则(Dynamic programing, DP) 的大体思路是：将一个特定的问题，切割成若干类似的子问题，最后合并子问题的解并得</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>关于php的调试方法</title>
-<link href="/b/php/2014-3-5-php-debug" rel="alternate" type="text/html"/>
-<updated>2018-12-24T00:00:00Z</updated>
-<summary/>
-<published>2015-09-11T00:00:00Z</published>
-<content># PHP 调试方法
-
-## 基本调试方法
-
-### var_dump 与 二分法
-相信大家确认问题点最常用的就是 以下函数结合二分法了：
-
-	var_dump($var);
-
-这种做法会导致一些问题</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Redis</title>
-<link href="/b/db/redis-" rel="alternate" type="text/html"/>
-<updated>2018-12-24T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Redis
-redis所有的数据都是redisObject存储的。redisObject来表示所有的key/value数据是比较浪费内存的(为了支持各种数据类型嘛)，还好redis 作者也考虑了很</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>mysql lock</title>
-<link href="/b/db/mysql-lock" rel="alternate" type="text/html"/>
-<updated>2018-12-29T00:00:00Z</updated>
-<summary/>
-<published>2018-12-29T00:00:00Z</published>
-<content># 总线锁定和缓存一致性
-&gt; 基于锁的原子操作 http://ifeve.com/inter-64-ia-32-8-1/
-&gt; Java的多线程机制: 缓存一致性和CAS http://www.bdqn</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>mysql 索引</title>
-<link href="/b/db/mysql-index" rel="alternate" type="text/html"/>
-<updated>2018-12-29T00:00:00Z</updated>
-<summary/>
-<published>2018-12-29T00:00:00Z</published>
-<content># Index Type
-&gt; http://stackoverflow.com/questions/12813363/what-is-the-difference-between-a-candidat</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>跳跃表</title>
-<link href="/b/algorithm/ds-skiplist" rel="alternate" type="text/html"/>
-<updated>2018-12-24T00:00:00Z</updated>
-<summary/>
-<published>2017-09-26T00:00:00Z</published>
-<content># 跳跃表
-我们实现redis 的有序集合用什么结构呢？
-1. list: 插入的复杂度是O(n)
-2. 链表: 查找的复杂度是O(n)
-
-跳跃表(skiplist) 是一种随机化的数据结构，相当于为</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>二叉查找树和红黑树</title>
-<link href="/b/algorithm/ds-binary-search-tree" rel="alternate" type="text/html"/>
-<updated>2018-12-24T00:00:00Z</updated>
-<summary/>
-<published>2018-09-26T00:00:00Z</published>
-<content># 二叉查找树
-二叉查找树（Binary Search Tree），也称二叉搜索树、有序二叉树（ordered binary tree），排序二叉树（sorted binary tree），是指一棵空</content>
 </entry></feed>

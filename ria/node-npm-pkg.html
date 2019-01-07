@@ -33,6 +33,7 @@ const MD_URL='post/ria/node-npm-pkg.md';
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
@@ -48,7 +49,7 @@ const MD_URL='post/ria/node-npm-pkg.md';
 <pre id="markdown" v-pre>---
 title: 写npm 包
 date: 2018-10-04
-updated: 2018-10-08
+updated: 2019-01-07
 ---
 # 写npm 包
 1. 生成包信息package.json
@@ -67,6 +68,7 @@ updated: 2018-10-08
     &quot;bin&quot;: {
         &quot;egg-bin&quot;: &quot;bin/egg-bin.js&quot;,
         &quot;mocha&quot;: &quot;bin/mocha.js&quot;
+        &quot;hi&quot;: &quot;bin/hi.js&quot;
     },
 
 npm install 的bin 位于`/usr/local/bin/{mocha, egg-bin}`
@@ -80,7 +82,9 @@ npm install 的bin 位于`/usr/local/bin/{mocha, egg-bin}`
     $ npm test
 
 ## install
+安装到本地
 
+    npm install ./your-project -g
     yarn add ./your-project
 
 npm:
@@ -92,7 +96,10 @@ you can declare local dependencies in package.json
 
     &quot;dependencies&quot;: {
         &quot;bar&quot;: &quot;file:../foo/bar&quot;
-    }</pre>
+    }
+
+# 参考
+- Node 实现一个命令行程序 https://zhuanlan.zhihu.com/p/28705824</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
@@ -118,7 +125,7 @@ you can declare local dependencies in package.json
 <div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>

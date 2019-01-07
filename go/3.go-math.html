@@ -49,16 +49,23 @@ const MD_URL='post/go/3.go-math.md';
 <pre id="markdown" v-pre>---
 title: Golang math
 date: 2018-09-27
-updated: 2019-01-02
+updated: 2019-01-07
 ---
 # Golang math
 ## rand
 
-  import &quot;math/rand&quot;
+    import &quot;math/rand&quot;
 
     //生成随机种子
     rand.Seed(time.Now().Unix())
-    rand.Intn(5)</pre>
+    rand.Intn(5)
+    for _, v := range rand.Perm(10) {
+
+## 随机序列
+8 个0~7 随机序列
+
+	for _, v := range rand.Perm(8) {
+	}</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">

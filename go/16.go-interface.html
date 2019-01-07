@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/go/16.go-interface.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>Golang Interfaces</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: Golang Interfaces
+date: 2018-09-27
+updated: 2019-01-07
+---
+# Interfaces
+Interface：
+1. Interface 可以用来模拟泛型，但是是运行时模拟，没有编译时快
+1. method 没有 public protecte..., 如果要被其它 package 使用, 函数名首字母必须大写!
+
+## nil
+
+    func describe(i I) {
+        fmt.Printf(&quot;(%v, %T)\n&quot;, i, i)
+    }
+    type I interface { M() }
+    type T struct {
+        S string
+    }
+    func (t *T) M() {
+        if t == nil {
+            fmt.Println(&quot;&lt;nil&gt;&quot;)
+            return
+        }
+        fmt.Println(t.S)
+    }
+
+## nil interface
+A nil interface value holds neither value nor concrete type.
+
+    var i I 
+    describe(i) //(&lt;nil&gt;, &lt;nil&gt;)
+
+### empty interface
+An empty interface may hold values of any type
+For example, `fmt.Print(x interface{})`
+
+	var i interface{}
+
+## nil struct:
+
+	var t *T
+	i = t
+	describe(i)
+        //(&lt;nil&gt;, *main.T)
+	i.M()
+        //&lt;nil&gt;
+
+# Type assertions
+assert type via `interface.(Type)`, 必是`interface`:
+A type assertion provides access to an interface value&#x27;s underlying concrete value.
+
+    t := i.(T)
+    t, ok := i.(T)
+
+assert example
+
+    var i interface{} = &quot;hello&quot;
+
+    s, ok := i.(string)
+    fmt.Println(s, ok)  //hello true
+
+    f, ok := i.(float64)
+    fmt.Println(f, ok)// 0 false
+
+
+If i does not hold a T, and no ok, the statement will trigger a panic.
+
+    f = i.(float64) // panic
+    fmt.Println(f)
+
+可以省略ok(`o` 为interface, 普通的func 不可以省略)
+
+    var o interface{} = &amp;User{1, &quot;Tom&quot;}
+    u := o.(*User)  //no error
+      	// u ,ok:= o.(User) u=User{0}, ok=false
+        // u := o.(User) panic
+
+
+## Type switches
+switch 就可以不用返回ok, 还可以判断`case T`
+
+    func do(i interface{}) {
+        switch v := i.(type) {
+        case int:
+        fmt.Printf(&quot;Twice %v is %v\n&quot;, v, v*2)
+        case string:
+        fmt.Printf(&quot;%q is %v bytes long\n&quot;, v, len(v))
+        default:
+        fmt.Printf(&quot;I don&#x27;t know about type %T!\n&quot;, v)
+        }
+    }
+
+    func main() {
+        do(21)
+        do(&quot;hello&quot;)
+        do(true)
+    }
+
+assert type
+
+    func f(v interface{}){
+        id := v.(struct{Id int}).Id
+    }
+
+    f(struct{Id int}{1})    //ok
+
+    type T struct{Id int}   //error, type dismatch
+    f(T{1})
+
+## any type
+    // setField sets field of v with given name to given value.
+    func setField(v interface{}, name string, value string) error {
+        // v must be a pointer to a struct
+        rv := reflect.ValueOf(v)
+        if rv.Kind() != reflect.Ptr || rv.Elem().Kind() != reflect.Struct {
+            return errors.New(&quot;v must be pointer to struct&quot;)
+        }
+
+        // Dereference pointer
+        rv = rv.Elem()
+
+        // Lookup field by name
+        fv := rv.FieldByName(name)
+        if !fv.IsValid() {
+            return fmt.Errorf(&quot;not a field name: %s&quot;, name)
+        }
+
+        // Field must be exported
+        if !fv.CanSet() {
+            return fmt.Errorf(&quot;cannot set field %s&quot;, name)
+        }
+
+        // We expect a string field
+        if fv.Kind() != reflect.String {
+            return fmt.Errorf(&quot;%s is not a string field&quot;, name)
+        }
+
+        // Set the value
+        fv.SetString(value)
+        return nil
+    }
+
+### get property
+
+    func getField(v interface{}, field string) interface{} {
+        r := reflect.ValueOf(v)
+        f := reflect.Indirect(r).FieldByName(field)
+        switch f.Kind() { 
+            case reflect.String:
+                fmt.Println(f.String())
+            case reflect.Int:
+                fmt.Println(f.Int())
+            case reflect.Ptr:
+                fmt.Printf(&quot;%v&quot;, f.Elem())
+        }
+
+        return f
+    }
+    //return f.Int()
+
+### loop value
+
+    v := reflect.ValueOf(person{&quot;steve&quot;, 30})
+    count := v.NumField()
+    for i := 0; i &lt; count; i++ {
+        f := v.Field(i)
+        switch f.Kind() {
+            case reflect.String:
+                fmt.Println(f.String()) //steve
+            case reflect.Int:
+                fmt.Println(f.Int())    //30
+        }
+    }
+
+# built-in interface 
+## Stringer(like js toString)
+One of the most ubiquitous interfaces is Stringer defined by the fmt package.
+
+  type Stringer interface {
+      String() string
+  }
+
+A Stringer is a type that can describe itself as a string. The fmt package (and many others) look for this interface to print values.
+
+    type Person struct {
+        Name string
+        Age  int
+    }
+
+    func (p Person) String() string {
+        return fmt.Sprintf(&quot;%v (%v years)&quot;, p.Name, p.Age); 
+    }
+
+  	a := Person{&quot;Arthur Dent&quot;, 42}
+  	z := Person{&quot;Zaphod Beeblebrox&quot;, 9001}
+    fmt.Println(a, z)
+
+注意：type 要对的上! 不要这样
+
+    func (p *Person) String() string {}
+    fmt.Println(a)
+
+## Error
+built in Error
+
+    type error interface {
+        Error() string
+    }
+    i, err := strconv.Atoi(&quot;42&quot;)
+    if err != nil {
+        fmt.Printf(&quot;couldn&#x27;t convert number: %v\n&quot;, err)
+        return
+    }
+
+custom Error:
+
+    func (e *MyError) Error() string {
+        return fmt.Sprintf(&quot;at %v, %s&quot;,
+            e.When, e.What)
+    }
+
+    func run() (string, error) {
+        if {
+            return &quot;results!!&quot;, &amp;MyError{ time.Now(), &quot;it didn&#x27;t work&quot;, }
+        } else{
+            return &quot;results!!&quot;, nil
+        }
+    }</pre>
+<div id="pager"></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"><ol><li>笔记</li><ol></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

@@ -49,7 +49,7 @@ const MD_URL='post/go/8.go-expr.md';
 <pre id="markdown" v-pre>---
 title: go expression
 date: 2018-09-27
-updated: 2019-01-02
+updated: 2019-01-07
 ---
 # for
 
@@ -112,22 +112,28 @@ Variables `v` declared by the statement are only in scope until the end of the i
 
 ## short switch
 
-  switch {
-	case t.Hour() &lt; 12:
-		fmt.Println(&quot;Good morning!&quot;)
-	case t.Hour() &lt; 17:
-		fmt.Println(&quot;Good afternoon.&quot;)
-	default:
-		fmt.Println(&quot;Good evening.&quot;)
-	}
+    switch {
+        case t.Hour() &lt; 12:
+            fmt.Println(&quot;Good morning!&quot;)
+        case t.Hour() &lt; 17:
+            fmt.Println(&quot;Good afternoon.&quot;)
+        default:
+            fmt.Println(&quot;Good evening.&quot;)
+    }
+
+## switch case type
+
+    case int:
+    case string:
+    case T:
 
 # defer
-  func main() {
-  	defer fmt.Println(&quot;world&quot;)
+    func main() {
+        defer fmt.Println(&quot;world&quot;)
 
-  	fmt.Println(&quot;hello&quot;)
-  	fmt.Println(&quot;---&quot;)
-  }
+        fmt.Println(&quot;hello&quot;)
+        fmt.Println(&quot;---&quot;)
+    }
 
 ## Stacking defers
 Deferred function calls are pushed onto a stack.
@@ -140,7 +146,22 @@ When a function returns, its deferred calls are executed in last-in-first-out or
   		defer fmt.Println(i)
   	}
   	fmt.Println(&quot;Start Reverse counting...&quot;)
-  }</pre>
+  }
+
+# 三元表达式
+go 没有三元表达式, 也不支持泛型，但是可以通过`interface{} ` 是运行时模拟泛型，性能没有编译时泛型高
+
+
+    func If(condition bool, trueVal, falseVal interface{}) interface{} {
+        if condition {
+            return trueVal
+        }
+        return falseVal
+    }
+
+    a, b := 2, 3
+    max := If(a &gt; b, a, b).(int)
+    println(max)</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
