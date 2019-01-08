@@ -49,7 +49,7 @@ const MD_URL='post/algorithm/algorithm-dp.md';
 <pre id="markdown" v-pre>---
 title: 动态规划(Dynamic programing, DP)
 date: 2018-09-26
-updated: 2018-12-29
+updated: 2019-01-08
 ---
 # 动态规划(Dynamic programing, DP)
 
@@ -109,9 +109,28 @@ updated: 2018-12-29
 1. 贪心法（其中分数背包问题有最优贪心解）等
 2. [遗传算法](http://www.cnblogs.com/heaad/archive/2010/12/23/1914725.html): 
  
-
 ## LCS 最长公共子序列
 http://en.wikipedia.org/wiki/Longest_common_substring_problem
+
+## LIS 最长上升子序列
+
+    3 5 0 1 2 0 8
+
+的LIS 为
+
+    0 1 2 8
+
+设F_{k}为：以数列中第k项结尾的最长递增子序列的长度.
+
+    F_k = max(F_i+1 | A_k&gt;A_i)
+    LIS = max{F_i}
+
+复杂度:
+
+    n + (n-1) + ... + 3 + 2 + 1 = O(n^2)
+
+优化
+
 
 # References
 
@@ -146,7 +165,7 @@ http://en.wikipedia.org/wiki/Longest_common_substring_problem
 <div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
