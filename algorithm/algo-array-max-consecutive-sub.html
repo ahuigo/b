@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/p/p1.md';
+const MD_URL='post/algorithm/algo-array-max-consecutive-sub.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO 的笔记</title>
+<title>求数列中最大的连续子序列的和</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -46,52 +46,100 @@ const MD_URL='post/p/p1.md';
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
-<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+<pre id="markdown" v-pre>---
+title: 求数列中最大的连续子序列的和
+date: 2019-01-09
+updated: 2019-01-09
+---
+# 求数列中最大的连续子序列的和
+&gt; Find max sum of consecutive sequence for an array.
 
-<ul>
-<li>2018-04-04 <a href="/b/py/py-math-mathplot-kline">用 Python mathplot 画K 线图</a> </li>
-<li>2018-10-06 <a href="/b/py/py-math">Python 的math 语法</a> </li>
-<li>2018-03-03 <a href="/b/py/py-var-list">python 的list/tuple 笔记</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-array">Js Array 整理</a> </li>
-<li>2018-12-20 <a href="/b/sec/security-account">安全的帐号设计</a> </li>
-<li>2018-10-06 <a href="/b/vim/vim-notes">vim 笔记</a> </li>
-<li>2018-10-06 <a href="/b/vim/vim-var">vim 使用之变量</a> </li>
-<li>2018-09-26 <a href="/b/algorithm/algorithm-trie-filter">trie-filter</a> </li>
-<li>2018-09-26 <a href="/b/algorithm/algorithm-pigeonhole_principle">Pigeonhole principle, 鸽巢（抽屉）原理</a> </li>
-<li>2018-09-26 <a href="/b/algorithm/algorithm-pi">圆周率算法</a> </li>
-<li>2018-09-26 <a href="/b/algorithm/algorithm-otp">利用google authentication 构建otp 动态口令</a> </li>
-<li>2018-09-26 <a href="/b/algorithm/algorithm-np">NPC, NP完全</a> </li>
-<li>2014-03-03 <a href="/b/algorithm/algorithm-libsvm">LibSvm</a> </li>
-<li>2018-09-26 <a href="/b/algorithm/algorithm-geo">geohash</a> </li>
-<li>2015-09-26 <a href="/b/algorithm/algorithm-fourier">傅里叶变换</a> </li>
-<li>2018-09-26 <a href="/b/algorithm/algorithm-dp">动态规划(Dynamic programing, DP)</a> </li>
-<li>2018-09-26 <a href="/b/algorithm/algorithm-cycle-detection">单链表是否有环之龟兔算法(tortoise-hare)</a> </li>
-<li>2018-09-26 <a href="/b/algorithm/algorithm-crypt">加密算法简介</a> </li>
-<li>2018-09-26 <a href="/b/algorithm/algorithm-crypt-rsa">RSA</a> </li>
-<li>2018-09-26 <a href="/b/algorithm/algorithm-crc">crc 循环冗余校验</a> </li>
-<li>2018-09-26 <a href="/b/algorithm/algorithm-bfs">广度优先算法(BFS)</a> </li>
-<li>2018-04-02 <a href="/b/py/py-time">python 时间函数的用法笔记</a> </li>
-<li>2018-10-06 <a href="/b/py/py-thread">python thread 线程笔记</a> </li>
-<li>2018-10-04 <a href="/b/py/py-test">py-test</a> </li>
-<li>2017-08-09 <a href="/b/py/py-str">Python 字符处理</a> </li>
-<li>2018-10-06 <a href="/b/doc/doc-hexo">将博客迁移到hexo</a> </li>
-<li>2018-09-28 <a href="/b/net/net-tcp-optimize">net-tcp-optimize</a> </li>
-<li>2018-09-10 <a href="/b/ria/egg-http">egg request 相关笔记</a> </li>
-<li>2018-10-04 <a href="/b/ria/egg-sec">Eggjs 之 Security</a> </li>
-<li>2018-09-26 <a href="/b/algorithm/algorithm-bloom-filter">一个bloom filter 的redis实现</a> </li>
-<li>2018-10-06 <a href="/b/mac/mac-inputmethod">删除mavericks 10.9 自带的输入法</a> </li>
-<li>2018-09-27 <a href="/b/go/11.go-help">golang help</a> </li>
-<li>2018-09-27 <a href="/b/go/9.go-str">golang string</a> </li>
-<li>2018-09-27 <a href="/b/go/8.go-expr">go expression</a> </li>
-<li>2016-09-27 <a href="/b/go/7.go-var">go 的变量</a> </li>
-<li>2018-09-27 <a href="/b/go/7.go-var-make">make</a> </li>
-<li>2018-09-27 <a href="/b/go/6.go-fmt">Golang fmt</a> </li>
-<li>2018-09-27 <a href="/b/go/3.go-math">Golang math</a> </li>
-<li>2016-09-27 <a href="/b/go/2.go-import">golang-pkg</a> </li>
-<li>2018-09-27 <a href="/b/go/10.go-slice">Golang struct(array, slice)</a> </li>
-</ul>
-</div>
-<div id="pager"> <a href="/b/index">p0</a> p1 <a href="/b/p/p2">p2</a> <a href="/b/p/p3">p3</a> <a href="/b/p/p4">p4</a> <a href="/b/p/p5">p5</a> <a href="/b/p/p6">p6</a> <a href="/b/p/p7">p7</a> <a href="/b/p/p8">p8</a> <a href="/b/p/p9">p9</a> <a href="/b/p/p10">p10</a> <a href="/b/p/p11">p11</a> <a href="/b/p/p12">p12</a> <a href="/b/p/p13">p13</a> <a href="/b/p/p14">p14</a> <a href="/b/p/p15">p15</a> <a href="/b/p/p16">p16</a> <a href="/b/p/p17">p17</a> <a href="/b/p/p18">p18</a></div>
+## 问题
+给定一个随机的数字序列，要求找出其中和最大的连续子集的和，比如`{6,-2,-3,5,9,-8,6}`，和最大的连续子集应该是 `sum(6,-2,-3,5,9)=15`
+
+## 方案
+我们定义以个数列是：
+
+    a0,a1,a2,....,ai,....an
+
+再定义：
+
+    F(i) 代表前i个元素中，以ai结尾的连续序列最大和(必须包含ai, 否者为0)
+
+我们就把问题转化为，要找F(i)的最大值:
+
+    max(F(0),F(1),....,F(n))
+
+于是:
+
+    如果F(i-1)=0 
+        F(i) = ai  //if ai&gt;0  (以ai 结尾的子序列的最大和)
+        F(i) = 0   //if ai&lt;=0 (丢弃含有ai的子序列)
+    如果F(i-1)&gt;0 
+        F(i) = ai+F(i)    //if ai+F(i)&gt;0  (以ai 结尾的子序列的最大和)
+        F(i) = 0          //if ai+F(i)&lt;=0 (丢弃含有ai的子序列)
+
+## 编码实现
+1. F(i) 用sum(partial_sub) 来求解, ai 就是
+2. Max(F) 用sum(max_sub) 求解，max_sub 就是我们要找的最大和的连续子序列
+
+具体代码:
+
+    arr = [6,-2,-3,5,9,-8,6]
+
+    # 局部连续和序列
+    partial_sub = []
+    sum_partial_sub = 0
+
+    # 最大连续和序列
+    max_sub = []
+    sum_max_sub = 0
+    for v in arr:
+        partial_sub.append(v)
+        sum_partial_sub += v
+
+        if sum_partial_sub &lt;= 0:
+            partial_sub = []
+            sum_partial_sub = 0
+
+        if sum_max_sub &lt; sum_partial_sub :
+            sum_max_sub = sum_partial_sub
+            max_sub = partial_sub[:] # copy 而不是引用
+
+        print(partial_sub, sum(partial_sub))
+
+    print(&quot;\nsum(%s)=%d&quot; % (max_sub, sum_max_sub))
+
+结果：
+
+    [6] 6
+    [6, -2] 4
+    [6, -2, -3] 1
+    [6, -2, -3, 5] 6
+    [6, -2, -3, 5, 9] 15
+    [6, -2, -3, 5, 9, -8] 7
+    [6, -2, -3, 5, 9, -8, 6] 13
+
+    sum([6, -2, -3, 5, 9])=15
+
+更简洁易读点:
+
+    arr = [6,-2,-3,5,9,-8,6]
+
+    # 局部连续和序列
+    partial_sub = []
+
+    # 最大连续和序列
+    max_sub = []
+    for v in arr:
+        partial_sub.append(v)
+        if sum(partial_sub) &lt;= 0:
+            partial_sub = []
+        if sum(max_sub) &lt; sum(partial_sub) :
+            max_sub = partial_sub[:] # copy 而不是引用
+
+    print(max_sub, sum(max_sub))</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
