@@ -2,19 +2,19 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-01-09T00:25:55Z</updated>
+<updated>2019-01-09T09:23:05Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
-<title>求数列中最大的连续子序列的和</title>
+<title>求数列中和最大的连续子序列的和</title>
 <link href="/b/algorithm/algo-array-max-consecutive-sub" rel="alternate" type="text/html"/>
 <updated>2019-01-09T00:00:00Z</updated>
 <summary/>
 <published>2019-01-09T00:00:00Z</published>
-<content># 求数列中最大的连续子序列的和
+<content># 求数列中和最大的连续子序列的和
 &gt; Find max sum of consecutive sequence for an array.
 
 ## 问题
-给定一个随机的数字序列，要求找出其中和最大的连</content>
+给定一个随机的数字序列，要求找出其中和最大的</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>如何避免深度递归</title>
 <link href="/b/algorithm/3.algo-self-call" rel="alternate" type="text/html"/>
@@ -346,7 +346,7 @@ Netfilte</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>红包飞的概率问题</title>
 <link href="/b/math/math-envelope" rel="alternate" type="text/html"/>
-<updated>2019-01-01T00:00:00Z</updated>
+<updated>2019-01-09T00:00:00Z</updated>
 <summary/>
 <published>2015-03-04T00:00:00Z</published>
 <content># 红包飞的概率问题

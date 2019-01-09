@@ -9,7 +9,7 @@ const MD_URL='post/algorithm/algo-array-max-consecutive-sub.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>求数列中最大的连续子序列的和</title>
+<title>求数列中和最大的连续子序列的和</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -47,11 +47,11 @@ const MD_URL='post/algorithm/algo-array-max-consecutive-sub.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: 求数列中最大的连续子序列的和
+title: 求数列中和最大的连续子序列的和
 date: 2019-01-09
 updated: 2019-01-09
 ---
-# 求数列中最大的连续子序列的和
+# 求数列中和最大的连续子序列的和
 &gt; Find max sum of consecutive sequence for an array.
 
 ## 问题
@@ -66,7 +66,7 @@ updated: 2019-01-09
 
     F(i) 代表前i个元素中，以ai结尾的连续序列最大和(必须包含ai, 否者为0)
 
-我们就把问题转化为，要找F(i)的最大值:
+我们就把问题转化为 查找F(i)的最大值:
 
     max(F(0),F(1),....,F(n))
 
