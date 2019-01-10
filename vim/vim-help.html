@@ -20,13 +20,10 @@ const MD_URL='post/vim/vim-help.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -36,6 +33,7 @@ const MD_URL='post/vim/vim-help.md';
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
@@ -51,19 +49,18 @@ const MD_URL='post/vim/vim-help.md';
 <pre id="markdown" v-pre>---
 title: vim-help
 date: 2018-10-04
-updated: 2018-10-06
+updated: 2019-01-10
 ---
-# Preface
-
 # help 帮助
 &gt; Refer to : http://vim.wikia.com/wiki/Learn_to_use_help
 
-之所以我把help放在最前面，是因为help实在是太重要了。关于d，大家一般是在normal mode使用.其实在:命令下也有:d。关于俩者的区别，直接help吧。
+之所以我把help放在这里，是因为help实在是太重要了。关于d这个操作，大家一般是在normal mode下用来删除. 其实在:命令下也有:d。
+关于俩者的区别，就可以直接help 查看到其用法。
 
 	:h d
 	:h :d
 
-不同模式下命令的help:
+不同模式下命令的help 用法:
 
 	:h CTRL-L　&quot;normal mode
 	:h g_CTRL-G &quot;normal mode
@@ -71,11 +68,11 @@ updated: 2018-10-06
 	:h CTRL-q &quot;normal mode
 	:h i_CTRL-R &quot;insert mode
 
-vim中的很多命令都可以结合使用，比如强大的`:g`。
+vim中的很多命令都可以结合使用，比如强大的`:g`, 我们先help 看看他的用法。
 
 	:h :g
 
-如果我想删除所有的空行，怎么做呢？可以用:g 匹配出所有的空行，再:d
+查看完用法后，我们就知道怎么用了。如果我想删除所有的空行，怎么做呢？可以用:g 匹配出所有的空行，再用`:d` 删除
 
 	:g/^\s*$/d
 
@@ -170,7 +167,11 @@ The following mappings (which can go in your vimrc) simplify navigating the resu
 
 `figlet -f ogre &quot;Potion`命令来得到这些有趣的字符的. Figlet is a shell tool(`brew install figlet`)
 
+vim 的很多插件都有vim 文档说明，这些文档说明是怎么编写的呢？查看这里
+
 help doc example: http://learnvimscriptthehardway.stevelosh.com/chapters/54.html
+
+文档示例:
 
 	*potion.txt* functionality for the potion programming language
 
@@ -199,7 +200,7 @@ help doc example: http://learnvimscriptthehardway.stevelosh.com/chapters/54.html
 	Potion files (files ending in .pn).
 
 	It also...</pre>
-<div id="pager" v-pre></div>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -221,10 +222,10 @@ help doc example: http://learnvimscriptthehardway.stevelosh.com/chapters/54.html
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
@@ -246,6 +247,9 @@ help doc example: http://learnvimscriptthehardway.stevelosh.com/chapters/54.html
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>

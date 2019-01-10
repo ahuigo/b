@@ -2,12 +2,65 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-01-09T09:23:05Z</updated>
+<updated>2019-01-10T16:50:32Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>vim 笔记</title>
+<link href="/b/vim/vim-notes" rel="alternate" type="text/html"/>
+<updated>2019-01-10T00:00:00Z</updated>
+<summary/>
+<published>2019-01-10T00:00:00Z</published>
+<content># vim 笔记
+本文是vim 相关的总结，不会有太多的注释 —— 只是方便回顾.
+
+&gt; 使用vim 时建议将key repeat调到最快, 把key delay调到最小
+&gt; 很多时候我会用Ctrl+</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>vim-help</title>
+<link href="/b/vim/vim-help" rel="alternate" type="text/html"/>
+<updated>2019-01-10T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># help 帮助
+&gt; Refer to : http://vim.wikia.com/wiki/Learn_to_use_help
+
+之所以我把help放在这里，是因为help实在是太重要了。关于d</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>设计模式</title>
+<link href="/b/php/php-pattern" rel="alternate" type="text/html"/>
+<updated>2019-01-10T00:00:00Z</updated>
+<summary/>
+<published>2019-01-10T00:00:00Z</published>
+<content># Preface
+
+
+# composer Pattern
+聚合（空心菱形）：schoolClass 可以包含多个Pupil(聚合Pupil)
+组合模式(实心菱形): 是聚合组件,组件不可被其它类包</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Redis</title>
+<link href="/b/db/redis-" rel="alternate" type="text/html"/>
+<updated>2019-01-10T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Redis
+redis所有的数据都是redisObject存储的。redisObject来表示所有的key/value数据是比较浪费内存的(为了支持各种数据类型嘛)，还好redis 作者也考虑了很</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>并发模型</title>
+<link href="/b/code/code-concurrent-model" rel="alternate" type="text/html"/>
+<updated>2019-01-10T00:00:00Z</updated>
+<summary/>
+<published>2019-01-10T00:00:00Z</published>
+<content># 并发模型
+廖老师介绍了一本《七周七并发模型》，值得一读。 这本书从最基础的线程和锁模型讲起，介绍了许多非常有用的并发模型：
+
+    通过无变量的函数式编程实现并发，是无锁并发的一种模型；
+
+  </content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>求数列中和最大的连续子序列的和</title>
 <link href="/b/algorithm/algo-array-max-consecutive-sub" rel="alternate" type="text/html"/>
-<updated>2019-01-09T00:00:00Z</updated>
+<updated>2019-01-10T00:00:00Z</updated>
 <summary/>
 <published>2019-01-09T00:00:00Z</published>
 <content># 求数列中和最大的连续子序列的和
@@ -414,61 +467,4 @@ OM(Operation Maintenance) 运维工具
 使用了 Systemd，就不需要再用init了。Systemd 取代了initd，成为系统的第一个进程（PID 等于 1），其他进程都是它的子进程。
 
 	$ systemctl -</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Python 字符处理</title>
-<link href="/b/py/py-str" rel="alternate" type="text/html"/>
-<updated>2018-12-30T00:00:00Z</updated>
-<summary/>
-<published>2017-08-09T00:00:00Z</published>
-<content># Python 字符处理
-- serialize
-见/py/py-serial.md
-
-# String
-same as js:
-
-	print "a\nb" ;# The character he</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>python shell 子进程</title>
-<link href="/b/py/py-shell" rel="alternate" type="text/html"/>
-<updated>2018-12-30T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># python shell 子进程
-很多时候，子进程并不是自身，而是一个外部进程。我们创建了子进程后，还需要控制子进程的输入和输出。
-
-subprocess模块可以让我们非常方便地启动一个子进程，然</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>字符编码简介</title>
-<link href="/b/code/code-character" rel="alternate" type="text/html"/>
-<updated>2018-12-30T00:00:00Z</updated>
-<summary/>
-<published>2014-05-10T00:00:00Z</published>
-<content># 字符编码简介
-本文试图理清字符编码系统的整体结构.如有理解不对请指正.
-
-# 字符编码
-按照[现代的编码模型],字符编码的主要概念分为：有哪些字符(字符表)、它们的编号(编码字符集)、这些编号如何</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>全屏</title>
-<link href="/b/c/ops-virtualbox" rel="alternate" type="text/html"/>
-<updated>2018-12-30T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># 网络
-
-## Vitual Machine share network
-- Internal（内网模式）: 
-  只限VM 之间访问，不能访问主机和外网
-- NAT: 
-  VM --虚拟的NAT</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>傅里叶变换</title>
-<link href="/b/algorithm/algorithm-fourier" rel="alternate" type="text/html"/>
-<updated>2018-12-30T00:00:00Z</updated>
-<summary/>
-<published>2015-09-26T00:00:00Z</published>
-<content># 傅里叶变换
-
-今天看到一篇韩昊写的好文 [傅里叶分析之掐死教程](http://zhuanlan.zhihu.com/wille/19763358)，生动形象的讲解了傅里叶的本质： 将时域变换到频</content>
 </entry></feed>

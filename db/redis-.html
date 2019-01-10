@@ -49,7 +49,7 @@ const MD_URL='post/db/redis-.md';
 <pre id="markdown" v-pre>---
 title: Redis
 date: 2018-09-27
-updated: 2018-12-24
+updated: 2019-01-10
 ---
 # Redis
 redis所有的数据都是redisObject存储的。redisObject来表示所有的key/value数据是比较浪费内存的(为了支持各种数据类型嘛)，还好redis 作者也考虑了很多内存优化的方法。
@@ -82,6 +82,24 @@ Nosql 的优点：
 3. 不适合存储敏感数据：因为落地比如鸡肋，用screenshot 有可能因未到备份时间内丢失新加的数据，用binlog 又浪费硬盘.所以redis 更适合all-in-memory 型的热数据。
 
 &gt; leveldb 也是k-v 数据库，但不会像redis 那样把狂吃内存，而是将大部分数据放到硬盘。
+
+# vs memcached
+mc: 多线程，适合小的静态数据进行缓存处理
+1. 使用基于Slab的内存管理方式，有利于减少内存碎片和频繁分配销毁内存所带来的开销。
+2. 各个Slab按需动态分配一个page的内存（和4Kpage的概念不同，这里默认page为1M），
+3. page内部按照不同slab class的尺寸再划分为内存chunk供服务器存储KV键值对使用
+4. LRU 
+redis: 缓存控制更为出色
+2. 单线程，导致所有IO也是串行化的
+1. redis 减少网络通讯时间开销 RTT (Round Trip Time)，支持pipeline和script技术。
+    1. pipeline 命令打包
+    2. redis内嵌了LUA解析器，可以执行lua脚本，
+3. 主动LRU/被动
+
+# 集群
+mc: 一致性hash算法
+redis: 官方推荐是Twitter的开源项目Twemproxy(支持Memcached和Redis协议)
+
 
 # client
 
@@ -393,7 +411,7 @@ http://mp.weixin.qq.com/s?__biz=MzAwNjMxNjQzNA==&amp;mid=208050108&amp;idx=1&amp
 <div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>

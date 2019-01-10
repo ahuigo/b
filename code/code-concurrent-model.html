@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/p/p5.md';
+const MD_URL='post/code/code-concurrent-model.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO 的笔记</title>
+<title>并发模型</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -46,52 +46,56 @@ const MD_URL='post/p/p5.md';
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
-<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+<pre id="markdown" v-pre>---
+title: 并发模型
+date: 2019-01-10
+updated: 2019-01-10
+---
+# 并发模型
+廖老师介绍了一本《七周七并发模型》，值得一读。 这本书从最基础的线程和锁模型讲起，介绍了许多非常有用的并发模型：
 
-<ul>
-<li>2018-09-27 <a href="/b/ide/ide-sublime">ide-sublime</a> </li>
-<li>2018-10-06 <a href="/b/ide/ide-phpstorm">intellij 使用简介</a> </li>
-<li>2018-03-04 <a href="/b/ria/js-module-amd">JS AMD 模块规范</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-math">JS Math</a> </li>
-<li>2018-09-27 <a href="/b/eng/eng-spoken">eng-spoken</a> </li>
-<li>2018-09-27 <a href="/b/eng/eng-sentence">语法总原则</a> </li>
-<li>2018-09-27 <a href="/b/eng/eng-sentence-complex">eng-sentence-complex</a> </li>
-<li>2018-09-27 <a href="/b/go/7.go-var-map">map</a> </li>
-<li>2018-09-27 <a href="/b/go/20.go-image">image</a> </li>
-<li>2019-01-07 <a href="/b/go/19.go-time">go time</a> </li>
-<li>2018-09-27 <a href="/b/go/18.go-routines">go routines</a> </li>
-<li>2018-09-27 <a href="/b/go/16.go-interface">Golang Interfaces</a> </li>
-<li>2018-09-27 <a href="/b/go/16.go-func">Golang func</a> </li>
-<li>2018-09-27 <a href="/b/go/15.go-test">go-test</a> </li>
-<li>2018-09-27 <a href="/b/go/13.go-pointer">Pointers</a> </li>
-<li>2018-09-27 <a href="/b/go/12.go-file">filepath</a> </li>
-<li>2018-09-27 <a href="/b/eng/eng-punctuation">english punctuation</a> </li>
-<li>2018-09-27 <a href="/b/doc/doc-">文档生成器</a> </li>
-<li>2018-09-27 <a href="/b/db/redis-transanction">redis-transanction</a> </li>
-<li>2018-09-27 <a href="/b/db/redis-pubsub">redis-pubsub</a> </li>
-<li>2018-09-27 <a href="/b/db/redis-ops">master-slave 主从同步</a> </li>
-<li>2018-09-27 <a href="/b/db/redis-install">redis-install</a> </li>
-<li>2018-09-27 <a href="/b/db/redis-geo">redis-geo</a> </li>
-<li>2018-09-27 <a href="/b/db/redis-benchmark">redis-benchmark</a> </li>
-<li>2018-09-27 <a href="/b/db/redis-">Redis</a> </li>
-<li>2018-09-27 <a href="/b/db/postgre-index">Postgre Index</a> </li>
-<li>2018-09-27 <a href="/b/db/postgre-ddl">FUNCTION</a> </li>
-<li>2018-09-27 <a href="/b/db/postgre-crud">Postgre CRUD</a> </li>
-<li>2018-09-27 <a href="/b/db/postgre-admin">Postgre 安装\配置\管理</a> </li>
-<li>2018-09-27 <a href="/b/db/postgre-admin-user">Postgre User and Authentication</a> </li>
-<li>2018-09-27 <a href="/b/db/mysql-time">mysql-time</a> </li>
-<li>2018-09-27 <a href="/b/db/mysql-str">Mysql 的字符串处理</a> </li>
-<li>2018-10-06 <a href="/b/db/mysql-split">mysql 分表分库</a> </li>
-<li>2018-09-27 <a href="/b/db/mysql-slave">Mysql 主从设置</a> </li>
-<li>2018-10-06 <a href="/b/db/mysql-safe">mysql safe</a> </li>
-<li>2018-10-06 <a href="/b/db/mysql-perf">mysql 优化</a> </li>
-<li>2018-09-27 <a href="/b/db/mysql-myisam">mysql-myisam</a> </li>
-<li>2018-12-29 <a href="/b/db/mysql-lock">mysql lock</a> </li>
-<li>2018-09-27 <a href="/b/db/mysql-innodb">mysql-innodb</a> </li>
-<li>2018-12-29 <a href="/b/db/mysql-index">mysql 索引</a> </li>
-</ul>
-</div>
-<div id="pager"> <a href="/b/index">p0</a> <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a> <a href="/b/p/p3">p3</a> <a href="/b/p/p4">p4</a> p5 <a href="/b/p/p6">p6</a> <a href="/b/p/p7">p7</a> <a href="/b/p/p8">p8</a> <a href="/b/p/p9">p9</a> <a href="/b/p/p10">p10</a> <a href="/b/p/p11">p11</a> <a href="/b/p/p12">p12</a> <a href="/b/p/p13">p13</a> <a href="/b/p/p14">p14</a> <a href="/b/p/p15">p15</a> <a href="/b/p/p16">p16</a> <a href="/b/p/p17">p17</a> <a href="/b/p/p18">p18</a></div>
+    通过无变量的函数式编程实现并发，是无锁并发的一种模型；
+
+    Clojure对于状态和标识的分离，可以轻松实现内存事务模型；
+
+    Erlang的Actor模型是容错性非常高的分布式并发模型；
+
+    CSP模型是另一种分布式并发模型，被Go和Clojure采用；
+
+    GPU的并行计算主要针对数据密集型计算的并行，搞游戏的一定要看；
+
+    Hadoop和Storm分别适合超大数据量的批处理和流式处理。
+
+有人做了下笔记：http://frobisher.me/2017/07/06/seven-concurrency-models-introductions/
+
+## 传统的多进程、线程模型
+传统的并发模型一般有一个消息队列（共享内存），然后通过thread 或者 process 去取消息。这时候取消息就有竞争关系，有两种解决竞争的方法
+1. 加锁, 会有性能问题
+1. 无锁队列：lock-free，是利用处理器的原子指令来避免对锁的使用(CAS或LL)
+
+# 角色模型Actor
+Actor 模型是一种并发模型, 正是因为他有如下特性，所以很适合用于分布式处理 
+1. Actor 间相互独立, 不共享内存: 消息接收者是通过地址区分的，有时也被称作“邮件地址”
+2. Actor 是可以创建其他actors
+2. Actor 可向其他Actors 发送消息(本地和其他的机器)
+2. Actor 接受来自其他Actors 的消息(本地和其他的机器)
+
+Actor与信箱是耦合的, CSP 与 channel 是独立的
+   
+每个actor维持一个私有状态。Actor 接受其他Actors 的消息这个事有点特别：
+1. actor 决定要如何`回答接下来的消息`：比如当前状态是`1`，那么接收到消息`add(1)`, 状态不改变，只有等下一条消息到来时才改变为`2`。
+2. Actor 接受到的消息必须顺序处理。所以这些消息要放置在*mailbox* 收信息箱。
+
+## 容错(Fault tolerance)
+Erlang 实现了Actor 模型，他的每个process(erlang 虚拟机中的process) 就是一个actor
+其中有一个actor(supervisor process) 就是监控其他actor 是否崩溃, 马上恢复
+
+## 参考
+- https://zh.wikipedia.org/wiki/%E8%A7%92%E8%89%B2%E6%A8%A1%E5%9E%8B
+
+
+</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>

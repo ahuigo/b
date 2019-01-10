@@ -20,13 +20,10 @@ const MD_URL='post/php/php-pattern.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -36,6 +33,7 @@ const MD_URL='post/php/php-pattern.md';
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
@@ -50,8 +48,8 @@ const MD_URL='post/php/php-pattern.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: 设计模式
-date: 2018-10-06
-updated: 2018-10-06
+date: 2019-01-10
+updated: 2019-01-10
 ---
 # Preface
 
@@ -60,6 +58,8 @@ updated: 2018-10-06
 聚合（空心菱形）：schoolClass 可以包含多个Pupil(聚合Pupil)
 组合模式(实心菱形): 是聚合组件,组件不可被其它类包含
 装饰器模式: 是改变组件
+
+多个`Unit $o` 组合在一起， 比如员工\学生
 
     function addUnit(Unit $o){
         $this-&gt;os[] = $o;
@@ -142,6 +142,7 @@ updated: 2018-10-06
 # 执行任务及描述任务
 
 ## 解释器模式
+通过子类一层一层去解释剖析问题
 ![php-pattern-1.png](/img/php-pattern-interpret.png)
 
 ## Strategy Pattern, 策略模式
@@ -202,8 +203,13 @@ updated: 2018-10-06
 
 ## Observer Pattern, 观察者模式
 问题：为了避免类太臃肿，将元素剥离主体！(正交原则，降低耦合)
-观察者模式为您提供了避免组件之间紧密耦合的另一种方法。该模式非常简单：一个对象通过添加一个方法（该方法允许另一个对象，即观察者 注册自己）使本身变得可观察。当可观察的对象更改时，它会将消息发送到已注册的观察者。这些观察者使用该信息执行的操作与可观察的对象无关。结果是对象可以相互对话，而不必了解原因。
-一个简单示例是系统中的用户列表。清单 4 中的代码显示一个用户列表，添加用户时，它将发送出一条消息。添加用户时，通过发送消息的日志观察者可以观察此列表。
+
+观察者模式为您提供了避免组件之间紧密耦合的另一种方法。该模式非常简单：
+1. 一个对象通过添加一个方法（该方法允许另一个对象，即观察者 注册自己）使本身变得可观察。
+2. 当可观察的对象更改时，它会将消息发送到已注册的观察者。
+3. 这些观察者使用该信息执行的操作与可观察的对象无关。结果是对象可以相互对话，而不必了解原因。
+
+代码显示一个用户列表，添加用户时，它将发送出一条消息。添加用户时，通过发送消息的日志观察者可以观察此列表。
 
     //被观察者
 	class UserList implements IObservable {
@@ -228,7 +234,7 @@ updated: 2018-10-06
 
 	$ul = new UserList();
 
-    //加入观察者
+    //加入观察者(可以是多个)
 	$ul-&gt;attach( new UserListLogger() );
 	$ul-&gt;addCustomer(&quot;Jack&quot;);
 
@@ -269,10 +275,29 @@ SplSubject(Obervalbe) 与
     ...
 
 ## 访问者模式(visitor)
-问题：“组合比继承更灵活”，但是你可能事先不知道新操作，每增加一个操作就在类中增加对新操作的组件，会让类变得臃肿。访问者模式可以解决这个问题。
+问题：“组合比继承更灵活”，但是你可能事先不知道新操作，每增加一个操作就在类中增加对新操作的组件，会让类变得臃肿。比如visit 操作
+1. 在基类添加通用集大成的操作，比较臃肿
+1. 在子类添加visit 操作，如果说我要统一visit点别的，要全部子类的visit要更新
+
+访问者模式可以解决这个问题, 把visitor 解耦出来
+在基类为visitor 预留一个调用入口accept
+
+代码： https://github.com/ahuigo/php-lib/tree/master/
+
+    public function accept(Visitor $visitor) {
+        $method = &#x27;visit&#x27; . get_class($this);
+        if (method_exists($visitor, $method)) {
+            $visitor-&gt;$method($this);
+        }
+    }
+
 
 # CommandChain Pattern, 命令链模式
-命令链 模式以松散耦合主题为基础，发送消息、命令和请求，或通过一组处理程序发送任意内容。每个处理程序都会自行判断自己能否处理请求。如果可以，该请求被处理，进程停止。您可以为系统添加或移除处理程序，而不影响其他处理程序。清单 5 显示了此模式的一个示例。
+命令链 模式以松散耦合主题为基础，发送消息、命令和请求，或通过一组处理程序发送任意内容。
+1. 每个处理程序都会自行判断自己能否处理请求。如果可以，该请求被处理，进程停止。
+2. 您可以为系统添加或移除处理程序，而不影响其他处理程序。
+
+清单 5 显示了此模式的一个示例。
 
 	class CommandChain {
 	  private $_commands = array();
@@ -311,6 +336,16 @@ SplSubject(Obervalbe) 与
 	$cc-&gt;runCommand( &#x27;addUser&#x27;, null );
 	$cc-&gt;runCommand( &#x27;mail&#x27;, null );
 
+# 门面模式 Facade
+比如去医院：挂号、看病、化验、取药... 自己一个一个去实现调用
+Facade 模式：就只需要一个接待员，完成所有的调用
+
+    function waiter(){
+        register()
+        doctor()
+        ....
+    }
+
 # Reference
 - [php-pattern]
 - [pattern]
@@ -318,7 +353,7 @@ SplSubject(Obervalbe) 与
 [php-pattern]: http://www.ibm.com/developerworks/cn/opensource/os-php-designptrns/
 [pattern]: https://wizardforcel.gitbooks.io/w3school-design-patterns/content/17.html
 </pre>
-<div id="pager" v-pre></div>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -340,10 +375,10 @@ SplSubject(Obervalbe) 与
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
@@ -365,6 +400,9 @@ SplSubject(Obervalbe) 与
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>

@@ -20,13 +20,10 @@ const MD_URL='post/vim/vim-notes.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -36,6 +33,7 @@ const MD_URL='post/vim/vim-notes.md';
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
@@ -50,8 +48,8 @@ const MD_URL='post/vim/vim-notes.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: vim 笔记
-date: 2018-10-06
-updated: 2018-10-06
+date: 2019-01-10
+updated: 2019-01-10
 ---
 # vim 笔记
 本文是vim 相关的总结，不会有太多的注释 —— 只是方便回顾.
@@ -62,10 +60,10 @@ updated: 2018-10-06
 # help 帮助
 &gt; Refer to : http://vim.wikia.com/wiki/Learn_to_use_help
 
-[vim-help](/p/vim-help)
+[vim-help](/p/vim/vim-help)
 
 # motion, 移动范围
-[vim-motion](/p/vim-motion)
+[vim-motion](/p/vim/vim-motion)
 
 ## move cursor光标移动
 
@@ -171,11 +169,10 @@ ps:如果要实现跨行移动,需要指定相应键：
 ### object motion - 按括号对()[]{}移动光标
 
 ### 按标记移动光标(marks)
-[vim-motion](/p/vim-motion)
-
+[vim-motion](/p/vim/vim-motion)
 
 ### 按changelist移动光标
-[vim-motion](/p/vim-motion)
+[vim-motion](/p/vim/vim-motion)
 
 ## 字符移动(charactor move)
 
@@ -894,7 +891,7 @@ Refer to [vim-ide](/vim-ide)
 [learn-vim]: http://learnvimscriptthehardway.stevelosh.com/ 36
 [vim for beginner]:http://coolshell.cn/articles/11312.html
 </pre>
-<div id="pager" v-pre></div>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -916,10 +913,10 @@ Refer to [vim-ide](/vim-ide)
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
@@ -941,6 +938,9 @@ Refer to [vim-ide](/vim-ide)
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>
