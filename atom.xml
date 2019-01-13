@@ -2,9 +2,51 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-01-10T16:50:32Z</updated>
+<updated>2019-01-13T16:27:41Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Node File System API</title>
+<link href="/b/ria/node-fs" rel="alternate" type="text/html"/>
+<updated>2019-01-13T00:00:00Z</updated>
+<summary/>
+<published>2019-01-13T00:00:00Z</published>
+<content># node 下的文件 API
+默认buffer 
+
+## process.argv
+
+    process.argv.forEach(function (val, index, array) {
+</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Js 字符串大全</title>
+<link href="/b/ria/js-str" rel="alternate" type="text/html"/>
+<updated>2019-01-13T00:00:00Z</updated>
+<summary/>
+<published>2015-03-15T00:00:00Z</published>
+<content># Js 字符串大全
+字符定义与python 一样, 而且不区分双引号：
+
+    '\x00' == '\u0000'
+	'\x31' == "\x31"
+
+	'好' === '\u597D' //</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>js notes</title>
+<link href="/b/ria/js-obj" rel="alternate" type="text/html"/>
+<updated>2019-01-13T00:00:00Z</updated>
+<summary/>
+<published>2019-01-13T00:00:00Z</published>
+<content># Object
+
+## define
+
+    {toStr(){}, a:1}
+    &gt; a=1
+    &gt; b={a}
+    { a: 1 }
+
+    new cls().property</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>vim 笔记</title>
 <link href="/b/vim/vim-notes" rel="alternate" type="text/html"/>
 <updated>2019-01-10T00:00:00Z</updated>
@@ -431,40 +473,4 @@ Netfilte</content>
 
 - web: 对于 Web 调试，curl 和 curl -I 很方便灵活，或者也可以使用它们的同行 wget，或者更现代的 httpie。
 - dis</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>tool</title>
-<link href="/b/c/ops-user" rel="alternate" type="text/html"/>
-<updated>2018-12-31T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># tool
-last #显示最后登录者
-who #显示当前登录者
-w：谁登录进来了
-id：用户/组身份信息
-
-# su
-
-    su -c 'whoami' - root
-    /bin/su </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>OM(Operation Maintenance) 运维工具</title>
-<link href="/b/c/ops-tool" rel="alternate" type="text/html"/>
-<updated>2018-12-31T00:00:00Z</updated>
-<summary/>
-<published>2016-09-27T00:00:00Z</published>
-<content># 运维工具
-OM(Operation Maintenance) 运维工具
-
-1. Bootstrapping： Kickstart、Cobbler、rpmbuild/xen、kvm、lxc</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Systemd</title>
-<link href="/b/c/ops-systemd" rel="alternate" type="text/html"/>
-<updated>2018-12-31T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Systemd
-使用了 Systemd，就不需要再用init了。Systemd 取代了initd，成为系统的第一个进程（PID 等于 1），其他进程都是它的子进程。
-
-	$ systemctl -</content>
 </entry></feed>
