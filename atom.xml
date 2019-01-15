@@ -2,9 +2,19 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-01-13T16:27:41Z</updated>
+<updated>2019-01-15T19:55:02Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>AHUI 的认知作业</title>
+<link href="/b/life/self-character" rel="alternate" type="text/html"/>
+<updated>2019-01-15T00:00:00Z</updated>
+<summary/>
+<published>2019-01-15T00:00:00Z</published>
+<content># AHUI 的认知作业
+如果你的朋友时间有限，那么请他们
+1. 选择５个他们觉得最能代表你的形容词(不区分正负性)
+2. 再选择３-５个他们觉得你可以在这个方面继续成长的形容词（相较而言偏负性的）。</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Node File System API</title>
 <link href="/b/ria/node-fs" rel="alternate" type="text/html"/>
 <updated>2019-01-13T00:00:00Z</updated>
@@ -463,14 +473,4 @@ Netfilte</content>
 
     1. I do not know all of them.
     误：对他们</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Shell 工具集合</title>
-<link href="/b/c/shell-tool" rel="alternate" type="text/html"/>
-<updated>2018-12-31T00:00:00Z</updated>
-<summary/>
-<published>2016-09-27T00:00:00Z</published>
-<content># System debug, 系统调试工具
-
-- web: 对于 Web 调试，curl 和 curl -I 很方便灵活，或者也可以使用它们的同行 wget，或者更现代的 httpie。
-- dis</content>
 </entry></feed>
