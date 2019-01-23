@@ -49,7 +49,7 @@ const MD_URL='post/go/18.go-routines.md';
 <pre id="markdown" v-pre>---
 title: go routines
 date: 2018-09-27
-updated: 2019-01-07
+updated: 2019-01-23
 ---
 # go routines
 A goroutine is a `lightweight thread` managed by the Go runtime.
@@ -59,8 +59,7 @@ execution of f happens in the new goroutine.
     go f(x, y, z)
 
 ## concurrency
-goroutine is base on thread, 不过默认情况下goroutine 不会同时执行
-如果你要真正的并发，你需要在你的main函数的第一行加上下面的这段代码：
+goroutine is base on thread, 默认情况下go 将GOMAXPROCS 设定为cpu core的数量
 
     import &quot;runtime&quot;
     ...

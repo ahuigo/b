@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/p/p8.md';
+const MD_URL='post/code/code-manual-annotation.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO 的笔记</title>
+<title>关于人工标注的思考</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -46,52 +46,66 @@ const MD_URL='post/p/p8.md';
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
-<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+<pre id="markdown" v-pre>---
+title: 关于人工标注的思考
+date: 2019-01-22
+updated: 2019-01-23
+---
+# 关于人工标注的思考
+当下人工智能发展的如火如荼，很多场景都在利用人工智能做标注，但是标注总有一定的错误率，这种情况下还是要依赖人工做标注修正。而且，AI也需要人工标注的数据做训练。
+这是一个低效率、高成本的事情，如何提升人工标注的效率是一个重要的问题。
 
-<ul>
-<li>2018-10-06 <a href="/b/c/ops-wget">wget</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-virtualbox">全屏</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-vip">vip</a> </li>
-<li>2018-10-06 <a href="/b/c/ops-vagrant">vagrant</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-user">tool</a> </li>
-<li>2018-10-06 <a href="/b/c/ops-top">linux top命令简明教程</a> </li>
-<li>2016-09-27 <a href="/b/c/ops-tool">OM(Operation Maintenance) 运维工具</a> </li>
-<li>2018-10-06 <a href="/b/c/ops-tmux">linux-tmux</a> </li>
-<li>2018-10-06 <a href="/b/c/ops-tcl">学习一下 Tcl/Tk</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-systemd">Systemd</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-systemd-log">Systemd 日志管理</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-sysctl">ops-sysctl</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-supervisor">ops-supervisor</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-storage">Minio</a> </li>
-<li>2018-10-06 <a href="/b/c/ops-squid">squid</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-selinux">ops-selinux</a> </li>
-<li>2018-10-06 <a href="/b/c/ops-sed">sed 简记</a> </li>
-<li>2018-12-10 <a href="/b/c/ops-pssh">linux</a> </li>
-<li>2018-12-29 <a href="/b/c/ops-process">linux 之进程</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-process-vmstat">ops-process-vmstat</a> </li>
-<li>2018-10-06 <a href="/b/c/ops-process-tool">linux process tool</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-process-ps">ops-process-ps</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-process-proc">/proc</a> </li>
-<li>2018-10-06 <a href="/b/c/ops-process-perf">Ops 分析进程性能的工具</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-process-lsof">ops-process-lsof</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-process-limit">Number of processes for user</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-process-ipcs">ops-process-ipcs</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-process-iostat">ops-process-iostat</a> </li>
-<li>2018-10-06 <a href="/b/c/ops-perf">linux perf(系统性能分析)</a> </li>
-<li>2018-10-06 <a href="/b/c/ops-memcache">memcached</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-mem-swap">SWAP</a> </li>
-<li>2018-10-06 <a href="/b/c/ops-log">linux 下的各种日志</a> </li>
-<li>2018-10-06 <a href="/b/c/ops-locale">linux locale</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-init">ops-init</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-hardware">ops-hardware</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-grep">grep &amp; ag 的使用</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-ftp-rsync">ops-ftp-rsync</a> </li>
-<li>2018-10-06 <a href="/b/c/ops-fs">linux 文件系统</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-find">ops-find</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-find-cmd">find dir of command</a> </li>
-</ul>
-</div>
-<div id="pager"> <a href="/b/index">p0</a> <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a> <a href="/b/p/p3">p3</a> <a href="/b/p/p4">p4</a> <a href="/b/p/p5">p5</a> <a href="/b/p/p6">p6</a> <a href="/b/p/p7">p7</a> p8 <a href="/b/p/p9">p9</a> <a href="/b/p/p10">p10</a> <a href="/b/p/p11">p11</a> <a href="/b/p/p12">p12</a> <a href="/b/p/p13">p13</a> <a href="/b/p/p14">p14</a> <a href="/b/p/p15">p15</a> <a href="/b/p/p16">p16</a> <a href="/b/p/p17">p17</a> <a href="/b/p/p18">p18</a></div>
+我想将人工标注分成以下几个部分：
+1. 人工标注的准确率
+2. 人工标注的效率
+3. 人工标注的工具
+
+## 人工标注的准确率
+人工标注本身的准确率跟人有关，如何保证人的准确率呢？
+1. 二次抽样校验: 对人工标注的数据，做二次抽样检验。然后挑炼出准确率高的人员，淘汰准确率低的人员
+    1. 组建负责抽样检查的人员组成团队 负责二次检验: 
+       1. 这个人力成本比较大。
+       2. 设计简单
+    2. 将AI 的得到标注（标注本身准确），反向混入`等待标注`的系统，待人工标注完成，系统直接得到人员的准确率
+       1. 系统稍微复杂点：相当于人工+AI 相互验证
+       2. 没有太大人力成本
+       3. 不适合的场景：
+          1. 有的标注可能对人来说比较容易，对AI 来说比较难（也就是AI 标注准确性更低），这个时候可能不应该考虑AI.
+          2. AI 得到的标注，一定要足够准确，才能混入`待标注`的系统
+    3. 根据用户反馈，修正标注错误
+       1. 安全问题：主要防止恶意反馈 导致的安全问题
+          1. 根据以上前两点给出的方法，淘汰准确率的用户
+          2. IP 限制
+          3. 为标注修正准确率高的用户建立白名单机制
+          4. ....
+2. 通过交差验证选出正确的标注
+
+## 人工标注的效率
+人工标注的人力成本非常大。在人力资源的利用方式可以有多种:
+1. 组建由人工标注专员组成的团队，包括二次审核团队。可能人力不够，效率有限
+2. 利用广大的用户参与标注反馈，这样的效率更高。需要注意避免：审核、恶意标注的问题
+   1. 做成类似google 的reCAPTCHA 识别服务, 让广大用户参与标注:
+      1. 提供两张图，第一张用来识别是不是真人，第二张让用户参与真正的标注
+      2. 多名用户交叉验证
+   2. 提供类似打码的服务，付费标注，这个比招聘自己的标注专员成本低
+   3. 在产品中提供标注修正的入口。正如百度等地图所做的那样
+3. 以上多种方式混合
+
+## 人工标注的工具
+人工标注的工具，必须要方便好用。在我看来需要满足这几点：
+1. 常用任务提供好用的快捷键
+2. 重复的工作自动化
+3. 足够的智能：比如智能提示可选的标注项，智能补全（语言标注）
+4. 足够的交互性
+5. 性能好，不要有卡顿
+6. 审核机制、纠偏
+
+或许可以参考下现有的标注工具:
+
+    LabelImg(图像检测)，RectLabel(图像检测)、 doccano(文字标注，NLP标注工具）、vatic（视频标注）....
+
+</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
