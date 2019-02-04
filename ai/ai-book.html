@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/c/ops-docker.md';
+const MD_URL='post/ai/ai-book.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>ops-docker</title>
+<title>AI 入门路线</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -20,13 +20,10 @@ const MD_URL='post/c/ops-docker.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -36,6 +33,7 @@ const MD_URL='post/c/ops-docker.md';
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
@@ -49,14 +47,33 @@ const MD_URL='post/c/ops-docker.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: ops-docker
-date: 2018-09-27
-updated: 2018-10-06
+title: AI 入门路线
+date: 2019-01-29
+updated: 2019-02-03
 ---
-# Preface
+# AI入门 路线
+0. 准备：算法与数据结构、高数、线性代数、概率统计
+    1. 系统学习：清华邓俊辉老师《数据结构（C++语言版）》（代码全），算法4版(重实践)，算法导论(偏数学证明)
+    2. 扩展：编程之美、编程珠玑
+1. 机器学习入门
+    0. 科普性质的：超智能体 https://zhuanlan.zhihu.com/YJango
+   1. 视频: 林轩田 台湾大学 《机器学习基石 上下》 
+   2. 书籍《机器学习实践》
+   3.  Andrew Ng的Mooc课程？过于简单（只限了解）
+   4. 适合程序员的ML 入门课：注重代码实践而非数学  http://course18.fast.ai/ml 
+        1. 介绍：https://www.fast.ai/2018/09/26/ml-launch/
+2. 深度学习入门/图像识别入门
+    1. Stanford Li Feifei CS231N, 一步步构造复杂的神经网络， 包括DNN， CNN， RNN等
+3.  NLP
+    1. 推荐课程： CS224N Stanford
+4. RL入门
+    1. RL部分首推Deepmind的UCL RL课程
+    2. RL进阶 Stanford CS294
 
-http://dockerpool.com/static/books/docker_practice/introduction/why.html</pre>
-<div id="pager" v-pre></div>
+# 参考
+- 从入门到进阶——全网最优秀的机器学习课程小结 https://zhuanlan.zhihu.com/p/54559893
+</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -78,10 +95,10 @@ http://dockerpool.com/static/books/docker_practice/introduction/why.html</pre>
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
@@ -103,6 +120,9 @@ http://dockerpool.com/static/books/docker_practice/introduction/why.html</pre>
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>

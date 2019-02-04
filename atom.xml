@@ -2,9 +2,174 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-01-23T19:01:08Z</updated>
+<updated>2019-02-04T16:43:34Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>vim-window</title>
+<link href="/b/vim/vim-window" rel="alternate" type="text/html"/>
+<updated>2019-02-04T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Preface
+
+
+# Window 窗口
+
+## powerline
+这是一个增强状态栏的插件
+
+### window title
+	setl stl=about\ b.c
+
+## scroll</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>vim 使用之变量</title>
+<link href="/b/vim/vim-var" rel="alternate" type="text/html"/>
+<updated>2019-02-04T00:00:00Z</updated>
+<summary/>
+<published>2019-02-04T00:00:00Z</published>
+<content># vim 使用之变量
+本文会系统描述vim 的语法，如果想了解具体选项和操作技巧，参考我的vim 笔记
+
+主要参考 [book]:
+http://learnvimscriptthehardway.s</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>vim-cmd</title>
+<link href="/b/vim/vim-cmd" rel="alternate" type="text/html"/>
+<updated>2019-02-04T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Preface
+
+# autocmd
+Syntax:
+
+	:au[tocmd] [group] {event} {pat} [nested] {cmd}
+			Add {cmd} to the l</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>vim-cmd-ex</title>
+<link href="/b/vim/vim-cmd-ex" rel="alternate" type="text/html"/>
+<updated>2019-02-04T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># ex mode
+
+    gQ ex mode
+	gv	reselect previouse area
+
+## history mode
+:h cmdline-window
+
+    q: Ex </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>linux nginx 配置</title>
+<link href="/b/nginx/nginx-conf" rel="alternate" type="text/html"/>
+<updated>2019-02-04T00:00:00Z</updated>
+<summary/>
+<published>2019-02-04T00:00:00Z</published>
+<content># Preface
+
+# install
+ 用brew 自动安装吧, 如果需要[extra module](https://github.com/Homebrew/homebrew-nginx/iss</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>mysql lock</title>
+<link href="/b/db/mysql-lock" rel="alternate" type="text/html"/>
+<updated>2019-02-04T00:00:00Z</updated>
+<summary/>
+<published>2019-02-04T00:00:00Z</published>
+<content># 总线锁定和缓存一致性
+&gt; 基于锁的原子操作 http://ifeve.com/inter-64-ia-32-8-1/
+&gt; Java的多线程机制: 缓存一致性和CAS http://www.bdqn</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>go汇编示例</title>
+<link href="/b/go/go-asm" rel="alternate" type="text/html"/>
+<updated>2019-02-03T00:00:00Z</updated>
+<summary/>
+<published>2019-01-23T00:00:00Z</published>
+<content>
+发现一份汇编示例：
+1. Go Assembly 示例 https://colobu.com/goasm/
+2. 英文版：https://www.davidwong.fr/goasm/</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>mysql explain 的使用</title>
+<link href="/b/db/mysql-index-explain" rel="alternate" type="text/html"/>
+<updated>2019-02-03T00:00:00Z</updated>
+<summary/>
+<published>2018-12-29T00:00:00Z</published>
+<content># Mysql Explain 的使用
+
+## show index
+
+	show index from table_name;
+
+## explain
+用explain 获取mysql 如何quer</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>mysql install</title>
+<link href="/b/db/mysql-admin" rel="alternate" type="text/html"/>
+<updated>2019-02-03T00:00:00Z</updated>
+<summary/>
+<published>2019-02-03T00:00:00Z</published>
+<content># Preface
+mysql安装
+
+# Install
+安装后默认的密码帐号为空:
+host=kw.get('host', 'localhost'),
+port=kw.get('port', 330</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>wget</title>
+<link href="/b/c/ops-wget" rel="alternate" type="text/html"/>
+<updated>2019-02-03T00:00:00Z</updated>
+<summary/>
+<published>2019-02-03T00:00:00Z</published>
+<content># ftp
+
+    wget -r --user="user@login" --password="password" ftp://server.com/
+    wget -r ftp://use</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>linux系统IO</title>
+<link href="/b/c/c-io" rel="alternate" type="text/html"/>
+<updated>2019-02-03T00:00:00Z</updated>
+<summary/>
+<published>2019-02-03T00:00:00Z</published>
+<content># Preface
+c语言的标准I/O操作实际上是调用的系统内核IO.
+
+# 标准输出的低层实现
+以汇编的hello world 为例
+
+	.data					# section declaratio</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>c-debug-strace</title>
+<link href="/b/c/c-debug-strace" rel="alternate" type="text/html"/>
+<updated>2019-02-04T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Preface
+
+# strace
+&gt; 请参考: [strace 使用](http://linuxtools-rst.readthedocs.io/zh_CN/latest/tool/strace</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>学习 docker</title>
+<link href="/b/arch/arch-docker" rel="alternate" type="text/html"/>
+<updated>2019-02-03T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># 什么是Docker
+虚拟机是对硬件的虚拟化(需要Hypervisor这个软件层), 而docker （LXC, linux container）是对操作系统的虚拟化。
+1. docker 基于li</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>AI 入门路线</title>
+<link href="/b/ai/ai-book" rel="alternate" type="text/html"/>
+<updated>2019-02-03T00:00:00Z</updated>
+<summary/>
+<published>2019-01-29T00:00:00Z</published>
+<content># AI入门 路线
+0. 准备：算法与数据结构、高数、线性代数、概率统计
+    1. 系统学习：清华邓俊辉老师《数据结构（C++语言版）》（代码全），算法4版(重实践)，算法导论(偏数学证明)
+  </content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>git hooks</title>
 <link href="/b/git/git-hooks" rel="alternate" type="text/html"/>
 <updated>2019-01-23T00:00:00Z</updated>
@@ -59,13 +224,13 @@ execution of f happe</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>golang 的协程调度</title>
 <link href="/b/go/18.go-routines-inner" rel="alternate" type="text/html"/>
-<updated>2019-01-23T00:00:00Z</updated>
+<updated>2019-02-03T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># golang 的协程调度
-协程是由用户态自己手动去调度的、轻量的上下文切换。async/await 模型就是如此，这样的协程是串行的。
-
-对于golang 来说，协程是建立在 CSP model </content>
+协程是由用户态自己手动去调度的、轻量的上下文切换。
+具体到不同的语言，协程有所不同，主要分串行和并行两大类：
+1. js、python 的async/await 模型的协</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>五大过程组，十大知识领域</title>
 <link href="/b/em/em-" rel="alternate" type="text/html"/>
@@ -81,7 +246,7 @@ https://www.jianshu.com/p/33dda2e06225
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>关于人工标注的思考</title>
 <link href="/b/code/code-manual-annotation" rel="alternate" type="text/html"/>
-<updated>2019-01-23T00:00:00Z</updated>
+<updated>2019-02-03T00:00:00Z</updated>
 <summary/>
 <published>2019-01-22T00:00:00Z</published>
 <content># 关于人工标注的思考
@@ -183,7 +348,7 @@ hash = key mod m
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>vim-help</title>
 <link href="/b/vim/vim-help" rel="alternate" type="text/html"/>
-<updated>2019-01-10T00:00:00Z</updated>
+<updated>2019-02-04T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># help 帮助
@@ -294,170 +459,4 @@ Go 的反射有三个基础概念: Types Types, Kinds, and Values.
 Interface：
 1. Interface 可以用来模拟泛型，但是是运行时模拟，没有编译时快
 1. method 没有 public protecte..., 如果要被其</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Golang func</title>
-<link href="/b/go/16.go-func" rel="alternate" type="text/html"/>
-<updated>2019-01-07T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Golang func
-func 是func-value
-
-# Function Closures
-https://stackoverflow.com/questions/21961615/why</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>go-test</title>
-<link href="/b/go/15.go-test" rel="alternate" type="text/html"/>
-<updated>2019-01-07T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Preface
-Go has a lightweight test framework composed of the go test command and the testing packag</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Pointers</title>
-<link href="/b/go/13.go-pointer" rel="alternate" type="text/html"/>
-<updated>2019-01-07T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Pointers
-支持指针类型 *T,指针的指针 **T,以及包含包名前缀的 *&lt;package&gt;.T。
-The type `*T` is a pointer to a T value. Its </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>filepath</title>
-<link href="/b/go/12.go-file" rel="alternate" type="text/html"/>
-<updated>2019-01-07T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># filepath
-
-  import "path/filepath"
-  fileext := filepath.Ext(filename)
-
-# file
-
-## read
-
-  "io/iou</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>english punctuation</title>
-<link href="/b/eng/eng-punctuation" rel="alternate" type="text/html"/>
-<updated>2019-01-07T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># English punctuation
-https://zh.wikipedia.org/wiki/%E8%84%B1%E5%AD%97%E7%AC%A6
-
-	punctuation mark	n</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>c debug</title>
-<link href="/b/c/c-debug" rel="alternate" type="text/html"/>
-<updated>2019-01-07T00:00:00Z</updated>
-<summary/>
-<published>2019-01-07T00:00:00Z</published>
-<content># assert
-断言, 如果定义了NODEBUG (或者直接在编译时加上选项-DNDEBUG), 则assert函数则不被编译
-
-	#define NDEBUG
-	assert(111)
-
-# ob</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>c-debug-gdb</title>
-<link href="/b/c/c-debug-gdb" rel="alternate" type="text/html"/>
-<updated>2019-01-07T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># 启动gdb
-- First, let excute file records Source file a.c via gcc parameter "-g"
-
-	gcc -g a.c
-
-- Seco</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>golang help</title>
-<link href="/b/go/11.go-help" rel="alternate" type="text/html"/>
-<updated>2019-01-03T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># help command
-Use "go help [command]" for more information about a command.
-
-    go help fmt
-
-# go </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>经典排序算法的实现</title>
-<link href="/b/algorithm/algo-sort" rel="alternate" type="text/html"/>
-<updated>2019-01-17T00:00:00Z</updated>
-<summary/>
-<published>2013-09-26T00:00:00Z</published>
-<content># 经典排序算法实现
-常规的几种排序算法, 参考[维基sort](http://zh.wikipedia.org/wiki/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95)
-</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>make</title>
-<link href="/b/go/7.go-var-make" rel="alternate" type="text/html"/>
-<updated>2019-01-02T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># new make
-new 的作用是:为其分配零值内存, 初始化 一个指向类型的指针 `(*T)`，
-`someInt := new(int)` 相当于:
-
-    func newInt *int</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Golang fmt</title>
-<link href="/b/go/6.go-fmt" rel="alternate" type="text/html"/>
-<updated>2019-01-02T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># fmt
-
-- Println : with newline
-- Print : without newline
-- Printf : format
-
-## Printf
-
-    fmt.Prin</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Golang func</title>
-<link href="/b/go/5.go-func" rel="alternate" type="text/html"/>
-<updated>2019-01-02T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Golang func
-func 是func-value
-
-# Function Closures
-https://stackoverflow.com/questions/21961615/why</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Golang math</title>
-<link href="/b/go/3.go-math" rel="alternate" type="text/html"/>
-<updated>2019-01-02T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Golang math
-## rand
-
-  import "math/rand"
-
-    //生成随机种子
-    rand.Seed(time.Now().Unix())
-    rand.</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>golang-pkg</title>
-<link href="/b/go/2.go-import" rel="alternate" type="text/html"/>
-<updated>2019-01-02T00:00:00Z</updated>
-<summary/>
-<published>2016-09-27T00:00:00Z</published>
-<content># package
-Go Programs start running in package main.
-
-
-	package main
-
-	import (
-		"fmt"
-		"math/rand</content>
 </entry></feed>

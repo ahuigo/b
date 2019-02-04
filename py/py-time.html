@@ -20,13 +20,10 @@ const MD_URL='post/py/py-time.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -36,6 +33,7 @@ const MD_URL='post/py/py-time.md';
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
@@ -51,7 +49,7 @@ const MD_URL='post/py/py-time.md';
 <pre id="markdown" v-pre>---
 title: python 时间函数的用法笔记
 date: 2018-04-02
-updated: 2018-10-07
+updated: 2019-02-03
 ---
 # time 工具
 time 提供基本的时间，sleep
@@ -68,6 +66,26 @@ time 提供基本的时间，sleep
 	import time
 	time.sleep(1)#1s
 	time.sleep(random.random())
+
+## timer
+    from threading import Timer
+
+    def timeout():
+        print(&quot;Game over&quot;)
+
+    # duration is in seconds
+    t = Timer(10, timeout)
+    t.start()
+
+    # wait for time completion
+    t.join()
+
+Should you want pass arguments to the timeout function, you can give them in the timer constructor:
+
+    def timeout(foo, bar=None):
+        print(&#x27;The arguments were: foo: {}, bar: {}&#x27;.format(foo, bar))
+
+    t = Timer(20 * 60, timeout, args=[&#x27;something&#x27;], kwargs={&#x27;bar&#x27;: &#x27;else&#x27;})
 
 # datetime
 
@@ -325,7 +343,7 @@ datetime.now().timestamp()-datetime.utcnow().timestamp() = 28800
 <div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
@@ -347,6 +365,9 @@ datetime.now().timestamp()-datetime.utcnow().timestamp() = 28800
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>

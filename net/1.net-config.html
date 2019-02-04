@@ -48,8 +48,8 @@ const MD_URL='post/net/1.net-config.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: centos网络配置
-date: 2018-12-07
-updated: 2018-12-07
+date: 2019-02-03
+updated: 2019-02-03
 ---
 # centos网络配置
 网络配置分手动设置，自动获取2种方法
@@ -75,7 +75,15 @@ updated: 2018-12-07
 	#DNS1=223.5.5.5	//加上主DNS
 	#DNS2=223.6.6.6	//加上次DNS
 
-[For more detail]( https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Deployment_Guide/s1-networkscripts-interfaces.html)fdsfdsfsb 	sf	sdfbsdf	a
+[For more detail]( https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Deployment_Guide/s1-networkscripts-interfaces.html)
+
+### SIMPLE
+
+    DEVICE=eth0
+    ONBOOT=yes
+    ARPCHECK=&quot;no&quot;
+	IPADDR=192.168.1.108 
+	NETMASK=255.255.255.0 
 
 ## 初始化网络
 
@@ -116,6 +124,20 @@ or via `dhclient`:
 
 Refer to : http://www.cyberciti.biz/faq/howto-linux-renew-dhcp-client-ip-address/
 
+# centos7
+
+    yum install epel-release -y
+    yum update -y
+    yum install bind-utils net-tools wget ntp -y
+
+    # 同步时间
+    timedatectl set-timezone Asia/Shanghai
+    timedatectl set-ntp yes
+    timedatectl
+
+    # 重启系统
+    systemctl reboot
+
 # 参考
 - 海底苍鹰 地址:http://blog.51yip.com/linux/1120.html
 </pre>
@@ -144,7 +166,7 @@ Refer to : http://www.cyberciti.biz/faq/howto-linux-renew-dhcp-client-ip-address
 <div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>

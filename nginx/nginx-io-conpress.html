@@ -20,13 +20,10 @@ const MD_URL='post/nginx/nginx-io-conpress.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -36,6 +33,7 @@ const MD_URL='post/nginx/nginx-io-conpress.md';
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
@@ -51,7 +49,7 @@ const MD_URL='post/nginx/nginx-io-conpress.md';
 <pre id="markdown" v-pre>---
 title: compress
 date: 2018-10-04
-updated: 2018-10-06
+updated: 2019-02-03
 ---
 # compress
 
@@ -70,11 +68,11 @@ There are many compress algorithm: gzip, deflate, sdch
 	location /video/ {
 		sendfile       on;#default off
 		tcp_nopush     on;
-			# `tcp_nopush = on` 时执行系统调用 `tcp_cork()` ，结果就是数据包不会马上传送出去，等到数据包最大时，一次性的传输出去，这样有助于解决网络堵塞。
+			# `tcp_nopush = on` 时执行系统调用 `tcp_cork()` ，结果就是数据包不会马上传送出去，等到数据包最大时(MSS)，一次性的传输出去，这样有助于解决网络堵塞。
 			# tcp_nopush 基本上控制了包的“Nagle化”，Nagle化在这里的含义是采用Nagle算法把较小的包组装为更大的帧。
 		tcp_nodelay   on;
-			# tcp_nodelay 与nopush 相反，不会同时生效, 仅适合于keepalive
-		aio            on; # use of asynchronous file I/O (AIO) on FreeBSD and Linux
+			# tcp_nodelay 与nopush 相反，不会同时生效, 仅适合于keepalive(小包立即发送，不必等接受端返回上一个包的ack)
+		aio on; # use of asynchronous file I/O (AIO) on FreeBSD and Linux
 	}
 
 ## sendfile
@@ -84,7 +82,7 @@ There are many compress algorithm: gzip, deflate, sdch
 	write(socket,tmp_buf, len);
 	硬盘 &gt;&gt; kernel buffer &gt;&gt; user buffer&gt;&gt; kernel socket buffer &gt;&gt;协议栈
 
-用`sendfile()` 来进行网络传输的过程：
+用`sendfile()` 来进行网络传输的过程(zero copy 0拷贝)：
 
 	sendfile(socket,file, len);
 	硬盘 &gt;&gt; kernel buffer (快速拷贝到kernelsocket buffer) &gt;&gt;协议栈
@@ -117,7 +115,7 @@ The open file cache is a caching system for metadata operations (file mtime, fil
 
 # References
 - [nginx-performance]: http://www.slashroot.in/nginx-web-server-performance-tuning-how-to-do-it</pre>
-<div id="pager" v-pre></div>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -139,10 +137,10 @@ The open file cache is a caching system for metadata operations (file mtime, fil
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
@@ -164,6 +162,9 @@ The open file cache is a caching system for metadata operations (file mtime, fil
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>

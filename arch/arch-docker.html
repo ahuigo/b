@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/p/p17.md';
+const MD_URL='post/arch/arch-docker.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO 的笔记</title>
+<title>学习 docker</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -46,52 +46,124 @@ const MD_URL='post/p/p17.md';
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
-<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+<pre id="markdown" v-pre>---
+title: 学习 docker
+date: 2018-09-27
+updated: 2019-02-03
+---
+# 什么是Docker
+虚拟机是对硬件的虚拟化(需要Hypervisor这个软件层), 而docker （LXC, linux container）是对操作系统的虚拟化。
+1. docker 基于linux的 cgroup、namespace、AUFS类的UnionFS等技术。
+2. docker 实现了进程与宿主、其他隔离的独立，所以docker 也称容器
+3. docker 的革命性在于，将繁琐的运行环境通过隔离实现了统一化、自动化、代码化
 
-<ul>
-<li>2018-09-28 <a href="/b/net/net-netstat">net-netstat</a> </li>
-<li>2018-09-28 <a href="/b/net/net-ncat">netcat</a> </li>
-<li>2018-09-28 <a href="/b/net/net-kernel">ipv4</a> </li>
-<li>2018-12-31 <a href="/b/net/net-iptables">防火墙</a> </li>
-<li>2018-10-06 <a href="/b/net/net-iptables-mac">iptable on mac osx</a> </li>
-<li>2018-09-28 <a href="/b/net/net-ip">get public ip</a> </li>
-<li>2018-09-28 <a href="/b/net/net-ip-pfctl">net-ip-pfctl</a> </li>
-<li>2018-09-28 <a href="/b/net/net-ip-comcast">comcast</a> </li>
-<li>2018-09-28 <a href="/b/net/net-icmp">ICMP, Internet Control Message Protocol</a> </li>
-<li>2018-09-28 <a href="/b/net/net-dns">net-dns</a> </li>
-<li>2018-09-28 <a href="/b/net/net-debug-connect">connection refused</a> </li>
-<li>2018-09-28 <a href="/b/net/net-c10k">c10k 问题</a> </li>
-<li>2018-09-28 <a href="/b/net/http2">http/2 的特点</a> </li>
-<li>2018-10-06 <a href="/b/net/http">About Http</a> </li>
-<li>2018-09-28 <a href="/b/net/http-spider">http-spider</a> </li>
-<li>2018-09-28 <a href="/b/net/http-p3p">http-p3p</a> </li>
-<li>2018-10-04 <a href="/b/math/vetor">向量(vector)</a> </li>
-<li>2019-01-07 <a href="/b/math/math-word">数学名词中英文对照 Mathematical Sign</a> </li>
-<li>2018-10-04 <a href="/b/math/math-variance">Variance, 方差</a> </li>
-<li>2018-10-04 <a href="/b/math/math-tool-wolframalpha">wolframalpha</a> </li>
-<li>2018-10-06 <a href="/b/math/math-tool-octave">Octave 使用</a> </li>
-<li>2018-10-06 <a href="/b/math/math-reservoir-sampling">蓄水抽样</a> </li>
-<li>2018-09-27 <a href="/b/math/math-probability">combination</a> </li>
-<li>2018-09-27 <a href="/b/math/math-num">数字的分类</a> </li>
-<li>2018-09-27 <a href="/b/math/math-num-seq">sequence of numbers</a> </li>
-<li>2018-09-27 <a href="/b/math/math-num-log">对数</a> </li>
-<li>2018-09-27 <a href="/b/math/math-num-fibonacii">Fibonacii and gold(φ)</a> </li>
-<li>2018-09-27 <a href="/b/math/math-matrix67">matrix67 用的工具</a> </li>
-<li>2019-01-03 <a href="/b/math/math-latex">latex 数学公式</a> </li>
-<li>2018-09-27 <a href="/b/math/math-integral-exp">整式, integral expression</a> </li>
-<li>2018-09-27 <a href="/b/math/math-find">找规则1</a> </li>
-<li>2018-09-27 <a href="/b/math/math-bezier_curve">math-bezier_curve</a> </li>
-<li>2018-09-27 <a href="/b/math/geo">目录</a> </li>
-<li>2018-09-27 <a href="/b/math/geo-triangle">三角形triangle</a> </li>
-<li>2018-09-27 <a href="/b/math/geo-circle">圆</a> </li>
-<li>2018-09-27 <a href="/b/math/geo-analytic">Analytic Geometry, 解析几何</a> </li>
-<li>2018-09-27 <a href="/b/math/finite-field">Finite Field, 有限域</a> </li>
-<li>2018-09-27 <a href="/b/math/field">Field, 域论</a> </li>
-<li>2018-09-27 <a href="/b/mac/safari">safari</a> </li>
-<li>2018-09-27 <a href="/b/mac/mac-vpn">mac-vpn</a> </li>
-</ul>
-</div>
-<div id="pager"> <a href="/b/index">p0</a> <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a> <a href="/b/p/p3">p3</a> <a href="/b/p/p4">p4</a> <a href="/b/p/p5">p5</a> <a href="/b/p/p6">p6</a> <a href="/b/p/p7">p7</a> <a href="/b/p/p8">p8</a> <a href="/b/p/p9">p9</a> <a href="/b/p/p10">p10</a> <a href="/b/p/p11">p11</a> <a href="/b/p/p12">p12</a> <a href="/b/p/p13">p13</a> <a href="/b/p/p14">p14</a> <a href="/b/p/p15">p15</a> <a href="/b/p/p16">p16</a> p17 <a href="/b/p/p18">p18</a></div>
+Docker 带来的方便之处：
+1. 标准化
+2. 安全 隔离进程中断不会影响别的进程
+3. 弹性伸缩与扩展
+4. 持续集成
+
+# Docker 的组成
+
+## Image 镜像
+Image是 特殊的文件系统，提供容器运行时所需的程序、库、资源、配置等文件。运行时不会被改变。
+
+它利用了 基于 Union FS的技术的**分层存储的架构**：
+1. 每一层的只修改自己的东西。比如某层删除了一个文件，运行时没有这个文件，但是上一层这个文件还是会跟随镜像
+2. 
+
+Image 的linux 中可以设置保存的路径， centos修改/etc/sysconfig/docker, :
+
+    other_args=&quot;-g /var/lib/imagedir&quot;
+
+Mac OSX Image 不可以修改路径：
+
+    ~/Library/Containers/com.docker.docker/...
+
+## Container 容器
+容器是镜像运行实体进程
+1. 每个容器进程是隔离的
+2. 容器停止运行时，里面的数据消失：
+   1. 不要像容器存储层写数据
+   2. 所有写入应该向数据卷Volume、宿主目录
+
+## Repository 仓库
+Docker Repository 是用于管理存储、分发镜像的服务，docker 可以多个repository, 一个repository 包含多个tag(一个tag 是一个IMAGE)。
+路径是: `Repo:Tag`
+
+Docker Registry 分公开服务和私有服务。公开的有：
+1. https://hub.docker.com/  默认的registry
+
+可以本地搭建私有 Docker Registry
+
+# Docker
+Build（构建镜像） ： 镜像就像是集装箱包括文件以及运行环境等等资源。
+Ship（运输镜像） ：主机和仓库间运输，这里的仓库就像是超级码头一样。
+Run （运行镜像） ：运行的镜像就是一个容器，容器就是运行程序的地方
+
+## Build
+
+## Ship
+
+## Run
+
+### 伪终端
+
+    $ docker run -i -t ubuntu:15.10 /bin/bash
+    -t 启动伪终端
+    -i 允许你对容器内的标准输入 (STDIN) 进行交互
+
+后台模式：
+
+    $ docker run -d ubuntu:15.10 /bin/sh -c &quot;while true; do echo hello world; sleep 1; done&quot;
+    2b1b7a428627c51ab8810d541d759f072b4fc75487eed05812646b8534a2fe63
+
+查看标准输出：
+
+    $ docker logs 2b1b7a428627
+
+### 运行web
+
+    # docker pull training/webapp  # 载入镜像
+    # docker run -d -P training/webapp python app.py
+
+`-P`:将容器内部使用的网络端口映射到我们使用的主机上。 5000 端口映射到主机
+
+    runoob@runoob:~#  docker ps
+    CONTAINER ID        IMAGE               COMMAND             ...        PORTS                 
+    d3d5e39ed9d3        training/webapp     &quot;python app.py&quot;     ...        0.0.0.0:32769-&gt;5000/tcp
+
+    runoob@runoob:~$ docker port bf08b7f2cd89
+    5000/tcp -&gt; 0.0.0.0:5000
+
+-p 指定端口映射：
+
+    docker run -d -p 5000:5000 training/webapp python app.py
+
+查看标准输出的日志：like `tail -f`
+
+    docker logs -f bf08b7f2cd89
+
+## 管理容器
+
+    # 拉取 &amp; 删除
+    docker pull &lt;name&gt;
+    docker rm &lt;name&gt;
+
+    # 停止
+    docker stop &lt;name&gt;
+
+    # 罗列
+    docker ps
+
+    # 检查底层信息
+    docker inspect &lt;name&gt;
+
+
+# 参考
+- https://zhuanlan.zhihu.com/p/38552635
+- http://www.runoob.com/docker/</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>

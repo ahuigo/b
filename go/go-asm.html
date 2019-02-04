@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/p/p17.md';
+const MD_URL='post/go/go-asm.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO 的笔记</title>
+<title>go汇编示例</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -46,52 +46,16 @@ const MD_URL='post/p/p17.md';
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
-<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+<pre id="markdown" v-pre>---
+title: go汇编示例
+date: 2019-01-23
+updated: 2019-02-03
+---
 
-<ul>
-<li>2018-09-28 <a href="/b/net/net-netstat">net-netstat</a> </li>
-<li>2018-09-28 <a href="/b/net/net-ncat">netcat</a> </li>
-<li>2018-09-28 <a href="/b/net/net-kernel">ipv4</a> </li>
-<li>2018-12-31 <a href="/b/net/net-iptables">防火墙</a> </li>
-<li>2018-10-06 <a href="/b/net/net-iptables-mac">iptable on mac osx</a> </li>
-<li>2018-09-28 <a href="/b/net/net-ip">get public ip</a> </li>
-<li>2018-09-28 <a href="/b/net/net-ip-pfctl">net-ip-pfctl</a> </li>
-<li>2018-09-28 <a href="/b/net/net-ip-comcast">comcast</a> </li>
-<li>2018-09-28 <a href="/b/net/net-icmp">ICMP, Internet Control Message Protocol</a> </li>
-<li>2018-09-28 <a href="/b/net/net-dns">net-dns</a> </li>
-<li>2018-09-28 <a href="/b/net/net-debug-connect">connection refused</a> </li>
-<li>2018-09-28 <a href="/b/net/net-c10k">c10k 问题</a> </li>
-<li>2018-09-28 <a href="/b/net/http2">http/2 的特点</a> </li>
-<li>2018-10-06 <a href="/b/net/http">About Http</a> </li>
-<li>2018-09-28 <a href="/b/net/http-spider">http-spider</a> </li>
-<li>2018-09-28 <a href="/b/net/http-p3p">http-p3p</a> </li>
-<li>2018-10-04 <a href="/b/math/vetor">向量(vector)</a> </li>
-<li>2019-01-07 <a href="/b/math/math-word">数学名词中英文对照 Mathematical Sign</a> </li>
-<li>2018-10-04 <a href="/b/math/math-variance">Variance, 方差</a> </li>
-<li>2018-10-04 <a href="/b/math/math-tool-wolframalpha">wolframalpha</a> </li>
-<li>2018-10-06 <a href="/b/math/math-tool-octave">Octave 使用</a> </li>
-<li>2018-10-06 <a href="/b/math/math-reservoir-sampling">蓄水抽样</a> </li>
-<li>2018-09-27 <a href="/b/math/math-probability">combination</a> </li>
-<li>2018-09-27 <a href="/b/math/math-num">数字的分类</a> </li>
-<li>2018-09-27 <a href="/b/math/math-num-seq">sequence of numbers</a> </li>
-<li>2018-09-27 <a href="/b/math/math-num-log">对数</a> </li>
-<li>2018-09-27 <a href="/b/math/math-num-fibonacii">Fibonacii and gold(φ)</a> </li>
-<li>2018-09-27 <a href="/b/math/math-matrix67">matrix67 用的工具</a> </li>
-<li>2019-01-03 <a href="/b/math/math-latex">latex 数学公式</a> </li>
-<li>2018-09-27 <a href="/b/math/math-integral-exp">整式, integral expression</a> </li>
-<li>2018-09-27 <a href="/b/math/math-find">找规则1</a> </li>
-<li>2018-09-27 <a href="/b/math/math-bezier_curve">math-bezier_curve</a> </li>
-<li>2018-09-27 <a href="/b/math/geo">目录</a> </li>
-<li>2018-09-27 <a href="/b/math/geo-triangle">三角形triangle</a> </li>
-<li>2018-09-27 <a href="/b/math/geo-circle">圆</a> </li>
-<li>2018-09-27 <a href="/b/math/geo-analytic">Analytic Geometry, 解析几何</a> </li>
-<li>2018-09-27 <a href="/b/math/finite-field">Finite Field, 有限域</a> </li>
-<li>2018-09-27 <a href="/b/math/field">Field, 域论</a> </li>
-<li>2018-09-27 <a href="/b/mac/safari">safari</a> </li>
-<li>2018-09-27 <a href="/b/mac/mac-vpn">mac-vpn</a> </li>
-</ul>
-</div>
-<div id="pager"> <a href="/b/index">p0</a> <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a> <a href="/b/p/p3">p3</a> <a href="/b/p/p4">p4</a> <a href="/b/p/p5">p5</a> <a href="/b/p/p6">p6</a> <a href="/b/p/p7">p7</a> <a href="/b/p/p8">p8</a> <a href="/b/p/p9">p9</a> <a href="/b/p/p10">p10</a> <a href="/b/p/p11">p11</a> <a href="/b/p/p12">p12</a> <a href="/b/p/p13">p13</a> <a href="/b/p/p14">p14</a> <a href="/b/p/p15">p15</a> <a href="/b/p/p16">p16</a> p17 <a href="/b/p/p18">p18</a></div>
+发现一份汇编示例：
+1. Go Assembly 示例 https://colobu.com/goasm/
+2. 英文版：https://www.davidwong.fr/goasm/</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
