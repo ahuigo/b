@@ -20,13 +20,10 @@ const MD_URL='post/c/process-redirect-fork2exec.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -36,6 +33,7 @@ const MD_URL='post/c/process-redirect-fork2exec.md';
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
@@ -50,18 +48,37 @@ const MD_URL='post/c/process-redirect-fork2exec.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: linux 下的Fork 与 Exec
-date: 2018-10-06
-updated: 2018-10-06
+date: 2019-02-04
+updated: 2019-02-04
 ---
 # Preface
 多进程的的内容包括进程控制, 进程通信, 进程本身的结构.
 
 # 重定向
-标准输入输出操作符:
+标准输入输出:
 
-  &lt; : /dev/stderr -&gt; /dev/fd/0
-  &gt; or &gt;&gt; : /dev/stdin -&gt; /dev/fd/1
-  2&gt; or 2&gt;&gt; : /dev/stdout -&gt; /dev/fd/2
+    /dev/stdin -&gt; /dev/fd/0
+    /dev/stdout -&gt; /dev/fd/1
+    /dev/stderr -&gt; /dev/fd/2
+
+重定向：
+
+    &lt; or 0&lt; : 
+        $ cat &lt;a.txt
+    &gt; or &gt;&gt; or 1&gt; or 1&gt;&gt;:
+        $ echo 1 &gt; a.txt
+    2&gt; or 2&gt;&gt; : 重定向标准错误
+        $ { echo ass; xxxxxxx} 2&gt;a.txt
+        zsh: command not found: xxxxxxx
+
+参考下面的exec
+
+    &gt;&amp; or &amp;&gt; : 重定向标准输出和标准错误
+        $ { echo ass; xxxxxxx} &gt;&amp; a.txt
+        ass
+        zsh: command not found: xxxxxxx
+    2&gt;&amp; 重定向标准错误(重复)
+        $ { echo ass; xxxxxxx} 2&gt;&amp; a.txt
 
 ## 输入重定向
 本质是 `fd=open(file, r); 0-&gt;fd`
@@ -75,9 +92,10 @@ updated: 2018-10-06
   command-line1 [1-n]&gt;file
   command-line1 [1-n]&gt;&gt;file
 
-将标准出标准错误导向/dev/null
+将标准出、标准错误导向/dev/null
 
   cmd &amp;&gt;/dev/null
+  cmd &gt;&amp;/dev/null
 
 ## 绑定重定向
 `&amp;[n]` 代表是已经存在的文件描述符，`&amp;1` 代表输出 `&amp;2`代表错误输出 `&amp;-`代表关闭与它绑定的描述符
@@ -92,7 +110,7 @@ updated: 2018-10-06
 eg:
 
   $ exec 6&gt;&amp;1
-  #将标准输出与fd 6绑定: 1指向6所在的文件
+  #将fd 6绑定 1指向的文件
 
   $ ls  /dev/fd/
   0  1  2  3  6
@@ -178,6 +196,42 @@ exec命令示例
     do
     echo &quot;$pkg&quot;
     done
+
+### 利用pipeline 控制进程数量
+利用wait 等待所有的子进程，利用 read -u9 阻塞等待pipe
+
+    # Author: cloud@txthinking.com
+    max_process=54
+    fd=/tmp/google-hosts.fd
+    mkfifo $fd
+    exec 9&lt;&gt;$fd
+    rm $fd
+    for((i=0;i&lt;$max_process;i++))
+    do
+        echo
+    done &gt;&amp;9
+
+    n=0
+    for((i=$first;i&lt;$last;i++))
+    do
+        {
+            read -u9
+            {
+                out=$(./getssl.sh $i)
+                echo -e &quot;$out&quot;
+                echo -e &quot;$out&quot; &gt;&gt; $output
+                echo &gt;&amp;9
+            }
+        }&amp;
+        n=$(($n+1))
+        if [ $(($n%$(($max_process*2)))) -eq 0 ]
+        then
+            wait
+        fi
+    done
+    wait
+    exec 9&gt;&amp;-
+
 
 # kill 信号
 kill -15 默认向进程发送GIGTERM 信号
@@ -279,7 +333,7 @@ http://superuser.com/questions/473240/redirect-stdout-while-a-process-is-running
 [fork exec]: http://www.cnblogs.com/hicjiajia/archive/2011/01/20/1940154.html
 
 </pre>
-<div id="pager" v-pre></div>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -301,10 +355,10 @@ http://superuser.com/questions/473240/redirect-stdout-while-a-process-is-running
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
@@ -326,6 +380,9 @@ http://superuser.com/questions/473240/redirect-stdout-while-a-process-is-running
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>

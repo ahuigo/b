@@ -49,7 +49,7 @@ const MD_URL='post/net/net-nmap-zmap.md';
 <pre id="markdown" v-pre>---
 title: 网络扫描器nmap、zmap
 date: 2016-10-10
-updated: 2018-12-07
+updated: 2019-02-04
 ---
 # nmap
 常见的网络扫描器有 SSS，X-Scan，Superscan等，功能最强大的当然是[Nmap](http://www.aiezu.com/system/linux/linux_nmap_tutorial.html)
@@ -101,7 +101,15 @@ Nmap命令的格式为：
 	-exclude	排除指定主机。
 	-excludefile	排除指定文件中的主机。
 
+## 使用
+
+    ip=123.125.115.110 
+    nmap --host-timeout 2s 123.125.115.110 -p 443| grep -Pc &quot;443/tcp open&quot;
+    wget https://$ip 2&gt;&amp;1 |grep &#x27;common name&#x27;
+
+
 # config network
+
     sudo ipconfig set en0 DHCP
     sudo ipconfig set en1 INFORM 192.168.0.150
         ipconfig getifaddr en0
@@ -151,7 +159,7 @@ NMap是一个通用网络监测工具，可以适用于不同协议、不同范�
 <div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
