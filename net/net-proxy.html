@@ -20,13 +20,10 @@ const MD_URL='post/net/net-proxy.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -36,6 +33,7 @@ const MD_URL='post/net/net-proxy.md';
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
@@ -50,8 +48,8 @@ const MD_URL='post/net/net-proxy.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: shell proxy
-date: 2018-10-06
-updated: 2018-10-06
+date: 2019-02-06
+updated: 2019-02-06
 ---
 # Android
 HowTo: Proxy Non-Proxy-Aware Android Applications through Burp
@@ -119,8 +117,6 @@ https://www.v2ex.com/t/476594
 1. Linux 里 ptrace 可以跟踪一个没有血缘关系的运行时进程，但需要以 root 权限修改默认的 `/proc/sys/kernel/yama/ptrace_scope` 值为 0：
     1. `echo &quot;0&quot; &gt; /proc/sys/kernel/yama/ptrace_scope`
 
-
-
 ### proxychains
 &gt; https://github.com/shadowsocks/shadowsocks/wiki/Using-Shadowsocks-with-Command-Line-Tools
 
@@ -178,15 +174,18 @@ For 10.11, do Restart -&gt; Press COMMAND + R -&gt; Recovery Mode -&gt; Terminal
 
 	sudo apt-get install tsocks
 	vim /etc/tsocks.conf
+        server = 127.0.0.1
+        server_type = 5
+        server_port = 1080
 
 brew install tsocks: https://github.com/Anakros/homebrew-tsocks
 
 	tap repo: brew tap Anakros/homebrew-tsocks
 	install tsocks: brew install --HEAD tsocks
-	set up socks proxy: ssh -D 5555 server
+	set up socks proxy: ssh -D 1080 server
 	edit configuration file: vim /usr/local/etc/tsocks.conf
 	set server as localhost: server = localhost
-	set server port as 5555: server_port = 5555
+	set server port as 5555: server_port = 1080
 	check that everything works: tsocks curl ifconfig.me
 
 配置：
@@ -378,7 +377,7 @@ https://help.ubnt.com/hc/en-us/articles/360002426234-UniFi-USG-VPN-How-to-Config
 
 [privoxy,tsocks,proxychains]: http://blog.ihipop.info/2011/01/1988.html
 </pre>
-<div id="pager" v-pre></div>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -400,10 +399,10 @@ https://help.ubnt.com/hc/en-us/articles/360002426234-UniFi-USG-VPN-How-to-Config
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
@@ -425,6 +424,9 @@ https://help.ubnt.com/hc/en-us/articles/360002426234-UniFi-USG-VPN-How-to-Config
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>

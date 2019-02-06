@@ -2,9 +2,206 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-02-04T23:02:39Z</updated>
+<updated>2019-02-06T17:16:15Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>前端自动化测试</title>
+<link href="/b/ria/js-test" rel="alternate" type="text/html"/>
+<updated>2019-02-06T00:00:00Z</updated>
+<summary/>
+<published>2019-02-06T00:00:00Z</published>
+<content># 前端自动化测试
+原文: http://fex.baidu.com/blog/2015/07/front-end-test/
+前端自动化测试可以在几个方向进行尝试：
+
+- 界面回归测试 测试界面是否</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>python 时间函数的用法笔记</title>
+<link href="/b/py/py-time" rel="alternate" type="text/html"/>
+<updated>2019-02-06T00:00:00Z</updated>
+<summary/>
+<published>2018-04-02T00:00:00Z</published>
+<content># time 工具
+time 提供基本的时间，sleep
+
+	import time
+	time.time()
+		19972314124.05238
+        time.localetime(</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>python thread 线程笔记</title>
+<link href="/b/py/py-thread" rel="alternate" type="text/html"/>
+<updated>2019-02-06T00:00:00Z</updated>
+<summary/>
+<published>2019-02-06T00:00:00Z</published>
+<content># threading
+Python的标准库提供了两个模块：`_thread`和`threading`: `_thread`是低级模块，threading是高级模块，对_thread进行了封装。
+
+绝</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Python 字符处理</title>
+<link href="/b/py/py-str" rel="alternate" type="text/html"/>
+<updated>2019-02-06T00:00:00Z</updated>
+<summary/>
+<published>2017-08-09T00:00:00Z</published>
+<content># Python 字符处理
+- serialize
+见/py/py-serial.md
+
+# String
+same as js:
+
+	print "a\nb" ;# The character he</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>profile</title>
+<link href="/b/py/py-profiler" rel="alternate" type="text/html"/>
+<updated>2019-02-06T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># profile
+- cProfile
+类似于xdebug cachegrind profiler 性能画像
+- py-spy python 版的top
+    - py-spy --pid 123</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>asyncio</title>
+<link href="/b/py/py-asyncio" rel="alternate" type="text/html"/>
+<updated>2019-02-06T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># asyncio
+asyncio是基于coroutine 的，包括了:
+1. 事件循环(event loop)
+2. Task: 对coroutine 的封装，包含各种状态
+    1. Pendi</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Python 异步tcp</title>
+<link href="/b/py/py-asyncio-http" rel="alternate" type="text/html"/>
+<updated>2019-02-06T00:00:00Z</updated>
+<summary/>
+<published>2019-02-06T00:00:00Z</published>
+<content>有很多库支持async tcp:
+1. asyncio 只是异步的tcp 框架
+2. aiohttp 提供了对async http 的完整支持
+
+# asyncio
+tcp 访问实例: https:/</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-async</title>
+<link href="/b/py/py-async" rel="alternate" type="text/html"/>
+<updated>2019-02-06T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Preface
+本文参考:
+1. Python黑魔法 --- 异步IO（ asyncio） 协程
+http://www.jianshu.com/p/b5e347b3a17c
+2. Python A</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>tcpdump</title>
+<link href="/b/net/net-tcpdump" rel="alternate" type="text/html"/>
+<updated>2019-02-06T00:00:00Z</updated>
+<summary/>
+<published>2019-02-06T00:00:00Z</published>
+<content># tcpdump
+example: https://www.rationallyparanoid.com/articles/tcpdump.html
+book:
+
+学术的说，tcpdump是一种嗅探</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>设置系统的PATH</title>
+<link href="/b/c/ops-path" rel="alternate" type="text/html"/>
+<updated>2019-02-06T00:00:00Z</updated>
+<summary/>
+<published>2019-01-06T00:00:00Z</published>
+<content>如果想在进入系统时设置PATH, 在这里设置
+/etc/paths
+/etc/profile
+/etc/bashrc
+</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>IP</title>
+<link href="/b/net/proxy/vps-goagent" rel="alternate" type="text/html"/>
+<updated>2019-02-06T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># IP security
+webrtc会暴露自己的真实ips
+https://diafygi.github.io/webrtc-ips/ 通过js webrtc 获取ip
+
+禁用 WebRTC
+ht</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>linux ssh tool</title>
+<link href="/b/net/net-ssh-tool" rel="alternate" type="text/html"/>
+<updated>2019-02-06T00:00:00Z</updated>
+<summary/>
+<published>2016-09-09T00:00:00Z</published>
+<content># Server
+OpenSSH Installations under CentOS Linux
+
+	# To install the server and client type:
+	yum -y</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>ssh proxy</title>
+<link href="/b/net/net-ssh-proxy" rel="alternate" type="text/html"/>
+<updated>2019-02-06T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># ssh proxy
+
+    -f Rquests ssh to go to background just before command execution.
+
+## socks proxy
+&gt;</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>shell proxy</title>
+<link href="/b/net/net-proxy" rel="alternate" type="text/html"/>
+<updated>2019-02-06T00:00:00Z</updated>
+<summary/>
+<published>2019-02-06T00:00:00Z</published>
+<content># Android
+HowTo: Proxy Non-Proxy-Aware Android Applications through Burp
+http://blog.dornea.nu/2014/</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Shell Programming</title>
+<link href="/b/c/shell-" rel="alternate" type="text/html"/>
+<updated>2019-02-06T00:00:00Z</updated>
+<summary/>
+<published>2014-03-05T00:00:00Z</published>
+<content># Shell Programming
+
+# Signal, 信号(trap)
+Refer to:
+http://billie66.github.io/TLCL/book/zh/chap37.html</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>ops-init</title>
+<link href="/b/c/ops-init" rel="alternate" type="text/html"/>
+<updated>2019-02-06T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Preface
+
+# init
+
+## init
+init指linux 系统运行级runlevel 0~6. 可在/etc/inittab中指定:
+
+	id:3:initdefault:
+
+
+##</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>数据库CAP 理论</title>
+<link href="/b/arch/arch-cap" rel="alternate" type="text/html"/>
+<updated>2019-02-06T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># CAP定理（CAP theorem）
+CAP定理（CAP theorem), 指出对于一个分布式计算系统来说，不可能同时满足以下三点:
+
+1. 一致性(Consistency) (所有节点在同一时</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>网络扫描器nmap、zmap</title>
 <link href="/b/net/net-nmap-zmap" rel="alternate" type="text/html"/>
 <updated>2019-02-04T00:00:00Z</updated>
@@ -204,7 +401,7 @@ c语言的标准I/O操作实际上是调用的系统内核IO.
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>学习 docker</title>
 <link href="/b/arch/arch-docker" rel="alternate" type="text/html"/>
-<updated>2019-02-03T00:00:00Z</updated>
+<updated>2019-02-06T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># 什么是Docker
@@ -272,202 +469,4 @@ c语言的标准I/O操作实际上是调用的系统内核IO.
 A goroutine is a `lightweight thread` managed by the Go runtime.
 
 execution of f happe</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>golang 的协程调度</title>
-<link href="/b/go/18.go-routines-inner" rel="alternate" type="text/html"/>
-<updated>2019-02-03T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># golang 的协程调度
-协程是由用户态自己手动去调度的、轻量的上下文切换。
-具体到不同的语言，协程有所不同，主要分串行和并行两大类：
-1. js、python 的async/await 模型的协</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>五大过程组，十大知识领域</title>
-<link href="/b/em/em-" rel="alternate" type="text/html"/>
-<updated>2019-01-23T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># 五大过程组，十大知识领域
-https://www.jianshu.com/p/33dda2e06225
-
-# PM 项目管理(10大)
-&gt; 管理制度+(掌握管理方法的)人+管理信息系统
-1. 项目</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>关于人工标注的思考</title>
-<link href="/b/code/code-manual-annotation" rel="alternate" type="text/html"/>
-<updated>2019-02-03T00:00:00Z</updated>
-<summary/>
-<published>2019-01-22T00:00:00Z</published>
-<content># 关于人工标注的思考
-当下人工智能发展的如火如荼，很多场景都在利用人工智能做标注，但是标注总有一定的错误率，这种情况下还是要依赖人工做标注修正。而且，AI也需要人工标注的数据做训练。
-这是一个低效率</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>linux yum</title>
-<link href="/b/c/ops-yum" rel="alternate" type="text/html"/>
-<updated>2019-01-23T00:00:00Z</updated>
-<summary/>
-<published>2019-01-23T00:00:00Z</published>
-<content># Preface
-
-# os version
-check os version:
-
-	cat /etc/*-release
-
-	lsb_release -a
-	OS=$(lsb_release -s</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>哈希</title>
-<link href="/b/algorithm/4.algo-hash" rel="alternate" type="text/html"/>
-<updated>2019-01-23T00:00:00Z</updated>
-<summary/>
-<published>2019-01-18T00:00:00Z</published>
-<content>
-# 哈希函数
-1. key 均匀的落到不同的slots
-2. key 本身不能影响到hash 的均匀性
-
-## 散列法
-### 取模法
-hash = key mod m
-1. m尽量用质数，不要用$</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>AHUI 的认知作业</title>
-<link href="/b/life/self-character" rel="alternate" type="text/html"/>
-<updated>2019-01-15T00:00:00Z</updated>
-<summary/>
-<published>2019-01-15T00:00:00Z</published>
-<content># AHUI 的认知作业
-如果你的朋友时间有限，那么请他们
-1. 选择５个他们觉得最能代表你的形容词(不区分正负性)
-2. 再选择３-５个他们觉得你可以在这个方面继续成长的形容词（相较而言偏负性的）。</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Node File System API</title>
-<link href="/b/ria/node-fs" rel="alternate" type="text/html"/>
-<updated>2019-01-13T00:00:00Z</updated>
-<summary/>
-<published>2019-01-13T00:00:00Z</published>
-<content># node 下的文件 API
-默认buffer 
-
-## process.argv
-
-    process.argv.forEach(function (val, index, array) {
-</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Js 字符串大全</title>
-<link href="/b/ria/js-str" rel="alternate" type="text/html"/>
-<updated>2019-01-13T00:00:00Z</updated>
-<summary/>
-<published>2015-03-15T00:00:00Z</published>
-<content># Js 字符串大全
-字符定义与python 一样, 而且不区分双引号：
-
-    '\x00' == '\u0000'
-	'\x31' == "\x31"
-
-	'好' === '\u597D' //</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>js notes</title>
-<link href="/b/ria/js-obj" rel="alternate" type="text/html"/>
-<updated>2019-01-13T00:00:00Z</updated>
-<summary/>
-<published>2019-01-13T00:00:00Z</published>
-<content># Object
-
-## define
-
-    {toStr(){}, a:1}
-    &gt; a=1
-    &gt; b={a}
-    { a: 1 }
-
-    new cls().property</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>vim 笔记</title>
-<link href="/b/vim/vim-notes" rel="alternate" type="text/html"/>
-<updated>2019-01-10T00:00:00Z</updated>
-<summary/>
-<published>2019-01-10T00:00:00Z</published>
-<content># vim 笔记
-本文是vim 相关的总结，不会有太多的注释 —— 只是方便回顾.
-
-&gt; 使用vim 时建议将key repeat调到最快, 把key delay调到最小
-&gt; 很多时候我会用Ctrl+</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>vim-help</title>
-<link href="/b/vim/vim-help" rel="alternate" type="text/html"/>
-<updated>2019-02-04T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># help 帮助
-&gt; Refer to : http://vim.wikia.com/wiki/Learn_to_use_help
-
-之所以我把help放在这里，是因为help实在是太重要了。关于d</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>设计模式</title>
-<link href="/b/php/php-pattern" rel="alternate" type="text/html"/>
-<updated>2019-01-10T00:00:00Z</updated>
-<summary/>
-<published>2019-01-10T00:00:00Z</published>
-<content># Preface
-
-
-# composer Pattern
-聚合（空心菱形）：schoolClass 可以包含多个Pupil(聚合Pupil)
-组合模式(实心菱形): 是聚合组件,组件不可被其它类包</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Redis</title>
-<link href="/b/db/redis-" rel="alternate" type="text/html"/>
-<updated>2019-01-10T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Redis
-redis所有的数据都是redisObject存储的。redisObject来表示所有的key/value数据是比较浪费内存的(为了支持各种数据类型嘛)，还好redis 作者也考虑了很</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>并发模型</title>
-<link href="/b/code/code-concurrent-model" rel="alternate" type="text/html"/>
-<updated>2019-01-10T00:00:00Z</updated>
-<summary/>
-<published>2019-01-10T00:00:00Z</published>
-<content># 并发模型
-廖老师介绍了一本《七周七并发模型》，值得一读。 这本书从最基础的线程和锁模型讲起，介绍了许多非常有用的并发模型：
-
-    通过无变量的函数式编程实现并发，是无锁并发的一种模型；
-
-  </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>求数列中和最大的连续子序列的和</title>
-<link href="/b/algorithm/algo-array-max-consecutive-sub" rel="alternate" type="text/html"/>
-<updated>2019-01-10T00:00:00Z</updated>
-<summary/>
-<published>2019-01-09T00:00:00Z</published>
-<content># 求数列中和最大的连续子序列的和
-&gt; Find max sum of consecutive sequence for an array.
-
-## 问题
-给定一个随机的数字序列，要求找出其中和最大的</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>如何避免深度递归</title>
-<link href="/b/algorithm/3.algo-self-call" rel="alternate" type="text/html"/>
-<updated>2019-01-08T00:00:00Z</updated>
-<summary/>
-<published>2018-09-26T00:00:00Z</published>
-<content># 如何避免深度递归
-我们先看看函数与递归的本质：
-
-- 函数调用的本质是: 我们在做一件事过程中，我们发现必须要先完成另外一件事，于是中断当前的工作，并把当前的工作信息保存到栈(stack); 当别</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>算法分治法(divide and conquer)</title>
-<link href="/b/algorithm/2.divide-conquer" rel="alternate" type="text/html"/>
-<updated>2019-01-08T00:00:00Z</updated>
-<summary/>
-<published>2018-09-26T00:00:00Z</published>
-<content># 算法分治法(divide and conquer)
-fibonacii 可以用分治法来做，复杂度非常高.$O(2^n)$
-
-## fibonacii numbers: 
-fibonacii num</content>
 </entry></feed>

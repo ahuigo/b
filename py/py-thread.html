@@ -20,13 +20,10 @@ const MD_URL='post/py/py-thread.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -36,6 +33,7 @@ const MD_URL='post/py/py-thread.md';
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
@@ -50,8 +48,8 @@ const MD_URL='post/py/py-thread.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: python thread 线程笔记
-date: 2018-10-06
-updated: 2018-10-06
+date: 2019-02-06
+updated: 2019-02-06
 ---
 # threading
 Python的标准库提供了两个模块：`_thread`和`threading`: `_thread`是低级模块，threading是高级模块，对_thread进行了封装。
@@ -60,7 +58,7 @@ Python的标准库提供了两个模块：`_thread`和`threading`: `_thread`是�
 
 	import time, threading
 	t = threading.Thread(target=loop, name=&#x27;LoopThread&#x27;, args = (arg1, arg2, ..))
-	# t.setDaemon(True); # 设置独立线程, 主线程不会管子线程序而结束(子线程也会强制结束, join()才会等待) 
+	# t.setDaemon(True); # 设置独立线程, 主线程不会等待子线程序而结束(子线程也会强制结束, 除非强制join()才会等待) 
                          # 默认主线程结束后，会默认等待子线程(非daemon) 结束后，主线程才退出。
 	t.start()
 	t.join(); 相当于wait
@@ -154,17 +152,17 @@ mutex:
 
 ## close thread: via thread.Event
 via a threadsafe threading.Event():
-1. 利用wait(), set():
+1. 利用e.wait() until e.set():
 
     e = threading.Event()
     while not e.wait(0.5): # wait 会阻塞0.5秒
         time.sleep(1)
     print(&#x27;end&#x27;)
 
-2. 利用is_set(), clear():
+2. 利用e.is_set() until e.clear():
 
-    running = threading.Event()
-    running.set()
+    e = threading.Event()
+    e.set()
 
     def loop(running):
         while running.is_set():
@@ -174,7 +172,7 @@ via a threadsafe threading.Event():
     thread = threading.Thread(target=loop, args=(running,))
     thread.start()
 
-    running.clear()
+    e.clear()
     thread.join()
 
 3. close via thread attr:
@@ -189,6 +187,41 @@ via a threadsafe threading.Event():
     thread = threading.Thread(target=loop, args=(running,))
     thread.do_run = False
 
+## thread isAlive
+thread.start() 后为true
+
+    thread.isAlive()
+
+## catch thread excetion
+    import threading
+    import sys
+    class ExcThread(threading.Thread):
+
+        def __init__(self, target, args = None):
+            self.args = args if args else []
+            self.target = target
+            self.exc = None
+            threading.Thread.__init__(self)
+
+        def run(self):
+            try:
+                self.target(*self.args)
+                raise Exception(&#x27;An error occured here.&#x27;)
+            except Exception:
+                self.exc=sys.exc_info()
+
+    def main():
+        thread_obj = ExcThread(target=lambda *x:print(f&#x27;run target({x})&#x27;), args=[1,2,3])
+        thread_obj.start()
+
+        thread_obj.join()
+        exc = thread_obj.exc
+        if exc:
+            exc_type, exc_obj, exc_trace = exc
+            print(exc_type, &#x27;:&#x27;,exc_obj, &quot;:&quot;, exc_trace)
+
+    main()
+
 
 ## communicate via pool.apply_async().get()
 对比下ThreadPool vs Thread
@@ -200,7 +233,7 @@ e.g.
 
     def foo(bar, baz):
         print(&#x27;hello {0}&#x27;.format(bar))
-        return &#x27;foo&#x27; + baz
+        return &#x27;return baz:&#x27; + baz
 
     from multiprocessing.pool import ThreadPool
     pool = ThreadPool(processes=1)
@@ -350,9 +383,12 @@ ThreadLocal最常用的地方:
 ## communicate via Queue
 Queue  is thread safe
 
+    import queue
+    q=queue.Queue()
+
 ## signal for thread
 signal.pthread_kill(thread_id, signum)</pre>
-<div id="pager" v-pre></div>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -374,10 +410,10 @@ signal.pthread_kill(thread_id, signum)</pre>
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
@@ -399,6 +435,9 @@ signal.pthread_kill(thread_id, signum)</pre>
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>
