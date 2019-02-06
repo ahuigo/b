@@ -2,9 +2,58 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-02-06T17:16:15Z</updated>
+<updated>2019-02-07T00:52:15Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>install java</title>
+<link href="/b/java/java-install" rel="alternate" type="text/html"/>
+<updated>2019-02-07T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># install java
+
+## jdk
+jdk include jre(java run-time environment)
+
+  sudo yum install java-1.8.0-ope</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Lua 的变量</title>
+<link href="/b/arch/lua-var" rel="alternate" type="text/html"/>
+<updated>2019-02-06T00:00:00Z</updated>
+<summary/>
+<published>2019-02-05T00:00:00Z</published>
+<content># Lua 变量
+
+## 类型
+
+    nil	这个最简单，只有值nil属于该类，表示一个无效值（在条件表达式中相当于false）。
+    boolean	包含两个值：false和true。
+  </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>lua module</title>
+<link href="/b/arch/lua-module" rel="alternate" type="text/html"/>
+<updated>2019-02-06T00:00:00Z</updated>
+<summary/>
+<published>2019-01-06T00:00:00Z</published>
+<content># 定义module
+
+    -- 文件名为 module.lua
+    -- 定义一个名为 module 的模块
+    module = {}
+    
+    -- 定义一个常量
+    m</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-process</title>
+<link href="/b/py/py-process" rel="alternate" type="text/html"/>
+<updated>2019-02-06T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Preface
+- sh: sh之于subprocess， 相当于requests 对于urllib2
+	1. sh.ls("-l", "/tmp", color="never")
+	2. sh.</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>前端自动化测试</title>
 <link href="/b/ria/js-test" rel="alternate" type="text/html"/>
 <updated>2019-02-06T00:00:00Z</updated>
@@ -425,48 +474,4 @@ c语言的标准I/O操作实际上是调用的系统内核IO.
 <published>2014-05-07T00:00:00Z</published>
 <content># git hooks
 钩子(hooks)是一些在$GIT-DIR/hooks目录的脚本, 在被特定的事件(certain points)触发后被调用。当git init命令被调用后, 一些非常有用的</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>shell 表达式</title>
-<link href="/b/c/shell-grammar" rel="alternate" type="text/html"/>
-<updated>2019-01-23T00:00:00Z</updated>
-<summary/>
-<published>2019-01-23T00:00:00Z</published>
-<content># shell 表达式
-
-# Loop
-
-## for
-
-	for a in "$*" ; do echo "$a "; done
-	for a in "$@" ; do echo "$a "; do</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>数字的分类</title>
-<link href="/b/math/math-num" rel="alternate" type="text/html"/>
-<updated>2019-01-23T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># 数字的分类
-- 实数: x 的整数部分[x], 小数部分{x}
-    - 整数, Integer: ℕ
-        - 正整数, positive:
-    - 有理无理:
-        </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>brew</title>
-<link href="/b/mac/mac-brew" rel="alternate" type="text/html"/>
-<updated>2019-01-23T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># brew
-- brew(Homebrew) 是近来极流行的 安装gawk,gsed,macvim等命令的安装工具，所有的包都被安装到/usr/local/Cellar下，然后再以`ln -s` 软</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>go routines</title>
-<link href="/b/go/18.go-routines" rel="alternate" type="text/html"/>
-<updated>2019-01-23T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># go routines
-A goroutine is a `lightweight thread` managed by the Go runtime.
-
-execution of f happe</content>
 </entry></feed>

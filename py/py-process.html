@@ -20,13 +20,10 @@ const MD_URL='post/py/py-process.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -36,6 +33,7 @@ const MD_URL='post/py/py-process.md';
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
@@ -51,7 +49,7 @@ const MD_URL='post/py/py-process.md';
 <pre id="markdown" v-pre>---
 title: py-process
 date: 2018-10-04
-updated: 2018-10-06
+updated: 2019-02-06
 ---
 # Preface
 - sh: sh之于subprocess， 相当于requests 对于urllib2
@@ -129,7 +127,9 @@ multiprocessing.Process(func) 则可以直接传func:
 	Run child process test (929)...
 	Process end.
 
-# Pool().apply_async()
+# Pool()
+
+## Pool().apply_async()
 如果要启动大量的子进程，可以用进程池的方式批量创建子进程：
 multiprocessing.Pool(4) 比fork 简单
 
@@ -137,44 +137,46 @@ multiprocessing.Pool(4) 比fork 简单
 2. for i in range(5): res = p.apply_async(func, args=(i,))
 2. p.join() 等待子进程结束后再继续往下运行，通常用于进程间的同步
 3. 或者用res.get() 阻塞获取返回值
-```
-from multiprocessing import Pool
-import os, time, random
 
-def long_time_task(name):
-    print(&#x27;Run task %s (%s)...&#x27; % (name, os.getpid()))
-    start = time.time()
-    time.sleep(random.random() * 3)
-    end = time.time()
-    print(&#x27;Task %s runs %0.2f seconds.&#x27; % (name, (end - start)))
+e.g.
 
-if __name__==&#x27;__main__&#x27;:
-    print(&#x27;Parent process %s.&#x27; % os.getpid())
+    from multiprocessing import Pool
+    import os, time, random
+
+    def long_time_task(name):
+        print(&#x27;Run task %s (%s)...&#x27; % (name, os.getpid()))
+        start = time.time()
+        time.sleep(random.random() * 3)
+        end = time.time()
+        print(&#x27;Task %s runs %0.2f seconds.&#x27; % (name, (end - start)))
+
+    if __name__==&#x27;__main__&#x27;:
+        print(&#x27;Parent process %s.&#x27; % os.getpid())
+        p = Pool(4)
+        for i in range(5):
+            p.apply_async(long_time_task, args=(i,)) # 加5个任务
+        time.sleep(3)
+        print(&#x27;Waiting for all subprocesses done...&#x27;)
+        p.close() # Tells the pool not to accept any new job. Once all the tasks have been completed the worker processes will exit
+        p.join() # Wait for the worker processes to exit. One must call close() before using join().
+        print(&#x27;All subprocesses done.&#x27;)
+
+Note: 可以使用r.get() 获得返回(阻塞)
+
+    from multiprocessing import Pool
+    import os, time, random
+
+    def long_time_task(name):
+        time.sleep(3)
+        return &#x27;%s&#x27; %name
+
     p = Pool(4)
-    for i in range(5):
-        p.apply_async(long_time_task, args=(i,)) # 加5个任务
-    time.sleep(3)
-    print(&#x27;Waiting for all subprocesses done...&#x27;)
-    p.close() # Tells the pool not to accept any new job. Once all the tasks have been completed the worker processes will exit
-    p.join() # Wait for the worker processes to exit. One must call close() before using join().
-    print(&#x27;All subprocesses done.&#x27;)
-```
-Note: 可以使用r.get() 获得返回
-```
-from multiprocessing import Pool
-import os, time, random
+    rr = []
+    for i in range(2):
+        r = p.apply_async(long_time_task, args=(i,)) # 加5个任务
+        rr.append(r)
+    for r in rr: print(r.get())
 
-def long_time_task(name):
-	time.sleep(3)
-    return &#x27;%s&#x27; %name
-
-p = Pool(4)
-rr = []
-for i in range(2):
-    r = p.apply_async(long_time_task, args=(i,)) # 加5个任务
-    rr.append(r)
-for r in rr: print(r.get())
-```
 执行结果如下：
 
     Parent process 78869.
@@ -190,8 +192,6 @@ for r in rr: print(r.get())
     Task 0 runs 2.99 seconds.
     Waiting for all subprocesses done...
     All subprocesses done.
-
-代码解读：
 
 请注意输出的结果，task 0，1，2，3是立刻执行的，而task 4要等待前面某个task完成后才执行，这是因为Pool的默认大小在我的电脑上是4，因此，最多同时执行4个进程。这是Pool有意设计的限制，并不是操作系统的限制。如果改成：
 
@@ -427,7 +427,7 @@ task_worker.py进程结束，在task_master.py进程中会继续打印出结果�
 这个简单的Master/Worker模型有什么用？其实这就是一个简单但真正的分布式计算，把代码稍加改造，启动多个worker，就可以把任务分布到几台甚至几十台机器上，比如把计算n*n的代码换成发送邮件，就实现了邮件队列的异步发送。
 
 Queue对象存储在哪？注意到task_worker.py中根本没有创建Queue的代码，所以，Queue对象存储在task_master.py进程中</pre>
-<div id="pager" v-pre></div>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -449,10 +449,10 @@ Queue对象存储在哪？注意到task_worker.py中根本没有创建Queue的�
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
@@ -474,6 +474,9 @@ Queue对象存储在哪？注意到task_worker.py中根本没有创建Queue的�
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>

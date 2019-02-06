@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/p/p9.md';
+const MD_URL='post/arch/lua-module.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO 的笔记</title>
+<title>lua module</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -46,52 +46,65 @@ const MD_URL='post/p/p9.md';
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
-<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+<pre id="markdown" v-pre>---
+title: lua module
+date: 2019-01-06
+updated: 2019-02-06
+---
+# 定义module
 
-<ul>
-<li>2018-09-27 <a href="/b/c/ops-init">ops-init</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-hardware">ops-hardware</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-grep">grep &amp; ag 的使用</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-ftp-rsync">ops-ftp-rsync</a> </li>
-<li>2018-10-06 <a href="/b/c/ops-fs">linux 文件系统</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-find">ops-find</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-find-cmd">find dir of command</a> </li>
-<li>2018-10-06 <a href="/b/c/ops-file">linux 文件管理</a> </li>
-<li>2018-08-27 <a href="/b/c/ops-fiddle">各种语言的fiddle</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-fabric">Fabric</a> </li>
-<li>2018-10-06 <a href="/b/c/ops-expect">expect 键盘模拟</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-device">ops-device</a> </li>
-<li>2019-01-10 <a href="/b/code/code-concurrent-model">并发模型</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-dd">dd</a> </li>
-<li>2018-10-06 <a href="/b/c/ops-curl">curl manual</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-crontab">ops-crontab</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-config">ops-config</a> </li>
-<li>2018-10-06 <a href="/b/c/ops-centos-install">centos 安装记录</a> </li>
-<li>2018-12-24 <a href="/b/c/ops-benchmark">test</a> </li>
-<li>2018-10-06 <a href="/b/c/ops-awk">awk 简介</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-ansible">Ansible</a> </li>
-<li>2018-10-06 <a href="/b/c/c-tool">linux c tool</a> </li>
-<li>2018-10-06 <a href="/b/c/c-thread">linux c 线程</a> </li>
-<li>2018-10-06 <a href="/b/c/c-terminal">linux c 终端、作业与守护进程</a> </li>
-<li>2018-10-06 <a href="/b/c/c-socket">linux c socket 编程</a> </li>
-<li>2018-10-06 <a href="/b/c/c-signal">linux c 信号</a> </li>
-<li>2018-05-17 <a href="/b/c/c-regex">c 语言的正则库</a> </li>
-<li>2018-10-06 <a href="/b/c/c-pointer">c 语言之指针</a> </li>
-<li>2018-10-06 <a href="/b/c/c-os">计算机结构</a> </li>
-<li>2018-10-06 <a href="/b/c/c-operator">c 语言运算符</a> </li>
-<li>2018-10-06 <a href="/b/c/c-nasm-hello">nasm helloworld</a> </li>
-<li>2018-09-27 <a href="/b/c/c-mem">c-mem</a> </li>
-<li>2018-09-27 <a href="/b/c/c-mem-gc">GC</a> </li>
-<li>2018-09-27 <a href="/b/c/c-lock-futex">C futex 同步机制</a> </li>
-<li>2018-10-06 <a href="/b/c/c-link">linux c link 详解</a> </li>
-<li>2018-10-06 <a href="/b/c/c-lib">c lib 库</a> </li>
-<li>2018-10-06 <a href="/b/vim/vim-fold">vim fold</a> </li>
-<li>2018-10-06 <a href="/b/vim/vim-emacs">Emacs</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-diff">diffget all file</a> </li>
-<li>20180509 <a href="/b/vim/nvim-plugin">vim plug 插件系统</a> </li>
-</ul>
-</div>
-<div id="pager"> <a href="/b/index">p0</a> <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a> <a href="/b/p/p3">p3</a> <a href="/b/p/p4">p4</a> <a href="/b/p/p5">p5</a> <a href="/b/p/p6">p6</a> <a href="/b/p/p7">p7</a> <a href="/b/p/p8">p8</a> p9 <a href="/b/p/p10">p10</a> <a href="/b/p/p11">p11</a> <a href="/b/p/p12">p12</a> <a href="/b/p/p13">p13</a> <a href="/b/p/p14">p14</a> <a href="/b/p/p15">p15</a> <a href="/b/p/p16">p16</a> <a href="/b/p/p17">p17</a> <a href="/b/p/p18">p18</a></div>
+    -- 文件名为 module.lua
+    -- 定义一个名为 module 的模块
+    module = {}
+    
+    -- 定义一个常量
+    module.constant = &quot;这是一个常量&quot;
+    
+    -- 定义一个函数
+    function module.func1()
+        io.write(&quot;这是一个公有函数！\n&quot;)
+    end
+    
+    local function func2()
+        print(&quot;这是一个私有函数！&quot;)
+    end
+    
+    function module.func3()
+        func2()
+    end
+    
+    return module
+
+# require module
+
+    require(&quot;&lt;模块名&gt;&quot;)
+    -- 或者
+    require &quot;&lt;模块名&gt;
+    print(module.constant)
+
+别名
+
+    local m = require(&quot;module&quot;)
+
+## 加载机制：
+1.先在全局变量 package.path（由LUA_PATH 定义）找lua，如果找过目标文件，则会调用 package.loadfile 来加载模块。
+
+    export LUA_PATH=&quot;~/lua/?.lua;;&quot;
+    # 文件路径以 &quot;;&quot; 号分隔，最后的 2 个 &quot;;;&quot; 表示新加的路径后面加上原来的默认路径。
+    # ~/lua/?.lua;./?.lua;
+
+2.否则，就找从全局变量 package.cpath 获取(LUA_CPATH) 找so 或 dll 类型的c程序库
+如果找得到，那么 require 就会通过 package.loadlib 来加载它
+
+    local path = &quot;/usr/local/lua/lib/libluasocket.so&quot;
+    -- 所有c 包需要加载和连接，连接一般用初始化的函数luaopen_socket
+    local f = loadlib(path, &quot;luaopen_socket&quot;)
+    -- 真正执行连接函数
+    f()
+
+
+</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
