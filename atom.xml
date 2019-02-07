@@ -2,9 +2,95 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-02-07T00:52:15Z</updated>
+<updated>2019-02-07T16:18:25Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>py-test</title>
+<link href="/b/py/py-test" rel="alternate" type="text/html"/>
+<updated>2019-02-07T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Preface
+test framework list:
+- pytest   比unittest 好的一点是：可以选择测试范围
+- unittest 单元测试, py-unittest
+    </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>python virtualenv</title>
+<link href="/b/py/py-test-virtualenv" rel="alternate" type="text/html"/>
+<updated>2019-02-07T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Preface
+- virtualenv 提供了 Python 虚拟环境的隔离，但是命令复杂，目录的管理也比较混乱，
+- VirtualEnvWrapper 基于它提供了更简易的命令和操作。
+
+#</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>python shell 子进程</title>
+<link href="/b/py/py-shell" rel="alternate" type="text/html"/>
+<updated>2019-02-07T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># python shell 子进程
+很多时候，子进程并不是自身，而是一个外部进程。我们创建了子进程后，还需要控制子进程的输入和输出。
+
+subprocess模块可以让我们非常方便地启动一个子进程，然</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-func</title>
+<link href="/b/py/py-func" rel="alternate" type="text/html"/>
+<updated>2019-02-07T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Preface
+
+函数式编程
+
+# call func
+getattr(foo, 'bar')()
+locals()['bar']()
+globals()['bar']()
+
+## access </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-debug</title>
+<link href="/b/py/py-debug" rel="alternate" type="text/html"/>
+<updated>2019-02-07T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Preface
+1. exception
+2. 调试包括print, assert, 
+3. 使用logging/sentry/q(强烈推荐)
+4. pdb/ipdb
+3. perf 性能
+1. </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Type</title>
+<link href="/b/java/java-var" rel="alternate" type="text/html"/>
+<updated>2019-02-07T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Type
+
+## Type Convert
+
+### int to string
+
+　　int i = Integer.parseInt(str);
+　　int i = Integer.parse</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Git 命令大全</title>
+<link href="/b/git/git-" rel="alternate" type="text/html"/>
+<updated>2019-02-07T00:00:00Z</updated>
+<summary/>
+<published>2019-02-07T00:00:00Z</published>
+<content># Git 配置
+
+## ConfigFile
+1. /etc/gitconfig #git config --system
+2. ~/.gitconfig 	#git config --global</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>install java</title>
 <link href="/b/java/java-install" rel="alternate" type="text/html"/>
 <updated>2019-02-07T00:00:00Z</updated>
@@ -401,77 +487,4 @@ Syntax:
 
 ## explain
 用explain 获取mysql 如何quer</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>mysql install</title>
-<link href="/b/db/mysql-admin" rel="alternate" type="text/html"/>
-<updated>2019-02-03T00:00:00Z</updated>
-<summary/>
-<published>2019-02-03T00:00:00Z</published>
-<content># Preface
-mysql安装
-
-# Install
-安装后默认的密码帐号为空:
-host=kw.get('host', 'localhost'),
-port=kw.get('port', 330</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>wget</title>
-<link href="/b/c/ops-wget" rel="alternate" type="text/html"/>
-<updated>2019-02-03T00:00:00Z</updated>
-<summary/>
-<published>2019-02-03T00:00:00Z</published>
-<content># ftp
-
-    wget -r --user="user@login" --password="password" ftp://server.com/
-    wget -r ftp://use</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>linux系统IO</title>
-<link href="/b/c/c-io" rel="alternate" type="text/html"/>
-<updated>2019-02-03T00:00:00Z</updated>
-<summary/>
-<published>2019-02-03T00:00:00Z</published>
-<content># Preface
-c语言的标准I/O操作实际上是调用的系统内核IO.
-
-# 标准输出的低层实现
-以汇编的hello world 为例
-
-	.data					# section declaratio</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>c-debug-strace</title>
-<link href="/b/c/c-debug-strace" rel="alternate" type="text/html"/>
-<updated>2019-02-04T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Preface
-
-# strace
-&gt; 请参考: [strace 使用](http://linuxtools-rst.readthedocs.io/zh_CN/latest/tool/strace</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>学习 docker</title>
-<link href="/b/arch/arch-docker" rel="alternate" type="text/html"/>
-<updated>2019-02-06T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># 什么是Docker
-虚拟机是对硬件的虚拟化(需要Hypervisor这个软件层), 而docker （LXC, linux container）是对操作系统的虚拟化。
-1. docker 基于li</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>AI 入门路线</title>
-<link href="/b/ai/ai-book" rel="alternate" type="text/html"/>
-<updated>2019-02-03T00:00:00Z</updated>
-<summary/>
-<published>2019-01-29T00:00:00Z</published>
-<content># AI入门 路线
-0. 准备：算法与数据结构、高数、线性代数、概率统计
-    1. 系统学习：清华邓俊辉老师《数据结构（C++语言版）》（代码全），算法4版(重实践)，算法导论(偏数学证明)
-  </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>git hooks</title>
-<link href="/b/git/git-hooks" rel="alternate" type="text/html"/>
-<updated>2019-01-23T00:00:00Z</updated>
-<summary/>
-<published>2014-05-07T00:00:00Z</published>
-<content># git hooks
-钩子(hooks)是一些在$GIT-DIR/hooks目录的脚本, 在被特定的事件(certain points)触发后被调用。当git init命令被调用后, 一些非常有用的</content>
 </entry></feed>

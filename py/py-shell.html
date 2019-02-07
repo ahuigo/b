@@ -49,7 +49,7 @@ const MD_URL='post/py/py-shell.md';
 <pre id="markdown" v-pre>---
 title: python shell 子进程
 date: 2018-10-04
-updated: 2018-12-30
+updated: 2019-02-07
 ---
 # python shell 子进程
 很多时候，子进程并不是自身，而是一个外部进程。我们创建了子进程后，还需要控制子进程的输入和输出。
@@ -105,16 +105,18 @@ via exec
 1. sh.ls(&quot;-l&quot;, &quot;/tmp&quot;, color=&quot;never&quot;) # equal to getoutput
 	1. sh.ls(&quot;-l /tmp&quot;.split(&#x27; &#x27;))
 2. subprocess.check_output(&quot;ls -l&quot;, shell=True).decode(&#x27;gbk&#x27;)
+    2. subprocess.check_output([&quot;ls&quot;, &quot;-l&quot;]).decode(&#x27;gbk&#x27;)
 3. subprocess.getoutput(&quot;ls -l;pwd&quot;); # only support utf8
 	1. subprocess.getstatusoutput(&quot;ls -l&quot;) # return list: [code, output_str]
 4. print output: errno = os.system(&#x27;ls -ls&#x27;)
+5. errno=call(&quot;ls -l&quot;, shell=True)
+    2. s.call([&quot;ls&quot;,&quot;-a&quot;])
 
-不要结果的background:
-
-1. errno=call(&quot;ls -l&quot;, shell=True)
+background+gui:
 1. errno=call(&quot;sleep 10 &amp;&quot;, shell=True) 
     2. call 后台执行时，永远返回errno=0
     3. 而getoutput 它需要获取到stdout+stderr, 强制等待任务结束
+1. print output: errno = os.system(&#x27;ls -ls &amp;&#x27;)
 
 ### subprocess.check_output
 
@@ -123,7 +125,6 @@ via exec
     res = subprocess.check_output(&quot;ls -l&quot;, shell=True) # 以shell 角析, 否则&quot;ls -l&quot; 就是一个命令
     print(res.decode()) # 默认返回值为 bytes 类型
         -rw-r--r-- ...
-
 
 ### subprocess.Popen
 Popen 是最基础的类, 它是非阻塞的(除非执行`.stdout.read()`)
@@ -249,7 +250,7 @@ check error, and shell=True
 <div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>

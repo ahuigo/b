@@ -33,6 +33,7 @@ const MD_URL='post/git/git-.md';
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
@@ -47,8 +48,8 @@ const MD_URL='post/git/git-.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: Git 命令大全
-date: 2018-10-08
-updated: 2018-10-08
+date: 2019-02-07
+updated: 2019-02-07
 ---
 # Git 配置
 
@@ -357,45 +358,10 @@ undo commit
 
 # git checkout
 
-## Usage
-切换到要操作的: commit/branch
-同时刷新working 到: commit/branch/stage, stage 优先级最高
+## switch branch
+不能有overwritten: index/working/untracked 
 
-
-         working
-	       ↑
-	A--x1--x2
-	    ↑(index)
-
-##	checkout(index/working)
-lost index+working: like `git reset A`, except `index+untracked:new file`. So it&#x27;s very safe
-
-    working
-    ↑
-	A--x1--x2       git checkout A file
-    ↑(index)
-
-lost working only
-
-        working
-        ↑
-	A--x1--x2       git checkout file
-	    ↑(index)
-
-	#(stage|commit) -&gt; working
-	git checkout -- file //cp staged or commited file to working copy.(如果没有stage就用commit)，不会改变stage
-	git checkout HEAD file
-	git checkout HEAD^ file //回滚单个文件(index+work)
-	git checkout HEAD^ .//回滚dir(index+work)
-	git checkout HEAD^ //切换分支(需要先`gco .`，否则报错)
-
-### switch branch
-&gt; Not change not staged, staged, untracked files
-
-	git checkout &lt;branch&gt;
-
-### switch &amp; add
-
+    git checkout [-b] &lt;branch&gt;
 	-b new_branch
 		Create a new branch named &lt;new_branch&gt; and start it at &lt;start_point&gt;
 		git checkout [-b] &lt;branch&gt;
@@ -404,6 +370,15 @@ lost working only
 	-t, --track
 		git checkout -b master upstream/master, //tracking branch
 		git checkout -b master -t upstream/master, //tracking branch
+
+##	checkout(index/working)
+override: index -&gt; working
+
+    git checkout -- .
+
+override: index+working
+
+    git checkout HEAD -- .
 
 # git diff
 [/p/git-diff](/p/git-diff)
@@ -905,7 +880,7 @@ https://hub.github.com/
 <div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
