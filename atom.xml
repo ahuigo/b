@@ -2,9 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-02-07T16:18:25Z</updated>
+<updated>2019-02-08T21:13:58Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>学习 docker</title>
+<link href="/b/arch/arch-docker" rel="alternate" type="text/html"/>
+<updated>2019-02-08T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># 什么是Docker
+虚拟机是对硬件的虚拟化(需要Hypervisor这个软件层), 而docker （LXC, linux container）是对操作系统的虚拟化。
+1. docker 基于li</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>py-test</title>
 <link href="/b/py/py-test" rel="alternate" type="text/html"/>
 <updated>2019-02-07T00:00:00Z</updated>
@@ -18,14 +27,13 @@ test framework list:
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>python virtualenv</title>
 <link href="/b/py/py-test-virtualenv" rel="alternate" type="text/html"/>
-<updated>2019-02-07T00:00:00Z</updated>
+<updated>2019-02-08T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
-<content># Preface
+<content># virtualenv
+本文介绍两种python 虚拟环境
 - virtualenv 提供了 Python 虚拟环境的隔离，但是命令复杂，目录的管理也比较混乱，
-- VirtualEnvWrapper 基于它提供了更简易的命令和操作。
-
-#</content>
+- VirtualEnvWrappe</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>python shell 子进程</title>
 <link href="/b/py/py-shell" rel="alternate" type="text/html"/>
@@ -473,18 +481,4 @@ Syntax:
 发现一份汇编示例：
 1. Go Assembly 示例 https://colobu.com/goasm/
 2. 英文版：https://www.davidwong.fr/goasm/</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>mysql explain 的使用</title>
-<link href="/b/db/mysql-index-explain" rel="alternate" type="text/html"/>
-<updated>2019-02-03T00:00:00Z</updated>
-<summary/>
-<published>2018-12-29T00:00:00Z</published>
-<content># Mysql Explain 的使用
-
-## show index
-
-	show index from table_name;
-
-## explain
-用explain 获取mysql 如何quer</content>
 </entry></feed>
