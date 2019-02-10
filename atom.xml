@@ -2,9 +2,17 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-02-10T23:13:43Z</updated>
+<updated>2019-02-10T23:40:32Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>约瑟夫问题</title>
+<link href="/b/algorithm/algo-dp-josephus-problem" rel="alternate" type="text/html"/>
+<updated>2019-02-10T00:00:00Z</updated>
+<summary/>
+<published>2019-02-10T00:00:00Z</published>
+<content># 约瑟夫问题
+[约瑟夫问题](https://en.wikipedia.org/wiki/Josephus_problem) 描述的是n 个士兵围一个环，从一个人开始计数，每次计数到k 杀掉一个人，</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>py-gui</title>
 <link href="/b/py/py-gui" rel="alternate" type="text/html"/>
 <updated>2019-02-10T00:00:00Z</updated>
@@ -459,19 +467,4 @@ CAP定理（CAP theorem), 指出对于一个分布式计算系统来说，不可
 <published>2016-10-10T00:00:00Z</published>
 <content># nmap
 常见的网络扫描器有 SSS，X-Scan，Superscan等，功能最强大的当然是[Nmap](http://www.aiezu.com/system/linux/linux_nmap_</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>net-dns</title>
-<link href="/b/net/net-dns" rel="alternate" type="text/html"/>
-<updated>2019-02-04T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># Preface
-
-主机名.次级域名.顶级域名.根域名
-
-  host.sld.tld.root
-
-  A记录：服务器 IP
-  AAAA：服务器 IPv6 的地址。
-  CNAME记录： 你空间商</content>
 </entry></feed>
