@@ -32,7 +32,8 @@ const MD_URL='post/git/git-log.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
@@ -47,8 +48,8 @@ const MD_URL='post/git/git-log.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: git 使用之日志、数据恢复
-date: 2018-10-08
-updated: 2018-10-08
+date: 2019-02-10
+updated: 2019-02-10
 ---
 # 日志过滤
 
@@ -323,6 +324,9 @@ e.g.
 
     $ git show 7a9eb2fb ;//等价于 git show branch:bigfile.tgz
 
+#### top 10 files
+    git rev-list --objects --all | grep -f &lt;(git verify-pack -v .git/objects/pack/*.idx| sort -k 3 -n | cut -f 1 -d &quot; &quot; | tail -10)
+
 ### 找到commit
 很容易找出哪些 commit 修改了这个文件：
 
@@ -397,7 +401,7 @@ commit 中的引用已经被清除, 但是还有一些引用
 <div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>

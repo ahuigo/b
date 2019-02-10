@@ -20,13 +20,10 @@ const MD_URL='post/py/py-gui.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -35,7 +32,8 @@ const MD_URL='post/py/py-gui.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
@@ -51,7 +49,7 @@ const MD_URL='post/py/py-gui.md';
 <pre id="markdown" v-pre>---
 title: py-gui
 date: 2018-09-28
-updated: 2018-10-06
+updated: 2019-02-10
 ---
 # Preface
 Python支持多种图形界面的第三方库，包括：
@@ -63,6 +61,44 @@ Python支持多种图形界面的第三方库，包括：
 1. pysimplegui: https://opensource.com/article/18/8/pysimplegui
 
 但是Python自带的库是支持Tk的Tkinter，使用Tkinter，无需安装任何包，就可以直接使用。本章简单介绍如何使用Tkinter进行GUI编程。
+
+# turtle
+tree:
+
+    import turtle
+    def tree(branchLen,t):
+        if branchLen &gt; 5:
+            t.forward(branchLen)
+            t.right(20)
+            tree(branchLen-15,t)
+            t.left(40)
+            tree(branchLen-15,t)
+            t.right(20)
+            t.backward(branchLen)
+
+    def main():
+        t = turtle.Turtle()
+        myWin = turtle.Screen()
+        t.left(90)
+        t.up()
+        t.backward(100)
+        t.down()
+        t.color(&quot;green&quot;)
+        tree(75,t)
+        myWin.exitonclick()
+
+triangle:
+
+    def drawTriangle(points,color,myTurtle):
+        myTurtle.fillcolor(color)
+        myTurtle.up()
+        myTurtle.goto(points[0][0],points[0][1])
+        myTurtle.down()
+        myTurtle.begin_fill()
+        myTurtle.goto(points[1][0],points[1][1])
+        myTurtle.goto(points[2][0],points[2][1])
+        myTurtle.goto(points[0][0],points[0][1])
+        myTurtle.end_fill()
 
 # Tkinter
 我们来梳理一下概念：
@@ -139,7 +175,7 @@ GUI程序的主线程负责监听来自操作系统的消息，并依次处理�
 	app.mainloop()
 
 当用户点击按钮时，触发hello()，通过self.nameInput.get()获得用户输入的文本后，使用tkMessageBox.showinfo()可以弹出消息对话框。</pre>
-<div id="pager" v-pre></div>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -161,10 +197,10 @@ GUI程序的主线程负责监听来自操作系统的消息，并依次处理�
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
@@ -186,6 +222,9 @@ GUI程序的主线程负责监听来自操作系统的消息，并依次处理�
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>

@@ -32,7 +32,7 @@ const MD_URL='post/py/py-time.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
@@ -49,7 +49,7 @@ const MD_URL='post/py/py-time.md';
 <pre id="markdown" v-pre>---
 title: python 时间函数的用法笔记
 date: 2018-04-02
-updated: 2019-02-06
+updated: 2019-02-10
 ---
 # time 工具
 time 提供基本的时间，sleep
@@ -69,6 +69,8 @@ time 提供基本的时间，sleep
 
 ## timeit
 
+### with Timer context
+
     import time
     class Timer:
         def __init__(self, print_at_exit=True):
@@ -87,7 +89,29 @@ time 提供基本的时间，sleep
         print(11)
     print(&quot;=&gt; elasped lpush: %s s&quot; % t.duration)
 
-## timer
+### for test
+
+    from timeit import Timer
+    def test1(): 
+        return list(range(1e4))
+
+    t1 = Timer(&quot;test1()&quot;, &quot;from __main__ import test1&quot;)
+    print(&quot;concat &quot;,t1.timeit(number=1000), &quot;milliseconds&quot;)
+
+e.g. 2:
+
+    from timeit import Timer
+    popzero = Timer(&quot;x.pop(0)&quot;, &quot;from __main__ import x&quot;)
+    popend = Timer(&quot;x.pop()&quot;, &quot;from __main__ import x&quot;)
+    print(&quot;pop(0)   pop()&quot;)
+    for i in range(1000000,100000001,1000000):
+        x = list(range(i))
+        pt = popend.timeit(number=1000)
+        x = list(range(i))
+        pz = popzero.timeit(number=1000)
+        print(&quot;%15.5f, %15.5f&quot; %(pz,pt))
+
+## timer 定时器
 
     from threading import Timer
 

@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/p/p11.md';
+const MD_URL='post/algorithm/algo-dp-array-max-consecutive-sub.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO 的笔记</title>
+<title>求数列中和最大的连续子序列的和</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -46,52 +46,100 @@ const MD_URL='post/p/p11.md';
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
-<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+<pre id="markdown" v-pre>---
+title: 求数列中和最大的连续子序列的和
+date: 2019-01-09
+updated: 2019-02-10
+---
+# 求数列中和最大的连续子序列的和
+&gt; Find max sum of consecutive sequence for an array.
 
-<ul>
-<li>2018-10-04 <a href="/b/life/life-die">死亡</a> </li>
-<li>2018-09-27 <a href="/b/life/life-clothes">卫衣</a> </li>
-<li>2018-09-27 <a href="/b/life/life-badminton">寻找替代的球</a> </li>
-<li>2018-09-27 <a href="/b/life/life-air">life-air</a> </li>
-<li>2018-05-21 <a href="/b/life/life-add-memory">记忆碎片</a> </li>
-<li>2018-09-27 <a href="/b/life/life-ad">ad-killer</a> </li>
-<li>2018-10-06 <a href="/b/life/edu-graduate">毕业的事</a> </li>
-<li>2018-09-27 <a href="/b/java/java-var">Type</a> </li>
-<li>2018-09-27 <a href="/b/java/java-jedis">single thread</a> </li>
-<li>2018-09-27 <a href="/b/java/java-io">println</a> </li>
-<li>2018-09-27 <a href="/b/java/java-install">install java</a> </li>
-<li>2018-09-27 <a href="/b/java/java-file">upload</a> </li>
-<li>2018-09-27 <a href="/b/java/java-debug">try</a> </li>
-<li>2018-09-27 <a href="/b/java/java-date">gettime</a> </li>
-<li>2018-10-06 <a href="/b/idea/idea-work-efficiency">夸夸我家程序员</a> </li>
-<li>2018-09-27 <a href="/b/idea/idea-job">接活网站：</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-jquery-extend">extend，扩展 插件</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-jquery-css">Css</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-indexedDB">IndexedDb 的使用之Dexie</a> </li>
-<li>2017-07-11 <a href="/b/ria/js-func">js 的函数</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-func-scope">Js 中的this scope</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-expr">js fuck</a> </li>
-<li>2016-01-23 <a href="/b/ria/js-dom">Js dom 笔记</a> </li>
-<li>2018-08-19 <a href="/b/ria/js-dom-innerhtml-js">让innerHTML 执行js</a> </li>
-<li>2018-10-06 <a href="/b/ria/js-dom-html5">html5</a> </li>
-<li>2018-10-04 <a href="/b/py/py-shell">python shell 子进程</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-file">vim-file</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-complete">vim-complete</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-cmd">vim-cmd</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-cmd-ex">vim-cmd-ex</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-change">vim-change</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-abbreviate">vim-abbreviate</a> </li>
-<li>2018-10-04 <a href="/b/svn/svn-diff">svn-diff</a> </li>
-<li>2018-10-04 <a href="/b/sec/security-web">security-web</a> </li>
-<li>2018-10-04 <a href="/b/sec/security-">security-</a> </li>
-<li>2018-10-04 <a href="/b/rpc/rpc">rpc</a> </li>
-<li>2018-10-04 <a href="/b/rpc/rpc-thrift">rpc-thrift</a> </li>
-<li>2018-10-04 <a href="/b/ria/vue-sample-mvc">vue-sample-mvc</a> </li>
-<li>2018-10-04 <a href="/b/ria/node-koa">Nunjucks(=Jinjia2)</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-time">js-time</a> </li>
-</ul>
-</div>
-<div id="pager"> <a href="/b/index">p0</a> <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a> <a href="/b/p/p3">p3</a> <a href="/b/p/p4">p4</a> <a href="/b/p/p5">p5</a> <a href="/b/p/p6">p6</a> <a href="/b/p/p7">p7</a> <a href="/b/p/p8">p8</a> <a href="/b/p/p9">p9</a> <a href="/b/p/p10">p10</a> p11 <a href="/b/p/p12">p12</a> <a href="/b/p/p13">p13</a> <a href="/b/p/p14">p14</a> <a href="/b/p/p15">p15</a> <a href="/b/p/p16">p16</a> <a href="/b/p/p17">p17</a> <a href="/b/p/p18">p18</a></div>
+## 问题
+给定一个随机的数字序列，要求找出其中和最大的连续子集的和，比如`{6,-2,-3,5,9,-8,6}`，和最大的连续子集应该是 `sum(6,-2,-3,5,9)=15`
+
+## 方案
+我们定义以个数列是：
+
+    a0,a1,a2,....,ai,....an
+
+再定义：
+
+    F(i) 代表前i个元素中，以ai结尾的连续序列最大和(必须包含ai, 否者为0)
+
+我们就把问题转化为 查找F(i)的最大值:
+
+    max(F(0),F(1),....,F(n))
+
+于是:
+
+    如果F(i-1)=0 
+        F(i) = ai           //if ai&gt;0  (以ai 结尾的子序列的最大和)
+        F(i) = 0            //if ai&lt;=0 (丢弃含有ai的子序列)
+    如果F(i-1)&gt;0 
+        F(i) = ai+F(i-1)    //if ai+F(i-1)&gt;0  (以ai 结尾的子序列的最大和)
+        F(i) = 0            //if ai+F(i-1)&lt;=0 (丢弃含有ai的子序列)
+
+## 编码实现
+1. F(i) 用sum(partial_sub) 来求解, 它是以ai 为结尾的最大连续子序列的和
+2. Max(F) 用sum(max_sub) 求解，max_sub 就是我们要找的最大连续子序列
+
+具体代码(python):
+
+    arr = [6,-2,-3,5,9,-8,6]
+
+    # 局部连续和序列
+    partial_sub = []
+    sum_partial_sub = 0
+
+    # 最大连续和序列
+    max_sub = []
+    sum_max_sub = 0
+    for v in arr:
+        partial_sub.append(v)
+        sum_partial_sub += v
+
+        if sum_partial_sub &lt;= 0:
+            partial_sub = []
+            sum_partial_sub = 0
+
+        if sum_max_sub &lt; sum_partial_sub :
+            sum_max_sub = sum_partial_sub
+            max_sub = partial_sub[:] # copy 而不是引用
+
+        print(partial_sub, sum(partial_sub))
+
+    print(&quot;\nsum(%s)=%d&quot; % (max_sub, sum_max_sub))
+
+结果：
+
+    [6] 6
+    [6, -2] 4
+    [6, -2, -3] 1
+    [6, -2, -3, 5] 6
+    [6, -2, -3, 5, 9] 15
+    [6, -2, -3, 5, 9, -8] 7
+    [6, -2, -3, 5, 9, -8, 6] 13
+
+    sum([6, -2, -3, 5, 9])=15
+
+更简洁易读点:
+
+    arr = [6,-2,-3,5,9,-8,6]
+
+    # 局部连续和序列
+    partial_sub = []
+
+    # 最大连续和序列
+    max_sub = []
+    for v in arr:
+        partial_sub.append(v)
+        if sum(partial_sub) &lt;= 0:
+            partial_sub = []
+        if sum(max_sub) &lt; sum(partial_sub) :
+            max_sub = partial_sub[:] # copy 而不是引用
+
+    print(max_sub, sum(max_sub))</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>

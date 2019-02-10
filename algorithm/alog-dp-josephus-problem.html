@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/algorithm/algo-array-max-consecutive-sub.md';
+const MD_URL='post/algorithm/alog-dp-josephus-problem.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>求数列中和最大的连续子序列的和</title>
+<title>约瑟夫问题</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -32,7 +32,7 @@ const MD_URL='post/algorithm/algo-array-max-consecutive-sub.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
@@ -47,98 +47,44 @@ const MD_URL='post/algorithm/algo-array-max-consecutive-sub.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: 求数列中和最大的连续子序列的和
-date: 2019-01-09
-updated: 2019-01-10
+title: 约瑟夫问题
+date: 2019-02-10
+updated: 2019-02-10
 ---
-# 求数列中和最大的连续子序列的和
-&gt; Find max sum of consecutive sequence for an array.
+# 约瑟夫问题
+[约瑟夫问题](https://en.wikipedia.org/wiki/Josephus_problem) 描述的是n 个士兵围一个环，从一个人开始计数，每次计数到k 杀掉一个人，再从新计数，问最后一个人的位置。
 
-## 问题
-给定一个随机的数字序列，要求找出其中和最大的连续子集的和，比如`{6,-2,-3,5,9,-8,6}`，和最大的连续子集应该是 `sum(6,-2,-3,5,9)=15`
+# 解法
+有两种解法：
+1. 使用队列模拟循环的环：O(k*n)
+2. 使用数学推导
 
-## 方案
-我们定义以个数列是：
+## 1.线性推导
+1. 假如计数不是从1 开始，而是从k 开始，则第一个人最先被杀，最后剩余`n-1`个人, 最后被杀的是`1+f(n-1,k)`
+2. 从k-1 开始，最后被杀的是`2+f(n-1,k) mod n`
+3. 从1 开始，最后被杀的是`f(n,k) = k+f(n-1,k) mod n`
 
-    a0,a1,a2,....,ai,....an
+## 2.推到改良
+我们想到，每一轮循环必定有余数. 剩余n`
+1. 余数0，计数从1开始，最后被杀的是f(n&#x27;,k)
+1. 余数1，计数从2开始，最后被杀的是`[f(n&#x27;,k)-1] mod n&#x27;`
+1. 余数a，计数从a+1开始，最后被杀的是`[f(n&#x27;,k)-a] mod n&#x27;`
 
-再定义：
+另外，每次被杀的是k,2k,3k 新的士兵编号x 对应老的士兵编号为(从0开始)： `old(x) = k/(k-1)*x`
 
-    F(i) 代表前i个元素中，以ai结尾的连续序列最大和(必须包含ai, 否者为0)
+        k = 7
+        0,1,2,3,4,5,[]  6,7,8,..,11,  12...17
+                         +6/6     +12/6
 
-我们就把问题转化为 查找F(i)的最大值:
+最终的推导式：
 
-    max(F(0),F(1),....,F(n))
+    f(n,k) = 
+        old([f(n&#x27;, k) -  (n mod k)] mod n&#x27;)  //n&#x27; = n-n/k  if k&lt;=n
+        k+f(n-1,k) mod n                    // if k&gt;n
 
-于是:
-
-    如果F(i-1)=0 
-        F(i) = ai  //if ai&gt;0  (以ai 结尾的子序列的最大和)
-        F(i) = 0   //if ai&lt;=0 (丢弃含有ai的子序列)
-    如果F(i-1)&gt;0 
-        F(i) = ai+F(i)    //if ai+F(i)&gt;0  (以ai 结尾的子序列的最大和)
-        F(i) = 0          //if ai+F(i)&lt;=0 (丢弃含有ai的子序列)
-
-## 编码实现
-1. F(i) 用sum(partial_sub) 来求解, 它是以ai 为结尾的最大连续子序列的和
-2. Max(F) 用sum(max_sub) 求解，max_sub 就是我们要找的最大连续子序列
-
-具体代码(python):
-
-    arr = [6,-2,-3,5,9,-8,6]
-
-    # 局部连续和序列
-    partial_sub = []
-    sum_partial_sub = 0
-
-    # 最大连续和序列
-    max_sub = []
-    sum_max_sub = 0
-    for v in arr:
-        partial_sub.append(v)
-        sum_partial_sub += v
-
-        if sum_partial_sub &lt;= 0:
-            partial_sub = []
-            sum_partial_sub = 0
-
-        if sum_max_sub &lt; sum_partial_sub :
-            sum_max_sub = sum_partial_sub
-            max_sub = partial_sub[:] # copy 而不是引用
-
-        print(partial_sub, sum(partial_sub))
-
-    print(&quot;\nsum(%s)=%d&quot; % (max_sub, sum_max_sub))
-
-结果：
-
-    [6] 6
-    [6, -2] 4
-    [6, -2, -3] 1
-    [6, -2, -3, 5] 6
-    [6, -2, -3, 5, 9] 15
-    [6, -2, -3, 5, 9, -8] 7
-    [6, -2, -3, 5, 9, -8, 6] 13
-
-    sum([6, -2, -3, 5, 9])=15
-
-更简洁易读点:
-
-    arr = [6,-2,-3,5,9,-8,6]
-
-    # 局部连续和序列
-    partial_sub = []
-
-    # 最大连续和序列
-    max_sub = []
-    for v in arr:
-        partial_sub.append(v)
-        if sum(partial_sub) &lt;= 0:
-            partial_sub = []
-        if sum(max_sub) &lt; sum(partial_sub) :
-            max_sub = partial_sub[:] # copy 而不是引用
-
-    print(max_sub, sum(max_sub))</pre>
+## k=2 时的结果
+维基百科通过归纳法证明了：
+如果 `n=2^m+l` 且 `0 &lt;= l&lt;2^m` 则 `f(n)=2l+1`, 相当于n 的最高位补到最低位</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
