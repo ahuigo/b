@@ -2,9 +2,22 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-02-14T03:25:45Z</updated>
+<updated>2019-02-14T03:51:54Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>go time</title>
+<link href="/b/go/19.go-time" rel="alternate" type="text/html"/>
+<updated>2019-02-14T00:00:00Z</updated>
+<summary/>
+<published>2019-02-14T00:00:00Z</published>
+<content># tick and after
+
+## timer/ticker, 定时器
+`chan time.Time: timer.C = ticker.C`
+定时器对象
+
+    timer := time</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>BFPRT 算法</title>
 <link href="/b/algorithm/sort-topk" rel="alternate" type="text/html"/>
 <updated>2019-02-14T00:00:00Z</updated>
@@ -447,15 +460,4 @@ globals()['bar']()
 
 　　int i = Integer.parseInt(str);
 　　int i = Integer.parse</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Git 命令大全</title>
-<link href="/b/git/git-" rel="alternate" type="text/html"/>
-<updated>2019-02-07T00:00:00Z</updated>
-<summary/>
-<published>2019-02-07T00:00:00Z</published>
-<content># Git 配置
-
-## ConfigFile
-1. /etc/gitconfig #git config --system
-2. ~/.gitconfig 	#git config --global</content>
 </entry></feed>

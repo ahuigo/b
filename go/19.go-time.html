@@ -32,7 +32,7 @@ const MD_URL='post/go/19.go-time.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
@@ -48,8 +48,8 @@ const MD_URL='post/go/19.go-time.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: go time
-date: 2019-01-07
-updated: 2019-01-07
+date: 2019-02-14
+updated: 2019-02-14
 ---
 # tick and after
 
@@ -63,6 +63,13 @@ updated: 2019-01-07
 
     //简化下
     t := &lt;- time.After(time.Duration(5) * time.Millisecond)
+
+    //
+    time.AfterFunc(time.Second, func() {
+        fmt.Println(&quot;Expire time at&quot;, t)
+		
+	})
+
 
 断续器 ticker
 
