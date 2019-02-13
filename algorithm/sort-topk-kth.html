@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/algorithm/algo-topk.md';
+const MD_URL='post/algorithm/sort-topk-kth.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>BFPRT 算法</title>
+<title>查找数组中的中值</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -32,7 +32,7 @@ const MD_URL='post/algorithm/algo-topk.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
@@ -47,125 +47,58 @@ const MD_URL='post/algorithm/algo-topk.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: BFPRT 算法
-date: 2018-09-26
-updated: 2018-12-20
+title: 查找数组中的中值
+date: 2019-02-14
+updated: 2019-02-14
 ---
-# Topk 算法之BFPRT算法
-基于最大/小堆的TopK 算法复杂度为 $O(n\log n)$
+# 查找数组中的中值
+This is a question about find k&#x27;th number in an array.
 
-其实还有O(n)的算法 —— BFPRT 基于减治法，采用类似二分法的快排分区减低复杂度。
-
-## 利用分区减治法求topK
-1. 选取主元比如arr[0]，
-2. 并利用快排分区基于主元，将arr 分成左右，主元的新位置为i
-3. 递归求解
-    1. 如果`i=k-1` 则左边刚好是topk
-    2. 如果`i&gt;k-1` 则继续在左边寻找topk
-    3. 如果`i&lt;k-1` 则继续在右边寻找top(k-1-i)
-
-最坏时间复杂度在: `n+（n-1）+...+k=O(n^2)`
-最好时间复杂度在: `n`
-平均时间复杂度在: `n+n/2+n/4=2n=O(n)`
-
-## BFPRT 算法(Median of medians)
-为了避免主元分割不均衡，造成上述算法出现最坏的时间复杂度。
-BFPRT 算法做了改良。尽可能选择靠近中点的主元。俗称 Median of medians 算法
-1. 选取靠近中点的主元`pivot`：
-    1. n个元素划分为5个每组，每组5个元素
-    2. 每组插入排序后取中位数： 复杂度$25*n/5=5n$ 
-    3. 调用BFPRT 求所有中位数的中位数, 作为主元pivot: 复杂度$T(n/5)$
-2. 以主元pivot为界，分左右区`partition()`. 小于主元的确定有1/10+2/10=3/10, 大于主元的确定有3/10, 不确定的有4/10: 复杂度$n$
-3. 根据主元位置i与K比较。递归调用BFPRT
-    1. 如果`i=k-1` 则左边刚好是topk
-    2. 如果`i&gt;k-1` 则继续在左边寻找topk, 最坏情况是: $T(7n/10)$
-    3. 如果`i&lt;k-1` 则继续在右边寻找top(k-1-i), 最坏情况是: $T(7n/10)$
-
-### 时间复杂度
-令c=6,有5n+n=6n：
-$$ T(n)&lt;=c*n+T(n/5)+T(7n/10) $$
-$$ T(n)&lt;=c*n+T(.2n)+T(.7n) $$
+    def find_kth(arr, k):
+        p = 0
+        q = len(arr)
+        i = partition_arr(arr, 0) # partion array with arr[0]
+        if i+1 == k:
+            return arr[k]
+        elif i+1&lt;k:
+            return find_kth(a[i+1:], k-i-1)
+        else:
+            return find_kth(a[:i], k)
 
 
-利用归纳树法证明:
-$ T(n) &lt; cn*(1+.9+.9^2+.9^3+...) = cn*1/(1-0.9) = 10cn$
+Time Complex:  
+1. lucky: T(n)=T(n/b)+O(n) = O(n)
+1. unlucky: T(n)=T(n-1)+O(n) = O(n^2)
 
-                   cn               1cn
-               /        \
-            .2cn       .7cn        .9cn
-            /  \      /    \
-    T(.2^2n) 2T(.2*.7n) T(.7^2n)  (.2+.7)^2cn
-             ....                (.2+0.7)^3cn
+Normally case: T(n)&lt;=
 
-利用假设法证明:
-设n&lt;=N时, 存在一个t, 使得T(n) 的上界是：$T(n)&lt;=tn$
+    T(max{0,n-1})+O(n)  if 0,n-1 split
+    T(max{1,n-2})+O(n)  if 1,n-2 split
+    .....
+    T(max{n-1,0})+O(n)  if n-1,0 split
 
-$$ T(n+1) &lt;= c(n+1)+T(0.2(n+1))+T(0.7(n+1)) $$
+assume split case is independent, then 令
 
-令n=N, 由于：   
-  $0.7(n+1)&lt;=N&lt;n+1$ 以及$0.2(n+1)&lt;=N&lt;n+1$    
-所以：  
-  $T(n+1) &lt;= c(n+1)+0.9t(n+1)$  
-  $=t(n+1)+(c-0.1t)(n+1)$  
+    T_k=1   if k,n-k-1 split
+    T_k=0   other
 
-当t&gt;=10c时:
-  $$T(n+1)&lt;=t(n+1)$$
+Then Time Complex Expected:
 
-当n 取任意&gt;N 的数时，都可以得到上界$T(n)&lt;=tn=10cn$, 得证！
+$$
+E(T(n))  &lt;= \displaystyle\sum_{k=0}^{n-1}{E[t_k] \{E[T(max(k, n-k-1))]+O(n)\} }\\
+= \frac{1}{n}\displaystyle\sum_{k=0}^{n-1}{E[T(max(k, n-k-1))]}+O(n)\\
+&lt;= \frac{2}{n}\displaystyle\sum_{k=n/2}^{n-1}{E[T(k)]}+O(n)\\
+$$
 
-为什么选择5? 因为如果选择3,7,9,11 复杂度反而更高。
+Use Substitution: declare $T(k)&lt;=ck$ for all large n. Then
 
+$$
+T(n)&lt;=\frac{2}{n}\displaystyle\sum_{k=n/2}^{n-1}{ck}+O(n)\\
+&lt;=\frac{2c}{n}{\frac{3}8n^2}+O(n)\\
+=cn-(\frac{1}4cn-O(n))&lt;=cn\\
+$$
 
-## BFPRT 算法实现
-```python
-def bfprt(arr, n, k):
-    pivotIndex = getPivotIndex(arr, n)
-    pivotIndex = partition(arr, n, pivotIndex)
-    if pivotIndex+1 == k:
-        return k-1
-    elif pivotIndex+1&lt;=k:
-        return pivotIndex+bfprt(arr[pivotIndex+1:], n-pivotIndex-1, k-pivotIndex-1)
-    elif pivotIndex+1&gt;=k:
-        return pivotIndex+bfprt(arr[:pivotIndex], pivotIndex, k)
-
-def partition(arr, n, pivotIndex):
-    pivot = arr[pivotIndex]
-    arr[pivotIndex] = arr[0]
-    i=0; j=n-1
-    while i&lt;j:
-        while i&lt;j and arr[j]&lt;=pivot:
-            j-=1
-        arr[i] = arr[j]; # after j is null
-        while i&lt;j and arr[i]&gt;=pivot:
-            i+=1
-        arr[j] = arr[i]; # i is null
-    arr[i] = pivot
-    return i
-            
-    
-def getPivotIndex(arr, n):
-    if n&lt;10:
-        return 0
-    for j in range(7, n, 5):
-        t = arr[j]
-        p = j
-        for i in range(j-5,0, -5):
-            if arr[i] &lt; t:
-                arr[i+5] = arr[i]
-                p = i
-            else:
-                break
-        arr[p] = t
-    return n//5//2*5 -3
-    
-import numpy
-# numpy.random.randint(0,20,11)
-arr = numpy.array([14,  0, 4, 13,  5, 17,  19,  1, 16, 10, 11])
-print(&#x27;topKIndex&#x27;, bfprt(arr, 11, 3))
-print(arr[:3])
-```
-# 更多
-- [排序算法](/b/algorithm/algo-sort#/)</pre>
+</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
@@ -191,7 +124,7 @@ print(arr[:3])
 <div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>

@@ -2,9 +2,32 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-02-14T01:52:51Z</updated>
+<updated>2019-02-14T03:25:45Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>BFPRT 算法</title>
+<link href="/b/algorithm/sort-topk" rel="alternate" type="text/html"/>
+<updated>2019-02-14T00:00:00Z</updated>
+<summary/>
+<published>2018-09-26T00:00:00Z</published>
+<content># Topk 算法之BFPRT算法
+基于最大/小堆的TopK 算法复杂度为 $O(n\log n)$
+
+其实还有O(n)的算法 —— BFPRT 基于减治法，采用类似二分法的快排分区减低复杂度。
+
+#</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>查找数组中的中值</title>
+<link href="/b/algorithm/sort-topk-kth" rel="alternate" type="text/html"/>
+<updated>2019-02-14T00:00:00Z</updated>
+<summary/>
+<published>2019-02-14T00:00:00Z</published>
+<content># 查找数组中的中值
+This is a question about find k'th number in an array.
+
+    def find_kth(arr, k):
+       </content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>android 刷包工具</title>
 <link href="/b/net/net-sniffer-android" rel="alternate" type="text/html"/>
 <updated>2019-02-14T00:00:00Z</updated>
@@ -435,29 +458,4 @@ globals()['bar']()
 ## ConfigFile
 1. /etc/gitconfig #git config --system
 2. ~/.gitconfig 	#git config --global</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>install java</title>
-<link href="/b/java/java-install" rel="alternate" type="text/html"/>
-<updated>2019-02-07T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># install java
-
-## jdk
-jdk include jre(java run-time environment)
-
-  sudo yum install java-1.8.0-ope</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Lua 的变量</title>
-<link href="/b/arch/lua-var" rel="alternate" type="text/html"/>
-<updated>2019-02-06T00:00:00Z</updated>
-<summary/>
-<published>2019-02-05T00:00:00Z</published>
-<content># Lua 变量
-
-## 类型
-
-    nil	这个最简单，只有值nil属于该类，表示一个无效值（在条件表达式中相当于false）。
-    boolean	包含两个值：false和true。
-  </content>
 </entry></feed>
