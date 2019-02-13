@@ -32,7 +32,7 @@ const MD_URL='post/go/16.go-interface.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
@@ -49,18 +49,15 @@ const MD_URL='post/go/16.go-interface.md';
 <pre id="markdown" v-pre>---
 title: Golang Interfaces
 date: 2018-09-27
-updated: 2019-01-07
+updated: 2019-02-11
 ---
 # Interfaces
 Interface：
 1. Interface 可以用来模拟泛型，但是是运行时模拟，没有编译时快
 1. method 没有 public protecte..., 如果要被其它 package 使用, 函数名首字母必须大写!
 
-## nil
+## method
 
-    func describe(i I) {
-        fmt.Printf(&quot;(%v, %T)\n&quot;, i, i)
-    }
     type I interface { M() }
     type T struct {
         S string
@@ -77,6 +74,9 @@ Interface：
 A nil interface value holds neither value nor concrete type.
 
     var i I 
+    func describe(i I) {
+        fmt.Printf(&quot;(%v, %T)\n&quot;, i, i)
+    }
     describe(i) //(&lt;nil&gt;, &lt;nil&gt;)
 
 ### empty interface

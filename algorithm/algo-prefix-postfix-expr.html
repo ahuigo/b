@@ -49,7 +49,7 @@ const MD_URL='post/algorithm/algo-prefix-postfix-expr.md';
 <pre id="markdown" v-pre>---
 title: 前缀、中缀、后缀表达式
 date: 2019-02-09
-updated: 2019-02-10
+updated: 2019-02-11
 ---
 # 前缀、中缀、后缀表达式
 有三种表达式
@@ -90,6 +90,25 @@ updated: 2019-02-10
     infix2postfix(&quot;( A + B ) * ( C + D )&quot;)
     infix2postfix(&quot;( A + B ) * C&quot;)
     infix2postfix(&quot;A + B * C&quot;)
+
+## 中序求值
+
+    A B + C *
+        A: A
+        B: A B 
+        +: (A+B)
+        C: (A+B) C
+        *: (A+B)*C
+
+## 前序求值
+需要两个栈: 符号栈，数值栈
+
+    * + A B C
+        *: *    []
+        +: * +  []
+        A: * +  [A]
+        B: *    [A+B]
+        C:      [(A+B)*C]
 
 
 # 参考

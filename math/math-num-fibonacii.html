@@ -20,13 +20,10 @@ const MD_URL='post/math/math-num-fibonacii.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -35,7 +32,8 @@ const MD_URL='post/math/math-num-fibonacii.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
@@ -51,15 +49,23 @@ const MD_URL='post/math/math-num-fibonacii.md';
 <pre id="markdown" v-pre>---
 title: Fibonacii and gold(φ)
 date: 2018-09-27
-updated: 2018-10-06
+updated: 2019-02-11
 ---
 # Fibonacii and gold(φ)
 Fibonacii/gold 有很多有趣的性质
-1. 广义fibonacii 逼近gold 的证明
+1. 广义fibonacii 逼近gold 的证明 寻找相邻两项之比不趋于 1.618 的广义 Fibonacci 数列
    http://www.matrix67.com/blog/archives/6063
 2. gold 是距离分数最远的、最难近似的、最无理的连分数
-https://www.guokr.com/article/440623/</pre>
-<div id="pager" v-pre></div>
+https://www.guokr.com/article/440623/
+
+
+gold 比率的应用： a(n) = a(n-1) + a(n-2) - k
+
+1. 令a(n-2) = f(n-2) - k
+1. 令a(n-1) = f(n-1) - k
+2. 则a(n) = f(n-1)+f(n-2) - k = f(n) - k 
+</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -81,10 +87,10 @@ https://www.guokr.com/article/440623/</pre>
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
@@ -106,6 +112,9 @@ https://www.guokr.com/article/440623/</pre>
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>

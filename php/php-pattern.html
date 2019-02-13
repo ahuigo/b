@@ -32,7 +32,7 @@ const MD_URL='post/php/php-pattern.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
@@ -48,8 +48,8 @@ const MD_URL='post/php/php-pattern.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: 设计模式
-date: 2019-01-10
-updated: 2019-01-10
+date: 2019-02-11
+updated: 2019-02-11
 ---
 # Preface
 
@@ -200,6 +200,8 @@ updated: 2019-01-10
 	$f2 = $ul-&gt;find( new RandomStrategy() );
 	print_r( $f2 );
 
+策略模式优化的是大量的if-elseif
+
 
 ## Observer Pattern, 观察者模式
 问题：为了避免类太臃肿，将元素剥离主体！(正交原则，降低耦合)
@@ -282,7 +284,7 @@ SplSubject(Obervalbe) 与
 访问者模式可以解决这个问题, 把visitor 解耦出来
 在基类为visitor 预留一个调用入口accept
 
-代码： https://github.com/ahuigo/php-lib/tree/master/
+代码： https://github.com/ahuigo/php-lib/tree/master/pattern
 
     public function accept(Visitor $visitor) {
         $method = &#x27;visit&#x27; . get_class($this);

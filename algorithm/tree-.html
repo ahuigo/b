@@ -5,7 +5,7 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/algorithm/algorithm-tree.md';
+const MD_URL='post/algorithm/tree-.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
@@ -32,7 +32,7 @@ const MD_URL='post/algorithm/algorithm-tree.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
@@ -49,7 +49,7 @@ const MD_URL='post/algorithm/algorithm-tree.md';
 <pre id="markdown" v-pre>---
 title: 数据结构之树
 date: 2018-09-26
-updated: 2018-12-24
+updated: 2019-02-11
 ---
 # 数据结构之树
 
@@ -105,7 +105,14 @@ updated: 2018-12-24
 ### 存储
 
 #### 顺序存储
-只适合完全二叉树(包括满二叉)，否则非常浪费空间
+1. 一维数组：适合完全二叉树(包括满二叉)，否则非常浪费空间
+2.多维数组：类似于链表
+
+    myTree = [&#x27;a&#x27;, [&#x27;b&#x27;, [&#x27;d&#x27;,[],[]], [&#x27;e&#x27;,[],[]] ], [&#x27;c&#x27;, [&#x27;f&#x27;,[],[]], []] ]
+    print(myTree)
+    print(&#x27;left subtree = &#x27;, myTree[1])
+    print(&#x27;root = &#x27;, myTree[0])
+    print(&#x27;right subtree = &#x27;, myTree[2])
 
 #### 链表存储
 1. 二叉链表存储: 左右指针指向左右子树
@@ -231,7 +238,7 @@ B树适用于读写相对大的数据块的存储系统，例如磁盘
 <div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>

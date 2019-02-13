@@ -2,12 +2,234 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-02-10T23:40:32Z</updated>
+<updated>2019-02-14T01:52:51Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>android 刷包工具</title>
+<link href="/b/net/net-sniffer-android" rel="alternate" type="text/html"/>
+<updated>2019-02-14T00:00:00Z</updated>
+<summary/>
+<published>2019-02-13T00:00:00Z</published>
+<content># android 刷包工具
+1. tPacketCapture: uses the Android VPN service to intercept packets and capture them</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>combination</title>
+<link href="/b/math/math-probability" rel="alternate" type="text/html"/>
+<updated>2019-02-14T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># probility
+德摩根定律: $(A\cup B)^{C}=A^{C}\cap B^{C}$
+
+概率计算总结
+1. 非A	$P(A^{c})=1-P(A)$
+2. A或B	$P(A\cup B</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>数学运算符</title>
+<link href="/b/math/math-num-operator" rel="alternate" type="text/html"/>
+<updated>2019-02-14T00:00:00Z</updated>
+<summary/>
+<published>2019-02-14T00:00:00Z</published>
+<content># 数学运算符
+Exponentiation
+
+    a^x读作“a的x次方”或“a的n次幂“。
+
+Power function
+
+    x^n
+
+对数是幂运算的逆运算
+
+## Logarithm</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>rime 鼠须管输入法</title>
+<link href="/b/mac/mac-rime" rel="alternate" type="text/html"/>
+<updated>2019-02-14T00:00:00Z</updated>
+<summary/>
+<published>2019-02-14T00:00:00Z</published>
+<content># Preface
+# todo
+diy 处方
+
+設定項速查手冊
+
+# 输入方案定制说明
+所有的输入方案都是以`*.schema.yaml`命名的,比如: `wubi_pinyin.schema.ya</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>mac 切换到自带的双拼方案</title>
+<link href="/b/mac/mac-inputmethod-pinyin" rel="alternate" type="text/html"/>
+<updated>2019-02-14T00:00:00Z</updated>
+<summary/>
+<published>2019-02-13T00:00:00Z</published>
+<content># mac 切换到自带的双拼方案
+用了10多年的五笔后，还是受不了打字要停顿，于是换回mac 自带的双拼方案（我选择的是小鹅双拼）10.14.2 已经支持了。
+
+开启了一下功能：
+1. 小额双拼
+2.</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>linux perf(系统性能分析)</title>
+<link href="/b/c/ops-perf" rel="alternate" type="text/html"/>
+<updated>2019-02-14T00:00:00Z</updated>
+<summary/>
+<published>2019-02-14T00:00:00Z</published>
+<content># perf
+从2.6.31内核开始，linux内核自带了一个性能分析工具perf，能够进行函数级与指令级的热点查找。
+
+http://blog.csdn.net/zhangskd/article/d</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>经典排序算法的实现</title>
+<link href="/b/algorithm/sort" rel="alternate" type="text/html"/>
+<updated>2019-02-14T00:00:00Z</updated>
+<summary/>
+<published>2013-09-26T00:00:00Z</published>
+<content># 经典排序算法实现
+常规的几种排序算法, 参考[维基sort](http://zh.wikipedia.org/wiki/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95)
+</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>查找数组中的中值</title>
+<link href="/b/algorithm/sort-kth" rel="alternate" type="text/html"/>
+<updated>2019-02-14T00:00:00Z</updated>
+<summary/>
+<published>2019-02-14T00:00:00Z</published>
+<content># 查找数组中的中值
+This is a question about find k'th number in an array.
+
+    def find_kth(arr, k):
+       </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Analysis of Algorithm</title>
+<link href="/b/algorithm/1.time-complex" rel="alternate" type="text/html"/>
+<updated>2019-02-14T00:00:00Z</updated>
+<summary/>
+<published>2018-09-15T00:00:00Z</published>
+<content># Analysis of Algorithm
+本文整理下算法的分析方法
+
+##  O/Omega/Thelta 的定义
+$Ο$，读音：big-oh、欧米可荣（大写）；表示上界(tightness u</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>数字的分类</title>
+<link href="/b/math/math-num" rel="alternate" type="text/html"/>
+<updated>2019-02-13T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># 数字的分类
+- 实数: x 的整数部分[x], 小数部分{x}
+    - 整数, Integer: ℕ
+        - 正整数, positive:
+    - 有理无理:
+        </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>哈希</title>
+<link href="/b/algorithm/4.algo-hash" rel="alternate" type="text/html"/>
+<updated>2019-02-14T00:00:00Z</updated>
+<summary/>
+<published>2019-01-18T00:00:00Z</published>
+<content>
+# 哈希函数
+1. key 均匀的落到不同的slots
+2. key 本身不能影响到hash 的均匀性
+
+## 散列法
+### 取模法
+hash = key mod m
+1. m尽量用质数，不要用$</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Fibonacii and gold(φ)</title>
+<link href="/b/math/math-num-fibonacii" rel="alternate" type="text/html"/>
+<updated>2019-02-11T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Fibonacii and gold(φ)
+Fibonacii/gold 有很多有趣的性质
+1. 广义fibonacii 逼近gold 的证明 寻找相邻两项之比不趋于 1.618 的广义 Fibo</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Trie 树</title>
+<link href="/b/algorithm/tree-trie" rel="alternate" type="text/html"/>
+<updated>2019-02-11T00:00:00Z</updated>
+<summary/>
+<published>2018-09-26T00:00:00Z</published>
+<content># Trie 树
+通过Trie 建立字典索引（空间为代价）
+
+abc","ab","bd","dda" 建立索引：
+
+    a
+        b-&gt;ab
+            c-&gt;abc
+  </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>trie-filter</title>
+<link href="/b/algorithm/tree-trie-filter" rel="alternate" type="text/html"/>
+<updated>2019-02-11T00:00:00Z</updated>
+<summary/>
+<published>2018-09-26T00:00:00Z</published>
+<content># trie-filter
+
+# php word filter
+https://github.com/wulijun/php-ext-trie-filter</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>跳跃表</title>
+<link href="/b/algorithm/tree-skiplist" rel="alternate" type="text/html"/>
+<updated>2019-02-11T00:00:00Z</updated>
+<summary/>
+<published>2017-09-26T00:00:00Z</published>
+<content># 跳跃表
+我们实现redis 的有序集合用什么结构呢？
+1. list: 插入的复杂度是O(n)
+2. 链表: 查找的复杂度是O(n)
+
+跳跃表(skiplist) 是一种随机化的数据结构，相当于为</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>二叉堆</title>
+<link href="/b/algorithm/tree-binheap" rel="alternate" type="text/html"/>
+<updated>2019-02-11T00:00:00Z</updated>
+<summary/>
+<published>2019-02-11T00:00:00Z</published>
+<content>https://github.com/bnmnetp/pythonds/blob/master/trees/binheap.py 给了一个最小堆的例子
+1. 插入过程是一个向上冒泡pearUp 的过程</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>二叉查找树和红黑树</title>
+<link href="/b/algorithm/tree-binary-search-tree" rel="alternate" type="text/html"/>
+<updated>2019-02-13T00:00:00Z</updated>
+<summary/>
+<published>2018-09-26T00:00:00Z</published>
+<content># 二叉查找树
+二叉查找树（Binary Search Tree），也称二叉搜索树、有序二叉树（ordered binary tree），排序二叉树（sorted binary tree），是指一棵空</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>数据结构之树</title>
+<link href="/b/algorithm/tree-" rel="alternate" type="text/html"/>
+<updated>2019-02-11T00:00:00Z</updated>
+<summary/>
+<published>2018-09-26T00:00:00Z</published>
+<content># 数据结构之树
+
+树状图是一种数据结构，它是由n（n&gt;=1）个有限节点组成一个具有层次关系的集合。把它叫做“树”是因为它看起来像一棵倒挂的树，也就是说它是根朝上，而叶朝下的。它具有以下的特点：
+
+1</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>动态规划(Dynamic programing, DP)</title>
+<link href="/b/algorithm/algorithm-dp" rel="alternate" type="text/html"/>
+<updated>2019-02-11T00:00:00Z</updated>
+<summary/>
+<published>2018-09-26T00:00:00Z</published>
+<content># 动态规划(Dynamic programing, DP)
+动态规则(Dynamic programing, DP) 的大体思路是：将一个特定的问题，切割成若干类似的子问题，最后合并子问题的解并得出</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>经典排序算法的实现</title>
+<link href="/b/algorithm/algo-sort" rel="alternate" type="text/html"/>
+<updated>2019-02-11T00:00:00Z</updated>
+<summary/>
+<published>2013-09-26T00:00:00Z</published>
+<content># 经典排序算法实现
+常规的几种排序算法, 参考[维基sort](http://zh.wikipedia.org/wiki/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95)
+</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>约瑟夫问题</title>
 <link href="/b/algorithm/algo-dp-josephus-problem" rel="alternate" type="text/html"/>
-<updated>2019-02-10T00:00:00Z</updated>
+<updated>2019-02-11T00:00:00Z</updated>
 <summary/>
 <published>2019-02-10T00:00:00Z</published>
 <content># 约瑟夫问题
@@ -52,9 +274,9 @@ https://www.gitbook.com/book/yjango/superorganism/details
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>git 使用之日志、数据恢复</title>
 <link href="/b/git/git-log" rel="alternate" type="text/html"/>
-<updated>2019-02-10T00:00:00Z</updated>
+<updated>2019-02-13T00:00:00Z</updated>
 <summary/>
-<published>2019-02-10T00:00:00Z</published>
+<published>2019-02-13T00:00:00Z</published>
 <content># 日志过滤
 
 ## by branch
@@ -98,7 +320,7 @@ curl 转换器: https://curl.trillworks.com/
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>前缀、中缀、后缀表达式</title>
 <link href="/b/algorithm/algo-prefix-postfix-expr" rel="alternate" type="text/html"/>
-<updated>2019-02-10T00:00:00Z</updated>
+<updated>2019-02-11T00:00:00Z</updated>
 <summary/>
 <published>2019-02-09T00:00:00Z</published>
 <content># 前缀、中缀、后缀表达式
@@ -238,233 +460,4 @@ jdk include jre(java run-time environment)
     nil	这个最简单，只有值nil属于该类，表示一个无效值（在条件表达式中相当于false）。
     boolean	包含两个值：false和true。
   </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>lua module</title>
-<link href="/b/arch/lua-module" rel="alternate" type="text/html"/>
-<updated>2019-02-06T00:00:00Z</updated>
-<summary/>
-<published>2019-01-06T00:00:00Z</published>
-<content># 定义module
-
-    -- 文件名为 module.lua
-    -- 定义一个名为 module 的模块
-    module = {}
-    
-    -- 定义一个常量
-    m</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>py-process</title>
-<link href="/b/py/py-process" rel="alternate" type="text/html"/>
-<updated>2019-02-06T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Preface
-- sh: sh之于subprocess， 相当于requests 对于urllib2
-	1. sh.ls("-l", "/tmp", color="never")
-	2. sh.</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>前端自动化测试</title>
-<link href="/b/ria/js-test" rel="alternate" type="text/html"/>
-<updated>2019-02-06T00:00:00Z</updated>
-<summary/>
-<published>2019-02-06T00:00:00Z</published>
-<content># 前端自动化测试
-原文: http://fex.baidu.com/blog/2015/07/front-end-test/
-前端自动化测试可以在几个方向进行尝试：
-
-- 界面回归测试 测试界面是否</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>python 时间函数的用法笔记</title>
-<link href="/b/py/py-time" rel="alternate" type="text/html"/>
-<updated>2019-02-06T00:00:00Z</updated>
-<summary/>
-<published>2018-04-02T00:00:00Z</published>
-<content># time 工具
-time 提供基本的时间，sleep
-
-	import time
-	time.time()
-		19972314124.05238
-        time.localetime(</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>python thread 线程笔记</title>
-<link href="/b/py/py-thread" rel="alternate" type="text/html"/>
-<updated>2019-02-06T00:00:00Z</updated>
-<summary/>
-<published>2019-02-06T00:00:00Z</published>
-<content># threading
-Python的标准库提供了两个模块：`_thread`和`threading`: `_thread`是低级模块，threading是高级模块，对_thread进行了封装。
-
-绝</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Python 字符处理</title>
-<link href="/b/py/py-str" rel="alternate" type="text/html"/>
-<updated>2019-02-06T00:00:00Z</updated>
-<summary/>
-<published>2017-08-09T00:00:00Z</published>
-<content># Python 字符处理
-- serialize
-见/py/py-serial.md
-
-# String
-same as js:
-
-	print "a\nb" ;# The character he</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>profile</title>
-<link href="/b/py/py-profiler" rel="alternate" type="text/html"/>
-<updated>2019-02-06T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># profile
-- cProfile
-类似于xdebug cachegrind profiler 性能画像
-- py-spy python 版的top
-    - py-spy --pid 123</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>asyncio</title>
-<link href="/b/py/py-asyncio" rel="alternate" type="text/html"/>
-<updated>2019-02-06T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># asyncio
-asyncio是基于coroutine 的，包括了:
-1. 事件循环(event loop)
-2. Task: 对coroutine 的封装，包含各种状态
-    1. Pendi</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Python 异步tcp</title>
-<link href="/b/py/py-asyncio-http" rel="alternate" type="text/html"/>
-<updated>2019-02-06T00:00:00Z</updated>
-<summary/>
-<published>2019-02-06T00:00:00Z</published>
-<content>有很多库支持async tcp:
-1. asyncio 只是异步的tcp 框架
-2. aiohttp 提供了对async http 的完整支持
-
-# asyncio
-tcp 访问实例: https:/</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>py-async</title>
-<link href="/b/py/py-async" rel="alternate" type="text/html"/>
-<updated>2019-02-06T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># Preface
-本文参考:
-1. Python黑魔法 --- 异步IO（ asyncio） 协程
-http://www.jianshu.com/p/b5e347b3a17c
-2. Python A</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>tcpdump</title>
-<link href="/b/net/net-tcpdump" rel="alternate" type="text/html"/>
-<updated>2019-02-06T00:00:00Z</updated>
-<summary/>
-<published>2019-02-06T00:00:00Z</published>
-<content># tcpdump
-example: https://www.rationallyparanoid.com/articles/tcpdump.html
-book:
-
-学术的说，tcpdump是一种嗅探</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>设置系统的PATH</title>
-<link href="/b/c/ops-path" rel="alternate" type="text/html"/>
-<updated>2019-02-06T00:00:00Z</updated>
-<summary/>
-<published>2019-01-06T00:00:00Z</published>
-<content>如果想在进入系统时设置PATH, 在这里设置
-/etc/paths
-/etc/profile
-/etc/bashrc
-</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>IP</title>
-<link href="/b/net/proxy/vps-goagent" rel="alternate" type="text/html"/>
-<updated>2019-02-06T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># IP security
-webrtc会暴露自己的真实ips
-https://diafygi.github.io/webrtc-ips/ 通过js webrtc 获取ip
-
-禁用 WebRTC
-ht</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>linux ssh tool</title>
-<link href="/b/net/net-ssh-tool" rel="alternate" type="text/html"/>
-<updated>2019-02-06T00:00:00Z</updated>
-<summary/>
-<published>2016-09-09T00:00:00Z</published>
-<content># Server
-OpenSSH Installations under CentOS Linux
-
-	# To install the server and client type:
-	yum -y</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>ssh proxy</title>
-<link href="/b/net/net-ssh-proxy" rel="alternate" type="text/html"/>
-<updated>2019-02-06T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># ssh proxy
-
-    -f Rquests ssh to go to background just before command execution.
-
-## socks proxy
-&gt;</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>shell proxy</title>
-<link href="/b/net/net-proxy" rel="alternate" type="text/html"/>
-<updated>2019-02-10T00:00:00Z</updated>
-<summary/>
-<published>2019-02-10T00:00:00Z</published>
-<content># Android
-HowTo: Proxy Non-Proxy-Aware Android Applications through Burp
-http://blog.dornea.nu/2014/</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Shell Programming</title>
-<link href="/b/c/shell-" rel="alternate" type="text/html"/>
-<updated>2019-02-06T00:00:00Z</updated>
-<summary/>
-<published>2014-03-05T00:00:00Z</published>
-<content># Shell Programming
-
-# Signal, 信号(trap)
-Refer to:
-http://billie66.github.io/TLCL/book/zh/chap37.html</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>ops-init</title>
-<link href="/b/c/ops-init" rel="alternate" type="text/html"/>
-<updated>2019-02-06T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Preface
-
-# init
-
-## init
-init指linux 系统运行级runlevel 0~6. 可在/etc/inittab中指定:
-
-	id:3:initdefault:
-
-
-##</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>数据库CAP 理论</title>
-<link href="/b/arch/arch-cap" rel="alternate" type="text/html"/>
-<updated>2019-02-06T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># CAP定理（CAP theorem）
-CAP定理（CAP theorem), 指出对于一个分布式计算系统来说，不可能同时满足以下三点:
-
-1. 一致性(Consistency) (所有节点在同一时</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>网络扫描器nmap、zmap</title>
-<link href="/b/net/net-nmap-zmap" rel="alternate" type="text/html"/>
-<updated>2019-02-04T00:00:00Z</updated>
-<summary/>
-<published>2016-10-10T00:00:00Z</published>
-<content># nmap
-常见的网络扫描器有 SSS，X-Scan，Superscan等，功能最强大的当然是[Nmap](http://www.aiezu.com/system/linux/linux_nmap_</content>
 </entry></feed>

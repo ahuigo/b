@@ -20,13 +20,10 @@ const MD_URL='post/mac/mac-rime.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -35,7 +32,8 @@ const MD_URL='post/mac/mac-rime.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
@@ -50,8 +48,8 @@ const MD_URL='post/mac/mac-rime.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: rime 鼠须管输入法
-date: 2018-10-06
-updated: 2018-10-06
+date: 2019-02-14
+updated: 2019-02-14
 ---
 # Preface
 # todo
@@ -102,8 +100,7 @@ diy 处方
 註：一些版本的 Xcode 標識爲 com.apple.dt.Xcode，請注意查看 Info.plist。
 
 # 快捷键
-
- 按键定义 按鍵定義的格式爲`「修飾符甲+修飾符乙+…+按鍵名稱」`，加號爲分隔符，要寫出。
+按键定义 按鍵定義的格式爲`「修飾符甲+修飾符乙+…+按鍵名稱」`，加號爲分隔符，要寫出。
 
 Shift
 Control
@@ -272,7 +269,7 @@ Rime 輸入法在使用中會在一定時間自動將用戶詞典備份爲快照
 # Rime 中的數據文件分佈及作用
 除程序文件以外，Rime 還包括多種數據文件。 這些數據文件存在於以下位置：
 
-共享資料夾
+共享資料夾(不同的系统不一样ni h)
 
     【中州韻】 /usr/share/rime-data/
     【小狼毫】 &quot;安裝目錄\data&quot;
@@ -319,7 +316,7 @@ Rime 輸入法在使用中會在一定時間自動將用戶詞典備份爲快照
 
 [rime 定制指南]: https://code.google.com/p/rimeime/wiki/CustomizationGuide
 </pre>
-<div id="pager" v-pre></div>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -341,10 +338,10 @@ Rime 輸入法在使用中會在一定時間自動將用戶詞典備份爲快照
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
@@ -366,6 +363,9 @@ Rime 輸入法在使用中會在一定時間自動將用戶詞典備份爲快照
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>

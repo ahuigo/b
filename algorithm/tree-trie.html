@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/p/p11.md';
+const MD_URL='post/algorithm/tree-trie.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO 的笔记</title>
+<title>Trie 树</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -46,52 +46,29 @@ const MD_URL='post/p/p11.md';
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
-<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+<pre id="markdown" v-pre>---
+title: Trie 树
+date: 2018-09-26
+updated: 2019-02-11
+---
+# Trie 树
+通过Trie 建立字典索引（空间为代价）
 
-<ul>
-<li>2018-09-15 <a href="/b/ria/node-debug">Node debug</a> </li>
-<li>2018-09-27 <a href="/b/life/life-hospital">life-hospital</a> </li>
-<li>2018-09-27 <a href="/b/life/life-food">hospital</a> </li>
-<li>2018-10-06 <a href="/b/life/life-drive">drive</a> </li>
-<li>2018-10-04 <a href="/b/life/life-die">死亡</a> </li>
-<li>2018-09-27 <a href="/b/life/life-clothes">卫衣</a> </li>
-<li>2018-09-27 <a href="/b/life/life-badminton">寻找替代的球</a> </li>
-<li>2018-09-27 <a href="/b/life/life-air">life-air</a> </li>
-<li>2018-05-21 <a href="/b/life/life-add-memory">记忆碎片</a> </li>
-<li>2018-09-27 <a href="/b/life/life-ad">ad-killer</a> </li>
-<li>2018-10-06 <a href="/b/life/edu-graduate">毕业的事</a> </li>
-<li>2018-09-27 <a href="/b/java/java-var">Type</a> </li>
-<li>2018-09-27 <a href="/b/java/java-jedis">single thread</a> </li>
-<li>2018-09-27 <a href="/b/java/java-io">println</a> </li>
-<li>2018-09-27 <a href="/b/java/java-install">install java</a> </li>
-<li>2018-09-27 <a href="/b/java/java-file">upload</a> </li>
-<li>2018-09-27 <a href="/b/java/java-debug">try</a> </li>
-<li>2018-09-27 <a href="/b/java/java-date">gettime</a> </li>
-<li>2018-10-06 <a href="/b/idea/idea-work-efficiency">夸夸我家程序员</a> </li>
-<li>2018-09-27 <a href="/b/idea/idea-job">接活网站：</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-jquery-extend">extend，扩展 插件</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-jquery-css">Css</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-indexedDB">IndexedDb 的使用之Dexie</a> </li>
-<li>2017-07-11 <a href="/b/ria/js-func">js 的函数</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-func-scope">Js 中的this scope</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-expr">js fuck</a> </li>
-<li>2016-01-23 <a href="/b/ria/js-dom">Js dom 笔记</a> </li>
-<li>2018-08-19 <a href="/b/ria/js-dom-innerhtml-js">让innerHTML 执行js</a> </li>
-<li>2018-10-06 <a href="/b/ria/js-dom-html5">html5</a> </li>
-<li>2018-10-04 <a href="/b/py/py-shell">python shell 子进程</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-file">vim-file</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-complete">vim-complete</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-cmd">vim-cmd</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-cmd-ex">vim-cmd-ex</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-change">vim-change</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-abbreviate">vim-abbreviate</a> </li>
-<li>2018-10-04 <a href="/b/svn/svn-diff">svn-diff</a> </li>
-<li>2018-10-04 <a href="/b/sec/security-web">security-web</a> </li>
-<li>2018-10-04 <a href="/b/sec/security-">security-</a> </li>
-<li>2018-10-04 <a href="/b/rpc/rpc">rpc</a> </li>
-</ul>
-</div>
-<div id="pager"> <a href="/b/index">p0</a> <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a> <a href="/b/p/p3">p3</a> <a href="/b/p/p4">p4</a> <a href="/b/p/p5">p5</a> <a href="/b/p/p6">p6</a> <a href="/b/p/p7">p7</a> <a href="/b/p/p8">p8</a> <a href="/b/p/p9">p9</a> <a href="/b/p/p10">p10</a> p11 <a href="/b/p/p12">p12</a> <a href="/b/p/p13">p13</a> <a href="/b/p/p14">p14</a> <a href="/b/p/p15">p15</a> <a href="/b/p/p16">p16</a> <a href="/b/p/p17">p17</a> <a href="/b/p/p18">p18</a></div>
+abc&quot;,&quot;ab&quot;,&quot;bd&quot;,&quot;dda&quot; 建立索引：
+
+    a
+        b-&gt;ab
+            c-&gt;abc
+    b
+        d-&gt;bd
+    d
+        d
+            a-&gt;dda
+
+http://www.cnblogs.com/dolphin0520/archive/2011/10/11/2207886.html
+http://weibo.com/1699016425/AAMyO6v2p#_rnd1408360416234
+http://www.comp.nus.edu.sg/~stevenha/visualization/index.html</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
