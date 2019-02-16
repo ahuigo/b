@@ -48,8 +48,8 @@ const MD_URL='post/net/net-proxy.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: shell proxy
-date: 2019-02-10
-updated: 2019-02-10
+date: 2019-02-17
+updated: 2019-02-17
 ---
 # Android
 HowTo: Proxy Non-Proxy-Aware Android Applications through Burp
@@ -95,6 +95,16 @@ support https
 
 Comparison_of_proxifiers:
 https://en.wikipedia.org/wiki/Comparison_of_proxifiers
+
+### shell
+    curl -x socks5h://localhost:8001 baidu.com
+    env ALL_PROXY=socks5h://localhost:8001 PROGRAM [OPTION]...
+
+If you want to overwrite system proxy settings, you may also need to set two more variables:
+
+    # Note that http_proxy is lower case, the other two is upper case.
+    env http_proxy=socks5h://localhost:8001 HTTPS_PROXY=socks5h://localhost:8001 ALL_PROXY=socks5h://localhost:8001 PROGRAM [OPTION]...
+
 
 ### cow
 https://github.com/cyfdecyf/cow
