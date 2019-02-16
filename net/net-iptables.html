@@ -32,7 +32,7 @@ const MD_URL='post/net/net-iptables.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
@@ -48,8 +48,8 @@ const MD_URL='post/net/net-iptables.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: 防火墙
-date: 2018-12-31
-updated: 2018-12-31
+date: 2019-02-16
+updated: 2019-02-16
 ---
 # 原理
 参考[Iptables防火墙原理详解](http://segmentfault.com/a/1190000002540601)
@@ -609,7 +609,7 @@ FirewallD 使用 XML 进行配置, 不要动他，用firewall-cmd 管理！
     sudo firewall-cmd --zone=public --add-service=http --permanent
     sudo firewall-cmd --zone=public --add-service=http
 
-将规则添加到持久规则集中并重新加载 FirewallD。 
+将规则添加到持久规则集中并重新加载 FirewallD。 permannent 需要reload！
 
     sudo firewall-cmd --zone=public --add-service=http --permanent
     sudo firewall-cmd --reload
@@ -783,7 +783,7 @@ FirewallD 提供了一个直接Direct接口，允许你给它传递原始 iptabl
 <div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>

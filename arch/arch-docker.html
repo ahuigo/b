@@ -32,7 +32,7 @@ const MD_URL='post/arch/arch-docker.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
@@ -49,7 +49,7 @@ const MD_URL='post/arch/arch-docker.md';
 <pre id="markdown" v-pre>---
 title: 学习 docker
 date: 2018-09-27
-updated: 2019-02-08
+updated: 2019-02-16
 ---
 # 什么是Docker
 虚拟机是对硬件的虚拟化(需要Hypervisor这个软件层), 而docker （LXC, linux container）是对操作系统的虚拟化。
@@ -225,6 +225,12 @@ Docker Registry 分公开服务和私有服务。
     docker stop &lt;name&gt;
     docker start &lt;name&gt;
 
+daemon:
+
+    systemctl enable docker
+    systemctl start docker
+    systemctl stop docker
+
 ### 查看容器列表
 
     # 列出本机正在运行的容器
@@ -330,7 +336,7 @@ Docker Registry 分公开服务和私有服务。
 如果想将两个容器连接到一起：比如myweb 连接 wordpressdb:mysql(mysql是容器别名)
 
     docker container run -d --name wordpressdb --env MYSQL_ROOT_PASSWORD=123456 --env MYSQL_DATABASE=wordpress mysql:5.7
-    docker container run --name wordpress --volume &quot;$PWD/wordpress/&quot;:/var/www/html --link wordpressdb:mysql myweb
+    docker container run --name web --volume &quot;$PWD/wordpress/&quot;:/var/www/html --link wordpressdb:mysql myweb
     
 但是大量的容器连接, 就需要用 compose 一键启动\停止\rm 容器:
 
@@ -363,8 +369,8 @@ Docker Registry 分公开服务和私有服务。
     docker stats --help
 
 # 参考
-- https://zhuanlan.zhihu.com/p/38552635
-- http://www.runoob.com/docker/</pre>
+- http://www.runoob.com/docker/
+-  http://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
