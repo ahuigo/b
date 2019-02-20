@@ -2,9 +2,28 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-02-20T17:16:43Z</updated>
+<updated>2019-02-20T22:30:07Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>求两链表的交点</title>
+<link href="/b/algorithm/list-intersection" rel="alternate" type="text/html"/>
+<updated>2019-02-20T00:00:00Z</updated>
+<summary/>
+<published>2019-02-20T00:00:00Z</published>
+<content># 求两链表的交点
+我想有3个方法：
+1. 将一个链表首尾相连，然后采用[Floyd 判圈法](/p/algorithm/list-intersection-floyd)
+2. 用两个栈遍历链表，然后</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>单链表是否有环之Floyd算法</title>
+<link href="/b/algorithm/list-intersection-floyd" rel="alternate" type="text/html"/>
+<updated>2019-02-20T00:00:00Z</updated>
+<summary/>
+<published>2018-09-26T00:00:00Z</published>
+<content># 单链表是否有环之龟兔算法(tortoise-hare)
+Floyd判圈算法(Floyd Cycle Detection Algorithm), 也叫龟兔算法(tortoise-hare)
+![cy</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>tcpdump</title>
 <link href="/b/net/net-tcpdump" rel="alternate" type="text/html"/>
 <updated>2019-02-20T00:00:00Z</updated>
@@ -213,17 +232,15 @@ Power function
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>rime 鼠须管输入法</title>
 <link href="/b/mac/mac-rime" rel="alternate" type="text/html"/>
-<updated>2019-02-14T00:00:00Z</updated>
+<updated>2019-02-20T00:00:00Z</updated>
 <summary/>
-<published>2019-02-14T00:00:00Z</published>
-<content># Preface
-# todo
-diy 处方
+<published>2019-02-20T00:00:00Z</published>
+<content># Rime 中的數據文件分佈及作用
+除程序文件以外，Rime 還包括多種數據文件。 這些數據文件存在於以下位置：
 
-設定項速查手冊
+共享資料夾(不同的系统不一样ni h)
 
-# 输入方案定制说明
-所有的输入方案都是以`*.schema.yaml`命名的,比如: `wubi_pinyin.schema.ya</content>
+    【中州韻】 /usr/share</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>mac 切换到自带的双拼方案</title>
 <link href="/b/mac/mac-inputmethod-pinyin" rel="alternate" type="text/html"/>
@@ -416,27 +433,4 @@ Python支持多种图形界面的第三方库，包括：
 1. Qt 超级跨平台
 1. GTK
 1. pysimplegui: https://</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>net-ssl-tool</title>
-<link href="/b/net/net-ssl-tool" rel="alternate" type="text/html"/>
-<updated>2019-02-10T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># mkcert
-mkcert 是一个签发本地证书的工具，用于开发环境，最大特色是可以签发 localhost 的证书 (阮一峰博客看到的)
-https://blog.filippo.io/mkcer</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>book</title>
-<link href="/b/idea/idea-book" rel="alternate" type="text/html"/>
-<updated>2019-02-10T00:00:00Z</updated>
-<summary/>
-<published>2019-02-10T00:00:00Z</published>
-<content># Preface
-
-# 人工智能
-https://www.gitbook.com/book/yjango/superorganism/details
-
-# code
-
-## practice onl</content>
 </entry></feed>
