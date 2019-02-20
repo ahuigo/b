@@ -49,7 +49,7 @@ const MD_URL='post/algorithm/list-intersection-floyd.md';
 <pre id="markdown" v-pre>---
 title: 单链表是否有环之Floyd算法
 date: 2018-09-26
-updated: 2019-02-20
+updated: 2019-02-21
 ---
 # 单链表是否有环之龟兔算法(tortoise-hare)
 Floyd判圈算法(Floyd Cycle Detection Algorithm), 也叫龟兔算法(tortoise-hare)
@@ -67,7 +67,7 @@ Floyd判圈算法(Floyd Cycle Detection Algorithm), 也叫龟兔算法(tortoise-
 ## 是否有环，及环的长度
 如果链表存在环，那么 龟 和 兔 从链表起点出发，每次龟走一步，走两步(step=2)，那么Tortoise 到达环的起点时，经过m步。龟比兔多跑：`S_tortorise - S_hare = -m`, 
 
-假设环长度`s`, 兔子要追上龟这`-m`，龟就要再跑：`k=-m mod s` 步
+假设环长度`s`, 兔子要追上龟这`-m`，龟就要再跑`s-m`步，准确的说是`k=-m mod s` 步
 
     s-m     //if s-m &gt;=0
     2s-m    //elif 2s-m &gt;=0

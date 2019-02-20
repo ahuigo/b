@@ -2,9 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-02-20T22:30:07Z</updated>
+<updated>2019-02-21T00:53:18Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Copy List with Random Pointer</title>
+<link href="/b/algorithm/list-copy" rel="alternate" type="text/html"/>
+<updated>2019-02-21T00:00:00Z</updated>
+<summary/>
+<published>2019-02-20T00:00:00Z</published>
+<content># Copy List with Random Pointer
+复制带随机指针胡链表问题：
+https://www.kancloud.cn/kancloud/data-structure-and-al</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>求两链表的交点</title>
 <link href="/b/algorithm/list-intersection" rel="alternate" type="text/html"/>
 <updated>2019-02-20T00:00:00Z</updated>
@@ -17,7 +26,7 @@
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>单链表是否有环之Floyd算法</title>
 <link href="/b/algorithm/list-intersection-floyd" rel="alternate" type="text/html"/>
-<updated>2019-02-20T00:00:00Z</updated>
+<updated>2019-02-21T00:00:00Z</updated>
 <summary/>
 <published>2018-09-26T00:00:00Z</published>
 <content># 单链表是否有环之龟兔算法(tortoise-hare)
@@ -419,18 +428,4 @@ https://github.com/wulijun/php-ext-trie-filter</content>
 <published>2019-02-10T00:00:00Z</published>
 <content># 约瑟夫问题
 [约瑟夫问题](https://en.wikipedia.org/wiki/Josephus_problem) 描述的是n 个士兵围一个环，从一个人开始计数，每次计数到k 杀掉一个人，</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>py-gui</title>
-<link href="/b/py/py-gui" rel="alternate" type="text/html"/>
-<updated>2019-02-10T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># Preface
-Python支持多种图形界面的第三方库，包括：
-
-1. Tk 自带
-1. wxWidgets
-1. Qt 超级跨平台
-1. GTK
-1. pysimplegui: https://</content>
 </entry></feed>

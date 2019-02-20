@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/p/p3.md';
+const MD_URL='post/algorithm/list-copy.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO 的笔记</title>
+<title>Copy List with Random Pointer</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -46,52 +46,56 @@ const MD_URL='post/p/p3.md';
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
-<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+<pre id="markdown" v-pre>---
+title: Copy List with Random Pointer
+date: 2019-02-20
+updated: 2019-02-21
+---
+# Copy List with Random Pointer
+复制带随机指针胡链表问题：
+https://www.kancloud.cn/kancloud/data-structure-and-algorithm-notes/73016
 
-<ul>
-<li>2018-10-04 <a href="/b/php/php-tpl">php-tpl</a> </li>
-<li>2018-10-04 <a href="/b/php/php-time">Time</a> </li>
-<li>2018-10-04 <a href="/b/php/php-session">php-session</a> </li>
-<li>2018-10-04 <a href="/b/php/php-posix">pipe</a> </li>
-<li>2018-10-04 <a href="/b/php/php-new">php-new</a> </li>
-<li>2018-10-04 <a href="/b/php/php-mysql-pdo">php-mysql-pdo</a> </li>
-<li>2018-10-04 <a href="/b/php/php-flight">php-flight</a> </li>
-<li>2018-10-04 <a href="/b/php/php-expression">php-expression</a> </li>
-<li>2018-10-04 <a href="/b/php/php-dom">php-dom</a> </li>
-<li>2018-10-04 <a href="/b/php/php-composer">php-composer</a> </li>
-<li>2018-10-06 <a href="/b/php/php-ci">CI Framework 改造</a> </li>
-<li>2018-10-06 <a href="/b/php/php-beanstalk">php beanstalk</a> </li>
-<li>2018-10-06 <a href="/b/nginx/nginx-var">nginx 的变量类型</a> </li>
-<li>2012-05-05 <a href="/b/nginx/apache-httpd-conf">Apache 的配置备忘录</a> </li>
-<li>2018-10-04 <a href="/b/py/py-process">py-process</a> </li>
-<li>2018-10-04 <a href="/b/py/py-str-replace">Python replace with dict</a> </li>
-<li>2018-10-06 <a href="/b/ria/js-dom-file">js dom file</a> </li>
-<li>2018-10-04 <a href="/b/vsc/vsc-pkg">Vscode 插件的开发</a> </li>
-<li>2018-10-04 <a href="/b/vsc/vsc-path">path</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-ajax-cors">ajax cors</a> </li>
-<li>2018-10-04 <a href="/b/ria/egg-model">egg model</a> </li>
-<li>2018-10-04 <a href="/b/ria/egg-debug-test">egg-test</a> </li>
-<li>2018-10-04 <a href="/b/ria/egg-debug-log">egg debug</a> </li>
-<li>2018-10-04 <a href="/b/ria/egg-agent">Agent</a> </li>
-<li>2018-10-04 <a href="/b/ria/egg-">Egg</a> </li>
-<li>2018-09-28 <a href="/b/py/flask/flask-dev-request">request</a> </li>
-<li>2018-09-28 <a href="/b/py/flask/9.flask-views">Views</a> </li>
-<li>2018-09-28 <a href="/b/py/flask/8.flask-signal">signal</a> </li>
-<li>2018-09-28 <a href="/b/py/flask/7.flask-log">mail log</a> </li>
-<li>2018-09-28 <a href="/b/py/flask/6.flask-cli">cli</a> </li>
-<li>2018-09-28 <a href="/b/py/flask/5.flask-unittest">test client</a> </li>
-<li>2018-09-28 <a href="/b/py/flask/4.flask-conf">app</a> </li>
-<li>2018-09-28 <a href="/b/py/flask/3.flask-tpl">Template</a> </li>
-<li>2018-09-28 <a href="/b/py/flask/2.flask-route">flask route request response</a> </li>
-<li>2018-09-28 <a href="/b/py/flask/11.flask-blueprint">blueprint</a> </li>
-<li>2018-10-06 <a href="/b/mac/android-adb">Install ADB on Mac OSX</a> </li>
-<li>2018-09-27 <a href="/b/go/go-socket">socket</a> </li>
-<li>2018-09-27 <a href="/b/go/go-os">系统调用</a> </li>
-<li>2018-09-27 <a href="/b/git/git-svn">git svn</a> </li>
-<li>2018-03-03 <a href="/b/git/git-submodule">git submodule</a> </li>
-</ul>
-</div>
-<div id="pager"> <a href="/b/index">p0</a> <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a> p3 <a href="/b/p/p4">p4</a> <a href="/b/p/p5">p5</a> <a href="/b/p/p6">p6</a> <a href="/b/p/p7">p7</a> <a href="/b/p/p8">p8</a> <a href="/b/p/p9">p9</a> <a href="/b/p/p10">p10</a> <a href="/b/p/p11">p11</a> <a href="/b/p/p12">p12</a> <a href="/b/p/p13">p13</a> <a href="/b/p/p14">p14</a> <a href="/b/p/p15">p15</a> <a href="/b/p/p16">p16</a> <a href="/b/p/p17">p17</a> <a href="/b/p/p18">p18</a></div>
+
+## 解法1: 借助map 表(两次hash遍历)
+
+1.第一次遍历：直接copy + `map(oldNode) = newNode`
+
+    RandomK------
+    ^           |
+    |           v
+    A -&gt;B -&gt;C -&gt;D&lt;--|
+    |   |   |   |   |
+    A&#x27;-&gt;B&#x27;-&gt;C&#x27;-&gt;D&#x27;  |
+    |               |
+    ----------------
+
+2.第二次遍历：利用map, `newNode.randomK = map[newNode.randomK]`
+
+你也可以合并两次遍历为一次，只不过当`map[newNode.randomK]` 不存在时，需要创建新的空newNode。
+
+## 解法2: 利用oldNode.next 代替 map
+解法2 避免了map 开销
+1.第一次遍历：直接copy + `old.next = newNode, newNode.next=old.next`
+
+    RandomK------
+    ^           |
+    |           v
+    A -&gt;B -&gt;C -&gt;D&lt;--|
+    | / | / | / |   |
+    A&#x27;  B&#x27;  C&#x27;  D&#x27;  |
+    |               |
+    ----------------
+
+2.第二次遍历：恢复newlist 的randomK
+
+    A&#x27;.randomK = A.randomK.next 
+
+2.第3次遍历：恢复oldlist/newlist 的next
+
+    A&#x27; = A.next
+    A.next = A&#x27;.next
+    A&#x27;.next = A&#x27;.next.next</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
