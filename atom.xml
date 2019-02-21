@@ -2,9 +2,19 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-02-21T00:53:18Z</updated>
+<updated>2019-02-21T10:31:19Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>各种语言的fiddle</title>
+<link href="/b/c/ops-fiddle" rel="alternate" type="text/html"/>
+<updated>2019-02-21T00:00:00Z</updated>
+<summary/>
+<published>2018-08-27T00:00:00Z</published>
+<content># 各种语言的fiddle
+各种语言的fiddle
+1. js:
+    https://ahuigo.github.io/a/demo/fiddle/fiddle.html # 加上`data:te</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Copy List with Random Pointer</title>
 <link href="/b/algorithm/list-copy" rel="alternate" type="text/html"/>
 <updated>2019-02-21T00:00:00Z</updated>
@@ -16,7 +26,7 @@ https://www.kancloud.cn/kancloud/data-structure-and-al</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>求两链表的交点</title>
 <link href="/b/algorithm/list-intersection" rel="alternate" type="text/html"/>
-<updated>2019-02-20T00:00:00Z</updated>
+<updated>2019-02-21T00:00:00Z</updated>
 <summary/>
 <published>2019-02-20T00:00:00Z</published>
 <content># 求两链表的交点
@@ -420,12 +430,4 @@ https://github.com/wulijun/php-ext-trie-filter</content>
 <content># 经典排序算法实现
 常规的几种排序算法, 参考[维基sort](http://zh.wikipedia.org/wiki/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95)
 </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>约瑟夫问题</title>
-<link href="/b/algorithm/algo-dp-josephus-problem" rel="alternate" type="text/html"/>
-<updated>2019-02-11T00:00:00Z</updated>
-<summary/>
-<published>2019-02-10T00:00:00Z</published>
-<content># 约瑟夫问题
-[约瑟夫问题](https://en.wikipedia.org/wiki/Josephus_problem) 描述的是n 个士兵围一个环，从一个人开始计数，每次计数到k 杀掉一个人，</content>
 </entry></feed>
