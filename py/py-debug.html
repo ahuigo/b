@@ -32,7 +32,7 @@ const MD_URL='post/py/py-debug.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
@@ -49,7 +49,7 @@ const MD_URL='post/py/py-debug.md';
 <pre id="markdown" v-pre>---
 title: py-debug
 date: 2018-09-28
-updated: 2019-02-07
+updated: 2019-02-22
 ---
 # Preface
 1. exception
@@ -85,6 +85,24 @@ Python 代码调试技巧: \
      +-- GeneratorExit
      +-- Exception
           +-- StopIteration
+
+try catch
+
+	try:
+		do sth.
+    except ZeroDivisionError as e:
+        print(e)
+	except ValueError:
+		raise
+		raise ValueError(&#x27;sth error!&#x27;)
+    except (RuntimeError, TypeError, NameError):
+        pass
+	else:
+		return None
+	finally:
+		do sth.
+
+else 仅当没有异常或者没有被捕获的异常时, 才生效. 当有未捕获的异常出现时，finally 也会执行, 然后才抛出异常中断执行
 
 ### SystemExit
 exit(n), quit(n), sys.exit(n)都是一个东西: SystemExit(n); 

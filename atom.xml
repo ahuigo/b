@@ -2,9 +2,80 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-02-21T11:07:42Z</updated>
+<updated>2019-02-22T21:30:13Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>python 的list/tuple 笔记</title>
+<link href="/b/py/py-var-list" rel="alternate" type="text/html"/>
+<updated>2019-02-22T00:00:00Z</updated>
+<summary/>
+<published>2018-03-03T00:00:00Z</published>
+<content># list and tuple
+因为tuple 是增加删除元素的不可变的list(数据可以变)，所以代码更安全。
+如果可能，能用tuple代替list就尽量用tuple。
+
+	list = [1,2</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Python 字符处理</title>
+<link href="/b/py/py-str" rel="alternate" type="text/html"/>
+<updated>2019-02-22T00:00:00Z</updated>
+<summary/>
+<published>2017-08-09T00:00:00Z</published>
+<content># Python 字符处理
+- serialize
+见/py/py-serial.md
+
+# String
+same as js:
+
+	print "a\nb" ;# The character he</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Python 语法</title>
+<link href="/b/py/py-grammar" rel="alternate" type="text/html"/>
+<updated>2019-02-22T00:00:00Z</updated>
+<summary/>
+<published>2018-03-01T00:00:00Z</published>
+<content># compare
+```s
+&gt;&gt;&gt; 1&lt;3&gt;=3&gt;1==1&lt;100
+True
+```
+
+# Condition &amp; Loop
+
+## control
+
+	exit(0);
+		like exit(0</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-debug</title>
+<link href="/b/py/py-debug" rel="alternate" type="text/html"/>
+<updated>2019-02-22T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Preface
+1. exception
+2. 调试包括print, assert, 
+3. 使用logging/sentry/q(强烈推荐)
+4. pdb/ipdb
+3. perf 性能
+1. </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>python 加密实例</title>
+<link href="/b/py/py-crypt" rel="alternate" type="text/html"/>
+<updated>2019-02-22T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># python 加密实例
+[加密算法简介](/p/algorithm/algorithm-crypt)
+
+    pip install pycrypto
+
+
+# AES
+
+## aes-256-c</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>shell proxy tool</title>
 <link href="/b/net/net-proxy-tool" rel="alternate" type="text/html"/>
 <updated>2019-02-21T00:00:00Z</updated>
@@ -16,7 +87,7 @@ http://blog.dornea.nu/2014/</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>net-socks</title>
 <link href="/b/net/net-proxy-socks" rel="alternate" type="text/html"/>
-<updated>2019-02-21T00:00:00Z</updated>
+<updated>2019-02-22T00:00:00Z</updated>
 <summary/>
 <published>2018-09-28T00:00:00Z</published>
 <content># socks 协议
@@ -383,53 +454,4 @@ abc","ab","bd","dda" 建立索引：
         b-&gt;ab
             c-&gt;abc
   </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>trie-filter</title>
-<link href="/b/algorithm/tree-trie-filter" rel="alternate" type="text/html"/>
-<updated>2019-02-11T00:00:00Z</updated>
-<summary/>
-<published>2018-09-26T00:00:00Z</published>
-<content># trie-filter
-
-# php word filter
-https://github.com/wulijun/php-ext-trie-filter</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>跳跃表</title>
-<link href="/b/algorithm/tree-skiplist" rel="alternate" type="text/html"/>
-<updated>2019-02-11T00:00:00Z</updated>
-<summary/>
-<published>2017-09-26T00:00:00Z</published>
-<content># 跳跃表
-我们实现redis 的有序集合用什么结构呢？
-1. list: 插入的复杂度是O(n)
-2. 链表: 查找的复杂度是O(n)
-
-跳跃表(skiplist) 是一种随机化的数据结构，相当于为</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>二叉堆</title>
-<link href="/b/algorithm/tree-binheap" rel="alternate" type="text/html"/>
-<updated>2019-02-11T00:00:00Z</updated>
-<summary/>
-<published>2019-02-11T00:00:00Z</published>
-<content>https://github.com/bnmnetp/pythonds/blob/master/trees/binheap.py 给了一个最小堆的例子
-1. 插入过程是一个向上冒泡pearUp 的过程</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>二叉查找树和红黑树</title>
-<link href="/b/algorithm/tree-binary-search-tree" rel="alternate" type="text/html"/>
-<updated>2019-02-13T00:00:00Z</updated>
-<summary/>
-<published>2018-09-26T00:00:00Z</published>
-<content># 二叉查找树
-二叉查找树（Binary Search Tree），也称二叉搜索树、有序二叉树（ordered binary tree），排序二叉树（sorted binary tree），是指一棵空</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>数据结构之树</title>
-<link href="/b/algorithm/tree-" rel="alternate" type="text/html"/>
-<updated>2019-02-11T00:00:00Z</updated>
-<summary/>
-<published>2018-09-26T00:00:00Z</published>
-<content># 数据结构之树
-
-树状图是一种数据结构，它是由n（n&gt;=1）个有限节点组成一个具有层次关系的集合。把它叫做“树”是因为它看起来像一棵倒挂的树，也就是说它是根朝上，而叶朝下的。它具有以下的特点：
-
-1</content>
 </entry></feed>

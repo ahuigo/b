@@ -49,7 +49,7 @@ const MD_URL='post/py/py-var-list.md';
 <pre id="markdown" v-pre>---
 title: python 的list/tuple 笔记
 date: 2018-03-03
-updated: 2019-02-14
+updated: 2019-02-22
 ---
 # list and tuple
 因为tuple 是增加删除元素的不可变的list(数据可以变)，所以代码更安全。
@@ -188,7 +188,6 @@ which will return the first match or raise a StopIteration if none is found. Alt
 	&gt;&gt;&gt; zip(*l) # matrix转置
 	[(1, 3, 8), (2, 4, 9)]
 
-
 ## join and split
 
 	&#x27;,&#x27;.join([1,2])
@@ -289,8 +288,10 @@ repeat
 
 	.count(value) -&gt; integer -- return number of occurrences of value
 	.reverse() -&gt; reverse *IN PLACE*
-	.sort(key=None, reverse=False) -- stable sort *IN PLACE*;
+	.sort(key=None, reverse=False) -- stable sort *IN PLACE*; not support cmp=None
 	sorted(l, key=None, reverse=False) -- stable sort *Not IN PLACE*;
+
+## sort key
 
     &gt;&gt;&gt; d=[&#x27;a&#x27;,&#x27;C&#x27;, &#x27;A&#x27;,&#x27;z&#x27;]; d.sort(key=str.lower))
     [&#x27;a&#x27;, &#x27;A&#x27;, &#x27;C&#x27;, &#x27;z&#x27;]
@@ -301,16 +302,22 @@ repeat
     &gt;&gt;&gt; sorted(a.items(), key=lambda x:x[1])
     [(4, 1), (1, 2), (3, 3), (2, 4)]
 
-利用python 的magic`__gt__,__eq__,...` 实现cmp:
+python3 没有cmp. 利用python 的magic`__gt__,__eq__,...` 实现cmp:
 
     key=functools.cmp_to_key(compare)
+
+    from functools import cmp_to_key
+
+    nums = [1, 3, 2, 4]
+    nums.sort(key=cmp_to_key(lambda a, b: a - b))
+    print(nums)  # [1, 2, 3, 4]
 
 remove and insert(in place)
 
 	.insert(index, object)
 	.remove(value) -- remove first occurrence of value.
 
-## sort list
+## sorted list
 
     colors = [&#x27;red&#x27;, &#x27;green&#x27;, &#x27;blue&#x27;, &#x27;yellow&#x27;]
     sorted(colors):

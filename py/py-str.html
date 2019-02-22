@@ -32,7 +32,7 @@ const MD_URL='post/py/py-str.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
@@ -49,7 +49,7 @@ const MD_URL='post/py/py-str.md';
 <pre id="markdown" v-pre>---
 title: Python 字符处理
 date: 2017-08-09
-updated: 2019-02-06
+updated: 2019-02-22
 ---
 # Python 字符处理
 - serialize
@@ -299,8 +299,8 @@ bytes对象b&#x27;\xa420&#x27;只是一堆比特位而已。define bytes
     97
 
 对于字符串操作，我们并不关心它们内部编码。除非需要字节包用于传输时
-1. str 是无关编码的unicode: utf8,gbk, 是纯字符串表示: python3 采用unicode
-1. bytes 是关编码: utf8,gbk, 是纯字符经过编码过后的二进制数据
+1. str 是关编码的unicode: utf8,gbk, 是纯字符串表示: python3 采用unicode
+1. bytes 是无关编码: utf8,gbk, 是纯字符经过编码过后的二进制数据
 
 #### string to bytes:
 ascii 不变, 其它则用16进制表示
@@ -394,7 +394,35 @@ replace with dict(不能出现干扰的边界字符`%{}`)
 
 ### translate
 
-    a_string.translate(str.maketrans({&quot;a&quot;:  &quot;A&quot;})
+    str.maketrans(&#x27;abc&#x27;,&#x27;ABC&#x27;) 
+        # {97: 65, 98: 66, 99: 67}
+    &gt;&gt;&gt; &#x27;a2&#x27;.translate(str.maketrans(&#x27;abc&#x27;,&#x27;ABC&#x27;))
+    &#x27;A2&#x27;
+    &gt;&gt;&gt; &#x27;a2&#x27;.translate(str.maketrans({&#x27;a&#x27;:&#x27;A&#x27;, &#x27;b&#x27;:&#x27;B&#x27;}))
+    &#x27;A2&#x27;
+    &gt;&gt;&gt; &#x27;a2&#x27;.translate(str.maketrans({97:65}))
+    &#x27;A2&#x27;
+
+python2:
+
+    string.maketrans(&#x27;&#x27;,&#x27;&#x27;)  // equal to python3: bytes(range(0, 0x100))
+
+    string.maketrans(&#x27;a&#x27;,&#x27;B&#x27;)  
+    // equal to python3: 
+    trans = str.maketrans(&#x27;a&#x27;,&#x27;B&#x27;)  
+    bytes(c if c not in trans else trans[c] for c in range(0, 0x100))
+
+### bytes translate
+python3 reverse translate for bytes:
+
+    b&#x27;abc&#x27;.translate(str.maketrans(&#x27;abc&#x27;,&#x27;ABC&#x27;))
+    b&#x27;ABC&#x27;.translate(str.maketrans(&#x27;ABC&#x27;,&#x27;abc&#x27;))
+
+python2 bytes translate reverse:
+
+    &gt;&gt;&gt; enc = string.maketrans(&#x27;\x00\x01\x02&#x27;, &#x27;\x01\x02\x00&#x27;)
+    &gt;&gt;&gt; dec = string.maketrans(enc, string.maketrans(&#x27;&#x27;, &#x27;&#x27;))
+
 
 ### startwith
 
