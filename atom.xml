@@ -2,9 +2,31 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-02-22T21:30:13Z</updated>
+<updated>2019-02-23T00:06:51Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>py-tcp</title>
+<link href="/b/py/py-tcp" rel="alternate" type="text/html"/>
+<updated>2019-02-23T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Preface
+
+Socket是网络编程的一个抽象概念。通常我们用一个Socket表示“打开了一个网络链接”，而打开一个Socket需要知道目标计算机的IP地址和端口号，再指定协议类型即可。
+
+#</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>ssh proxy</title>
+<link href="/b/net/net-ssh-proxy" rel="alternate" type="text/html"/>
+<updated>2019-02-23T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># ssh proxy
+
+    -f Rquests ssh to go to background just before command execution.
+
+## tcp port forw</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>python 的list/tuple 笔记</title>
 <link href="/b/py/py-var-list" rel="alternate" type="text/html"/>
 <updated>2019-02-22T00:00:00Z</updated>
@@ -430,28 +452,4 @@ $Ο$，读音：big-oh、欧米可荣（大写）；表示上界(tightness u</co
 ### 取模法
 hash = key mod m
 1. m尽量用质数，不要用$</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Fibonacii and gold(φ)</title>
-<link href="/b/math/math-num-fibonacii" rel="alternate" type="text/html"/>
-<updated>2019-02-11T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Fibonacii and gold(φ)
-Fibonacii/gold 有很多有趣的性质
-1. 广义fibonacii 逼近gold 的证明 寻找相邻两项之比不趋于 1.618 的广义 Fibo</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Trie 树</title>
-<link href="/b/algorithm/tree-trie" rel="alternate" type="text/html"/>
-<updated>2019-02-11T00:00:00Z</updated>
-<summary/>
-<published>2018-09-26T00:00:00Z</published>
-<content># Trie 树
-通过Trie 建立字典索引（空间为代价）
-
-abc","ab","bd","dda" 建立索引：
-
-    a
-        b-&gt;ab
-            c-&gt;abc
-  </content>
 </entry></feed>

@@ -32,7 +32,7 @@ const MD_URL='post/net/net-ssh-proxy.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
@@ -49,13 +49,15 @@ const MD_URL='post/net/net-ssh-proxy.md';
 <pre id="markdown" v-pre>---
 title: ssh proxy
 date: 2018-09-28
-updated: 2019-02-06
+updated: 2019-02-23
 ---
 # ssh proxy
 
     -f Rquests ssh to go to background just before command execution.
 
-## socks proxy
+## tcp port forwarding
+
+### socks proxy forward
 &gt; socks4 不支持 udp 应用, 现在大家都用 socks5 了
 建立一个 socks5, port:1080
 
@@ -65,25 +67,37 @@ updated: 2019-02-06
 
     ssh -N -C -D1080 user@hostB &amp;
 
-## tcp port forwarding
 
-### ssh over ssh
+### 本地端口转发
+#### ssh over ssh
 Tunnelling an ssh connection through an ssh connection:
 
     -L [bind_address:]port:host:hostport
 
-    # if 2201 is not occupied
+    # if 100.100.100.100 跳板机，2201 端口转发到 192.168.25.100:22
     me% ssh user@100.100.100.100 -L 2201:192.168.25.100:22
 
 then(本机的密码):
 
     me% ssh user2@localhost -p 2201
+    fact% ssh user2@192.168.25.100 -p 22
 
-### ssh tunnel open to public
+#### http over ssh
+
+    me% ssh user@100.100.100.100 -L 2201:baidu.com:80
+    # curl localhost:2201
+
+### 远端端口转发：reverse port forward
+
+    # office to vps
+    ssh -R &lt;local port&gt;:&lt;remote host&gt;:&lt;remote port&gt; &lt;SSH vps-host&gt;
+
+    # vps
+    ssh -p local-port user@localhost
+    curl localhost:local-port
+
 &gt; http://superuser.com/questions/588591/how-to-make-ssh-tunnel-open-to-public
 
-You can also reverse the direction and *create a reverse port forward*.
-This can be useful if you want to connect to a machine remotely to allow connections back in.
 For instance, I use this sometimes so that I can create a reverse port 22 (SSH) tunnel so that I can reconnect through SSH to a machine that is behind *a firewall* once I have gone away from that network.
 
 	-R [bind_address:]port:host:hostport
