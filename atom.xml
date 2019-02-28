@@ -2,9 +2,90 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-02-23T00:06:51Z</updated>
+<updated>2019-02-28T11:55:00Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>py-os</title>
+<link href="/b/py/py-os" rel="alternate" type="text/html"/>
+<updated>2019-02-28T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Preface
+
+# os 
+## platform
+
+    from sys import platform
+	if platform == 'Darwin':  # 如果是Mac OS X
+</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Python 文件处理</title>
+<link href="/b/py/py-file" rel="alternate" type="text/html"/>
+<updated>2019-02-28T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Directory
+建议用Path 代替
+
+## file property
+os
+
+### os home
+
+    os.getenv('HOME')
+
+    from os.path im</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-argv</title>
+<link href="/b/py/py-argv" rel="alternate" type="text/html"/>
+<updated>2019-02-28T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Preface
+- click
+click 之于argparse/argv, 相当于requests 之于urllib
+
+命令行程序开发
+
+	asciimatics：跨平台，全屏终端包（即鼠标/键</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>proxy 之charles</title>
+<link href="/b/net/proxy/proxy-charles" rel="alternate" type="text/html"/>
+<updated>2019-02-28T00:00:00Z</updated>
+<summary/>
+<published>2019-02-28T00:00:00Z</published>
+<content># Charles
+## delete
+
+	Cmd+del delete all session
+	Shift+Cmd+P Mac OS proxy
+
+## tools
+
+	Shift+Cmd+w m</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>mac 工具集</title>
+<link href="/b/mac/mac-tool" rel="alternate" type="text/html"/>
+<updated>2019-02-28T00:00:00Z</updated>
+<summary/>
+<published>2018-10-10T00:00:00Z</published>
+<content># Preface
+本文是我所用的mac 工具集大杂烩。
+
+一些mac osx 能做而linux 桌面级OS 目前不能做的事情：
+
+- mac 支持全局readline , 字符编辑的效率非常非常高(</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>数据库CAP 理论 与事务</title>
+<link href="/b/arch/arch-cap" rel="alternate" type="text/html"/>
+<updated>2019-02-28T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># CAP定理（CAP theorem）
+CAP定理（CAP theorem), 指出对于一个分布式计算系统来说，不可能同时满足以下三点:
+
+1. 一致性(Consistency) (所有节点在同一时</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>py-tcp</title>
 <link href="/b/py/py-tcp" rel="alternate" type="text/html"/>
 <updated>2019-02-23T00:00:00Z</updated>
@@ -40,7 +121,7 @@ Socket是网络编程的一个抽象概念。通常我们用一个Socket表示�
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Python 字符处理</title>
 <link href="/b/py/py-str" rel="alternate" type="text/html"/>
-<updated>2019-02-22T00:00:00Z</updated>
+<updated>2019-02-28T00:00:00Z</updated>
 <summary/>
 <published>2017-08-09T00:00:00Z</published>
 <content># Python 字符处理
@@ -85,7 +166,7 @@ True
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>python 加密实例</title>
 <link href="/b/py/py-crypt" rel="alternate" type="text/html"/>
-<updated>2019-02-22T00:00:00Z</updated>
+<updated>2019-02-28T00:00:00Z</updated>
 <summary/>
 <published>2018-09-28T00:00:00Z</published>
 <content># python 加密实例
@@ -93,10 +174,9 @@ True
 
     pip install pycrypto
 
-
 # AES
 
-## aes-256-c</content>
+## aes-256-cb</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>shell proxy tool</title>
 <link href="/b/net/net-proxy-tool" rel="alternate" type="text/html"/>
@@ -189,15 +269,15 @@ brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Librar
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>图的路径问题</title>
 <link href="/b/algorithm/graph-path" rel="alternate" type="text/html"/>
-<updated>2019-02-20T00:00:00Z</updated>
+<updated>2019-02-28T00:00:00Z</updated>
 <summary/>
 <published>2019-02-17T00:00:00Z</published>
 <content># 图的路径问题
 主要包含这么几个问题
 1. 最短路径
 2. 一笔画问题
-    1. 奇顶点（连接的边数量为奇数的顶点）的数目等于0或者2
-    2. 如果连通无向图 G 有2k 个奇顶点，那么它</content>
+    1. 一笔画的充要条件：奇顶点（连接的边数量为奇数的顶点）的数目等于0(任意起点)或者2(奇顶点为起点)
+    2.</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>shell proxy</title>
 <link href="/b/net/net-proxy" rel="alternate" type="text/html"/>
@@ -271,7 +351,7 @@ Socket 可以有很多概念：
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>深度优先DFS和广度优先BFS</title>
 <link href="/b/algorithm/graph-dfs-bfs" rel="alternate" type="text/html"/>
-<updated>2019-02-14T00:00:00Z</updated>
+<updated>2019-02-28T00:00:00Z</updated>
 <summary/>
 <published>2018-09-26T00:00:00Z</published>
 <content># DFS(Depth First Search) 深度优先搜索
@@ -384,72 +464,4 @@ Power function
 开启了一下功能：
 1. 小额双拼
 2.</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>linux perf(系统性能分析)</title>
-<link href="/b/c/ops-perf" rel="alternate" type="text/html"/>
-<updated>2019-02-14T00:00:00Z</updated>
-<summary/>
-<published>2019-02-14T00:00:00Z</published>
-<content># perf
-从2.6.31内核开始，linux内核自带了一个性能分析工具perf，能够进行函数级与指令级的热点查找。
-
-http://blog.csdn.net/zhangskd/article/d</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>经典排序算法的实现</title>
-<link href="/b/algorithm/sort" rel="alternate" type="text/html"/>
-<updated>2019-02-16T00:00:00Z</updated>
-<summary/>
-<published>2013-09-26T00:00:00Z</published>
-<content># 经典排序算法实现
-常规的几种排序算法, 参考[维基sort](http://zh.wikipedia.org/wiki/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95)
-</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>查找数组中的中值</title>
-<link href="/b/algorithm/sort-kth" rel="alternate" type="text/html"/>
-<updated>2019-02-14T00:00:00Z</updated>
-<summary/>
-<published>2019-02-14T00:00:00Z</published>
-<content># 查找数组中的中值
-This is a question about find k'th number in an array.
-
-    def find_kth(arr, k):
-       </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Analysis of Algorithm</title>
-<link href="/b/algorithm/1.time-complex" rel="alternate" type="text/html"/>
-<updated>2019-02-14T00:00:00Z</updated>
-<summary/>
-<published>2018-09-15T00:00:00Z</published>
-<content># Analysis of Algorithm
-本文整理下算法的分析方法
-
-##  O/Omega/Thelta 的定义
-$Ο$，读音：big-oh、欧米可荣（大写）；表示上界(tightness u</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>数字的分类</title>
-<link href="/b/math/math-num" rel="alternate" type="text/html"/>
-<updated>2019-02-13T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># 数字的分类
-- 实数: x 的整数部分[x], 小数部分{x}
-    - 整数, Integer: ℕ
-        - 正整数, positive:
-    - 有理无理:
-        </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>哈希</title>
-<link href="/b/algorithm/4.algo-hash" rel="alternate" type="text/html"/>
-<updated>2019-02-14T00:00:00Z</updated>
-<summary/>
-<published>2019-01-18T00:00:00Z</published>
-<content>
-# 哈希函数
-1. key 均匀的落到不同的slots
-2. key 本身不能影响到hash 的均匀性
-
-## 散列法
-### 取模法
-hash = key mod m
-1. m尽量用质数，不要用$</content>
 </entry></feed>

@@ -32,7 +32,7 @@ const MD_URL='post/mac/mac-tool.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
@@ -49,7 +49,7 @@ const MD_URL='post/mac/mac-tool.md';
 <pre id="markdown" v-pre>---
 title: mac 工具集
 date: 2018-10-10
-updated: 2018-12-10
+updated: 2019-02-28
 ---
 # Preface
 本文是我所用的mac 工具集大杂烩。
@@ -349,7 +349,26 @@ diskutil是OS X磁盘工具应用的命令行版。既可以完成图形界面�
 
 # 流程图/脑图
 - processon flowchart + mind + UI(Wireframes) + UML
+
+## Flow Chart 流程图
 http://www.processon.com/diagrams/new
+
+### client app
+- yEd diagram app
+- omniGraffle 非常流行的流程图客户端
+	https://www.omnigroup.com/omniGraffle
+
+### web app
+- www.processon.com 速度快
+- draw
+https://www.draw.io/
+- gliffy
+https://www.gliffy.com
+- lucidchart 画连线特别方便
+https://www.lucidchart.com/invitations/accept/40084b0d-b124-433c-b63f-f938ce4f1bbf
+
+## 图床
+https://zhuanlan.zhihu.com/p/35270383
 
 ## logo
 https://thenounproject.com/
@@ -379,22 +398,6 @@ http://blog.2baxb.me/archives/906
 http://naotu.baidu.com/edit.html
 
 	SHIFT+TAB
-
-## Flow Chart 流程图
-
-### client app
-- yEd diagram app
-- omniGraffle 非常流行的流程图客户端
-	https://www.omnigroup.com/omniGraffle
-
-### web app
-- www.processon.com 速度快
-- draw
-https://www.draw.io/
-- gliffy
-https://www.gliffy.com
-- lucidchart 画连线特别方便
-https://www.lucidchart.com/invitations/accept/40084b0d-b124-433c-b63f-f938ce4f1bbf
 
 ## Wireframes 原型图
 - Axure RP
@@ -460,6 +463,11 @@ Graph::Easy
     http://36kr.com/p/216120.html
 
 ## GIF
+draw gif:
+ ms paint: http://gifpaint.com/
+ ppt
+
+
 ### Kap +KeyCastr
 Kap 开源+简洁, 替代recordit/LICEcap/Gifcam
 KeyCastr 显示按键
@@ -517,7 +525,7 @@ Next, you can install iTunes 12.2 update manually with the following command str
 <div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
