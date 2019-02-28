@@ -32,7 +32,8 @@ const MD_URL='post/c/shell-var-env.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
@@ -48,7 +49,7 @@ const MD_URL='post/c/shell-var-env.md';
 <pre id="markdown" v-pre>---
 title: shell 环境变量
 date: 2018-10-08
-updated: 2018-10-08
+updated: 2019-02-28
 ---
 # Variable
 
@@ -139,6 +140,9 @@ Example:
 	选项与参数：
 	-p  ：后面可以接提示字符！
 	-t  ：后面可以接等待的『秒数！』这个比较有趣～不会一直等待使用者啦！
+    -r		do not allow backslashes to escape any characters
+    -s		do not echo input coming from a terminal
+        http://linuxcommand.org/lc3_man_pages/readh.html
 	variable
 		默认是REPLY
 
@@ -257,7 +261,7 @@ multiple and line:
 <div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
