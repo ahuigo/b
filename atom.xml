@@ -2,9 +2,22 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-03-01T03:32:03Z</updated>
+<updated>2019-03-01T03:55:51Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>字符串搜索算法KMP</title>
+<link href="/b/algorithm/algo-str-search" rel="alternate" type="text/html"/>
+<updated>2019-03-01T00:00:00Z</updated>
+<summary/>
+<published>2019-02-28T00:00:00Z</published>
+<content># 字符串搜索算法KMP
+容易想到的搜索算法是O(N*M)
+KMP 则是O(N) 复杂度
+
+搜索`ahuigo` 时，当匹配到`,`, 我们可以跳过`ahui`
+
+    ahui, let's go</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>shell 环境变量</title>
 <link href="/b/c/shell-var-env" rel="alternate" type="text/html"/>
 <updated>2019-02-28T00:00:00Z</updated>
@@ -460,16 +473,4 @@ Power function
 对数是幂运算的逆运算
 
 ## Logarithm</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>rime 鼠须管输入法</title>
-<link href="/b/mac/mac-rime" rel="alternate" type="text/html"/>
-<updated>2019-02-20T00:00:00Z</updated>
-<summary/>
-<published>2019-02-20T00:00:00Z</published>
-<content># Rime 中的數據文件分佈及作用
-除程序文件以外，Rime 還包括多種數據文件。 這些數據文件存在於以下位置：
-
-共享資料夾(不同的系统不一样ni h)
-
-    【中州韻】 /usr/share</content>
 </entry></feed>
