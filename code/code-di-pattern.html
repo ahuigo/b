@@ -32,7 +32,7 @@ const MD_URL='post/code/code-di-pattern.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
@@ -49,7 +49,7 @@ const MD_URL='post/code/code-di-pattern.md';
 <pre id="markdown" v-pre>---
 title: Dependency Injector(IoC)
 date: 2018-09-27
-updated: 2018-12-19
+updated: 2019-03-02
 ---
 # Dependency Injector(IoC)
 依赖注入（Dependency Injection）又称控制反转（Inversion of Control）主要用来实现不同模块或类之间的解耦，可以根据需要动态地把某种依赖关系注入到对象中
@@ -57,6 +57,8 @@ updated: 2018-12-19
 &gt; 参考: http://imweb.io/topic/5618a9d05d6f37745e8f498a
 
 DI 分为两部分：依赖Dependency（参数）, 注入Injector(方法)。
+1. 一个类把自己的的控制权交给另外一个对象，类间的依赖由这个对象去解决。
+2. 依赖注入属于依赖的显示申明，而依赖查找则是通过查找来解决依赖
 Injector 需要为注射的方法传入合适的参数
 
     /**
@@ -161,7 +163,7 @@ Python 半残废的DI, 利用**keyword**确定参数
 <div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>

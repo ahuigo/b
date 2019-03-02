@@ -2,9 +2,67 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-03-01T15:23:47Z</updated>
+<updated>2019-03-02T17:01:16Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>PHP Array</title>
+<link href="/b/php/php-array" rel="alternate" type="text/html"/>
+<updated>2019-03-02T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Array
+
+## 像mysql 一样对多列数据排序
+
+	$ar = array(
+       array("10", 11, 100, 100, "a"),
+       array(   1</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>删除mavericks 10.9 自带的输入法</title>
+<link href="/b/mac/mac-inputmethod" rel="alternate" type="text/html"/>
+<updated>2019-03-02T00:00:00Z</updated>
+<summary/>
+<published>2019-03-02T00:00:00Z</published>
+<content># Preface
+如果你想删除mavericks 10.9 自带的输入法, 目前只能通过 修改~/Library/Preferences/com.apple.HIToolbox.plist
+plis</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>cache 穿透问题</title>
+<link href="/b/db/redis-cache" rel="alternate" type="text/html"/>
+<updated>2019-03-02T00:00:00Z</updated>
+<summary/>
+<published>2019-03-02T00:00:00Z</published>
+<content># cache 失效问题
+
+## 缓存穿透
+Q: 不存在的Key， 导致访问穿透到DB
+A： 将存在的key 用bloomfilter 档一下，再访问DB
+
+## 缓存雪崩
+Q: 大量key同时失效 </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>mysql explain 的使用</title>
+<link href="/b/db/mysql-index-explain" rel="alternate" type="text/html"/>
+<updated>2019-03-02T00:00:00Z</updated>
+<summary/>
+<published>2018-12-29T00:00:00Z</published>
+<content># Mysql Explain 的使用
+
+## show index
+
+	show index from table_name;
+
+## explain
+用explain 获取mysql 如何quer</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Dependency Injector(IoC)</title>
+<link href="/b/code/code-di-pattern" rel="alternate" type="text/html"/>
+<updated>2019-03-02T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Dependency Injector(IoC)
+依赖注入（Dependency Injection）又称控制反转（Inversion of Control）主要用来实现不同模块或类之间的解耦，可</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>字符串搜索算法KMP</title>
 <link href="/b/algorithm/algo-str-search" rel="alternate" type="text/html"/>
 <updated>2019-03-01T00:00:00Z</updated>
@@ -99,7 +157,7 @@ click 之于argparse/argv, 相当于requests 之于urllib
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>mac 工具集</title>
 <link href="/b/mac/mac-tool" rel="alternate" type="text/html"/>
-<updated>2019-02-28T00:00:00Z</updated>
+<updated>2019-03-02T00:00:00Z</updated>
 <summary/>
 <published>2018-10-10T00:00:00Z</published>
 <content># Preface
@@ -412,65 +470,4 @@ Socket 可以有很多概念：
 定时器对象
 
     timer := time</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>BFPRT 算法</title>
-<link href="/b/algorithm/sort-topk" rel="alternate" type="text/html"/>
-<updated>2019-02-16T00:00:00Z</updated>
-<summary/>
-<published>2018-09-26T00:00:00Z</published>
-<content># Topk 算法之BFPRT算法
-基于最大/小堆的TopK 算法复杂度为 $O(n\log n)$
-
-其实还有O(n)的算法 —— BFPRT 基于减治法，采用类似二分法的快排分区减低复杂度。
-
-#</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>查找数组中的中值</title>
-<link href="/b/algorithm/sort-topk-kth" rel="alternate" type="text/html"/>
-<updated>2019-02-14T00:00:00Z</updated>
-<summary/>
-<published>2019-02-14T00:00:00Z</published>
-<content># 查找数组中的中值
-This is a question about find k'th number in an array.
-
-    def find_kth(arr, k):
-       </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>android 刷包工具</title>
-<link href="/b/net/net-sniffer-android" rel="alternate" type="text/html"/>
-<updated>2019-02-14T00:00:00Z</updated>
-<summary/>
-<published>2019-02-13T00:00:00Z</published>
-<content># android 刷包工具
-1. tPacketCapture: uses the Android VPN service to intercept packets and capture them</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>combination</title>
-<link href="/b/math/math-probability" rel="alternate" type="text/html"/>
-<updated>2019-02-14T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># probility
-德摩根定律: $(A\cup B)^{C}=A^{C}\cap B^{C}$
-
-概率计算总结
-1. 非A	$P(A^{c})=1-P(A)$
-2. A或B	$P(A\cup B</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>数学运算符</title>
-<link href="/b/math/math-num-operator" rel="alternate" type="text/html"/>
-<updated>2019-02-14T00:00:00Z</updated>
-<summary/>
-<published>2019-02-14T00:00:00Z</published>
-<content># 数学运算符
-Exponentiation
-
-    a^x读作“a的x次方”或“a的n次幂“。
-
-Power function
-
-    x^n
-
-对数是幂运算的逆运算
-
-## Logarithm</content>
 </entry></feed>
