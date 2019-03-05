@@ -2,9 +2,68 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-03-05T16:03:23Z</updated>
+<updated>2019-03-06T03:26:16Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>python PIL(pillow)</title>
+<link href="/b/py/py-pil" rel="alternate" type="text/html"/>
+<updated>2019-03-06T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Preface
+
+PIL：Python Imaging Library，已经是Python平台事实上的图像处理标准库了。PIL功能非常强大，但API却非常简单易用。
+
+由于PIL仅支持到Pytho</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>ssl(https)</title>
+<link href="/b/nginx/nginx-ssl" rel="alternate" type="text/html"/>
+<updated>2019-03-06T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># ssl(https)
+
+	server {
+		listen 80;
+		listen 443 default_server ssl;#加ssl 时会自动开启ssl, 不能再加 ssl on;
+
+</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>net-ssl</title>
+<link href="/b/net/net-ssl" rel="alternate" type="text/html"/>
+<updated>2019-03-06T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Preface
+参考阮一峰的[ssl运行机制]，TLS/SSL 基于非对称加密，它解决了以下风险：
+
+1. 窃听风险(eavesdropping): 通过私钥加密避免第三方窃取风险
+2. 篡改风险</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>SSL Certificate Authority(CA)</title>
+<link href="/b/net/net-ssl-ca" rel="alternate" type="text/html"/>
+<updated>2019-03-06T00:00:00Z</updated>
+<summary/>
+<published>2019-03-06T00:00:00Z</published>
+<content># 证书级别
+http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html
+
+# SNI(SSL/TLS Server </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>curl manual</title>
+<link href="/b/c/ops-curl" rel="alternate" type="text/html"/>
+<updated>2019-03-06T00:00:00Z</updated>
+<summary/>
+<published>2019-03-06T00:00:00Z</published>
+<content>
+# curlt to python/node/go...
+curl 转换器: https://curl.trillworks.com/
+
+# Usage
+
+	-F,--form
+	-D- Dump </content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>python thread 线程笔记</title>
 <link href="/b/py/py-thread" rel="alternate" type="text/html"/>
 <updated>2019-03-05T00:00:00Z</updated>
@@ -17,7 +76,7 @@ Python的标准库提供了两个模块：`_thread`和`threading`: `_thread`是�
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>py-http</title>
 <link href="/b/py/py-http" rel="alternate" type="text/html"/>
-<updated>2019-03-05T00:00:00Z</updated>
+<updated>2019-03-06T00:00:00Z</updated>
 <summary/>
 <published>2018-09-28T00:00:00Z</published>
 <content># Preface
@@ -434,52 +493,4 @@ brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Librar
 2. 一笔画问题
     1. 一笔画的充要条件：奇顶点（连接的边数量为奇数的顶点）的数目等于0(任意起点)或者2(奇顶点为起点)
     2.</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>shell proxy</title>
-<link href="/b/net/net-proxy" rel="alternate" type="text/html"/>
-<updated>2019-02-20T00:00:00Z</updated>
-<summary/>
-<published>2019-02-20T00:00:00Z</published>
-<content># Android
-HowTo: Proxy Non-Proxy-Aware Android Applications through Burp
-http://blog.dornea.nu/2014/</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>python watch file</title>
-<link href="/b/py/py-file-watch" rel="alternate" type="text/html"/>
-<updated>2019-02-16T00:00:00Z</updated>
-<summary/>
-<published>2019-02-14T00:00:00Z</published>
-<content># python watch file
-Some methods: https://stackoverflow.com/questions/182197/how-do-i-watch-a-file-f</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Change ssh port</title>
-<link href="/b/net/net-ssh-port" rel="alternate" type="text/html"/>
-<updated>2019-02-16T00:00:00Z</updated>
-<summary/>
-<published>2019-02-16T00:00:00Z</published>
-<content># Change ssh port
-
-1.Config : `$ vi /etc/ssh/sshd_config`, if you wanna support multiple port like 2</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>netcat</title>
-<link href="/b/net/net-ncat" rel="alternate" type="text/html"/>
-<updated>2019-02-16T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># netcat,
-[nc](http://www.oschina.net/translate/linux-netcat-command?p=2#comments)
-
-# nc
-Netcat 或者叫 </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>防火墙</title>
-<link href="/b/net/net-iptables" rel="alternate" type="text/html"/>
-<updated>2019-02-20T00:00:00Z</updated>
-<summary/>
-<published>2019-02-20T00:00:00Z</published>
-<content># 原理
-参考[Iptables防火墙原理详解](http://segmentfault.com/a/1190000002540601)
-
-## netfilter/iptables
-Netfilte</content>
 </entry></feed>

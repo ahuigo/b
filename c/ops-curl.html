@@ -48,8 +48,8 @@ const MD_URL='post/c/ops-curl.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: curl manual
-date: 2019-02-10
-updated: 2019-02-10
+date: 2019-03-06
+updated: 2019-03-06
 ---
 
 # curlt to python/node/go...
@@ -78,6 +78,11 @@ curl 默认发送post数据是: application/x-www.form-urlencoded(不同于在fo
 	-X PUT/POST/GET/DELETE
 
 &gt; HTTP_RAW_POST_DATA is removed in php7, use php://input instead! 不是用stdin 哈
+
+## host
+modify host for https:
+
+    curl --resolve &#x27;localhost:80:127.0.0.1&#x27; https://localhost/md.htm
 
 ## user agent
 

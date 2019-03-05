@@ -9,7 +9,7 @@ const MD_URL='post/py/py-pil.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>py-pil</title>
+<title>python PIL(pillow)</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -20,13 +20,10 @@ const MD_URL='post/py/py-pil.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -35,7 +32,8 @@ const MD_URL='post/py/py-pil.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
@@ -49,9 +47,9 @@ const MD_URL='post/py/py-pil.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: py-pil
+title: python PIL(pillow)
 date: 2018-10-04
-updated: 2018-10-06
+updated: 2019-03-06
 ---
 # Preface
 
@@ -63,7 +61,7 @@ PIL：Python Imaging Library，已经是Python平台事实上的图像处理标�
 
 	$ pip3 install pillow
 
-# hello world
+## hello world
 来看看最常见的图像缩放操作，只需三四行代码：
 
 	from PIL import Image
@@ -137,12 +135,45 @@ PIL的ImageDraw提供了一系列绘图方法，让我们可以直接绘图。�
 
 	&#x27;/Library/Fonts/Arial.ttf&#x27;
 
-# open show img
+## open show img
 
 	from PIL import ImageTk, Image
 	img = Image.open(path)
-	img.show()</pre>
-<div id="pager" v-pre></div>
+	img.show()
+
+# image clipboard
+Refer to: https://www.devdungeon.com/content/grab-image-clipboard-python-pillow
+
+## clipboard to file
+
+    from PIL import ImageGrab
+
+    img = ImageGrab.grabclipboard()
+            
+    # Save the image to disk
+    img.save(&#x27;paste.png&#x27;, &#x27;PNG&#x27;)
+    img.save(&#x27;paste.jpg&#x27;, &#x27;JPEG&#x27;)
+
+## clipboard to bytes
+    from PIL import ImageGrab
+    import io
+
+    img = ImageGrab.grabclipboard()
+
+    # Store the bytes in a byte stream
+    img_bytes = io.BytesIO()
+    img.save(img_bytes, format=&#x27;PNG&#x27;)
+
+    print(img_bytes.getvalue())
+
+## bytes to base64
+
+    import codecs
+    base64_data = codecs.encode(img_bytes.getvalue(), &#x27;base64&#x27;)
+    base64_text = codecs.decode(base64_data, &#x27;ascii&#x27;)
+    html_img_tag = &quot;&lt;img src=&quot;data:image/png;base64, %s&quot; /&gt;&quot; % base64_text
+</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -164,10 +195,10 @@ PIL的ImageDraw提供了一系列绘图方法，让我们可以直接绘图。�
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
@@ -189,6 +220,9 @@ PIL的ImageDraw提供了一系列绘图方法，让我们可以直接绘图。�
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>
