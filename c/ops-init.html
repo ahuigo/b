@@ -32,7 +32,7 @@ const MD_URL='post/c/ops-init.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
@@ -49,7 +49,7 @@ const MD_URL='post/c/ops-init.md';
 <pre id="markdown" v-pre>---
 title: ops-init
 date: 2018-09-27
-updated: 2019-02-06
+updated: 2019-03-05
 ---
 # Preface
 
@@ -433,6 +433,14 @@ nohup命令对server.js进程做了三件事。
 nohup 默认会将 1+2 pipe append to nohup.out， 所以不需要加
 
 	&gt;&gt; nohup.out 2&gt;&amp;1
+
+## redirect outputs of a running process
+
+    # -m option is just a shortcut to -o FILE -e FILE.
+    reredirect -m FILE PID
+    reredirect -o FILE1 -e FILE2 PID
+
+    reredirect -m /dev/null pid
 
 ## restart process
 如果进程能响应HUP

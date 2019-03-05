@@ -2,9 +2,74 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-03-02T17:01:16Z</updated>
+<updated>2019-03-05T11:48:58Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>python thread 线程笔记</title>
+<link href="/b/py/py-thread" rel="alternate" type="text/html"/>
+<updated>2019-03-05T00:00:00Z</updated>
+<summary/>
+<published>2019-03-05T00:00:00Z</published>
+<content># threading
+Python的标准库提供了两个模块：`_thread`和`threading`: `_thread`是低级模块，threading是高级模块，对_thread进行了封装。
+
+绝</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-http</title>
+<link href="/b/py/py-http" rel="alternate" type="text/html"/>
+<updated>2019-03-05T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Preface
+
+# urllib
+urllib2 is deprecated, use requests instead , except: `urllib.parse.urlsplit/url</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>背单词</title>
+<link href="/b/eng/eng-word" rel="alternate" type="text/html"/>
+<updated>2019-03-05T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># my method
+## 单词
+1. 盲读
+2. 不会的单词划线
+3. 结合context 推断
+    4. 查词：音标 本文中含义
+4.记忆：
+   1. 音形义 :连读 弱读 强读 音变
+ </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>写论文要用到的网站</title>
+<link href="/b/em/em-paper" rel="alternate" type="text/html"/>
+<updated>2019-03-05T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># 写论文要用到的网站
+## 参考文献格式生成
+https://www.bigan.net/reference/
+
+## 查重
+https://www.paperyy.com/
+http://www.</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>ops-init</title>
+<link href="/b/c/ops-init" rel="alternate" type="text/html"/>
+<updated>2019-03-05T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Preface
+
+# init
+
+## init
+init指linux 系统运行级runlevel 0~6. 可在/etc/inittab中指定:
+
+	id:3:initdefault:
+
+
+##</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>PHP Array</title>
 <link href="/b/php/php-array" rel="alternate" type="text/html"/>
 <updated>2019-03-02T00:00:00Z</updated>
@@ -417,57 +482,4 @@ Netcat 或者叫 </content>
 
 ## netfilter/iptables
 Netfilte</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>linux c socket 编程</title>
-<link href="/b/c/c-socket" rel="alternate" type="text/html"/>
-<updated>2019-02-16T00:00:00Z</updated>
-<summary/>
-<published>2019-02-16T00:00:00Z</published>
-<content># Preface
-Socket 可以有很多概念：
-
-1. 在TCP/IP 中,"IP + TCP或UDP端口号" 唯一标识网络通讯中的*进程*，"IP+端口号"就被称为socket
-2. 在TCP </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>计算机结构</title>
-<link href="/b/c/c-os" rel="alternate" type="text/html"/>
-<updated>2019-02-16T00:00:00Z</updated>
-<summary/>
-<published>2019-02-16T00:00:00Z</published>
-<content># Preface
-
-本文描述的是现代的计算机所采用的冯诺伊曼(Von Neumann)结构: CPU(Central Procession Unit) + Memory + Device
-
-# OS</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>深度优先DFS和广度优先BFS</title>
-<link href="/b/algorithm/graph-dfs-bfs" rel="alternate" type="text/html"/>
-<updated>2019-02-28T00:00:00Z</updated>
-<summary/>
-<published>2018-09-26T00:00:00Z</published>
-<content># DFS(Depth First Search) 深度优先搜索
-所有的递归函数都可以用基于stack 的循环结构去实现, 这样我们就能直接控制栈的长度。为了具体阐明这个方法，举一个关于[DFS] (</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>如何避免深度递归</title>
-<link href="/b/algorithm/3.algo-self-call" rel="alternate" type="text/html"/>
-<updated>2019-02-14T00:00:00Z</updated>
-<summary/>
-<published>2018-09-26T00:00:00Z</published>
-<content># 如何避免深度递归
-我们先看看函数与递归的本质：
-
-- 函数调用的本质是: 我们在做一件事过程中，我们发现必须要先完成另外一件事，于是中断当前的工作，并把当前的工作信息保存到栈(stack); 当别</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>go time</title>
-<link href="/b/go/19.go-time" rel="alternate" type="text/html"/>
-<updated>2019-02-14T00:00:00Z</updated>
-<summary/>
-<published>2019-02-14T00:00:00Z</published>
-<content># tick and after
-
-## timer/ticker, 定时器
-`chan time.Time: timer.C = ticker.C`
-定时器对象
-
-    timer := time</content>
 </entry></feed>

@@ -32,7 +32,7 @@ const MD_URL='post/py/py-thread.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
@@ -48,8 +48,8 @@ const MD_URL='post/py/py-thread.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: python thread 线程笔记
-date: 2019-02-06
-updated: 2019-02-06
+date: 2019-03-05
+updated: 2019-03-05
 ---
 # threading
 Python的标准库提供了两个模块：`_thread`和`threading`: `_thread`是低级模块，threading是高级模块，对_thread进行了封装。
@@ -69,7 +69,6 @@ Python的threading模块有个current_thread()函数，它永远返回当前线�
 1. 主线程实例的名字默认叫`MainThread`，
 1. 子线程的名字在创建时指定，我们用`LoopThread`命名子线程。
 1. 名字仅仅在打印时用来显示，完全没有其他意义，如果不起名字Python就自动给线程命名为`Thread-1，Thread-2……`
-
 
 ## threading.Thread
 启动一个线程就是把一个函数传入并创建Thread实例，然后调用start()开始执行：

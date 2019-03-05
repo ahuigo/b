@@ -32,7 +32,7 @@ const MD_URL='post/em/em-paper.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
@@ -49,16 +49,20 @@ const MD_URL='post/em/em-paper.md';
 <pre id="markdown" v-pre>---
 title: 写论文要用到的网站
 date: 2018-09-27
-updated: 2018-12-06
+updated: 2019-03-05
 ---
 # 写论文要用到的网站
 ## 参考文献格式生成
 https://www.bigan.net/reference/
 
 ## 查重
-http://www.paperyy.com/ 和
+https://www.paperyy.com/
 http://www.papertime.cc/s/7s1
 http://www.paperpass.com/
+http://www.gezida.com/（格子免费论文检测）
+https://zhuanlan.zhihu.com/p/35433721
+
+http://check.cnkia.com/cnki
 
 
 ## 论文下载
@@ -100,7 +104,7 @@ https://www.zhihu.com/question/35931336/answer/71654690
 <div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
