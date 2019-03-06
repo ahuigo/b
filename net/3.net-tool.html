@@ -32,7 +32,7 @@ const MD_URL='post/net/3.net-tool.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
@@ -49,7 +49,7 @@ const MD_URL='post/net/3.net-tool.md';
 <pre id="markdown" v-pre>---
 title: Linux Network Tool
 date: 2016-10-20
-updated: 2018-12-31
+updated: 2019-03-06
 ---
 # Linux Network Tool
 网络相关的工具有:
@@ -111,13 +111,6 @@ The tools have different mechanisms of generating the traffic report.
 	09:59:23      2.06      1.98
 	09:59:23      1.73      1.79
 
-# todo
-网络监控工具:
-http://mp.weixin.qq.com/s?__biz=MzA3MzYwNjQ3NA==&amp;mid=205572993&amp;idx=1&amp;sn=9c05c68f6209ff990dd0da8e8a77e334&amp;scene=1&amp;from=groupmessage&amp;isappinstalled=0#rd
-
-# ngrok 内网穿透
-https://www.imququ.com/post/self-hosted-ngrokd.html?utm_source=tuicool
-
 # Reference
 [could_not_bind_to_port]
 
@@ -148,7 +141,7 @@ https://www.imququ.com/post/self-hosted-ngrokd.html?utm_source=tuicool
 <div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
