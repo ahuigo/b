@@ -48,8 +48,8 @@ const MD_URL='post/net/proxy/proxy-charles.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: proxy 之charles
-date: 2019-02-28
-updated: 2019-02-28
+date: 2019-03-06
+updated: 2019-03-06
 ---
 # Charles
 ## delete
@@ -90,7 +90,10 @@ charles 需要在`Proxy`-`Proxy Settings - SSl` 中设置 `Enable SSL`, 且选�
 ### 给客户端装charles CA证书
 http://www.charlesproxy.com/documentation/using-charles/ssl-certificates/
 
-对于MAC OSX: &quot;Help &gt; SSL Proxying &gt; Install Charles Root Certificate&quot;.
+对于MAC OSX: 
+1. &quot;Help &gt; SSL Proxying &gt; Install Charles Root Certificate&quot;.
+2. export to `charles.pem` for python requests
+
 IOS: 	browse to http://www.charlesproxy.com/getssl.
 CHROME: &quot;SSL Proxying &gt; Save Charles Root Certificate&quot;
 JAVA:

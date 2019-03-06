@@ -2,9 +2,33 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-03-06T15:27:34Z</updated>
+<updated>2019-03-06T20:54:14Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Chrome devtools 使用汇总</title>
+<link href="/b/ria/js-debug-chrome" rel="alternate" type="text/html"/>
+<updated>2019-03-06T00:00:00Z</updated>
+<summary/>
+<published>2018-03-03T00:00:00Z</published>
+<content># Chrome devtools 使用汇总
+chrome://chrome-urls/
+
+## Network dns
+- Dns Cache
+chrome://net-internals/#dns</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>图的路径问题</title>
+<link href="/b/algorithm/graph-path" rel="alternate" type="text/html"/>
+<updated>2019-03-06T00:00:00Z</updated>
+<summary/>
+<published>2019-02-17T00:00:00Z</published>
+<content># 图的路径问题
+主要包含这么几个问题
+1. 最短路径
+2. 一笔画问题
+    1. 一笔画的充要条件：奇顶点（连接的边数量为奇数的顶点）的数目等于0(任意起点)或者2(奇顶点为起点)
+    2.</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>解决Vscode 中文输入法乱入的Backspace 字符</title>
 <link href="/b/vsc/vsc-ime" rel="alternate" type="text/html"/>
 <updated>2019-03-06T00:00:00Z</updated>
@@ -297,9 +321,9 @@ click 之于argparse/argv, 相当于requests 之于urllib
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>proxy 之charles</title>
 <link href="/b/net/proxy/proxy-charles" rel="alternate" type="text/html"/>
-<updated>2019-02-28T00:00:00Z</updated>
+<updated>2019-03-06T00:00:00Z</updated>
 <summary/>
-<published>2019-02-28T00:00:00Z</published>
+<published>2019-03-06T00:00:00Z</published>
 <content># Charles
 ## delete
 
@@ -471,24 +495,4 @@ https://www.kancloud.cn/kancloud/data-structure-and-al</content>
 我想有3个方法：
 1. 将一个链表首尾相连，然后采用[Floyd 判圈法](/p/algorithm/list-intersection-floyd)
 2. 用两个栈遍历链表，然后</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>单链表判圈之Floyd算法</title>
-<link href="/b/algorithm/list-intersection-floyd" rel="alternate" type="text/html"/>
-<updated>2019-02-21T00:00:00Z</updated>
-<summary/>
-<published>2018-09-26T00:00:00Z</published>
-<content># 单链表是否有环之龟兔算法(tortoise-hare)
-Floyd判圈算法(Floyd Cycle Detection Algorithm), 也叫龟兔算法(tortoise-hare)
-![cy</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>tcpdump</title>
-<link href="/b/net/net-tcpdump" rel="alternate" type="text/html"/>
-<updated>2019-02-20T00:00:00Z</updated>
-<summary/>
-<published>2019-02-20T00:00:00Z</published>
-<content># tcpdump
-example: https://www.rationallyparanoid.com/articles/tcpdump.html
-book:
-
-学术的说，tcpdump是一种嗅探</content>
 </entry></feed>
