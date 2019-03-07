@@ -32,7 +32,7 @@ const MD_URL='post/c/shell-tool.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
@@ -49,7 +49,7 @@ const MD_URL='post/c/shell-tool.md';
 <pre id="markdown" v-pre>---
 title: Shell 工具集合
 date: 2016-09-27
-updated: 2018-12-31
+updated: 2019-03-08
 ---
 # System debug, 系统调试工具
 
@@ -61,7 +61,7 @@ updated: 2018-12-31
 
 - 对于查看磁盘满载的原因，ncdu 会比常规命令如 du -sh * 更节省时间。
 
-- 使用 mtr 作路由追踪更好，可以识别网络问题。
+- 使用 mtr 作路由比tracerout 追踪更好，可以识别网络问题。
 - 要查找占用带宽的套接字和进程，试试 iftop 或 nethogs 吧。
 
 - 掌握 strace 和 ltrace。如果某个程序失败、挂起或崩溃，而你又不知道原因，或者如果你想要获得性能的大概信息，这些工具会很有帮助。注意，分析选项（-c）和使用 -p 关联运行进程。
@@ -436,7 +436,7 @@ If you want to remove the first n leading components of the file name, you need 
 <div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
