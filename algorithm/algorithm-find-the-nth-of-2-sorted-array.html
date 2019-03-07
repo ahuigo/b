@@ -20,13 +20,10 @@ const MD_URL='post/algorithm/algorithm-find-the-nth-of-2-sorted-array.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -35,7 +32,8 @@ const MD_URL='post/algorithm/algorithm-find-the-nth-of-2-sorted-array.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
@@ -50,71 +48,84 @@ const MD_URL='post/algorithm/algorithm-find-the-nth-of-2-sorted-array.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: 查找两有序数组中第N 大的值
-date: 2018-09-26
-updated: 2018-10-06
+date: 2016-09-26
+updated: 2019-03-07
 ---
 # 查找两有序数组中第N 大的值
 问题:
-&gt; A B 两个递增有序数组, 将两数组中的元素合并到一起。请找到其中第N，N+1 大的数
+&gt; A B 两个递增有序数组, 将两数组中的元素合并到一起。请找到其中第N大的数
 
-&gt; Find the n&#x27;th max number of 2 sorted array!
+Find the n&#x27;th max number of 2 sorted array!
 
-			p1
-	A ------+----------
+# 二分法思路
+a,b数组，令i1,j1=0 指第一个值, i,j是可能为第N大的值: i+j+2=N
 
-			p2
-	B ------+----------
+	  i1		i          i2
+	a ----------+-----------
+	  j1    j     j2
+	b ------+------
 
-# 算法
-使用二分法, 设A 长度是An, B 长度是Bn。
+a. 如果是求N(N&gt;=2)大的数可以这么做：只需要保证i+j+2=N 就可以
 
-1. 先初始化:
-	p1 指向A 数组的n/2, p2 指向B 数组的n/2;
-	Al=0, Ar=An-1; Bl=0, Br=Bn-1;
+    i=min(i2,N-2)
+    j=N-2-i
 
-2. 然后不断按以下规则判断并做二分切割, 直到找到第N大的值
+如果求中间数，那么:
 
-判断规则如下：
-1. `=` 是赋值
-2. `&lt;&gt;` 是不等
+    i = floor[(i1+i2)/2]
+    j = floor[(j1+j2)/2]
 
-	当p1 &lt; p2
-		当p2 &lt;= p1r &amp;&amp; p2l &lt;= p1 (两点相邻, 当没有p1r，p2l也判断相邻)
-			p1 + p2 = N, 则p1，p2 分别是第N,N+1 大的元素
-			p1 + p2 &lt; N,
-				Al=p1, p1=(Al+Ar+1)/2
-					p1 == Al(不能右移了)
-						则第N、N+1 大的数字出现B 数组上的（N-An-1), (N-An)
-					p1 &lt;&gt; Al
-						再继续比较
-			p1 + p2 &gt; N,
-				Br=p2, p2=(Bl+Br)/2
-					p2 == Br(不能左移了)
-						则第N、N+1 大的数字出现A 数组上的（N-1), N
-					p2 &lt;&gt; Br
-						再继续比较
-		当p2, p1(不相邻)
-			p1 + p2 = N
-				Al=p1, p1=(Al+Ar+1)/2
-					p1 == Al(不能右移了)
-						则第N、N+1 大的数字出现B 数组上的（N-An-1), (N-An)
-				p1 &lt;&gt; Al
-					继续
-			p1 + p2 &lt; N
-				Al=p1, p1=(Al+Ar+1)/2
-					p1 == Al(不能右移了)
-						则第N、N+1 大的数字出现B 数组上的（N-An-1), (N-An)
-				p1 &lt;&gt; Al
-					继续
-			p1 + p2 &gt; N
-				Br=p2, p2=(Bl+Br)/2
-					p2 == Br(不能左移了)
-						则第N、N+1 大的数字出现A 数组上的（N-1), N
-				p2 &lt;&gt; Br
-					继续
-	当p1 = p2 与p1&lt;p2 一样
-	当p1 &gt; p2 与p1&lt;p2 相反的过程</pre>
-<div id="pager" v-pre></div>
+b. 只讨论a[i]&lt;=a[j] 的情况
+
+	  i1		i          i2
+	a ----------+===========
+	  j1    j     j2
+	b ======+------
+
+b.1. 截断：太长的部分不可能成为第N大的数，就去掉
+
+    delta&gt;0:
+	  i1		i     i2
+	a ----------35=====
+	  j1    j     j2
+	b ======4------
+
+    delta = min(i2-i, j-j1)
+    if delta&gt;0:
+        i2=i+delta
+        j1=j-delta
+
+b.2. 临界判断 与非临界判断
+
+    if delta==0:
+        # delta = 0:
+        # a:1     2
+        # b:3
+        if i&lt;i2 and b[j]&gt;a[i+1]:
+            return a[i+1]
+        else:
+            return b[i]
+    elif a[i]&lt;=b[j]&lt;=a[i+1]:
+        return b[j]
+    else:
+        pass
+
+b.3. 判断的失败，就重新二分分割：
+
+	            i1    i2
+	a           +======
+	  j1    j2
+	b ======+
+    i=i1
+    i=i1+ceil(delta/2)
+    j=j2
+    j=j2-ceil(delta/2)
+
+b.4. 重新的回到b.
+
+# 算法实现
+略</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -136,10 +147,10 @@ updated: 2018-10-06
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
@@ -161,6 +172,9 @@ updated: 2018-10-06
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>
