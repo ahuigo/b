@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/p/p8.md';
+const MD_URL='post/py/py-async-cpu.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO 的笔记</title>
+<title>does-a-thread-waiting-on-io-also-block-a-core?</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -46,52 +46,20 @@ const MD_URL='post/p/p8.md';
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
-<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+<pre id="markdown" v-pre>---
+title: does-a-thread-waiting-on-io-also-block-a-core?
+date: 2019-03-08
+updated: 2019-03-08
+---
+# does-a-thread-waiting-on-io-also-block-a-core
+&gt; Refer to: https://stackoverflow.com/questions/35688553/does-a-thread-waiting-on-io-also-block-a-core
 
-<ul>
-<li>2018-09-27 <a href="/b/db/had-hive">hive 命令</a> </li>
-<li>2018-09-27 <a href="/b/db/had-">hadoop 介绍</a> </li>
-<li>2018-09-27 <a href="/b/db/db-sqlite">shell command</a> </li>
-<li>2018-09-27 <a href="/b/db/db-opt">Cpu 优化</a> </li>
-<li>2018-09-27 <a href="/b/course/perl">perl</a> </li>
-<li>2018-09-27 <a href="/b/course/paper">在家里如何免费使用中国知网？</a> </li>
-<li>2018-09-27 <a href="/b/course/logic">Logic Mistick</a> </li>
-<li>2018-10-06 <a href="/b/course/ios-dev">swift</a> </li>
-<li>2018-09-27 <a href="/b/course/im-live-webrtc">基于webRTC 的p2p 直播架构</a> </li>
-<li>2018-09-27 <a href="/b/course/im-live-protocol">各种直播流协议</a> </li>
-<li>2018-08-23 <a href="/b/course/im-live-p2p">关于直播的P2P架构</a> </li>
-<li>2018-09-27 <a href="/b/course/erlang">Golang要求用户必须在密集计算的代码中，自行Yield。</a> </li>
-<li>2018-09-27 <a href="/b/course/biology">biology</a> </li>
-<li>2018-10-06 <a href="/b/course/api-restful">RESTful 架构</a> </li>
-<li>2018-09-27 <a href="/b/course/api-apns">IOS Apns(Apple Push Notification Service)</a> </li>
-<li>2018-08-18 <a href="/b/code/code-regex">Posix Regex 正则语法</a> </li>
-<li>2018-10-06 <a href="/b/code/code-mail">mail 工具推荐</a> </li>
-<li>2018-09-27 <a href="/b/code/code-di-pattern">Dependency Injector(IoC)</a> </li>
-<li>2018-09-27 <a href="/b/c/shell-secureCRT">shell-secureCRT</a> </li>
-<li>2018-10-06 <a href="/b/c/shell-io-file">Shell IO及文件操作</a> </li>
-<li>2018-09-27 <a href="/b/c/shell-color">shell color</a> </li>
-<li>2019-02-04 <a href="/b/c/process-redirect-fork2exec">linux 下的Fork 与 Exec</a> </li>
-<li>2019-01-23 <a href="/b/c/ops-yum">linux yum</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-windows-cmder">Windows 下的软件</a> </li>
-<li>2018-10-06 <a href="/b/c/ops-wifi">无线wifi</a> </li>
-<li>2019-02-03 <a href="/b/c/ops-wget">wget</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-virtualbox">全屏</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-vip">vip</a> </li>
-<li>2018-10-06 <a href="/b/c/ops-vagrant">vagrant</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-user">tool</a> </li>
-<li>2018-10-06 <a href="/b/c/ops-top">linux top命令简明教程</a> </li>
-<li>2016-09-27 <a href="/b/c/ops-tool">OM(Operation Maintenance) 运维工具</a> </li>
-<li>2018-10-06 <a href="/b/c/ops-tmux">linux-tmux</a> </li>
-<li>2018-10-06 <a href="/b/c/ops-tcl">学习一下 Tcl/Tk</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-systemd">Systemd</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-systemd-log">Systemd 日志管理</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-sysctl">ops-sysctl</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-supervisor">ops-supervisor</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-storage">Minio</a> </li>
-<li>2018-10-06 <a href="/b/c/ops-squid">squid</a> </li>
-</ul>
-</div>
-<div id="pager"> <a href="/b/index">p0</a> <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a> <a href="/b/p/p3">p3</a> <a href="/b/p/p4">p4</a> <a href="/b/p/p5">p5</a> <a href="/b/p/p6">p6</a> <a href="/b/p/p7">p7</a> p8 <a href="/b/p/p9">p9</a> <a href="/b/p/p10">p10</a> <a href="/b/p/p11">p11</a> <a href="/b/p/p12">p12</a> <a href="/b/p/p13">p13</a> <a href="/b/p/p14">p14</a> <a href="/b/p/p15">p15</a> <a href="/b/p/p16">p16</a> <a href="/b/p/p17">p17</a> <a href="/b/p/p18">p18</a></div>
+A CPU core is normally not dedicated to one particular thread of execution. The kernel is constantly switching processes being executed in and out of the CPU. The process currently being executed by the CPU is in the &quot;running&quot; state. The list of processes waiting for their turn are in a &quot;ready&quot; state. The kernel switches these in and out very quickly. Modern CPU features (multiple cores, simultaneous multithreading, etc.) try to increase the number of threads of execution that can be physically executed at once.
+
+If a process is I/O blocked, the kernel will just set it aside (put it in the &quot;waiting&quot; state) and not even consider giving it time in the CPU. When the I/O has finished, the kernel moves the blocked process from the &quot;waiting&quot; state to the &quot;ready&quot; state so it can have its turn (&quot;running&quot;) in the CPU.
+
+So your blocked thread of execution blocks only that: the thread of execution. The CPU and the CPU cores continue to have other threads of execution switched in and out of them, and are not idle.</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>

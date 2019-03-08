@@ -2,9 +2,68 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-03-08T00:12:14Z</updated>
+<updated>2019-03-08T23:36:24Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>py-server</title>
+<link href="/b/py/py-server" rel="alternate" type="text/html"/>
+<updated>2019-03-08T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Preface
+参考：https://zhuanlan.zhihu.com/p/30056870
+
+## CGI
+原始的CGI 程序只是单纯的多进程fork 模式[/demo/py/socket-</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>asyncio</title>
+<link href="/b/py/py-asyncio" rel="alternate" type="text/html"/>
+<updated>2019-03-08T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># asyncio
+asyncio是基于coroutine 的，包括了:
+1. 事件循环(event loop)
+2. Task: 对coroutine 的封装，包含各种状态
+    1. Pendi</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>does-a-thread-waiting-on-io-also-block-a-core?</title>
+<link href="/b/py/py-async-cpu" rel="alternate" type="text/html"/>
+<updated>2019-03-08T00:00:00Z</updated>
+<summary/>
+<published>2019-03-08T00:00:00Z</published>
+<content># does-a-thread-waiting-on-io-also-block-a-core
+&gt; Refer to: https://stackoverflow.com/questions/3568</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>c 语言之指针</title>
+<link href="/b/c/c-pointer" rel="alternate" type="text/html"/>
+<updated>2019-03-08T00:00:00Z</updated>
+<summary/>
+<published>2019-03-08T00:00:00Z</published>
+<content># Preface
+关于指针有两种运算符：*号是指针间接寻址运算符（Indirection Operator），*pi表示取指针pi所指向的变量的值，也称为Dereference操作. &amp;运算符的操作</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>c lib 库</title>
+<link href="/b/c/c-lib" rel="alternate" type="text/html"/>
+<updated>2019-03-08T00:00:00Z</updated>
+<summary/>
+<published>2019-03-08T00:00:00Z</published>
+<content># Preface
+在[c 编译](/p/c-compile) 中我提到了c 的标准库，c标准库包括: header(.h 文件)头文件，和lib（.c）库文件。
+大多数库函数在libc 中, 本笔记</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>linux c 之 编译</title>
+<link href="/b/c/c-compile" rel="alternate" type="text/html"/>
+<updated>2019-03-08T00:00:00Z</updated>
+<summary/>
+<published>2019-03-08T00:00:00Z</published>
+<content># Preface
+
+本文总结关于c 编译的基础用法: 宏，头文件
+
+# include 头文件
+公共的东西(External 声明，定义)，可以放到头文件中：`*.h`, 可以被多次引用（其实跟`.</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>tcpdump</title>
 <link href="/b/net/net-tcpdump" rel="alternate" type="text/html"/>
 <updated>2019-03-08T00:00:00Z</updated>
@@ -421,83 +480,4 @@ Socket是网络编程的一个抽象概念。通常我们用一个Socket表示�
     -f Rquests ssh to go to background just before command execution.
 
 ## tcp port forw</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>python 的list/tuple 笔记</title>
-<link href="/b/py/py-var-list" rel="alternate" type="text/html"/>
-<updated>2019-02-22T00:00:00Z</updated>
-<summary/>
-<published>2018-03-03T00:00:00Z</published>
-<content># list and tuple
-因为tuple 是增加删除元素的不可变的list(数据可以变)，所以代码更安全。
-如果可能，能用tuple代替list就尽量用tuple。
-
-	list = [1,2</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Python 字符处理</title>
-<link href="/b/py/py-str" rel="alternate" type="text/html"/>
-<updated>2019-02-28T00:00:00Z</updated>
-<summary/>
-<published>2017-08-09T00:00:00Z</published>
-<content># Python 字符处理
-- serialize
-见/py/py-serial.md
-
-# String
-same as js:
-
-	print "a\nb" ;# The character he</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Python 语法</title>
-<link href="/b/py/py-grammar" rel="alternate" type="text/html"/>
-<updated>2019-02-22T00:00:00Z</updated>
-<summary/>
-<published>2018-03-01T00:00:00Z</published>
-<content># compare
-```s
-&gt;&gt;&gt; 1&lt;3&gt;=3&gt;1==1&lt;100
-True
-```
-
-# Condition &amp; Loop
-
-## control
-
-	exit(0);
-		like exit(0</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>py-debug</title>
-<link href="/b/py/py-debug" rel="alternate" type="text/html"/>
-<updated>2019-02-22T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># Preface
-1. exception
-2. 调试包括print, assert, 
-3. 使用logging/sentry/q(强烈推荐)
-4. pdb/ipdb
-3. perf 性能
-1. </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>python 加密实例</title>
-<link href="/b/py/py-crypt" rel="alternate" type="text/html"/>
-<updated>2019-02-28T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># python 加密实例
-[加密算法简介](/p/algorithm/algorithm-crypt)
-
-    pip install pycrypto
-
-# AES
-
-## aes-256-cb</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>shell proxy tool</title>
-<link href="/b/net/net-proxy-tool" rel="alternate" type="text/html"/>
-<updated>2019-02-21T00:00:00Z</updated>
-<summary/>
-<published>2019-02-21T00:00:00Z</published>
-<content># Android
-HowTo: Proxy Non-Proxy-Aware Android Applications through Burp
-http://blog.dornea.nu/2014/</content>
 </entry></feed>
