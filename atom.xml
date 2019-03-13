@@ -2,9 +2,20 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-03-13T16:48:46Z</updated>
+<updated>2019-03-13T17:17:13Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>GMT,UTC,DST,CST 各种时间标准</title>
+<link href="/b/c/shell-time" rel="alternate" type="text/html"/>
+<updated>2019-03-13T00:00:00Z</updated>
+<summary/>
+<published>2012-07-08T00:00:00Z</published>
+<content># 各世界时间标准
+我们经常遇到这4种时间：GMT,UTC,DST,CST。google了一下，在此做个小结.
+
+## 格林威治标准时间GMT
+含义：「格林威治标准时间」(Greenwich Mean</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>command</title>
 <link href="/b/ria/node-npm" rel="alternate" type="text/html"/>
 <updated>2019-03-13T00:00:00Z</updated>
@@ -435,17 +446,4 @@ urllib2 is deprecated, use requests instead , except: `urllib.parse.urlsplit/url
 4.记忆：
    1. 音形义 :连读 弱读 强读 音变
  </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>写论文要用到的网站</title>
-<link href="/b/em/em-paper" rel="alternate" type="text/html"/>
-<updated>2019-03-05T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># 写论文要用到的网站
-## 参考文献格式生成
-https://www.bigan.net/reference/
-
-## 查重
-https://www.paperyy.com/
-http://www.</content>
 </entry></feed>
