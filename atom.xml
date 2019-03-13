@@ -2,9 +2,95 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-03-10T18:25:47Z</updated>
+<updated>2019-03-13T16:48:46Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>command</title>
+<link href="/b/ria/node-npm" rel="alternate" type="text/html"/>
+<updated>2019-03-13T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># command
+
+    npm list -g; # global
+    npm list; # local
+    npm dedupe -g; # Reduce duplication
+
+</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>数据库CAP 理论 与事务</title>
+<link href="/b/arch/arch-cap" rel="alternate" type="text/html"/>
+<updated>2019-03-13T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># CAP定理（CAP theorem）
+CAP定理（CAP theorem), 指出对于一个分布式计算系统来说，不可能同时满足以下三点:
+
+1. 一致性(Consistency) (所有节点在同一时</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>rpc</title>
+<link href="/b/rpc/rpc" rel="alternate" type="text/html"/>
+<updated>2019-03-12T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># RPC
+&gt; http://www.cnblogs.com/fxjwind/archive/2013/05/16/3082219.html
+&gt; 深入浅出RPC原理
+https://ketao1989</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-pkg-setuptool</title>
+<link href="/b/py/py-pkg-setuptool" rel="alternate" type="text/html"/>
+<updated>2019-03-12T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Preface
+https://packaging.python.org/tutorials/packaging-projects/
+
+setuptools 与 disutils
+1. distu</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>server</title>
+<link href="/b/py/py-aiohttp-server" rel="alternate" type="text/html"/>
+<updated>2019-03-12T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># server
+异步编程要小心循环阻塞, 不可以使所有任务task被阻塞的函数：
+1. time.sleep(10)
+
+## simple server
+
+    from aiohttp impo</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Django Notes</title>
+<link href="/b/py/django" rel="alternate" type="text/html"/>
+<updated>2019-03-12T00:00:00Z</updated>
+<summary/>
+<published>2019-03-11T00:00:00Z</published>
+<content># Models
+## raw sql
+
+    &gt;&gt;&gt; lname = 'Doe'
+    &gt;&gt;&gt; first_person = Person.objects.raw('SELECT * FROM </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>各种语言的fiddle</title>
+<link href="/b/c/ops-fiddle" rel="alternate" type="text/html"/>
+<updated>2019-03-12T00:00:00Z</updated>
+<summary/>
+<published>2018-08-27T00:00:00Z</published>
+<content># 各种语言的fiddle
+各种语言的fiddle
+1. js:
+    https://ahuigo.github.io/a/demo/fiddle/fiddle.html # 加上`data:te</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>二叉查找树和红黑树</title>
+<link href="/b/algorithm/tree-binary-search-tree" rel="alternate" type="text/html"/>
+<updated>2019-03-12T00:00:00Z</updated>
+<summary/>
+<published>2018-09-26T00:00:00Z</published>
+<content># 二叉查找树
+二叉查找树（Binary Search Tree），也称二叉搜索树、有序二叉树（ordered binary tree），排序二叉树（sorted binary tree），是指一棵空</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>node 系统相关</title>
 <link href="/b/ria/node-os" rel="alternate" type="text/html"/>
 <updated>2019-03-10T00:00:00Z</updated>
@@ -80,7 +166,7 @@ ups</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Redis</title>
 <link href="/b/db/redis-" rel="alternate" type="text/html"/>
-<updated>2019-03-10T00:00:00Z</updated>
+<updated>2019-03-12T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># Redis
@@ -88,7 +174,7 @@ redis所有的数据都是redisObject存储的。redisObject来表示所有的ke
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>跳跃表</title>
 <link href="/b/algorithm/tree-skiplist" rel="alternate" type="text/html"/>
-<updated>2019-03-10T00:00:00Z</updated>
+<updated>2019-03-12T00:00:00Z</updated>
 <summary/>
 <published>2017-09-26T00:00:00Z</published>
 <content># 跳跃表
@@ -100,7 +186,7 @@ redis所有的数据都是redisObject存储的。redisObject来表示所有的ke
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>py-server</title>
 <link href="/b/py/py-server" rel="alternate" type="text/html"/>
-<updated>2019-03-10T00:00:00Z</updated>
+<updated>2019-03-12T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># Preface
@@ -362,112 +448,4 @@ https://www.bigan.net/reference/
 ## 查重
 https://www.paperyy.com/
 http://www.</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>ops-init</title>
-<link href="/b/c/ops-init" rel="alternate" type="text/html"/>
-<updated>2019-03-05T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Preface
-
-# init
-
-## init
-init指linux 系统运行级runlevel 0~6. 可在/etc/inittab中指定:
-
-	id:3:initdefault:
-
-
-##</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>PHP Array</title>
-<link href="/b/php/php-array" rel="alternate" type="text/html"/>
-<updated>2019-03-02T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Array
-
-## 像mysql 一样对多列数据排序
-
-	$ar = array(
-       array("10", 11, 100, 100, "a"),
-       array(   1</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>删除mavericks 10.9 自带的输入法</title>
-<link href="/b/mac/mac-inputmethod" rel="alternate" type="text/html"/>
-<updated>2019-03-02T00:00:00Z</updated>
-<summary/>
-<published>2019-03-02T00:00:00Z</published>
-<content># Preface
-如果你想删除mavericks 10.9 自带的输入法, 目前只能通过 修改~/Library/Preferences/com.apple.HIToolbox.plist
-plis</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>cache 穿透问题</title>
-<link href="/b/db/redis-cache" rel="alternate" type="text/html"/>
-<updated>2019-03-02T00:00:00Z</updated>
-<summary/>
-<published>2019-03-02T00:00:00Z</published>
-<content># cache 失效问题
-
-## 缓存穿透
-Q: 不存在的Key， 导致访问穿透到DB
-A： 将存在的key 用bloomfilter 档一下，再访问DB
-
-## 缓存雪崩
-Q: 大量key同时失效 </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>mysql explain 的使用</title>
-<link href="/b/db/mysql-index-explain" rel="alternate" type="text/html"/>
-<updated>2019-03-02T00:00:00Z</updated>
-<summary/>
-<published>2018-12-29T00:00:00Z</published>
-<content># Mysql Explain 的使用
-
-## show index
-
-	show index from table_name;
-
-## explain
-用explain 获取mysql 如何quer</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Dependency Injector(IoC)</title>
-<link href="/b/code/code-di-pattern" rel="alternate" type="text/html"/>
-<updated>2019-03-02T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Dependency Injector(IoC)
-依赖注入（Dependency Injection）又称控制反转（Inversion of Control）主要用来实现不同模块或类之间的解耦，可</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>字符串搜索算法KMP</title>
-<link href="/b/algorithm/algo-str-search" rel="alternate" type="text/html"/>
-<updated>2019-03-01T00:00:00Z</updated>
-<summary/>
-<published>2019-02-28T00:00:00Z</published>
-<content># 字符串搜索算法KMP
-容易想到的搜索算法是O(N*M)
-KMP 则是O(N) 复杂度
-
-搜索`ahuigo` 时，当匹配到`,`, 我们可以跳过`ahui`
-
-    ahui, let's go</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>shell 环境变量</title>
-<link href="/b/c/shell-var-env" rel="alternate" type="text/html"/>
-<updated>2019-02-28T00:00:00Z</updated>
-<summary/>
-<published>2018-10-08T00:00:00Z</published>
-<content># Variable
-
-	let num++
-	let ++num
-
-	declare -i num
-	num+=1
-
-	((num++))
-
-## readonly
-
-	x=6
-	readonly </content>
 </entry></feed>

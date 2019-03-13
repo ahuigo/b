@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/p/p10.md';
+const MD_URL='post/py/django.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO 的笔记</title>
+<title>Django Notes</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -46,52 +46,18 @@ const MD_URL='post/p/p10.md';
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
-<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+<pre id="markdown" v-pre>---
+title: Django Notes
+date: 2019-03-11
+updated: 2019-03-12
+---
+# Models
+## raw sql
 
-<ul>
-<li>2018-10-06 <a href="/b/c/c-tool">linux c tool</a> </li>
-<li>2018-10-06 <a href="/b/c/c-thread">linux c 线程</a> </li>
-<li>2018-10-06 <a href="/b/c/c-terminal">linux c 终端、作业与守护进程</a> </li>
-<li>2019-02-16 <a href="/b/c/c-socket">linux c socket 编程</a> </li>
-<li>2018-10-06 <a href="/b/c/c-signal">linux c 信号</a> </li>
-<li>2018-05-17 <a href="/b/c/c-regex">c 语言的正则库</a> </li>
-<li>2019-03-08 <a href="/b/c/c-pointer">c 语言之指针</a> </li>
-<li>2019-02-16 <a href="/b/c/c-os">计算机结构</a> </li>
-<li>2018-10-06 <a href="/b/c/c-operator">c 语言运算符</a> </li>
-<li>2018-10-06 <a href="/b/c/c-nasm-hello">nasm helloworld</a> </li>
-<li>2018-09-27 <a href="/b/c/c-mem">c-mem</a> </li>
-<li>2018-09-27 <a href="/b/c/c-mem-gc">GC</a> </li>
-<li>2018-09-27 <a href="/b/c/c-lock-futex">C futex 同步机制</a> </li>
-<li>2018-10-06 <a href="/b/c/c-link">linux c link 详解</a> </li>
-<li>2019-03-08 <a href="/b/c/c-lib">c lib 库</a> </li>
-<li>2018-10-06 <a href="/b/vim/vim-fold">vim fold</a> </li>
-<li>2018-10-06 <a href="/b/vim/vim-emacs">Emacs</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-diff">diffget all file</a> </li>
-<li>20180509 <a href="/b/vim/nvim-plugin">vim plug 插件系统</a> </li>
-<li>2018-10-04 <a href="/b/vim/nvim-install">install</a> </li>
-<li>2018-10-06 <a href="/b/vim/2013-2-2-vim-vundle">vim vundle插件管理</a> </li>
-<li>2018-10-06 <a href="/b/svn/svn-merge-sh">svn merge diff 脚本</a> </li>
-<li>2018-10-06 <a href="/b/svn/svn-cmds">svn-cmds</a> </li>
-<li>2018-10-06 <a href="/b/sec/security-sql">sql injection</a> </li>
-<li>2018-10-06 <a href="/b/sec/security-php">php 后门</a> </li>
-<li>2018-10-06 <a href="/b/sec/security-ddos">Distributed Denial of Service</a> </li>
-<li>2018-10-04 <a href="/b/sec/sec-xss">xss</a> </li>
-<li>2018-10-06 <a href="/b/sec/sec-hash">hash</a> </li>
-<li>2018-12-20 <a href="/b/sec/sec-cryptography">密码安全与签名安全</a> </li>
-<li>2018-05-15 <a href="/b/ria/vue-tpl">Vue 的模板系统</a> </li>
-<li>2018-10-04 <a href="/b/ria/vue-route">vue router 笔记</a> </li>
-<li>2018-10-04 <a href="/b/ria/vue-project">Vue 自定义指令</a> </li>
-<li>2018-10-04 <a href="/b/ria/vue-ins-mixins">mixins</a> </li>
-<li>2018-10-04 <a href="/b/ria/vue-event">Vue event(v-on事件对象)</a> </li>
-<li>2018-07-15 <a href="/b/ria/vue-component">Vue 组件</a> </li>
-<li>2018-10-04 <a href="/b/ria/vue-cli">Vue Cli 使用</a> </li>
-<li>2018-09-21 <a href="/b/ria/vue-cli-cdn">Vue CLI 引入CDN 外部资源</a> </li>
-<li>2018-10-04 <a href="/b/ria/vue-animation">transition</a> </li>
-<li>2018- <a href="/b/ria/vue-ajax">新一代ajax api--fetch、axios</a> </li>
-<li>2018-10-04 <a href="/b/ria/ts-module">Typescript 的module</a> </li>
-</ul>
-</div>
-<div id="pager"> <a href="/b/index">p0</a> <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a> <a href="/b/p/p3">p3</a> <a href="/b/p/p4">p4</a> <a href="/b/p/p5">p5</a> <a href="/b/p/p6">p6</a> <a href="/b/p/p7">p7</a> <a href="/b/p/p8">p8</a> <a href="/b/p/p9">p9</a> p10 <a href="/b/p/p11">p11</a> <a href="/b/p/p12">p12</a> <a href="/b/p/p13">p13</a> <a href="/b/p/p14">p14</a> <a href="/b/p/p15">p15</a> <a href="/b/p/p16">p16</a> <a href="/b/p/p17">p17</a> <a href="/b/p/p18">p18</a></div>
+    &gt;&gt;&gt; lname = &#x27;Doe&#x27;
+    &gt;&gt;&gt; first_person = Person.objects.raw(&#x27;SELECT * FROM myapp_person WHERE last_name = %s&#x27;, [lname])[0]
+</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>

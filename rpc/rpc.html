@@ -20,13 +20,10 @@ const MD_URL='post/rpc/rpc.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -35,7 +32,8 @@ const MD_URL='post/rpc/rpc.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
@@ -51,10 +49,12 @@ const MD_URL='post/rpc/rpc.md';
 <pre id="markdown" v-pre>---
 title: rpc
 date: 2018-10-04
-updated: 2018-10-06
+updated: 2019-03-12
 ---
-# Preface
+# RPC
 &gt; http://www.cnblogs.com/fxjwind/archive/2013/05/16/3082219.html
+&gt; 深入浅出RPC原理
+https://ketao1989.github.io/2016/12/10/rpc-theory-in-action/
 
 rpc 问题其实是不同语言之间的数据通信问题:
 
@@ -68,13 +68,14 @@ rpc 问题其实是不同语言之间的数据通信问题:
 - protobuf(pb), binary
 - thrift
 
-数据格式
+## 数据格式
 
 - xml XMPP就基于xml, 流量大
 - msgpack, binary
 - json, plain text
 
-# PB(Protocol Buffer)
+# 实现
+## PB(Protocol Buffer)
 protobuf 是二进制数据格式协议，微信的短链接就是采用的protobuf, 与JSON 不同的是:
 - binary
 - 它自带了一个编译器，protoc，只需要用它进行编译，可以编译成JAVA、python、C++代码，暂时只有这三个
@@ -83,27 +84,19 @@ Refer to:
 - http://www.searchtb.com/2012/09/protocol-buffers.html
 - http://www.ibm.com/developerworks/cn/linux/l-cn-gpb/
 
-# thrift
+## thrift
 [thrift](/p/thrift)
 
-# msgpack
+## msgpack
 msgpack 也是一个二进制的打包协议. 鸟哥的Yar http 框架默认作用该协议（也可以选择JSON)
 
-# rpc 实现
-
-    gRPC by google
+## grpc
+gRPC by google
 
 一个轻量级RPC的实现 
     文档： https://juejin.im/post/5a69e308518825733b0f151a 
-    源码: https://github.com/TanLian/testrpc
-
-# weixin 使用的协议
-参考: http://blog.csdn.net/justinjing0612/article/details/38322353
-微信协议简单调研笔记
-http://www.blogjava.net/yongboy/archive/2014/03/05/410636.html
-
-为了保证稳定，微信用了长链接和短链接相结合，例如：</pre>
-<div id="pager" v-pre></div>
+    源码: https://github.com/TanLian/testrpc</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -125,10 +118,10 @@ http://www.blogjava.net/yongboy/archive/2014/03/05/410636.html
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
@@ -150,6 +143,9 @@ http://www.blogjava.net/yongboy/archive/2014/03/05/410636.html
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>
