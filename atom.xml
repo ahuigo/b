@@ -2,9 +2,23 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-03-13T17:19:33Z</updated>
+<updated>2019-03-14T17:59:30Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>install</title>
+<link href="/b/vim/nvim-install" rel="alternate" type="text/html"/>
+<updated>2019-03-14T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># install
+    brew install neovim
+    nvim 
+    :CheckHealth
+    :scriptnames
+
+## iterm2
+iterm2 默认的 </content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>GMT,UTC,DST,CST 各种时间标准</title>
 <link href="/b/c/shell-time" rel="alternate" type="text/html"/>
 <updated>2019-03-13T00:00:00Z</updated>
@@ -431,19 +445,4 @@ Python的标准库提供了两个模块：`_thread`和`threading`: `_thread`是�
 
 # urllib
 urllib2 is deprecated, use requests instead , except: `urllib.parse.urlsplit/url</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>背单词</title>
-<link href="/b/eng/eng-word" rel="alternate" type="text/html"/>
-<updated>2019-03-05T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># my method
-## 单词
-1. 盲读
-2. 不会的单词划线
-3. 结合context 推断
-    4. 查词：音标 本文中含义
-4.记忆：
-   1. 音形义 :连读 弱读 强读 音变
- </content>
 </entry></feed>
