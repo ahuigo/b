@@ -2,9 +2,38 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-03-14T21:37:24Z</updated>
+<updated>2019-05-12T20:21:22Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>FUNCTION</title>
+<link href="/b/db/postgre-ddl" rel="alternate" type="text/html"/>
+<updated>2019-05-12T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># shell
+    psql DBNAME USERNAME
+    psql -U user_name -d database_name -h 127.0.0.1 -W
+    psql -U </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Postgre CRUD</title>
+<link href="/b/db/postgre-crud" rel="alternate" type="text/html"/>
+<updated>2019-05-12T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Postgre CRUD
+## insert 
+    CREATE TABLE users (id INT, counters JSONB NOT NULL DEFAULT '{}');
+   </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Postgre 安装\配置\管理</title>
+<link href="/b/db/postgre-admin" rel="alternate" type="text/html"/>
+<updated>2019-05-12T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Postgre 安装\配置\管理
+```bash
+rpm -Uvh https://yum.postgresql.org/10/redhat/rhel-7-x86_64/pgdg-centos10</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Rollup 该支持HMR 吗?</title>
 <link href="/b/ria/js-rollup-hmr" rel="alternate" type="text/html"/>
 <updated>2019-03-14T00:00:00Z</updated>
@@ -291,7 +320,7 @@ book:
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Shell 工具集合</title>
 <link href="/b/c/shell-tool" rel="alternate" type="text/html"/>
-<updated>2019-03-08T00:00:00Z</updated>
+<updated>2019-05-12T00:00:00Z</updated>
 <summary/>
 <published>2016-09-27T00:00:00Z</published>
 <content># System debug, 系统调试工具
@@ -411,38 +440,4 @@ PIL：Python Imaging Library，已经是Python平台事实上的图像处理标�
 
 1. 窃听风险(eavesdropping): 通过私钥加密避免第三方窃取风险
 2. 篡改风险</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>SSL Certificate Authority(CA)</title>
-<link href="/b/net/net-ssl-ca" rel="alternate" type="text/html"/>
-<updated>2019-03-06T00:00:00Z</updated>
-<summary/>
-<published>2019-03-06T00:00:00Z</published>
-<content># 证书级别
-http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html
-
-# SNI(SSL/TLS Server </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>curl manual</title>
-<link href="/b/c/ops-curl" rel="alternate" type="text/html"/>
-<updated>2019-03-06T00:00:00Z</updated>
-<summary/>
-<published>2019-03-06T00:00:00Z</published>
-<content>
-# curlt to python/node/go...
-curl 转换器: https://curl.trillworks.com/
-
-# Usage
-
-	-F,--form
-	-D- Dump </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>python thread 线程笔记</title>
-<link href="/b/py/py-thread" rel="alternate" type="text/html"/>
-<updated>2019-03-05T00:00:00Z</updated>
-<summary/>
-<published>2019-03-05T00:00:00Z</published>
-<content># threading
-Python的标准库提供了两个模块：`_thread`和`threading`: `_thread`是低级模块，threading是高级模块，对_thread进行了封装。
-
-绝</content>
 </entry></feed>

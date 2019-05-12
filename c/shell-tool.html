@@ -36,7 +36,7 @@ const MD_URL='post/c/shell-tool.md';
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,7 +49,7 @@ const MD_URL='post/c/shell-tool.md';
 <pre id="markdown" v-pre>---
 title: Shell 工具集合
 date: 2016-09-27
-updated: 2019-03-08
+updated: 2019-05-12
 ---
 # System debug, 系统调试工具
 
@@ -224,6 +224,13 @@ eval is a shell builtin command, not a standalone executable. Thus, xargs can&#x
 
 	sort -k 2| sort -s -k 1
 
+多字段排序
+
+    sort -k2 -k1 &lt;people.txt
+    sort -k2,2 -k1,1 &lt;people.txt
+    sort -k2b,2 -k1,1 &lt;people.txt
+    sort -k2n,2 -k1,1 &lt;people.txt
+
 # uniq
 
 	uniq [-ic]
@@ -275,8 +282,14 @@ Example:
 
 	$   echo &#x27;123456&#x27; | tr  &#x27;12345&#x27; &#x27;[A-Z]&#x27;
 	[ABCD6
-	$   echo &#x27;abc&#x27; | tr &#x27;a-z&#x27; &#x27;[x*2]C&#x27;
+    $  echo &#x27;123456&#x27; | tr  &#x27;12345&#x27; &#x27;AB&#x27; ; #(但是这里会有B补足)
+    ABBBB
+	$   echo &#x27;abc&#x27; | tr &#x27;a-z&#x27; &#x27;[x*]&#x27; ;# x* 匹配多个
+	xxx
+	$   echo &#x27;abc&#x27; | tr &#x27;a-z&#x27; &#x27;[x*]C&#x27; ;# x*2 最多匹配两个
 	xxC
+	$   echo &#x27;abc&#x27; | tr &#x27;a-z&#x27; &#x27;[x*2]&#x27; ;# x*2 匹配2个(但是这里会有补足)
+	xxx
 	$   echo &#x27;abccccdddccc&#x27; | tr -s &#x27;abc&#x27; &#x27;ABC&#x27;
 	ABCdddC
 	$ echo &#x27;abcxd&#x27; | tr -d &#x27;xd&#x27;
@@ -284,7 +297,7 @@ Example:
 	$ echo &#x27;1&#x27; | tr &#x27;\x31&#x27; &#x27;\x32&#x27;
 	2
 	$ echo &#x27;1ahui2&#x27; | tr &#x27;[:digit:]&#x27; &#x27; &#x27;
-	1    2
+	 ahui 
 
 posix:
 
