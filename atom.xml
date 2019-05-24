@@ -2,9 +2,35 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-05-12T20:21:22Z</updated>
+<updated>2019-05-24T23:01:25Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>react framework</title>
+<link href="/b/ria/react-framework" rel="alternate" type="text/html"/>
+<updated>2019-05-24T00:00:00Z</updated>
+<summary/>
+<published>2019-05-23T00:00:00Z</published>
+<content># 前端框架优化方案
+本文是对目前所使用前端框架的梳理、优化。
+
+本文优化目标是：
+1. 第一目标：更好的业务开发效率
+    1. KISS原则: 保持简洁、统一
+       1. 统一编码风格：</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>字符串搜索算法KMP</title>
+<link href="/b/algorithm/algo-str-search" rel="alternate" type="text/html"/>
+<updated>2019-05-24T00:00:00Z</updated>
+<summary/>
+<published>2019-02-28T00:00:00Z</published>
+<content># 字符串搜索算法KMP
+容易想到的搜索算法是O(N*M)
+KMP 则是O(N) 复杂度
+
+搜索`ahuigo` 时，当匹配到`,`, 我们可以跳过`ahui`
+
+    ahui, let's go</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>FUNCTION</title>
 <link href="/b/db/postgre-ddl" rel="alternate" type="text/html"/>
 <updated>2019-05-12T00:00:00Z</updated>
@@ -416,28 +442,4 @@ vscode 下的中文输入法老键入 backspace controller character(`\u0008`, `
 PIL：Python Imaging Library，已经是Python平台事实上的图像处理标准库了。PIL功能非常强大，但API却非常简单易用。
 
 由于PIL仅支持到Pytho</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>ssl(https)</title>
-<link href="/b/nginx/nginx-ssl" rel="alternate" type="text/html"/>
-<updated>2019-03-06T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># ssl(https)
-
-	server {
-		listen 80;
-		listen 443 default_server ssl;#加ssl 时会自动开启ssl, 不能再加 ssl on;
-
-</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>net-ssl</title>
-<link href="/b/net/net-ssl" rel="alternate" type="text/html"/>
-<updated>2019-03-06T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># Preface
-参考阮一峰的[ssl运行机制]，TLS/SSL 基于非对称加密，它解决了以下风险：
-
-1. 窃听风险(eavesdropping): 通过私钥加密避免第三方窃取风险
-2. 篡改风险</content>
 </entry></feed>
