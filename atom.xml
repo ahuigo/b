@@ -2,9 +2,42 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-05-27T17:47:37Z</updated>
+<updated>2019-05-27T22:58:08Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>vim-motion</title>
+<link href="/b/vim/vim-motion" rel="alternate" type="text/html"/>
+<updated>2019-05-27T00:00:00Z</updated>
+<summary/>
+<published>2019-05-27T00:00:00Z</published>
+<content># motion,moving
+移动范围
+
+    2dd 删除两行
+    2&gt;&gt; 移动两行
+
+# insert
+
+	gI		Insert in column 1
+
+# line
+
+	. curre</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>help</title>
+<link href="/b/py/py-db-postgre" rel="alternate" type="text/html"/>
+<updated>2019-05-27T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># help
+http://initd.org/psycopg/docs/cursor.html
+
+# psycopg2
+## conn
+
+    import psycopg2
+    import</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>ajax cors</title>
 <link href="/b/ria/js-ajax-cors" rel="alternate" type="text/html"/>
 <updated>2019-05-27T00:00:00Z</updated>
@@ -423,28 +456,4 @@ shell 主要支持字符串 和 数组 两种数据类型。数组功能很弱�
 &gt; A B 两个递增有序数组, 将两数组中的元素合并到一起。请找到其中第N大的数
 
 Find the n'th max number of 2 sorted </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Chrome devtools 使用汇总</title>
-<link href="/b/ria/js-debug-chrome" rel="alternate" type="text/html"/>
-<updated>2019-03-06T00:00:00Z</updated>
-<summary/>
-<published>2018-03-03T00:00:00Z</published>
-<content># Chrome devtools 使用汇总
-chrome://chrome-urls/
-
-## Network dns
-- Dns Cache
-chrome://net-internals/#dns</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>图的路径问题</title>
-<link href="/b/algorithm/graph-path" rel="alternate" type="text/html"/>
-<updated>2019-03-06T00:00:00Z</updated>
-<summary/>
-<published>2019-02-17T00:00:00Z</published>
-<content># 图的路径问题
-主要包含这么几个问题
-1. 最短路径
-2. 一笔画问题
-    1. 一笔画的充要条件：奇顶点（连接的边数量为奇数的顶点）的数目等于0(任意起点)或者2(奇顶点为起点)
-    2.</content>
 </entry></feed>
