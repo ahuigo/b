@@ -2,9 +2,31 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-05-24T23:01:25Z</updated>
+<updated>2019-05-27T15:38:21Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>js notes</title>
+<link href="/b/ria/js-obj" rel="alternate" type="text/html"/>
+<updated>2019-05-27T00:00:00Z</updated>
+<summary/>
+<published>2019-05-27T00:00:00Z</published>
+<content># Object
+
+## isEempty
+    ECMA 7+:
+    Object.entries(obj).length === 0 &amp;&amp; obj.constructor === Objec</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>try-catch</title>
+<link href="/b/ria/js-debug-exception" rel="alternate" type="text/html"/>
+<updated>2019-05-27T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># try-catch
+    try {
+        r1 = s.length; // 此处应产生错误
+        r2 = 100; // 该语句不会执行
+         throw </content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>react framework</title>
 <link href="/b/ria/react-framework" rel="alternate" type="text/html"/>
 <updated>2019-05-24T00:00:00Z</updated>
@@ -196,15 +218,15 @@ setuptools 与 disutils
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>JS Promise</title>
 <link href="/b/ria/js-promise" rel="alternate" type="text/html"/>
-<updated>2019-03-10T00:00:00Z</updated>
+<updated>2019-05-27T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># JS Promise
 实现异步串行写法
 1. generator
-1. Promise: resove-then, reject-catch
+1. Promise: resolve-then, reject-catch
 2. async-await: 
-    1. syn</content>
+    1. sy</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>webspider</title>
 <link href="/b/py/py-webspider" rel="alternate" type="text/html"/>
@@ -419,27 +441,4 @@ vscode 下的中文输入法老键入 backspace controller character(`\u0008`, `
 
 应用层
 	DHCP DHCPv6 DNS FTP Gophe</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Linux Network Tool</title>
-<link href="/b/net/3.net-tool" rel="alternate" type="text/html"/>
-<updated>2019-03-06T00:00:00Z</updated>
-<summary/>
-<published>2016-10-20T00:00:00Z</published>
-<content># Linux Network Tool
-网络相关的工具有:
-
-	dns: ip 或 ifconfig，dig
-	monitor: netstat -lntp 或 ss -plat
-	socket: </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>python PIL(pillow)</title>
-<link href="/b/py/py-pil" rel="alternate" type="text/html"/>
-<updated>2019-03-06T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Preface
-
-PIL：Python Imaging Library，已经是Python平台事实上的图像处理标准库了。PIL功能非常强大，但API却非常简单易用。
-
-由于PIL仅支持到Pytho</content>
 </entry></feed>

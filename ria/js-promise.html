@@ -36,7 +36,7 @@ const MD_URL='post/ria/js-promise.md';
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,12 +49,12 @@ const MD_URL='post/ria/js-promise.md';
 <pre id="markdown" v-pre>---
 title: JS Promise
 date: 2018-10-04
-updated: 2019-03-10
+updated: 2019-05-27
 ---
 # JS Promise
 实现异步串行写法
 1. generator
-1. Promise: resove-then, reject-catch
+1. Promise: resolve-then, reject-catch
 2. async-await: 
     1. sync: `result = await promise` 
     2. async: `promise.then(r=&gt;{result=r})`+block
@@ -83,6 +83,9 @@ create instantiated promise
     var promise = Promise.resolve(100);
     var promise = new Promise(r=&gt;r(100));
 
+    new Promise(resolve =&gt; setTimeout(resolve, ms));
+
+
 ## ajax
 ajax函数将返回Promise对象:
 
@@ -110,6 +113,18 @@ ajax函数将返回Promise对象:
     }).catch(function (status) { // 如果AJAX失败，获得响应代码
         log.innerText = &#x27;ERROR: &#x27; + status;
     });
+
+## catch
+catch 会捕获exception
+
+    (new Promise(()=&gt;{throw new Exception(&#x27;aaaaa&#x27;);})).catch(r=&gt;console.log({r:r}))
+
+then+catch:
+
+    Promise.reject(1).then(
+        v=&gt;console.log([v]), 
+        e=&gt;console.log(e)
+    )
 
 ## 串行
 
@@ -174,8 +189,27 @@ Promise.all()实现如下：
     });
     // 同时执行p1和p2，并在它们都完成后执行then:
     Promise.all([p1, p2]).then(function (results) {
-        console.log(results); // 获得一个Array: [&#x27;P1&#x27;, &#x27;P2&#x27;]
+        // 获得一个Array: [&#x27;P1&#x27;, &#x27;P2&#x27;]
+        console.log(&#x27;results：&#x27;,results); 
     });
+
+如果有多个错误，all.catch 只能捕获一个错误: 
+
+    var p1 = async ()=&gt; {
+        console.log(&#x27;p11111&#x27;)
+        return &#x27;p1&#x27;; //same as resolve(&#x27;p1&#x27;)
+    };
+    var error1= async () =&gt;{
+        return Promise.reject(&#x27;Error1&#x27;)
+    };
+    var error2= async () =&gt;{
+        throw &#x27;Error2 Value with no trace&#x27;
+        throw new Error(&#x27;Error2 Exception&#x27;)
+    };
+    Promise.all([p1(), error1(),error2()]).then(function (results) {
+        console.log(&#x27;results：&#x27;,results); 
+    }).catch(e=&gt;console.log({&#x27;error&#x27;:e}));
+
 
 同时向两个URL读取用户的个人信息，只需要获得先返回的结果即可。这种情况下，用Promise.race()实现：
 
@@ -193,16 +227,51 @@ Promise.all()实现如下：
 1. then: async
 2. await: sync
 
+## await catch data
+await 不能捕获exceptio/reject
+
+但是 await 可以通过catch 得到exception/reject 的值
+
+    f=async ()=&gt;{
+        p=await (new Promise(()=&gt;{throw new Exception(&#x27;aaaaa&#x27;);}).catch(r=&gt;100)); 
+        //100
+        console.log(p)
+    }
+    f()
+
 await reject:
 
-    //UnhandledPromiseRejectionWarning
-    await Promise.reject(1)
+    f = async ()=&gt;{
+        //UnhandledPromiseRejectionWarning
+        await Promise.reject(1)
 
-    //2
-    await Promise.reject(1).catch(r=&gt;r+1)
+        //2
+        await Promise.reject(1).catch(r=&gt;r+1)
 
-    //pending
-    await new Promise(r=&gt;{})
+        //pending
+        await new Promise(r=&gt;{})
+    }
+    f()
+
+## catch async exception
+只有用await 才能catch 到async 发出的 exception
+
+    try{
+        await f()
+    } catch(e){
+        console.log(e)
+    }
+
+
+## throw vs catch
+    new Promise(function() {
+        setTimeout(function() {
+            throw &#x27;or nah&#x27;;
+            //return Promise.reject(&#x27;or nah&#x27;); //also won&#x27;t work
+        }, 1000);
+    }).catch(function(e) {
+        console.log([e]); // doesn&#x27;t happen
+    });
 
 ## try catch 
 catch err+data
@@ -237,9 +306,9 @@ Notice:
 await async: 输出2
 
     async function f(){return 1}
-    (async ()=&gt;console.log(
-        1+await f()
-    ))()
+    (
+        async ()=&gt;console.log(1+await f())
+    )()
 
 ## asyncFunc() is promise
 1. As promoise support both: then/catch/await
@@ -273,6 +342,9 @@ e.g.:
                                                 //但是没有timer runing, 不会阻塞程序的退出
     });
 
+## async in then:
+
+    fetch(url).then(async response=&gt;await response.json())
 
 ## combine await/then/catch
 1. catch 不会向后面的 catch 传导, 但是会向后面的then 传值
@@ -289,7 +361,7 @@ example:
         });
         console.log(&#x27;reject:&#x27;, await p.then(e=&gt;e+1).catch(e=&gt;e+3).catch(e=&gt;e+30)); //reject 3
         console.log(&#x27;reject:&#x27;, await p.then(e=&gt;e+1).catch(e=&gt;e+3).then(e=&gt;e+30)); //reject 33(from memory)
-        console.log(&#x27;resolve:&#x27;, await Promise.resolve(0).then(e=&gt;e+1).catch(e=&gt;e+3).then(e=&gt;e+30)); //reject 33(from memory)
+        console.log(&#x27;resolve:&#x27;, await Promise.resolve(0).then(e=&gt;e+1).catch(e=&gt;e+3).then(e=&gt;e+30)); //reject 31(from memory)
     })()
 
 result:

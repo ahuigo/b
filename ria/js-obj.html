@@ -32,11 +32,11 @@ const MD_URL='post/ria/js-obj.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -48,10 +48,17 @@ const MD_URL='post/ria/js-obj.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: js notes
-date: 2019-01-13
-updated: 2019-01-13
+date: 2019-05-27
+updated: 2019-05-27
 ---
 # Object
+
+## isEempty
+    ECMA 7+:
+    Object.entries(obj).length === 0 &amp;&amp; obj.constructor === Object
+    ECMA 5+:
+    Object.keys(obj).length === 0 &amp;&amp; obj.constructor === Object
+    arr.length === 0
 
 ## define
 
@@ -67,6 +74,10 @@ updated: 2019-01-13
     let a = {
         [ city + &#x27;population&#x27; ]: 350000
     };
+
+### clone
+    const newobj = {...original, prop: newOne}
+    const newarr = oldarr.slice(0,5)
 
 ### loop: entries(use keys())
 like python&#x27;s .items()
@@ -142,6 +153,13 @@ items:
     obj.propertyIsEnumerable(&#x27;attr&#x27;)
         判断给定的属性是否可以用 for...in 语句进行枚举。
     obj.__proto__
+
+in 可以判断ownProp 以及继承的props
+
+    &gt; oo={}
+    &gt; oo.__proto__= {a:1}
+    &gt; &#x27;a&#x27; in oo
+    true
 
 ## value
 
@@ -339,10 +357,13 @@ new func() 相当于:
 所有的方法都定义在prototype 上
 
     class Animal{
+        name = &#x27;dog&#x27;
         constructor(name){
             this.name = name
         }
-        method1(){}
+        method1(){
+            console.log(this.name)
+        }
     }
     class Cat extends Animal{
         constructor(name){
@@ -383,6 +404,7 @@ class 定义的方法是不可keys 枚举定义值（除了assign值）, 不过�
 
     //instance
     class Foo { 
+        name = &#x27;bar&#x27; 
         constructor(){
             this.bar = 1; 
         }
@@ -458,10 +480,30 @@ private 用闭包:
         }
     }
 
+es7 private:
+
+    class Something {
+        #property;
+        public_prop = &#x27;public&#x27;
+        static static_prop = &#x27;static&#x27;
+
+        constructor(){
+            this.#property = &quot;test&quot;;
+        }
+    }
+
+    console.log(new Something().property); //=&gt; undefined
+    console.log(Something.static_prop); //=&gt; static
+
 ### static
 static 不可以被实例继承(因为不是prototype), static属于类自己(相当于proto)
 
     Foo.prototype.bar=2 // prototype 才被继承
+    class Foo{
+        #property;
+        public_prop = &#x27;public&#x27;
+        static static_prop = &#x27;static&#x27;
+    }
 
 #### static method
 1. 不可以用于实例
