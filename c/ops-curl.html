@@ -36,7 +36,7 @@ const MD_URL='post/c/ops-curl.md';
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -48,8 +48,8 @@ const MD_URL='post/c/ops-curl.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: curl manual
-date: 2019-03-06
-updated: 2019-03-06
+date: 2019-05-27
+updated: 2019-05-27
 ---
 
 # curlt to python/node/go...
@@ -98,12 +98,18 @@ modify host for https:
 	  (HTTP/FTP/FILE)  Fetch  the  HTTP-header only!
 
 # upload
+form 不要自己设置content-type(boundary 因为要自动算)
 
 	curl &#x27;http://localhost:8000/up.php&#x27;  -F &#x27;pic=@img/a.png&#x27;
-	curl &#x27;http://localhost:8000/up.php&#x27;  -F &#x27;pic=@img/a.png&#x27; -F &#x27;var=value&#x27;
+	curl &#x27;http://localhost:8000/up.php&#x27;  -F &#x27;pic=@img/a.png&#x27; -F &#x27;var=value&#x27; -F &#x27;k2=v2&#x27;
 	curl -F &quot;file=@localfile;filename=nameinpost&quot; url.com
 	curl -F &quot;file=@localfile;filename=nameinpost;type=text/html&quot; url.com
 	curl &#x27;http://localhost:8000/up.php&#x27; -H &#x27;Content-Type: multipart/form-data; boundary=W&#x27; -d $&#x27;--W\r\nContent-Disposition: form-data; name=&quot;pic&quot;; filename=&quot;a.png&quot;\r\nContent-Type: image/png\r\n\r\ndata\r\n--W\r\nContent-Disposition: form-data; name=&quot;var&quot;\r\n\r\nvalue\r\n--W--\r\n&#x27;
+
+urlencode
+
+     curl &#x27;https://httpbin.org/post?c=1&amp;p=2&#x27; -d &#x27;f=1&#x27; -d &#x27;b=2&amp;c=3&#x27;
+        //    &quot;Content-Type&quot;: &quot;application/x-www-form-urlencoded&quot;,
 
 # compress
 如果数据经过了gzip等压缩，则需要加选项:

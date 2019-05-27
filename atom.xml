@@ -2,9 +2,34 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-05-27T15:38:21Z</updated>
+<updated>2019-05-27T17:47:37Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>ajax cors</title>
+<link href="/b/ria/js-ajax-cors" rel="alternate" type="text/html"/>
+<updated>2019-05-27T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># ajax cors
+
+## 请求分类
+浏览器将CORS请求分成两类：简单请求（simple request）和非简单请求（not-so-simple request）。
+只要同时满足以下两大条件，</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>curl manual</title>
+<link href="/b/c/ops-curl" rel="alternate" type="text/html"/>
+<updated>2019-05-27T00:00:00Z</updated>
+<summary/>
+<published>2019-05-27T00:00:00Z</published>
+<content>
+# curlt to python/node/go...
+curl 转换器: https://curl.trillworks.com/
+
+# Usage
+
+	-F,--form
+	-D- Dump </content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>js notes</title>
 <link href="/b/ria/js-obj" rel="alternate" type="text/html"/>
 <updated>2019-05-27T00:00:00Z</updated>
@@ -422,23 +447,4 @@ chrome://net-internals/#dns</content>
 2. 一笔画问题
     1. 一笔画的充要条件：奇顶点（连接的边数量为奇数的顶点）的数目等于0(任意起点)或者2(奇顶点为起点)
     2.</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>解决Vscode 中文输入法乱入的Backspace 字符</title>
-<link href="/b/vsc/vsc-ime" rel="alternate" type="text/html"/>
-<updated>2019-03-06T00:00:00Z</updated>
-<summary/>
-<published>2018-08-17T00:00:00Z</published>
-<content># 解决Vscode 中文输入法乱入的Backspace 字符
-vscode 下的中文输入法老键入 backspace controller character(`\u0008`, `\u0003`)</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>tcp/ip 协议</title>
-<link href="/b/net/net-tcpip" rel="alternate" type="text/html"/>
-<updated>2019-03-06T00:00:00Z</updated>
-<summary/>
-<published>2011-11-11T00:00:00Z</published>
-<content># 互联网协议栈
-分为链路层(link), 网络层(Network), 传输层(Transport), 应用层(Application)
-
-应用层
-	DHCP DHCPv6 DNS FTP Gophe</content>
 </entry></feed>
