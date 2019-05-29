@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/index.md';
+const MD_URL='post/vim/vim-visual.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO 的笔记</title>
+<title>Vim visual</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -46,52 +46,46 @@ const MD_URL='post/index.md';
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
-<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+<pre id="markdown" v-pre>---
+title: Vim visual
+date: 2019-05-29
+updated: 2019-05-29
+---
+# Vim visual
+3种:
 
-<ul>
-<li>2019-05-29 <a href="/b/vim/vim-visual">Vim visual</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-help">vim-help</a> </li>
-<li>2019-05-29 <a href="/b/vim/vim-guide">Vim Guide</a> </li>
-<li>2019-05-29 <a href="/b/c/shell-zsh">shell 终端使用技巧</a> </li>
-<li>2019-05-29 <a href="/b/vim/vim-notes">vim 笔记</a> </li>
-<li>2019-05-29 <a href="/b/vim/vim-motion">vim-motion</a> </li>
-<li>2018-09-28 <a href="/b/py/py-db-postgre">help</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-ajax-cors">ajax cors</a> </li>
-<li>2019-05-27 <a href="/b/c/ops-curl">curl manual</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-promise">JS Promise</a> </li>
-<li>2019-05-27 <a href="/b/ria/js-obj">js notes</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-debug-exception">try-catch</a> </li>
-<li>2019-05-12 <a href="/b/ria/react-webpack-babel">How to set up React, webpack, and Babel 7 from scratch</a> </li>
-<li>2019-05-23 <a href="/b/ria/react-framework">react framework</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-css-less">js-css-less</a> </li>
-<li>2019-03-08 <a href="/b/py/py-async-cpu">does-a-thread-waiting-on-io-also-block-a-core?</a> </li>
-<li>2019-03-02 <a href="/b/db/redis-cache">cache 穿透问题</a> </li>
-<li>2019-02-28 <a href="/b/algorithm/algo-str-search">字符串搜索算法KMP</a> </li>
-<li>2018-09-28 <a href="/b/net/net-proxy-socks">net-socks</a> </li>
-<li>2019-02-20 <a href="/b/algorithm/list-copy">Copy List with Random Pointer</a> </li>
-<li>2019-02-20 <a href="/b/algorithm/list-intersection">求两链表的交点</a> </li>
-<li>2018-09-26 <a href="/b/algorithm/list-intersection-floyd">单链表判圈之Floyd算法</a> </li>
-<li>2019-02-17 <a href="/b/algorithm/graph-path">图的路径问题</a> </li>
-<li>2019-02-14 <a href="/b/py/py-file-watch">python watch file</a> </li>
-<li>2019-02-16 <a href="/b/net/net-ssh-port">Change ssh port</a> </li>
-<li>2018-09-26 <a href="/b/algorithm/graph-dfs-bfs">深度优先DFS和广度优先BFS</a> </li>
-<li>2018-09-26 <a href="/b/algorithm/sort-topk">BFPRT 算法</a> </li>
-<li>2019-02-14 <a href="/b/algorithm/sort-topk-kth">查找数组中的中值</a> </li>
-<li>2019-02-13 <a href="/b/net/net-sniffer-android">android 刷包工具</a> </li>
-<li>2019-02-14 <a href="/b/math/math-num-operator">数学运算符</a> </li>
-<li>2019-02-13 <a href="/b/mac/mac-inputmethod-pinyin">mac 切换到自带的双拼方案</a> </li>
-<li>2013-09-26 <a href="/b/algorithm/sort">经典排序算法的实现</a> </li>
-<li>2019-02-10 <a href="/b/algorithm/algo-dp-josephus-problem">约瑟夫问题</a> </li>
-<li>2019-01-09 <a href="/b/algorithm/algo-dp-array-max-consecutive-sub">求数列中和最大的连续子序列的和</a> </li>
-<li>2018-10-04 <a href="/b/py/py-test-virtualenv">python virtualenv</a> </li>
-<li>2019-02-05 <a href="/b/arch/lua-var">Lua 的变量</a> </li>
-<li>2019-01-06 <a href="/b/arch/lua-module">lua module</a> </li>
-<li>2019-02-06 <a href="/b/py/py-asyncio-http">Python 异步tcp</a> </li>
-<li>2019-01-06 <a href="/b/c/ops-path">设置系统的PATH</a> </li>
-<li>2018-09-27 <a href="/b/arch/arch-cap">数据库CAP 理论 与事务</a> </li>
-</ul>
-</div>
-<div id="pager"> p0</div>
+	v 普通visual
+	V 行选visual
+	ctrl+v 矩形块选 #对于矩形选而言，o是垂直切向，O是水平切向
+
+	gv #回到上次的选择的visual
+
+## Visual+Motion
+
+	V&lt;line_number&gt;G
+	V&lt;line_number&gt;j
+	v/&lt;pattern&gt;/e
+	vas
+	vap
+	V2aB
+
+## 高级用法
+
+	ctrl+v 块选后，对单行的操作会反映到所有行，比如IA行操作
+	#选中了文本后，可以改变大小写
+	~ 大小写转换
+	U  转大写
+	u 转小写
+	#选中了文本后，以一个字符填充
+	rx #这样就把所有字符变成了x了
+
+## 光标切换
+处于visual时，还可以控制选择范围的方向
+
+	o 到另一端
+	O 左右切换
+</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>

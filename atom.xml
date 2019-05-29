@@ -2,14 +2,62 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-05-28T19:41:39Z</updated>
+<updated>2019-05-29T17:16:38Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Vim visual</title>
+<link href="/b/vim/vim-visual" rel="alternate" type="text/html"/>
+<updated>2019-05-29T00:00:00Z</updated>
+<summary/>
+<published>2019-05-29T00:00:00Z</published>
+<content># Vim visual
+3种:
+
+	v 普通visual
+	V 行选visual
+	ctrl+v 矩形块选 #对于矩形选而言，o是垂直切向，O是水平切向
+
+	gv #回到上次的选择的visual
+
+</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>vim-help</title>
+<link href="/b/vim/vim-help" rel="alternate" type="text/html"/>
+<updated>2019-05-29T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># help 帮助
+&gt; Refer to : http://vim.wikia.com/wiki/Learn_to_use_help
+
+之所以我把help放在这里，是因为help实在是太重要了。关于d</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Vim Guide</title>
+<link href="/b/vim/vim-guide" rel="alternate" type="text/html"/>
+<updated>2019-05-29T00:00:00Z</updated>
+<summary/>
+<published>2019-05-29T00:00:00Z</published>
+<content># Vim Guide
+学习VIM 的步骤
+1. 初始VIM 基本操作，在bash 输入： `$ vimtutor`
+2. 系统学习VIM: learn vim the hard way
+    1.</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>shell 终端使用技巧</title>
+<link href="/b/c/shell-zsh" rel="alternate" type="text/html"/>
+<updated>2019-05-29T00:00:00Z</updated>
+<summary/>
+<published>2019-05-29T00:00:00Z</published>
+<content># Preface
+本文总结了shell 终端的使用技术: 主要包括Readline 使用，以及zsh 与iTerm2 的使用
+
+# Shortcuts
+下面列出的快捷键大部分是通用的，有一小部分快捷</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>vim 笔记</title>
 <link href="/b/vim/vim-notes" rel="alternate" type="text/html"/>
-<updated>2019-05-28T00:00:00Z</updated>
+<updated>2019-05-29T00:00:00Z</updated>
 <summary/>
-<published>2019-05-28T00:00:00Z</published>
+<published>2019-05-29T00:00:00Z</published>
 <content># vim 笔记
 本文是vim 相关的总结，不会有太多的注释 —— 只是方便回顾.
 
@@ -18,9 +66,9 @@
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>vim-motion</title>
 <link href="/b/vim/vim-motion" rel="alternate" type="text/html"/>
-<updated>2019-05-28T00:00:00Z</updated>
+<updated>2019-05-29T00:00:00Z</updated>
 <summary/>
-<published>2019-05-28T00:00:00Z</published>
+<published>2019-05-29T00:00:00Z</published>
 <content># Motion, Movement
 Movement 移动光标、字符，Vim 最核心的功能操作
 
@@ -403,49 +451,4 @@ asyncio是基于coroutine 的，包括了:
 <content># Preface
 在[c 编译](/p/c-compile) 中我提到了c 的标准库，c标准库包括: header(.h 文件)头文件，和lib（.c）库文件。
 大多数库函数在libc 中, 本笔记</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>linux c 之 编译</title>
-<link href="/b/c/c-compile" rel="alternate" type="text/html"/>
-<updated>2019-03-08T00:00:00Z</updated>
-<summary/>
-<published>2019-03-08T00:00:00Z</published>
-<content># Preface
-
-本文总结关于c 编译的基础用法: 宏，头文件
-
-# include 头文件
-公共的东西(External 声明，定义)，可以放到头文件中：`*.h`, 可以被多次引用（其实跟`.</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>tcpdump</title>
-<link href="/b/net/net-tcpdump" rel="alternate" type="text/html"/>
-<updated>2019-03-08T00:00:00Z</updated>
-<summary/>
-<published>2019-03-08T00:00:00Z</published>
-<content># tcpdump
-example: https://www.rationallyparanoid.com/articles/tcpdump.html
-book:
-
-学术的说，tcpdump是一种嗅探</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Shell 工具集合</title>
-<link href="/b/c/shell-tool" rel="alternate" type="text/html"/>
-<updated>2019-05-12T00:00:00Z</updated>
-<summary/>
-<published>2016-09-27T00:00:00Z</published>
-<content># System debug, 系统调试工具
-
-- web: 对于 Web 调试，curl 和 curl -I 很方便灵活，或者也可以使用它们的同行 wget，或者更现代的 httpie。
-- dis</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Shell 变量的数据类型</title>
-<link href="/b/c/1.shell-var" rel="alternate" type="text/html"/>
-<updated>2019-03-08T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Shell 变量的数据类型
-shell 主要支持字符串 和 数组 两种数据类型。数组功能很弱，如果想做复杂的处理，建议用python 等脚本处理。
-
-## 变量定义与删除
-
-    VAR='he</content>
 </entry></feed>

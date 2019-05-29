@@ -48,8 +48,8 @@ const MD_URL='post/vim/vim-motion.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: vim-motion
-date: 2019-05-28
-updated: 2019-05-28
+date: 2019-05-29
+updated: 2019-05-29
 ---
 # Motion, Movement
 Movement 移动光标、字符，Vim 最核心的功能操作
@@ -82,7 +82,7 @@ motion 指移动光标、字符
     cnoremap &lt;C-a&gt; &lt;Home&gt;
     cnoremap &lt;C-e&gt; &lt;End&gt;
 
-ps:如果要实现跨行移动,需要指定相应键：
+ps:如果要实现跨行移动,需要在`.vimrc`指定相应键：
 
     set whichwrap=b,s,&lt;,&gt;,[,]
 
@@ -235,6 +235,7 @@ argdo 表示在内存中执行 Vim 的命令，
 %s/apache/eclipse/ge 表示在内存中执行字符串替换，g 表示全局替换，e 表示如果文件中没有可替换字符串不报错继续执行,
 `|` 是管道标识符，update 表示替换完之后更新并写入文件。
 
+
 # motion,movement
 移动范围
 
@@ -334,104 +335,12 @@ ps: &lt;C-O&gt; 或者 &lt;C-I&gt;/&lt;TAB&gt; 前面都可加数字(jumpid),比
     g, &quot;跳到新的修改
     `. &quot;跳到上次修改
 
-# Various motions
-
-## bracket motion
-matched
-
-    % 			括号对(可通过:set matchpairs?查询支持哪些括号对)
-
-parent
-
-    [( ])		like %, previous / next *unmatched* parent &quot;()&quot;
-    [{ ]}		like %, previous / next *unmatched* parent &quot;{}&quot;
-
-hilight bracket:
-
-    :showmatch
-
-    &quot; This comes from the pi_paren plugin
-    :DoMatchParen
-    :hi MatchParen cterm=reverse ctermbg=6 guibg=DarkCyan
-
-## section motion
-&gt; http://learnvimscriptthehardway.stevelosh.com/chapters/50.html
-
-    (	)		前/后一句首
-    {	}		前/后一段首
-    ?{	/}		前/后一个{ }
-
-`:h section , :h &#x27;sections&#x27;` to see section defines
-
-Put the following into a buffer:
-
-    Test           A B
-    Test
-
-    .SH Hello      A B
-
-    Test
-
-    {              A
-    Test
-    }                B
-
-    Test
-
-    .H World       A B
-
-    Test
-    Test           A B
-
-Now run :set filetype=basic to tell Vim that this is a BASIC file, and try the section movement comments.
-
-    The [[ and ]] commands will move between the lines marked A, while [] and ][ move between the lines marked B.
-
-A section start at the nroff macros &quot;.SH&quot;, &quot;.NH&quot;, &quot;.H&quot;, &quot;.HU&quot;, &quot;.nh&quot; and &quot;.sh&quot;.
-
-    [[	]]	&quot;{&quot; opening braces,
-            1. backward/forward secions(A)
-            2. backward/forward to &quot;{&quot; (B)
-
-    []	][	&quot;}&quot; closing braces
-            1. backward/forward secion	(A)
-            2. backward/forward to &quot;}&quot; (B)
-
-custom section:
-
-    noremap &lt;script&gt; &lt;buffer&gt; &lt;silent&gt; ]] :call &lt;SID&gt;NextSection(1, 0)&lt;cr&gt;
-    noremap &lt;script&gt; &lt;buffer&gt; &lt;silent&gt; [[ :call &lt;SID&gt;NextSection(1, 1)&lt;cr&gt;
-    noremap &lt;script&gt; &lt;buffer&gt; &lt;silent&gt; ][ :call &lt;SID&gt;NextSection(2, 0)&lt;cr&gt;
-    noremap &lt;script&gt; &lt;buffer&gt; &lt;silent&gt; [] :call &lt;SID&gt;NextSection(2, 1)&lt;cr&gt;
-
-    function! s:NextSection(type, backwards)
-        if a:type == 1
-            let pattern = &#x27;\v(\n\n^\S|%^)&#x27;
-            let flags = &#x27;e&#x27;
-        elseif a:type == 2
-            let pattern = &#x27;\v^\S.*\=.*:$&#x27;
-            let flags = &#x27;&#x27;
-        endif
-
-        if a:backwards
-            let dir = &#x27;?&#x27;
-        else
-            let dir = &#x27;/&#x27;
-        endif
-
-        execute &#x27;silent normal! &#x27; . dir . pattern . dir . flags . &quot;\r&quot;
-    endfunction
-
-## method motion
-
-    [m ]m		go to previous/next start of method
-    [M ]M		go to previous/next end of method
-
-## comment motion
-
-    [/ ]/		go to previous/next end of comment
-
 # text object, 文本对象
+text object 分两种：
+1. 移动光标的: hjklwbeWBE
+2. 不能移动光标的：iw,aw,a{,i{
+
+本节包含的是不能移动光标的：
 
     aw iw &quot;a word &amp; a inner word后者不包含空白
     aW iW &quot;a word 大写的字符表示特殊字符是单词的一部分
