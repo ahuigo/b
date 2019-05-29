@@ -2,9 +2,25 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-05-29T17:35:28Z</updated>
+<updated>2019-05-29T19:51:57Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Vim Edit</title>
+<link href="/b/vim/vim-edit" rel="alternate" type="text/html"/>
+<updated>2019-05-29T00:00:00Z</updated>
+<summary/>
+<published>2019-05-29T00:00:00Z</published>
+<content># 复制/删除/粘贴(copy/del/paste)
+
+## del 删除
+
+	d2w
+	d^ d$
+	dd 删除整行
+
+	x 代表dl(删除当前光标下的字符)
+	X 代表dh(删除当前光标左边的字符</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Vim visual</title>
 <link href="/b/vim/vim-visual" rel="alternate" type="text/html"/>
 <updated>2019-05-29T00:00:00Z</updated>
@@ -442,13 +458,4 @@ asyncio是基于coroutine 的，包括了:
 <published>2019-03-08T00:00:00Z</published>
 <content># Preface
 关于指针有两种运算符：*号是指针间接寻址运算符（Indirection Operator），*pi表示取指针pi所指向的变量的值，也称为Dereference操作. &amp;运算符的操作</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>c lib 库</title>
-<link href="/b/c/c-lib" rel="alternate" type="text/html"/>
-<updated>2019-03-08T00:00:00Z</updated>
-<summary/>
-<published>2019-03-08T00:00:00Z</published>
-<content># Preface
-在[c 编译](/p/c-compile) 中我提到了c 的标准库，c标准库包括: header(.h 文件)头文件，和lib（.c）库文件。
-大多数库函数在libc 中, 本笔记</content>
 </entry></feed>

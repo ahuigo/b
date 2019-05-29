@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/vim/vim-guide.md';
+const MD_URL='post/vim/vim-edit.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>Vim Guide</title>
+<title>Vim Edit</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -47,204 +47,124 @@ const MD_URL='post/vim/vim-guide.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: Vim Guide
+title: Vim Edit
 date: 2019-05-29
 updated: 2019-05-29
 ---
-# Vim Guide
-学习VIM 的步骤
-1. 初始VIM 基本操作，在bash 输入： `$ vimtutor`
-2. 系统学习VIM: learn vim the hard way
-    1. 前半部分是重点、核心
-    2. 后半部分涉及插件，属于扩展
-3. 反复总结、熟悉。本文件就是对VIM 的总结
+# 复制/删除/粘贴(copy/del/paste)
 
-# Motion/Movement，光标移动
-Normal mode 移动
+## del 删除
 
-    基本 hjkl
-    单词 
-        小单词wbe
-            w: word forward
-            b: word backward
-            e: end of word
-        大单词WBE​
-    行
-        行头: 
-            0
-            ^
-        行尾: $
-        跳行：
-            100G
-            :100
-    块
-        [( ])  ​
-        [{ ]}​
-    页
-        页内移动： H:Home M:middle L:Last 
-                扩展知识： J:Concat Line K:Manual​
-        半页&lt;C-u&gt; &lt;C-d&gt;​
-        全页&lt;C-f&gt; &lt;C-b&gt;​ (这两个键 已经被我用Readline 占用了)
-    全文：
-        首行: gg
-        尾行: G
-    匹配移动：
-        %
-        f{char}
-            fx  跳到下一个字符x
-            ;   向前跳
-            ,   向后跳
-        F{char}
-            Fx  跳到上一个字符x
-    easymothtion：需要插件支持, vscode 也可以开启easymotion
-        跳char
-            &lt;leader&gt;&lt;leader&gt;f
-            &lt;leader&gt;&lt;leader&gt;s
-        跳word
-            &lt;leader&gt;&lt;leader&gt;w
-            &lt;leader&gt;&lt;leader&gt;b
+	d2w
+	d^ d$
+	dd 删除整行
 
-Insert/Command mode 移动​, 只需要加前缀`&lt;C-o&gt;`
+	x 代表dl(删除当前光标下的字符)
+	X 代表dh(删除当前光标左边的字符)
+	D 代表d$(删除到行尾的内容)
+	C 代表c$(修改到行尾的内容)
+	s 代表cl(修改一个字符)
+	S 代表cc(修改一整行)
 
-    &lt;C-o&gt; + hjkl
-    &lt;C-o&gt; + wbeWBE
+可以通过map 实现
 
-一般`&lt;C-o&gt;` 是要结合map 做成方便的快捷键的, 比如在`~/.vimrc` 加入
+	&lt;C-h&gt; 删除左边一个字符
+	&lt;C-w&gt; 删除左边一个单词
+	&lt;C-u&gt; 删除左边所有单词(单行)
 
-    &quot; Go to head of line
-    imap &lt;C-a&gt; &lt;C-o&gt;0
+还有更强大的:d
 
-    &quot; Go to end of line
-    imap &lt;C-e&gt; &lt;C-o&gt;$
+	:[range]d [x] &quot;x是一个register
+	:2d q &quot;删除第二行，并保存到寄存器。
 
-# TextObject, 操作对象
-掌握
+## copy &amp; paste
 
-    [count] + Action + TextObject
+### Copy
+1. 删除(del)本身带复制
+1. 通过y复制
 
-查看帮助：
+在v模式也可使用y复制
 
-    :help motion
-    :h motion
+	yw
+	&quot;ayw 指定寄存器
+	Y=yy
+	&quot;Ayw ”大写的寄存器实现追加数据
 
-## Action, 动作 
-Action 分：
-1. Delete: `d`
-2. Copy: `y`
-3. Paste: `p`
-4. Change(等价于Delete+Insert): `c` 
-4. Visual: `v`
-4. lowercase/upercase: 
-    4. gU(改大写): `gu`
-    4. gu(改小写): `gU`
+    :%y+ &quot; Copy all text
 
-## TextObject, 操作对象
-TextObject 与Motion 的区别
-1. motion 可以不用Action, 指 **指光标移动所经过的字符** （我觉得motion 是一种不需要action 的textObject）
-    1. hjkl
-    2. wbe WBE
-    3. .....
-2. TextObject(必须要Action)
-    1. 比如 `Delete` + `inner word`: `diw`
-    1. 比如 `Delete` + `a block`: `da{`
-    1. 比如 `Copy` + `a block`: `ya{`
+查看寄存器
 
-常用的TextObject (i: 不含空白或边界, a: 包含空白或边界)
+	:reg
 
-    词: iw aw iW aW 
-    句: is as
-    块: 
-        括号块：
-            i( a(  别名: ib ab
-            i[ a[
-            i{ a{  别名: iB aB
-            i&lt; a&lt;  
-        Tag 块：
-            it at   用于xml/html 这样的标签
+### paste
 
-更多：
+	p 在光标后粘贴
+	P 在光标前粘贴
+	&quot;+p 调用系统剪切板粘贴
 
-    :help ib
-    :help motion.txt
+### registers 复制寄存器
+- vim默认的寄存器不包含系统剪贴板，而gvim则开启了这一剪贴板
+- 宏macro，复制yank，粘贴paste, 都是使用的寄存器
 
-## Action+TextObject
-掌握语法
+你可以通过vim --version|grep clipboard查看是否开启了剪贴板
 
-    [count] + Action + TextObject/Motion
+	:registers  :reg 查看寄存器
+	&quot;+ 系统剪贴板
+	&quot;* 鼠标中键剪贴板
 
-Example1: Delete word
+    匿名寄存器 &quot;&quot;
+    编号寄存器 &quot;0 到 &quot;9
+    小删除寄存器 &quot;-
+    26个命名寄存器 &quot;a 到 &quot;z
+    3个只读寄存器 &quot;:, &quot;., &quot;%
+    Buffer交替文件寄存器 &quot;#
+    表达式寄存器 &quot;=
+    选区和拖放寄存器 &quot;*, &quot;+, &quot;~
+    黑洞寄存器 &quot;_
+    搜索模式寄存器 &quot;/
 
-        dw
-        diw
+&gt; mac/windows 中, `&quot;*` 与 `&quot;+` 指的都是同一个系统剪贴板
 
-Example2: Delete inner block
+## c_CTRL-R i_CTRL-R(paste)
+在:cmd模式或者插入模式下,&lt;c-r&gt;非常有用——快速粘贴出寄存器字符串。
 
-        di(
-        ci(
+In either insert mode or command mode (i.e. on the : line when typing commands), continue with a numbered or named register:
 
-Example3: 
+	a - z the named registers
+	&quot; the unnamed register, containing the text of the last delete or yank
+		&lt;c-r&gt;&quot;
+	% the current file name
+	# the alternate file name
+	* the clipboard contents (X11: primary selection)
+	+ the clipboard contents
+	/ the last search pattern
+	: the last command-line
+	. the last inserted text
+	- the last small (less than a line) delete
+	ctrl+w the word that cursor locate.
 
-    3dw
+`&lt;c-r&gt;`也可用于计算。
 
+	=5*5 insert 25 into text (mini-calculator)
 
-重复的Action 默认为操作当前的行
+&gt; See :help i_CTRL-R and :help c_CTRL-R for more details, and snoop around nearby for more CTRL-R goodness.
 
-    dd
-    gugu guu
-    yy
+# Extra
+Increment/decrement digit:
 
-大写的 Action 变化比较多，没有统一的定义，可能默认为操作`$`
+    &lt;C-a&gt;
+    &lt;C-x&gt;
 
-    D  alias d$
-    C  alias c$
-    Y  alias yy
+# insert 插入
 
-# Open and Close, 打开关闭文件
-## 打开:
-1. 读文件: vi test.csv
-    1. 打开100行: `vi test.csv +100`
-1. 读管道:
-    1. `curl &#x27;http://baidu.com&#x27; | head -5 | vim -`
-1. 编辑当前的命令行: `Ctrl+x Ctrl+e`
-    1. 你需要设置: `echo &#x27;export EDITOR=vim&#x27;&gt;&gt;~/.zshrc`
-2. vim 内再打开其它的文件：
-    1. 打开 `:e other.html`
-    1. 重命名当行文件`:f rename.html`
+## :read
 
-## 关闭
-1. 保存退出: `ZZ` is better than `:wq`
-1. 不保存退出: `ZQ` is better than `:q!`
+	:[range]r[ead] !{cmd}
+	:[range]r[ead] [name] &quot;name:default current file
 
-# Visual 模式
-[Visual 模式](/p/vim/vim-visual)
-
-# Repeat, 重复
-
-## count+Action重复
-
-    100l 右移100次
-    3dw
-    3dd
-    3&lt;&lt;
-
-## . 操作重复
-`.` 用于重复上次的操作
-
-    .....
-
-## C+v, 列重复
-
-## macro, 宏重复
-
-	q{register}命令是启动宏录制的
-        q 是结束宏录制的
-	@{register}是使用宏的
-	要说明的是这个register：
-	1．　这个register与yank(复制)是共用的，能相互影响
-	2．　大写的register，会往register中追加数据，如qC、&quot;Cy会旆c寄存器中追加数据．
-
-# 编辑
-[编辑操作](/p/vim/vim-edit)</pre>
+## `{motion}!cmd`
+使用外部cmd处理`motion`
+</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
