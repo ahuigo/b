@@ -48,8 +48,8 @@ const MD_URL='post/vim/vim-notes.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: vim 笔记
-date: 2019-05-29
-updated: 2019-05-29
+date: 2019-06-04
+updated: 2019-06-04
 ---
 # vim 笔记
 本文是vim 相关的总结，不会有太多的注释 —— 只是方便回顾.
@@ -104,63 +104,8 @@ See :h cmdline-window for more details
 
 # change 替换
 
-## 基础的替换命令
+    :h change.txt
 
-	cw 替换一个单词
-	C=c$
-	cc 改变整行
-
-	s=cl
-	S=cc
-
-	r 仅替换一个字符
-	R
-
-	~ 切换字符的大小写，并把光标移动到下一字符
-
-## substitute s替换
-&gt;更多替换请参照:help sub-replace-special
-
-基本格式如下：
-
-	:[range]s/pattern/replace/[flags]
-	:[range]s+pattern+replace+[flags]
-	:[range]s?pattern?replace?[flags]
-
-	:%s/\([^-]*\)-\(.*\)/\2 \1/gc   &quot;vim中的替换也可以用到正则反引用\2\1
-
-&gt; 一般情况下\r\n分别代表回车与换行，但是在`:%s/pattern/replace` 中的replace，replace 只能用&#x27;\r&#x27;表示换行，&#x27;\n&#x27;表示回车
-&gt; 更多见[vim-pattern](/p/vim-pattern)
-
-Example: 删除注释，先用V 选中，然后
-
-    :s#^//##g 删除注释//
-
-## 外部程序替换
-
-	!{motion}{program} &quot;program处理完了后，替换 motion
-	:[range]!{program} &quot;program处理完了后，替换 range
-
-eg:
-
-	!{motion}{program}
-	{motion}作为program的输入，其输出会替换{motion}处的内容
-
-	#比如我想让一到５行的内容经过sort,这个命令会从normal进入到命令行
-	!5Gsort&lt;enter&gt;
-	:.,5!sort&lt;enter&gt;
-
-	!!{program} #此时motion为!代表当前行
-	#统计当前行
-	!!wc
-	:.!wc
-
-# Delete 删除
-
-	:g/^\s*$/d
-
-	:g!/^\s*$/d
-	:v/^\s*$/d
 
 # 写入(w)
 

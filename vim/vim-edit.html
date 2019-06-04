@@ -49,7 +49,7 @@ const MD_URL='post/vim/vim-edit.md';
 <pre id="markdown" v-pre>---
 title: Vim Edit
 date: 2019-05-29
-updated: 2019-05-29
+updated: 2019-06-04
 ---
 # 复制/删除/粘贴(copy/del/paste)
 
@@ -77,6 +77,13 @@ updated: 2019-05-29
 	:[range]d [x] &quot;x是一个register
 	:2d q &quot;删除第二行，并保存到寄存器。
 
+### dt,df,ct,cf
+
+    To delete forward up to character &#x27;X&#x27; type dtX
+    To delete forward through character &#x27;X&#x27; type dfX
+    To delete backward up to character &#x27;X&#x27; type dTX
+    To delete backward through character &#x27;X&#x27; type dFX
+
 ## copy &amp; paste
 
 ### Copy
@@ -99,7 +106,7 @@ updated: 2019-05-29
 ### paste
 
 	p 在光标后粘贴
-	P 在光标前粘贴
+	P 大写在光标前粘贴
 	&quot;+p 调用系统剪切板粘贴
 
 ### registers 复制寄存器

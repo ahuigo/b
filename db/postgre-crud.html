@@ -49,12 +49,16 @@ const MD_URL='post/db/postgre-crud.md';
 <pre id="markdown" v-pre>---
 title: Postgre CRUD
 date: 2018-09-27
-updated: 2019-05-12
+updated: 2019-06-04
 ---
 # Postgre CRUD
 ## insert 
     CREATE TABLE users (id INT, counters JSONB NOT NULL DEFAULT &#x27;{}&#x27;);
     INSERT INTO users (id, counters) VALUES (1, &#x27;{&quot;bar&quot;: 10}&#x27;);
+
+语法
+
+    INSERT INTO &quot;table1&quot; (&quot;created_at&quot;,&quot;status&quot;) VALUES (&#x27;2019-05-13 15:34:51&#x27;,&#x27;1&#x27;) RETURNING &quot;table1&quot;.&quot;id&quot;;
 
 ### last insert id
 3 ways,all are concurrent safe:
@@ -97,6 +101,10 @@ INSERT INTO table (id, field, field2)
 字符应该用单引号
 
     select &#x27;abc&#x27;
+
+### between
+
+    hourt between 0 and 23
 
 ### group by 
 `wmname` must appear in the GROUP BY clause or be used in an aggregate function
