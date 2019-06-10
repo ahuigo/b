@@ -2,9 +2,22 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-06-10T15:02:13Z</updated>
+<updated>2019-06-10T20:35:27Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>vim-options</title>
+<link href="/b/vim/vim-options" rel="alternate" type="text/html"/>
+<updated>2019-06-10T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Set options 
+set 命令的语法
+
+	:set {option}
+	:se no{option} 
+	:se {option}! "toggle option
+	:set {optio</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>vim-pattern</title>
 <link href="/b/vim/vim-pattern" rel="alternate" type="text/html"/>
 <updated>2019-06-10T00:00:00Z</updated>
@@ -466,14 +479,4 @@ setuptools 与 disutils
 
     &gt;&gt;&gt; lname = 'Doe'
     &gt;&gt;&gt; first_person = Person.objects.raw('SELECT * FROM </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>各种语言的fiddle</title>
-<link href="/b/c/ops-fiddle" rel="alternate" type="text/html"/>
-<updated>2019-03-12T00:00:00Z</updated>
-<summary/>
-<published>2018-08-27T00:00:00Z</published>
-<content># 各种语言的fiddle
-各种语言的fiddle
-1. js:
-    https://ahuigo.github.io/a/demo/fiddle/fiddle.html # 加上`data:te</content>
 </entry></feed>
