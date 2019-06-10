@@ -2,12 +2,63 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-06-04T16:23:16Z</updated>
+<updated>2019-06-10T15:02:13Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>vim-pattern</title>
+<link href="/b/vim/vim-pattern" rel="alternate" type="text/html"/>
+<updated>2019-06-10T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Preface
+
+# pattern
+
+	:h pattern
+
+## charlist
+Character classes
+
+	\s	whitespace character: &lt;Space&gt; </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Js dom 笔记</title>
+<link href="/b/ria/js-dom" rel="alternate" type="text/html"/>
+<updated>2019-06-10T00:00:00Z</updated>
+<summary/>
+<published>2016-01-23T00:00:00Z</published>
+<content># Js dom 笔记
+    document.documentElement ;//html
+    document.body;  //html
+
+# Navigator
+navigator.a</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Event</title>
+<link href="/b/ria/js-dom-event" rel="alternate" type="text/html"/>
+<updated>2019-06-10T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Event
+
+## DOM MutationObserver
+http://javascript.ruanyifeng.com/dom/mutationobserver.html
+
+### DOM</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>css 布局</title>
+<link href="/b/ria/js-css-layout" rel="alternate" type="text/html"/>
+<updated>2019-06-10T00:00:00Z</updated>
+<summary/>
+<published>2018-03-03T00:00:00Z</published>
+<content># CSS 布局
+&gt; 参考: http://zh.learnlayout.com/position.html
+
+# display
+1. block: This makes the element a</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>CSS 笔记</title>
 <link href="/b/ria/js-css" rel="alternate" type="text/html"/>
-<updated>2019-06-04T00:00:00Z</updated>
+<updated>2019-06-10T00:00:00Z</updated>
 <summary/>
 <published>2017-12-12T00:00:00Z</published>
 <content># CSS 笔记
@@ -425,46 +476,4 @@ setuptools 与 disutils
 各种语言的fiddle
 1. js:
     https://ahuigo.github.io/a/demo/fiddle/fiddle.html # 加上`data:te</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>二叉查找树和红黑树</title>
-<link href="/b/algorithm/tree-binary-search-tree" rel="alternate" type="text/html"/>
-<updated>2019-03-12T00:00:00Z</updated>
-<summary/>
-<published>2018-09-26T00:00:00Z</published>
-<content># 二叉查找树
-二叉查找树（Binary Search Tree），也称二叉搜索树、有序二叉树（ordered binary tree），排序二叉树（sorted binary tree），是指一棵空</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>node 系统相关</title>
-<link href="/b/ria/node-os" rel="alternate" type="text/html"/>
-<updated>2019-03-10T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># node 系统相关
-
-    global.process === process 
-
-## shell child process
-
-    const execSync = require('</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>JS Promise</title>
-<link href="/b/ria/js-promise" rel="alternate" type="text/html"/>
-<updated>2019-05-27T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># JS Promise
-实现异步串行写法
-1. generator
-1. Promise: resolve-then, reject-catch
-2. async-await: 
-    1. sy</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>webspider</title>
-<link href="/b/py/py-webspider" rel="alternate" type="text/html"/>
-<updated>2019-03-10T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># webspider
-Python 3网络爬虫开发实战 
-https://germey.gitbooks.io/python3webspider/1.2.2-Selenium%E7%9A%84%E5</content>
 </entry></feed>
