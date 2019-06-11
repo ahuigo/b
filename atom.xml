@@ -2,9 +2,33 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-06-10T20:54:50Z</updated>
+<updated>2019-06-11T16:03:23Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>vim 使用之变量</title>
+<link href="/b/vim/vim-var" rel="alternate" type="text/html"/>
+<updated>2019-06-11T00:00:00Z</updated>
+<summary/>
+<published>2019-06-11T00:00:00Z</published>
+<content># vim 使用之变量
+本文会系统描述vim 的语法，如果想了解具体选项和操作技巧，参考我的vim 笔记
+
+主要参考 [book]:
+http://learnvimscriptthehardway.s</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>vim-cmd</title>
+<link href="/b/vim/vim-cmd" rel="alternate" type="text/html"/>
+<updated>2019-06-11T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Preface
+
+# autocmd
+Syntax:
+
+	:au[tocmd] [group] {event} {pat} [nested] {cmd}
+			Add {cmd} to the l</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>vim-options</title>
 <link href="/b/vim/vim-options" rel="alternate" type="text/html"/>
 <updated>2019-06-10T00:00:00Z</updated>
@@ -252,14 +276,16 @@ ELF 文件格式是一个开放标准，linux 系统的可执行文件都采用�
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>vim-motion</title>
 <link href="/b/vim/vim-motion" rel="alternate" type="text/html"/>
-<updated>2019-05-29T00:00:00Z</updated>
+<updated>2019-06-11T00:00:00Z</updated>
 <summary/>
-<published>2019-05-29T00:00:00Z</published>
+<published>2019-06-11T00:00:00Z</published>
 <content># Motion, Movement
 Movement 移动光标、字符，Vim 最核心的功能操作
 
-## move cursor光标移动
-以下归纳的是按光标移动(Normal/Visual模式下). </content>
+    基本 hjkl
+    单词 
+        小单词wbe
+            w: </content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>help</title>
 <link href="/b/py/py-db-postgre" rel="alternate" type="text/html"/>
@@ -455,28 +481,4 @@ https://packaging.python.org/tutorials/packaging-projects/
 
 setuptools 与 disutils
 1. distu</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>server</title>
-<link href="/b/py/py-aiohttp-server" rel="alternate" type="text/html"/>
-<updated>2019-03-12T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># server
-异步编程要小心循环阻塞, 不可以使所有任务task被阻塞的函数：
-1. time.sleep(10)
-
-## simple server
-
-    from aiohttp impo</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Django Notes</title>
-<link href="/b/py/django" rel="alternate" type="text/html"/>
-<updated>2019-03-12T00:00:00Z</updated>
-<summary/>
-<published>2019-03-11T00:00:00Z</published>
-<content># Models
-## raw sql
-
-    &gt;&gt;&gt; lname = 'Doe'
-    &gt;&gt;&gt; first_person = Person.objects.raw('SELECT * FROM </content>
 </entry></feed>

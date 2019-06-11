@@ -32,11 +32,11 @@ const MD_URL='post/vim/vim-var.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -48,8 +48,8 @@ const MD_URL='post/vim/vim-var.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: vim 使用之变量
-date: 2019-02-04
-updated: 2019-02-04
+date: 2019-06-11
+updated: 2019-06-11
 ---
 # vim 使用之变量
 本文会系统描述vim 的语法，如果想了解具体选项和操作技巧，参考我的vim 笔记
@@ -62,6 +62,8 @@ http://learnvimscriptthehardway.onefloweroneworld.com/ (英文)
 
 ## inner var
 	:echo $VIMRUNTIME
+	:echo $HOME
+	:echo $PATH
 	:vsplit $MYVIMRC
 	:echo &amp;shell
 	:echo &amp;t_Co
@@ -91,8 +93,10 @@ set 非option var
     :set t_Co? error!
 
 ### local options
+加`l:`
 
 	:let &amp;l:number = 1
+	:let &amp;l:nu = 1
 
 ## Registers as Variables
 
@@ -106,7 +110,10 @@ set 非option var
 
 
 # Variable Scoping
-&gt;See :help internal-variables
+
+    :help internal-variables
+    :help a:
+    :help b:
 
 It lists the following types:
 
@@ -119,6 +126,28 @@ It lists the following types:
     script-variable    s:     Local to a :source&#x27;ed Vim script.
     function-argument  a:     Function argument (only inside a function).
     vim-variable       v:     Global, predefined by Vim.
+
+## a: function arg
+
+    nmap &lt;silent&gt; &lt;F4&gt; :set opfunc=CountSpaces&lt;CR&gt;g@
+	function CountSpaces(type, ...)
+        a:type
+            line char block
+
+e.g.
+
+	:function Allargs(command)
+        echo a:type
+	:   let i = 0
+	:   while i &lt; argc()
+	:	  if filereadable(argv(i))
+	:	     execute &quot;e &quot; . argv(i)
+	:	     execute a:command
+	:      endif
+	:      let i = i + 1
+	:   endwhile
+	:endfunction
+	:call Allargs(&lt;q-args&gt;)
 
 ## buffer var
 
@@ -360,6 +389,12 @@ Note that double quotes are used.
 
 	&quot;view msg
 	:mes
+
+等价
+
+    :echo 3 - 5 * 5 &quot;end&quot;
+    :echo 3-5*5 &quot;end&quot;
+    :echo 3-5*5&quot;end&quot;
 
 规则：
 
