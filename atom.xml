@@ -2,9 +2,43 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-06-11T20:11:18Z</updated>
+<updated>2019-06-15T12:50:09Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>vim-complete</title>
+<link href="/b/vim/vim-complete" rel="alternate" type="text/html"/>
+<updated>2019-06-15T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Omnicomplete
+`:help omnifunc and :help coml-omni`
+`:help ins-completion` for an overview</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>tool</title>
+<link href="/b/c/ops-user" rel="alternate" type="text/html"/>
+<updated>2019-06-15T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># tool
+last #显示最后登录者
+who #显示当前登录者
+w：谁登录进来了
+id：用户/组身份信息
+
+# su
+
+    su -c 'whoami' - root
+    /bin/su </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>学习 docker</title>
+<link href="/b/arch/arch-docker" rel="alternate" type="text/html"/>
+<updated>2019-06-15T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># 什么是Docker
+虚拟机是对硬件的虚拟化(需要Hypervisor这个软件层), 而docker （LXC, linux container）是对操作系统的虚拟化。
+1. docker 基于li</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>vim 使用之变量</title>
 <link href="/b/vim/vim-var" rel="alternate" type="text/html"/>
 <updated>2019-06-11T00:00:00Z</updated>
@@ -18,16 +52,14 @@ http://learnvimscriptthehardway.s</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>vim-cmd</title>
 <link href="/b/vim/vim-cmd" rel="alternate" type="text/html"/>
-<updated>2019-06-11T00:00:00Z</updated>
+<updated>2019-06-15T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
-<content># Preface
-
-# autocmd
+<content># autocmd
 Syntax:
 
 	:au[tocmd] [group] {event} {pat} [nested] {cmd}
-			Add {cmd} to the l</content>
+			Add {cmd} to the list of comm</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>vim-options</title>
 <link href="/b/vim/vim-options" rel="alternate" type="text/html"/>
@@ -84,7 +116,7 @@ http://javascript.ruanyifeng.com/dom/mutationobserver.html
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>css 布局</title>
 <link href="/b/ria/js-css-layout" rel="alternate" type="text/html"/>
-<updated>2019-06-11T00:00:00Z</updated>
+<updated>2019-06-15T00:00:00Z</updated>
 <summary/>
 <published>2018-03-03T00:00:00Z</published>
 <content># CSS 布局
@@ -376,7 +408,7 @@ KMP 则是O(N) 复杂度
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>FUNCTION</title>
 <link href="/b/db/postgre-ddl" rel="alternate" type="text/html"/>
-<updated>2019-05-12T00:00:00Z</updated>
+<updated>2019-06-15T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># shell
@@ -450,35 +482,4 @@ iterm2 默认的 </content>
     npm dedupe -g; # Reduce duplication
 
 </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>数据库CAP 理论 与事务</title>
-<link href="/b/arch/arch-cap" rel="alternate" type="text/html"/>
-<updated>2019-03-13T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># CAP定理（CAP theorem）
-CAP定理（CAP theorem), 指出对于一个分布式计算系统来说，不可能同时满足以下三点:
-
-1. 一致性(Consistency) (所有节点在同一时</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>rpc</title>
-<link href="/b/rpc/rpc" rel="alternate" type="text/html"/>
-<updated>2019-03-12T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># RPC
-&gt; http://www.cnblogs.com/fxjwind/archive/2013/05/16/3082219.html
-&gt; 深入浅出RPC原理
-https://ketao1989</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>py-pkg-setuptool</title>
-<link href="/b/py/py-pkg-setuptool" rel="alternate" type="text/html"/>
-<updated>2019-03-12T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Preface
-https://packaging.python.org/tutorials/packaging-projects/
-
-setuptools 与 disutils
-1. distu</content>
 </entry></feed>
