@@ -49,7 +49,7 @@ const MD_URL='post/arch/arch-docker.md';
 <pre id="markdown" v-pre>---
 title: 学习 docker
 date: 2018-09-27
-updated: 2019-06-15
+updated: 2019-06-16
 ---
 # 什么是Docker
 虚拟机是对硬件的虚拟化(需要Hypervisor这个软件层), 而docker （LXC, linux container）是对操作系统的虚拟化。
@@ -107,11 +107,17 @@ Mac OSX Image 不可以修改路径：
     docker run httpd
 
 ### list image layer
+
     $ docker history python:3.7
     IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
     954987809e63        3 weeks ago         /bin/sh -c #(nop)  CMD [&quot;python3&quot;]              0B
     &lt;missing&gt;           7 weeks ago         /bin/sh -c set -ex;  apt-get update;  apt-ge…   562MB
     &lt;missing&gt;           7 weeks ago         /bin/sh -c #(nop) ADD file:843b8a2a9df1a0730…   101M
+
+### dockerfile of image
+
+    docker history --no-truc image_id
+
 
 ## rm image
 

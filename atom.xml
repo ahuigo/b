@@ -2,9 +2,47 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-06-15T12:50:09Z</updated>
+<updated>2019-06-16T22:54:58Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>vscode 笔记</title>
+<link href="/b/vsc/vsc-" rel="alternate" type="text/html"/>
+<updated>2019-06-16T00:00:00Z</updated>
+<summary/>
+<published>2018-01-03T00:00:00Z</published>
+<content># vscode
+cmd+p
+
+    ?   help
+    @{symbol} jump to symbol 
+    cmd+shift+m 切换问题面板
+    cmd+j 切换集成终端(c</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Shell 工具集合</title>
+<link href="/b/c/shell-tool" rel="alternate" type="text/html"/>
+<updated>2019-06-16T00:00:00Z</updated>
+<summary/>
+<published>2016-09-27T00:00:00Z</published>
+<content># System debug, 系统调试工具
+
+- web: 对于 Web 调试，curl 和 curl -I 很方便灵活，或者也可以使用它们的同行 wget，或者更现代的 httpie。
+- dis</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>linux os</title>
+<link href="/b/c/linux-os" rel="alternate" type="text/html"/>
+<updated>2019-06-16T00:00:00Z</updated>
+<summary/>
+<published>2019-06-15T00:00:00Z</published>
+<content># Check os Version
+
+    cat /etc/os-release
+    lsb_release -a
+    hostnamectl
+
+# vim
+
+    apt-get u</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>vim-complete</title>
 <link href="/b/vim/vim-complete" rel="alternate" type="text/html"/>
 <updated>2019-06-15T00:00:00Z</updated>
@@ -32,7 +70,7 @@ id：用户/组身份信息
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>学习 docker</title>
 <link href="/b/arch/arch-docker" rel="alternate" type="text/html"/>
-<updated>2019-06-15T00:00:00Z</updated>
+<updated>2019-06-16T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># 什么是Docker
@@ -116,7 +154,7 @@ http://javascript.ruanyifeng.com/dom/mutationobserver.html
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>css 布局</title>
 <link href="/b/ria/js-css-layout" rel="alternate" type="text/html"/>
-<updated>2019-06-15T00:00:00Z</updated>
+<updated>2019-06-16T00:00:00Z</updated>
 <summary/>
 <published>2018-03-03T00:00:00Z</published>
 <content># CSS 布局
@@ -165,7 +203,7 @@ array 不像string 是primitive value, 所以length 可以缩短放大array。
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>py-process</title>
 <link href="/b/py/py-process" rel="alternate" type="text/html"/>
-<updated>2019-06-04T00:00:00Z</updated>
+<updated>2019-06-16T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># Preface
@@ -360,9 +398,9 @@ curl 转换器: https://curl.trillworks.com/
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>js notes</title>
 <link href="/b/ria/js-obj" rel="alternate" type="text/html"/>
-<updated>2019-05-27T00:00:00Z</updated>
+<updated>2019-06-16T00:00:00Z</updated>
 <summary/>
-<published>2019-05-27T00:00:00Z</published>
+<published>2019-06-16T00:00:00Z</published>
 <content># Object
 
 ## isEempty
@@ -408,7 +446,7 @@ KMP 则是O(N) 复杂度
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>FUNCTION</title>
 <link href="/b/db/postgre-ddl" rel="alternate" type="text/html"/>
-<updated>2019-06-15T00:00:00Z</updated>
+<updated>2019-06-16T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># shell
@@ -444,42 +482,4 @@ rpm -Uvh https://yum.postgresql.org/10/redhat/rhel-7-x86_64/pgdg-centos10</conte
 Rollup 已经开始支持codesplit(要手动开启)，不过Rollup 本身至今还没有打算支持HMR(Hot Module Reload)。
 
 我想主要原因</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>install</title>
-<link href="/b/vim/nvim-install" rel="alternate" type="text/html"/>
-<updated>2019-03-14T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># install
-    brew install neovim
-    nvim 
-    :CheckHealth
-    :scriptnames
-
-## iterm2
-iterm2 默认的 </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>GMT,UTC,DST,CST 各种时间标准</title>
-<link href="/b/c/shell-time" rel="alternate" type="text/html"/>
-<updated>2019-03-13T00:00:00Z</updated>
-<summary/>
-<published>2012-07-08T00:00:00Z</published>
-<content># 各世界时间标准
-我们经常遇到这4种时间：GMT,UTC,DST,CST。google了一下，在此做个小结.
-
-## 格林威治标准时间GMT
-含义：「格林威治标准时间」(Greenwich Mean</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>command</title>
-<link href="/b/ria/node-npm" rel="alternate" type="text/html"/>
-<updated>2019-03-13T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># command
-
-    npm list -g; # global
-    npm list; # local
-    npm dedupe -g; # Reduce duplication
-
-</content>
 </entry></feed>

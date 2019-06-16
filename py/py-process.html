@@ -49,7 +49,7 @@ const MD_URL='post/py/py-process.md';
 <pre id="markdown" v-pre>---
 title: py-process
 date: 2018-10-04
-updated: 2019-06-04
+updated: 2019-06-16
 ---
 # Preface
 - sh: sh之于subprocess， 相当于requests 对于urllib2
@@ -288,17 +288,17 @@ Process之间肯定是需要通信的，操作系统提供了很多机制来实�
 	time.sleep(random.random())
 
 ### queue example 0
-```
-from multiprocessing import Process, Queue
-def multiply(a,b,que): que.put(a*b)
+    ```
+    from multiprocessing import Process, Queue
+    def multiply(a,b,que): que.put(a*b)
 
-queue1 = Queue() #create a queue object
-p = Process(target= multiply, args= (5,4,queue1)) #we&#x27;re setting 3rd argument to queue1
-p.start()
-print(queue1.get()) #and we&#x27;re getting return value: 20
-p.join()
-print(&quot;ok.&quot;)
-```
+    queue1 = Queue() #create a queue object
+    p = Process(target= multiply, args= (5,4,queue1)) #we&#x27;re setting 3rd argument to queue1
+    p.start()
+    print(queue1.get()) #and we&#x27;re getting return value: 20
+    p.join()
+    print(&quot;ok.&quot;)
+    ```
 ### queue example
 我们以Queue为例，在父进程中创建两个子进程，一个往Queue里写数据，一个从Queue里读数据：
 
