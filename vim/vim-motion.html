@@ -48,8 +48,8 @@ const MD_URL='post/vim/vim-motion.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: vim-motion
-date: 2019-06-11
-updated: 2019-06-11
+date: 2019-06-17
+updated: 2019-06-17
 ---
 # Motion, Movement
 Movement 移动光标、字符，Vim 最核心的功能操作
@@ -72,14 +72,14 @@ Movement 移动光标、字符，Vim 最核心的功能操作
     块
         句 (    )
         段 {    }    
-        节或&quot;{&quot;
+        章节section 或{&quot;
              [[   ]]
-        节或&quot;{&quot;
+        章节section 或}&quot;
             [] ][
-        不匹配()
+        匹配()
             [(	])
             	go to [count] previous unmatched &#x27;()&#x27;.
-        不匹配{}
+        匹配{}
             [{	]}
                 go to [count] next unmatched &#x27;{}}&#x27;.
 
@@ -286,8 +286,8 @@ marks 不是保存在register 中的，这个注意一下
 
 Last jump
 
-    &#x27;&#x27; `` `&#x27;	上一标记(latest jump, toggle)
-    &#x27;&quot; `&quot;       To the position when last existing the current buffer(需要开启对.viminfo信息支持)
+    &#x27;&#x27; `` `&#x27;	上一跳转的位置(latest jump, toggle)
+    &#x27;&quot; `&quot;       上次离开的位置(last existing the current buffer(需要开启对.viminfo信息支持))
 
 modified &amp;&amp; insert stop &amp;&amp; changed
 

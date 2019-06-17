@@ -2,9 +2,54 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-06-16T22:54:58Z</updated>
+<updated>2019-06-17T21:09:34Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>js-time</title>
+<link href="/b/ria/js-time" rel="alternate" type="text/html"/>
+<updated>2019-06-17T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Date Format
+&gt; https://zh.wikipedia.org/wiki/ISO_8601
+
+The only format in the spec is a simplified </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>python 时间函数的用法笔记</title>
+<link href="/b/py/py-time" rel="alternate" type="text/html"/>
+<updated>2019-06-17T00:00:00Z</updated>
+<summary/>
+<published>2018-04-02T00:00:00Z</published>
+<content># time 工具
+time 提供基本的时间，sleep
+
+	import time
+	time.time()
+		19972314124.05238
+        time.localetime(</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Git 命令大全</title>
+<link href="/b/git/git-" rel="alternate" type="text/html"/>
+<updated>2019-06-17T00:00:00Z</updated>
+<summary/>
+<published>2019-06-17T00:00:00Z</published>
+<content># Git 配置
+
+## ConfigFile
+1. /etc/gitconfig #git config --system
+2. ~/.gitconfig 	#git config --global</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>awk 简介</title>
+<link href="/b/c/ops-awk" rel="alternate" type="text/html"/>
+<updated>2019-06-17T00:00:00Z</updated>
+<summary/>
+<published>2019-06-17T00:00:00Z</published>
+<content># Preface
+awk  命令行的基本语法为
+
+	awk option 'script' file1 file2 ...
+	awk option -f scriptfile file1 file2</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>vscode 笔记</title>
 <link href="/b/vsc/vsc-" rel="alternate" type="text/html"/>
 <updated>2019-06-16T00:00:00Z</updated>
@@ -70,7 +115,7 @@ id：用户/组身份信息
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>学习 docker</title>
 <link href="/b/arch/arch-docker" rel="alternate" type="text/html"/>
-<updated>2019-06-16T00:00:00Z</updated>
+<updated>2019-06-17T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># 什么是Docker
@@ -346,9 +391,9 @@ ELF 文件格式是一个开放标准，linux 系统的可执行文件都采用�
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>vim-motion</title>
 <link href="/b/vim/vim-motion" rel="alternate" type="text/html"/>
-<updated>2019-06-11T00:00:00Z</updated>
+<updated>2019-06-17T00:00:00Z</updated>
 <summary/>
-<published>2019-06-11T00:00:00Z</published>
+<published>2019-06-17T00:00:00Z</published>
 <content># Motion, Movement
 Movement 移动光标、字符，Vim 最核心的功能操作
 
@@ -398,9 +443,9 @@ curl 转换器: https://curl.trillworks.com/
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>js notes</title>
 <link href="/b/ria/js-obj" rel="alternate" type="text/html"/>
-<updated>2019-06-16T00:00:00Z</updated>
+<updated>2019-06-17T00:00:00Z</updated>
 <summary/>
-<published>2019-06-16T00:00:00Z</published>
+<published>2019-06-17T00:00:00Z</published>
 <content># Object
 
 ## isEempty
@@ -443,43 +488,4 @@ KMP 则是O(N) 复杂度
 搜索`ahuigo` 时，当匹配到`,`, 我们可以跳过`ahui`
 
     ahui, let's go</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>FUNCTION</title>
-<link href="/b/db/postgre-ddl" rel="alternate" type="text/html"/>
-<updated>2019-06-16T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># shell
-    psql DBNAME USERNAME
-    psql -U user_name -d database_name -h 127.0.0.1 -W
-    psql -U </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Postgre CRUD</title>
-<link href="/b/db/postgre-crud" rel="alternate" type="text/html"/>
-<updated>2019-06-04T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Postgre CRUD
-## insert 
-    CREATE TABLE users (id INT, counters JSONB NOT NULL DEFAULT '{}');
-   </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Postgre 安装\配置\管理</title>
-<link href="/b/db/postgre-admin" rel="alternate" type="text/html"/>
-<updated>2019-05-12T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Postgre 安装\配置\管理
-```bash
-rpm -Uvh https://yum.postgresql.org/10/redhat/rhel-7-x86_64/pgdg-centos10</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Rollup 该支持HMR 吗?</title>
-<link href="/b/ria/js-rollup-hmr" rel="alternate" type="text/html"/>
-<updated>2019-03-14T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Rollup 该支持HMR 吗?
-Rollup 已经开始支持codesplit(要手动开启)，不过Rollup 本身至今还没有打算支持HMR(Hot Module Reload)。
-
-我想主要原因</content>
 </entry></feed>

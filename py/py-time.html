@@ -36,7 +36,7 @@ const MD_URL='post/py/py-time.md';
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,7 +49,7 @@ const MD_URL='post/py/py-time.md';
 <pre id="markdown" v-pre>---
 title: python 时间函数的用法笔记
 date: 2018-04-02
-updated: 2019-02-10
+updated: 2019-06-17
 ---
 # time 工具
 time 提供基本的时间，sleep
@@ -191,7 +191,8 @@ pd.date_range():
 	&gt;&gt;&gt; datetime.now().replace(microsecond=0).isoformat()
     &#x27;2018-08-16T15:16:47&#x27;
 
-formater: https://docs.python.org/3/library/datetime.html
+formater: 
+https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior
 
     zone:
         %Z  (empty),UTC,EST,CST (time zone name)
@@ -199,11 +200,11 @@ formater: https://docs.python.org/3/library/datetime.html
     weekday:
         %a Sun, Mon, ..., Sat (en_US);
         %A Sunday, Monday, ..., Saturday (en_US);
-        %w 0,1,...,6(Saturday)
+        %w 0,1,...,6(0 is Sunday)
         %U	00,01,....,53 (Sunday as the first day)
         %W	00,01,....,53 (Monday as the first day)
     year:
-        %y  00,01,...09
+        %y  00,01,...09,10,11
         %Y  0001,0002,....,2016,...
     month:
         %b Jan, Feb, ..., Dec (en_US);
@@ -216,13 +217,20 @@ formater: https://docs.python.org/3/library/datetime.html
         %H  00,....,23
         %I  01,02,...,12(12 hour)
         %p  AM,PM
-
     Minute:
         %M  00,...,59
     Second:
         %S  00,...,59
     Microsecond
         %f  000000,...,999999
+
+### today
+开始和结束
+
+    &gt;&gt;&gt; datetime.datetime.combine(datetime.date.today(), datetime.time.min)
+    datetime.datetime(2015, 1, 12, 0, 0)
+    &gt;&gt;&gt; datetime.datetime.combine(datetime.date.today(), datetime.time.max)
+    datetime.datetime(2015, 1, 12, 23, 59, 59, 999999)
 
 ## set time
 ### by datetime：
@@ -247,8 +255,11 @@ formater: https://docs.python.org/3/library/datetime.html
 
 ### by format
 
+    # with no format
     from dateutil.parser import parse as strptime
     strptime(&#x27;2011-12-31&#x27;)
+
+    # with format
 	d=datetime.strptime(&#x27;2015-6-1 18:19:59&#x27;, &#x27;%Y-%m-%d %H:%M:%S&#x27;)
 
 ## timedelta: datetime加减
@@ -271,6 +282,9 @@ formater: https://docs.python.org/3/library/datetime.html
 	datetime.datetime(2015, 5, 17, 16, 57, 3, 540997)
 	&gt;&gt;&gt; now + timedelta(days=2, hours=12)
 	datetime.datetime(2015, 5, 21, 4, 57, 3, 540997)
+
+    (datetime.now()-d).total_seconds()
+    (datetime.now()-d).seconds
 
 ### CST
 使用东8区显示：

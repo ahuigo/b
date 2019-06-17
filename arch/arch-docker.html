@@ -49,7 +49,7 @@ const MD_URL='post/arch/arch-docker.md';
 <pre id="markdown" v-pre>---
 title: 学习 docker
 date: 2018-09-27
-updated: 2019-06-16
+updated: 2019-06-17
 ---
 # 什么是Docker
 虚拟机是对硬件的虚拟化(需要Hypervisor这个软件层), 而docker （LXC, linux container）是对操作系统的虚拟化。
@@ -472,24 +472,30 @@ http://www.opscoder.info/docker_monitor.html
     $ docker-compose stop
     $ docker-compose rm
 
+    # docker-compose -f docker-compose.yml up -d
+    $ cat docker-compose.yml
+
+
 当前目录下配置docker-compose.yml 配置
 
-    mysql:
-        image: mysql:5.7
-        environment:
-        - MYSQL_ROOT_PASSWORD=123456
-        - MYSQL_DATABASE=wordpress
-    web:
-        image: wordpress
-        links:
-        - mysql
-        environment:
-        - WORDPRESS_DB_PASSWORD=123456
-        ports:
-        - &quot;127.0.0.3:8080:80&quot;
-        working_dir: /var/www/html
-        volumes:
-        - wordpress:/var/www/html
+    version: &#x27;1.1&#x27;
+    service:
+        mysql:
+            image: mysql:5.7
+            environment:
+            - MYSQL_ROOT_PASSWORD=123456
+            - MYSQL_DATABASE=wordpress
+        web:
+            image: wordpress
+            links:
+            - mysql
+            environment:
+            - WORDPRESS_DB_PASSWORD=123456
+            ports:
+            - &quot;127.0.0.3:8080:80&quot;
+            working_dir: /var/www/html
+            volumes:
+            - wordpress:/var/www/html
 
     
 # help

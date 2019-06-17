@@ -32,11 +32,11 @@ const MD_URL='post/git/git-.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -48,8 +48,8 @@ const MD_URL='post/git/git-.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: Git 命令大全
-date: 2019-02-07
-updated: 2019-02-07
+date: 2019-06-17
+updated: 2019-06-17
 ---
 # Git 配置
 
@@ -321,7 +321,7 @@ You want to nuke commit C and never see it again.
 ### git reset hard(commit/index/working)
 `--hard` You do this:
 
-	git reset --hard;	# same: git reset HEAD . --hard
+	git reset --hard B;	# same: git reset HEAD . --hard
 	git reset --hard HEAD~1 (revert commit/index/working)
 		clean unstaged/staged files
 
@@ -519,7 +519,7 @@ tag 相当于commit 的别名
 	git tag -v v1.4
 
 ## push tag
-tag 是绑定在commit上的，但是默认push不会将tag 推到远端.
+tag 是绑定在`当前`commit上的，但是默认push不会将tag 推到远端.
 
 ###  push a tag
 
@@ -528,7 +528,10 @@ tag 是绑定在commit上的，但是默认push不会将tag 推到远端.
 
 ### push all tag
 
-    git push --follow-tags
+    # push commit + tags
+    git push --follow-tags origin
+
+    # push tags only
 	git push --tags
 	git push origin --tags
 
@@ -605,6 +608,8 @@ Create an archive of files from a named tree.
     	# ...
 		client_max_body_size 1G;
 
+还有可能是没有加`repository.git`
+
 ## push branch
 push 时，remote 必须存在相应的branch, 比如master. 否则会报: No refs in common and none specified; doing nothing.
 
@@ -650,6 +655,8 @@ Ignore HostKey
 		HostName github.com
 		User git
 		StrictHostKeyChecking no
+
+    $ ssh github.com-ahuigo
 
 ## del remote branch
 
@@ -768,9 +775,10 @@ Vim&#x27;s operation:
 
 在其它分支切换回来后，想恢复这个暂存的变更. 当然，你也可以在其它分支应用这个暂存变更(如果变更无法应用git 会给出归并冲突的提示)
 
+	//
 	git stash apply stash@{0}
-	//或者
 	git stash apply
+
 	//应用变更时清空暂存
 	git stash pop stash@{0}
 	git stash pop
