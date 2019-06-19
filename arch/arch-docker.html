@@ -49,7 +49,7 @@ const MD_URL='post/arch/arch-docker.md';
 <pre id="markdown" v-pre>---
 title: 学习 docker
 date: 2018-09-27
-updated: 2019-06-17
+updated: 2019-06-19
 ---
 # 什么是Docker
 虚拟机是对硬件的虚拟化(需要Hypervisor这个软件层), 而docker （LXC, linux container）是对操作系统的虚拟化。
@@ -133,6 +133,7 @@ You should try to remove unnecessary images before removing the image:
 ### 通过容器副本创建image
 
     $ docker commit -m=&quot;has update&quot; -a=&quot;runoob&quot; e218edb10161 ahuigo/ubuntu:v2
+    $ docker commit e218edb10161 ahuigo/ubuntu:v2
     -m:提交的描述信息
     -a:指定镜像作者
     e218edb10161：容器ID

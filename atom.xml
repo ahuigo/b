@@ -2,12 +2,52 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-06-17T21:09:34Z</updated>
+<updated>2019-06-19T11:54:19Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Python 文件处理</title>
+<link href="/b/py/py-file" rel="alternate" type="text/html"/>
+<updated>2019-06-19T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Directory
+建议用Path 代替
+
+## file property
+os
+
+### os home
+
+    os.getenv('HOME')
+
+    from os.path im</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>nginx proxy</title>
+<link href="/b/nginx/nginx-proxy" rel="alternate" type="text/html"/>
+<updated>2019-06-19T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content>## http_proxy
+The ngx_http_proxy_module module allows passing requests to another server.
+
+### proxy</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>不要用mongodb</title>
+<link href="/b/db/mongo-" rel="alternate" type="text/html"/>
+<updated>2019-06-19T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># 不要用mongodb
+http://coolshell.cn/articles/5826.html
+
+# todo
+http://www.tutorialspoint.com/mongodb/
+
+</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>js-time</title>
 <link href="/b/ria/js-time" rel="alternate" type="text/html"/>
-<updated>2019-06-17T00:00:00Z</updated>
+<updated>2019-06-19T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># Date Format
@@ -115,7 +155,7 @@ id：用户/组身份信息
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>学习 docker</title>
 <link href="/b/arch/arch-docker" rel="alternate" type="text/html"/>
-<updated>2019-06-17T00:00:00Z</updated>
+<updated>2019-06-19T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># 什么是Docker
@@ -199,7 +239,7 @@ http://javascript.ruanyifeng.com/dom/mutationobserver.html
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>css 布局</title>
 <link href="/b/ria/js-css-layout" rel="alternate" type="text/html"/>
-<updated>2019-06-16T00:00:00Z</updated>
+<updated>2019-06-19T00:00:00Z</updated>
 <summary/>
 <published>2018-03-03T00:00:00Z</published>
 <content># CSS 布局
@@ -451,41 +491,4 @@ curl 转换器: https://curl.trillworks.com/
 ## isEempty
     ECMA 7+:
     Object.entries(obj).length === 0 &amp;&amp; obj.constructor === Objec</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>try-catch</title>
-<link href="/b/ria/js-debug-exception" rel="alternate" type="text/html"/>
-<updated>2019-05-27T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># try-catch
-    try {
-        r1 = s.length; // 此处应产生错误
-        r2 = 100; // 该语句不会执行
-         throw </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>react framework</title>
-<link href="/b/ria/react-framework" rel="alternate" type="text/html"/>
-<updated>2019-05-24T00:00:00Z</updated>
-<summary/>
-<published>2019-05-23T00:00:00Z</published>
-<content># 前端框架优化方案
-本文是对目前所使用前端框架的梳理、优化。
-
-本文优化目标是：
-1. 第一目标：更好的业务开发效率
-    1. KISS原则: 保持简洁、统一
-       1. 统一编码风格：</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>字符串搜索算法KMP</title>
-<link href="/b/algorithm/algo-str-search" rel="alternate" type="text/html"/>
-<updated>2019-05-24T00:00:00Z</updated>
-<summary/>
-<published>2019-02-28T00:00:00Z</published>
-<content># 字符串搜索算法KMP
-容易想到的搜索算法是O(N*M)
-KMP 则是O(N) 复杂度
-
-搜索`ahuigo` 时，当匹配到`,`, 我们可以跳过`ahui`
-
-    ahui, let's go</content>
 </entry></feed>
