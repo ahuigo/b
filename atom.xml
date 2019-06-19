@@ -2,9 +2,51 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-06-19T11:54:19Z</updated>
+<updated>2019-06-19T22:01:27Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>py-debug-log</title>
+<link href="/b/py/py-debug-log" rel="alternate" type="text/html"/>
+<updated>2019-06-19T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Preface
+- logging
+https://docs.python.org/3.4/howto/logging.html
+
+## autolog: excepthook
+
+    impo</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>lemp环境搭建</title>
+<link href="/b/nginx/nginx-admin" rel="alternate" type="text/html"/>
+<updated>2019-06-19T00:00:00Z</updated>
+<summary/>
+<published>2019-06-19T00:00:00Z</published>
+<content># Preface
+本文描述的是centOS6下的[lemp]的配置过程.
+
+# Install The Required Repositories
+
+	sudo rpm -Uvh http://do</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>ops-init</title>
+<link href="/b/c/ops-init" rel="alternate" type="text/html"/>
+<updated>2019-06-19T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Preface
+
+# init
+
+## init
+init指linux 系统运行级runlevel 0~6. 可在/etc/inittab中指定:
+
+	id:3:initdefault:
+
+
+##</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Python 文件处理</title>
 <link href="/b/py/py-file" rel="alternate" type="text/html"/>
 <updated>2019-06-19T00:00:00Z</updated>
@@ -115,7 +157,7 @@ cmd+p
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>linux os</title>
 <link href="/b/c/linux-os" rel="alternate" type="text/html"/>
-<updated>2019-06-16T00:00:00Z</updated>
+<updated>2019-06-19T00:00:00Z</updated>
 <summary/>
 <published>2019-06-15T00:00:00Z</published>
 <content># Check os Version
@@ -288,7 +330,7 @@ array 不像string 是primitive value, 所以length 可以缩短放大array。
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>py-process</title>
 <link href="/b/py/py-process" rel="alternate" type="text/html"/>
-<updated>2019-06-16T00:00:00Z</updated>
+<updated>2019-06-19T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># Preface
@@ -455,40 +497,4 @@ http://initd.org/psycopg/docs/cursor.html
 
     import psycopg2
     import</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>ajax cors</title>
-<link href="/b/ria/js-ajax-cors" rel="alternate" type="text/html"/>
-<updated>2019-05-27T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># ajax cors
-
-## 请求分类
-浏览器将CORS请求分成两类：简单请求（simple request）和非简单请求（not-so-simple request）。
-只要同时满足以下两大条件，</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>curl manual</title>
-<link href="/b/c/ops-curl" rel="alternate" type="text/html"/>
-<updated>2019-05-27T00:00:00Z</updated>
-<summary/>
-<published>2019-05-27T00:00:00Z</published>
-<content>
-# curlt to python/node/go...
-curl 转换器: https://curl.trillworks.com/
-
-# Usage
-
-	-F,--form
-	-D- Dump </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>js notes</title>
-<link href="/b/ria/js-obj" rel="alternate" type="text/html"/>
-<updated>2019-06-17T00:00:00Z</updated>
-<summary/>
-<published>2019-06-17T00:00:00Z</published>
-<content># Object
-
-## isEempty
-    ECMA 7+:
-    Object.entries(obj).length === 0 &amp;&amp; obj.constructor === Objec</content>
 </entry></feed>
