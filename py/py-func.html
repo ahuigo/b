@@ -32,11 +32,11 @@ const MD_URL='post/py/py-func.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,7 +49,7 @@ const MD_URL='post/py/py-func.md';
 <pre id="markdown" v-pre>---
 title: py-func
 date: 2018-09-28
-updated: 2019-02-07
+updated: 2019-06-22
 ---
 # Preface
 
@@ -77,6 +77,15 @@ var 默认:
 
 - outside-exist (global)
 - non-exists (local)
+
+nonlocal(python3):
+
+    def f1():
+        x = 5
+        def f2():
+                nonlocal x
+                x+=1
+        return f2
 
 强制global:
 
@@ -442,6 +451,7 @@ map()传入的第一个参数是f，即函数对象本身。由于结果r是一�
 	[(4, 5), (5, 6), (6, 7)]
 
 ## reduce
+至少要有一个元素
 If initial is present, it is placed before the items of the sequence in the calculation
 
     from functools import reduce
@@ -720,6 +730,39 @@ e.g.
 为了使得装饰器返回的对象属性跟原对象，此对象有些属性如`__name__`, 它能用于把被调用函数的`__module__，__name__，__qualname__，__doc__，__annotations__`赋值给装饰器返回的函数对象。
 
 	functools.wraps(func)(wrapper)
+
+## singleton
+适用于function, method
+
+    from functools import wraps
+    def singleton(cls):
+        _instance = {}
+        @wraps(cls)
+        def _singleton(*args, **kwargs):
+            if cls not in _instance:
+                ck = str(cls)+str(args)+str(kwargs)
+                _instance[ck] = cls(*args, **kwargs)
+            return _instance[ck]
+        return _singleton
+
+    def file_cache(key, expire, verify_empty=True, options={}, nkey=0):
+        def decorator(cls):
+            @wraps(cls)
+            def wrapper(*args, **kwargs):
+                fkey = key
+                for k in args[1:1+nkey]:
+                    fkey += &#x27;.&#x27;+k
+                if Args.refresh:
+                    ok = False
+                else:
+                    ok, value = file_db(fkey, expire=expire, **options)
+                if not ok:
+                    value = cls(*args, **kwargs)
+                    if not verify_empty or value:
+                        file_db(fkey, value, **options)
+                return value
+            return wrapper
+        return decorator
 
 ## multi decorator
 倒序

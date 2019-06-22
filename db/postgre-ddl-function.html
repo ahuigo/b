@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/db/mysql-str.md';
+const MD_URL='post/db/postgre-ddl-function.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>Mysql 的字符串处理</title>
+<title>Postgre SQL function</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -20,13 +20,10 @@ const MD_URL='post/db/mysql-str.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -35,10 +32,11 @@ const MD_URL='post/db/mysql-str.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,78 +47,88 @@ const MD_URL='post/db/mysql-str.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: Mysql 的字符串处理
-date: 2018-09-27
-updated: 2018-10-06
+title: Postgre SQL function
+date: 2019-06-20
+updated: 2019-06-22
 ---
-# regexp
+# Postgre SQL function
+## 基本语法
+必须指定语言 `LANGUAGE plpsql|sql`, `$$` 是分割符
 
-  &gt; select &#x27;string or column&#x27; regexp &#x27;key1|key2&#x27; ;
-  1 or 0
+    CREATE OR REPLACE FUNCTION increment(i integer) RETURNS integer AS $$
+            BEGIN
+                    RETURN i + 1;
+            END;
+    $$ LANGUAGE plpgsql; 
 
-## extract(hive only)
+也可以不指定`$$`
 
-  select regexp_extract(&#x27;1.2.3.4&#x27;, &#x27;(\\d+\\.){2}\\d+&#x27;, 0) from xxx
-    1.2.3
-  select regexp_extract(&#x27;1.2.3.4&#x27;, &#x27;(\\d+\\.){5}\\d+&#x27;, 0) from xxx
-  false
-  regexp_extract(rid, &#x27;(?:re|ps\\d+),(\\d{8})&#x27;,1);
-  select regexp_replace;
+    CREATE FUNCTION add(integer, integer) 
+        RETURNS integer AS &#x27;select $1 + $2;&#x27; LANGUAGE SQL IMMUTABLE
+        RETURNS NULL ON NULL INPUT;
 
-## where regexp
+AS 多个输出:
 
-    wehre rid regexp &#x27;lc_ps(1|2)&#x27;
+    CREATE FUNCTION dup(in int, out f1 int, out f2 text)
+        AS $$ SELECT $1, CAST($1 AS text) || &#x27; is text&#x27; $$
+        LANGUAGE SQL;
 
-# length
+    SELECT * FROM dup(42);
+    
+### update delete limit 
+pg update /delete 都不支持limit, 建议用array 而不是IN:
 
-    LENGTH()
-    CHARACTER_LENGTH() is a synonym for CHAR_LENGTH().
+    DELETE FROM logtable 
+        WHERE id = any (array(SELECT id FROM logtable ORDER BY timestamp LIMIT 10));
 
-# concat
+或者用FUNCTION
 
-    SELECT CONCAT(14.3);
-        -&gt; &#x27;14.3&#x27;
-    SELECT CONCAT(14.3, column1, ...);
-    SELECT CONCAT_WS(&quot;,&quot;, a, b,...);
-        -&gt; &#x27;a,b,c&#x27;
+    CREATE or replace FUNCTION  update_status() returns character varying as $$
+    declare
+    match_ret record;
+    begin
+        SELECT * INTO match_ret FROM product_child WHERE product_status = 2 LIMIT 1 for update ;
+        UPDATE product_child SET status_code = &#x27;1&#x27; where child_code = match_ret.child_code ;
 
-## implode
+        return match_ret.child_code ;
+        commit;
+    end ;
+    $$ LANGUAGE plpgsql;
 
-    GROUP_CONCAT(uid ORDER BY uid DESC SEPARATOR &#x27;,&#x27;)
-    GROUP_CONCAT(uid SEPARATOR &#x27;,&#x27;)
-    GROUP_CONCAT(uid)
+# String
 
-# TRIM()
+## split 
+    # split part
+    select split_part(&#x27;part1-#-part2-#-part3&#x27;, &#x27;-#-&#x27;, 2);
 
-# substr
-SUBSTR() is a synonym for : SUBSTRING(str,pos,len). MID(str,pos,len).
+split array
 
-      SUBSTR(str,pos,len)
-        pos: `start from 1`, could be negative number
-        len: none-negative
-      SUBSTR(&#x27;str00&#x27;,1,-2); //wrong
-      SUBSTR(&#x27;str00&#x27;,-2,2); //right
-        00
-      SUBSTR(&#x27;str00&#x27;,1, LENGTH(&#x27;str00&#x27;)-2); //right
-        str
+    &gt; select regexp_split_to_array(&#x27;a,b,c,d&#x27;, &#x27;,&#x27;);
+    -[ RECORD 1 ]---------+----------
+    regexp_split_to_array | {a,b,c,d}
+    &gt; select string_to_array(&#x27;a,b,,c,d&#x27;, &#x27;,,&#x27;);
 
+help:
 
-# length
+    \df+ &#x27;string_to_array&#x27;
 
-  LENGTH
-  CHAR_LENGTH
+# array
 
-# trim
-
-  LPAD(str,len,padstr)
-  Ltrim(str)
-
-# math
-
-  round(double a, int d)
-  round(double a)
-  avg(column)</pre>
-<div id="pager" v-pre></div>
+## loop
+    DO
+    $do$
+    DECLARE
+    m   varchar[];
+    arr varchar[] := array[[&#x27;key1&#x27;,&#x27;val1&#x27;],[&#x27;key2&#x27;,&#x27;val2&#x27;]];
+    BEGIN
+    FOREACH m SLICE 1 IN ARRAY arr
+    LOOP
+        RAISE NOTICE &#x27;another_func(%,%)&#x27;,m[1], m[2];
+    END LOOP;
+    END
+    $do$
+</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -142,10 +150,10 @@ SUBSTR() is a synonym for : SUBSTRING(str,pos,len). MID(str,pos,len).
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
@@ -167,6 +175,9 @@ SUBSTR() is a synonym for : SUBSTRING(str,pos,len). MID(str,pos,len).
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>

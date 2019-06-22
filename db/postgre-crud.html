@@ -49,9 +49,13 @@ const MD_URL='post/db/postgre-crud.md';
 <pre id="markdown" v-pre>---
 title: Postgre CRUD
 date: 2018-09-27
-updated: 2019-06-04
+updated: 2019-06-22
 ---
 # Postgre CRUD
+## string or keyword
+    select &#x27;string&#x27;;
+    select &quot;count&quot;(1) from &quot;table_name&quot;
+
 ## insert 
     CREATE TABLE users (id INT, counters JSONB NOT NULL DEFAULT &#x27;{}&#x27;);
     INSERT INTO users (id, counters) VALUES (1, &#x27;{&quot;bar&quot;: 10}&#x27;);
@@ -202,9 +206,8 @@ join group:
 
 ### string length
 
-### string to array
-
-    (CHAR_LENGTH(name) - CHAR_LENGTH(REPLACE(name, &#x27;substring&#x27;, &#x27;&#x27;))) / CHAR_LENGTH(&#x27;substring&#x27;)
+    CHAR_LENGTH(name)
+    REPLACE(name, &#x27;substring&#x27;, &#x27;&#x27;)
 
 ## array
 

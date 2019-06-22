@@ -49,7 +49,7 @@ const MD_URL='post/py/py-db-postgre.md';
 <pre id="markdown" v-pre>---
 title: help
 date: 2018-09-28
-updated: 2019-05-27
+updated: 2019-06-22
 ---
 # help
 http://initd.org/psycopg/docs/cursor.html
@@ -118,7 +118,7 @@ table name 这些则不支持，应该使用:
 #### fetchall as dataframe
     DataFrame(cur.fetchall(), columns=[&#x27;instrument&#x27;, &#x27;price&#x27;, &#x27;date&#x27;])
 
-## other:
+#### fetchone,fetchmany:
 
     cursor.fetchone()
     cursor.fetchmany([size=cursor.arraysize])</pre>

@@ -2,9 +2,116 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-06-19T22:01:27Z</updated>
+<updated>2019-06-22T12:46:34Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Posgtre Var</title>
+<link href="/b/db/postgre-var" rel="alternate" type="text/html"/>
+<updated>2019-06-22T00:00:00Z</updated>
+<summary/>
+<published>2019-06-20T00:00:00Z</published>
+<content># Posgtre Var
+## Define and assign
+    DECLARE vSite varchar DEFAULT 'TechOnTheNet.com';
+    DECLARE</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>PG help</title>
+<link href="/b/db/postgre-help" rel="alternate" type="text/html"/>
+<updated>2019-06-22T00:00:00Z</updated>
+<summary/>
+<published>2019-06-20T00:00:00Z</published>
+<content># PG help
+
+    \h
+    \?
+
+show function
+
+    \sf[+]  FUNCNAME       show a function's definition
+   </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>FUNCTION</title>
+<link href="/b/db/postgre-ddl" rel="alternate" type="text/html"/>
+<updated>2019-06-22T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># shell
+    psql DBNAME USERNAME
+    psql -U user_name -d database_name -h 127.0.0.1 -W
+    psql -U </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Postgre SQL function</title>
+<link href="/b/db/postgre-ddl-function" rel="alternate" type="text/html"/>
+<updated>2019-06-22T00:00:00Z</updated>
+<summary/>
+<published>2019-06-20T00:00:00Z</published>
+<content># Postgre SQL function
+## 基本语法
+必须指定语言 `LANGUAGE plpsql|sql`, `$$` 是分割符
+
+    CREATE OR REPLACE FUNCTI</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Postgre CRUD</title>
+<link href="/b/db/postgre-crud" rel="alternate" type="text/html"/>
+<updated>2019-06-22T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Postgre CRUD
+## string or keyword
+    select 'string';
+    select "count"(1) from "table_name"
+
+##</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>mysql-datatype</title>
+<link href="/b/db/mysql-var" rel="alternate" type="text/html"/>
+<updated>2019-06-22T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Data Type(数据类型)
+
+	NULL means you do not have to provide a value for the field... default to null
+	</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Mysql 的字符串处理</title>
+<link href="/b/db/mysql-var-str" rel="alternate" type="text/html"/>
+<updated>2019-06-22T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># regexp
+
+  &gt; select 'string or column' regexp 'key1|key2' ;
+  1 or 0
+
+## extract(hive only)
+
+  sele</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>mysql ddl</title>
+<link href="/b/db/mysql-ddl" rel="alternate" type="text/html"/>
+<updated>2019-06-22T00:00:00Z</updated>
+<summary/>
+<published>2019-06-22T00:00:00Z</published>
+<content># Storage Engines
+
+	mariadb&gt; show engines
+
+mysql 下所有引擎的其表结构保存在`tb_name.frm` 中, 而数据结构在不同的引擎下，保存的文件有所不</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>curl manual</title>
+<link href="/b/c/ops-curl" rel="alternate" type="text/html"/>
+<updated>2019-06-22T00:00:00Z</updated>
+<summary/>
+<published>2019-06-22T00:00:00Z</published>
+<content>
+# curlt to python/node/go...
+curl 转换器: https://curl.trillworks.com/
+
+# Usage
+
+	-F,--form
+	-D- Dump </content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>py-debug-log</title>
 <link href="/b/py/py-debug-log" rel="alternate" type="text/html"/>
 <updated>2019-06-19T00:00:00Z</updated>
@@ -197,7 +304,7 @@ id：用户/组身份信息
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>学习 docker</title>
 <link href="/b/arch/arch-docker" rel="alternate" type="text/html"/>
-<updated>2019-06-19T00:00:00Z</updated>
+<updated>2019-06-22T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># 什么是Docker
@@ -387,114 +494,4 @@ https://zh.wikipedia.org/wiki/%E8%84%B1%E5%AD%97%E7%AC%A6
 linux 中每个进程都是由进程控制块(PCB) 控制的，PCB是一个task_struct 结构体。
 
 - 进程id。系统中每个</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>ELF 文件格式</title>
-<link href="/b/c/as-elf" rel="alternate" type="text/html"/>
-<updated>2019-06-04T00:00:00Z</updated>
-<summary/>
-<published>2015-07-13T00:00:00Z</published>
-<content># ELF 文件格式
-ELF 文件格式是一个开放标准，linux 系统的可执行文件都采用此格式。它用于三种不同的文件类型：
-
-- 可重定位的目标文件（Relocatable, Object file）</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Vim Edit</title>
-<link href="/b/vim/vim-edit" rel="alternate" type="text/html"/>
-<updated>2019-05-29T00:00:00Z</updated>
-<summary/>
-<published>2019-05-29T00:00:00Z</published>
-<content># 复制/删除/粘贴(copy/del/paste)
-
-## del 删除
-
-	d2w
-	d^ d$
-	dd 删除整行
-
-	x 代表dl(删除当前光标下的字符)
-	X 代表dh(删除当前光标左边的字符</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Vim visual</title>
-<link href="/b/vim/vim-visual" rel="alternate" type="text/html"/>
-<updated>2019-05-29T00:00:00Z</updated>
-<summary/>
-<published>2019-05-29T00:00:00Z</published>
-<content># Vim visual
-可视选择模式一共有 3种 状态:
-
-	v 普通visual
-	V 行选visual
-	ctrl+v 矩形块选 #对于矩形选而言，o是垂直切向，O是水平切向
-
-	gv #回到上</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>vim-help</title>
-<link href="/b/vim/vim-help" rel="alternate" type="text/html"/>
-<updated>2019-05-29T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># help 帮助
-&gt; Refer to : http://vim.wikia.com/wiki/Learn_to_use_help
-
-之所以我把help放在这里，是因为help实在是太重要了。关于d</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Vim Guide</title>
-<link href="/b/vim/vim-guide" rel="alternate" type="text/html"/>
-<updated>2019-05-29T00:00:00Z</updated>
-<summary/>
-<published>2019-05-29T00:00:00Z</published>
-<content># Vim Guide
-学习VIM 的步骤
-1. 初始VIM 基本操作，在bash 输入： `$ vimtutor`
-2. 系统学习VIM: learn vim the hard way
-    1.</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>shell 终端使用技巧</title>
-<link href="/b/c/shell-zsh" rel="alternate" type="text/html"/>
-<updated>2019-05-29T00:00:00Z</updated>
-<summary/>
-<published>2019-05-29T00:00:00Z</published>
-<content># Preface
-本文总结了shell 终端的使用技术: 主要包括Readline 使用，以及zsh 与iTerm2 的使用
-
-# Shortcuts
-下面列出的快捷键大部分是通用的，有一小部分快捷</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>vim 笔记</title>
-<link href="/b/vim/vim-notes" rel="alternate" type="text/html"/>
-<updated>2019-05-29T00:00:00Z</updated>
-<summary/>
-<published>2019-05-29T00:00:00Z</published>
-<content># vim 笔记
-本文是vim 相关的总结，不会有太多的注释 —— 只是方便回顾.
-
-&gt; 使用vim 时建议将key repeat调到最快, 把key delay调到最小
-&gt; 很多时候我会用Ctrl+</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>vim-motion</title>
-<link href="/b/vim/vim-motion" rel="alternate" type="text/html"/>
-<updated>2019-06-17T00:00:00Z</updated>
-<summary/>
-<published>2019-06-17T00:00:00Z</published>
-<content># Motion, Movement
-Movement 移动光标、字符，Vim 最核心的功能操作
-
-    基本 hjkl
-    单词 
-        小单词wbe
-            w: </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>help</title>
-<link href="/b/py/py-db-postgre" rel="alternate" type="text/html"/>
-<updated>2019-05-27T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># help
-http://initd.org/psycopg/docs/cursor.html
-
-# psycopg2
-## conn
-
-    import psycopg2
-    import</content>
 </entry></feed>

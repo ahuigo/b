@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/db/postgre-ddl.md';
+const MD_URL='post/db/postgre-var.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>FUNCTION</title>
+<title>Posgtre Var</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -47,154 +47,15 @@ const MD_URL='post/db/postgre-ddl.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: FUNCTION
-date: 2018-09-27
+title: Posgtre Var
+date: 2019-06-20
 updated: 2019-06-22
 ---
-# shell
-    psql DBNAME USERNAME
-    psql -U user_name -d database_name -h 127.0.0.1 -W
-    psql -U user_name database_name -h 127.0.0.1 -W
-        \W prompt enter password(可省略)
-
-Non interactive password:
-
-1. vim ~/.pgpass:
-    `hostname:port:database:username:password`
-2. PGPASSWORD=pass1234 psql -U MyUsername myDatabaseName
-3. URI: https://www.postgresql.org/docs/current/static/libpq-connect.html#LIBPQ-CONNSTRING
-
-
-    psql postgresql://
-    psql postgresql://localhost
-    psql postgresql://localhost:5433
-    psql postgresql://localhost/mydb
-    psql postgresql://user@localhost
-    psql postgresql://user:secret@localhost
-    psql postgresql://other@localhost/otherdb?connect_timeout=10&amp;application_name=myapp
-    psql postgresql://host1:123,host2:456/somedb?target_session_attrs=any&amp;application_name=myapp
-
-.pgpass config(recommend):
-
-    1) Create .pgpass file with content
-        host:5432:somedb:someuser:somepass
-
-    2) set the permissions using command
-        sudo chmod 600 .pgpass
-
-    3) Set the file owner as the same user using which you logged in(实际不需要) :
-        sudo chown login_username:login_username .pgpass
-
-    4) Set PGPASSFILE environment variable :
-        export PGPASSFILE=&#x27;/home/user/.pgpass&#x27;
-
-    Now check by connecting to database :
-        psql -h host -U someuser somedb
-
-
-# import export
-
-## export sql
-
-    $ pg_dump -U username dbname &gt; dbexport.pgsql
-    $ psql -U username dbname &lt; dbexport.pgsql
-
-table:
-
-    \copy my_table to &#x27;my_table.csv&#x27; csv;
-    \copy my_table FROM &#x27;my_table.csv&#x27; DELIMITER &#x27;,&#x27; CSV;
-
-table with bash:
-
-    $ pg_dump \
-    -h localhost \
-    -p 5432 \
-    -U user -W \
-    --table=&quot;table-name&quot; --data-only --column-inserts database-name &gt; table.sql
-
-    $ psql \
-    -h localhost \
-    -p 5432 \
-    -U user \
-    database-name \
-    -f table.sql
-
-## export csv
-
-    \COPY products_273 TO &#x27;/tmp/products_199.csv&#x27; WITH (FORMAT CSV, HEADER);
-
-    COPY persons TO &#x27;C:\tmp\persons_db.csv&#x27; DELIMITER &#x27;,&#x27; CSV HEADER;
-
-    COPY persons(first_name,last_name,email) TO &#x27;C:\tmp\persons_partial_db.csv&#x27; DELIMITER &#x27;,&#x27; CSV HEADER;
-
-    \copy (Select * From foo) To &#x27;/tmp/test.csv&#x27; With CSV
-    \copy (select * from my_table limit 10) TO &#x27;~/Downloads/export.csv&#x27; CSV HEADER
-
-relative path 
-
-    \copy (select * from my_table limit 10) TO &#x27;./a.csv&#x27; CSV HEADER
-
-# crud
-## database
-
-    $ createdb test1
-    &gt; CREATE DATABASE yuzhi100 OWNER myuser;
-    &gt; drop database yunzhi100
-
-    \l
-        list all databases
-    \c database_name
-        \connect database_name
-    SELECT current_database();
-
-
-## table
-
-### show table
-
-### create
-
-    $ psql -f init.sql
-    CREATE TABLE playground (
-        id serial PRIMARY KEY,
-        uid int UNIQUE,
-        name varchar (50) NOT NULL,
-        location varchar(25) check (location in (&#x27;north&#x27;, &#x27;south&#x27;, &#x27;west&#x27;, &#x27;east&#x27;,  &#x27;northwest&#x27;)),
-        install_date date
-    );
-
-describe table and sequence:
-
-    \d
-    \dt # with table_squence
-    \dt [&lt;table&gt;]
-
-show create table:
-
-    pg_dump -st tablename dbname
-
-### drop
-
-    drop TABLE [IF EXISTS ] xxx
-
-## Alter
-ALTER TABLE table_name `&lt;action&gt;`:
-
-    column:
-        ADD COLUMN column_name VARCHAR;
-        DROP COLUMN column_name;
-        ALTER COLUMN location TYPE VARCHAR,
-            ALTER COLUMN asset_no TYPE INT USING asset_no::integer;
-            ALTER COLUMN column_name [SET DEFAULT value | DROP DEFAULT]
-            ALTER COLUMN column_name [SET NOT NULL| DROP NOT NULL]
-        RENAME COLUMN column_name TO new_column_name;
-
-    check:
-        ADD CHECK (target IN (&#x27;_self&#x27;, &#x27;_blank&#x27;, &#x27;_parent&#x27;, &#x27;_top&#x27;));
-    tablename:
-        RENAME TO new_table_name;
-    constraint:
-        ADD CONSTRAINT constraint_name constraint_definition</pre>
+# Posgtre Var
+## Define and assign
+    DECLARE vSite varchar DEFAULT &#x27;TechOnTheNet.com&#x27;;
+    DECLARE vSite varchar := &#x27;TechOnTheNet.com&#x27;;
+    vSite := &#x27;CheckYourMath.com&#x27;;</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
