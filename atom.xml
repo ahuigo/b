@@ -2,9 +2,88 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-06-22T12:46:34Z</updated>
+<updated>2019-06-23T21:44:43Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>React Start</title>
+<link href="/b/ria/react-start" rel="alternate" type="text/html"/>
+<updated>2019-06-23T00:00:00Z</updated>
+<summary/>
+<published>2019-06-23T00:00:00Z</published>
+<content># React Runtime
+React 运行时，需要引入运行时
+
+## CDN runtime
+阮一峰的demo 中的例子
+
+    &lt;head&gt;
+        &lt;meta charset="U</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>command</title>
+<link href="/b/ria/node-npm" rel="alternate" type="text/html"/>
+<updated>2019-06-23T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># command
+
+    npm list -g; # global
+    npm list; # local
+    npm dedupe -g; # Reduce duplication
+
+</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>python 的list/tuple 笔记</title>
+<link href="/b/py/py-var-list" rel="alternate" type="text/html"/>
+<updated>2019-06-23T00:00:00Z</updated>
+<summary/>
+<published>2018-03-03T00:00:00Z</published>
+<content># list and tuple
+因为tuple 是增加删除元素的不可变的list(数据可以变)，所以代码更安全。
+如果可能，能用tuple代替list就尽量用tuple。
+
+	list = [1,2</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>at happens when the listen backlog is full?</title>
+<link href="/b/net/net-tcp-backlog" rel="alternate" type="text/html"/>
+<updated>2019-06-23T00:00:00Z</updated>
+<summary/>
+<published>2019-06-23T00:00:00Z</published>
+<content>What happens when the listen backlog is full?
+
+https://www.youtube.com/watch?v=6pK0tz1ifiY</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>linux ssh tool</title>
+<link href="/b/net/net-ssh-tool" rel="alternate" type="text/html"/>
+<updated>2019-06-23T00:00:00Z</updated>
+<summary/>
+<published>2016-09-09T00:00:00Z</published>
+<content># SSH Client
+
+## config
+以下 `~/.ssh/config` 包含了可以避免在特定网络环境中连接被断掉的情况的设置、使用压缩（这对于通过低带宽连接使用 scp 很有用），以及使</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>SSH SERVER</title>
+<link href="/b/net/net-ssh-server" rel="alternate" type="text/html"/>
+<updated>2019-06-23T00:00:00Z</updated>
+<summary/>
+<published>2019-06-23T00:00:00Z</published>
+<content># SSH SERVER
+OpenSSH Installations under CentOS Linux
+
+	# To install the server and client type:
+	yu</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>ssh proxy</title>
+<link href="/b/net/net-ssh-proxy" rel="alternate" type="text/html"/>
+<updated>2019-06-23T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># ssh proxy
+
+    -f Rquests ssh to go to background just before command execution.
+
+## tcp port forw</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Posgtre Var</title>
 <link href="/b/db/postgre-var" rel="alternate" type="text/html"/>
 <updated>2019-06-22T00:00:00Z</updated>
@@ -410,88 +489,4 @@ http://caniuse.com/
 
 	style &gt; id &gt; hover(鼠标悬停) &gt; class &gt; tag
  </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>font</title>
-<link href="/b/ria/js-css-font" rel="alternate" type="text/html"/>
-<updated>2019-06-04T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># font
-like bootstrap
-
-    @font-face {
-    font-family: 'Glyphicons Halflings';
-
-    src: url('../f</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Js Array 整理</title>
-<link href="/b/ria/js-array" rel="alternate" type="text/html"/>
-<updated>2019-06-04T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Js Array 整理
-array 不像string 是primitive value, 所以length 可以缩短放大array。
-
-	arr = [1,2,3]
-	arr.length = 1</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>py-process</title>
-<link href="/b/py/py-process" rel="alternate" type="text/html"/>
-<updated>2019-06-19T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Preface
-- sh: sh之于subprocess， 相当于requests 对于urllib2
-	1. sh.ls("-l", "/tmp", color="never")
-	2. sh.</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>eng-spoken</title>
-<link href="/b/eng/eng-spoken" rel="alternate" type="text/html"/>
-<updated>2019-06-04T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Preface
-
-Prime Linking:
-	this is Alex
-
-Geminates:
-	Oh hey, what's up man?
-
-# insertion
-Okey, See y</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>english punctuation</title>
-<link href="/b/eng/eng-punctuation" rel="alternate" type="text/html"/>
-<updated>2019-06-04T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># English punctuation
-https://zh.wikipedia.org/wiki/%E8%84%B1%E5%AD%97%E7%AC%A6
-
-	punctuation mark	n</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>字符编码简介</title>
-<link href="/b/code/code-character" rel="alternate" type="text/html"/>
-<updated>2019-06-04T00:00:00Z</updated>
-<summary/>
-<published>2014-05-10T00:00:00Z</published>
-<content># 字符编码简介
-本文试图理清字符编码系统的整体结构.如有理解不对请指正.
-
-# 字符编码
-按照[现代的编码模型],字符编码的主要概念分为：有哪些字符(字符表)、它们的编号(编码字符集)、这些编号如何</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>linux 之进程</title>
-<link href="/b/c/ops-process" rel="alternate" type="text/html"/>
-<updated>2019-06-04T00:00:00Z</updated>
-<summary/>
-<published>2019-06-04T00:00:00Z</published>
-<content># Preface
-本文总结下进程那些事儿
-
-# PCB 进程控制块
-linux 中每个进程都是由进程控制块(PCB) 控制的，PCB是一个task_struct 结构体。
-
-- 进程id。系统中每个</content>
 </entry></feed>
