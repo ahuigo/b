@@ -49,7 +49,7 @@ const MD_URL='post/py/py-time.md';
 <pre id="markdown" v-pre>---
 title: python 时间函数的用法笔记
 date: 2018-04-02
-updated: 2019-06-17
+updated: 2019-06-25
 ---
 # time 工具
 time 提供基本的时间，sleep
@@ -135,6 +135,11 @@ Should you want pass arguments to the timeout function, you can give them in the
 # datetime
 
 	from datetime import datetime, timedelta
+
+## datetime to date
+
+    datetime.datetime.now().date()
+    datetime.date.today()
 
 ## range time
 

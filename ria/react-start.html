@@ -49,13 +49,13 @@ const MD_URL='post/ria/react-start.md';
 <pre id="markdown" v-pre>---
 title: React Start
 date: 2019-06-23
-updated: 2019-06-23
+updated: 2019-06-25
 ---
 # React Runtime
 React 运行时，需要引入运行时
 
 ## CDN runtime
-阮一峰的demo 中的例子
+阮一峰的demo 中的例子: React + ReactDom + babel
 
     &lt;head&gt;
         &lt;meta charset=&quot;UTF-8&quot; /&gt;
@@ -72,6 +72,19 @@ React 运行时，需要引入运行时
         );
         &lt;/script&gt;
     &lt;/body&gt;
+
+## create-react-app
+$ cnpm install -g create-react-app
+$ create-react-app my-app
+$ cd my-app/
+$ npm start
+
+可以看到创建的public/index.html 会调用`src/index.js`:
+
+    import React from &#x27;react&#x27;;
+    import ReactDOM from &#x27;react-dom&#x27;;
+    ReactDOM.render(&lt;App /&gt;, document.getElementById(&#x27;root&#x27;));
+
 </pre>
 <div id="pager"></div>
 <div class="hr"></div>

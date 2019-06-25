@@ -49,7 +49,7 @@ const MD_URL='post/arch/arch-docker.md';
 <pre id="markdown" v-pre>---
 title: 学习 docker
 date: 2018-09-27
-updated: 2019-06-22
+updated: 2019-06-25
 ---
 # 什么是Docker
 虚拟机是对硬件的虚拟化(需要Hypervisor这个软件层), 而docker （LXC, linux container）是对操作系统的虚拟化。
@@ -149,10 +149,33 @@ Delete all images
     ahuigo/ubuntu:v2:指定要创建的目标镜像名
 
 ### 通过容器导出tar
+image to image.tar
 
-    docker export &lt;container&gt; -o nginx.tar
+    docker save [OPTIONS] IMAGE [IMAGE...] -o image.tar
+        Save one or more images to a tar archive (streamed to STDOUT by default)
+        如果指的不是IMAGE 而是container, 那打包的是container 背后的image 
+
+image.tar to image
+
     docker load &lt; nginx.tar
-    docker load --input fedora.tar
+    docker load -i fedora.tar
+        # Load an image from a tar archive or STDIN
+
+container to tar
+
+    docker export &lt;container&gt; -o container.tar
+        Export a container&#x27;s filesystem as a tar archive
+
+containter.tar to image: Import the contents from a tarball to create a filesystem image
+
+    docker import [OPTIONS] file|URL|- [REPOSITORY[:TAG]]
+        docker import container.tar 
+        docker import container.tar reop:v0.0.1
+
+import 类似 commit:
+docker import理解为将外部文件复制进来形成只有一层文件系统的镜像，而docker commit则是将当前的改动提交为一层文件系统，然后叠加到原有镜像之上。
+
+    $ docker commit e218edb10161 ahuigo/ubuntu:v2
 
 ### Dockerfile 创建image
 参考： http://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html

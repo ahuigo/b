@@ -49,7 +49,7 @@ const MD_URL='post/py/py-var-list.md';
 <pre id="markdown" v-pre>---
 title: python 的list/tuple 笔记
 date: 2018-03-03
-updated: 2019-06-23
+updated: 2019-06-25
 ---
 # list and tuple
 因为tuple 是增加删除元素的不可变的list(数据可以变)，所以代码更安全。
@@ -89,7 +89,43 @@ too many values to unpack:
     a,*args = 1,2,3,4
     a,_ = 1,2,3,4 # for go language
 
-### unpack dict
+## chunk
+
+    for i in range(0, len(arr), 3):
+        return arr[i:i+3]
+
+### iter chunk
+chunk to sub list
+
+    def grouper(n, iterable):
+        it = iter(iterable)
+        while True:
+            chunk = tuple(itertools.islice(it, n))
+            if not chunk:
+                return
+            yield chunk
+
+chunk to sub iter
+
+    def grouper_it(n, iterable):
+        it = iter(iterable)
+        while True:
+            chunk_it = itertools.islice(it, n)
+            try:
+                first_el = next(chunk_it)
+            except StopIteration:
+                return
+            yield itertools.chain((first_el,), chunk_it)
+
+注意不正常的用法为:
+
+    &gt;&gt;&gt; g=grouper_it(3, [1,2,3,4,5])
+    &gt;&gt;&gt; a=next(g)
+    &gt;&gt;&gt; b=next(g)
+    &gt;&gt;&gt; list(b)
+    [2, 3, 4]
+    &gt;&gt;&gt; list(a)
+    [1, 5]
 
 ## list unique
 use set if the item is hash-able

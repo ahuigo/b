@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/eng/eng-punctuation.md';
+const MD_URL='post/db/postgre-geo.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>english punctuation</title>
+<title>Postgre Geo</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -47,40 +47,19 @@ const MD_URL='post/eng/eng-punctuation.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: english punctuation
-date: 2018-09-27
+title: Postgre Geo
+date: 2019-06-24
 updated: 2019-06-25
 ---
-# English punctuation
-https://zh.wikipedia.org/wiki/%E8%84%B1%E5%AD%97%E7%AC%A6
+# Postgre Geo
 
-	punctuation mark	name	example
-    {{  }} Mustache 胡子括号
-    { } Braces 或 curly brackets 大括号
-    [ ] square brackets 或 brackets 方括号
-    &lt; &gt; angled brackets 尖括号
-    ( ) parentheses 圆括号 ​​​​
-    *   asterisk/star
-	^	caret 脱字符
-	~	tilde
-	`	grave accent, backquote 重音符或抑音符,反引号
-	.	full stop or period
-	, 	comma
-	;	semi-colon
-	:	colon
-	-	hyphen
-	—	dash
-		In each town—London, Paris and Rome—we stayed in youth hostels. It is often diffcult to find on a keyboard and for this reason some people use the easier-to-find but shorter hyphen(-) instead.
-	?	question mark
-	!	exclamation mark
-	/	slash, forward slash or oblique
-	\ 	backslash
-	&quot;&quot;	double quotation marks
-	&#x27;&#x27;	single quotation marks
-	&#x27;	apostrophe
-	^	caret 脱字符
-	_	underscore
-	...	ellipsis	ellipsis mark	One happy customer wrote: &quot;This is the best program...that I have ever seen.&quot;</pre>
+    $ select st_force2d(geom) from table_name limit 100
+    $ \d table_name
+    id        | bigint                      |
+    timestamp | timestamp without time zone |
+    geom      | geometry(LineStringZ,4326)  |
+     geom      | geometry(LineStringZ,4326)
+</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">

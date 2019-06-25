@@ -2,9 +2,96 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-06-23T21:44:43Z</updated>
+<updated>2019-06-25T17:37:42Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>python 字典</title>
+<link href="/b/py/py-var-dict" rel="alternate" type="text/html"/>
+<updated>2019-06-25T00:00:00Z</updated>
+<summary/>
+<published>2019-06-25T00:00:00Z</published>
+<content># Dict
+
+    key='city'
+	dic = {'x': 1, 'y': 2, 2:100, key:'bj'}
+	del dict['x']
+    dict.pop(2) # key</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-process</title>
+<link href="/b/py/py-process" rel="alternate" type="text/html"/>
+<updated>2019-06-25T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Preface
+- sh: sh之于subprocess， 相当于requests 对于urllib2
+	1. sh.ls("-l", "/tmp", color="never")
+	2. sh.</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Python 语法</title>
+<link href="/b/py/py-grammar" rel="alternate" type="text/html"/>
+<updated>2019-06-25T00:00:00Z</updated>
+<summary/>
+<published>2018-03-01T00:00:00Z</published>
+<content># compare
+```s
+&gt;&gt;&gt; 1&lt;3&gt;=3&gt;1==1&lt;100
+True
+```
+
+
+# Condition &amp; Loop
+
+## try finnaly
+
+    try:
+        1</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-async-iteratortools</title>
+<link href="/b/py/py-async-iteratortools" rel="alternate" type="text/html"/>
+<updated>2019-06-25T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Preface
+
+Python的内建模块itertools提供了非常有用的用于操作迭代对象的函数。
+
+# itertools
+itertools模块提供的全部是处理迭代功能的函数，它们的返回值不是</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>golang-pkg</title>
+<link href="/b/go/2.go-pkg" rel="alternate" type="text/html"/>
+<updated>2019-06-25T00:00:00Z</updated>
+<summary/>
+<published>2016-09-27T00:00:00Z</published>
+<content># 结构
+1. 参考How to Write Go Code https://golang.org/doc/code.html
+
+2. 环境变量$ go env
+
+## workspace
+可以有多个</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>english punctuation</title>
+<link href="/b/eng/eng-punctuation" rel="alternate" type="text/html"/>
+<updated>2019-06-25T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># English punctuation
+https://zh.wikipedia.org/wiki/%E8%84%B1%E5%AD%97%E7%AC%A6
+
+	punctuation mark	n</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Postgre Geo</title>
+<link href="/b/db/postgre-geo" rel="alternate" type="text/html"/>
+<updated>2019-06-25T00:00:00Z</updated>
+<summary/>
+<published>2019-06-24T00:00:00Z</published>
+<content># Postgre Geo
+
+    $ select st_force2d(geom) from table_name limit 100
+    $ \d table_name
+    id   </content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>React Start</title>
 <link href="/b/ria/react-start" rel="alternate" type="text/html"/>
 <updated>2019-06-23T00:00:00Z</updated>
@@ -75,7 +162,7 @@ OpenSSH Installations under CentOS Linux
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>ssh proxy</title>
 <link href="/b/net/net-ssh-proxy" rel="alternate" type="text/html"/>
-<updated>2019-06-23T00:00:00Z</updated>
+<updated>2019-06-25T00:00:00Z</updated>
 <summary/>
 <published>2018-09-28T00:00:00Z</published>
 <content># ssh proxy
@@ -285,7 +372,7 @@ The only format in the spec is a simplified </content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>python 时间函数的用法笔记</title>
 <link href="/b/py/py-time" rel="alternate" type="text/html"/>
-<updated>2019-06-17T00:00:00Z</updated>
+<updated>2019-06-25T00:00:00Z</updated>
 <summary/>
 <published>2018-04-02T00:00:00Z</published>
 <content># time 工具
@@ -383,7 +470,7 @@ id：用户/组身份信息
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>学习 docker</title>
 <link href="/b/arch/arch-docker" rel="alternate" type="text/html"/>
-<updated>2019-06-22T00:00:00Z</updated>
+<updated>2019-06-25T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># 什么是Docker
@@ -400,93 +487,4 @@ id：用户/组身份信息
 
 主要参考 [book]:
 http://learnvimscriptthehardway.s</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>vim-cmd</title>
-<link href="/b/vim/vim-cmd" rel="alternate" type="text/html"/>
-<updated>2019-06-15T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># autocmd
-Syntax:
-
-	:au[tocmd] [group] {event} {pat} [nested] {cmd}
-			Add {cmd} to the list of comm</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>vim-options</title>
-<link href="/b/vim/vim-options" rel="alternate" type="text/html"/>
-<updated>2019-06-10T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Set options 
-set 命令的语法
-
-	:set {option}
-	:se no{option} 
-	:se {option}! "toggle option
-	:set {optio</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>vim-pattern</title>
-<link href="/b/vim/vim-pattern" rel="alternate" type="text/html"/>
-<updated>2019-06-10T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Preface
-
-# pattern
-
-	:h pattern
-
-## charlist
-Character classes
-
-	\s	whitespace character: &lt;Space&gt; </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Js dom 笔记</title>
-<link href="/b/ria/js-dom" rel="alternate" type="text/html"/>
-<updated>2019-06-10T00:00:00Z</updated>
-<summary/>
-<published>2016-01-23T00:00:00Z</published>
-<content># Js dom 笔记
-    document.documentElement ;//html
-    document.body;  //html
-
-# Navigator
-navigator.a</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Event</title>
-<link href="/b/ria/js-dom-event" rel="alternate" type="text/html"/>
-<updated>2019-06-10T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Event
-
-## DOM MutationObserver
-http://javascript.ruanyifeng.com/dom/mutationobserver.html
-
-### DOM</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>css 布局</title>
-<link href="/b/ria/js-css-layout" rel="alternate" type="text/html"/>
-<updated>2019-06-19T00:00:00Z</updated>
-<summary/>
-<published>2018-03-03T00:00:00Z</published>
-<content># CSS 布局
-&gt; 参考: http://zh.learnlayout.com/position.html
-
-# display
-1. block: This makes the element a</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>CSS 笔记</title>
-<link href="/b/ria/js-css" rel="alternate" type="text/html"/>
-<updated>2019-06-10T00:00:00Z</updated>
-<summary/>
-<published>2017-12-12T00:00:00Z</published>
-<content># CSS 笔记
-css/html5/js 兼容表
-http://caniuse.com/
-
-# priority
-
-	style &gt; id &gt; hover(鼠标悬停) &gt; class &gt; tag
- </content>
 </entry></feed>
