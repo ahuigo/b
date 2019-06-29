@@ -32,11 +32,11 @@ const MD_URL='post/sec/security-account.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -48,8 +48,8 @@ const MD_URL='post/sec/security-account.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: 安全的帐号设计
-date: 2018-12-20
-updated: 2018-12-20
+date: 2019-06-29
+updated: 2019-06-29
 ---
 # Preface
 帐号设计可以涉及到很多细节，本文主要从安全的角度作一个总结:
@@ -137,14 +137,15 @@ Advantages are many -- e.g., the user could pass the token, once they&#x27;ve ob
 
 ## access token 有效期设计
 oAuth2 rfc 或许有讨论。
-初步想法是：用redis/mc 实现access token 过期
+初步想法两种：
+1. 用redis/mc 实现access token 过期
+1. token 自带时间戳+二次st(token) 验证(st key 泄露风险比较大)
 
 ## uid+st
 以前微博wap曾采用这种方式防止csrf：uid 是从cookie中取的真实的，st=hash(uid)是需要保密的(位于url中), 通过校验st防止CSRF
 
 ## gsid 
 weibo 身份认证，主要存储于cookie. 他不同于token, 它不仅用验证用户身份，还可解析用户数据
-
 
 # Authorization
 对于中小企业而言，构建自己的帐户系统成本可能过大：主要是安全问题, 存储成本.
@@ -408,7 +409,7 @@ http://www.ossxp.com/doc/redmine/admin_guide/admin_guide.html#id32
 <div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>

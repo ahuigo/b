@@ -49,7 +49,7 @@ const MD_URL='post/arch/arch-docker.md';
 <pre id="markdown" v-pre>---
 title: 学习 docker
 date: 2018-09-27
-updated: 2019-06-25
+updated: 2019-06-29
 ---
 # 什么是Docker
 虚拟机是对硬件的虚拟化(需要Hypervisor这个软件层), 而docker （LXC, linux container）是对操作系统的虚拟化。
@@ -247,6 +247,16 @@ Note: ENV 同名变量会覆盖 ARG
     # 启动时默认的命令
     CMD [&quot;php-fpm&quot;, &quot;-D&quot;]
     CMD     /usr/sbin/sshd -D
+
+实际启动的命令为ENTRYPOINT + CMD
+
+    CMD [&quot;test.py&quot;]
+    ENTRYPOINT [&quot;python3&quot;]
+
+覆盖ENTRY
+
+    --entrypoint=&quot;sh&quot;
+    docker run --rm -it --entrypoint=sh image:0.0.2
 
 覆盖CMD:
 

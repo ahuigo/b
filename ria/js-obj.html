@@ -48,8 +48,8 @@ const MD_URL='post/ria/js-obj.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: js notes
-date: 2019-06-17
-updated: 2019-06-17
+date: 2019-06-29
+updated: 2019-06-29
 ---
 # Object
 
@@ -525,6 +525,18 @@ e.g.
     }
 
     Foo.bar() // hello
+
+##### get all static method
+
+    class Foo{
+        static one() {}
+        two() {}
+        three() {}
+        static four() {}
+    }
+    const all = Object.getOwnPropertyNames(Foo)
+        .filter(prop =&gt; typeof Foo[prop] === &quot;function&quot;);
+    console.log(all); // [&quot;one&quot;, &quot;four&quot;]
 
 ##### instance call static method
 https://stackoverflow.com/questions/28627908/call-static-methods-from-regular-es6-class-methods

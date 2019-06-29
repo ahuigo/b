@@ -49,7 +49,7 @@ const MD_URL='post/db/mongo-.md';
 <pre id="markdown" v-pre>---
 title: 不要用mongodb
 date: 2018-09-27
-updated: 2019-06-19
+updated: 2019-06-29
 ---
 # 不要用mongodb
 http://coolshell.cn/articles/5826.html
@@ -91,6 +91,7 @@ connect mongon via shell
 https://docs.mongodb.com/manual/reference/mongo-shell/
 
     &gt; show dbs;
+    &gt; show collections;
     &gt; use &lt;db&gt;
     &gt; db.&lt;collection&gt;.findOne()
 
@@ -129,6 +130,12 @@ all connect:
     &gt;&gt;&gt; dbc[&#x27;dbName&#x27;].collection_names()
     posts = dbc[&#x27;dbName&#x27;].posts
     posts.find_one()
+    posts.find(skip=100,limit=10)
+
+https://api.mongodb.com/python/current/api/pymongo/collection.html
+
+    db[db_name].create_collection(table_name);
+    db[db_name][table_name].findOne();
 
 # db help
 
