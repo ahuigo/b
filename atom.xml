@@ -2,9 +2,76 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-06-29T15:19:47Z</updated>
+<updated>2019-07-03T18:55:13Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>js 的函数</title>
+<link href="/b/ria/js-func" rel="alternate" type="text/html"/>
+<updated>2019-07-03T00:00:00Z</updated>
+<summary/>
+<published>2017-07-11T00:00:00Z</published>
+<content># async
+## generator
+    function* foo() {
+        yield 11
+        return 22;//没用
+    }
+    f=foo()</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>css 布局</title>
+<link href="/b/ria/js-css-layout" rel="alternate" type="text/html"/>
+<updated>2019-07-03T00:00:00Z</updated>
+<summary/>
+<published>2018-03-03T00:00:00Z</published>
+<content># CSS 布局
+&gt; 参考: http://zh.learnlayout.com/position.html
+
+# display
+1. block: This makes the element a</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-async-iter</title>
+<link href="/b/py/py-async-iter" rel="alternate" type="text/html"/>
+<updated>2019-07-03T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Preface
+http://nvie.com/posts/iterators-vs-generators/
+
+## Iterable, 迭代器,
+
+### has(next)
+    &gt;&gt;&gt; a</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>mac 工具集</title>
+<link href="/b/mac/mac-tool" rel="alternate" type="text/html"/>
+<updated>2019-07-03T00:00:00Z</updated>
+<summary/>
+<published>2018-10-10T00:00:00Z</published>
+<content># Preface
+本文是我所用的mac 工具集大杂烩。
+
+一些mac osx 能做而linux 桌面级OS 目前不能做的事情：
+
+- mac 支持全局readline , 字符编辑的效率非常非常高(</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Postgre 安装\配置\管理</title>
+<link href="/b/db/postgre-admin" rel="alternate" type="text/html"/>
+<updated>2019-07-03T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Postgre 安装\配置\管理
+    rpm -Uvh https://yum.postgresql.org/10/redhat/rhel-7-x86_64/pgdg-centos10-10-</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Postgre User and Authentication</title>
+<link href="/b/db/postgre-admin-user" rel="alternate" type="text/html"/>
+<updated>2019-07-03T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Postgre User and Authentication
+vim /var/lib/pgsql/10/data/pg_hba.conf
+
+    host    all           </content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Node argv</title>
 <link href="/b/ria/node-argv" rel="alternate" type="text/html"/>
 <updated>2019-06-29T00:00:00Z</updated>
@@ -90,9 +157,9 @@ Soc</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>python 字典</title>
 <link href="/b/py/py-var-dict" rel="alternate" type="text/html"/>
-<updated>2019-06-25T00:00:00Z</updated>
+<updated>2019-07-03T00:00:00Z</updated>
 <summary/>
-<published>2019-06-25T00:00:00Z</published>
+<published>2019-07-03T00:00:00Z</published>
 <content># Dict
 
     key='city'
@@ -420,72 +487,4 @@ os
     os.getenv('HOME')
 
     from os.path im</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>nginx proxy</title>
-<link href="/b/nginx/nginx-proxy" rel="alternate" type="text/html"/>
-<updated>2019-06-19T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content>## http_proxy
-The ngx_http_proxy_module module allows passing requests to another server.
-
-### proxy</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>不要用mongodb</title>
-<link href="/b/db/mongo-" rel="alternate" type="text/html"/>
-<updated>2019-06-29T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># 不要用mongodb
-http://coolshell.cn/articles/5826.html
-
-# todo
-http://www.tutorialspoint.com/mongodb/
-
-</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>js-time</title>
-<link href="/b/ria/js-time" rel="alternate" type="text/html"/>
-<updated>2019-06-19T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Date Format
-&gt; https://zh.wikipedia.org/wiki/ISO_8601
-
-The only format in the spec is a simplified </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>python 时间函数的用法笔记</title>
-<link href="/b/py/py-time" rel="alternate" type="text/html"/>
-<updated>2019-06-25T00:00:00Z</updated>
-<summary/>
-<published>2018-04-02T00:00:00Z</published>
-<content># time 工具
-time 提供基本的时间，sleep
-
-	import time
-	time.time()
-		19972314124.05238
-        time.localetime(</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Git 命令大全</title>
-<link href="/b/git/git-" rel="alternate" type="text/html"/>
-<updated>2019-06-17T00:00:00Z</updated>
-<summary/>
-<published>2019-06-17T00:00:00Z</published>
-<content># Git 配置
-
-## ConfigFile
-1. /etc/gitconfig #git config --system
-2. ~/.gitconfig 	#git config --global</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>awk 简介</title>
-<link href="/b/c/ops-awk" rel="alternate" type="text/html"/>
-<updated>2019-06-17T00:00:00Z</updated>
-<summary/>
-<published>2019-06-17T00:00:00Z</published>
-<content># Preface
-awk  命令行的基本语法为
-
-	awk option 'script' file1 file2 ...
-	awk option -f scriptfile file1 file2</content>
 </entry></feed>

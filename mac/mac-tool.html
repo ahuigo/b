@@ -36,7 +36,7 @@ const MD_URL='post/mac/mac-tool.md';
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,7 +49,7 @@ const MD_URL='post/mac/mac-tool.md';
 <pre id="markdown" v-pre>---
 title: mac 工具集
 date: 2018-10-10
-updated: 2019-03-05
+updated: 2019-07-03
 ---
 # Preface
 本文是我所用的mac 工具集大杂烩。
@@ -74,6 +74,10 @@ linux desktop 的优点：
 - 更加原汁原味的本地化linux开发环境，而OSX 需要稍微配置一下（其实很简单的啦）, 其实mac OSX 中装个virtualBox(centos 不要装X11) 也是很不错的选择
 - Mac OSX 有极少数私有的命令, 比如：dscl （相当于linux下的用户管理命令 useradd, usermod ）
 - Mac OSX 有一些命令不是gnu版本的: 比如sed，awk, 不过可以一键安装gnu 版的命令: `brew install gsed gawk`
+
+# Start Tips
+1. 鼠标、键盘、touchpad 的speed 设置为最高fast
+2. Touchpad 的设置三指drag、轻触
 
 # Invisible Shortcuts
 &gt; Reference: http://apple.stackexchange.com/questions/400/please-share-your-hidden-os-x-features-or-tips-and-tricks
@@ -348,10 +352,13 @@ diskutil是OS X磁盘工具应用的命令行版。既可以完成图形界面�
 	diskutil info /dev/disk1s2
 
 # 流程图/脑图
-- processon flowchart + mind + UI(Wireframes) + UML
+processon flowchart + mind + UI(Wireframes) + UML
+
 
 ## Flow Chart 流程图
-http://www.processon.com/diagrams/new
+1. google: Top 5 : Best free diagrams javascript libraries
+1. http://www.processon.com/diagrams/new
+2. http://resources.jointjs.com/demos
 
 ### client app
 - yEd diagram app
@@ -472,14 +479,23 @@ Graph::Easy
     http://36kr.com/p/216120.html
 
 ## GIF
-draw gif:
- ms paint: http://gifpaint.com/
- ppt
+If you think a GIF of what is happening would be helpful, consider tools like 
+https://www.cockos.com/licecap/, 
+https://github.com/phw/peek 
+https://www.screentogif.com/ 
 
+### my app installed
+mac app(installed):
+1. GIPHY
+2. Kap
+
+### draw gif
+    ms paint: http://gifpaint.com/
+    ppt
 
 ### Kap +KeyCastr
-Kap 开源+简洁, 替代recordit/LICEcap/Gifcam
-KeyCastr 显示按键
+1. Kap 开源+简洁, 替代recordit/LICEcap/Gifcam
+2. KeyCastr 显示按键
 
 ### recordit
 700k, 极简，直接保存图片到recordit 自己的服务器(需要代理), 返回一个url
@@ -495,19 +511,6 @@ LICEcap 非常轻量级，700KB。
 ## zapier
 zapier 不是mac 下的工具，它一款让你更方便的使用其它web app 的web app. 它就像是胶水，将其它app 粘合起来
 zapier.com
-
-
-# mac 10.10.4
-&gt; http://osxdaily.com/2015/07/01/fix-frozen-app-store-updates-and-high-softwareupdated-cpu/
-
-mac 10.10.4 可能占用非常高的cpu memory. 解决的办法：
-
-	killall softwareupdated
-
-Next, you can install iTunes 12.2 update manually with the following command string:
-
-	softwareupdate -l
-	softwareupdate -i iTunesXPatch-12.2
 </pre>
 <div id="pager"></div>
 <div class="hr"></div>

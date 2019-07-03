@@ -49,15 +49,20 @@ const MD_URL='post/db/postgre-admin.md';
 <pre id="markdown" v-pre>---
 title: Postgre 安装\配置\管理
 date: 2018-09-27
-updated: 2019-05-12
+updated: 2019-07-03
 ---
 # Postgre 安装\配置\管理
-```bash
-rpm -Uvh https://yum.postgresql.org/10/redhat/rhel-7-x86_64/pgdg-centos10-10-2.noarch.rpm
-yum install postgresql10-server postgresql10 -y
-# Create a new PostgreSQL database cluster:
-/usr/pgsql-10/bin/postgresql-10-setup initdb
-```
+    rpm -Uvh https://yum.postgresql.org/10/redhat/rhel-7-x86_64/pgdg-centos10-10-2.noarch.rpm
+    yum install postgresql10-server postgresql10 -y
+    # Create a new PostgreSQL database cluster:
+    /usr/pgsql-10/bin/postgresql-10-setup initdb
+
+## output formate
+
+    # \x
+    Expanded display is on.
+    # \x
+    Expanded display is off.
 
 ## auth
 see db-user.md
@@ -93,6 +98,10 @@ vim /var/lib/pgsql/data/pg_hba.conf
     `listen_addresses=&#x27;localhost&#x27;`
     &#x27;localhost,192.168.1.66&#x27;
     &#x27;port=5432&#x27;
+
+show config 
+
+    psql -U postgres -c &#x27;SHOW config_file&#x27;
 
 #### via args
 /lib/systemd/system/postgresql.service
