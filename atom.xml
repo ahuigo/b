@@ -2,9 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-07-05T15:23:54Z</updated>
+<updated>2019-07-05T18:46:14Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>学习 docker</title>
+<link href="/b/arch/arch-docker" rel="alternate" type="text/html"/>
+<updated>2019-07-05T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># 什么是Docker
+虚拟机是对硬件的虚拟化(需要Hypervisor这个软件层), 而docker （LXC, linux container）是对操作系统的虚拟化。
+1. docker 基于li</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>收集了下UI 动画特效</title>
 <link href="/b/ui/ui-animation" rel="alternate" type="text/html"/>
 <updated>2019-07-05T00:00:00Z</updated>
@@ -468,18 +477,4 @@ curl 转换器: https://curl.trillworks.com/
 
 	-F,--form
 	-D- Dump </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>py-debug-log</title>
-<link href="/b/py/py-debug-log" rel="alternate" type="text/html"/>
-<updated>2019-07-05T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># Preface
-- logging
-https://docs.python.org/3.4/howto/logging.html
-
-## example
-
-    import logging
- </content>
 </entry></feed>
