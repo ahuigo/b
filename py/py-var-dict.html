@@ -48,8 +48,8 @@ const MD_URL='post/py/py-var-dict.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: python 字典
-date: 2019-07-03
-updated: 2019-07-03
+date: 2019-07-05
+updated: 2019-07-05
 ---
 # Dict
 
@@ -228,6 +228,13 @@ OrderedDict可以实现一个FIFO（先进先出）的dict，当容量超出限�
     &gt;&gt;&gt; defaultdict(None)[&#x27;k&#x27;]
     KeyError: &#x27;k&#x27;
     &gt;&gt;&gt; defaultdict(lambda:1)[&#x27;k&#x27;]
+
+### 二维
+
+    from functools import partial 
+    from collection import defaultdict
+    arr = defaultdict(partial(defaultdict, int))
+    arr[&#x27;i&#x27;][&#x27;j&#x27;]
 
 ### Counting with defaultdict
 
