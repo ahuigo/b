@@ -48,8 +48,8 @@ const MD_URL='post/git/git-.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: Git 命令大全
-date: 2019-06-17
-updated: 2019-06-17
+date: 2019-07-07
+updated: 2019-07-07
 ---
 # Git 配置
 
@@ -131,6 +131,13 @@ or:
     export http_proxy=http://user:pwd@host:port
     &quot;unset proxy
     git config [--global] unset https.proxy
+
+socks5 socks5h proxy
+
+    git config --global http.proxy socks5h://127.0.0.1:1080
+    git config --global http.proxy socks5://127.0.0.1:1080
+    ALL_PROXY=socks5://127.0.0.1:8888 git clone https://github.com/some/one.git
+
 
 ### 多用户下的SSH
 参阅：[Multiple SSH Keys](https://gist.github.com/jexchan/2351996)
@@ -244,6 +251,7 @@ If you want to also remove *directories*, run
 ## modify messages
 
 	git commit --amend -m &#x27;new messages&#x27;
+	git commit --amend -m &#x27;new messages&#x27; --author &#x27;ahuigo&#x27;
 
 ## git revert
 恢复到HEAD 之前的提交:

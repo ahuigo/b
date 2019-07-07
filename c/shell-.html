@@ -32,11 +32,11 @@ const MD_URL='post/c/shell-.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,7 +49,7 @@ const MD_URL='post/c/shell-.md';
 <pre id="markdown" v-pre>---
 title: Shell Programming
 date: 2014-03-05
-updated: 2019-02-06
+updated: 2019-07-07
 ---
 # Shell Programming
 
@@ -250,7 +250,7 @@ shell arguments:
 	➜ &gt; py git:(gh-pages) ✗cat &lt; ( echo abc )
 	zsh: unknown file attribute:
 
-再来一个例子
+再来一个例子(zsh 不行, bash only)
 
 	while read attr links owner group size date time filename; do
 		cat &lt;&lt;- EOF
@@ -263,6 +263,12 @@ shell arguments:
 			Attributes:   $attr
 		EOF
 	done &lt; &lt;(ls -l | tail -n +2)
+
+or :
+
+    for entry in &quot;$search_dir&quot;/*; do
+        echo &quot;$entry&quot;; # $search_dir/$entry
+    done
 
 &gt; 注意# tail -n +2, 用的+ 号哦
 
@@ -377,6 +383,7 @@ shell 支持一些调试参数：
 1. 在脚本的头部 `#/bin/sh -x`
 1. 在脚本中用set 设置 `set -x` 或者 `set -o xtrace`, 用于在命令执行前打印命令
 
+Output:
 
 	set -x			# activate debugging from here
 	w
@@ -391,14 +398,16 @@ shell 支持一些调试参数：
 
 1. /etc/profile
 2. ~/.bash_profile、~/.bash_login和~/.profile三个文件中的一个
-3. 退出登录时会执行~/.bash_logout脚本
+3. 一般~/.bash_profile 会包含 ~/.bashrc
+4. 退出登录时会执行~/.bash_logout脚本
 
 ## 以交互非登录Shell启动
 图形界面下开一个终端窗口，或者在登录Shell提示符下再输入bash命令
 
 1. ~/.bashrc
+2. /etc/bashrc
 
-一般~/.bash_profile 会包含 ~/.bashrc
+zshrc 也类似,见ops-init.md
 
 ## 非交互Shell
 为执行脚本而fork出来的子Shell是非交互Shell

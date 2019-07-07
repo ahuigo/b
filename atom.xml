@@ -2,9 +2,86 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-07-05T18:46:14Z</updated>
+<updated>2019-07-07T23:17:57Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Git 命令大全</title>
+<link href="/b/git/git-" rel="alternate" type="text/html"/>
+<updated>2019-07-07T00:00:00Z</updated>
+<summary/>
+<published>2019-07-07T00:00:00Z</published>
+<content># Git 配置
+
+## ConfigFile
+1. /etc/gitconfig #git config --system
+2. ~/.gitconfig 	#git config --global</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Postgre Index</title>
+<link href="/b/db/postgre-index" rel="alternate" type="text/html"/>
+<updated>2019-07-07T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Postgre Index
+本文主要围绕postgre 总结一下索引, 参考：[PostgreSQL 9种索引的原理和应用场景](https://yq.aliyun.com/articles/11</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Postgre 安装\配置\管理</title>
+<link href="/b/db/postgre-ddl-install" rel="alternate" type="text/html"/>
+<updated>2019-07-07T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Postgre 安装\配置\管理
+    rpm -Uvh https://yum.postgresql.org/10/redhat/rhel-7-x86_64/pgdg-centos10-10-</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Gorm ddl</title>
+<link href="/b/db/gorm-ddl" rel="alternate" type="text/html"/>
+<updated>2019-07-07T00:00:00Z</updated>
+<summary/>
+<published>2019-07-07T00:00:00Z</published>
+<content># Gorm Migrate
+自动迁移仅仅会创建表，缺少列和索引，并且不会改变现有列的类型或删除未使用的列以保护数据。
+
+    db.AutoMigrate(&amp;User{})
+
+    db.Aut</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>在家里如何免费使用中国知网？</title>
+<link href="/b/course/paper" rel="alternate" type="text/html"/>
+<updated>2019-07-07T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content>在家里如何免费使用中国知网？
+https://www.zhihu.com/question/20188973/answer/142225168
+论文神网站
+https://www.zhihu.com/</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Shell Programming</title>
+<link href="/b/c/shell-" rel="alternate" type="text/html"/>
+<updated>2019-07-07T00:00:00Z</updated>
+<summary/>
+<published>2014-03-05T00:00:00Z</published>
+<content># Shell Programming
+
+# Signal, 信号(trap)
+Refer to:
+http://billie66.github.io/TLCL/book/zh/chap37.html</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>ops-init</title>
+<link href="/b/c/ops-init" rel="alternate" type="text/html"/>
+<updated>2019-07-07T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Preface
+
+# init
+
+## init
+init指linux 系统运行级runlevel 0~6. 可在/etc/inittab中指定:
+
+	id:3:initdefault:
+
+
+##</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>学习 docker</title>
 <link href="/b/arch/arch-docker" rel="alternate" type="text/html"/>
 <updated>2019-07-05T00:00:00Z</updated>
@@ -260,7 +337,7 @@ itertools模块提供的全部是处理迭代功能的函数，它们的返回�
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>golang-pkg</title>
 <link href="/b/go/2.go-pkg" rel="alternate" type="text/html"/>
-<updated>2019-06-25T00:00:00Z</updated>
+<updated>2019-07-07T00:00:00Z</updated>
 <summary/>
 <published>2016-09-27T00:00:00Z</published>
 <content># 结构
@@ -395,86 +472,4 @@ show function
 
     \sf[+]  FUNCNAME       show a function's definition
    </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>FUNCTION</title>
-<link href="/b/db/postgre-ddl" rel="alternate" type="text/html"/>
-<updated>2019-06-22T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># shell
-    psql DBNAME USERNAME
-    psql -U user_name -d database_name -h 127.0.0.1 -W
-    psql -U </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Postgre SQL function</title>
-<link href="/b/db/postgre-ddl-function" rel="alternate" type="text/html"/>
-<updated>2019-06-22T00:00:00Z</updated>
-<summary/>
-<published>2019-06-20T00:00:00Z</published>
-<content># Postgre SQL function
-## 基本语法
-必须指定语言 `LANGUAGE plpsql|sql`, `$$` 是分割符
-
-    CREATE OR REPLACE FUNCTI</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Postgre CRUD</title>
-<link href="/b/db/postgre-crud" rel="alternate" type="text/html"/>
-<updated>2019-06-22T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Postgre CRUD
-## string or keyword
-    select 'string';
-    select "count"(1) from "table_name"
-
-##</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>mysql-datatype</title>
-<link href="/b/db/mysql-var" rel="alternate" type="text/html"/>
-<updated>2019-06-22T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Data Type(数据类型)
-
-	NULL means you do not have to provide a value for the field... default to null
-	</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Mysql 的字符串处理</title>
-<link href="/b/db/mysql-var-str" rel="alternate" type="text/html"/>
-<updated>2019-06-22T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># regexp
-
-  &gt; select 'string or column' regexp 'key1|key2' ;
-  1 or 0
-
-## extract(hive only)
-
-  sele</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>mysql ddl</title>
-<link href="/b/db/mysql-ddl" rel="alternate" type="text/html"/>
-<updated>2019-06-22T00:00:00Z</updated>
-<summary/>
-<published>2019-06-22T00:00:00Z</published>
-<content># Storage Engines
-
-	mariadb&gt; show engines
-
-mysql 下所有引擎的其表结构保存在`tb_name.frm` 中, 而数据结构在不同的引擎下，保存的文件有所不</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>curl manual</title>
-<link href="/b/c/ops-curl" rel="alternate" type="text/html"/>
-<updated>2019-06-22T00:00:00Z</updated>
-<summary/>
-<published>2019-06-22T00:00:00Z</published>
-<content>
-# curlt to python/node/go...
-curl 转换器: https://curl.trillworks.com/
-
-# Usage
-
-	-F,--form
-	-D- Dump </content>
 </entry></feed>

@@ -49,7 +49,7 @@ const MD_URL='post/go/2.go-pkg.md';
 <pre id="markdown" v-pre>---
 title: golang-pkg
 date: 2016-09-27
-updated: 2019-06-25
+updated: 2019-07-07
 ---
 # 结构
 1. 参考How to Write Go Code https://golang.org/doc/code.html
@@ -278,6 +278,9 @@ Usage: go help mod
 
     require (
         github.com/ahuigo/go-hello v0.0.0-20190325051759-913dff133b48 // indirect
+        github.com/jinzhu/gorm v1.9.1
+        github.com/jinzhu/inflection v0.0.0-20180308033659-04140366298a // indirect
+        github.com/jinzhu/now v0.0.0-20181116074157-8ec929ed50c3 // indirect
     )
 
 go.mod 存在时，如果cache-hash 目录不存在，go run 会自动下载更新
