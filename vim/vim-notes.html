@@ -32,11 +32,11 @@ const MD_URL='post/vim/vim-notes.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -48,8 +48,8 @@ const MD_URL='post/vim/vim-notes.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: vim 笔记
-date: 2019-01-10
-updated: 2019-01-10
+date: 2019-06-04
+updated: 2019-06-04
 ---
 # vim 笔记
 本文是vim 相关的总结，不会有太多的注释 —— 只是方便回顾.
@@ -61,342 +61,6 @@ updated: 2019-01-10
 &gt; Refer to : http://vim.wikia.com/wiki/Learn_to_use_help
 
 [vim-help](/p/vim/vim-help)
-
-# motion, 移动范围
-[vim-motion](/p/vim/vim-motion)
-
-## move cursor光标移动
-
-以下归纳的是按光标移动(Normal/Visual模式下). 如果需要在insert mode下移动光标, 需要加一个前缀键: Ctrl+o
-
-	#在insert mode下光标左移一个字符
-	Ctrl+o h  &quot;相当于按&lt;Left&gt;
-	Ctrl+o A	&quot;移动到开头
-	#在insert mode下光标左移后退一个大单词
-	Ctrl+o B sfsadfadfs在
-
-### 按字符移动光标hjkl
-
-	几乎所有的移动都可以在前面加数字——实现重复的动作
-
-注意一下大小写, 大写的HJKLM与小写的含义迥然不同:
-
-	H:Home M:middle L:Last J:Concat Line K:Manual
-
-#### move cursor in insert mode / insert模式下的hjkl
-建议做一个键映射
-
-	cnoremap &lt;C-a&gt; &lt;Home&gt;
-	cnoremap &lt;C-e&gt; &lt;End&gt;
-
-ps:如果要实现跨行移动,需要指定相应键：
-
-	set whichwrap=b,s,&lt;,&gt;,[,]
-
-	b 在 Normal 或 Visual 模式下按删除(Backspace)键。
-	s 在 Normal 或 Visual 模式下按空格键。
-	h 在 Normal 或 Visual 模式下按 h 键。
-	l 在 Normal 或 Visual 模式下按 l 键。
-	&lt; 在 Normal 或 Visual 模式下按左方向键。
-	&gt; 在 Normal 或 Visual 模式下按右方向键。
-	~ 在 Normal 模式下按 ~ 键(翻转当前字母大小写)。
-	[ 在 Insert 或 Replace 模式下按左方向键。
-	] 在 Insert 或 Replace 模式下按右方向键。
-
-### move cursor by word 按单词移动光标
-
-	w 下一词首 b上一词首 e下一词尾
-	WBE 大写则表示将特殊符号（非空白）也作为单词的一部分
-
-    * &quot;移动到下一个单词，这个单词与光标下的单词是一样的
-    # &quot;移动到上一个单词，这个单词与光标下的单词是一样的
-
-#### insert mode
-如果需要在insert mode 下做单词移动, 可以这样子
-
-	&quot;linux
-	:inoremap &lt;A-b&gt; &lt;C-o&gt;b
-	:inoremap &lt;A-f&gt; &lt;C-o&gt;w
-	&quot;mac
-	:inoremap ∫ &lt;C-o&gt;b
-	:inoremap ƒ &lt;C-o&gt;w
-
-很遗憾, mac Terminal vim 下的alt+left/right 不支持光标移动. 而且不能做map映射
-
-	&lt;shift&gt;+Left/Right
-	&lt;ctrl&gt;+Left/Right
-
-### 按行移动光标
-
-	0行首第一字符
-	^行首第一非空字符
-
-	$ 行尾
-	g_ To the last non-blank character of the line
-
-	:line_num 移动到指定行号
-	&lt;line_num&gt;G 移动到指定行号
-
-#### insert mode
-
-	:inoremap &lt;C-j&gt; &lt;down&gt;
-
-### move cursor by fold
-[vim-fold](/p/vim-fold)
-
-    zj/zk &quot;move to next/previous fold
-    [z  &quot;move to the begining of fold
-    ]z  &quot;move to the end of fold
-
-### screen motion - 按屏幕移动光标
-
-	&lt;C-U&gt; 上半屏幕
-	&lt;C-D&gt; 下半屏幕
-	&lt;C-B&gt; 上一屏幕
-	&lt;C-F&gt; 下一屏幕
-	H 屏幕首行
-	M 屏幕中部
-	L 屏幕尾部
-
-	&lt;C-Y&gt; 上滚屏幕一行
-	&lt;C-E&gt; 下滚屏幕一行
-	zt or z&lt;CR&gt; 光标回到top (前者保留光标column)
-	zz or z. 光标回到中部 (前者保留光标column)
-	zb or z- 光标回到bottom (前者保留光标column)
-	z&lt;height&gt;&lt;CR&gt; 设置屏幕的高度
-	ps:以上均可跟用数字控制(仅M忽略数字)
-
-### object motion - 按括号对()[]{}移动光标
-
-### 按标记移动光标(marks)
-[vim-motion](/p/vim/vim-motion)
-
-### 按changelist移动光标
-[vim-motion](/p/vim/vim-motion)
-
-## 字符移动(charactor move)
-
-### 左右缩进(indent)
-
-	&gt;&gt; &lt;&lt; 左右缩进 你可以用sw(shiftwidth)控制缩进长度
-	ctrl-t,ctrl-d 左右缩进(insert mode)
-
-### 自动缩进（autoindent）
-实现开始新行时，实施上一行缩进
-
-	:set autoindent :set ai
-
-### 移动(move)
-
-	:[range]m {address} &quot;address是目的地址
-
-global 与move 结合会收到强大的效果，比如：
-
-	:g/^/m 0 #执行过程是，/^/会匹配所有的行，包括空行。然后把每一行放到第一行之上（即0行）这样就完成了全文件倒序
-	:&#x27;t+1,.g/^/m &#x27;t #结果是把t+1移动到&#x27;t之下，再把&#x27;t+2行移到到&#x27;t行之下，直到.
-	:h :m &quot;寻求帮助
-
-# 范围
-绝大部分操作都有一个范围，比如as(a sentance)，比如&lt;C-V&gt;选区
-
-## 常用的(motion)
-motion是用于移动光标的命令
-
-	hjklwbeWBE
-
-## 行范围(range)
-
-	:% 全文件
-	:. 当前行
-	:.+{offset} 当前行+行偏移
-	:$+{offset} 最后一行+行偏移
-	:&lt;num&gt; 第num行
-	:&#x27;t &quot;标记t所指明的行
-	:/pattern/{offset} 第一个正向匹配到的行+偏移
-	:?pattern?{offset} 第一个反向匹配到的行+偏移
-	:start,end 第start到end行
-	:?starword?,/endword/ &quot;匹配起止
-	:&#x27;t,&#x27;m &quot;标记起止
-	visual块(其实是标记:&#x27;&lt;,&#x27;&gt;)
-
-eg:
-
-	:% !wc 统计文件的行数 单词数 字节数(结果会替换当前范围)
-
-## :g命令(:g)
-usage:
-
-	:[range]g[lobal]/{pattern}/[cmd]
-	:g/insert into/y A &quot;复制所有带insert into的行到寄存器A中
-	:g/^/m 0 &quot;倒序
-
-与:g对应的还有个反向的:v, 相当于`:g!` 不匹配的行才执行cmd
-
-	:[range]v[global]/{pattern}/[cmd]
-
-## argdo/bufdo
-
-	&quot;将要扫描的文件加入argument list (filelist)
-	:args **/*.txt **/*.cpp
-
-	:argdo[!] {cmd}         Execute {cmd} for each file in the argument list.(作用于文件列表)
-	:bufdo[!] {cmd}         Execute {cmd} in each buffer in the buffer list.
-	:windo[!] {cmd}         Execute {cmd} in each window
-
-
-如果你想把当前目录下（包括子文件夹）所有后缀为 java 的文件中的 apache 替换成 eclipse，那么依次执行如下命令(copy from 池建强)： 在当前目录下执行：
-
-	vim
-	:n **/*.java
-	:argdo %s/apache/eclipse/ge | update
-
-这用到了buffer 的概念，通过正则表达式在内存中打开多个文件，
-argdo 表示在内存中执行 Vim 的命令，
-%s/apache/eclipse/ge 表示在内存中执行字符串替换，g 表示全局替换，e 表示如果文件中没有可替换字符串不报错继续执行,
-`|` 是管道标识符，update 表示替换完之后更新并写入文件。
-
-## visual模式
-
-### base visual
-
-	#v模式下，可按o（other end）到另一头
-	v
-	V 行选
-	ctrl+v 矩形块选 #对于矩形选而言，o是垂直切向，O是水平切向
-
-	gv #回到上次的选择
-
-### range
-
-	V&lt;line_number&gt;G
-	V&lt;line_number&gt;j
-	v/&lt;pattern&gt;/e
-	vas
-	vap
-	V2aB
-
-### 高级用法
-
-	ctrl+v 块选后，对单行的操作会反映到所有行，比如IA行操作
-	#选中了文本后，可以改变大小写
-	~ 大小写转换
-	U  转大写
-	u 转小写
-	#选中了文本后，以一个字符填充
-	rx #这样就把所有字符变成了x了
-
-### 位置
-处于visual时，还可以控制选择范围的方向
-
-	o 到另一端
-	O 左右切换
-
-# 复制/删除/粘贴(copy/del/paste)
-
-## del 删除（del）
-
-	d2w
-	d^ d$
-	dd 删除整行
-
-	x 代表dl(删除当前光标下的字符)
-	X 代表dh(删除当前光标左边的字符)
-	D 代表d$(删除到行尾的内容)
-	C 代表c$(修改到行尾的内容)
-	s 代表cl(修改一个字符)
-	S 代表cc(修改一整行)
-
-	&lt;C-h&gt; 删除左边一个字符
-	&lt;C-w&gt; 删除左边一个单词
-	&lt;C-u&gt; 删除左边所有单词(单行)
-
-还有更强大的:d
-
-	:[range]d [x] &quot;x是一个register
-	:2d q &quot;删除第二行，并保存到寄存器。
-
-## copy &amp; paste
-
-### Copy
-1. 删除(del)本身带复制
-1. 通过y复制
-
-在v模式也可使用y复制
-
-	yw
-	&quot;ayw 指定寄存器
-	Y=yy
-	&quot;Ayw ”大写的寄存器实现追加数据
-
-    :%y+ &quot; Copy all text
-
-查看寄存器
-
-	:reg
-
-### paste
-
-	p 在光标后粘贴
-	P 在光标前粘贴
-	&quot;+p 调用系统剪切板粘贴
-
-### registers 复制寄存器
-- vim默认的寄存器不包含系统剪贴板，而gvim则开启了这一剪贴板
-- 宏macro，复制yank，粘贴paste, 都是使用的寄存器
-
-你可以通过vim --version|grep clipboard查看是否开启了剪贴板
-
-	:registers  :reg 查看寄存器
-	&quot;+ 系统剪贴板
-	&quot;* 鼠标中键剪贴板
-
-    匿名寄存器 &quot;&quot;
-    编号寄存器 &quot;0 到 &quot;9
-    小删除寄存器 &quot;-
-    26个命名寄存器 &quot;a 到 &quot;z
-    3个只读寄存器 &quot;:, &quot;., &quot;%
-    Buffer交替文件寄存器 &quot;#
-    表达式寄存器 &quot;=
-    选区和拖放寄存器 &quot;*, &quot;+, &quot;~
-    黑洞寄存器 &quot;_
-    搜索模式寄存器 &quot;/
-
-&gt; mac/windows 中, `&quot;*` 与 `&quot;+` 指的都是同一个系统剪贴板
-
-## c_CTRL-R i_CTRL-R(paste)
-在:cmd模式或者插入模式下,&lt;c-r&gt;非常有用——快速粘贴出寄存器字符串。
-
-In either insert mode or command mode (i.e. on the : line when typing commands), continue with a numbered or named register:
-
-	a - z the named registers
-	&quot; the unnamed register, containing the text of the last delete or yank
-		&lt;c-r&gt;&quot;
-	% the current file name
-	# the alternate file name
-	* the clipboard contents (X11: primary selection)
-	+ the clipboard contents
-	/ the last search pattern
-	: the last command-line
-	. the last inserted text
-	- the last small (less than a line) delete
-	ctrl+w the word that cursor locate.
-
-`&lt;c-r&gt;`也可用于计算。
-
-	=5*5 insert 25 into text (mini-calculator)
-
-&gt; See :help i_CTRL-R and :help c_CTRL-R for more details, and snoop around nearby for more CTRL-R goodness.
-
-
-# insert 插入
-
-## :read
-
-	:[range]r[ead] !{cmd}
-	:[range]r[ead] [name] &quot;name:default current file
-
-## `{motion}!cmd`
-使用外部cmd处理`motion`
 
 # mode
 
@@ -440,63 +104,8 @@ See :h cmdline-window for more details
 
 # change 替换
 
-## 基础的替换命令
+    :h change.txt
 
-	cw 替换一个单词
-	C=c$
-	cc 改变整行
-
-	s=cl
-	S=cc
-
-	r 仅替换一个字符
-	R
-
-	~ 切换字符的大小写，并把光标移动到下一字符
-
-## substitute s替换
-&gt;更多替换请参照:help sub-replace-special
-
-基本格式如下：
-
-	:[range]s/pattern/replace/[flags]
-	:[range]s+pattern+replace+[flags]
-	:[range]s?pattern?replace?[flags]
-
-	:%s/\([^-]*\)-\(.*\)/\2 \1/gc   &quot;vim中的替换也可以用到正则反引用\2\1
-
-&gt; 一般情况下\r\n分别代表回车与换行，但是在`:%s/pattern/replace` 中的replace，replace 只能用&#x27;\r&#x27;表示换行，&#x27;\n&#x27;表示回车
-&gt; 更多见[vim-pattern](/p/vim-pattern)
-
-Example: 删除注释，先用V 选中，然后
-
-    :s#^//##g 删除注释//
-
-## 外部程序替换
-
-	!{motion}{program} &quot;program处理完了后，替换 motion
-	:[range]!{program} &quot;program处理完了后，替换 range
-
-eg:
-
-	!{motion}{program}
-	{motion}作为program的输入，其输出会替换{motion}处的内容
-
-	#比如我想让一到５行的内容经过sort,这个命令会从normal进入到命令行
-	!5Gsort&lt;enter&gt;
-	:.,5!sort&lt;enter&gt;
-
-	!!{program} #此时motion为!代表当前行
-	#统计当前行
-	!!wc
-	:.!wc
-
-# Delete 删除
-
-	:g/^\s*$/d
-
-	:g!/^\s*$/d
-	:v/^\s*$/d
 
 # 写入(w)
 
@@ -616,21 +225,24 @@ Refer to : `:h viminfo` and `:h :set`
 	:loadview #恢复
 	:loadview 1 #从1中恢复
 
+# Repeat, 重复
+## count, Action重复
+    3dw
 
-# macro 宏
+## . 操作重复
+
+    .
+
+## C+v, 列重复
+
+## macro, 宏重复
 
 	q{register}命令是启动宏录制的
+        q 是结束宏录制的
 	@{register}是使用宏的
 	要说明的是这个register：
 	1．　这个register与yank(复制)是共用的，能相互影响
 	2．　大写的register，会往register中追加数据，如qC、&quot;Cy会旆c寄存器中追加数据．
-
-## 重复
-很多工作都可以用数字来重复，比如你在normal状太中输入以下键会发生什么？
-
-	10oThis sentence will be repeated for 10 times!&lt;ESC&gt;
-
-还比如.操作，还比如&lt;C+V&gt;,还比如更强大的宏。
 
 # Statistic &amp; Math
 

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/vim/vim-edit.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>Vim Edit</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: Vim Edit
+date: 2019-05-29
+updated: 2019-06-04
+---
+# 复制/删除/粘贴(copy/del/paste)
+
+## del 删除
+
+	d2w
+	d^ d$
+	dd 删除整行
+
+	x 代表dl(删除当前光标下的字符)
+	X 代表dh(删除当前光标左边的字符)
+	D 代表d$(删除到行尾的内容)
+	C 代表c$(修改到行尾的内容)
+	s 代表cl(修改一个字符)
+	S 代表cc(修改一整行)
+
+可以通过map 实现
+
+	&lt;C-h&gt; 删除左边一个字符
+	&lt;C-w&gt; 删除左边一个单词
+	&lt;C-u&gt; 删除左边所有单词(单行)
+
+还有更强大的:d
+
+	:[range]d [x] &quot;x是一个register
+	:2d q &quot;删除第二行，并保存到寄存器。
+
+### dt,df,ct,cf
+
+    To delete forward up to character &#x27;X&#x27; type dtX
+    To delete forward through character &#x27;X&#x27; type dfX
+    To delete backward up to character &#x27;X&#x27; type dTX
+    To delete backward through character &#x27;X&#x27; type dFX
+
+## copy &amp; paste
+
+### Copy
+1. 删除(del)本身带复制
+1. 通过y复制
+
+在v模式也可使用y复制
+
+	yw
+	&quot;ayw 指定寄存器
+	Y=yy
+	&quot;Ayw ”大写的寄存器实现追加数据
+
+    :%y+ &quot; Copy all text
+
+查看寄存器
+
+	:reg
+
+### paste
+
+	p 在光标后粘贴
+	P 大写在光标前粘贴
+	&quot;+p 调用系统剪切板粘贴
+
+### registers 复制寄存器
+- vim默认的寄存器不包含系统剪贴板，而gvim则开启了这一剪贴板
+- 宏macro，复制yank，粘贴paste, 都是使用的寄存器
+
+你可以通过vim --version|grep clipboard查看是否开启了剪贴板
+
+	:registers  :reg 查看寄存器
+	&quot;+ 系统剪贴板
+	&quot;* 鼠标中键剪贴板
+
+    匿名寄存器 &quot;&quot;
+    编号寄存器 &quot;0 到 &quot;9
+    小删除寄存器 &quot;-
+    26个命名寄存器 &quot;a 到 &quot;z
+    3个只读寄存器 &quot;:, &quot;., &quot;%
+    Buffer交替文件寄存器 &quot;#
+    表达式寄存器 &quot;=
+    选区和拖放寄存器 &quot;*, &quot;+, &quot;~
+    黑洞寄存器 &quot;_
+    搜索模式寄存器 &quot;/
+
+&gt; mac/windows 中, `&quot;*` 与 `&quot;+` 指的都是同一个系统剪贴板
+
+## c_CTRL-R i_CTRL-R(paste)
+在:cmd模式或者插入模式下,&lt;c-r&gt;非常有用——快速粘贴出寄存器字符串。
+
+In either insert mode or command mode (i.e. on the : line when typing commands), continue with a numbered or named register:
+
+	a - z the named registers
+	&quot; the unnamed register, containing the text of the last delete or yank
+		&lt;c-r&gt;&quot;
+	% the current file name
+	# the alternate file name
+	* the clipboard contents (X11: primary selection)
+	+ the clipboard contents
+	/ the last search pattern
+	: the last command-line
+	. the last inserted text
+	- the last small (less than a line) delete
+	ctrl+w the word that cursor locate.
+
+`&lt;c-r&gt;`也可用于计算。
+
+	=5*5 insert 25 into text (mini-calculator)
+
+&gt; See :help i_CTRL-R and :help c_CTRL-R for more details, and snoop around nearby for more CTRL-R goodness.
+
+# Extra
+Increment/decrement digit:
+
+    &lt;C-a&gt;
+    &lt;C-x&gt;
+
+# insert 插入
+
+## :read
+
+	:[range]r[ead] !{cmd}
+	:[range]r[ead] [name] &quot;name:default current file
+
+## `{motion}!cmd`
+使用外部cmd处理`motion`
+</pre>
+<div id="pager"></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"><ol><li>笔记</li><ol></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

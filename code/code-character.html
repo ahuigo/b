@@ -32,11 +32,11 @@ const MD_URL='post/code/code-character.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,7 +49,7 @@ const MD_URL='post/code/code-character.md';
 <pre id="markdown" v-pre>---
 title: 字符编码简介
 date: 2014-05-10
-updated: 2018-12-30
+updated: 2019-06-04
 ---
 # 字符编码简介
 本文试图理清字符编码系统的整体结构.如有理解不对请指正.
@@ -76,6 +76,7 @@ updated: 2018-12-30
 我们平时所说的UTF-8,UTF-16都处于字符编码表(CEF)的层面.
 
 &gt; Tips: 在vim中可以通过快捷键`g8`查询到“刘”这个字的utf8编码（码值）为：0xe58898
+&gt; Tips: 在vim中可以通过快捷键`ga`查询到“刘”这个字的unicode编码（码值）
 
 ## 字符编码方案(CES:Caracter Encodeing Scheme)
 定义如何将码值对应到8位组的串行,以便网络传输和文件存储.
@@ -84,7 +85,7 @@ updated: 2018-12-30
 1. 对于多字节的UTF-16来说,windows是先读高字节再读低字节,而MAC则相反.为了标识字节顺序,就选择了一个字节序列标记(BOM:Byte Order Mark)来指定大端序(UTF-16 BE)和小端序(UTF-16).见[UTF-16]的编码模式
 2. 有些复杂的编码需要特别的方案:如ISO/IEC 2022需要使用转义串行,如SCSU、BOCU和Punycode需要压缩
 
-&gt;在vim中,:%xxd 可查看相关字符的编码 :set fileencoding=**可对字符进行编码转换
+&gt; 在vim中,:%!xxd 可查看相关字符的编码 :set fileencoding=utf8可对字符进行编码转换
 
 # unicode编码体系
 [unicode]又名统一码、万国码、单一码、标准万国码
@@ -116,6 +117,10 @@ updated: 2018-12-30
 1. UCS-2:包含[字符平面映射]中的基本多文种平面,占16位,可表达2^16=65536个字符.2. UCS-4:其中已经定义了16个辅助平面.标准规定的UCS-4会占用32个字节,最高字节恒为0,可表达2^31个字符.
 
 &lt;table class=&quot;wikitable&quot;&gt; &lt;tbody&gt;&lt;tr&gt; &lt;th&gt;平面&lt;/th&gt; &lt;th&gt;始末字符值&lt;/th&gt; &lt;th&gt;中文名称&lt;/th&gt; &lt;th&gt;英文名称&lt;/th&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td&gt;0号平面&lt;/td&gt; &lt;td&gt;U+0000 - U+FFFF&lt;/td&gt; &lt;td&gt;&lt;b&gt;基本多文种平面&lt;/b&gt;&lt;/td&gt; &lt;td&gt;Basic Multilingual Plane, 简称 &lt;b&gt;BMP&lt;/b&gt;&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td&gt;1号平面&lt;/td&gt; &lt;td&gt;U+10000 - U+1FFFF&lt;/td&gt; &lt;td&gt;&lt;b&gt;多文种补充平面&lt;/b&gt;&lt;/td&gt; &lt;td&gt;Supplementary Multilingual Plane, 简称 &lt;b&gt;SMP&lt;/b&gt;&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td&gt;2号平面&lt;/td&gt; &lt;td&gt;U+20000 - U+2FFFF&lt;/td&gt; &lt;td&gt;&lt;b&gt;表意文字补充平面&lt;/b&gt;&lt;/td&gt; &lt;td&gt;Supplementary Ideographic Plane, 简称 &lt;b&gt;SIP&lt;/b&gt;&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td&gt;3号平面&lt;/td&gt; &lt;td&gt;U+30000 - U+3FFFF&lt;/td&gt; &lt;td&gt;&lt;b&gt;表意文字第三平面&lt;/b&gt;（未正式使用&lt;sup id=&quot;cite_ref-1&quot; class=&quot;reference&quot;&gt;&lt;a href=&quot;#cite_note-1&quot;&gt;[1]&lt;/a&gt;&lt;/sup&gt;）&lt;/td&gt; &lt;td&gt;Tertiary Ideographic Plane, 简称 &lt;b&gt;TIP&lt;/b&gt;&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td&gt;4号平面&lt;br&gt; 至&lt;br&gt; 13号平面&lt;/td&gt; &lt;td&gt;U+40000 - U+DFFFF&lt;/td&gt; &lt;td&gt;（尚未使用）&lt;/td&gt; &lt;td&gt;&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td&gt;14号平面&lt;/td&gt; &lt;td&gt;U+E0000 - U+EFFFF&lt;/td&gt; &lt;td&gt;&lt;b&gt;特别用途补充平面&lt;/b&gt;&lt;/td&gt; &lt;td&gt;Supplementary Special-purpose Plane, 简称 &lt;b&gt;SSP&lt;/b&gt;&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td&gt;15号平面&lt;/td&gt; &lt;td&gt;U+F0000 - U+FFFFF&lt;/td&gt; &lt;td&gt;保留作为&lt;b&gt;私人使用区（A区）&lt;/b&gt;&lt;sup id=&quot;cite_ref-PUA_2-0&quot; class=&quot;reference&quot;&gt;&lt;a href=&quot;#cite_note-PUA-2&quot;&gt;[2]&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt; &lt;td&gt;Private Use Area-A, 简称 &lt;b&gt;PUA-A&lt;/b&gt;&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td&gt;16号平面&lt;/td&gt; &lt;td&gt;U+100000 - U+10FFFF&lt;/td&gt; &lt;td&gt;保留作为&lt;b&gt;私人使用区（B区）&lt;/b&gt;&lt;sup id=&quot;cite_ref-PUA_2-1&quot; class=&quot;reference&quot;&gt;&lt;a href=&quot;#cite_note-PUA-2&quot;&gt;[2]&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt; &lt;td&gt;Private Use Area-B, 简称 &lt;b&gt;PUA-B&lt;/b&gt;&lt;/td&gt; &lt;/tr&gt; &lt;/tbody&gt;&lt;/table&gt; 
+
+查看unicode
+1. 通过js encode: `escape(&#x27;中&#x27;)`
+2. 也可以通过vim `ga` 查到`中`的unicode `4E2D`
 
 ### 实现方式(CEF/CES ...)
 在unicode编码体系中unicode码位转为实际存储的编码(码值)可以有不同实现方式.比如UTF8/UTF-16/UTF-32
@@ -164,6 +169,10 @@ utf8以8位为单元对[UCS]进行编码,编码会占用1~4字节.与utf16所编
 ## UTF-8 字符编码表CEF
 &lt;table class=&quot;wikitable&quot;&gt; &lt;tbody&gt;&lt;tr&gt; &lt;th style=&quot;width: auto;&quot;&gt;代码范围&lt;br&gt; &lt;a href=&quot;/wiki/%E5%8D%81%E5%85%AD%E9%80%B2%E5%88%B6&quot; title=&quot;十六进制&quot; class=&quot;mw-redirect&quot;&gt;十六进制&lt;/a&gt;&lt;/th&gt; &lt;th style=&quot;width: auto;&quot;&gt;标量值（scalar value）&lt;br&gt; &lt;a href=&quot;/wiki/%E4%BA%8C%E9%80%B2%E5%88%B6&quot; title=&quot;二进制&quot; class=&quot;mw-redirect&quot;&gt;二进制&lt;/a&gt;&lt;/th&gt; &lt;th style=&quot;width: auto;&quot;&gt;UTF-8&lt;br&gt; &lt;a href=&quot;/wiki/%E4%BA%8C%E9%80%B2%E5%88%B6&quot; title=&quot;二进制&quot; class=&quot;mw-redirect&quot;&gt;二进制&lt;/a&gt;／&lt;a href=&quot;/wiki/%E5%8D%81%E5%85%AD%E9%80%B2%E5%88%B6&quot; title=&quot;十六进制&quot; class=&quot;mw-redirect&quot;&gt;十六进制&lt;/a&gt;&lt;/th&gt; &lt;th style=&quot;width: 25%;&quot;&gt;注释&lt;/th&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td rowspan=&quot;2&quot;&gt;000000 - 00007F&lt;br&gt; &lt;small&gt;128个代码&lt;/small&gt;&lt;/td&gt; &lt;td&gt;00000000 00000000 0zzzzzzz&lt;/td&gt; &lt;td&gt;0zzzzzzz(00-7F)&lt;/td&gt; &lt;td rowspan=&quot;2&quot;&gt;ASCII字符范围，字节由零开始&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td&gt;&lt;small&gt;七个z&lt;/small&gt;&lt;/td&gt; &lt;td&gt;&lt;small&gt;七个z&lt;/small&gt;&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td rowspan=&quot;2&quot;&gt;000080 - 0007FF&lt;br&gt; &lt;small&gt;1920个代码&lt;/small&gt;&lt;/td&gt; &lt;td&gt;00000000 00000yyy yyzzzzzz&lt;/td&gt; &lt;td style=&quot;text-align: left;&quot;&gt;110yyyyy(C0-DF) 10zzzzzz(80-BF)&lt;/td&gt; &lt;td rowspan=&quot;2&quot; align=&quot;top&quot;&gt;第一个字节由110开始，接着的字节由10开始&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td&gt;&lt;small&gt;三个y；二个y；六个z&lt;/small&gt;&lt;/td&gt; &lt;td&gt;&lt;small&gt;五个y；六个z&lt;/small&gt;&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td rowspan=&quot;2&quot;&gt;000800 - 00D7FF&lt;br&gt; 00E000 - 00FFFF&lt;br&gt; &lt;small&gt;61440个代码 &lt;sup class=&quot;reference&quot; id=&quot;ref_D800Note_1&quot;&gt;&lt;a href=&quot;#endnote_D800Note_1&quot;&gt;[Note 1]&lt;/a&gt;&lt;/sup&gt;&lt;/small&gt;&lt;/td&gt; &lt;td&gt;00000000 xxxxyyyy yyzzzzzz&lt;/td&gt; &lt;td style=&quot;text-align: left;&quot;&gt;1110xxxx(E0-EF) 10yyyyyy 10zzzzzz&lt;/td&gt; &lt;td rowspan=&quot;2&quot; align=&quot;top&quot;&gt;第一个字节由1110开始，接着的字节由10开始&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td&gt;&lt;small&gt;四个x；四个y；二个y；六个z&lt;/small&gt;&lt;/td&gt; &lt;td&gt;&lt;small&gt;四个x；六个y；六个z&lt;/small&gt;&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td rowspan=&quot;2&quot;&gt;010000 - 10FFFF&lt;br&gt; &lt;small&gt;1048576个代码&lt;/small&gt;&lt;/td&gt; &lt;td&gt;000wwwxx xxxxyyyy yyzzzzzz&lt;/td&gt; &lt;td style=&quot;text-align: left;&quot;&gt;11110www(F0-F7) 10xxxxxx 10yyyyyy 10zzzzzz&lt;/td&gt; &lt;td rowspan=&quot;2&quot;&gt;将由11110开始，接着的字节由10开始&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td&gt;&lt;small&gt;三个w；二个x；四个x；四个y；二个y；六个z&lt;/small&gt;&lt;/td&gt; &lt;td&gt;&lt;small&gt;三个w；六个x；六个y；六个z&lt;/small&gt;&lt;/td&gt; &lt;/tr&gt; &lt;/tbody&gt;&lt;/table&gt; 
 
+## 查看utf8
+1. js: `encodeURIComponent(&quot;中&quot;)`
+1. vim: `g8`
+
 ## UTF-8优缺点
 *优点*
 
@@ -198,25 +207,24 @@ utf8以8位为单元对[UCS]进行编码,编码会占用1~4字节.与utf16所编
 
 There are at least two important differences:
 
-- *Accuracy of sorting*
+a. *Accuracy of sorting*
 
 	utf8_unicode_ci is based on the Unicode standard for sorting, and sorts accurately in a very wide range of languages.
 
 	utf8_general_ci comes close to correct Unicode sorting in many common languages, but has a number of limitations: in some languages, it won&#x27;t sort correctly at all. In others, it will merely have some quirks.
 
-- *Performance*
+b. *Performance*
 
 	utf8_general_ci is faster at comparisons and sorting, because it takes a bunch of performance-related shortcuts.
-
 	utf8_unicode_ci uses a much more complex comparison algorithm which aims for correct sorting according in a very wide range of languages. This makes it slower to sort and compare large numbers of fields.
 
 Unicode defines complex sets of rules for how characters should be sorted. These rules need to take into account language-specific conventions; not everybody sorts their characters in what we would call &#x27;alphabetical order&#x27;.
 
-- As far as Latin (ie &quot;European&quot;) languages go, there is not much difference between the Unicode sorting and the simplified utf8_general_ci sorting in MySQL, but there are still a few differences:
+a. As far as Latin (ie &quot;European&quot;) languages go, there is not much difference between the Unicode sorting and the simplified utf8_general_ci sorting in MySQL, but there are still a few differences:
 
 	For examples, the Unicode collation sorts &quot;ß&quot; like &quot;ss&quot;, and &quot;Œ&quot; like &quot;OE&quot; as people using those characters would normally want, whereas utf8_general_ci sorts them as single characters (presumably like &quot;s&quot; and &quot;e&quot; respectively).
 
-- In non-latin languages, such as Asian languages or languages with different alphabets, there may be a lot more differences between Unicode sorting and the simplified utf8_general_ci sorting. The suitability of utf8_general_ci will depend heavily on the language used. For some languages, it&#x27;ll be quite inadequate.
+b. In non-latin languages, such as Asian languages or languages with different alphabets, there may be a lot more differences between Unicode sorting and the simplified utf8_general_ci sorting. The suitability of utf8_general_ci will depend heavily on the language used. For some languages, it&#x27;ll be quite inadequate.
 
 Some Unicode characters are defined as ignorable, which means they shouldn&#x27;t count toward the sort order and the comparison should move on to the next character instead. utf8_unicode_ci handles these properly.
 
@@ -262,6 +270,11 @@ Base64不是字符编码方案,而是一种基于64个可打印字符来表示�
 &lt;table class=&quot;wikitable&quot;&gt; &lt;tbody&gt;&lt;tr&gt; &lt;th scope=&quot;row&quot;&gt;文本&lt;/th&gt; &lt;td colspan=&quot;8&quot; align=&quot;center&quot;&gt;&lt;b&gt;M&lt;/b&gt;&lt;/td&gt; &lt;td colspan=&quot;8&quot; align=&quot;center&quot;&gt;&lt;b&gt;a&lt;/b&gt;&lt;/td&gt; &lt;td colspan=&quot;8&quot; align=&quot;center&quot;&gt;&lt;b&gt;n&lt;/b&gt;&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;th scope=&quot;row&quot;&gt;ASCII编码&lt;/th&gt; &lt;td colspan=&quot;8&quot; align=&quot;center&quot;&gt;77&lt;/td&gt; &lt;td colspan=&quot;8&quot; align=&quot;center&quot;&gt;97&lt;/td&gt; &lt;td colspan=&quot;8&quot; align=&quot;center&quot;&gt;110&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;th scope=&quot;row&quot;&gt;二进制位&lt;/th&gt; &lt;td&gt;0&lt;/td&gt; &lt;td&gt;1&lt;/td&gt; &lt;td&gt;0&lt;/td&gt; &lt;td&gt;0&lt;/td&gt; &lt;td&gt;1&lt;/td&gt; &lt;td&gt;1&lt;/td&gt; &lt;td&gt;0&lt;/td&gt; &lt;td&gt;1&lt;/td&gt; &lt;td&gt;0&lt;/td&gt; &lt;td&gt;1&lt;/td&gt; &lt;td&gt;1&lt;/td&gt; &lt;td&gt;0&lt;/td&gt; &lt;td&gt;0&lt;/td&gt; &lt;td&gt;0&lt;/td&gt; &lt;td&gt;0&lt;/td&gt; &lt;td&gt;1&lt;/td&gt; &lt;td&gt;0&lt;/td&gt; &lt;td&gt;1&lt;/td&gt; &lt;td&gt;1&lt;/td&gt; &lt;td&gt;0&lt;/td&gt; &lt;td&gt;1&lt;/td&gt; &lt;td&gt;1&lt;/td&gt; &lt;td&gt;1&lt;/td&gt; &lt;td&gt;0&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;th scope=&quot;row&quot;&gt;索引&lt;/th&gt; &lt;td colspan=&quot;6&quot; align=&quot;center&quot;&gt;19&lt;/td&gt; &lt;td colspan=&quot;6&quot; align=&quot;center&quot;&gt;22&lt;/td&gt; &lt;td colspan=&quot;6&quot; align=&quot;center&quot;&gt;5&lt;/td&gt; &lt;td colspan=&quot;6&quot; align=&quot;center&quot;&gt;46&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;th scope=&quot;row&quot;&gt;Base64编码&lt;/th&gt; &lt;td colspan=&quot;6&quot; align=&quot;center&quot;&gt;&lt;b&gt;T&lt;/b&gt;&lt;/td&gt; &lt;td colspan=&quot;6&quot; align=&quot;center&quot;&gt;&lt;b&gt;W&lt;/b&gt;&lt;/td&gt; &lt;td colspan=&quot;6&quot; align=&quot;center&quot;&gt;&lt;b&gt;F&lt;/b&gt;&lt;/td&gt; &lt;td colspan=&quot;6&quot; align=&quot;center&quot;&gt;&lt;b&gt;u&lt;/b&gt;&lt;/td&gt; &lt;/tr&gt; &lt;/tbody&gt;&lt;/table&gt; 
 
 最后,如果剩下两个字节，在编码结果后加1个“=”；如果最后剩下一个字节，编码结果后加2个“=”；如果没有剩下任何数据，就什么都不要加，这样才可以保证资料还原的正确性。
+
+    # 00 的base64 就是A
+    # 63 的base64 就是/
+    base64.b64encode(b&#x27;\x00\x00\x3f&#x27;)
+    AAA/
 
 ## Quoted-printable
 可打印字符引用编码(Quoted-printable，或QP encoding).
@@ -540,7 +553,7 @@ L&quot;你好&quot; 会被编译器编译为 4个UCS编码0x00004f60 0x0000597d 
 <div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>

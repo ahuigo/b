@@ -32,11 +32,11 @@ const MD_URL='post/ria/js-css-layout.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,7 +49,7 @@ const MD_URL='post/ria/js-css-layout.md';
 <pre id="markdown" v-pre>---
 title: css 布局
 date: 2018-03-03
-updated: 2018-12-24
+updated: 2019-07-03
 ---
 # CSS 布局
 &gt; 参考: http://zh.learnlayout.com/position.html
@@ -137,6 +137,17 @@ display:flex, 比 inline-block 简单
         width:300px; 
     }
 
+固定窗口：
+
+    .container{
+        flex: 1 1;
+
+        display: flex;
+        flex-direction: column;
+        overflow: auto;
+        margin: 5px;
+    }
+
 ## flex 容器
 flex 容器有主轴，侧轴之分
 
@@ -175,6 +186,8 @@ align-items 用来定义`伸缩项目`在`侧轴`的对齐方式
 1. 与 justify-content属性类似。只不过这里元素是以一行为单位。
 3. 请注意本属性在只有一行的伸缩容器上没有效果。当使用flex-wrap:wrap时候多行效果就出来了。
 
+eg.
+
         align-content: flex-start || flex-end || center || space-between || space-around || stretch;
 
 ## flex项目items
@@ -183,34 +196,116 @@ http://www.ruanyifeng.com/blog/2018/10/flexbox-form.html 参考
     order
         order控制伸缩项目在伸缩容器中的显示顺序，伸缩容器中伸缩项目从序号最小的开始布局，默认值是0。 优先级
     flex:
-        flex属性可以用来指定可伸缩长度的部件，是
-        flex-grow:（宽度扩展比例）,
+        flex属性可以用来指定可伸缩长度的部件，是以下属性组合
+        flex-grow:（宽度扩展比例）, 0 不扩展 
         flow-shrink: （收缩比例）,
         flex-basis（伸缩基准值）这个三个属性的缩写写
-    [align-self] （高度对齐）用来在单独的伸缩项目上覆写默认的对齐方式，这个属性是用来覆盖伸缩容器属性align-items对每一行的对齐方式。
+    [align-self] （高度对齐）用来在单独的伸缩项目上覆写默认的对齐方式，这个属性是用来覆盖伸缩容器属性
         align-self: auto | flex-start | flex-end | center | baseline | stretch
+
+如果项目很多，一个个地设置align-self属性就很麻烦。这时，可以在容器元素（本例为表单）设置align-items属性，它的值被所有子项目的align-self属性继承。
+
+    form {
+        display: flex;
+        align-items: center;
+    }
 
 &gt; flex container 会限制item: max-width
 
+### flex: grow shrink basis
+https://codepen.io/ahuigo/pen/VJedwm
+
+如果所有项目的flex-grow属性都为1，则它们将等分剩余空间（如果有的话）。如果一个项目的flex-grow属性为2，其他项目都为1，则前者占据的剩余空间将比其他项多一倍。
+如果所有项目的flex-shrink属性默认为1，当空间不足时，都将等比例缩小。如果一个项目的flex-shrink属性为0，项目不收缩。
+flex-basis属性定义了在分配多余空间之前，项目占据的主轴空间（main size）。浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为auto，即项目的本来大小。
 
 ## flex center
 http://zh.learnlayout.com/flexbox.html
-控制本item在父容器中的位置
+控制父容器中item的位置
 
+    //parent
 	display:flex;
 	align-items: center;
 	justify-content: center;
 
+## flex 被子div 放大
+
+    .container{
+        flex: 1 1;
+        display: flex;
+        flex-direction: column;
+    }
+    &lt;div class=&#x27;container&#x27;&gt;
+        &lt;div&gt;
+    &lt;/div&gt;
+
+## case
+为了防止main 被撑大覆盖head，可以使用overflow:auto
+
+    &lt;div style=&quot;display:flex;height:431px&quot;&gt;
+        &lt;div class=&quot;head&quot; style=&quot;min-height:31px&quot;&gt;&lt;/div&gt;
+        &lt;div className=&quot;main&quot; style=&quot;flex:1; overflow:auto&quot;&gt;
+            &lt;div style=&quot;min-height:1000px&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+## flex vs height percent
+flex 能有效传递height percent(需要`flex:1`填满)
+
+    &lt;div class=&quot;a&quot;&gt;
+    &lt;div class=&quot;header&quot;&gt;header&lt;/div&gt;
+    &lt;div id=&quot;b&quot;&gt;
+        &lt;div class=&quot;b1&quot;&gt;&lt;/div&gt;
+        &lt;div class=&quot;b2&quot;&gt;
+            &lt;div class=&quot;c&quot;&gt;
+                &lt;div class=&quot;d&quot;&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;/div&gt;&lt;style&gt;.a{background:lightblue;height:300px;display:flex;flex-direction:column}
+    body,html{height:100%;margin:0}
+    .header{height:50px;background:red}
+
+    #b{background:lightgreen;flex:1;display:flex;flex-direction:row}
+        .b1{background:cyan;width:50px;}
+        .b2{background:orange;flex:1;display:flex;}
+            .c{background:purple;flex:1;}
+                .d{background:green;height:100%;margin:10px;width:30px;}
+    div{box-sizing: border-box;}
+    &lt;/style&gt;
+
+非flex容器，内部的card 的height不含margin, 为了防止`.d`超出空间：margin 不要设置`height:100%`或者设置更少的height
+
+    .d{background:green;height:80%;margin:10px;}
+
+或者利用display:flex填
+
+    .c{background:purple;flex:1;display:flex;}
+    .d{background:green;flex:1;margin:10px;}    better
+    .d{background:green;height:100%;margin:10px;}    better
+
 # align
+## circle center
+    div{
+        background: red;
+        width:200px;
+        height:200px;
+        text-align:center;
+        line-height: 200px;
+        border-radius:50%
+    }
+
 ## flex container align
 
+    //parent
 	justify-content: horizonal center
-	align-items: vertical center)
+	align-items: vertical center
 	align-content: justify-content属性类似。只不过这里元素是以多行生效。
 
 居中:
 
-    &lt;div style=&quot; display: flex;
+    &lt;div style=&quot;display: flex;
         width: 100%;
         justify-content: center;
         align-items: center; //height
@@ -446,6 +541,14 @@ margin 控制的是相邻元素之间的border 外边界间距。float和普通�
 1. 两相邻div的margin值, 同为正/负, 取绝对值最大的, 否则相加
 2. 如果当前元素是float-right, 那么以margin-right为准, 而非margin-left.
 
+### margin in flex container
+flex 内部，s1 与 s2 之间距不是max(s1,s2) 而是s1+s2
+
+    &lt;div style=&quot;display:flex&quot;&gt;
+        &lt;div class=&quot;s1&quot; style=&quot;margin:5px&quot;&gt;&lt;/div&gt;
+        &lt;div class=&quot;s2&quot; style=&quot;margin:5px&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
 ### margin 的原点坐标
 1. 两个div 之间：border 外沿
     2. 如果当前元素是float, 则margin就是距离其下元素的border外沿的距离.
@@ -455,7 +558,7 @@ margin 控制的是相邻元素之间的border 外边界间距。float和普通�
         1. all child has float: child/parent&#x27;s padding 内边界; parent/不影响
         2. any child not float: `first non-float child&#x27;s margin-top传parent`; **parent/first non-float child 二者的margin绝对值最大者**(no border/padding/float)
 
-float的元素的margin 由于浮动起来了，不再影响父容器，但是child&#x27;s margin 起点是parent&#x27;s padding内边界开始
+当前元素或者(或者父元素)是float的元素,margin 由于浮动起来了，不再影响父容器，但是child&#x27;s margin 起点是parent&#x27;s padding内边界开始
 
     &lt;div id=&quot;parent&quot;&gt;
         &lt;div style=&quot;width: 100%;height: 50px;background: yellow;float:left;&quot;&gt;&lt;/div&gt;
@@ -480,18 +583,20 @@ float的元素的margin 由于浮动起来了，不再影响父容器，但是ch
 
 
 ### relative/static + height percent
-When you set a percentage height on an element who&#x27;s parent elements(包括static/relative) don&#x27;t have valid heights set:
-
-    height: 0%; //is auto normal height;
+When you set a percentage height on an element who&#x27;s parent elements(包括static/relative).
+严重依赖parent height
 
 Summary
 1. absolute 么有这个毛病: 严格依赖 parent positioned 一定有height
-2. body: height:100% not work 是因为 html is static
+2. static/relative: 依赖parent, `html,body{height:100%}`
 
-解决方案：
+解决有几种方案：
 1. 自己变absolute
-2. parent: valid height(not auto height)
-3. html: height: 100% valid(即使是static/relative)
+2. set a 100% height on all your parent elements
+
+更好的方案可能是：
+
+    body{height:100vh}
 
 ## media
 “响应式设计（Responsive Design”) 要借助媒体查询
@@ -536,7 +641,7 @@ Summary
 <div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>

@@ -36,7 +36,7 @@ const MD_URL='post/ria/node-npm.md';
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,8 +49,15 @@ const MD_URL='post/ria/node-npm.md';
 <pre id="markdown" v-pre>---
 title: command
 date: 2018-10-04
-updated: 2019-03-13
+updated: 2019-06-29
 ---
+
+# path
+
+    npm -g bin
+    npm -g get prefix
+    `npm -g get prefix`/lib/node_modules
+
 # command
 
     npm list -g; # global
@@ -104,10 +111,22 @@ http://www.ruanyifeng.com/blog/2016/10/npm_scripts.html
     npm test是npm run test的简写
     npm restart是npm run stop &amp;&amp; npm run restart &amp;&amp; npm run start的简写
 
+# config file
+
+## config edit
+    npm config edit
+    ~/.cnpmrc
+
+## config list
+
+    npm config ls -l
+
 # repo
 
     # temp
-    npm --registry https://registry.npm.taobao.org install &lt;package&gt;
+    npm install -g cnpm --registry=https://registry.npm.taobao.org
+
+改写`~/.npmrc`: https://docs.npmjs.com/files/npmrc
 
     # persistance
     npm config set registry https://registry.npm.taobao.org

@@ -32,11 +32,11 @@ const MD_URL='post/py/py-process.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,7 +49,7 @@ const MD_URL='post/py/py-process.md';
 <pre id="markdown" v-pre>---
 title: py-process
 date: 2018-10-04
-updated: 2019-02-06
+updated: 2019-06-25
 ---
 # Preface
 - sh: sh之于subprocess， 相当于requests 对于urllib2
@@ -99,7 +99,7 @@ async_result = multiprocessing.pool.ThreadPool(processes=1).apply_async(foo, (&#
 fork 与子程序func 是分离的, 父进程同步子进程比较麻烦
 multiprocessing.Process(func) 则可以直接传func:
 
-1. child = multiprocessing.Process(func)
+1. child = multiprocessing.Process(target=func, args=())
 2. child.start()
 2. child.join() 等待子进程结束后再继续往下运行，通常用于进程间的同步
 4. child.terminate() 或者直接结束
@@ -127,13 +127,90 @@ multiprocessing.Process(func) 则可以直接传func:
 	Run child process test (929)...
 	Process end.
 
-# Pool()
+## daemon
+daemon vs nodaemon:(process 默认是noDaemon(children process), pool 默认是daemon)
+1. When a daemon process exits, it attempts to terminate all of its daemonic child processes.
+    2. You could call `os._exit` to let children process live, `quit()`也会live (是sleep状态)
+1. When a nodaemon process exits, children process live
+
+默认是非daemon 的
+
+    import time
+    import multiprocessing
+    def f():
+        time.sleep(1)
+        print(&#x27;sleep end&#x27;)
+    p = multiprocessing.Process(target=f)
+    p.daemon=True
+    p.start()
+    print(&#x27;Daemon will not wait children, in case of p.join()...&#x27;)
+
+daemonic processes are not allowed to have children!
+
+    import time
+    import multiprocessing
+    def f():
+        p = multiprocessing.Process(target=lambda:1)
+        p.start()
+        time.sleep(1)
+    p = multiprocessing.Process(target=f)
+    # daemon (no wait)
+    p.daemon=True
+    p.start()
+    print(&#x27;start join...&#x27;)
+    p.join()
+
+# Pool
+
+## close sleep child
+daemonPool/noDaemonPool 都可以通过pool.close清理sleeping children
+
+    from multiprocessing import Pool
+    import time
+
+    def work(x):
+        print(&#x27;quit1&#x27;)
+
+    def main():
+        p = Pool(4)
+        p.map(work, [1,2,3,4,5,6])
+        #p.close(); #p.join()
+        print(&#x27;main: sleep 20 seconds&#x27;)
+        time.sleep(20)
+
+    main()
+
+##  NoDaemon
+pool 默认是Deamon 而不是Process默认的 noDaemon
+
+    import multiprocessing
+    import multiprocessing.pool
+    class NoDaemonProcess(multiprocessing.Process):
+        def _get_daemon(self):
+            return False
+        def _set_daemon(self, value):
+            pass
+        daemon = property(_get_daemon, _set_daemon)
+
+    # We sub-class multiprocessing.pool.Pool instead of multiprocessing.Pool
+    # because the latter is only a wrapper function, not a proper class.
+    class MyPool(multiprocessing.pool.Pool):
+        Process = NoDaemonProcess
+    
+    p = MyPool(4)
+    for i in range(4):
+        p.apply_async(lambda:1) 
+
+    p.close()
+    p.join()
 
 ## Pool().apply_async()
 如果要启动大量的子进程，可以用进程池的方式批量创建子进程：
-multiprocessing.Pool(4) 比fork 简单
+1. multiprocessing.Pool(4) 比fork 简单
+2. multiprocessing.pool.ThreadPool(2) 也是
 
-1. p = multiprocessing.Poll(4)
+e.g.
+1. p = multiprocessing.Pool(4)
 2. for i in range(5): res = p.apply_async(func, args=(i,))
 2. p.join() 等待子进程结束后再继续往下运行，通常用于进程间的同步
 3. 或者用res.get() 阻塞获取返回值
@@ -172,7 +249,7 @@ Note: 可以使用r.get() 获得返回(阻塞)
 
     p = Pool(4)
     rr = []
-    for i in range(2):
+    for i in range(5):
         r = p.apply_async(long_time_task, args=(i,)) # 加5个任务
         rr.append(r)
     for r in rr: print(r.get())
@@ -200,14 +277,20 @@ Note: 可以使用r.get() 获得返回(阻塞)
 
 由于Pool的默认大小是CPU的核数，如果你不幸拥有8核CPU，你要提交至少9个子进程才能看到上面的等待效果。
 
-## map
-map 并行处理10 个任务
+## map(阻塞)
+1. map 阻塞, apply_async 不阻塞
+2. map 不支持lambda
+3. map 直接返回所有的结果
+
+example
 
     import multiprocessing
     import math
     multiprocessing.Pool(processes=4).map(math.exp,range(1,11)) #type list
-    multiprocessing.Pool(4).map(math.exp,range(1,11), chunksize=2)
+    multiprocessing.Pool(4).map(math.exp,range(1,11), chunksize=2) 一组chunksize 传入一个进程
     [2.718281828459045, 7.38905609893065, 20.085536923187668, ...]
+
+    results = Pool(4).map(math.exp, range(10))
 
 ### chunksize
 
@@ -231,17 +314,17 @@ Process之间肯定是需要通信的，操作系统提供了很多机制来实�
 	time.sleep(random.random())
 
 ### queue example 0
-```
-from multiprocessing import Process, Queue
-def multiply(a,b,que): que.put(a*b)
+    ```
+    from multiprocessing import Process, Queue
+    def multiply(a,b,que): que.put(a*b)
 
-queue1 = Queue() #create a queue object
-p = Process(target= multiply, args= (5,4,queue1)) #we&#x27;re setting 3rd argument to queue1
-p.start()
-print(queue1.get()) #and we&#x27;re getting return value: 20
-p.join()
-print(&quot;ok.&quot;)
-```
+    queue1 = Queue() #create a queue object
+    p = Process(target= multiply, args= (5,4,queue1)) #we&#x27;re setting 3rd argument to queue1
+    p.start()
+    print(queue1.get()) #and we&#x27;re getting return value: 20
+    p.join()
+    print(&quot;ok.&quot;)
+    ```
 ### queue example
 我们以Queue为例，在父进程中创建两个子进程，一个往Queue里写数据，一个从Queue里读数据：
 

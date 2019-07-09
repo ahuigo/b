@@ -32,11 +32,11 @@ const MD_URL='post/vim/vim-pattern.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,7 +49,7 @@ const MD_URL='post/vim/vim-pattern.md';
 <pre id="markdown" v-pre>---
 title: vim-pattern
 date: 2018-10-04
-updated: 2018-11-30
+updated: 2019-06-10
 ---
 # Preface
 
@@ -151,6 +151,30 @@ word boundary:
 
 	&lt;Up&gt;&lt;Down&gt;&lt;Left&gt;&lt;Right&gt;
 
+#### origin atom
+          magic   nomagic	matches ~
+
+    |/\%^|	\%^	\%^	beginning of file |/zero-width|		*E71*
+    |/^|	^	^	start-of-line (at start of pattern) |/zero-width|
+    |/\^|	\^	\^	literal &#x27;^&#x27;
+    |/\_^|	\_^	\_^	start-of-line (used anywhere) |/zero-width|
+    |/$|	$	$	end-of-line (at end of pattern) |/zero-width|
+    |/\$|	\$	\$	literal &#x27;$&#x27;
+    |/\_$|	\_$	\_$	end-of-line (used anywhere) |/zero-width|
+    |/.|	.	\.	any single character (not an end-of-line)
+    |/\_.|	\_.	\_.	any single character or end-of-line
+    |/\&lt;|	\&lt;	\&lt;	beginning of a word |/zero-width|
+    |/\&gt;|	\&gt;	\&gt;	end of a word |/zero-width|
+    |/\zs|	\zs	\zs	anything, sets start of match
+    |/\ze|	\ze	\ze	anything, sets end of match
+    |/\%$|	\%$	\%$	end of file |/zero-width|
+    |/\%V|	\%V	\%V	inside Visual area |/zero-width|
+    |/\%#|	\%#	\%#	cursor position |/zero-width|
+    |/\%&#x27;m|	\%&#x27;m	\%&#x27;m	mark m position |/zero-width|
+    |/\%l|	\%23l	\%23l	in line 23 |/zero-width|
+    |/\%c|	\%23c	\%23c	in column 23 |/zero-width|
+    |/\%v|	\%23v	\%23v	in virtual column 23 |/zero-width|
+
 ### in replace
 一般情况下`\r\n`分别代表回车与换行，但是在`:%s/pattern/replace` 中的replace
 
@@ -162,7 +186,7 @@ replace 比较特别：
     ^M  在replace中居然表示\n
         不表示&lt;c-v&gt;&lt;c-m&gt;, &lt;c-v&gt;013
 
-The full table of character search patterns includes some additional options:
+The full table of character search patterns includes some additional options: &#x27;sssssssss 1&#x27;
 
     \%u20ac
     \%d match specified decimal character (eg \%d123)
@@ -198,9 +222,17 @@ default nomagic, need `\\` backslash
 ## very magic
 like perl and php:
 
-	+*?(){} is very magic
+	+*?(){}| is very magic
 	&lt;&gt; is very magic
+	&amp; is very magic
+        /\v&lt;(word|word2)&gt;
 	:execute &#x27;normal! gg/\vfor .+ in .+:&#x27; . &quot;\&lt;cr&gt;&quot;
+
+      magic   nomagic	matches ~
+    |/\m|	\m	\m	&#x27;magic&#x27; on for the following chars in the pattern
+    |/\M|	\M	\M	&#x27;magic&#x27; off for the following chars in the pattern
+    |/\v|	\v	\v	the following chars in the pattern are &quot;very magic&quot;
+    |/\V|	\V	\V	the following chars in the pattern are &quot;very nomagic&quot; 
 
 ## zeor-width assert
 
@@ -273,10 +305,13 @@ Here two example are equal
 # search 搜索
 高亮/搜索时定位/循环搜索时的配置
 
-    :set ignorecase smartcase
+    &quot; 大小写不敏感匹配
+    :set ignorecase 
+    &quot; 当搜索的字母只有小写时, 就大小写敏感. 否则,就大小写不敏感
+    :set smartcase
 
 	#高亮搜索关键字
-	:set hls or :set hlsearch
+	:set hls 或 :set hlsearch
 	:nohlsearch &quot;限本次搜索不高亮
     #真正的撤消搜索 clearmatch clear search: 有这几种
     :noremap &lt;F3&gt; :let @/ = &quot;&quot;&lt;CR&gt;
@@ -285,12 +320,15 @@ Here two example are equal
     :noh
 
 	#还未完全键入字串时就能找到目标
-	:set is(:set incsearch)
+	:set is
+    :set incsearch
 
 	#默认是到达文件尾后回到文件头
-	:set ws(wrapscan)
+	:set ws 
+    :set wrapscan
 	#到达文件尾就停止搜索
-	:set nows(nowrapscan)
+	:set nows
+    :set nowrapscan
 
 ## 普通搜索(common search）
 1. /pattern :/pattern/offset 正向搜索 （可以用n N正向反向重复)
@@ -411,7 +449,7 @@ such as &#x27;&quot;&#x27; and &#x27;|&#x27;.</pre>
 <div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>

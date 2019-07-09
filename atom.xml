@@ -34,9 +34,9 @@
 ```bash
 rpm -Uvh https://yum.postgresql.org/10/redhat/rhel-7-x86_64/pgdg-centos10</content>
 </entry><entry xml:base="https://ahuigo.github.io">
-<title>Rollup 该支持HMR 吗?</title>
-<link href="/b/ria/js-rollup-hmr" rel="alternate" type="text/html"/>
-<updated>2019-03-14T00:00:00Z</updated>
+<title>Gorm ddl</title>
+<link href="/b/db/gorm-ddl" rel="alternate" type="text/html"/>
+<updated>2019-07-07T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># Rollup 该支持HMR 吗?
@@ -69,9 +69,9 @@ iterm2 默认的 </content>
 ## 格林威治标准时间GMT
 含义：「格林威治标准时间」(Greenwich Mean</content>
 </entry><entry xml:base="https://ahuigo.github.io">
-<title>command</title>
-<link href="/b/ria/node-npm" rel="alternate" type="text/html"/>
-<updated>2019-03-13T00:00:00Z</updated>
+<title>在家里如何免费使用中国知网？</title>
+<link href="/b/course/paper" rel="alternate" type="text/html"/>
+<updated>2019-07-07T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># command
@@ -92,9 +92,9 @@ CAP定理（CAP theorem), 指出对于一个分布式计算系统来说，不可
 
 1. 一致性(Consistency) (所有节点在同一时</content>
 </entry><entry xml:base="https://ahuigo.github.io">
-<title>rpc</title>
-<link href="/b/rpc/rpc" rel="alternate" type="text/html"/>
-<updated>2019-03-12T00:00:00Z</updated>
+<title>收集了下UI 动画特效</title>
+<link href="/b/ui/ui-animation" rel="alternate" type="text/html"/>
+<updated>2019-07-05T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># RPC
@@ -110,8 +110,12 @@ https://ketao1989</content>
 <content># Preface
 https://packaging.python.org/tutorials/packaging-projects/
 
-setuptools 与 disutils
-1. distu</content>
+    var isFocused = (document.activeElement === dummyEl);
+    ele.focus()
+
+# FormData
+
+## i</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>server</title>
 <link href="/b/py/py-aiohttp-server" rel="alternate" type="text/html"/>
@@ -259,9 +263,9 @@ redis所有的数据都是redisObject存储的。redisObject来表示所有的ke
 ## CGI
 原始的CGI 程序只是单纯的多进程fork 模式[/demo/py/socket-</content>
 </entry><entry xml:base="https://ahuigo.github.io">
-<title>asyncio</title>
-<link href="/b/py/py-asyncio" rel="alternate" type="text/html"/>
-<updated>2019-03-10T00:00:00Z</updated>
+<title>shell 环境变量</title>
+<link href="/b/c/shell-var-env" rel="alternate" type="text/html"/>
+<updated>2019-06-29T00:00:00Z</updated>
 <summary/>
 <published>2018-09-28T00:00:00Z</published>
 <content># asyncio
@@ -282,9 +286,13 @@ asyncio是基于coroutine 的，包括了:
 <link href="/b/c/c-pointer" rel="alternate" type="text/html"/>
 <updated>2019-03-08T00:00:00Z</updated>
 <summary/>
-<published>2019-03-08T00:00:00Z</published>
-<content># Preface
-关于指针有两种运算符：*号是指针间接寻址运算符（Indirection Operator），*pi表示取指针pi所指向的变量的值，也称为Dereference操作. &amp;运算符的操作</content>
+<published>2019-07-05T00:00:00Z</published>
+<content># Dict
+
+    key='city'
+	dic = {'x': 1, 'y': 2, 2:100, key:'bj'}
+	del dict['x']
+    dict.pop(2) # key</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>c lib 库</title>
 <link href="/b/c/c-lib" rel="alternate" type="text/html"/>

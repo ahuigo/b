@@ -5,7 +5,7 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/nginx/nginx-lemp.md';
+const MD_URL='post/nginx/nginx-admin.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
@@ -20,13 +20,10 @@ const MD_URL='post/nginx/nginx-lemp.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -35,10 +32,11 @@ const MD_URL='post/nginx/nginx-lemp.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -50,8 +48,8 @@ const MD_URL='post/nginx/nginx-lemp.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: lemp环境搭建
-date: 2018-10-06
-updated: 2018-10-06
+date: 2019-06-19
+updated: 2019-06-19
 ---
 # Preface
 本文描述的是centOS6下的[lemp]的配置过程.
@@ -211,8 +209,12 @@ You are almost done. The last step is to set all of the newly installed programs
 # reboot all service
 	cat rebootLemp.sh
 	sudo /etc/init.d/mysqld restart
-	sudo /etc/init.d/nginx restart #sudo service nginx restart
+	sudo /etc/init.d/nginx restart; #sudo service nginx restart
 	sudo service php-fpm restart
+
+## nginx -h
+
+    nginx -s  stop|quit|reopen|reload
 
 # install php
  brew install php54 --with-fpm  --with-homebrew-openssl --with-homebrew-curl
@@ -225,7 +227,7 @@ You are almost done. The last step is to set all of the newly installed programs
 [lemp介绍]: http://ixdba.blog.51cto.com/2895551/806622
 [mac lemp]: http://dhq.me/mac-install-nginx-mysql-php-fpm
 </pre>
-<div id="pager" v-pre></div>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -247,10 +249,10 @@ You are almost done. The last step is to set all of the newly installed programs
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
@@ -272,6 +274,9 @@ You are almost done. The last step is to set all of the newly installed programs
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>

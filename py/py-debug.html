@@ -36,7 +36,7 @@ const MD_URL='post/py/py-debug.md';
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,7 +49,7 @@ const MD_URL='post/py/py-debug.md';
 <pre id="markdown" v-pre>---
 title: py-debug
 date: 2018-09-28
-updated: 2019-02-22
+updated: 2019-06-22
 ---
 # Preface
 1. exception
@@ -70,6 +70,27 @@ def debug_info():
         &#x27;caller&#x27;:sys._getframe(1).f_code.co_name,
     }
 ```
+或者：
+
+    import sys
+    def foo(exctype, value, tb):
+        print(&#x27;My Error Information&#x27;)
+        print(&#x27;Type:&#x27;, exctype)
+        print(&#x27;Value:&#x27;, value)
+        print(&#x27;Traceback:&#x27;, tb)
+        print(&#x27;tb_frame&#x27;, tb.tb_frame)
+        import code
+        code.interact(local=locals())
+
+    sys.excepthook = foo
+
+## 异常调用栈
+    try:
+        a=1/0
+    except Exception as e:
+        print(e)
+        import traceback
+        tb = traceback.format_exc()
 
 ## For More
 Python 代码调试技巧: \
@@ -96,6 +117,7 @@ try catch
 		raise
 		raise ValueError(&#x27;sth error!&#x27;)
     except (RuntimeError, TypeError, NameError):
+        print(&quot;Unexpected error:&quot;, sys.exc_info()[0])
         pass
 	else:
 		return None
@@ -151,6 +173,30 @@ Exception:
     e.args
 
 ### 记录异常错误
+
+#### exception as string
+print(traceback.format_exc())
+
+    import traceback
+    from functools import wraps
+    def retry(howmany=2):
+        def tryIt(func):
+            @wraps(func)
+            def f(*args,**kw):
+                attempts = 0
+                while attempts &lt; howmany:
+                    try:
+                        return func(*args, **kw)
+                    except:
+                        print(traceback.format_exc())
+                        attempts += 1
+            return f
+        return tryIt
+
+    @retry(5)
+    def download(i,j): 1/0
+
+#### logging exception
 
 	import logging
 

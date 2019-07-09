@@ -20,13 +20,10 @@ const MD_URL='post/vim/vim-motion.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -35,10 +32,11 @@ const MD_URL='post/vim/vim-motion.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -50,213 +48,377 @@ const MD_URL='post/vim/vim-motion.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: vim-motion
-date: 2018-10-06
-updated: 2018-10-06
+date: 2019-06-17
+updated: 2019-06-17
 ---
-# Preface
+# Motion, Movement
+Movement 移动光标、字符，Vim 最核心的功能操作
 
-移动范围
+    基本 hjkl
+    单词 
+        小单词wbe
+            w: word forward
+            b: word backward
+            e: end of word
+        大单词WBE​
+    行
+        行头: 
+            0
+            ^
+        行尾: $
+        跳行：
+            100G
+            :100
+    块
+        句 (    )
+        段 {    }    
+        章节section 或{&quot;
+             [[   ]]
+        章节section 或}&quot;
+            [] ][
+        匹配()
+            [(	])
+            	go to [count] previous unmatched &#x27;()&#x27;.
+        匹配{}
+            [{	]}
+                go to [count] next unmatched &#x27;{}}&#x27;.
 
-# insert
+    页
+        页内移动： H:Home M:middle L:Last 
+                扩展知识： J:Concat Line K:Manual​
+        半页&lt;C-u&gt; &lt;C-d&gt;​
+        全页&lt;C-f&gt; &lt;C-b&gt;​ (这两个键 已经被我用Readline 占用了)
+    全文：
+        首行: gg
+        尾行: G
+    匹配移动：
+        % * #
+        f{char}
+            fx  跳到下一个字符x
+            ;   向前跳
+            ,   向后跳
+        F{char}
+            Fx  跳到上一个字符x
+    easymothtion：需要插件支持, vscode 也可以开启easymotion
+        跳char
+            &lt;leader&gt;&lt;leader&gt;f
+            &lt;leader&gt;&lt;leader&gt;s
+        跳word
+            &lt;leader&gt;&lt;leader&gt;w
+            &lt;leader&gt;&lt;leader&gt;b
 
-	gI		Insert in column 1
 
-# line
+### 按字符移动光标hjkl
 
-	. current line
-	+ next line
-	+4 next 4&#x27;th line
+    几乎所有的移动都可以在前面加数字——实现重复的动作
 
-# marks
+注意一下大小写, 大写的HJKLM与小写的含义迥然不同:
+
+    H:Home M:middle L:Last J:Concat Line K:Manual
+
+#### move cursor in insert mode / insert模式下的hjkl
+建议做一个键映射
+
+    cnoremap &lt;C-a&gt; &lt;Home&gt;
+    cnoremap &lt;C-e&gt; &lt;End&gt;
+
+ps:如果要实现跨行移动,需要在`.vimrc`指定相应键：
+
+    set whichwrap=b,s,&lt;,&gt;,[,]
+
+    b 在 Normal 或 Visual 模式下按删除(Backspace)键。
+    s 在 Normal 或 Visual 模式下按空格键。
+    h 在 Normal 或 Visual 模式下按 h 键。
+    l 在 Normal 或 Visual 模式下按 l 键。
+    &lt; 在 Normal 或 Visual 模式下按左方向键。
+    &gt; 在 Normal 或 Visual 模式下按右方向键。
+    ~ 在 Normal 模式下按 ~ 键(翻转当前字母大小写)。
+    [ 在 Insert 或 Replace 模式下按左方向键。
+    ] 在 Insert 或 Replace 模式下按右方向键。
+
+### move cursor by word 按单词移动光标
+
+    w 下一词首 b上一词首 e下一词尾
+    WBE 大写则表示将特殊符号（非空白）也作为单词的一部分
+
+    * &quot;移动到下一个单词，这个单词与光标下的单词是一样的
+    # &quot;移动到上一个单词，这个单词与光标下的单词是一样的
+
+如果需要在insert mode 下做单词移动, 可以这样子
+
+    &quot;linux
+    :inoremap &lt;A-b&gt; &lt;C-o&gt;b
+    :inoremap &lt;A-f&gt; &lt;C-o&gt;w
+    &quot;mac
+    :inoremap ∫ &lt;C-o&gt;b
+    :inoremap ƒ &lt;C-o&gt;w
+
+很遗憾, mac Terminal vim 下的alt+left/right 不支持光标移动. 而且不能做map映射
+
+    &lt;shift&gt;+Left/Right
+    &lt;ctrl&gt;+Left/Right
+
+### 按行移动光标
+
+    0行首第一字符
+    ^行首第一非空字符
+
+    $ 行尾
+    g_ To the last non-blank character of the line
+
+    :line_num 移动到指定行号
+    &lt;line_num&gt;G 移动到指定行号
+
+插入模式下切行
+
+    :inoremap &lt;C-j&gt; &lt;down&gt;
+
+### move fold 
+[vim-fold](/p/vim-fold)
+
+    zj/zk &quot;move to next/previous fold
+    [z  &quot;move to the begining of fold
+    ]z  &quot;move to the end of fold
+
+### screen motion - 按屏幕移动光标
+
+    &lt;C-U&gt; 上半屏幕
+    &lt;C-D&gt; 下半屏幕
+    &lt;C-B&gt; 上一屏幕
+    &lt;C-F&gt; 下一屏幕
+    H 屏幕首行
+    M 屏幕中部
+    L 屏幕尾部
+
+    &lt;C-Y&gt; 上滚屏幕一行
+    &lt;C-E&gt; 下滚屏幕一行
+    zt or z&lt;CR&gt; 光标回到top (前者保留光标column)
+    zz or z. 光标回到中部 (前者保留光标column)
+    zb or z- 光标回到bottom (前者保留光标column)
+    z&lt;height&gt;&lt;CR&gt; 设置屏幕的高度
+    ps:以上均可跟用数字控制(仅M忽略数字)
+
+### t/T/f/T
+    tx
+    fx
+
+### easymotion
+easymothtion：需要插件支持, vscode 也可以开启easymotion
+
+    跳char
+        &lt;leader&gt;&lt;leader&gt;f
+        &lt;leader&gt;&lt;leader&gt;s
+    跳word
+        &lt;leader&gt;&lt;leader&gt;w
+        &lt;leader&gt;&lt;leader&gt;b
+    跳line
+        &lt;leader&gt;&lt;leader&gt;j
+        &lt;leader&gt;&lt;leader&gt;k
+
+## line
+
+    . current line
+    + next line
+    +4 next 4&#x27;th line
+
+## 行范围(range)
+
+    :% 全文件
+    :. 当前行
+    :.+{offset} 当前行+行偏移
+    :$+{offset} 最后一行+行偏移
+    :&lt;num&gt; 第num行
+    :&#x27;t &quot;标记t所指明的行
+    :/pattern/{offset} 第一个正向匹配到的行+偏移
+    :?pattern?{offset} 第一个反向匹配到的行+偏移
+    :start,end 第start到end行
+    :?starword?,/endword/ &quot;匹配起止
+    :&#x27;t,&#x27;m &quot;标记起止
+    visual块(其实是标记:&#x27;&lt;,&#x27;&gt;)
+
+eg:
+
+    :% !wc 统计文件的行数 单词数 字节数(结果会替换当前范围)
+
+## :g命令(:g)
+usage:
+
+    :[range]g[lobal]/{pattern}/[cmd]
+    :g/insert into/y A &quot;复制所有带insert into的行到寄存器A中
+    :g/^/m 0 &quot;倒序
+
+与:g对应的还有个反向的:v, 相当于`:g!` 不匹配的行才执行cmd
+
+    :[range]v[global]/{pattern}/[cmd]
+
+## argdo/bufdo
+
+    &quot;将要扫描的文件加入argument list (filelist)
+    :args **/*.txt **/*.cpp
+
+    :argdo[!] {cmd}         Execute {cmd} for each file in the argument list.(作用于文件列表)
+    :bufdo[!] {cmd}         Execute {cmd} in each buffer in the buffer list.
+    :windo[!] {cmd}         Execute {cmd} in each window
+
+
+如果你想把当前目录下（包括子文件夹）所有后缀为 java 的文件中的 apache 替换成 eclipse，那么依次执行如下命令(copy from 池建强)： 在当前目录下执行：
+
+    vim
+    :n **/*.java
+    :argdo %s/apache/eclipse/ge | update
+
+这用到了buffer 的概念，通过正则表达式在内存中打开多个文件，
+argdo 表示在内存中执行 Vim 的命令，
+%s/apache/eclipse/ge 表示在内存中执行字符串替换，g 表示全局替换，e 表示如果文件中没有可替换字符串不报错继续执行,
+`|` 是管道标识符，update 表示替换完之后更新并写入文件。
+
+## marks
 marks 不是保存在register 中的，这个注意一下
 
-	m{mark}
-	:marks				list all marks
-	:delm[arks]	{mark}	  safd del mark
+    m{mark}
+    :marks				list all marks
+    :delm[arks]	{mark}	  safd del mark
 
-## mark list
+### mark list
 
-	&#x27;{A-Z0-9}  	全局标记
-	&#x27;{a-z}  	buffer marks
+    &#x27;{A-Z0-9}  	全局标记
+    &#x27;{a-z}  	buffer marks
 
 Last jump
 
-	&#x27;&#x27; `` `&#x27;	上一标记(latest jump, toggle)
-	&#x27;&quot; 			To the position when last existing the current buffer(需要开启对.viminfo信息支持)
+    &#x27;&#x27; `` `&#x27;	上一跳转的位置(latest jump, toggle)
+    &#x27;&quot; `&quot;       上次离开的位置(last existing the current buffer(需要开启对.viminfo信息支持))
 
 modified &amp;&amp; insert stop &amp;&amp; changed
 
-	&#x27;. 			To the position the latest modified.
-	&#x27;^  `^		To the position where the cursor was the last time when Insert mode was stopped.
-				This is used by the |gi| command.
-	`[  `]		To the first/last character of the previously changed or yanked text.
+    &#x27;. 			To the position the latest modified.
+    &#x27;^  `^		To the position where the cursor was the last time when Insert mode was stopped.
+                This is used by the |gi| command.
+    `[  `]		To the first/last character of the previously changed or yanked text.
+                常用于g@
 
 Visual mode
 
-	&#x27;&lt;			The first character of the last selected Visual area in the current buffer.
-	&#x27;&gt;			The last character of the last selected Visual area in the current buffer.
+    &#x27;&lt;			The first character of the last selected Visual area in the current buffer.
+    &#x27;&gt;			The last character of the last selected Visual area in the current buffer.
 
 sentence
 
-	&#x27;( &#x27;)		To the start/end of current sentence
-	&#x27;{ &#x27;}		To the start/end of current paragraph
+    &#x27;( &#x27;)		To the start/end of current sentence
+    &#x27;{ &#x27;}		To the start/end of current paragraph
 
-## make marks
+### make marks
 
-	m{mark}
+    m{mark}
 
-## jump mark
+### jump mark
 
-	`{mark}		jump to pos defined by mark
-	&#x27;{mark}		jump to the line head of pos defined by mark
+    `{mark}		jump to pos defined by mark
+    &#x27;{mark}		jump to the line head of pos defined by mark
 
-	&#x27;{a-z}  `{a-z}
-			Jump to the mark {a-z} in the current buffer.
-			with sigle quote, jump to the begining of the line
+    &#x27;{a-z}  `{a-z}
+            Jump to the mark {a-z} in the current buffer.
+            with sigle quote, jump to the begining of the line
 
-	&#x27;{A-Z0-9}  `{A-Z0-9}
-			To the mark {A-Z0-9} in the file where it was set (not
-				a motion command when in another file). global
+    &#x27;{A-Z0-9}  `{A-Z0-9}
+            To the mark {A-Z0-9} in the file where it was set (not
+                a motion command when in another file). global
 
-	g&#x27;{mark}  g`{mark}
-				Jump to the {mark}, but don&#x27;t change the jumplist when
-				jumping within the current buffer.
+    g&#x27;{mark}  g`{mark}
+                Jump to the {mark}, but don&#x27;t change the jumplist when
+                jumping within the current buffer.
 
-# jumplist, jumps
+## jumplist, jumps
 A &quot;jump&quot; is one of the following commands:
 
-	&quot;&#x27;&quot;, &quot;`&quot;, &quot;G&quot;, &quot;/&quot;, &quot;?&quot;, &quot;n&quot;, &quot;N&quot;, &quot;%&quot;, &quot;(&quot;, &quot;)&quot;, &quot;[[&quot;, &quot;]]&quot;, &quot;{&quot;, &quot;}&quot;, &quot;:s&quot;, &quot;:tag&quot;, &quot;L&quot;, &quot;M&quot;, &quot;H&quot;
-	and the commands that start editing a new file.
+    &quot;&#x27;&quot;, &quot;`&quot;, &quot;G&quot;, &quot;/&quot;, &quot;?&quot;, &quot;n&quot;, &quot;N&quot;, &quot;%&quot;, &quot;(&quot;, &quot;)&quot;, &quot;[[&quot;, &quot;]]&quot;, &quot;{&quot;, &quot;}&quot;, &quot;:s&quot;, &quot;:tag&quot;, &quot;L&quot;, &quot;M&quot;, &quot;H&quot;
+    and the commands that start editing a new file.
 
 If you make the cursor &quot;jump&quot; with one of these commands, the position of the cursor before the jump is
 remembered.
 
-	ctrl-o 跳到旧的jump (jump backward in insert &amp; normal mode)
-	ctrl-i/&lt;TAB&gt; 跳到新的jump (jump forward in normal mode)
-	:ju or :jumps 查看jumplist（曾经跳过的位置列表）
-	:help jumplist 查帮助
+    ctrl-o 跳到旧的jump (jump backward in insert &amp; normal mode)
+    ctrl-i/&lt;TAB&gt; 跳到新的jump (jump forward in normal mode)
+    :ju or :jumps 查看jumplist（曾经跳过的位置列表）
+    :help jumplist 查帮助
 
 ps: &lt;C-O&gt; 或者 &lt;C-I&gt;/&lt;TAB&gt; 前面都可加数字(jumpid),比如
 
-	3&lt;C-O&gt;
-	5&lt;C-I&gt; or 5&lt;TAB&gt;
+    3&lt;C-O&gt;
+    5&lt;C-I&gt; or 5&lt;TAB&gt;
 
-# change list
+## change list
 
-	:help changelist
-	:changes 	print all change list
+    :help changelist
+    :changes 	print all change list
 
-	g; &quot;跳到上次修改
-	g, &quot;跳到新的修改
-	`. &quot;跳到上次修改
+    g; &quot;跳到上次修改
+    g, &quot;跳到新的修改
+    `. &quot;跳到上次修改
 
-# Various motions
+## 插入模式光标移动
+以下归纳的是按光标移动(Normal/Visual模式下). 如果需要在insert mode下移动光标, 需要加一个前缀键: Ctrl+o
 
-## bracket motion
-matched
+    &lt;C-o&gt; + hjkl
+    &lt;C-o&gt; + wbeWBE
 
-	% 			括号对(可通过:set matchpairs?查询支持哪些括号对)
+一般`&lt;C-o&gt;` 是要结合map 做成方便的快捷键的, 比如在`~/.vimrc` 加入
 
-parent
+    &quot; Go to head of line
+    imap &lt;C-a&gt; &lt;C-o&gt;0
 
-	[( ])		like %, previous / next *unmatched* parent &quot;()&quot;
-	[{ ]}		like %, previous / next *unmatched* parent &quot;{}&quot;
+    &quot; Go to end of line
+    imap &lt;C-e&gt; &lt;C-o&gt;$
 
-hilight bracket:
+Insert/Command mode 移动​, 只需要加前缀`&lt;C-o&gt;`
 
-	:showmatch
+    #在insert mode下光标左移一个字符
+    Ctrl+o h  &quot;相当于按&lt;Left&gt;
+    Ctrl+o A	&quot;移动到开头
+    #在insert mode下光标左移后退一个大单词
+    Ctrl+o B sfsadfadfs在
 
-	&quot; This comes from the pi_paren plugin
-	:DoMatchParen
-	:hi MatchParen cterm=reverse ctermbg=6 guibg=DarkCyan
 
-## section motion
-&gt; http://learnvimscriptthehardway.stevelosh.com/chapters/50.html
+# Text object, 文本对象
+motion 分两种：
+1. 移动光标的: hjklwbeWBE
+2. 不能移动光标的textObject：iw,aw,a{,i{
 
-	(	)		前/后一句首
-	{	}		前/后一段首
-	?{	/}		前/后一个{ }
+本节包含的是不能移动光标的：
 
-`:h section , :h &#x27;sections&#x27;` to see sectin defines
-A section start at the nroff macros &quot;.SH&quot;, &quot;.NH&quot;, &quot;.H&quot;, &quot;.HU&quot;, &quot;.nh&quot; and &quot;.sh&quot;.
-
-	[[	]]	&quot;{&quot; opening braces,
-			1. backward/forward secions(A)
-			2. backward/forward to &quot;{&quot; (B)
-
-	[]	][	&quot;}&quot; closing braces
-			1. backward/forward secion	(A)
-			2. backward/forward to &quot;}&quot; (B)
-
-custom section:
-
-	noremap &lt;script&gt; &lt;buffer&gt; &lt;silent&gt; ]] :call &lt;SID&gt;NextSection(1, 0)&lt;cr&gt;
-	noremap &lt;script&gt; &lt;buffer&gt; &lt;silent&gt; [[ :call &lt;SID&gt;NextSection(1, 1)&lt;cr&gt;
-	noremap &lt;script&gt; &lt;buffer&gt; &lt;silent&gt; ][ :call &lt;SID&gt;NextSection(2, 0)&lt;cr&gt;
-	noremap &lt;script&gt; &lt;buffer&gt; &lt;silent&gt; [] :call &lt;SID&gt;NextSection(2, 1)&lt;cr&gt;
-
-	function! s:NextSection(type, backwards)
-		if a:type == 1
-			let pattern = &#x27;\v(\n\n^\S|%^)&#x27;
-			let flags = &#x27;e&#x27;
-		elseif a:type == 2
-			let pattern = &#x27;\v^\S.*\=.*:$&#x27;
-			let flags = &#x27;&#x27;
-		endif
-
-		if a:backwards
-			let dir = &#x27;?&#x27;
-		else
-			let dir = &#x27;/&#x27;
-		endif
-
-		execute &#x27;silent normal! &#x27; . dir . pattern . dir . flags . &quot;\r&quot;
-	endfunction
-
-## method motion
-
-	[m ]m		go to previous/next start of method
-	[M ]M		go to previous/next end of method
-
-## comment motion
-
-	[/ ]/		go to previous/next end of comment
-
-# text object, 文本对象
-
-	aw iw &quot;a word &amp; a inner word后者不包含空白
-	aW iW &quot;a word 大写的字符表示特殊字符是单词的一部分
-	as is &quot;a sentence	后者不含空白及换行
-	ap ip &quot;a prograph
-	a&#x27;
-	a{
+    aw iw &quot;a word &amp; a inner word后者不包含空白
+    aW iW &quot;a word 大写的字符表示特殊字符是单词的一部分
+    as is &quot;a sentence	后者不含空白及换行
+    ap ip &quot;a prograph
+    a&#x27;
+    a{
 
     &quot;当光标在( ), [ ],&lt; &gt;, { }, &quot; &quot;, &#x27;&#x27; 内时
     &quot;括号内
-    i( or i)
+    i( or i) ib 
     &quot;中括号内
     i[ or i]
-    i{ or i}
+    i{ or i} iB
     &quot;引号内
     i&quot; i&#x27;
 
 Tag object
 
-	i&gt; i&lt; a&gt; a&lt;
-		&quot;&lt;&gt; block&quot;
+    i&gt; i&lt; a&gt; a&lt;
+        &quot;&lt;&gt; block&quot;
 
-	at it
-		&quot;a tag block&quot; like &quot;&lt;div&gt; use `dat` &lt;span&gt; to delete div&lt;/span&gt; &lt;/div&gt;&quot;
+    at it
+        &quot;a tag block&quot; like &quot;&lt;div&gt; use `dat` &lt;span&gt; to delete div&lt;/span&gt; &lt;/div&gt;&quot;
 
 Block Motion
 
-	aB a{
-		{}
-	2aB 2a{
-		{{}}
+    aB a{
+        {}
+    2aB 2a{
+        {{}}
 
-	ab a(
-	2ab 2a(
+    ab a(
+    2ab 2a(
 
 文件对象与操作结合：
 
@@ -264,16 +426,78 @@ Block Motion
     cis &quot;replece a sentence
     yi{ &quot;yank all contents between left { and right }
 
-	va(
-	va[
-	va{
+    va(
+    va[
+    va{
 
 ### 设定单词key
 
-	:set iskeyword=@,48-57,192-255,-,_ &quot;@代表英文字母
-	:set iskeyword-=_ #从单词key中删除下划线
+    :set iskeyword=@,48-57,192-255,-,_ &quot;@代表英文字母
+    :set iskeyword-=_ #从单词key中删除下划线
+
+# Action, 动作 
+Action 分：
+1. Delete: `d`
+2. Copy: `y`
+3. Paste: `p`
+4. Change(等价于Delete+Insert): `c` 
+4. Visual: `v`
+4. lowercase/upercase: 
+    4. gU(改大写): `gu`
+    4. gu(改小写): `gU`
+    4. g~(改写): `g~`
+
+## TextObject 与Motion 的区别
+1. motion 可以不用Action, 指 **指光标移动所经过的字符** （我觉得motion 是一种不需要action 的textObject）
+    1. hjkl
+    2. wbe WBE
+    3. .....
+2. TextObject(必须要Action)
+    1. 比如 `Delete` + `inner word`: `diw`
+    1. 比如 `Delete` + `a block`: `da{`
+    1. 比如 `Copy` + `a block`: `ya{`
+
+常用的TextObject (i: 不含空白或边界, a: 包含空白或边界)
+
+    词: iw aw iW aW 
+    句: is as
+    块: 
+        括号块：
+            i( a(  别名: ib ab
+            i[ a[
+            i{ a{  别名: iB aB
+            i&lt; a&lt;  
+        Tag 块：
+            it at   用于xml/html 这样的标签
+
+更多：
+
+    :help ib
+    :help motion.txt
+
+# Change 修改
+
+### 左右缩进(indent)
+
+    &gt;&gt; &lt;&lt; 左右缩进 你可以用sw(shiftwidth)控制缩进长度
+    ctrl-t,ctrl-d 左右缩进(insert mode)
+
+### 自动缩进（autoindent）
+实现开始新行时，实施上一行缩进
+
+    :set autoindent :set ai
+
+### 移动字符(move)
+
+    :[range]m {address} &quot;address是目的地址
+
+global 与move 结合会收到强大的效果，比如：
+
+    :g/^/m 0 #执行过程是，/^/会匹配所有的行，包括空行。然后把每一行放到第一行之上（即0行）这样就完成了全文件倒序
+    :&#x27;t+1,.g/^/m &#x27;t #结果是把t+1移动到&#x27;t之下，再把&#x27;t+2行移到到&#x27;t行之下，直到.
+    :h :m &quot;寻求帮助
 </pre>
-<div id="pager" v-pre></div>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -295,10 +519,10 @@ Block Motion
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
@@ -320,6 +544,9 @@ Block Motion
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>

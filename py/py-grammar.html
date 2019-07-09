@@ -36,7 +36,7 @@ const MD_URL='post/py/py-grammar.md';
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,7 +49,7 @@ const MD_URL='post/py/py-grammar.md';
 <pre id="markdown" v-pre>---
 title: Python 语法
 date: 2018-03-01
-updated: 2019-02-22
+updated: 2019-06-25
 ---
 # compare
 ```s
@@ -57,7 +57,19 @@ updated: 2019-02-22
 True
 ```
 
+
 # Condition &amp; Loop
+
+## try finnaly
+
+    try:
+        1/0
+    except Exception as e:
+        print(&#x27;first:&#x27;,e)
+        raise e
+    finally:
+        print(&#x27;second: finally&#x27;)
+
 
 ## control
 
