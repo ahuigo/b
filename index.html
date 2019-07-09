@@ -36,6 +36,7 @@ const MD_URL='post/index.md';
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -48,45 +49,46 @@ const MD_URL='post/index.md';
 <div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
 
 <ul>
-<li>2019-03-08 <a href="/b/py/py-async-cpu">does-a-thread-waiting-on-io-also-block-a-core?</a> </li>
-<li>2019-03-02 <a href="/b/db/redis-cache">cache 穿透问题</a> </li>
-<li>2019-02-28 <a href="/b/algorithm/algo-str-search">字符串搜索算法KMP</a> </li>
-<li>2018-09-28 <a href="/b/net/net-proxy-socks">net-socks</a> </li>
-<li>2019-02-20 <a href="/b/algorithm/list-copy">Copy List with Random Pointer</a> </li>
-<li>2019-02-20 <a href="/b/algorithm/list-intersection">求两链表的交点</a> </li>
-<li>2018-09-26 <a href="/b/algorithm/list-intersection-floyd">单链表判圈之Floyd算法</a> </li>
-<li>2019-02-17 <a href="/b/algorithm/graph-path">图的路径问题</a> </li>
-<li>2019-02-14 <a href="/b/py/py-file-watch">python watch file</a> </li>
-<li>2019-02-16 <a href="/b/net/net-ssh-port">Change ssh port</a> </li>
-<li>2018-09-26 <a href="/b/algorithm/graph-dfs-bfs">深度优先DFS和广度优先BFS</a> </li>
-<li>2018-09-26 <a href="/b/algorithm/sort-topk">BFPRT 算法</a> </li>
-<li>2019-02-14 <a href="/b/algorithm/sort-topk-kth">查找数组中的中值</a> </li>
-<li>2019-02-13 <a href="/b/net/net-sniffer-android">android 刷包工具</a> </li>
-<li>2019-02-14 <a href="/b/math/math-num-operator">数学运算符</a> </li>
-<li>2019-02-13 <a href="/b/mac/mac-inputmethod-pinyin">mac 切换到自带的双拼方案</a> </li>
-<li>2013-09-26 <a href="/b/algorithm/sort">经典排序算法的实现</a> </li>
-<li>2019-02-10 <a href="/b/algorithm/algo-dp-josephus-problem">约瑟夫问题</a> </li>
-<li>2019-01-09 <a href="/b/algorithm/algo-dp-array-max-consecutive-sub">求数列中和最大的连续子序列的和</a> </li>
-<li>2018-10-04 <a href="/b/py/py-test-virtualenv">python virtualenv</a> </li>
-<li>2019-02-05 <a href="/b/arch/lua-var">Lua 的变量</a> </li>
-<li>2019-01-06 <a href="/b/arch/lua-module">lua module</a> </li>
-<li>2019-02-06 <a href="/b/py/py-asyncio-http">Python 异步tcp</a> </li>
-<li>2019-01-06 <a href="/b/c/ops-path">设置系统的PATH</a> </li>
-<li>2018-09-27 <a href="/b/arch/arch-cap">数据库CAP 理论 与事务</a> </li>
-<li>2016-10-10 <a href="/b/net/net-nmap-zmap">网络扫描器nmap、zmap</a> </li>
-<li>2019-01-23 <a href="/b/go/go-asm">go汇编示例</a> </li>
-<li>2018-09-27 <a href="/b/arch/arch-docker">学习 docker</a> </li>
-<li>2019-01-29 <a href="/b/ai/ai-book">AI 入门路线</a> </li>
-<li>2018-09-27 <a href="/b/go/18.go-routines-inner">golang 的协程调度</a> </li>
-<li>2019-01-22 <a href="/b/code/code-manual-annotation">关于人工标注的思考</a> </li>
-<li>2018-09-26 <a href="/b/algorithm/3.algo-self-call">如何避免深度递归</a> </li>
-<li>2019-01-07 <a href="/b/go/17.go-reflect">学习下Golang 的反射</a> </li>
-<li>2018-09-28 <a href="/b/eng/s/1.not">英语中的否定语句</a> </li>
-<li>2016-09-27 <a href="/b/c/shell-tool">Shell 工具集合</a> </li>
-<li>2018-12-29 <a href="/b/db/mysql-index-explain">mysql explain 的使用</a> </li>
-<li>2018-09-27 <a href="/b/c/1.shell-var">Shell 变量的数据类型</a> </li>
-<li>2018-09-27 <a href="/b/course/1.study">人脑学习的本质</a> </li>
-<li>2018-09-27 <a href="/b/em/em-paper">写论文要用到的网站</a> </li>
+<li>2018-09-27 <a href="/b/db/postgre-index">Postgre Index</a> </li>
+<li>2018-09-27 <a href="/b/db/postgre-ddl-install">Postgre 安装\配置\管理</a> </li>
+<li>2019-07-07 <a href="/b/db/gorm-ddl">Gorm ddl</a> </li>
+<li>2018-09-27 <a href="/b/course/paper">在家里如何免费使用中国知网？</a> </li>
+<li>2014-03-05 <a href="/b/c/shell-">Shell Programming</a> </li>
+<li>2018-10-06 <a href="/b/ria/js-dom-file">js dom file</a> </li>
+<li>2018-10-10 <a href="/b/mac/mac-tool">mac 工具集</a> </li>
+<li>2018-09-27 <a href="/b/db/postgre-admin-user">Postgre User and Authentication</a> </li>
+<li>2018-12-20 <a href="/b/sec/security-account">安全的帐号设计</a> </li>
+<li>2019-06-25 <a href="/b/ria/node-argv">Node argv</a> </li>
+<li>2018-10-04 <a href="/b/ria/js-websocket">Socket.io</a> </li>
+<li>2018-10-06 <a href="/b/ria/js-dom-html5">html5</a> </li>
+<li>2018-09-28 <a href="/b/py/py-debug-pdb">py-debug-pdb</a> </li>
+<li>2018-08-23 <a href="/b/course/im-live-p2p">关于直播的P2P架构</a> </li>
+<li>2018-10-08 <a href="/b/c/shell-var-env">shell 环境变量</a> </li>
+<li>2018-10-06 <a href="/b/py/py-var-dict">python 字典</a> </li>
+<li>2018-03-01 <a href="/b/py/py-grammar">Python 语法</a> </li>
+<li>2018-09-28 <a href="/b/py/py-async-iteratortools">py-async-iteratortools</a> </li>
+<li>2016-09-27 <a href="/b/go/2.go-pkg">golang-pkg</a> </li>
+<li>2019-06-24 <a href="/b/db/postgre-geo">Postgre Geo</a> </li>
+<li>2019-06-23 <a href="/b/ria/react-start">React Start</a> </li>
+<li>2018-03-03 <a href="/b/py/py-var-list">python 的list/tuple 笔记</a> </li>
+<li>2019-06-23 <a href="/b/net/net-tcp-backlog">at happens when the listen backlog is full?</a> </li>
+<li>2019-06-23 <a href="/b/net/net-ssh-server">SSH SERVER</a> </li>
+<li>2018-09-28 <a href="/b/net/net-ssh-proxy">ssh proxy</a> </li>
+<li>2018-09-28 <a href="/b/py/py-func">py-func</a> </li>
+<li>2018-09-28 <a href="/b/py/py-debug">py-debug</a> </li>
+<li>2018-09-28 <a href="/b/py/py-async-iter">py-async-iter</a> </li>
+<li>2018-10-04 <a href="/b/nginx/nginx-location">deny ngx<em>http</em>access_module</a> </li>
+<li>2016-09-09 <a href="/b/net/net-ssh-tool">linux ssh tool</a> </li>
+<li>2019-06-20 <a href="/b/db/postgre-var">Posgtre Var</a> </li>
+<li>2019-06-20 <a href="/b/db/postgre-help">PG help</a> </li>
+<li>2019-06-20 <a href="/b/db/postgre-ddl-function">Postgre SQL function</a> </li>
+<li>2018-09-27 <a href="/b/db/mysql-var">mysql-datatype</a> </li>
+<li>2018-09-27 <a href="/b/db/mysql-var-str">Mysql 的字符串处理</a> </li>
+<li>2018-12-29 <a href="/b/db/mysql-ddl">mysql ddl</a> </li>
+<li>2018-09-28 <a href="/b/py/py-debug-log">py-debug-log</a> </li>
+<li>2019-06-19 <a href="/b/nginx/nginx-admin">lemp环境搭建</a> </li>
+<li>2018-09-27 <a href="/b/c/ops-init">ops-init</a> </li>
+<li>2018-09-28 <a href="/b/py/py-file">Python 文件处理</a> </li>
 </ul>
 </div>
 <div id="pager"> p0 <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a> <a href="/b/p/p3">p3</a> <a href="/b/p/p4">p4</a> <a href="/b/p/p5">p5</a> <a href="/b/p/p6">p6</a> <a href="/b/p/p7">p7</a> <a href="/b/p/p8">p8</a> <a href="/b/p/p9">p9</a> <a href="/b/p/p10">p10</a> <a href="/b/p/p11">p11</a> <a href="/b/p/p12">p12</a> <a href="/b/p/p13">p13</a> <a href="/b/p/p14">p14</a> <a href="/b/p/p15">p15</a> <a href="/b/p/p16">p16</a> <a href="/b/p/p17">p17</a> <a href="/b/p/p18">p18</a></div>
