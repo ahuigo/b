@@ -9,7 +9,7 @@ const MD_URL='post/go/19.go-time.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>go time</title>
+<title>go 的时间函数</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -36,7 +36,7 @@ const MD_URL='post/go/19.go-time.md';
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -47,9 +47,9 @@ const MD_URL='post/go/19.go-time.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: go time
-date: 2019-02-14
-updated: 2019-02-14
+title: go 的时间函数
+date: 2019-07-13
+updated: 2019-07-13
 ---
 # tick and after
 
@@ -101,32 +101,44 @@ updated: 2019-02-14
 
 ## now
 
-    time.Now()
+    t := time.Now()
 
-## timestamp
+## get time
 
-    time.Now().Unix()
+    t.Year(), t.Month(), t.Day(),
+    t.Hour(), t.Minute(), t.Second())
 
-## weekday
+    timestamp
+        time.Now().Unix()
+            1553473333
+        time.Now().UnixNano()
+            1553473333040490000
 
-  	time.Now().Weekday()
-  1~7
-  	time.Now().Weekday()
-  6
-  	time.Saturday
+    weekday
+        1~7 time.Now().Weekday()
+        6 time.Saturday
+
+## set time
+
+   t1, e := time.Parse(
+        time.RFC3339,
+        &quot;2012-11-01T22:08:41+00:00&quot;)
+    p(t1)
 
 ## duration
-duration:
+time elapsed:
 
   t0 := time.Now()
   ...
   t1 := time.Now()
-  t1.Sub(t0)
+  t1.Sub(t0)    纳秒ns
+  t1.Since(t0)    秒s
 
-  T = time.Duration
-  time.Duration(5)
-  time.Duration(5) * time.Second
-</pre>
+duration:
+
+    type Duration int64
+    var d time.Duration
+    d = t1.Sub(t0)</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">

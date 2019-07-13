@@ -2,9 +2,33 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-07-13T23:19:24Z</updated>
+<updated>2019-07-13T23:35:00Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>SSH SERVER 的配置</title>
+<link href="/b/net/net-ssh-server" rel="alternate" type="text/html"/>
+<updated>2019-07-13T00:00:00Z</updated>
+<summary/>
+<published>2019-06-23T00:00:00Z</published>
+<content># SSH SERVER
+OpenSSH Installations under CentOS Linux
+
+	# To install the server and client type:
+	yu</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>go 的时间函数</title>
+<link href="/b/go/19.go-time" rel="alternate" type="text/html"/>
+<updated>2019-07-13T00:00:00Z</updated>
+<summary/>
+<published>2019-07-13T00:00:00Z</published>
+<content># tick and after
+
+## timer/ticker, 定时器
+`chan time.Time: timer.C = ticker.C`
+定时器对象
+
+    timer := time</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Python 的Context Managers</title>
 <link href="/b/py/py-expr-context" rel="alternate" type="text/html"/>
 <updated>2019-07-13T00:00:00Z</updated>
@@ -258,14 +282,13 @@ vim /var/lib/pgsql/10/data/pg_hba.conf
     // print process.argv
     process.argv.forEach(function (va</content>
 </entry><entry xml:base="https://ahuigo.github.io">
-<title>Socket.io</title>
+<title>js 的websocket 笔记</title>
 <link href="/b/ria/js-websocket" rel="alternate" type="text/html"/>
-<updated>2019-06-29T00:00:00Z</updated>
+<updated>2019-07-13T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
-<content># Socket.io
-ws 和 wss 均为 WebSocket 协议的 schema，一个是非安全的，一个是安全的tcp + ws as ws，tcp + tls + ws as wss 
-Soc</content>
+<content># ws/wss与Socket.io
+ws 和 wss 均为 WebSocket 协议的 schema，一个是非安全的tcp + ws as ws， 一个是安全的tcp + tls + ws as w</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>js notes</title>
 <link href="/b/ria/js-obj" rel="alternate" type="text/html"/>
@@ -278,11 +301,11 @@ Soc</content>
     ECMA 7+:
     Object.entries(obj).length === 0 &amp;&amp; obj.constructor === Objec</content>
 </entry><entry xml:base="https://ahuigo.github.io">
-<title>html5</title>
+<title>html5 笔记</title>
 <link href="/b/ria/js-dom-html5" rel="alternate" type="text/html"/>
-<updated>2019-06-29T00:00:00Z</updated>
+<updated>2019-07-13T00:00:00Z</updated>
 <summary/>
-<published>2019-06-29T00:00:00Z</published>
+<published>2019-07-13T00:00:00Z</published>
 <content># Tag
 
 ## Forms
@@ -383,9 +406,9 @@ Python的内建模块itertools提供了非常有用的用于操作迭代对象�
 # itertools
 itertools模块提供的全部是处理迭代功能的函数，它们的返回值不是</content>
 </entry><entry xml:base="https://ahuigo.github.io">
-<title>golang-pkg</title>
+<title>golang pkg的使用</title>
 <link href="/b/go/2.go-pkg" rel="alternate" type="text/html"/>
-<updated>2019-07-07T00:00:00Z</updated>
+<updated>2019-07-13T00:00:00Z</updated>
 <summary/>
 <published>2016-09-27T00:00:00Z</published>
 <content># 结构
@@ -454,23 +477,4 @@ React 运行时，需要引入运行时
 如果可能，能用tuple代替list就尽量用tuple。
 
 	list = [1,2</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>at happens when the listen backlog is full?</title>
-<link href="/b/net/net-tcp-backlog" rel="alternate" type="text/html"/>
-<updated>2019-06-23T00:00:00Z</updated>
-<summary/>
-<published>2019-06-23T00:00:00Z</published>
-<content>What happens when the listen backlog is full?
-
-https://www.youtube.com/watch?v=6pK0tz1ifiY</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>linux ssh tool</title>
-<link href="/b/net/net-ssh-tool" rel="alternate" type="text/html"/>
-<updated>2019-06-23T00:00:00Z</updated>
-<summary/>
-<published>2016-09-09T00:00:00Z</published>
-<content># SSH Client
-
-## config
-以下 `~/.ssh/config` 包含了可以避免在特定网络环境中连接被断掉的情况的设置、使用压缩（这对于通过低带宽连接使用 scp 很有用），以及使</content>
 </entry></feed>
