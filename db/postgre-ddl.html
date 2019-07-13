@@ -49,7 +49,7 @@ const MD_URL='post/db/postgre-ddl.md';
 <pre id="markdown" v-pre>---
 title: FUNCTION
 date: 2018-09-27
-updated: 2019-07-07
+updated: 2019-07-13
 ---
 # shell
 
@@ -159,7 +159,14 @@ custom-format archive:
     database-name \
     -f table.sql
 
-### export csv
+### export sql 
+relative path 
+
+    \copy (select * from my_table limit 10) TO &#x27;./a.csv&#x27;
+    \copy (select * from my_table limit 10) TO &#x27;./a.csv&#x27; CSV 
+    \copy (select * from my_table limit 10) TO &#x27;./a.csv&#x27; CSV HEADER
+
+full path
 
     \COPY products_273 TO &#x27;/tmp/products_199.csv&#x27; WITH (FORMAT CSV, HEADER);
 
@@ -170,9 +177,6 @@ custom-format archive:
     \copy (Select * From foo) To &#x27;/tmp/test.csv&#x27; With CSV
     \copy (select * from my_table limit 10) TO &#x27;~/Downloads/export.csv&#x27; CSV HEADER
 
-relative path 
-
-    \copy (select * from my_table limit 10) TO &#x27;./a.csv&#x27; CSV HEADER
 
 # help
 `\h CREATE ROLE`

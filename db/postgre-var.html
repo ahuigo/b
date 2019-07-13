@@ -49,13 +49,23 @@ const MD_URL='post/db/postgre-var.md';
 <pre id="markdown" v-pre>---
 title: Posgtre Var
 date: 2019-06-20
-updated: 2019-06-22
+updated: 2019-07-13
 ---
 # Posgtre Var
 ## Define and assign
     DECLARE vSite varchar DEFAULT &#x27;TechOnTheNet.com&#x27;;
     DECLARE vSite varchar := &#x27;TechOnTheNet.com&#x27;;
-    vSite := &#x27;CheckYourMath.com&#x27;;</pre>
+    vSite := &#x27;CheckYourMath.com&#x27;;
+
+# Datetime
+timestamp
+
+timestamp to date:&#x27;2018-07-25 10:30:30&#x27; to &#x27;2018-07-25&#x27;, 3种方法
+
+    SELECT DATE(column_name) FROM table_name;
+    SELECT column_name::DATE;
+        SELECT &#x27;2018-07-25 10:30:30&#x27;::TIMESTAMP::DATE;
+    SELECT DATE(SUBSTRING(&#x27;2018-07-25 10:30:30&#x27; FROM 1 FOR 10));</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">

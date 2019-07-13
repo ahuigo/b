@@ -32,11 +32,11 @@ const MD_URL='post/go/9.go-str.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,116 +49,152 @@ const MD_URL='post/go/9.go-str.md';
 <pre id="markdown" v-pre>---
 title: golang string
 date: 2018-09-27
-updated: 2019-01-07
+updated: 2019-07-13
 ---
 # string
+
+## inner pointer
+    + |pointer|len=5|       s=&quot;hello&quot; 
+          |         |
+        + |h|e|l|l|o|       [5]byte
+            |   |
+        + |pointer|len=2|   s[1:3]
+
+string 本身为指针（值不可修改），
+
+    var s2 string
+    s1:=&quot;h1llo&quot;
+    # &quot;hello&quot; 其实是指针(指向头部)
+    s2=&quot;hello&quot;
+    s2=s1
+    # 查看的是字符指针的地址(不同)
+    fmt.Printf(&quot;%p,%p\n&quot;, &amp;s1, &amp;s2)
+    # 查看的是字符指针(相同): %!p(string=h1llo),%!p(string=h1llo)
+    fmt.Printf(&quot;%p,%p\n&quot;, s1, s2)
+
+    Child{Base: Base{ID: id}, a: a, b: b}
 
 ## define
 
     &quot;12&quot;
-    &quot;\x31\x32&quot;
+    &quot;12\x00\u2318&quot;
 
-## here doc str
+### here doc str
 
-  str := `\n\r\b\\` //literal
+    str := `\n\r\b\\` //literal
 
-## rune
+## rune vs byte
+
+    type byte uint8
+    type rune int32 //&#x27;a&#x27;
+
+    // is slice of read only bytes
+    type string []byte 
+
+### rune
 单引号字符常量表  Unicode Code Point, 持 `\uFFFF、\U7FFFFFFF、\xFF` 格式。 对应 rune 类型,UCS-4。
 
-  var c1, c2 rune = &#x27;\u6211&#x27;, &#x27;们&#x27;
-  println(c1 == &#x27;我&#x27;, string(c2) == &quot;\xe4\xbb\xac&quot;)
+    var c1, c2 rune = &#x27;\u6211&#x27;, &#x27;们&#x27;
+    println(c1 == &#x27;我&#x27;, string(c2) == &quot;\xe4\xbb\xac&quot;)
+    &#x27;⌘&#x27; // is 0x2318.
 
-单引号其实就是 int32:
+单引号其实就是: rune int32:
 
     rune(&#x27;a&#x27;) == &#x27;a&#x27; == int32(&#x27;a&#x27;) == 97
 
-## change str
-要修改字符串,可先将其转换成 []rune 或 []byte 再修改,完成后再转换为 string。 论哪种转 换,都会重新分配内存,并复制字节数组。
+### byte
+byte 其实是int8
 
-  s := &quot;abcd&quot;
-  bs := []byte(s)
-  bs[1] = &#x27;B&#x27;
-  println(string(bs))
+    fmt.Printf(&quot;%T,%T&quot;, byte(&#x27;a&#x27;),&#x27;a&#x27;, &quot;abc&quot;[0])
+    // uint8, int32, uint8
 
-  u := &quot;电脑&quot;
-  us := []rune(u)
-  us[1] = &#x27;话&#x27;
-  println(string(us))
-
-不可以修改字符串:
-
-    s:=&quot;123&quot;
-    s[0]=2
-
-### rune(code point)
-&quot;Code point&quot; is a bit of a mouthful, so Go introduces a shorter term for the concept: `rune`.
-The term appears in the libraries and source code, and means exactly the same as &quot;code point&quot;, with one interesting addition.
-
-The Go language defines the word rune as an alias for the `type int32`, so programs can be clear when an integer value represents a `code point`.
-Moreover, what you might think of as a character constant is called a rune constant in Go. The type and value of the expression
-
-  &#x27;⌘&#x27;
-
-is rune with integer value 0x2318.
-
-To summarize, here are the salient points:
-
-1. Go source code is always UTF-8.
-2. A string holds arbitrary bytes.
-3. A string literal, absent byte-level escapes, always holds **valid UTF-8** sequences.
-4. Those sequences represent **Unicode code points**, called **runes(int32)**.
-
+## loop string
 ### range rune
 
-  const nihongo = &quot;日本語&quot;
-  for index, runeValue := range nihongo {
-      fmt.Printf(&quot;%#U starts at byte position %d\n&quot;, runeValue, index)
-      fmt.Printf(&quot;%U starts at byte position %d\n&quot;, runeValue, index)
-  }
+    const nihongo = &quot;日本語&quot;
+    for index, runeValue := range nihongo {
+        fmt.Printf(&quot;%#U starts at byte position %d\n&quot;, runeValue, index)
+        fmt.Printf(&quot;%U starts at byte position %d\n&quot;, runeValue, index)
+    }
 
 output:
 
-  U+65E5 &#x27;日&#x27; starts at byte position 0
-  U+65E5 starts at byte position 0
-  U+672C &#x27;本&#x27; starts at byte position 3
-  U+672C starts at byte position 3
-  U+8A9E &#x27;語&#x27; starts at byte position 6
-  U+8A9E starts at byte position 6
+    U+65E5 &#x27;日&#x27; starts at byte position 0
+    U+65E5 starts at byte position 0
+    U+672C &#x27;本&#x27; starts at byte position 3
+    U+672C starts at byte position 3
+    U+8A9E &#x27;語&#x27; starts at byte position 6
+    U+8A9E starts at byte position 6
+
+ignore index
+
+    for _, runeValue := range nihongo{}
+    for range nihongo{}
 
 ### range byte
 
-  for i:0;i&lt;len(s);i++{
-    s[i]
-  }
+    for i:0;i&lt;len(s);i++{
+        s[i]
+    }
+
+## change str and convert str
+不可以修改字符串:
+
+    //error
+    s:=&quot;123&quot;
+    s[0]=2
+
+可以替换字符串(地址不变)：
+
+    var s string
+    s = &quot;bbb&quot;
+    printf(&quot;%p\n&quot;,&amp;s)
+    s = &quot;ssss&quot;
+    printf(&quot;%p\n&quot;,&amp;s)
+
+
+要修改字符串,可先将其转换成 []rune 或 []byte 再修改,完成后再转换为 string。 论哪种转 换,都会重新分配内存,并复制字节数组。
+
+    s := &quot;abcd&quot;
+    bs := []byte(s)
+    bs[1] = &#x27;B&#x27;
+    println(string(bs))
+
+    u := &quot;电脑&quot;
+    us := []rune(u)
+    us[1] = &#x27;话&#x27;
+    println(string(us))
+
+## concat string
+
+    s := &quot;Hello, &quot; +
+        &quot;World!&quot;
 
 ## Print string
 &gt; see go-fmt
+1. `printf` is equivalent to writing `fprintf(stdout, ...)` and writes formatted text to `standard output stream`
+2. `sprintf` writes formatted text to an `array of char`, as opposed to a stream.
 
 A string is in effect a read-only slice of bytes.
 
-  fmt.Sprintf(&quot;%x&quot;, &quot;\x31\x32&quot;[0])
-    31
-  fmt.Sprintf(&quot;%x&quot;, &quot;\x31\x32&quot;)
-    3132
-  fmt.Sprintf(&quot;%    x&quot;, &quot;12&quot;)
-    31 32
+    &quot;3132&quot; == fmt.Sprintf(&quot;%x&quot;, &quot;12&quot;)
+    &quot;3132&quot; == fmt.Sprintf(&quot;%x&quot;, 0x3132)
 
 quoted string as go syntax
 
-    s:=fmt.Sprintf(&quot;%q&quot;, &quot;12\x00\u2318&quot;)
-    print(s) // &quot;12\x00⌘&quot;
-
-    fmt.Sprintf(&quot;%+q&quot;, &quot;12\x00&quot;)
-    print(s) //&quot;\x31\x32\x00\u2318&quot;
-
+    fmt.Printf(&quot;%q\n&quot;, &quot;中\x00sample&quot;)
+    // &quot;中\x00sample&quot;
+    fmt.Printf(&quot;%+q\n&quot;, &quot;中\x00sample&quot;)
+    //&quot;\u4e2d\x00sample&quot;
 
 # Fields
 
-## explode, str to slice
+## explode/split, str to slice
 If no content, reurn `empty slice`
 
     import strings
     fmt.Printf(&quot;Fields are: %q&quot;, strings.Fields(&quot;  foo bar  baz   &quot;))
+    fmt.Printf(&quot;Fields are: %q&quot;, strings.Split(&quot;foo,bar,baz&quot;,&quot;,&quot;))
 
 ## join
 
@@ -172,16 +208,10 @@ If no content, reurn `empty slice`
 str to int, strconv.Atoi
 
     import &quot;strconv&quot;
-
-    var t = []string{&quot;1&quot;, &quot;2&quot;, &quot;3&quot;}
-    var t2 = []int{}
-    for _, i := range t {
-        j, err := strconv.Atoi(i)
-        if err != nil {
-            panic(err)
-        }
-        t2 = append(t2, j)
+    if i, err := strconv.Atoi(&quot;123&quot;); err==nil{
+        println(i)
     }
+
 
 ## .Itoa
 
@@ -192,7 +222,8 @@ string
 
     string(49) //&quot;1&quot;
 
-## bytes
+## bytes convert
+bytes2str
 
     &gt; string([]byte{1,2,3})
         &quot;\x01\x02\x03&quot;
@@ -240,10 +271,24 @@ str2bytes:
 		io.Copy(os.Stdout, &amp;r)
 	}
 
-# trim
+# operate string
+## trim
 
   strings.TrimSuffix(&quot;abc,&quot;, &quot;,&quot;)
-  func TrimSpace(s string) string</pre>
+  func TrimSpace(s string) string
+
+## copy string
+它不像slice 是引用
+
+    s1=s[:]
+
+## in stirng, contain
+    import &quot;strings&quot;
+    strings.Contains(&quot;something&quot;, &quot;some&quot;) // true
+
+
+
+</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
