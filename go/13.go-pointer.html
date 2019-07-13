@@ -9,7 +9,7 @@ const MD_URL='post/go/13.go-pointer.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>Golang Pointers</title>
+<title>Pointers</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -32,11 +32,11 @@ const MD_URL='post/go/13.go-pointer.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -47,79 +47,27 @@ const MD_URL='post/go/13.go-pointer.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: Golang Pointers
+title: Pointers
 date: 2018-09-27
-updated: 2019-07-13
+updated: 2019-01-07
 ---
 # Pointers
-1. 支持指针类型 *T,指针的指针 **T,以及包含包名前缀的 `*&lt;package&gt;.T`。
-2. 不能对指针做加减法等运算。
-3. 默认是`nil`, 没有`NULL`
+支持指针类型 *T,指针的指针 **T,以及包含包名前缀的 *&lt;package&gt;.T。
+The type `*T` is a pointer to a T value. Its zero value is `nil`.
 
-不支持c/c++语言的 &quot;-&gt;&quot; 运算符，直接用 &quot;.&quot; 访问目标成员. 也就是`.`即可以是结构体，也可以是指针
+  var p *int
 
-    type data struct{a int}
-    var d = data{123}
+The `&amp;` operator generates a pointer to its operand.
 
-    var p *data
-    p = &amp;d
-    fmt.Printf(&quot;%p, %v, %v\n&quot;, p, *p, p.a)
-    fmt.Printf(&quot;%p, %v, %v\n&quot;, &amp;d, d, d.a)
+  i := 42
+  p = &amp;i
 
-## 优先级
-p 是数组：
+  v = &amp;Vertex{3, 4}
 
-    var p []*int
-    v :=1111112
-    p = append(p, &amp;v)
-    fmt.Println(p)
-    fmt.Println(p[0])
-    fmt.Println(*p[0])
+The `*` operator denotes the pointer&#x27;s underlying value.
 
-
-## return local pointer
-返回局部变量指针是安全的，编译器将其分布在GC heap 堆上（或内联的目标栈上）
-
-    func test() *int {
-        x := 100
-        return &amp;x // 在堆上分配 x 内存。或内联的目标栈上
-    }
-
-## pointer calculate
-不能直接对指针做加减法等运算, 但是uintptr 可以:
-
-    func main() {
-        d := struct {
-            s string
-            x   int
-        }{&quot;abc&quot;, 100}
-        p := uintptr(unsafe.Pointer(&amp;d)) // *struct -&gt; Pointer -&gt; uintptr
-        p += unsafe.Offsetof(d.x) // uintptr + offset
-        p2 := unsafe.Pointer(p)
-        px := (*int)(p2)
-        *px = 200
-        fmt.Printf(&quot;%#v\n&quot;, d)
-    }
-
-Notice: GC 把 uintptr 当成普通整数对象，它⽆无法阻⽌止 &quot;关联&quot; 对象被回收。
-
-## 指针陷阱
-除正常指针外，指针还有 unsafe.Pointer 和 uintptr 两种形态。其中 uintptr 被 GC 当 做普通整数对象，它不能阻⽌止所 &quot;引⽤用&quot; 对象被回收。
-
-## Struct Pointer
-s 会变
-
-    s2:=&amp;s
-    s2.age=22
-
-s 不会变, s2与s 是独立的两struct
-
-    s2:=s
-    s2.age=22
-
-# 参考
-雨痕的笔记
-</pre>
+  fmt.Println(*p) // read i through the pointer p
+  *p = 21         // set i through the pointer p</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">

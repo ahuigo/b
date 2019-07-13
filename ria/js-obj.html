@@ -48,8 +48,8 @@ const MD_URL='post/ria/js-obj.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: js notes
-date: 2019-07-13
-updated: 2019-07-13
+date: 2019-06-29
+updated: 2019-06-29
 ---
 # Object
 
@@ -59,22 +59,6 @@ updated: 2019-07-13
     ECMA 5+:
     Object.keys(obj).length === 0 &amp;&amp; obj.constructor === Object
     arr.length === 0
-
-## removeUndefined
-不要用箭头函数，否则this 指向的就是当前的scope的this
-
-    Object.prototype.removeUndefined = function(){
-        Object.keys(this).forEach(key =&gt; this[key] === undefined &amp;&amp; delete this[key])
-        return this
-    }
-
-Array:
-
-    var filtered = array.filter(Boolean)
-    var filtered = array.filter(function (el) {
-        return el != null;
-    });
-
 
 ## define
 

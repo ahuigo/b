@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/c/shell-grammar.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>shell 表达式</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: shell 表达式
+date: 2019-01-23
+updated: 2019-01-23
+---
+# shell 表达式
+
+# Loop
+
+## for
+
+	for a in &quot;$*&quot; ; do echo &quot;$a &quot;; done
+	for a in &quot;$@&quot; ; do echo &quot;$a &quot;; done # equal to for a ;do ... done
+	for file in Downloads/*.sh ; do echo &quot;$file&quot;; done #遍历文件
+	for file  (Downloads/*.sh) ; do echo &quot;$file&quot;; done #遍历文件(只能用于zsh)
+	for ((i=0;i&lt;10;i++)); do echo $i; done;
+
+## while
+
+	while expr;
+	do
+		.. expr;
+	done;
+	declare -i i=0; until (($i&gt;=3)); do  echo $i;let i++; done #output: 0 1 2
+
+## break
+
+	break;
+	break N;
+
+	for i in `seq 1 5`;do
+		echo $i;
+		if (($i==3)); then
+			break;
+		fi
+	done
+
+# case
+1. case 不需要加break
+1. 条件以右括号结尾,*左括号可省略*;
+2. 每个条件判断语句块都以一对分号结尾&quot;;;&quot;
+
+	case &quot;$string&quot; in
+		(*$SUBSTRING*) echo &quot;$string matches&quot;;;
+		(*)            echo &quot;$string does not match substring&quot;;;
+	esac
+
+case条件 可以是变量、与或非(不能有引号)、简单的通配符(不能有引号)、元字符
+
+	case &quot;$var&quot; in
+		&quot;$v1&quot; | &quot;$v2&quot;) echo some1;;
+		[0-9]) echo &#x27;include 1 digit only&#x27;;;
+		*[[:digit:]]*) echo &#x27;inclue at least 1 digit&#x27;;;
+		*) echo some3;;
+	esac
+
+&gt; 不支持BRE, EBR. `[[:digit:]]` 理解为扩展的wildcard
+
+前缀匹配：
+
+    case &quot;$2,$3&quot; in
+    merge,) print&#x27; &quot;$3&quot; ;;
+        *) ;;
+    esac
+
+# function
+
+	function fun(){
+		local 变量[=值] #局部变量，shell 没有静态变量
+		echo $1 $2
+		return 3;
+	}
+	fun 2 3
+	echo $? ;#函数返回值
+
+	;如果不加括号，则花括号前必须有空白
+	function fun {
+		local 变量[=值]
+		echo $1 $2
+		return 3;
+	}
+
+Example:
+
+	function mcd(){mkdir -p $1; cd $1}
+
+## Arguments
+
+	$@ = $* = &quot;$1 $2 $3 ...&quot;
+	for a in $* ; do
+		echo $a;
+	done
+
+## ignore function and alias
+Runs COMMAND with ARGS ignoring shell functions. you can type:
+
+	command ls
+
+If the -p option is given, a default value is used for PATH :
+
+	command -p ls
+
+The -V or -v option is given, a string is printed describing COMMAND. The -V option produces a more verbose description:
+
+	command -v ls
+
+# condition expression
+
+## if
+Selection Statement 也叫分支语句
+
+	if [ -x file ]; then  # 语法规定[]两边必须有空格
+	　 ....
+	elif test &quot;$a&quot; = &quot;$b&quot; ; then
+		...
+	elif [ &quot;$a&quot; = &quot;$b&quot; ] ; then
+	　 ....
+	elif [ &quot;$a&quot; == &quot;$b&quot; ] ; then #bash shell 中 &quot;==&quot; 与 &quot;=&quot; 是相同的 . 没有全等&quot;===&quot;
+	　 ....
+	else
+	　 ....
+	fi
+
+Example:
+
+	if ! cmd_if_false; then
+		: ;
+	fi
+
+参考: [shell表达式](http://www.cnblogs.com/chengmo/archive/2010/10/01/1839942.html)
+
+Nop command
+
+	if cmd; then
+		:;
+	elif cmd; then
+		:;
+	else
+		:;
+	fi
+
+### 测试命令执行
+
+	if command; then echo echo succ:$?; else echo failed:$?; fi
+
+	if ls; then echo succ:$?; else echo failed:$?; fi
+	if :; then echo succ:&quot;空命令&#x27;:&#x27;始终会执行&quot;; else echo failed:$?; fi
+
+### 测试函数执行
+
+	is_file(){
+		if [ -f &quot;$1&quot; ]; then return 0;
+		else return 1;
+		fi
+	}
+	if is_file a.txt; then echo &#x27;It is file!&#x27;; fi
+
+# test 测试表达式
+shell 支持如下测试表达式(logic and compare)
+
+- test expr
+
+Example:
+
+	test &#x27;a&#x27; = &#x27;a&#x27; &amp;&amp; echo yes
+	test &#x27;a&#x27; &amp;&amp; echo yes
+	test &#x27;&#x27; &amp;&amp; echo no
+
+- [ expr ]
+
+Example:
+
+	[ &#x27;a&#x27; = &#x27;a&#x27; ] &amp;&amp; echo yes
+	[ &#x27;a&#x27; \&lt; &#x27;b&#x27; ] &amp;&amp; echo yes #zsh不支持这种转义
+	[ &#x27;a&#x27; = &#x27;a&#x27; &amp;&amp; &#x27;b&#x27; = &#x27;b&#x27; ] &amp;&amp; echo yes ;#这里的&amp;&amp; 是非法关键字(不要使用)
+
+- [[ expr ]]
+
+	- [[ expr1 &amp;&amp; expr2 ]]
+	- [[ expr1 || expr2 ]]
+
+较[ expr ]  和 test 更通用, 而且不用转义这些特殊符号: &lt; &gt; &amp;&amp;,||
+
+	[[ &#x27;a&#x27; &lt; &#x27;b&#x27; ]] &amp;&amp; echo yes
+	[[ &#x27;a&#x27; &lt; &#x27;b&#x27; &amp;&amp; &#x27;a&#x27; &lt; &#x27;c&#x27; ]] &amp;&amp; echo yes
+
+&gt;  以上表达式中 expr 中 测试符号 两边要有空白. 且不支持&lt;= , &gt;= 这两种测试数字的符号; 中括号两边也需要留空白
+&gt; 强烈建议尽量避免使用[ expr ] 和 test expr, 尽量使用更通用的[[ expr ]] 做测试
+
+### 双括号-数字测试
+除了以上三种测试之外， 还有一种双括号测试.
+双括号与之前介绍的三种测试表达式有两点不同：
+
+- 它仅支持数字测试
+
+	((&#x27;3&#x27;&gt;&#x27;1&#x27;)) &amp;&amp; echo &#x27;bad math expression: illegal character:&#x27;
+
+- 它仅支持测试符号: `&gt; &gt;= &lt; &lt;= == != `
+
+	((3&gt;1)) &amp;&amp; echo yes
+
+### 逻辑测试(logic test)
+
+	&amp;&amp; -a # zsh 不支持-a
+	|| -o # zsh 不支持 -o
+	! #取反
+	! test &#x27;&#x27; &amp;&amp; echo 0
+	! ((1&gt;1)) &amp;&amp; echo 0
+
+非空白且非注释(Note: &quot;!&quot; 只作用于最近的比较表达式)：
+
+	[[ ! $str =~ ^[[:space:]]*$ &amp;&amp; ! &quot;${str:0:1}&quot; = &#x27;#&#x27; ]] &amp;&amp; echo yes
+
+#### 逻辑测试顺序
+logic order
+
+	{1 or 2} and 3 # 3? 左序为先
+	1 or {2 and 3} # 1? 右序为先
+	true || false &amp;&amp; echo yes; # 1? 右序为先
+	0 and 1 or 2
+
+shell 逻辑测试符是从左开始以最短的语句为子语句。python/js 都是如此
+
+	hash git || echo &#x27;Err: git is not installed.&#x27; &amp;&amp; exit 3
+	# 等价于
+	{ hash git || echo &#x27;Err: git is not installed.&#x27; } &amp;&amp; exit 3
+
+应该写成：
+
+	hash git || { echo &#x27;Err: git is not installed.&#x27; ; exit 3; }
+	if &amp;&amp; do1 || do2
+
+shell 没有三元运算符：不过可以这样
+
+	{ cmd &amp;&amp; r=true } || r=false
+	if $r; then
+		echo true
+	fi
+
+### test file 文件测试
+
+	### 关于档案与目录 测试文件的状态
+	-d 是否为目录
+	-e 路径是否存在
+	-f 是否为文件
+	-c file　　　　　文件为字符特殊文件为真
+	-b file　　　　　文件为块特殊文件为真
+	-s file　　　　　文件大小非0时为真
+	-t file　　　　　当文件描述符(默认为1)指定的设备为终端时为真  这个测试选项可以用于检查脚本中是否标准输入 ([ -t 0 ])或标准输出([ -t 1 ])是一个终端.
+	-L 是否为链接文件
+	-S 是否为socket文件
+	-p	侦测是否为程序间传送信息的 name pipe 或是 FIFO
+
+	### 关于程序的逻辑卷标！
+	-G	你所有的组拥有该文件
+	-O	你是文件拥有者
+	-N	文件最后一次读后被修改
+
+	### 档案权限
+	-r	侦测是否为可读的属性
+	-w	侦测是否为可以写入的属性
+	-x	侦测是否为可执行的属性
+	-s	侦测是否为『非空白档案』
+	-u	侦测是否具有『 SUID 』的属性
+	-g	侦测是否具有『 SGID 』的属性
+	-k	侦测是否具有『 sticky bit 』的属性
+
+	## 两个档案之间的判断与比较
+	-nt	第一个档案比第二个档案新
+	-ot	第一个档案比第二个档案旧
+	-ef	第一个档案与第二个档案为同一个档案（ hard link or symbolic file）
+
+### logic
+
+	!	反转以上测试
+
+### test string, 字符串测试
+
+	=	相等
+	== 与= 相同(-1: Do not use &quot;==&quot;. It is only valid in a limited set of shells, zsh do not support it)
+	!= 不相等
+
+	&lt;	按ascii比较
+		if [[ &quot;$a&quot; &lt; &quot;$b&quot; ]]
+		if [ &quot;$a&quot; \&lt; &quot;$b&quot; ] 注意&quot;&lt;&quot;字符在[ ] 结构里需要转义, 这个是重定向控制符
+
+	&gt;	按ascii比较
+
+	-z	空字符串 或者未定义变量 等价于[[ $aaa = &#x27;&#x27; ]] &amp;&amp; echo 1 (双括号会自动将$aaa 表示为字符串&quot;$aaa&quot;)
+	-n	非空字符串
+		[[ -n $str ]]
+		等价于 [[ $str != &#x27;&#x27; ]]
+		等价于: [[ $str ]]
+
+如果想判断变量是否设置，应该使用变量测试：
+
+	[[ -z ${var+x} ]] &amp;&amp; echo &#x27;var is unset&#x27; || echo &#x27;var is set&#x27;
+
+### test digital, 数字比较
+
+	-eq	等于 应用于：整型比较
+	-ne	不等于 应用于：整型比较
+	-lt	小于 应用于：整型比较
+	-gt	大于 应用于：整型比较
+
+	-le	小于或等于 应用于：整型比较
+	-ge	大于或等于 应用于：整型比较
+
+	[[ 1 -le 3 ]] &amp;&amp; echo yes
+
+# Brackets, 括号
+
+	(cmd1;cmd2) 	以子shell执行命令集
+		(var=notest;echo $var) # 无空格限制
+		arr=(1 2 3) 也用于初始化数组
+	[ expr ] 		测试,  test expr 等价
+		[ 1 ] &amp;&amp; echo 1 # true
+		[ 0 ] &amp;&amp; echo 1 # true
+		[ &#x27;&#x27; ] &amp;&amp; echo 1 # false
+		[ $(echo $str | grep -E &#x27;^[0-9]+$&#x27;) ] &amp;&amp; echo 1 #小心命令替换出现恶意字符 导致syntax error.
+	{ cmds;}		命令集(在前shell执行, 在bash 中左花括号后必须有一个空格，而cmds中最后一个cmd后必须有分号; zsh 则没有这些限制)
+		for i in {0..4};do echo $i;done 产生一个for in序列
+		ls {a,b}.sh		通配符(globbing)
+		echo a{p,c,d,b}e # ape ace ade abe
+		echo {a,b,c}{d,e,f} # ad ae af bd be bf cd ce cf
+		{code block}
+
+下面是结果替换为命令字符
+
+	$(cmd1;cmd2) 	命令结果替换 相当于`cmds`, 会将命令输出作为结果返回(带$都有这个意思)
+	$[ expr ] 		以常用数学符号做计算 完全等价$((expr))
+	${var}			变量替换为字符
+
+	((expr1,expr2, ...))	 	以常用数学符号做计算(+-*/%=), 提供随机数RANDOM, 以最后expr的结果为返回状态码
+		((a=1,a=2,a=1,RANDOM%100)) &amp;&amp; echo &#x27;true&#x27;
+		for (( a=0,n=a+10 ; a&lt;n ; a++ )); do echo $a; done # for中双括号用的是分号哦
+	[[ expr ]] 		比[ expr ] 更严格而规范的测试, 不用转义 &gt;,&lt; ,||, &amp;&amp; 这个是重定向控制符, 管道, 命令连接 杜绝了当a为空时 [ $a = &#x27;&#x27; ] &amp;&amp; echo true; 会出错($a在[]必须&quot;$a&quot;, 而[[ ]] 不用对$a使用双引号)
+	{{ }} 			syntax error
+
+	$((expr))	 	返回((expr1,expr2,...))计算结果
+	$[[ expr ]]		syntax error
+	${{ }}			syntax error
+
+## ((expr)) , $((expr)) and $[expr]
+
+	((expr))	 以常用数学符号做计算, 计算的结果只能用于条件判断
+	$((expr))	 用于取值,	以常用数学符号做计算 $((i--)) i值会减小
+	$[expr]	 	与$((expr))完全一样
+
+	((x=1)) &amp;&amp; echo b #先执行赋值语句 x=1, 再做逻辑判断
+	((1*0)) &amp;&amp; echo b
+	((1&gt;0)) &amp;&amp; echo b
+	((a++))
+	((x+=10))
+
+	echo $((3+3))
+	x=$(($a+3))
+	x=$[$a+3]
+</pre>
+<div id="pager"></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"><ol><li>笔记</li><ol></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

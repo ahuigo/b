@@ -2,214 +2,390 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-07-13T15:28:06Z</updated>
+<updated>2019-07-07T23:17:57Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
-<title>Js 字符串大全</title>
-<link href="/b/ria/js-str" rel="alternate" type="text/html"/>
-<updated>2019-07-13T00:00:00Z</updated>
-<summary/>
-<published>2015-03-15T00:00:00Z</published>
-<content># Js 字符串大全
-字符定义与python 一样, 而且不区分双引号：
-
-    '\x00' == '\u0000'
-	'\x31' == "\x31"
-
-	'好' === '\u597D' //</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>try-catch</title>
-<link href="/b/ria/js-debug-exception" rel="alternate" type="text/html"/>
-<updated>2019-07-13T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># try-catch
-custom exception
-
-    function UserException(message) {
-        this.message = message;
-</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>nginx 负载均衡</title>
-<link href="/b/nginx/nginx-upstream" rel="alternate" type="text/html"/>
-<updated>2019-07-13T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># nginx upstream
-定义一组服务器， UNIX/TCP 可以 混合使用
-
-	语法:	upstream name { ... }
-	默认值:	—
-	上下文:	http
-
-upstream目</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>tcp/ip 协议</title>
-<link href="/b/net/net-tcpip" rel="alternate" type="text/html"/>
-<updated>2019-07-13T00:00:00Z</updated>
-<summary/>
-<published>2011-11-11T00:00:00Z</published>
-<content># 互联网协议栈
-分为链路层(link), 网络层(Network), 传输层(Transport), 应用层(Application)
-
-应用层
-	DHCP DHCPv6 DNS FTP Gophe</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Golang Notes: struct</title>
-<link href="/b/go/go-struct" rel="alternate" type="text/html"/>
-<updated>2019-07-13T00:00:00Z</updated>
-<summary/>
-<published>2019-03-24T00:00:00Z</published>
-<content># Golang Notes: struct
-struct 是值类型，slice 是引用类型(指针), 以下赋值方法是按值的
-
-    type A struct{x int}
-    a:=A{}
-</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>golang string</title>
-<link href="/b/go/9.go-str" rel="alternate" type="text/html"/>
-<updated>2019-07-13T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># string
-
-## inner pointer
-    + |pointer|len=5|       s="hello" 
-          |         |
-        + |h</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>go time</title>
-<link href="/b/go/19.go-time" rel="alternate" type="text/html"/>
-<updated>2019-07-13T00:00:00Z</updated>
-<summary/>
-<published>2019-07-13T00:00:00Z</published>
-<content># tick and after
-
-## timer/ticker, 定时器
-`chan time.Time: timer.C = ticker.C`
-定时器对象
-
-    timer := time</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Golang Pointers</title>
-<link href="/b/go/13.go-pointer" rel="alternate" type="text/html"/>
-<updated>2019-07-13T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Pointers
-1. 支持指针类型 *T,指针的指针 **T,以及包含包名前缀的 `*&lt;package&gt;.T`。
-2. 不能对指针做加减法等运算。
-3. 默认是`nil`, 没有`NULL`
-
-</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>FUNCTION</title>
-<link href="/b/db/postgre-ddl" rel="alternate" type="text/html"/>
-<updated>2019-07-13T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># shell
-
-## connect shell
-默认同时支持 unix domain socket + ip/port net socket
-
-    psql DBNAME USERNAME
- </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>GMT,UTC,DST,CST 各种时间标准</title>
-<link href="/b/c/shell-time" rel="alternate" type="text/html"/>
-<updated>2019-07-13T00:00:00Z</updated>
-<summary/>
-<published>2012-07-08T00:00:00Z</published>
-<content># 各世界时间标准
-我们经常遇到这4种时间：GMT,UTC,DST,CST。google了一下，在此做个小结.
-
-## 格林威治标准时间GMT
-含义：「格林威治标准时间」(Greenwich Mean</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>shell 表达式</title>
-<link href="/b/c/shell-expr" rel="alternate" type="text/html"/>
-<updated>2019-07-13T00:00:00Z</updated>
-<summary/>
-<published>2019-07-13T00:00:00Z</published>
-<content># shell 表达式
-
-# Loop
-
-## for
-
-	for a in "$*" ; do echo "$a "; done
-	for a in "$@" ; do echo "$a "; do</content>
-</entry><entry xml:base="https://ahuigo.github.io">
 <title>Git 命令大全</title>
 <link href="/b/git/git-" rel="alternate" type="text/html"/>
-<updated>2019-07-13T00:00:00Z</updated>
+<updated>2019-07-07T00:00:00Z</updated>
 <summary/>
-<published>2019-07-13T00:00:00Z</published>
+<published>2019-07-07T00:00:00Z</published>
 <content># Git 配置
 
 ## ConfigFile
 1. /etc/gitconfig #git config --system
 2. ~/.gitconfig 	#git config --global</content>
 </entry><entry xml:base="https://ahuigo.github.io">
-<title>Postgre CRUD</title>
-<link href="/b/db/postgre-crud" rel="alternate" type="text/html"/>
-<updated>2019-05-12T00:00:00Z</updated>
+<title>Postgre Index</title>
+<link href="/b/db/postgre-index" rel="alternate" type="text/html"/>
+<updated>2019-07-07T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
-<content># Postgre CRUD
-## insert 
-    CREATE TABLE users (id INT, counters JSONB NOT NULL DEFAULT '{}');
-   </content>
+<content># Postgre Index
+本文主要围绕postgre 总结一下索引, 参考：[PostgreSQL 9种索引的原理和应用场景](https://yq.aliyun.com/articles/11</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Postgre 安装\配置\管理</title>
-<link href="/b/db/postgre-admin" rel="alternate" type="text/html"/>
-<updated>2019-05-12T00:00:00Z</updated>
+<link href="/b/db/postgre-ddl-install" rel="alternate" type="text/html"/>
+<updated>2019-07-07T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># Postgre 安装\配置\管理
-```bash
-rpm -Uvh https://yum.postgresql.org/10/redhat/rhel-7-x86_64/pgdg-centos10</content>
+    rpm -Uvh https://yum.postgresql.org/10/redhat/rhel-7-x86_64/pgdg-centos10-10-</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Gorm ddl</title>
 <link href="/b/db/gorm-ddl" rel="alternate" type="text/html"/>
 <updated>2019-07-07T00:00:00Z</updated>
 <summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Rollup 该支持HMR 吗?
-Rollup 已经开始支持codesplit(要手动开启)，不过Rollup 本身至今还没有打算支持HMR(Hot Module Reload)。
+<published>2019-07-07T00:00:00Z</published>
+<content># Gorm Migrate
+自动迁移仅仅会创建表，缺少列和索引，并且不会改变现有列的类型或删除未使用的列以保护数据。
 
-我想主要原因</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>install</title>
-<link href="/b/vim/nvim-install" rel="alternate" type="text/html"/>
-<updated>2019-03-14T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># install
-    brew install neovim
-    nvim 
-    :CheckHealth
-    :scriptnames
+    db.AutoMigrate(&amp;User{})
 
-## iterm2
-iterm2 默认的 </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>GMT,UTC,DST,CST 各种时间标准</title>
-<link href="/b/c/shell-time" rel="alternate" type="text/html"/>
-<updated>2019-03-13T00:00:00Z</updated>
-<summary/>
-<published>2012-07-08T00:00:00Z</published>
-<content># 各世界时间标准
-我们经常遇到这4种时间：GMT,UTC,DST,CST。google了一下，在此做个小结.
-
-## 格林威治标准时间GMT
-含义：「格林威治标准时间」(Greenwich Mean</content>
+    db.Aut</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>在家里如何免费使用中国知网？</title>
 <link href="/b/course/paper" rel="alternate" type="text/html"/>
 <updated>2019-07-07T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content>在家里如何免费使用中国知网？
+https://www.zhihu.com/question/20188973/answer/142225168
+论文神网站
+https://www.zhihu.com/</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Shell Programming</title>
+<link href="/b/c/shell-" rel="alternate" type="text/html"/>
+<updated>2019-07-07T00:00:00Z</updated>
+<summary/>
+<published>2014-03-05T00:00:00Z</published>
+<content># Shell Programming
+
+# Signal, 信号(trap)
+Refer to:
+http://billie66.github.io/TLCL/book/zh/chap37.html</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>ops-init</title>
+<link href="/b/c/ops-init" rel="alternate" type="text/html"/>
+<updated>2019-07-07T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Preface
+
+# init
+
+## init
+init指linux 系统运行级runlevel 0~6. 可在/etc/inittab中指定:
+
+	id:3:initdefault:
+
+
+##</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>学习 docker</title>
+<link href="/b/arch/arch-docker" rel="alternate" type="text/html"/>
+<updated>2019-07-05T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># 什么是Docker
+虚拟机是对硬件的虚拟化(需要Hypervisor这个软件层), 而docker （LXC, linux container）是对操作系统的虚拟化。
+1. docker 基于li</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>收集了下UI 动画特效</title>
+<link href="/b/ui/ui-animation" rel="alternate" type="text/html"/>
+<updated>2019-07-05T00:00:00Z</updated>
+<summary/>
+<published>2019-02-09T00:00:00Z</published>
+<content># UI 动画特效
+https://medium.com/@ann.green/loading-indicators-e9d9ac9680b
+
+# Materia UI 
+https://materi</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>js dom file</title>
+<link href="/b/ria/js-dom-file" rel="alternate" type="text/html"/>
+<updated>2019-07-05T00:00:00Z</updated>
+<summary/>
+<published>2019-07-05T00:00:00Z</published>
+<content># Focus
+
+    var isFocused = (document.activeElement === dummyEl);
+    ele.focus()
+
+# FormData
+
+## i</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-func</title>
+<link href="/b/py/py-func" rel="alternate" type="text/html"/>
+<updated>2019-07-05T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Preface
+
+函数式编程
+
+# call func
+getattr(foo, 'bar')()
+locals()['bar']()
+globals()['bar']()
+
+## access </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>js 的函数</title>
+<link href="/b/ria/js-func" rel="alternate" type="text/html"/>
+<updated>2019-07-03T00:00:00Z</updated>
+<summary/>
+<published>2017-07-11T00:00:00Z</published>
+<content># async
+## generator
+    function* foo() {
+        yield 11
+        return 22;//没用
+    }
+    f=foo()</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>css 布局</title>
+<link href="/b/ria/js-css-layout" rel="alternate" type="text/html"/>
+<updated>2019-07-03T00:00:00Z</updated>
+<summary/>
+<published>2018-03-03T00:00:00Z</published>
+<content># CSS 布局
+&gt; 参考: http://zh.learnlayout.com/position.html
+
+# display
+1. block: This makes the element a</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-async-iter</title>
+<link href="/b/py/py-async-iter" rel="alternate" type="text/html"/>
+<updated>2019-07-03T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Preface
+http://nvie.com/posts/iterators-vs-generators/
+
+## Iterable, 迭代器,
+
+### has(next)
+    &gt;&gt;&gt; a</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>mac 工具集</title>
+<link href="/b/mac/mac-tool" rel="alternate" type="text/html"/>
+<updated>2019-07-03T00:00:00Z</updated>
+<summary/>
+<published>2018-10-10T00:00:00Z</published>
+<content># Preface
+本文是我所用的mac 工具集大杂烩。
+
+一些mac osx 能做而linux 桌面级OS 目前不能做的事情：
+
+- mac 支持全局readline , 字符编辑的效率非常非常高(</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Postgre 安装\配置\管理</title>
+<link href="/b/db/postgre-admin" rel="alternate" type="text/html"/>
+<updated>2019-07-03T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Postgre 安装\配置\管理
+    rpm -Uvh https://yum.postgresql.org/10/redhat/rhel-7-x86_64/pgdg-centos10-10-</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Postgre User and Authentication</title>
+<link href="/b/db/postgre-admin-user" rel="alternate" type="text/html"/>
+<updated>2019-07-03T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Postgre User and Authentication
+vim /var/lib/pgsql/10/data/pg_hba.conf
+
+    host    all           </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Node argv</title>
+<link href="/b/ria/node-argv" rel="alternate" type="text/html"/>
+<updated>2019-06-29T00:00:00Z</updated>
+<summary/>
+<published>2019-06-25T00:00:00Z</published>
+<content># Node argv
+
+    #!/usr/bin/env node
+    // print process.argv
+    process.argv.forEach(function (va</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Socket.io</title>
+<link href="/b/ria/js-websocket" rel="alternate" type="text/html"/>
+<updated>2019-06-29T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Socket.io
+ws 和 wss 均为 WebSocket 协议的 schema，一个是非安全的，一个是安全的tcp + ws as ws，tcp + tls + ws as wss 
+Soc</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>js notes</title>
+<link href="/b/ria/js-obj" rel="alternate" type="text/html"/>
+<updated>2019-06-29T00:00:00Z</updated>
+<summary/>
+<published>2019-06-29T00:00:00Z</published>
+<content># Object
+
+## isEempty
+    ECMA 7+:
+    Object.entries(obj).length === 0 &amp;&amp; obj.constructor === Objec</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>html5</title>
+<link href="/b/ria/js-dom-html5" rel="alternate" type="text/html"/>
+<updated>2019-06-29T00:00:00Z</updated>
+<summary/>
+<published>2019-06-29T00:00:00Z</published>
+<content># Tag
+
+## Forms
+属性
+
+    enctype="multipart/form-data"
+        default content-type: application/x-ww</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-debug-pdb</title>
+<link href="/b/py/py-debug-pdb" rel="alternate" type="text/html"/>
+<updated>2019-06-29T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Preface
+- pdb 相当于是c里面的gdb
+- ipdb：之于pdb, 相当于ipython 之于python. 
+    1. 相对pdb 增加了高亮、tab  
+    2. p (p</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>关于直播的P2P架构</title>
+<link href="/b/course/im-live-p2p" rel="alternate" type="text/html"/>
+<updated>2019-06-29T00:00:00Z</updated>
+<summary/>
+<published>2018-08-23T00:00:00Z</published>
+<content># 关于直播的P2P架构
+现在的直播大多都是中心化的CDN 架构，首先是主播RTMP 推流到CDN 服务器，然后用户从通过次级CDN 链路拉流。
+
+这种架构最成熟稳定，但是成本巨大。直播本身和聊天一样</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>shell 环境变量</title>
+<link href="/b/c/shell-var-env" rel="alternate" type="text/html"/>
+<updated>2019-06-29T00:00:00Z</updated>
+<summary/>
+<published>2018-10-08T00:00:00Z</published>
+<content># Variable
+
+	let num++
+	let ++num
+
+	declare -i num
+	num+=1
+
+	((num++))
+
+## unset export
+    unset FO</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>python 字典</title>
+<link href="/b/py/py-var-dict" rel="alternate" type="text/html"/>
+<updated>2019-07-05T00:00:00Z</updated>
+<summary/>
+<published>2019-07-05T00:00:00Z</published>
+<content># Dict
+
+    key='city'
+	dic = {'x': 1, 'y': 2, 2:100, key:'bj'}
+	del dict['x']
+    dict.pop(2) # key</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-process</title>
+<link href="/b/py/py-process" rel="alternate" type="text/html"/>
+<updated>2019-06-25T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Preface
+- sh: sh之于subprocess， 相当于requests 对于urllib2
+	1. sh.ls("-l", "/tmp", color="never")
+	2. sh.</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Python 语法</title>
+<link href="/b/py/py-grammar" rel="alternate" type="text/html"/>
+<updated>2019-06-25T00:00:00Z</updated>
+<summary/>
+<published>2018-03-01T00:00:00Z</published>
+<content># compare
+```s
+&gt;&gt;&gt; 1&lt;3&gt;=3&gt;1==1&lt;100
+True
+```
+
+
+# Condition &amp; Loop
+
+## try finnaly
+
+    try:
+        1</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-async-iteratortools</title>
+<link href="/b/py/py-async-iteratortools" rel="alternate" type="text/html"/>
+<updated>2019-06-25T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Preface
+
+Python的内建模块itertools提供了非常有用的用于操作迭代对象的函数。
+
+# itertools
+itertools模块提供的全部是处理迭代功能的函数，它们的返回值不是</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>golang-pkg</title>
+<link href="/b/go/2.go-pkg" rel="alternate" type="text/html"/>
+<updated>2019-07-07T00:00:00Z</updated>
+<summary/>
+<published>2016-09-27T00:00:00Z</published>
+<content># 结构
+1. 参考How to Write Go Code https://golang.org/doc/code.html
+
+2. 环境变量$ go env
+
+## workspace
+可以有多个</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>english punctuation</title>
+<link href="/b/eng/eng-punctuation" rel="alternate" type="text/html"/>
+<updated>2019-06-25T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># English punctuation
+https://zh.wikipedia.org/wiki/%E8%84%B1%E5%AD%97%E7%AC%A6
+
+	punctuation mark	n</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Postgre Geo</title>
+<link href="/b/db/postgre-geo" rel="alternate" type="text/html"/>
+<updated>2019-06-25T00:00:00Z</updated>
+<summary/>
+<published>2019-06-24T00:00:00Z</published>
+<content># Postgre Geo
+
+    $ select st_force2d(geom) from table_name limit 100
+    $ \d table_name
+    id   </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>React Start</title>
+<link href="/b/ria/react-start" rel="alternate" type="text/html"/>
+<updated>2019-06-23T00:00:00Z</updated>
+<summary/>
+<published>2019-06-23T00:00:00Z</published>
+<content># React Runtime
+React 运行时，需要引入运行时
+
+## CDN runtime
+阮一峰的demo 中的例子
+
+    &lt;head&gt;
+        &lt;meta charset="U</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>command</title>
+<link href="/b/ria/node-npm" rel="alternate" type="text/html"/>
+<updated>2019-06-23T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># command
@@ -220,247 +396,80 @@ iterm2 默认的 </content>
 
 </content>
 </entry><entry xml:base="https://ahuigo.github.io">
-<title>学习 docker</title>
-<link href="/b/arch/arch-docker" rel="alternate" type="text/html"/>
-<updated>2019-07-13T00:00:00Z</updated>
+<title>python 的list/tuple 笔记</title>
+<link href="/b/py/py-var-list" rel="alternate" type="text/html"/>
+<updated>2019-06-23T00:00:00Z</updated>
 <summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># CAP定理（CAP theorem）
-CAP定理（CAP theorem), 指出对于一个分布式计算系统来说，不可能同时满足以下三点:
+<published>2018-03-03T00:00:00Z</published>
+<content># list and tuple
+因为tuple 是增加删除元素的不可变的list(数据可以变)，所以代码更安全。
+如果可能，能用tuple代替list就尽量用tuple。
 
-1. 一致性(Consistency) (所有节点在同一时</content>
+	list = [1,2</content>
 </entry><entry xml:base="https://ahuigo.github.io">
-<title>收集了下UI 动画特效</title>
-<link href="/b/ui/ui-animation" rel="alternate" type="text/html"/>
-<updated>2019-07-05T00:00:00Z</updated>
+<title>at happens when the listen backlog is full?</title>
+<link href="/b/net/net-tcp-backlog" rel="alternate" type="text/html"/>
+<updated>2019-06-23T00:00:00Z</updated>
 <summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># RPC
-&gt; http://www.cnblogs.com/fxjwind/archive/2013/05/16/3082219.html
-&gt; 深入浅出RPC原理
-https://ketao1989</content>
+<published>2019-06-23T00:00:00Z</published>
+<content>What happens when the listen backlog is full?
+
+https://www.youtube.com/watch?v=6pK0tz1ifiY</content>
 </entry><entry xml:base="https://ahuigo.github.io">
-<title>py-pkg-setuptool</title>
-<link href="/b/py/py-pkg-setuptool" rel="alternate" type="text/html"/>
-<updated>2019-03-12T00:00:00Z</updated>
+<title>linux ssh tool</title>
+<link href="/b/net/net-ssh-tool" rel="alternate" type="text/html"/>
+<updated>2019-06-23T00:00:00Z</updated>
 <summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Preface
-https://packaging.python.org/tutorials/packaging-projects/
+<published>2016-09-09T00:00:00Z</published>
+<content># SSH Client
 
-    var isFocused = (document.activeElement === dummyEl);
-    ele.focus()
-
-# FormData
-
-## i</content>
+## config
+以下 `~/.ssh/config` 包含了可以避免在特定网络环境中连接被断掉的情况的设置、使用压缩（这对于通过低带宽连接使用 scp 很有用），以及使</content>
 </entry><entry xml:base="https://ahuigo.github.io">
-<title>server</title>
-<link href="/b/py/py-aiohttp-server" rel="alternate" type="text/html"/>
-<updated>2019-03-12T00:00:00Z</updated>
+<title>SSH SERVER</title>
+<link href="/b/net/net-ssh-server" rel="alternate" type="text/html"/>
+<updated>2019-06-23T00:00:00Z</updated>
+<summary/>
+<published>2019-06-23T00:00:00Z</published>
+<content># SSH SERVER
+OpenSSH Installations under CentOS Linux
+
+	# To install the server and client type:
+	yu</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>ssh proxy</title>
+<link href="/b/net/net-ssh-proxy" rel="alternate" type="text/html"/>
+<updated>2019-06-25T00:00:00Z</updated>
 <summary/>
 <published>2018-09-28T00:00:00Z</published>
-<content># server
-异步编程要小心循环阻塞, 不可以使所有任务task被阻塞的函数：
-1. time.sleep(10)
+<content># ssh proxy
 
-## simple server
+    -f Rquests ssh to go to background just before command execution.
 
-    from aiohttp impo</content>
+## tcp port forw</content>
 </entry><entry xml:base="https://ahuigo.github.io">
-<title>Django Notes</title>
-<link href="/b/py/django" rel="alternate" type="text/html"/>
-<updated>2019-03-12T00:00:00Z</updated>
+<title>Posgtre Var</title>
+<link href="/b/db/postgre-var" rel="alternate" type="text/html"/>
+<updated>2019-06-22T00:00:00Z</updated>
 <summary/>
-<published>2019-03-11T00:00:00Z</published>
-<content># Models
-## raw sql
+<published>2019-06-20T00:00:00Z</published>
+<content># Posgtre Var
+## Define and assign
+    DECLARE vSite varchar DEFAULT 'TechOnTheNet.com';
+    DECLARE</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>PG help</title>
+<link href="/b/db/postgre-help" rel="alternate" type="text/html"/>
+<updated>2019-06-22T00:00:00Z</updated>
+<summary/>
+<published>2019-06-20T00:00:00Z</published>
+<content># PG help
 
-    &gt;&gt;&gt; lname = 'Doe'
-    &gt;&gt;&gt; first_person = Person.objects.raw('SELECT * FROM </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>各种语言的fiddle</title>
-<link href="/b/c/ops-fiddle" rel="alternate" type="text/html"/>
-<updated>2019-03-12T00:00:00Z</updated>
-<summary/>
-<published>2018-08-27T00:00:00Z</published>
-<content># 各种语言的fiddle
-各种语言的fiddle
-1. js:
-    https://ahuigo.github.io/a/demo/fiddle/fiddle.html # 加上`data:te</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>二叉查找树和红黑树</title>
-<link href="/b/algorithm/tree-binary-search-tree" rel="alternate" type="text/html"/>
-<updated>2019-03-12T00:00:00Z</updated>
-<summary/>
-<published>2018-09-26T00:00:00Z</published>
-<content># 二叉查找树
-二叉查找树（Binary Search Tree），也称二叉搜索树、有序二叉树（ordered binary tree），排序二叉树（sorted binary tree），是指一棵空</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>node 系统相关</title>
-<link href="/b/ria/node-os" rel="alternate" type="text/html"/>
-<updated>2019-03-10T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># node 系统相关
+    \h
+    \?
 
-    global.process === process 
+show function
 
-## shell child process
-
-    const execSync = require('</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>JS Promise</title>
-<link href="/b/ria/js-promise" rel="alternate" type="text/html"/>
-<updated>2019-03-10T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># JS Promise
-实现异步串行写法
-1. generator
-1. Promise: resove-then, reject-catch
-2. async-await: 
-    1. syn</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>webspider</title>
-<link href="/b/py/py-webspider" rel="alternate" type="text/html"/>
-<updated>2019-03-10T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># webspider
-Python 3网络爬虫开发实战 
-https://germey.gitbooks.io/python3webspider/1.2.2-Selenium%E7%9A%84%E5</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>py-test</title>
-<link href="/b/py/py-test" rel="alternate" type="text/html"/>
-<updated>2019-03-10T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Preface
-test framework list:
-- pytest   比unittest 好的一点是：可以选择测试范围
-- unittest 单元测试, py-unittest
-    </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>metaclass</title>
-<link href="/b/py/py-obj-meta" rel="alternate" type="text/html"/>
-<updated>2019-03-10T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># metaclass
-通过元类，我们可以实例元类 创建类
-
-## issue
-python 解析class 时，会对参数(包括obj)做预处理。预处理的参数不再接受修改
-
-    i = 1
+    \sf[+]  FUNCNAME       show a function's definition
    </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>nginx upstream, 负载均衡</title>
-<link href="/b/nginx/nginx-upstream" rel="alternate" type="text/html"/>
-<updated>2019-03-10T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># nginx upstream, 负载均衡
-定义一组服务器， UNIX/TCP 可以 混合使用
-
-	语法:	upstream name { ... }
-	默认值:	—
-	上下文:	http
-
-ups</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Redis</title>
-<link href="/b/db/redis-" rel="alternate" type="text/html"/>
-<updated>2019-03-12T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Redis
-redis所有的数据都是redisObject存储的。redisObject来表示所有的key/value数据是比较浪费内存的(为了支持各种数据类型嘛)，还好redis 作者也考虑了很</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>跳跃表</title>
-<link href="/b/algorithm/tree-skiplist" rel="alternate" type="text/html"/>
-<updated>2019-03-12T00:00:00Z</updated>
-<summary/>
-<published>2017-09-26T00:00:00Z</published>
-<content># 跳跃表
-我们实现redis 的有序集合用什么结构呢？
-1. list: 插入的复杂度是O(n)
-2. 链表: 查找的复杂度是O(n)
-
-跳跃表(skiplist) 是一种随机化的数据结构，相当于为</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>py-server</title>
-<link href="/b/py/py-server" rel="alternate" type="text/html"/>
-<updated>2019-03-12T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Preface
-参考：https://zhuanlan.zhihu.com/p/30056870
-
-## CGI
-原始的CGI 程序只是单纯的多进程fork 模式[/demo/py/socket-</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>shell 环境变量</title>
-<link href="/b/c/shell-var-env" rel="alternate" type="text/html"/>
-<updated>2019-06-29T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># asyncio
-asyncio是基于coroutine 的，包括了:
-1. 事件循环(event loop)
-2. Task: 对coroutine 的封装，包含各种状态
-    1. Pendi</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>does-a-thread-waiting-on-io-also-block-a-core?</title>
-<link href="/b/py/py-async-cpu" rel="alternate" type="text/html"/>
-<updated>2019-03-08T00:00:00Z</updated>
-<summary/>
-<published>2019-03-08T00:00:00Z</published>
-<content># does-a-thread-waiting-on-io-also-block-a-core
-&gt; Refer to: https://stackoverflow.com/questions/3568</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>c 语言之指针</title>
-<link href="/b/c/c-pointer" rel="alternate" type="text/html"/>
-<updated>2019-03-08T00:00:00Z</updated>
-<summary/>
-<published>2019-07-05T00:00:00Z</published>
-<content># Dict
-
-    key='city'
-	dic = {'x': 1, 'y': 2, 2:100, key:'bj'}
-	del dict['x']
-    dict.pop(2) # key</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>c lib 库</title>
-<link href="/b/c/c-lib" rel="alternate" type="text/html"/>
-<updated>2019-03-08T00:00:00Z</updated>
-<summary/>
-<published>2019-03-08T00:00:00Z</published>
-<content># Preface
-在[c 编译](/p/c-compile) 中我提到了c 的标准库，c标准库包括: header(.h 文件)头文件，和lib（.c）库文件。
-大多数库函数在libc 中, 本笔记</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>linux c 之 编译</title>
-<link href="/b/c/c-compile" rel="alternate" type="text/html"/>
-<updated>2019-03-08T00:00:00Z</updated>
-<summary/>
-<published>2019-03-08T00:00:00Z</published>
-<content># Preface
-
-本文总结关于c 编译的基础用法: 宏，头文件
-
-# include 头文件
-公共的东西(External 声明，定义)，可以放到头文件中：`*.h`, 可以被多次引用（其实跟`.</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>tcpdump</title>
-<link href="/b/net/net-tcpdump" rel="alternate" type="text/html"/>
-<updated>2019-03-08T00:00:00Z</updated>
-<summary/>
-<published>2019-03-08T00:00:00Z</published>
-<content># tcpdump
-example: https://www.rationallyparanoid.com/articles/tcpdump.html
-book:
-
-学术的说，tcpdump是一种嗅探</content>
 </entry></feed>
