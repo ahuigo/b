@@ -2,9 +2,56 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-07-07T23:17:57Z</updated>
+<updated>2019-07-13T23:19:24Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Python 的Context Managers</title>
+<link href="/b/py/py-expr-context" rel="alternate" type="text/html"/>
+<updated>2019-07-13T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Context Managers
+http://arnavk.com/posts/python-context-managers/
+https://docs.python.org/3/librar</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Python email处理</title>
+<link href="/b/py/py-email" rel="alternate" type="text/html"/>
+<updated>2019-07-13T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Python mail
+1. yagmail 高效简单的email工具
+2. 邮件收发过程
+
+## yagmail
+```
+import yagmail
+yag = yagmail.SMTP(us</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Golang 的结构体</title>
+<link href="/b/go/go-struct" rel="alternate" type="text/html"/>
+<updated>2019-07-13T00:00:00Z</updated>
+<summary/>
+<published>2019-03-24T00:00:00Z</published>
+<content># Golang Notes: struct
+struct 是值类型，slice 是引用类型(指针), 以下赋值方法是按值的
+
+    type A struct{x int}
+    a:=A{}
+</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Golang 指针</title>
+<link href="/b/go/13.go-pointer" rel="alternate" type="text/html"/>
+<updated>2019-07-13T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Pointers
+1. 支持指针类型 *T,指针的指针 **T,以及包含包名前缀的 `*&lt;package&gt;.T`。
+2. 不能对指针做加减法等运算。
+3. 默认是`nil`, 没有`NULL`
+
+</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Git 命令大全</title>
 <link href="/b/git/git-" rel="alternate" type="text/html"/>
 <updated>2019-07-07T00:00:00Z</updated>
@@ -16,9 +63,9 @@
 1. /etc/gitconfig #git config --system
 2. ~/.gitconfig 	#git config --global</content>
 </entry><entry xml:base="https://ahuigo.github.io">
-<title>Postgre Index</title>
+<title>Postgre 的索引</title>
 <link href="/b/db/postgre-index" rel="alternate" type="text/html"/>
-<updated>2019-07-07T00:00:00Z</updated>
+<updated>2019-07-13T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># Postgre Index
@@ -54,16 +101,17 @@ https://www.zhihu.com/question/20188973/answer/142225168
 论文神网站
 https://www.zhihu.com/</content>
 </entry><entry xml:base="https://ahuigo.github.io">
-<title>Shell Programming</title>
+<title>Shell 编程</title>
 <link href="/b/c/shell-" rel="alternate" type="text/html"/>
-<updated>2019-07-07T00:00:00Z</updated>
+<updated>2019-07-13T00:00:00Z</updated>
 <summary/>
 <published>2014-03-05T00:00:00Z</published>
 <content># Shell Programming
+Shell 编程笔记
 
 # Signal, 信号(trap)
 Refer to:
-http://billie66.github.io/TLCL/book/zh/chap37.html</content>
+http://billie66.github.io/TLCL/book/zh/</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>ops-init</title>
 <link href="/b/c/ops-init" rel="alternate" type="text/html"/>
@@ -425,51 +473,4 @@ https://www.youtube.com/watch?v=6pK0tz1ifiY</content>
 
 ## config
 以下 `~/.ssh/config` 包含了可以避免在特定网络环境中连接被断掉的情况的设置、使用压缩（这对于通过低带宽连接使用 scp 很有用），以及使</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>SSH SERVER</title>
-<link href="/b/net/net-ssh-server" rel="alternate" type="text/html"/>
-<updated>2019-06-23T00:00:00Z</updated>
-<summary/>
-<published>2019-06-23T00:00:00Z</published>
-<content># SSH SERVER
-OpenSSH Installations under CentOS Linux
-
-	# To install the server and client type:
-	yu</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>ssh proxy</title>
-<link href="/b/net/net-ssh-proxy" rel="alternate" type="text/html"/>
-<updated>2019-06-25T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># ssh proxy
-
-    -f Rquests ssh to go to background just before command execution.
-
-## tcp port forw</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Posgtre Var</title>
-<link href="/b/db/postgre-var" rel="alternate" type="text/html"/>
-<updated>2019-06-22T00:00:00Z</updated>
-<summary/>
-<published>2019-06-20T00:00:00Z</published>
-<content># Posgtre Var
-## Define and assign
-    DECLARE vSite varchar DEFAULT 'TechOnTheNet.com';
-    DECLARE</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>PG help</title>
-<link href="/b/db/postgre-help" rel="alternate" type="text/html"/>
-<updated>2019-06-22T00:00:00Z</updated>
-<summary/>
-<published>2019-06-20T00:00:00Z</published>
-<content># PG help
-
-    \h
-    \?
-
-show function
-
-    \sf[+]  FUNCNAME       show a function's definition
-   </content>
 </entry></feed>
