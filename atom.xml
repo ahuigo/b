@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-07-13T11:14:57Z</updated>
+<updated>2019-07-13T11:28:56Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
 <title>nginx 负载均衡</title>
@@ -119,13 +119,14 @@ struct 是值类型，slice 是引用类型(指针), 以下赋值方法是按值
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Git 命令大全</title>
 <link href="/b/git/git-" rel="alternate" type="text/html"/>
-<updated>2019-07-07T00:00:00Z</updated>
+<updated>2019-07-13T00:00:00Z</updated>
 <summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># shell
-    psql DBNAME USERNAME
-    psql -U user_name -d database_name -h 127.0.0.1 -W
-    psql -U </content>
+<published>2019-07-13T00:00:00Z</published>
+<content># Git 配置
+
+## ConfigFile
+1. /etc/gitconfig #git config --system
+2. ~/.gitconfig 	#git config --global</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Postgre CRUD</title>
 <link href="/b/db/postgre-crud" rel="alternate" type="text/html"/>
