@@ -49,7 +49,7 @@ const MD_URL='post/ria/js-dom.md';
 <pre id="markdown" v-pre>---
 title: Js dom 笔记
 date: 2016-01-23
-updated: 2019-06-10
+updated: 2019-07-15
 ---
 # Js dom 笔记
     document.documentElement ;//html
@@ -539,6 +539,8 @@ via range:
     var fragment =range.createContextualFragment(innerHTML_JS);
 
 ### .append .appendChild
+div.append 支持同时传入多个节点或字符串, 无返回
+div.appendChild 支持1个节点，返回该node
 
     div.append(&#x27;text&#x27;or node)
     $(&quot;#holder &gt; div:nth-child(2)&quot;).after(&quot;&lt;div&gt;foobar&lt;/div&gt;&quot;);
@@ -558,6 +560,19 @@ Example 浮层: js-demo/alert-float.js
 	node.parentNode.insertBefore(child, parent.childNodes[0]);
     $(&quot;#holder &gt; div:nth-child(2)&quot;).before(&quot;&lt;div&gt;foobar&lt;/div&gt;&quot;);
     $(&quot;#holder &gt; div:eq(2)&quot;).before(&quot;&lt;div&gt;foobar&lt;/div&gt;&quot;);
+
+insertAfter:
+
+    function insertAfter(newEl, targetEl) {
+        var parentEl = targetEl.parentNode;
+                
+        if(parentEl.lastChild == targetEl) {
+            parentEl.appendChild(newEl);
+        }else
+        {
+            parentEl.insertBefore(newEl,targetEl.nextSibling);
+        }            
+    }
 
 ### .remove, .removeChild 
 	child.parentNode.removeChild(child);

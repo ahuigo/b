@@ -2,9 +2,49 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-07-13T23:35:00Z</updated>
+<updated>2019-07-15T10:18:52Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Js 字符串大全</title>
+<link href="/b/ria/js-str" rel="alternate" type="text/html"/>
+<updated>2019-07-15T00:00:00Z</updated>
+<summary/>
+<published>2015-03-15T00:00:00Z</published>
+<content># Js 字符串大全
+字符定义与python 一样, 而且不区分双引号：
+
+    '\x00' == '\u0000'
+	'\x31' == "\x31"
+
+	'好' === '\u597D' //</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>js fuck</title>
+<link href="/b/ria/js-expr" rel="alternate" type="text/html"/>
+<updated>2019-07-15T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># eval
+
+    i=5
+    f=i=&gt;i
+    eval("f(i)")===5
+
+liaoxuefeng 老师利用eval 写的js课程：
+
+	var code = _mdGetCod</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Js dom 笔记</title>
+<link href="/b/ria/js-dom" rel="alternate" type="text/html"/>
+<updated>2019-07-15T00:00:00Z</updated>
+<summary/>
+<published>2016-01-23T00:00:00Z</published>
+<content># Js dom 笔记
+    document.documentElement ;//html
+    document.body;  //html
+
+# Navigator
+navigator.a</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>SSH SERVER 的配置</title>
 <link href="/b/net/net-ssh-server" rel="alternate" type="text/html"/>
 <updated>2019-07-13T00:00:00Z</updated>
@@ -439,42 +479,4 @@ https://zh.wikipedia.org/wiki/%E8%84%B1%E5%AD%97%E7%AC%A6
     $ select st_force2d(geom) from table_name limit 100
     $ \d table_name
     id   </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>React Start</title>
-<link href="/b/ria/react-start" rel="alternate" type="text/html"/>
-<updated>2019-06-23T00:00:00Z</updated>
-<summary/>
-<published>2019-06-23T00:00:00Z</published>
-<content># React Runtime
-React 运行时，需要引入运行时
-
-## CDN runtime
-阮一峰的demo 中的例子
-
-    &lt;head&gt;
-        &lt;meta charset="U</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>command</title>
-<link href="/b/ria/node-npm" rel="alternate" type="text/html"/>
-<updated>2019-06-23T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># command
-
-    npm list -g; # global
-    npm list; # local
-    npm dedupe -g; # Reduce duplication
-
-</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>python 的list/tuple 笔记</title>
-<link href="/b/py/py-var-list" rel="alternate" type="text/html"/>
-<updated>2019-06-23T00:00:00Z</updated>
-<summary/>
-<published>2018-03-03T00:00:00Z</published>
-<content># list and tuple
-因为tuple 是增加删除元素的不可变的list(数据可以变)，所以代码更安全。
-如果可能，能用tuple代替list就尽量用tuple。
-
-	list = [1,2</content>
 </entry></feed>
