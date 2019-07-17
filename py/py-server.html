@@ -36,7 +36,7 @@ const MD_URL='post/py/py-server.md';
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,7 +49,7 @@ const MD_URL='post/py/py-server.md';
 <pre id="markdown" v-pre>---
 title: py-server
 date: 2018-10-04
-updated: 2019-03-12
+updated: 2019-07-17
 ---
 # Preface
 参考：https://zhuanlan.zhihu.com/p/30056870
@@ -200,7 +200,6 @@ gevent 是基于greenlet， greenlet封装了libevent+yield 的事件循环高�
 比起uWSGI来说，Gunicorn对于“协程”也就是Gevent的支持会更好更完美。
 
     --log-level &quot;debug&quot; 
-    PYTHONUNBUFFERED=TRUE
     -R, --enable-stdio-inheritance
 
 rocket.py:

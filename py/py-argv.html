@@ -36,7 +36,7 @@ const MD_URL='post/py/py-argv.md';
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,7 +49,7 @@ const MD_URL='post/py/py-argv.md';
 <pre id="markdown" v-pre>---
 title: py-argv
 date: 2018-09-28
-updated: 2019-02-28
+updated: 2019-07-17
 ---
 # Preface
 - click
@@ -97,9 +97,10 @@ click 之于argparse/argv, 相当于requests 之于urllib
     parser = argparse.ArgumentParser()
     parser.parse_args()
 
-## description
+## description and help
 
     parser = argparse.ArgumentParser(description=&quot;calculate X to the power of Y&quot;)
+    parger.add_argument(&#x27;-r&#x27;, &#x27;--run&#x27;, help=&quot;running&quot;)
 
 ## file
 
@@ -109,13 +110,28 @@ click 之于argparse/argv, 相当于requests 之于urllib
     &gt;&gt;&gt; parser.parse_args([&#x27;--raw&#x27;, &#x27;raw.dat&#x27;, &#x27;file.txt&#x27;])
     Namespace(out=&lt;_io.TextIOWrapper name=&#x27;file.txt&#x27; mode=&#x27;w&#x27; encoding=&#x27;UTF-8&#x27;&gt;, raw=&lt;_io.FileIO name=&#x27;raw.dat&#x27; mode=&#x27;wb&#x27;&gt;)
 
+## enum args
+    from enum import Enum
+
+    class Color(Enum):
+        red = &#x27;red&#x27;
+        blue = &#x27;blue&#x27;
+        green = &#x27;green&#x27;
+
+        def __str__(self):
+            return self.value
+
+    parser.add_argument(&#x27;color&#x27;, type=Color, choices=list(Color))
+    parser.add_argument(&#x27;color&#x27;, type=str, choices=(&#x27;red&#x27;,&#x27;blue&#x27;))
+
 ## positional args
 
     parser.add_argument(&quot;p1&quot;)
     parser.add_argument(&quot;p2&quot;)
     args = parser.parse_args()
     // python3 a.py foo bar
-    // args = {p1:foo, p2:bar}; args.p1
+    // args = namespace{p1:foo, p2:bar}; 
+    args.p1
 
 multiple args:
 
@@ -123,12 +139,15 @@ multiple args:
     # args = {&#x27;integers&#x27;:...}
     parser.add_argument(&#x27;integers&#x27;, metavar=&#x27;N&#x27;, type=int, nargs=&#x27;+&#x27;,)
 
-
 ## optional arg
 
     parser.add_argument(&quot;-n&quot;, &quot;--name&quot;, default=&quot;ahui&quot;, help=&quot;your name&quot;)
     parser.add_argument(&quot;-n&quot;, dest=&quot;name&quot;, default=&quot;ahui&quot;, help=&quot;your name&quot;)
     parser.add_argument(&quot;-p&quot;, type=int)
+
+## required arg
+
+    parser.add_argument(&quot;-p&quot;, required=True)
 
 ## bool arg
 action=&quot;store_true&quot; is bool

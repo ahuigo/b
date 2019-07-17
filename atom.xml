@@ -2,9 +2,79 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-07-15T10:18:52Z</updated>
+<updated>2019-07-17T09:49:50Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>py-tcp</title>
+<link href="/b/py/py-tcp" rel="alternate" type="text/html"/>
+<updated>2019-07-17T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Preface
+Socket是网络编程的一个抽象概念。通常我们用一个Socket表示“打开了一个网络链接”，而打开一个Socket需要知道目标计算机的IP地址和端口号，再指定协议类型即可。
+
+# </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-server</title>
+<link href="/b/py/py-server" rel="alternate" type="text/html"/>
+<updated>2019-07-17T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Preface
+参考：https://zhuanlan.zhihu.com/p/30056870
+
+## CGI
+原始的CGI 程序只是单纯的多进程fork 模式[/demo/py/socket-</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-file-io</title>
+<link href="/b/py/py-file-io" rel="alternate" type="text/html"/>
+<updated>2019-07-17T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Preface
+
+# flush buffer
+开启buffer 后，默认是换行才flush, print 调用的就是sys.stdout
+
+    PYTHONUNBUFFERED=0 pyth</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-argv</title>
+<link href="/b/py/py-argv" rel="alternate" type="text/html"/>
+<updated>2019-07-17T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Preface
+- click
+click 之于argparse/argv, 相当于requests 之于urllib
+
+命令行程序开发
+
+	asciimatics：跨平台，全屏终端包（即鼠标/键</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>linux 下的Fork 与 Exec</title>
+<link href="/b/c/shell-redirect-fork2exec" rel="alternate" type="text/html"/>
+<updated>2019-07-17T00:00:00Z</updated>
+<summary/>
+<published>2019-07-17T00:00:00Z</published>
+<content># Preface
+多进程的的内容包括进程控制, 进程通信, 进程本身的结构.
+
+# 重定向
+标准输入输出:
+
+    /dev/stdin -&gt; /dev/fd/0
+    /dev/stdout </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>expect 键盘模拟</title>
+<link href="/b/c/ops-expect" rel="alternate" type="text/html"/>
+<updated>2019-07-17T00:00:00Z</updated>
+<summary/>
+<published>2019-07-17T00:00:00Z</published>
+<content># Preface
+Expect 是Tcl/Tk 语言最有名的扩展，可通过[tcl/tk](/p/linux-tcl) 了解tcl/tk 的用法
+
+&gt; 注意：spawn 结束后，一定要加上`inter</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Js 字符串大全</title>
 <link href="/b/ria/js-str" rel="alternate" type="text/html"/>
 <updated>2019-07-15T00:00:00Z</updated>
@@ -35,15 +105,15 @@ liaoxuefeng 老师利用eval 写的js课程：
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Js dom 笔记</title>
 <link href="/b/ria/js-dom" rel="alternate" type="text/html"/>
-<updated>2019-07-15T00:00:00Z</updated>
+<updated>2019-07-17T00:00:00Z</updated>
 <summary/>
 <published>2016-01-23T00:00:00Z</published>
 <content># Js dom 笔记
     document.documentElement ;//html
     document.body;  //html
-
-# Navigator
-navigator.a</content>
+# Device
+## Navigator
+na</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>SSH SERVER 的配置</title>
 <link href="/b/net/net-ssh-server" rel="alternate" type="text/html"/>
@@ -196,7 +266,7 @@ init指linux 系统运行级runlevel 0~6. 可在/etc/inittab中指定:
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>学习 docker</title>
 <link href="/b/arch/arch-docker" rel="alternate" type="text/html"/>
-<updated>2019-07-05T00:00:00Z</updated>
+<updated>2019-07-17T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># 什么是Docker
@@ -343,9 +413,9 @@ ws 和 wss 均为 WebSocket 协议的 schema，一个是非安全的tcp + ws as 
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>html5 笔记</title>
 <link href="/b/ria/js-dom-html5" rel="alternate" type="text/html"/>
-<updated>2019-07-13T00:00:00Z</updated>
+<updated>2019-07-17T00:00:00Z</updated>
 <summary/>
-<published>2019-07-13T00:00:00Z</published>
+<published>2019-07-17T00:00:00Z</published>
 <content># Tag
 
 ## Forms
@@ -404,79 +474,4 @@ ws 和 wss 均为 WebSocket 协议的 schema，一个是非安全的tcp + ws as 
 	dic = {'x': 1, 'y': 2, 2:100, key:'bj'}
 	del dict['x']
     dict.pop(2) # key</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>py-process</title>
-<link href="/b/py/py-process" rel="alternate" type="text/html"/>
-<updated>2019-06-25T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Preface
-- sh: sh之于subprocess， 相当于requests 对于urllib2
-	1. sh.ls("-l", "/tmp", color="never")
-	2. sh.</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Python 语法</title>
-<link href="/b/py/py-grammar" rel="alternate" type="text/html"/>
-<updated>2019-06-25T00:00:00Z</updated>
-<summary/>
-<published>2018-03-01T00:00:00Z</published>
-<content># compare
-```s
-&gt;&gt;&gt; 1&lt;3&gt;=3&gt;1==1&lt;100
-True
-```
-
-
-# Condition &amp; Loop
-
-## try finnaly
-
-    try:
-        1</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>py-async-iteratortools</title>
-<link href="/b/py/py-async-iteratortools" rel="alternate" type="text/html"/>
-<updated>2019-06-25T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># Preface
-
-Python的内建模块itertools提供了非常有用的用于操作迭代对象的函数。
-
-# itertools
-itertools模块提供的全部是处理迭代功能的函数，它们的返回值不是</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>golang pkg的使用</title>
-<link href="/b/go/2.go-pkg" rel="alternate" type="text/html"/>
-<updated>2019-07-13T00:00:00Z</updated>
-<summary/>
-<published>2016-09-27T00:00:00Z</published>
-<content># 结构
-1. 参考How to Write Go Code https://golang.org/doc/code.html
-
-2. 环境变量$ go env
-
-## workspace
-可以有多个</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>english punctuation</title>
-<link href="/b/eng/eng-punctuation" rel="alternate" type="text/html"/>
-<updated>2019-06-25T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># English punctuation
-https://zh.wikipedia.org/wiki/%E8%84%B1%E5%AD%97%E7%AC%A6
-
-	punctuation mark	n</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Postgre Geo</title>
-<link href="/b/db/postgre-geo" rel="alternate" type="text/html"/>
-<updated>2019-06-25T00:00:00Z</updated>
-<summary/>
-<published>2019-06-24T00:00:00Z</published>
-<content># Postgre Geo
-
-    $ select st_force2d(geom) from table_name limit 100
-    $ \d table_name
-    id   </content>
 </entry></feed>
