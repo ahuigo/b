@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/p/p11.md';
+const MD_URL='post/db/postgre-admin.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO 的笔记</title>
+<title>Postgre 安装\配置\管理</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -46,53 +46,117 @@ const MD_URL='post/p/p11.md';
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
-<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+<pre id="markdown" v-pre>---
+title: Postgre 安装\配置\管理
+date: 2018-09-27
+updated: 2019-07-03
+---
+# Postgre 安装\配置\管理
+    rpm -Uvh https://yum.postgresql.org/10/redhat/rhel-7-x86_64/pgdg-centos10-10-2.noarch.rpm
+    yum install postgresql10-server postgresql10 -y
+    # Create a new PostgreSQL database cluster:
+    /usr/pgsql-10/bin/postgresql-10-setup initdb
 
-<ul>
-<li>2018-09-27 <a href="/b/java/java-io">println</a> </li>
-<li>2018-09-27 <a href="/b/java/java-install">install java</a> </li>
-<li>2018-09-27 <a href="/b/java/java-file">upload</a> </li>
-<li>2018-09-27 <a href="/b/java/java-debug">try</a> </li>
-<li>2018-09-27 <a href="/b/java/java-date">gettime</a> </li>
-<li>2018-10-06 <a href="/b/idea/idea-work-efficiency">夸夸我家程序员</a> </li>
-<li>2018-09-27 <a href="/b/idea/idea-job">接活网站：</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-jquery-extend">extend，扩展 插件</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-jquery-css">Css</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-indexedDB">IndexedDb 的使用之Dexie</a> </li>
-<li>2017-07-11 <a href="/b/ria/js-func">js 的函数</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-func-scope">Js 中的this scope</a> </li>
-<li>2016-01-23 <a href="/b/ria/js-dom">Js dom 笔记</a> </li>
-<li>2018-08-19 <a href="/b/ria/js-dom-innerhtml-js">让innerHTML 执行js</a> </li>
-<li>2018-10-06 <a href="/b/ria/js-dom-html5">html5</a> </li>
-<li>2018-10-04 <a href="/b/py/py-shell">python shell 子进程</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-file">vim-file</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-complete">vim-complete</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-cmd">vim-cmd</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-cmd-ex">vim-cmd-ex</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-change">vim-change</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-abbreviate">vim-abbreviate</a> </li>
-<li>2018-10-04 <a href="/b/svn/svn-diff">svn-diff</a> </li>
-<li>2018-10-04 <a href="/b/sec/security-web">security-web</a> </li>
-<li>2018-10-04 <a href="/b/sec/security-">security-</a> </li>
-<li>2018-10-04 <a href="/b/rpc/rpc">rpc</a> </li>
-<li>2018-10-04 <a href="/b/rpc/rpc-thrift">rpc-thrift</a> </li>
-<li>2018-10-04 <a href="/b/ria/vue-sample-mvc">vue-sample-mvc</a> </li>
-<li>2018-10-04 <a href="/b/ria/node-koa">Nunjucks(=Jinjia2)</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-time">js-time</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-react">js-react</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-jquery">selector</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-dom-scroll">js-dom-scroll</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-debug-compress">js-debug-compress</a> </li>
-<li>2018-12-06 <a href="/b/ria/js-chart">js charts</a> </li>
-<li>2018-10-06 <a href="/b/ria/js-ajax">js ajax legacy</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-css-less">js-css-less</a> </li>
-<li>2018-10-06 <a href="/b/eng/eng-prononciation">发音</a> </li>
-<li>2018-09-27 <a href="/b/eng/eng-noun">1.名词复数的规则变化</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-css-font">font</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-cors">浏览器同源政策及其规避方法</a> </li>
-</ul>
-</div>
-<div id="pager"> <a href="/b/index">p0</a> <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a> <a href="/b/p/p3">p3</a> <a href="/b/p/p4">p4</a> <a href="/b/p/p5">p5</a> <a href="/b/p/p6">p6</a> <a href="/b/p/p7">p7</a> <a href="/b/p/p8">p8</a> <a href="/b/p/p9">p9</a> <a href="/b/p/p10">p10</a> p11 <a href="/b/p/p12">p12</a> <a href="/b/p/p13">p13</a> <a href="/b/p/p14">p14</a> <a href="/b/p/p15">p15</a> <a href="/b/p/p16">p16</a> <a href="/b/p/p17">p17</a></div>
+## output formate
+
+    # \x
+    Expanded display is on.
+    # \x
+    Expanded display is off.
+
+## auth
+see db-user.md
+vim /var/lib/pgsql/data/pg_hba.conf
+
+## run
+
+    if centos:
+        systemctl start postgresql-10.service
+        systemctl enable postgresql-10.service
+        #sudo systemctl start postgresql
+        #sudo systemctl enable postgresql
+    elif osx:
+        # To have launchd start postgresql now and restart at login:
+        brew services start postgresql
+        # ps aux
+        pg_ctl -D /usr/local/var/postgres start
+
+        # 
+        ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
+
+        cat &lt;&lt;MM &gt;&gt; ~/.zshrc
+        alias pg-start=&quot;launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist&quot;
+        alias pg-stop=&quot;launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist&quot;
+        MM
+
+    createdb `whoami`
+
+### change listen host
+1. postgres -h 0.0.0.0
+2. vim /var/lib/pgsql/10/data/postgresql.conf
+    `listen_addresses=&#x27;*&#x27;`
+    `listen_addresses=&#x27;localhost&#x27;`
+    &#x27;localhost,192.168.1.66&#x27;
+    &#x27;port=5432&#x27;
+
+show config 
+
+    psql -U postgres -c &#x27;SHOW config_file&#x27;
+
+#### via args
+/lib/systemd/system/postgresql.service
+
+    Environment=PGPORT=9898
+
+then:
+
+    # 先使配置生效
+    systemctl daemon-reload
+    # 再重启
+    systemctl restart postgresql
+
+
+## client
+1. 默认同时支持 unix domain socket + ip/port net socket
+    1. unix domain soket 的地址可通过port 指定：sudo -u postgres psql -p 6379
+
+psql postgresql://t1:1@47.96.1.162:6379/template1
+
+### exec
+
+    $ psql -h 127.0.0.1 -p 5930 -c &quot;select 1&quot;
+    $ psql -h 127.0.0.1 -p 5930 -f a.sql
+
+#### exec sql file
+psql -f exec.sql
+pg_dump dbname &gt; outfile
+
+psql [dbname] &lt; exec.sql
+
+## backup
+
+    # only schema
+    pg_dump -U [db_username] -s  -f [filename.sql] [db_name]
+    # data+schema
+    pg_dump                      -f [filename.sql] [db_name]
+
+    -F format
+        -Fc custom, Output a custom-format archive suitable for input
+        -Fp plain 默认
+
+## restore
+custom-format archive:
+
+    # schema
+    pg_restore -s -d [db_name] [filename.sql]
+    # data
+    pg_restore -a -d [db_name] [filename.sql]
+    # schema and data
+    pg_restore -d [db_name] [filename.sql]
+
+# help
+`\h CREATE ROLE`</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
