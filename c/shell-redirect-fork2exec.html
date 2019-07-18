@@ -5,7 +5,7 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/c/process-redirect-fork2exec.md';
+const MD_URL='post/c/shell-redirect-fork2exec.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
@@ -32,11 +32,11 @@ const MD_URL='post/c/process-redirect-fork2exec.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -48,8 +48,8 @@ const MD_URL='post/c/process-redirect-fork2exec.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: linux 下的Fork 与 Exec
-date: 2019-02-04
-updated: 2019-02-04
+date: 2019-07-19
+updated: 2019-07-19
 ---
 # Preface
 多进程的的内容包括进程控制, 进程通信, 进程本身的结构.
@@ -169,7 +169,6 @@ exec命令示例
     关闭fd3
 
 ## exec的重定向
-
 先上我们进如/dev/fd/目录下看一下：
 
     root@localhost:~/test#cd /dev/fd
@@ -249,6 +248,10 @@ kill -15 默认向进程发送GIGTERM 信号
 	SEGV	11	segmentfault
 
 # redirect output of an already running process
+
+    tail -f /proc/$PID/fd/1
+    cat /proc/$PID/fd/1
+
 Firstly I run the command `cat &gt; foo1` in one session and test that data from stdin is copied to the file.
 Then in another session I redirect the output.
 
@@ -322,6 +325,10 @@ http://www.isi.edu/~yuri/dupx/
 
 ## strace
 http://superuser.com/questions/473240/redirect-stdout-while-a-process-is-running-what-is-that-process-sending-to-d/535938#535938
+
+## pexpect
+https://eli.thegreenplace.net/2017/interacting-with-a-long-running-child-process-in-python/
+
 
 
 # Rerference

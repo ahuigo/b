@@ -5,7 +5,7 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/c/shell-grammar.md';
+const MD_URL='post/c/shell-expr.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
@@ -32,11 +32,11 @@ const MD_URL='post/c/shell-grammar.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -48,8 +48,8 @@ const MD_URL='post/c/shell-grammar.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: shell 表达式
-date: 2019-01-23
-updated: 2019-01-23
+date: 2019-07-19
+updated: 2019-07-19
 ---
 # shell 表达式
 
@@ -64,11 +64,21 @@ updated: 2019-01-23
 	for ((i=0;i&lt;10;i++)); do echo $i; done;
 
 ## while
+for / while:
 
-	while expr;
-	do
-		.. expr;
+    for i in something; do
+        [ condition ] &amp;&amp; continue
+        cmd1
+        cmd2
+    done
+
+	while expr; do
+        [ condition ] &amp;&amp; continue
+        cmd1
 	done;
+
+until
+
 	declare -i i=0; until (($i&gt;=3)); do  echo $i;let i++; done #output: 0 1 2
 
 ## break
@@ -104,7 +114,7 @@ case条件 可以是变量、与或非(不能有引号)、简单的通配符(不
 
 &gt; 不支持BRE, EBR. `[[:digit:]]` 理解为扩展的wildcard
 
-前缀匹配：
+不是前缀匹配，而是完全匹配, 除非加`pre*)`：
 
     case &quot;$2,$3&quot; in
     merge,) print&#x27; &quot;$3&quot; ;;

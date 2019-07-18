@@ -9,7 +9,7 @@ const MD_URL='post/ria/js-dom-html5.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>html5</title>
+<title>html5 笔记</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -47,9 +47,9 @@ const MD_URL='post/ria/js-dom-html5.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: html5
-date: 2019-06-29
-updated: 2019-06-29
+title: html5 笔记
+date: 2019-07-19
+updated: 2019-07-19
 ---
 # Tag
 
@@ -132,8 +132,19 @@ Datalist-Option:
 ## radio
 
 ## drag
+参考 https://www.zhangxinxu.com/wordpress/2011/02/html5-drag-drop-%E6%8B%96%E6%8B%BD%E4%B8%8E%E6%8B%96%E6%94%BE%E7%AE%80%E4%BB%8B/
 
 	&lt;img draggable=&quot;true&quot; /&gt;
+
+    DataTransfer 对象：退拽对象用来传递的媒介，使用一般为Event.dataTransfer。
+    draggable 属性：就是标签元素要设置draggable=true，否则不会有效果
+    ondragstart 事件：当拖拽元素开始被拖拽的时候触发的事件，此事件作用在被拖曳元素上
+    ondragenter 事件：当拖曳元素进入目标元素的时候触发的事件，此事件作用在目标元素上
+    ondragover 事件：拖拽元素在目标元素上移动的时候触发的事件，此事件作用在目标元素上
+    ondrop 事件：被拖拽的元素在目标元素上同时鼠标放开触发的事件，此事件作用在目标元素上
+    ondragend 事件：当拖拽完成后触发的事件，此事件作用在被拖曳元素上
+    Event.preventDefault() 方法：阻止默认的些事件方法等执行。在ondragover中一定要执行preventDefault()，否则ondrop事件不会被触发。另外，如果是从其他应用软件或是文件中拖东西进来，尤其是图片的时候，默认的动作是显示这个图片或是相关信息，并不是真的执行drop。此时需要用用document的ondragover事件把它直接干掉。
+    Event.effectAllowed 属性：就是拖拽的效果。
 
 ### 拖动什么 - ondragstart 和 setData()
 	ondragstart = function drag (ev){
@@ -269,101 +280,6 @@ https://www.zhangxinxu.com/wordpress/2017/07/service-worker-cachestorage-offline
 ##  Channel Messaging API 
  Channel Messaging API allows two separate scripts running in different browsing contexts attached to the same document (e.g., two IFrames, or the main document and an IFrame,
 
-# server-sent event 服务器发送事件
-Server-Sent 事件指的是网页自动获取来自服务器的更新。
-以前也可能做到这一点，前提是网页不得不询问是否有可用的更新。通过服务器发送事件，更新能够自动到达。
-
-SSEs 使用的还是http 协议，不过它封装了：setInterval(retry)+ ajax + event, 它是单向通道(unidirectional channel),
-
-由服务端决定何时响应event+data: 通过retry 指定重试时间(默认3秒)，或者服务器端可以用while(1) + sleep 做连接保持
-
-- Polling: ajax. It&#x27;s shortcoming is create greater http overhead.
-- Long polling (Hanging GET / COMET): 长连接和 iframe 流方式(利用其src属性在服务器和客户端之间建立一条长链接，服务器向iframe传输数据). 将来会被WebSocket 取代
-
-When communicating using SSEs, a server can push data to your app whenever it wants(via retry), without the need to make an initial request. In other words, updates can be streamed from server to client as they happen.
-
-SSEs open a single *unidirectional channel* between server and client.(因为http1.1是单工的sigplex)
-
-## 服务器端a.php
-
-	header(&#x27;Content-Type: text/event-stream&#x27;);//务器端事件流 &quot;Content-Type&quot; 报头设置为 &quot;text/event-stream&quot; 服务器端控制轮询间隔
-	header(&#x27;Cache-Control: no-cache&#x27;);
-
-	$time = date(&#x27;r&#x27;);
-	echo &quot;data: The server time is: {$time}\n\n&quot;;
-	flush();
-
-### Data
-Multiline Data
-
-	: this is a comment
-	data: first line\n
-	data: second line\n\n
-
-JSON Data:
-
-	data: {\n
-	data: &quot;msg&quot;: &quot;hello world&quot;,\n
-	data: &quot;id&quot;: 12345\n
-	data: }\n\n
-
-or:
-
-	data: {&quot;msg&quot;: &quot;hello world&quot;,&quot;id&quot;: 12345 }\n\n
-
-Associating an ID with an envent:
-
-	id: 12345\n
-	data: GOOG\n
-	data: 556\n\n
-
-Controlling the Reconnection-timeout in 10 seconds
-
-	retry: 10000\n
-	data: hello world\n\n
-
-Specifying an event name
-
-	data: {&quot;msg&quot;: &quot;First message&quot;}\n\n
-	event: userlogon\n
-	data: {&quot;username&quot;: &quot;John123&quot;}\n\n
-	event: update\n
-	data: {&quot;username&quot;: &quot;John123&quot;, &quot;emotion&quot;: &quot;happy&quot;}\n\n
-
-Refer to: http://www.html5rocks.com/en/tutorials/eventsource/basics/
-
-## Client端
-
-	source = new EventSource(&#x27;/b.php&#x27;);
-	source.onmessage = function(ev){console.log(ev.data);}
-	//source.onerror
-	//source.onopen
-	//source.close();
-
-	source.addEventListener(&#x27;message&#x27;, function(e) {
-	  console.log(e.data);
-	}, false);
-
-	source.addEventListener(&#x27;open&#x27;, function(e) {
-	  console.log(&#x27;open&#x27;);// Connection was opened.
-	}, false);
-
-	source.addEventListener(&#x27;error&#x27;, function(e) {
-	  if (e.readyState == EventSource.CLOSED) {
-		// Connection was closed.
-	  }
-	}, false);
-
-## Security
-SSEs 是可以跨域的，server 端应该判断响应的Origin:
-
-	source.addEventListener(&#x27;message&#x27;, function(e) {
-	  if (e.origin != &#x27;http://example.com&#x27;) {
-		alert(&#x27;Origin was not http://example.com&#x27;);
-		return;
-	  }
-	  ...
-	}, false);
 
 # copy &amp; paste
 

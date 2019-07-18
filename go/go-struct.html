@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/go/go-struct.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>Golang 的结构体</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: Golang 的结构体
+date: 2019-03-24
+updated: 2019-07-19
+---
+# Golang Notes: struct
+struct 是值类型，slice 是引用类型(指针), 以下赋值方法是按值的
+
+    type A struct{x int}
+    a:=A{}
+    b:=A{}
+    fmt.Printf(&quot;%p,%p\n&quot;, &amp;a,&amp;b)  //not same
+    b = a                           //按值传递
+    fmt.Printf(&quot;%p,%p\n&quot;, &amp;a,&amp;b)  //not same
+
+## 特殊定义
+
+    type A struct { int }
+    var a=A{}
+    a.int = 1
+    fmt.Println(a)
+
+## access
+
+	v := Vertex{1, 2}
+	v.X = 4
+	&amp;v.X = 4
+	Vertex{1, 2}.X
+
+## pointer to structs
+struct pointer:
+
+    v := Vertex{1, 2}
+	p := &amp;v
+	p.X = 1e9
+
+copy:
+
+    v_copy := v
+
+partial copy struct
+
+    package main
+    import &quot;fmt&quot;
+    import &quot;github.com/jinzhu/copier&quot;
+
+    type RegistrationRequest struct {
+        Email    *string
+        Email2   *string
+        Username *string
+        Password *string
+        Name     string
+    }
+
+    type User struct {
+        Email    *string
+        Username *string
+        Password *string
+        Name     string
+    }
+
+    func main() {
+        user := User{}
+        req := RegistrationRequest{}
+        user.Email, user.Password, user.Username = new(string), new(string), new(string)
+        user.Name = &quot;John Doe&quot;
+        *user.Email = &quot;a@b.com&quot;
+        *user.Password = &quot;1234&quot;
+        *user.Username = &quot;johndoe&quot;
+        fmt.Println(&quot;User :&quot;,user.Name, *user.Email, *user.Username, *user.Password)
+        copier.Copy(&amp;req, &amp;user)
+        fmt.Println(&quot;RegistrationRequest :&quot;,req.Name, *req.Email, *req.Username, *req.Password)
+    }
+
+## define:
+
+    type Node struct {
+        _    int
+        id   int
+        data *byte
+        next *Node
+    }
+
+不要直接访问：
+
+    //非法
+    Node.id
+
+### struct with tag
+可定义字段标签，⽤用反射读取。标签是类型的组成部分, 是不同的类型
+
+    func main() {
+        type D struct {
+            s string `tag3`
+            x   int `tag2`
+        }
+        var d D
+        fmt.Printf(&quot;%#v\n&quot;, d)
+    }
+
+再来个例子
+
+    type A struct {
+        Body struct {
+            Status string `Flag`
+        }
+    }
+    A{struct{Status string `Flag`}{}}.Body.Status
+    A{struct{Status string `Flag`}{&quot;str&quot;}}.Body.Status
+
+
+### null struct
+null struct 不占用空间，用来实现set
+
+    var null struct{}
+    set := make(map[string]struct{})
+    set[&quot;a&quot;] = null
+
+### 匿名struct
+    var attr = struct {
+        perm  int
+        owner int
+    }{2, 0755}
+
+### Anonymous field(继承)
+匿名字段的类型就是 同名类型
+
+    type User struct{ }
+    type Class struct{
+        User
+        id int
+    }
+
+编译器从外向内逐级查找所有层次的匿名字段
+
+    type Resource struct {
+        id int
+    }
+    type User struct {
+        Resource
+        name string 
+    }
+    type Manager struct {
+        User
+        title string 
+    }
+    var m Manager
+    m.id = 1
+    m.name = &quot;Jack&quot;
+    m.title = &quot;Administrator&quot;
+
+Note: 相同层次的同名字段也会让编译器⽆无所适从, 应该用显式的字段
+
+不能同时嵌⼊入某⼀一类型和其指针类型，因为它们名字相同
+
+    type Manager struct {
+        User
+        *User
+        title string 
+    }
+
+### 继承与赋值
+    package main
+    import  &quot;fmt&quot;
+
+    type Pet struct {
+        age int
+    }
+    type PetX struct {
+        Pet
+        name string
+    }
+
+    func modify(pxp *PetX){
+        pxp.name = &quot;name&quot;
+        pxp.age = 123
+        pxp.Pet = Pet{200}
+    }
+
+    func main() {
+        px:= PetX{}
+        modify(&amp;px)
+
+        fmt.Printf(&quot;%#v\n&quot;, px)  
+        fmt.Printf(&quot;%#v\n&quot;, px.Pet)  
+    }
+    &lt;!-- main.PetX{Pet:main.Pet{age:200}, name:&quot;name&quot;}
+    main.Pet{age:200} --&gt;
+
+
+## 面向对象
+go struct 仅支持封装，没有继承、多态
+
+- Anonymous 可以实现继承
+- Interface 可以实现多态
+
+### Struct method
+struct method 是一个值：
+
+    package main
+    import  &quot;fmt&quot;
+
+    type Pet struct {
+        speaker func() string
+        name    string
+    }
+
+    func (p *Pet) Speak() string {
+        return &quot;Speak&quot;
+    }
+
+    func NewPet(name string) *Pet {
+        p := &amp;Pet{
+            name: name,
+        }
+        p.speaker = p.Speak
+        return p
+    }
+
+    func main() {
+        d := NewPet(&quot;spot&quot;)
+        fmt.Println(d.speaker()) //Speak
+        fmt.Println(d.Speak())  //Speak
+    }
+
+注意指针类型匹配，
+
+    type A interface{
+        Say()
+    }
+    func Test(o A){
+    }
+
+    func (d Dog) Say() { }
+    Test(&amp;Dog{}) //ok
+    Test(Dog{}) //ok
+
+not work
+
+    func (d *Dog) Say() { }
+    Test(&amp;Dog{}) //ok
+    Test(Dog{}) //not ok
+
+## init 
+init 时必须包含全部字段
+
+     n0 := Node{0,1,nil,nil}
+     n0 := Node{0,1,nil,nil,}
+     n0 := Node{0,1} //error: too few args
+
+否则用key:value 形式就不用包含全部字段了
+
+     n1 := Node{}       //default: id:0,data:nil,next:nil
+     n2 := Node{
+        id:   2,
+        data: nil,
+        next: &amp;n1,
+    }
+    fmt.Println(n1,n2)
+</pre>
+<div id="pager"></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"><ol><li>笔记</li><ol></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>
