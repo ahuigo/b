@@ -20,13 +20,10 @@ const MD_URL='post/db/mysql-time.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -35,10 +32,11 @@ const MD_URL='post/db/mysql-time.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -51,9 +49,12 @@ const MD_URL='post/db/mysql-time.md';
 <pre id="markdown" v-pre>---
 title: mysql-time
 date: 2018-09-27
-updated: 2018-10-06
+updated: 2019-07-18
 ---
-# Preface
+# Time Type
+精确到微秒
+
+    TIME(6), DATETIME(6), TIMESTAMP(6)
 
 # Format Convert Time
 
@@ -61,6 +62,8 @@ updated: 2018-10-06
 - `Current_date()`  will only give you the date.
 - `now()` give you the datetime when the statement,procedure etc... started.
 - `sysdate()` give you the current datetime.
+
+sleep test
 
 	select now(),sysdate(),current_date(),sleep(5),now(),sysdate();
 	+---------------------+---------------------+----------------+----------+---------------------+---------------------+
@@ -323,7 +326,7 @@ TIMESTAMP 比较特殊，`默认`的INSERT 或者UPDATE 会触发时间更新为
 		70~99 , as 1970~1999
 		&quot;70&quot;~&quot;99&quot; , as 1970~1999
 		1901~2155</pre>
-<div id="pager" v-pre></div>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -345,10 +348,10 @@ TIMESTAMP 比较特殊，`默认`的INSERT 或者UPDATE 会触发时间更新为
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
@@ -370,6 +373,9 @@ TIMESTAMP 比较特殊，`默认`的INSERT 或者UPDATE 会触发时间更新为
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>

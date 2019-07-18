@@ -32,11 +32,11 @@ const MD_URL='post/db/mysql-ddl-crud.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -48,9 +48,19 @@ const MD_URL='post/db/mysql-ddl-crud.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: mysql 查询
-date: 2019-01-02
-updated: 2019-01-02
+date: 2019-07-18
+updated: 2019-07-18
 ---
+# Result
+
+    | id | status |
+    +----+--------+
+    |  1 | A      |
+    update test5 set status = &#x27;A&#x27; where id = 1 and status != &#x27;B&#x27;
+
+返回affected row number 是[clientFoundRows]决定 matched还是changed?
+
+
 # database/table/column ddl crud
 
 ## database
@@ -772,7 +782,10 @@ Order by 需要放到group by 的后面做最后处理
 
     MariaDB [test]&gt; select * from (
         select id, num,if(@n=t.num,@count:=@count+1, @count:=1) as cnt,@n:=t.num from t
-    ) m where cnt &gt;=3;</pre>
+    ) m where cnt &gt;=3;
+
+# REF
+[clientFoundRows]: https://blog.wolfogre.com/posts/sql-tips/#%E6%8B%AC%E5%8F%B7%E9%87%8C%E7%9A%84%E6%95%B0%E5%AD%97-%E5%90%84%E7%A7%8D%E5%90%84%E6%A0%B7%E7%9A%84%E6%84%8F%E6%80%9D</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">

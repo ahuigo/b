@@ -49,7 +49,7 @@ const MD_URL='post/db/mysql-var.md';
 <pre id="markdown" v-pre>---
 title: mysql-datatype
 date: 2018-09-27
-updated: 2019-06-22
+updated: 2019-07-18
 ---
 # Data Type(数据类型)
 
@@ -117,6 +117,7 @@ What does the number in parenthesis mean?
 
 &gt; int(2) will generate an INT with minimum display width of 2. It&#x27;s up to mysql client.
 In most clients, if a colume specified with `INT(2) ZEROFILL`, the number 6 will be displayed as &#x27;06&#x27;.
+&gt; `DECIMAL(M,D)、FLOAT(M,D)、DOUBLE(M,D)` M是显示长度，D是可存的小数位数
 
 ### function
 
