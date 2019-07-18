@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-07-19T00:49:56Z</updated>
+<updated>2019-07-19T01:39:02Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
 <title>mysql-datatype</title>
@@ -381,9 +381,9 @@ struct 是值类型，slice 是引用类型(指针), 以下赋值方法是按值
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Git 命令大全</title>
 <link href="/b/git/git-" rel="alternate" type="text/html"/>
-<updated>2019-07-07T00:00:00Z</updated>
+<updated>2019-07-19T00:00:00Z</updated>
 <summary/>
-<published>2019-07-07T00:00:00Z</published>
+<published>2019-07-19T00:00:00Z</published>
 <content># Git 配置
 
 ## ConfigFile
@@ -476,35 +476,4 @@ https://medium.com/@ann.green/loading-indicators-e9d9ac9680b
 
 # Materia UI 
 https://materi</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>js dom file</title>
-<link href="/b/ria/js-dom-file" rel="alternate" type="text/html"/>
-<updated>2019-07-05T00:00:00Z</updated>
-<summary/>
-<published>2019-07-05T00:00:00Z</published>
-<content># Focus
-
-    var isFocused = (document.activeElement === dummyEl);
-    ele.focus()
-
-# FormData
-
-## i</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>py-func</title>
-<link href="/b/py/py-func" rel="alternate" type="text/html"/>
-<updated>2019-07-05T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># Preface
-
-函数式编程
-
-# call func
-getattr(foo, 'bar')()
-locals()['bar']()
-globals()['bar']()
-
-# include 头文件
-公共的东西(External 声明，定义)，可以放到头文件中：`*.h`, 可以被多次引用（其实跟`.</content>
 </entry></feed>
