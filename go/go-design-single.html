@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/index.md';
+const MD_URL='post/go/go-design-single.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO 的笔记</title>
+<title>Golang Singleton</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -46,52 +46,48 @@ const MD_URL='post/index.md';
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
-<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+<pre id="markdown" v-pre>---
+title: Golang Singleton
+date: 2019-04-29
+updated: 2019-07-19
+---
+# Golang Singleton
+Non thread Safe: instantiated share by thread, not atomic
 
-<ul>
-<li>2018-09-28 <a href="/b/py/py-http">py-http</a> </li>
-<li>2019-04-22 <a href="/b/go/gonic">gonic</a> </li>
-<li>2019-04-29 <a href="/b/go/go-design-single">Golang Singleton</a> </li>
-<li>2018-09-28 <a href="/b/py/py-debug">py-debug</a> </li>
-<li>2018-09-27 <a href="/b/db/mysql-var">mysql-datatype</a> </li>
-<li>2018-09-27 <a href="/b/arch/arch-docker">学习 docker</a> </li>
-<li>2018-09-27 <a href="/b/db/mysql-time">mysql-time</a> </li>
-<li>2019-07-19 <a href="/b/db/mysql-ddl-crud">mysql 查询</a> </li>
-<li>2018-10-04 <a href="/b/py/py-tcp">py-tcp</a> </li>
-<li>2018-10-04 <a href="/b/py/py-server">py-server</a> </li>
-<li>2018-09-28 <a href="/b/py/py-file-io">py-file-io</a> </li>
-<li>2018-09-28 <a href="/b/py/py-argv">py-argv</a> </li>
-<li>2019-07-19 <a href="/b/c/shell-redirect-fork2exec">linux 下的Fork 与 Exec</a> </li>
-<li>2019-07-19 <a href="/b/c/ops-expect">expect 键盘模拟</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-expr">js fuck</a> </li>
-<li>2019-06-23 <a href="/b/net/net-ssh-server">SSH SERVER 的配置</a> </li>
-<li>2018-10-04 <a href="/b/nginx/nginx-upstream">nginx 负载均衡</a> </li>
-<li>2018-03-01 <a href="/b/py/py-expr">Python 语法</a> </li>
-<li>2018-09-28 <a href="/b/py/py-expr-context">Python 的Context Managers</a> </li>
-<li>2018-09-28 <a href="/b/py/py-email">Python email处理</a> </li>
-<li>2011-11-11 <a href="/b/net/net-tcpip">tcp/ip 协议</a> </li>
-<li>2019-03-24 <a href="/b/go/go-struct">Golang 的结构体</a> </li>
-<li>2018-09-27 <a href="/b/go/9.go-str">golang string</a> </li>
-<li>2019-07-19 <a href="/b/go/19.go-time">go 的时间函数</a> </li>
-<li>2018-09-27 <a href="/b/go/13.go-pointer">Golang 指针</a> </li>
-<li>2012-07-08 <a href="/b/c/shell-time">GMT,UTC,DST,CST 各种时间标准</a> </li>
-<li>2019-07-19 <a href="/b/c/shell-expr">shell 表达式</a> </li>
-<li>2018-09-27 <a href="/b/db/postgre-index">Postgre 的索引</a> </li>
-<li>2018-09-27 <a href="/b/db/postgre-ddl-install">Postgre 安装\配置\管理</a> </li>
-<li>2014-03-05 <a href="/b/c/shell-">Shell 编程</a> </li>
-<li>2018-10-06 <a href="/b/ria/js-dom-file">js dom file</a> </li>
-<li>2018-10-10 <a href="/b/mac/mac-tool">mac 工具集</a> </li>
-<li>2018-09-27 <a href="/b/db/postgre-admin-user">Postgre User and Authentication</a> </li>
-<li>2019-07-19 <a href="/b/sec/security-account">安全的帐号设计</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-websocket">js 的websocket 笔记</a> </li>
-<li>2019-07-19 <a href="/b/ria/js-dom-html5">html5 笔记</a> </li>
-<li>2018-09-28 <a href="/b/py/py-debug-pdb">py-debug-pdb</a> </li>
-<li>2018-08-23 <a href="/b/course/im-live-p2p">关于直播的P2P架构</a> </li>
-<li>2018-10-08 <a href="/b/c/shell-var-env">shell 环境变量</a> </li>
-<li>2019-07-05 <a href="/b/py/py-var-dict">python 字典</a> </li>
-</ul>
-</div>
-<div id="pager"> p0 <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a></div>
+    //instantiated and single are private
+    type single struct {
+            O interface{};
+    }
+
+    var instantiated *single = nil
+
+    func New() *single {
+            if instantiated == nil {
+                    instantiated = new(single);
+            }
+            return instantiated;
+    }
+
+thread safe:
+
+    package singleton
+    import &quot;sync&quot;
+
+    type single struct {
+            O interface{};
+    }
+
+    var instantiated *single
+    var once sync.Once
+
+    func New() *single {
+            once.Do(func() {
+                    instantiated = &amp;single{}
+            })
+            return instantiated
+    }
+</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
