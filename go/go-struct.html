@@ -49,7 +49,7 @@ const MD_URL='post/go/go-struct.md';
 <pre id="markdown" v-pre>---
 title: Golang 的结构体
 date: 2019-03-24
-updated: 2019-07-13
+updated: 2019-07-19
 ---
 # Golang Notes: struct
 struct 是值类型，slice 是引用类型(指针), 以下赋值方法是按值的
@@ -116,6 +116,7 @@ partial copy struct
         *user.Password = &quot;1234&quot;
         *user.Username = &quot;johndoe&quot;
         fmt.Println(&quot;User :&quot;,user.Name, *user.Email, *user.Username, *user.Password)
+        //不复制 Email2
         copier.Copy(&amp;req, &amp;user)
         fmt.Println(&quot;RegistrationRequest :&quot;,req.Name, *req.Email, *req.Username, *req.Password)
     }

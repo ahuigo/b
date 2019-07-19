@@ -49,7 +49,7 @@ const MD_URL='post/db/postgre-ddl-install.md';
 <pre id="markdown" v-pre>---
 title: Postgre 安装\配置\管理
 date: 2018-09-27
-updated: 2019-07-07
+updated: 2019-07-19
 ---
 # Postgre 安装\配置\管理
     rpm -Uvh https://yum.postgresql.org/10/redhat/rhel-7-x86_64/pgdg-centos10-10-2.noarch.rpm
@@ -66,7 +66,10 @@ updated: 2019-07-07
 
 ## auth
 see db-user.md
-vim /var/lib/pgsql/data/pg_hba.conf
+
+    psql -U postgres -c &#x27;SHOW all&#x27; |grep hba_file
+    psql -U postgres -c &#x27;SHOW hba_file&#x27;
+    /usr/local/var/postgres/pg_hba.conf        | Sets the server&#x27;s &quot;hba&quot; configuration file.
 
 ## run
 
@@ -102,6 +105,7 @@ vim /var/lib/pgsql/data/pg_hba.conf
 show config 
 
     psql -U postgres -c &#x27;SHOW config_file&#x27;
+     /usr/local/var/postgres/postgresql.conf
 
 #### via args
 /lib/systemd/system/postgresql.service
