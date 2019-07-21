@@ -319,11 +319,10 @@ error类型本身就是一个预定义好的接口，里面定义了一个method
     import &quot;errors&quot;
     func main() {
         var err error = errors.New(&quot;this is a new error&quot;)
-        var EOF = errors.New(&quot;EOF&quot;)
-        fmt.Println(EOF.Error(), err.Error())
-            //EOF this is a new error
-        fmt.Println(EOF, err)
-            //EOF this is a new error
+        fmt.Println(err.Error())
+            //this is a new error
+        fmt.Println(err)
+            //this is a new error
     }
 
 ## 方式2： fmt.Errorf
@@ -409,6 +408,16 @@ error类型本身就是一个预定义好的接口，里面定义了一个method
 		fmt.Println(&quot;Calling g with &quot;, i)
 		g(i)
 		fmt.Println(&quot;Returned normally from g.&quot;)
+	}
+
+### panic map/object/...
+
+	func f() {
+		 defer func() {
+                fmt.Printf(&quot;map: %#v\n&quot;, recover())
+		 }()
+         m := map[string]int{&quot;key&quot;:1}
+         panic(m)
 	}
 
 ### multi panic 
