@@ -49,7 +49,7 @@ const MD_URL='post/go/9.go-str.md';
 <pre id="markdown" v-pre>---
 title: golang string
 date: 2018-09-27
-updated: 2019-07-19
+updated: 2019-07-21
 ---
 # rune vs byte
 
@@ -120,9 +120,19 @@ str to int, strconv.Atoi
     s := strconv.Itoa(-42)
     s := fmt.Sprintf(&quot;%v&quot;,-42)
 
-## hex parse
-`3132` to `12`
-`12` to `3132`
+## bytes to string
+go 的string 本身就是python 的bytes
+
+    &quot;中&quot; =&gt; []byte(&quot;中&quot;)
+    &quot;中&quot;[0] === []byte(&quot;中&quot;)[0]
+
+### encode bytes
+1. Encode(dst, src): `[]byte:&quot;12&quot;` to `&quot;[]byte:3132&quot;`:
+2. Decode: `[]byte:&quot;3132&quot;` to `[]byte(&quot;12&quot;)`:
+1. EncodeToString: `[]byte(&quot;12&quot;)` to `&quot;3132&quot;`:
+2. DecodeSttring: `&quot;3132&quot;` to `[]byte(&quot;12&quot;)`:
+
+encode/decode bytes example
 
     package main
 

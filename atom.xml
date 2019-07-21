@@ -2,9 +2,59 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-07-20T12:53:30Z</updated>
+<updated>2019-07-21T12:18:26Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Golang fmt</title>
+<link href="/b/go/6.go-fmt" rel="alternate" type="text/html"/>
+<updated>2019-07-21T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># fmt
+
+- Println : with newline
+- Print : without newline
+- Printf : format
+
+## Printf
+
+    fmt.Prin</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>golang pkg的使用</title>
+<link href="/b/go/2.go-pkg" rel="alternate" type="text/html"/>
+<updated>2019-07-21T00:00:00Z</updated>
+<summary/>
+<published>2016-09-27T00:00:00Z</published>
+<content># 结构
+1. 参考How to Write Go Code https://golang.org/doc/code.html
+
+2. 环境变量$ go env
+
+## workspace
+可以有多个</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Golang：Array and slice</title>
+<link href="/b/go/10.go-slice-array" rel="alternate" type="text/html"/>
+<updated>2019-07-21T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># array vs slice
+1. An array has fixed size, `[N]T`
+2. a slice is a dynamically-sized. `[]T` 
+3. sli</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Postgre User and Authentication</title>
+<link href="/b/db/postgre-ddl-user" rel="alternate" type="text/html"/>
+<updated>2019-07-21T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># help
+    \h alter
+    ALTER ROLE name RENAME TO new_name
+
+# Postgre User and Authentication
+    ps</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>help</title>
 <link href="/b/py/py-db-postgre" rel="alternate" type="text/html"/>
 <updated>2019-07-20T00:00:00Z</updated>
@@ -92,7 +142,7 @@ Non thread Safe: instantiated share by thread, not atomic
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>golang string</title>
 <link href="/b/go/9.go-str" rel="alternate" type="text/html"/>
-<updated>2019-07-19T00:00:00Z</updated>
+<updated>2019-07-21T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># rune vs byte
@@ -323,7 +373,7 @@ struct 是值类型，slice 是引用类型(指针), 以下赋值方法是按值
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Golang 指针</title>
 <link href="/b/go/13.go-pointer" rel="alternate" type="text/html"/>
-<updated>2019-07-13T00:00:00Z</updated>
+<updated>2019-07-21T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># Pointers
@@ -430,58 +480,4 @@ https://medium.com/@ann.green/loading-indicators-e9d9ac9680b
 
 # Materia UI 
 https://materi</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>js dom file</title>
-<link href="/b/ria/js-dom-file" rel="alternate" type="text/html"/>
-<updated>2019-07-05T00:00:00Z</updated>
-<summary/>
-<published>2019-07-05T00:00:00Z</published>
-<content># Focus
-
-    var isFocused = (document.activeElement === dummyEl);
-    ele.focus()
-
-# FormData
-
-## i</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>py-func</title>
-<link href="/b/py/py-func" rel="alternate" type="text/html"/>
-<updated>2019-07-05T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># Preface
-
-函数式编程
-
-# call func
-getattr(foo, 'bar')()
-locals()['bar']()
-globals()['bar']()
-
-## access </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>js 的函数</title>
-<link href="/b/ria/js-func" rel="alternate" type="text/html"/>
-<updated>2019-07-03T00:00:00Z</updated>
-<summary/>
-<published>2017-07-11T00:00:00Z</published>
-<content># async
-## generator
-    function* foo() {
-        yield 11
-        return 22;//没用
-    }
-    f=foo()</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>css 布局</title>
-<link href="/b/ria/js-css-layout" rel="alternate" type="text/html"/>
-<updated>2019-07-03T00:00:00Z</updated>
-<summary/>
-<published>2018-03-03T00:00:00Z</published>
-<content># CSS 布局
-&gt; 参考: http://zh.learnlayout.com/position.html
-
-# display
-1. block: This makes the element a</content>
 </entry></feed>
