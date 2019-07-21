@@ -2,9 +2,32 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-07-21T14:03:01Z</updated>
+<updated>2019-07-21T20:36:23Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>go str</title>
+<link href="/b/go/go-str-serial" rel="alternate" type="text/html"/>
+<updated>2019-07-21T00:00:00Z</updated>
+<summary/>
+<published>2019-05-06T00:00:00Z</published>
+<content># go json
+
+## encode marshal bytes
+
+    import "encoding/json"
+    type response2 struct {
+        P</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>map</title>
+<link href="/b/go/7.go-var-map" rel="alternate" type="text/html"/>
+<updated>2019-07-21T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># map
+
+## define map
+键必须是⽀支持相等运算符 (==、!=) 类型，⽐比如 number、string、 pointer、array、struct，以及对应的 interface</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Golang func</title>
 <link href="/b/go/16.go-func" rel="alternate" type="text/html"/>
 <updated>2019-07-21T00:00:00Z</updated>
@@ -36,13 +59,11 @@ https://yq.aliy</content>
 <published>2018-09-27T00:00:00Z</published>
 <content># fmt
 
-- Println : with newline
-- Print : without newline
-- Printf : format
+- fmt.Println : space, with newline
+- fmt.Print : without newline
+- fmt.Printf : format
 
-## Printf
-
-    fmt.Prin</content>
+prin</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>golang pkg的使用</title>
 <link href="/b/go/2.go-pkg" rel="alternate" type="text/html"/>
@@ -455,33 +476,4 @@ struct 是值类型，slice 是引用类型(指针), 以下赋值方法是按值
 https://www.zhihu.com/question/20188973/answer/142225168
 论文神网站
 https://www.zhihu.com/</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Shell 编程</title>
-<link href="/b/c/shell-" rel="alternate" type="text/html"/>
-<updated>2019-07-13T00:00:00Z</updated>
-<summary/>
-<published>2014-03-05T00:00:00Z</published>
-<content># Shell Programming
-Shell 编程笔记
-
-# Signal, 信号(trap)
-Refer to:
-http://billie66.github.io/TLCL/book/zh/</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>ops-init</title>
-<link href="/b/c/ops-init" rel="alternate" type="text/html"/>
-<updated>2019-07-07T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Preface
-
-# init
-
-## init
-init指linux 系统运行级runlevel 0~6. 可在/etc/inittab中指定:
-
-	id:3:initdefault:
-
-
-##</content>
 </entry></feed>

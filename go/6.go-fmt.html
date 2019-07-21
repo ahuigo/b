@@ -53,9 +53,13 @@ updated: 2019-07-21
 ---
 # fmt
 
-- Println : with newline
-- Print : without newline
-- Printf : format
+- fmt.Println : space, with newline
+- fmt.Print : without newline
+- fmt.Printf : format
+
+print to err:
+1. print      prints all arguments; formatting of arguments is implementation-specific
+2. println    like print but prints spaces between arguments and a newline at the end
 
 ## Printf
 
