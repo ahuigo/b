@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/p/p2.md';
+const MD_URL='post/arch/arch-oss.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO 的笔记</title>
+<title>Aliyun oss</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -46,45 +46,107 @@ const MD_URL='post/p/p2.md';
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
-<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+<pre id="markdown" v-pre>---
+title: Aliyun oss
+date: 2019-04-17
+updated: 2019-07-21
+---
+# oss
+OSS开源工具ossutil-增量上传: 
+https://yq.aliyun.com/articles/601447
 
-<ul>
-<li>2018-10-04 <a href="/b/ria/js-math">JS Math</a> </li>
-<li>2017-07-11 <a href="/b/ria/js-func">js 的函数</a> </li>
-<li>2017-12-12 <a href="/b/ria/js-css">CSS 笔记</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-css-font">font</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-array">Js Array 整理</a> </li>
-<li>2018-10-04 <a href="/b/py/py-process">py-process</a> </li>
-<li>2018-09-27 <a href="/b/eng/eng-spoken">eng-spoken</a> </li>
-<li>2018-09-27 <a href="/b/eng/eng-punctuation">english punctuation</a> </li>
-<li>2018-09-27 <a href="/b/db/postgre-crud">Postgre CRUD</a> </li>
-<li>2014-05-10 <a href="/b/code/code-character">字符编码简介</a> </li>
-<li>2019-06-04 <a href="/b/c/ops-process">linux 之进程</a> </li>
-<li>2015-07-13 <a href="/b/c/as-elf">ELF 文件格式</a> </li>
-<li>2019-05-29 <a href="/b/vim/vim-edit">Vim Edit</a> </li>
-<li>2019-05-29 <a href="/b/vim/vim-visual">Vim visual</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-help">vim-help</a> </li>
-<li>2019-05-29 <a href="/b/vim/vim-guide">Vim Guide</a> </li>
-<li>2019-05-29 <a href="/b/c/shell-zsh">shell 终端使用技巧</a> </li>
-<li>2019-06-04 <a href="/b/vim/vim-notes">vim 笔记</a> </li>
-<li>2019-06-17 <a href="/b/vim/vim-motion">vim-motion</a> </li>
-<li>2018-09-28 <a href="/b/py/py-db-postgre">help</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-ajax-cors">ajax cors</a> </li>
-<li>2019-07-18 <a href="/b/c/ops-curl">curl manual</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-promise">JS Promise</a> </li>
-<li>2019-07-13 <a href="/b/ria/js-obj">js notes</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-debug-exception">try-catch</a> </li>
-<li>2019-05-12 <a href="/b/ria/react-webpack-babel">How to set up React, webpack, and Babel 7 from scratch</a> </li>
-<li>2019-05-23 <a href="/b/ria/react-framework">react framework</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-css-less">js-css-less</a> </li>
-<li>2019-03-08 <a href="/b/py/py-async-cpu">does-a-thread-waiting-on-io-also-block-a-core?</a> </li>
-<li>2019-03-02 <a href="/b/db/redis-cache">cache 穿透问题</a> </li>
-<li>2019-02-28 <a href="/b/algorithm/algo-str-search">字符串搜索算法KMP</a> </li>
-<li>2018-09-28 <a href="/b/net/net-proxy-socks">net-socks</a> </li>
-<li>2019-02-20 <a href="/b/algorithm/list-copy">Copy List with Random Pointer</a> </li>
-</ul>
-</div>
-<div id="pager"> <a href="/b/index">p0</a> <a href="/b/p/p1">p1</a> p2</div>
+OSS开源工具ossutil-并发
+https://yq.aliyun.com/articles/620574 ossutil 使用了并发
+
+python3 版的多进程并发：
+
+```python
+import oss2
+import os
+from oss2.api import Bucket
+from pathlib import Path
+from multiprocessing import Pool
+import functools
+
+&quot;&quot;&quot;
+Example:
+bucket = Oss2Bucket(oss[&#x27;AccessKeyId&#x27;], oss[&#x27;AccessKeySecret&#x27;], oss[&#x27;EndPoint&#x27;], bucket_name)
+bucket.download_from_cloud(remote_dir, local_dir)
+&quot;&quot;&quot;
+class Oss2Bucket(Bucket):
+    def __init__(self, AccessKeyId, AccessKeySecret, EndPoint, bucket_name):
+        auth = oss2.Auth(AccessKeyId, AccessKeySecret)
+        super().__init__(auth, EndPoint, bucket_name)
+
+    &quot;&quot;&quot;
+    oss 文件夹上传
+    &quot;&quot;&quot;
+    def upload_to_cloud(bucket, local_dir, remote_dir, pool_num=30, chunksize=100):
+        local_dir = Path(local_dir)
+        remote_dir = Path(remote_dir)
+        try:
+            filelist = bucket.get_local_filelist(local_dir)
+            pool = Pool(pool_num)
+            pool.map(functools.partial(bucket.upload_file, local_dir, remote_dir), filelist, chunksize=chunksize)
+        except Exception as err:
+            raise Exception(&quot;Upload {} to oss failed remote_dir: {}, local_dir: {}&quot;.format(err, remote_dir, local_dir))
+
+
+    &quot;&quot;&quot;
+    oss 文件夹下载(默认30进程)
+    &quot;&quot;&quot;
+    def download_from_cloud(bucket, remote_dir, local_dir, pool_num=30, chunksize=100):
+        try:
+            filelist = bucket.get_cloud_filelist(remote_dir)
+            pool = Pool(pool_num)
+            pool.map(functools.partial(bucket.download_file, remote_dir, local_dir), filelist, chunksize=chunksize)
+            
+        except Exception as err:
+            raise Exception(&quot;Download {} to oss failed {}&quot;.format(os.path.basename(remote_dir), err))
+
+    &quot;&quot;&quot;
+    get local filelist
+    &quot;&quot;&quot;
+    def get_local_filelist(self, local_dir):
+        for local_file in local_dir.glob(&#x27;**/*.*&#x27;):
+            yield local_file
+
+    &quot;&quot;&quot;
+    upload_file
+    &quot;&quot;&quot;
+    def upload_file(bucket, local_dir, remote_dir, local_file):
+        remote_file = remote_dir/local_file.relative_to(local_dir)
+        bucket.put_object_from_file(str(remote_file), str(local_file))
+
+    &quot;&quot;&quot;
+    get_cloud_filelist
+    &quot;&quot;&quot;
+    def get_cloud_filelist(bucket, remote_dir):
+        remote_dir = remote_dir.strip(&#x27;/&#x27;)+&#x27;/&#x27;
+        read_dir = True
+        next_marker = False
+        while read_dir:
+            bl = bucket.list_objects(remote_dir, marker=next_marker, max_keys=1000)
+            next_marker = bl.next_marker
+            for remote_file in bl.object_list:
+                if not remote_file.key.endswith(&#x27;/&#x27;):
+                    yield remote_file.key
+            read_dir = next_marker
+
+    &quot;&quot;&quot;
+    download file
+    &quot;&quot;&quot;
+    def download_file(bucket, remote_dir, local_dir, remote_file):
+            local_file = Path(local_dir)/Path(remote_file).relative_to(remote_dir)
+            if not local_file.parent.exists():
+                try:
+                    os.makedirs(str(local_file.parent))
+                except:
+                    print(&quot;Create dir: %s failed&quot; % str(local_file.parent))
+            bucket.get_object_to_file(str(remote_file), str(local_file))
+
+```</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
