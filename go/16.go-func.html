@@ -32,11 +32,11 @@ const MD_URL='post/go/16.go-func.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,20 +49,25 @@ const MD_URL='post/go/16.go-func.md';
 <pre id="markdown" v-pre>---
 title: Golang func
 date: 2018-09-27
-updated: 2019-01-07
+updated: 2019-07-21
 ---
-# Golang func
-func 是func-value
+# define func
+1. 不支持嵌套nested, 重载overload 和 
+2. 不支持默认参数default parameter
+3. 支持不定长变参数
+4. 多返回值
+5. 支持命名返回参数
+6. 支持匿名函数和闭包
 
-# Function Closures
+## Function Closures
 https://stackoverflow.com/questions/21961615/why-doesnt-go-allow-nested-function-declarations-functions-inside-functions
 
-直接定义inner function 是不行的, 除了匿名函数随便生成：
+直接定义inner function(nested) 是不行的, 除了匿名函数随便生成：
 
     inc := func(x int) int { return x+1; }
     return func(x int) int { return x+1; }
 
-A closure is a function value that references variables from outside its body.
+A closure example
 
 	func adder() func(int) int {
 		sum := 0
@@ -82,17 +87,62 @@ A closure is a function value that references variables from outside its body.
 		}
 	}
 
-## number of arguments, 不定参数
+### 匿名函数是变量funcVal 对象
+    // --- func as slice ----
+    fns := [](func(x int) int){
+        func(x int) int { return x + 1 },
+        func(x int) int { return x + 2 },
+    }
+    fns[0](100)
+
+
+    // --- function as field ---
+    d := struct {
+        fn func() string
+    }{
+        fn: func() string { return &quot;Hello, World!&quot; },
+    }
+    println(d.fn())
+
+    // --- channel of function ---
+    fc := make(chan func() string, 2)
+    fc &lt;- func() string { return &quot;Hello, World!&quot; }
+    println((&lt;-fc)())
+
+闭包复制的是原对象指针，这就很容易解释延迟引⽤用现象。
+
+    //x 不会被回收, 它属于回调函数的空间
+    func test() func() {
+        x := 100
+        fmt.Printf(&quot;x (%p) = %d\n&quot;, &amp;x, x)
+        return func() {
+            fmt.Printf(&quot;x (%p) = %d\n&quot;, &amp;x, x)
+    } 
+    func main() {
+        f := test()
+        // x 是闭包引用过来的
+        f() 
+    }
+
+匿名函数实际上在汇编层FuncVal 对象, 其中包含了匿名函数地址、闭包对象指 针。当调⽤用匿名函数时，只需以某个寄存器传递该对象即可。
+
+    FuncVal { func_address, closure_var_pointer ... }
+
+## multi Parameters(变参)
+变参其实是一个slice: []int
+
+	//func sum(nums... int) 
 	func sum(nums ...int) {
 	    fmt.Printf(&quot;%T&quot;,nums)  //slice = []int{1, 2, 3)
 	}
+    s:=[]int{1,2,3}
+	sum(s...)
 	sum(1, 2, 3)
 
-any type: interface{}
+any type: interface{} , `$ godoc fmt Printf`
 
 	func Statusln(a ...interface{})
 	a := []interface{}{&quot;hello&quot;, &quot;world&quot;, 42}
-
 
 ## Multiple results
 A function can return any number of results.
@@ -103,9 +153,34 @@ A function can return any number of results.
 	a, b := swap(&quot;hello&quot;, &quot;world&quot;)
 	a, _ := swap(&quot;hello&quot;, &quot;world&quot;)
 
+multi return 不能赋值为单值，但是可以传给变参
+
+    // error
+	a := swap(&quot;hello&quot;, &quot;world&quot;)
+
+    func(x,y string){
+        println(x,y)
+    }(swap(&quot;a&quot;,&quot;b&quot;))
+
+    func(args ...string){
+        println(args[0],args[1])
+    }(swap(&quot;a&quot;,&quot;b&quot;))
+
+传多值时，就不能变参与形参混用了, 报: multiple-value in sigle-value context error
+不传多值时，就可以混用
+
+    func(z int,x,y string){
+        println(z,x,y)
+    }(swap(1, &quot;a&quot;,&quot;b&quot;))
+
+    func(z int, args ...string){
+        println(z, args[0],args[1])
+    }(swap(2, &quot;a&quot;,&quot;b&quot;))
+
+
+
 ### Named return values
 A return statement `without` arguments returns the `named return values`.
-This is known as a `&quot;naked&quot;` return.
 
 	func split(sum int) (x, y int) {
 		x = sum * 4 / 9
@@ -115,19 +190,56 @@ This is known as a `&quot;naked&quot;` return.
     x,y:=split(17)
 	fmt.Println(split(17))
 
-## Short variable declarations
-Inside a function, the `:=` short assignment statement can be used in place of `a var declaration` with `implicit type`.
-&gt; Outside a function, every statement begins with a `keyword (var, func, and so on)` and so the `:=` construct is not available.
+Named value redeclared error:
 
-	func main() {
-		var i, j int = 1, 2
-		k := 3
-		c, python, java := true, false, &quot;no!&quot;
+    func add(x, y int) (z int) { 
+        var z=x+y   //z redeclared
+        return z
+    }
+    func main() {
+        println(add(1, 2))
+    }
 
-		fmt.Println(i, j, k, c, python, java)
-	}
+### defer 修改返回值
+    func add(x, y int) (z int) {
+        defer func() { z += 100 }()
+        z=x+y
+        return 
+    }
+    func main() {
+        println(add(1, 2))
+    }
 
-# Methods
+或者return 直接修改：
+
+    func add(x, y int) (z int) {
+        defer func() {
+            println(z) // 输出: 203
+        }()
+        z=x+y return z + 200
+    }
+    func main() {
+        println(add(1, 2)) // 执⾏行顺序: (z = z + 200) -&gt; (call defer) -&gt; (ret)
+    }
+
+
+## func is value
+    func test(fn func() int) int {
+        return fn()
+    }
+    type FormatFunc func(s string, x, y int) string // 定义函数类型。
+    func format(fn FormatFunc, s string, x, y int) string {
+        return fn(s, x, y)
+    }
+    func main() {
+        s1 := test(func() int { return 100 })
+        s2 := format(func(s string, x, y int) string {
+            return fmt.Sprintf(s, x, y)
+        }, &quot;%d, %d&quot;, 10, 20)
+        println(s1, s2)
+    }
+
+# Methods(struct)
 Go does not have classes. However, you can define methods with a special receiver argument.
 The receiver appears in its `own argument list` between the `func keyword` and the `method name`.
 
@@ -184,28 +296,12 @@ If you wanna change receivers, use pointer pls.
 
 	func main() {
 		v := Vertex{3, 4}
-		v.Scale(10)
+		v.Scale(10)     //30,40
 		fmt.Println(v.Abs())
 	}
 
 ### pointer as arg
-
-	func Abs(v )
-	Abs(&amp;v)
-
-since the Scale method has a pointer receiver and `v is not pointer`
-
-	var v Vertex
-	v.Scale(5)  // OK. as (&amp;v).Scale(5) since the Scale method has a pointer receiver.
-	p := &amp;v
-	p.Scale(10) // OK
-
-the method call `p.Abs()` is interpreted as `(*p).Abs()`.
-
-	var v Vertex
-	fmt.Println(v.Abs()) // OK
-	p := &amp;v
-	fmt.Println(p.Abs()) // OK interpreted as `(*p).Abs()`.
+`p.Abs()` 和 `(*p).Abs()`等价，是传值还是指针完全看定义
 
 # Errors
 The error type is a built-in interface similar to fmt.Stringer:
@@ -215,18 +311,18 @@ error类型本身就是一个预定义好的接口，里面定义了一个method
 	    Error() string
 	}
 
-	nil
-	io.EOF
+	err=nil
+	err=io.EOF
 
 ## 方式1：errrors.New
 
     import &quot;errors&quot;
     func main() {
         var err error = errors.New(&quot;this is a new error&quot;)
-        var EOF = errors.New(&quot;EOF&quot;)
-        fmt.Println(EOF.Error(), err.Error())
-        fmt.Println(EOF, err)
-
+        fmt.Println(err.Error())
+            //this is a new error
+        fmt.Println(err)
+            //this is a new error
     }
 
 ## 方式2： fmt.Errorf
@@ -259,21 +355,42 @@ error类型本身就是一个预定义好的接口，里面定义了一个method
 		}
 	}
 
-# 参数
+# defer+panic 延迟调用
 
-## 默认参数, Optional Parameters
-    func foo(params ...int) {
-        fmt.Println(len(params))
+    func test() error {
+        f, err := os.Create(&quot;test.txt&quot;)
+        if err != nil { return err }
+        defer f.Close()
+        f.WriteString(&quot;Hello, World!&quot;)
+        return nil 
     }
 
+多个defer 遵守FILO 规则(类似于python decorator的机制)，在调用返回ret 前执行
+
+    func test(x int) {
+        defer println(&quot;c&quot;)
+        defer println(&quot;b&quot;)
+        defer func() {
+            println(100 / x) // div0 异常未被捕获，逐步往外传递，最终终⽌止进程。
+        }()
+        defer println(&quot;a&quot;)
+    }
     func main() {
-        foo()
-        foo(1)
-        foo(1,2,3)
+        test(0)
     }
+    // output: a b c
+    panic: runtime error: integer divide by zero
 
-# Panic
-相当于 php 的 die, 但是可以通过 defer 被 recovery 捕获:
+## Panic
+参考：https://ieevee.com/tech/2017/11/23/go-panic.html 所述
+1. panic有操守，退出前会执行本goroutine的defer，方式是原路返回(reverse order)
+2. panic不多管，不是本goroutine的defer，不执行
+3. 注意recover:
+   1. 只在defer的函数中有效, 不是在refer上下文中调用，recover会直接返回nil
+   1. recover 会清空panic，再调用recover会得到返回nil
+   1. 多次调用panic 会覆盖上次
+
+相当于 throw exception, 可以通过 defer 被 recovery 捕获:
 
 	func g(i int) {
 		 fmt.Println(&quot;Panic!&quot;)
@@ -282,16 +399,61 @@ error类型本身就是一个预定义好的接口，里面定义了一个method
 
 	func f() {
 		 defer func() {
-				 if r := recover(); r != nil {
-						 fmt.Println(&quot;Recovered in f&quot;, r)
-				 }
+            if r := recover(); r != nil {
+                fmt.Println(&quot;Recovered in f&quot;, r)
+            }
 		 }()
 
 		i := 10
 		fmt.Println(&quot;Calling g with &quot;, i)
 		g(i)
 		fmt.Println(&quot;Returned normally from g.&quot;)
-	}</pre>
+	}
+
+### panic map/object/...
+
+	func f() {
+		 defer func() {
+                fmt.Printf(&quot;map: %#v\n&quot;, recover())
+		 }()
+         m := map[string]int{&quot;key&quot;:1}
+         panic(m)
+	}
+
+### multi panic 
+只有最后一个被捕获: panic2 会覆盖前面的panic1
+
+    func test() {
+        defer func() {
+            fmt.Println(recover())
+            println(&quot;test panic3&quot;)
+        }()
+        defer func() {
+            panic(&quot;test panic2&quot;)
+        }()
+        panic(&quot;test panic1&quot;)
+    }
+    func main() {
+        test()
+    }
+    输出:
+    defer panic
+
+## recover
+recover 只有在延迟`defer 函数调⽤`内直接调⽤用才会清空panic, 终止goroutine 错误
+
+由于 panic、recover 参数类型为 interface{}，因此可抛出任何类型对象。
+
+    func panic(v interface{})
+    func recover() interface{}
+
+重复recover
+
+    defer func() {
+        fmt.Printf(&quot;Recovered in f: %#v\n&quot;,recover())
+        fmt.Printf(&quot;Recovered in f: %#v\n&quot;,recover()) //nil
+    }
+    panic(&quot;panic error!&quot;)</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">

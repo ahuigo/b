@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/go/7.go-var-map.md';
+const MD_URL='post/go/go-design-single.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>map</title>
+<title>Golang Singleton</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -47,125 +47,46 @@ const MD_URL='post/go/7.go-var-map.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: map
-date: 2018-09-27
-updated: 2019-07-21
+title: Golang Singleton
+date: 2019-04-29
+updated: 2019-07-19
 ---
-# map
+# Golang Singleton
+Non thread Safe: instantiated share by thread, not atomic
 
-## define map
-键必须是⽀支持相等运算符 (==、!=) 类型，⽐比如 number、string、 pointer、array、struct，以及对应的 interface。值可以是任意类型，没有限制。
-
-### make map
-
-    m := make(map[string]int) //使用make创建一个空的map
-    b := make(map[int]byte); // map 支持动态 allocate 扩容,而普通的slice 则必须指定 len
-
-    m[&quot;one&quot;] = 1
-    m[&quot;two&quot;] = 2
-    m[&quot;three&quot;] = 3
-
-    fmt.Println(m) //输出 map[three:3 two:2 one:1] (顺序在运行时可能不一样)
-    fmt.Println(len(m)) //输出 3
-
-    v := m[&quot;two&quot;] //从map里取值
-    fmt.Println(v) // 输出 2
-
-### init map(可以扩容)
-
-    m1 := map[string]int{&quot;one&quot;: 1, &quot;two&quot;: 2, &quot;three&quot;: 3}
-    fmt.Println(m1) //输出 map[two:2 three:3 one:1] (顺序在运行时可能不一样)
-
-struct map:
-
-    var m = map[string]Vertex{
-    	&quot;Bell Labs&quot;: {40.68433, -74.39967},
-    	&quot;Google&quot;:    Vertex{37.42202, -122.08408},
+    //instantiated and single are private
+    type single struct {
+            O interface{};
     }
 
-init with variable key:
+    var instantiated *single = nil
 
-    type T string
-    const (
-       A T = &quot;key1&quot;
-       B T = &quot;key2&quot;
-    )
-    var m = map[T]int{
-        A:2,
-        B:3,
+    func New() *single {
+            if instantiated == nil {
+                    instantiated = new(single);
+            }
+            return instantiated;
     }
-    fmt.Printf(&quot;%#v\n&quot;, m)  //Speak
 
-## nil map(不能扩容)
-The `zero` value of a map is `nil`. A `nil` map has no keys, nor can keys be added.
+thread safe:
 
-  var m map[string]int
-  fmt.Println(m==nil); //true
-  fmt.Printf(&quot;%#v\n&quot;, m)
-    //map[string]int(nil)
+    package singleton
+    import &quot;sync&quot;
 
-  m=make(map[string]int)
-  fmt.Println(m==nil); //false
-  fmt.Printf(&quot;%#v\n&quot;, m)
-    // map[string]int{}
-
-## add
-    m[&quot;new_key&quot;] = 1
-
-## get
-
-    elem := m[key] //key 不存在，默认是0
-
-### test
-
-  if elem, exists := m[key]; exists{
-
-  }
-
-## delete
-允许删除不存在的key 不报错
-
-    delete(m, &quot;two&quot;)
-    fmt.Println(m) //输出 map[three:3 one:1]
-
-## foreach
-
-    for key := range m1{
-        fmt.Printf(&quot;%s \n&quot;, key)
+    type single struct {
+            O interface{};
     }
-    for key, val := range m1{
-        fmt.Printf(&quot;%s =&gt; %d \n&quot;, key, val)
+
+    var instantiated *single
+    var once sync.Once
+
+    func New() *single {
+            once.Do(func() {
+                    instantiated = &amp;single{}
+            })
+            return instantiated
     }
-}
-
-可以在迭代时安全删除键值。但如果期间有新增操作，那么就不知道会有什么意外了。
-
-        m := map[int]string{
-            0:  &quot;a&quot;, 1:  &quot;a&quot;, 2:  &quot;a&quot;, 3:  &quot;a&quot;, 4:  &quot;a&quot;,
-            5:  &quot;a&quot;, 6:  &quot;a&quot;, 7:  &quot;a&quot;, 8:  &quot;a&quot;, 9:  &quot;a&quot;,
-        }
-        for k := range m {
-            m[k+k] = &quot;x&quot;
-            delete(m, k)
-        }
-        //output: map[12:x 16:x 20:x 28:x 36:x]
-
-## update
-get的value 是临时复制的，应该
-
-    u := m[1]       //copy value
-    u.name = &quot;Tom&quot;  
-    m[1] = u        // 替换 value。
-
-或者用指针直接修改
-
-    m2 := map[int]*user{
-        1: &amp;user{&quot;user1&quot;},
-    }
-    m2[1].name = &quot;Jack&quot;
-
-# 参考
-- 雨痕的golang 笔记第四版</pre>
+</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">

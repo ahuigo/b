@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/go/10.go-slice-array.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>Golang：Array and slice</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: Golang：Array and slice
+date: 2018-09-27
+updated: 2019-07-21
+---
+# array vs slice
+1. An array has fixed size, `[N]T`
+2. a slice is a dynamically-sized. `[]T` 
+3. slice assign/pass-arguments is Reference, point to original slice but not array
+
+array:
+
+    [N]Type
+    [N]Type{value1, value2, ..., valueN}
+    [...]Type{value1, value2, ..., valueN}
+
+    [5]int{2: 100, 4:200} //指定索引号,len=cap=5
+    [2][3]int{{1, 2, 3}, {4, 5, 6}}
+    [...][2]int{{1, 1}, {2, 2}, {3, 3}} 
+
+slice: 
+
+    make([]Type, length, capacity)
+    make([]Type, length)
+    []Type{}
+    []Type{value1, value2, ..., valueN}
+
+array(slice1,slice2,....):
+
+    [...][]int{{1, 1}, {2, 2}, {3, 3}}
+
+# Arrays
+The type `[n]T` is an array of `n` values of type `T`
+
+    var a [10]int           //0,0,0,0,0....
+    var a [2]string         //&quot;&quot;,&quot;&quot;,&quot;&quot;,...
+	primes := [30]int{2, 3} //2,3,0,0,0..
+	fmt.Println(primes)
+
+也可以通过initial确定size:
+
+    b := [...]string{&quot;Penn&quot;, &quot;Teller&quot;}
+
+## array assign is not reference
+
+    a_copy := a
+
+## array pointer
+
+    x,y := 1, 2
+	var arr =  [...]int{5:2}
+	//数组指针
+	var pf *[6]int = &amp;arr
+
+	//指针数组
+	pfArr := [...]*int{&amp;x,&amp;y}
+	fmt.Println(pf)
+	fmt.Println(pfArr)
+
+# Slices
+slice 中的array 是C++隐式引用array:
+
+    struct Slice {
+        byte*    array;
+        uintgo   len;
+        uintgo   cap;
+    };
+
+len 读写不可以超过len: len = high-low
+cap 是可扩容的最大容量: cap = max-low
+
+    data := [...]int{0, 1, 2, 3, 4, 5, 6}
+    s := data[1:4:5]                      // [low : high : max]; max 默认是len(array)
+    println(len(s), cap(s))
+
+             +-low      high-+   +-max
+             |               |   |
+         +---+---+---+---+---+---+---+
+    data |  0|  1|  2|  3|  4|  5|  6| 
+         +---+---+---+---+---+---+---+ 
+             |&lt;--- len -----&gt;|   |
+             |&lt;----- cap -------&gt;|
+
+## create slice
+A nil slice has a length and capacity of 0 and has `no underlying array`(no pointer):
+但是常量 []int{}==nil 不成立，常量不是空指针nil
+
+    var s []int;
+
+    var s []int
+    if s == nil {
+        fmt.Println(s, len(s), cap(s))
+    }
+
+### slice of the init array :
+
+    s := []int{1,2,3,8:100} //len=9,cap=9
+
+### make slice:
+
+    s2 := make([]int, 6, 8)
+    fmt.Println(s2, len(s2), cap(s2))   //len=6,cap=8
+    s3 := make([]int, 6)
+    fmt.Println(s3, len(s3), cap(s3))   //len=6=cap
+    make([]int) //error
+
+### slice structs:
+
+    s := []struct {
+        i int
+        b bool
+    }{
+        {2, true},
+        {3, false},
+        {5, true},
+        {7, true},
+        {11, false},
+        {13, true},
+    }
+
+### slice literals is reference
+Array is not reference:
+
+	var a = [6]int{1,2,3}
+	b := a
+	b[0] = 100
+	fmt.Println(a,b);   // [1 2 3] [100 2 3]
+
+Slice is reference:
+
+	var a = []int{1,2,3}
+	b := a
+	b[0] = 100
+	fmt.Println(a,b);# [100 2 3] [100 2 3]
+
+
+## reslice
+len 限制了slice 读写，用reslice 创建新的slice 以便在cap 范围内读写：
+
+    s1 := []int{0,1,2,3,4,5,6,7,8,9}
+    s2 := s1[2:3:5]     //len=1,cap=3, {2}
+    s3 := s2[1:]        //{3,4}
+
+## join slice
+
+    :import strings
+    s := [2]string{&quot;hello&quot;, &quot;world&quot;}
+    strings.Join(s[:], &quot;,&quot;)
+
+## copy
+slice 和 array 类型不同不可以复制, 需要转一下array[:](这点与python不一样，py 会建立new array)
+
+### reference copy
+a,b 本身value是指针
+
+    a := []int{1,2,3}
+    b := make([]int,2) 
+    fmt.Printf(&quot;%p,%p\n&quot;, b,a)  //not same
+    b = a
+    fmt.Printf(&quot;%p,%p\n&quot;, b,a)  //same
+
+### copy slice
+len(src)&gt;len(dst) 会被golang 截断
+
+    //func copy(dst, src []T) int
+    t := make([]byte, len(s))
+    copy(t, s)
+    copy(arr[:], someSlice[0:4])
+
+### copy via append
+
+    s := append([]int{}, someSlice[0:2]...)
+    s := append([]int(nil), []int{1,4}...)    //type(nil) 转为空slice
+
+### copy generic via reflect
+
+    func CopySlice(s interface{}) interface{} {
+        t, v := reflect.TypeOf(s), reflect.ValueOf(s)
+        c := reflect.MakeSlice(t, v.Len(), v.Len())
+        reflect.Copy(c, v)
+        return c.Interface()
+    }
+    a := []int{4, 2}
+    b := CopySlice(a).([]int)
+
+
+## append slice
+
+    func append(s []T, x...T) []T
+
+新分配空间 append 会copy 并扩容
+
+    s2 = append(s,1,2) //s!=s2
+
+如果不分配空间就用:
+
+    copy(slice[len(s):], data)
+
+### append cap allocate
+If the backing array of `s` is too small to fit all the given values, a bigger array will be allocated(double cap).
+
+The returned slice will point to the newly allocated array.
+
+    var a = [3]int{1,2,3}
+    b := a[:];  # cap(b)=3
+    b = append(b,4,5);  # newcap(b)= 2cap(b) = 6 
+
+## range loop slice and array
+The `range` form the `for loop iterates` over a `array, slice, string or map`, or values received on a channel.
+
+    for i, v := range [2]int{1,2} {
+		fmt.Printf(&quot;index=%d, %d\n&quot;, i, v)
+	}
+
+&gt; range is not reference!
+
+### skip range index
+You can skip the index or value by assigning to _.
+
+    for _, v := range [2]int{1,2} {
+            fmt.Printf(&quot;2**%d = %d\n&quot;, _, v)
+        }
+
+skip value:
+
+    for index := range [2]int{1,2} {
+        println(index)
+    }
+
+## Memory
+Since a slice doesn&#x27;t make a copy of the underlying array. To decrease memory  memory, release the reference for array.
+
+    func copy(bigarray []int) []byte{
+        b = bigarray[2:3]
+        c := make([]byte, len(b))
+        copy(c, b)
+        return c
+    }</pre>
+<div id="pager"></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"><ol><li>笔记</li><ol></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

@@ -36,7 +36,7 @@ const MD_URL='post/py/py-http.md';
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,7 +49,7 @@ const MD_URL='post/py/py-http.md';
 <pre id="markdown" v-pre>---
 title: py-http
 date: 2018-09-28
-updated: 2019-03-06
+updated: 2019-07-19
 ---
 # Preface
 
@@ -114,7 +114,15 @@ dict + parse_qsl:
     &gt;&gt;&gt; sc[&#x27;key1&#x27;].value
 
 # Request
-http://docs.python-requests.org/en/latest/index.html
+
+## to_curl
+    import curlify
+    import requests
+
+    response = requests.get(&quot;http://google.ru&quot;)
+    print(curlify.to_curl(response.request))
+    print(curlify.to_curl(response.request), compressed=True)
+    # curl -X &#x27;GET&#x27; -H &#x27;Accept: */*&#x27; -H &#x27;Accept-Encoding: gzip, deflate&#x27; -H &#x27;Connection: keep-alive&#x27; -H &#x27;User-Agent: python-requests/2.18.4&#x27; --compressed &#x27;http://www.google.ru/&#x27;
 
 ## Non Block
 If you are concerned about the use of blocking IO, there are lots of projects out there that combine Requests with one of Python’s asynchronicity frameworks. Two excellent examples are grequests and requests-futures.
@@ -354,7 +362,7 @@ You can tell Requests to stop waiting for a response after a given number of sec
 	  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
 	requests.exceptions.Timeout: HTTPConnectionPool(host=&#x27;github.com&#x27;, port=80): Request timed out. (timeout=0.001)
 
-### Cookie
+## Cookie
 If a response contains some Cookies(instance of RequestsCookieJar), you can quickly access them:
 
 	&gt;&gt;&gt; r.cookies[&#x27;example_cookie_name&#x27;]
@@ -369,7 +377,7 @@ To send your own cookies to the server, you can use the cookies parameter:
     pickle.dumps(r1.cookies)
 	&gt;&gt;&gt; r2 = requests.post(&#x27;http://www.yourapp.com/somepage&#x27;,cookies=r1.cookies)
 
-#### requests.cookies.RequestsCookieJar() usage:
+### requests.cookies.RequestsCookieJar() usage:
 RequestsCookieJar
 
 	&gt;&gt;&gt; cookies.get(key)
@@ -384,7 +392,7 @@ RequestsCookieJar
     for cookie in cookies:
         print(cookie.domain, cookie.path, cookie.expires)
 
-#### cookie, http.cookiejar.Cookie
+### cookie, http.cookiejar.Cookie
 
     cookies.set(&#x27;key&#x27;, 123)
     cookie = http.cookiejar.Cookie( version=0, name=&#x27;a&#x27;, value=&#x27;b1&#x27;, port=None, port_specified=False, domain=&#x27;&#x27;, domain_specified=False, domain_initial_dot=False, path=&#x27;/&#x27;, path_specified=True, secure=False, expires=1507376934, discard=True, comment=None, comment_url=None, rest={&#x27;HttpOnly&#x27;: None}, rfc2109=False)

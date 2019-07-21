@@ -49,8 +49,107 @@ const MD_URL='post/go/9.go-str.md';
 <pre id="markdown" v-pre>---
 title: golang string
 date: 2018-09-27
-updated: 2019-07-19
+updated: 2019-07-21
 ---
+# rune vs byte
+
+    type byte uint8
+    type rune int32 //&#x27;a&#x27;
+
+    // is slice of read only bytes
+    type string []byte 
+    // is byte 
+    str[0]
+
+## rune
+单引号字符常量表  Unicode Code Point, 持 `\uFFFF、\U7FFFFFFF、\xFF` 格式。 对应 rune 类型,UCS-4。
+
+    var c1, c2 rune = &#x27;\u6211&#x27;, &#x27;们&#x27;
+    println(c1 == &#x27;我&#x27;, string(c2) == &quot;\xe4\xbb\xac&quot;)
+    &#x27;⌘&#x27; // is 0x2318.
+
+单引号其实就是: rune int32:
+
+    rune(&#x27;a&#x27;) == &#x27;a&#x27; == int32(&#x27;a&#x27;) == 97
+
+## byte(chr/ord)
+byte 其实是int8
+
+    fmt.Printf(&quot;%T,%T&quot;, byte(&#x27;a&#x27;),&#x27;a&#x27;, &quot;abc&quot;[0])
+    // uint8, int32, uint8
+
+### bytes2str
+
+    &gt; string([]byte{1,2,3})
+        &quot;\x01\x02\x03&quot;
+
+### str2bytes:
+method 1
+
+    []byte(s)
+
+method 2
+
+    import &quot;strings&quot;
+
+    b := make([]byte, 8);//buffer
+    r := strings.NewReader(&quot;0123&quot;)
+    n, err := r.Read(b) 
+        //if err == io.EOF 
+    println(b[:n]) 
+        //&quot;0123&quot; byte is uint8
+
+### chr ord
+
+    //chr
+    string(49) //&quot;1&quot;
+    //ord
+    &quot;1&quot;[0]
+
+## Int type parser
+### .Atoi
+str to int, strconv.Atoi
+
+    import &quot;strconv&quot;
+    if i, err := strconv.Atoi(&quot;123&quot;); err==nil{
+        fmt.Printf(&quot;%d&quot;,i)  //123
+    }
+
+### .Itoa
+
+    s := strconv.Itoa(-42)
+    s := fmt.Sprintf(&quot;%v&quot;,-42)
+
+## bytes to string
+go 的string 本身就是python 的bytes
+
+    &quot;中&quot; =&gt; []byte(&quot;中&quot;)
+    &quot;中&quot;[0] === []byte(&quot;中&quot;)[0]
+
+### encode bytes
+1. Encode(dst, src): `[]byte:&quot;12&quot;` to `&quot;[]byte:3132&quot;`:
+2. Decode: `[]byte:&quot;3132&quot;` to `[]byte(&quot;12&quot;)`:
+byte to string
+1. EncodeToString: `[]byte(&quot;12&quot;)` to `&quot;3132&quot;`:
+2. DecodeString: `&quot;3132&quot;` to `[]byte(&quot;12&quot;)`:
+
+encode/decode bytes example
+
+    package main
+
+    import (
+        &quot;encoding/hex&quot;
+        &quot;fmt&quot;
+        &quot;log&quot;
+    )
+
+    func main() {
+        decoded, err := hex.DecodeString(&quot;3132&quot;)
+        fmt.Printf(&quot;%s\n&quot;, decoded)
+        hex.EncodeToString([]byte(&quot;12&quot;))==&quot;3132&quot;
+    }
+
+
 # string
 
 ## inner pointer
@@ -82,31 +181,6 @@ string 本身为指针（值不可修改），
 ### here doc str
 
     str := `\n\r\b\\` //literal
-
-## rune vs byte
-
-    type byte uint8
-    type rune int32 //&#x27;a&#x27;
-
-    // is slice of read only bytes
-    type string []byte 
-
-### rune
-单引号字符常量表  Unicode Code Point, 持 `\uFFFF、\U7FFFFFFF、\xFF` 格式。 对应 rune 类型,UCS-4。
-
-    var c1, c2 rune = &#x27;\u6211&#x27;, &#x27;们&#x27;
-    println(c1 == &#x27;我&#x27;, string(c2) == &quot;\xe4\xbb\xac&quot;)
-    &#x27;⌘&#x27; // is 0x2318.
-
-单引号其实就是: rune int32:
-
-    rune(&#x27;a&#x27;) == &#x27;a&#x27; == int32(&#x27;a&#x27;) == 97
-
-### byte
-byte 其实是int8
-
-    fmt.Printf(&quot;%T,%T&quot;, byte(&#x27;a&#x27;),&#x27;a&#x27;, &quot;abc&quot;[0])
-    // uint8, int32, uint8
 
 ## loop string
 ### range rune
@@ -203,52 +277,13 @@ If no content, reurn `empty slice`
 # strconv
 
     fmt.Sprintf(&quot;%v&quot;, v)
-
-## .Atoi
-str to int, strconv.Atoi
-
-    import &quot;strconv&quot;
-    if i, err := strconv.Atoi(&quot;123&quot;); err==nil{
-        println(i)
-    }
-
-
-## .Itoa
-
-    s := strconv.Itoa(-42)
-    s := fmt.Sprintf(&quot;%v&quot;,-42)
-
-string
-
-    string(49) //&quot;1&quot;
-
-## bytes convert
-bytes2str
-
-    &gt; string([]byte{1,2,3})
-        &quot;\x01\x02\x03&quot;
-
-str2bytes:
-
-    // method 1
-    []byte(s)
-
-    // method 1
-    import &quot;strings&quot;
-
-    b := make([]byte, 8);//buffer
-    r := strings.NewReader(&quot;0123&quot;)
-    n, err := r.Read(b) 
-        //if err == io.EOF 
-    println(b[:n]) 
-        //&quot;0123&quot; byte is uint8
-    
-### io.Copy
+   
+## io.Copy Reader
 
 		io.Copy(os.Stdout, &amp;r)
-			调用r.Read(buf []byte)
+			实际调用r.Read(buf []byte)
 
-### wrap Read
+example:
 
 	import (
 		&quot;io&quot;
@@ -271,7 +306,7 @@ str2bytes:
 		io.Copy(os.Stdout, &amp;r)
 	}
 
-# operate string
+# String function
 ## trim
 
   strings.TrimSuffix(&quot;abc,&quot;, &quot;,&quot;)

@@ -49,7 +49,7 @@ const MD_URL='post/py/py-db-postgre.md';
 <pre id="markdown" v-pre>---
 title: help
 date: 2018-09-28
-updated: 2019-06-22
+updated: 2019-07-20
 ---
 # help
 http://initd.org/psycopg/docs/cursor.html
@@ -63,6 +63,8 @@ http://initd.org/psycopg/docs/cursor.html
     conn.set_session(readonly=True, autocommit=True)
     # cursor = conn.cursor()
     cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        row = cursor.fetchone()
+        row[0],row[&#x27;id&#x27;] 都可以
 
 ## cursor
 postgre 是用cusor 去执行+缓存数据
