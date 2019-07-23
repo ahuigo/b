@@ -49,7 +49,7 @@ const MD_URL='post/ria/js-css-layout.md';
 <pre id="markdown" v-pre>---
 title: css 布局
 date: 2018-03-03
-updated: 2019-07-03
+updated: 2019-07-23
 ---
 # CSS 布局
 &gt; 参考: http://zh.learnlayout.com/position.html
@@ -88,6 +88,19 @@ box 的 horizonal 水平居中
 img 会超出div范围, 可以用max-width 限制
 
     &lt;img style=&#x27;max-height: 100%; max-width: 100%; &#x27;/&gt; 
+
+# table
+https://css-tricks.com/almanac/properties/t/table-layout/
+
+    table-layout: fixed; //等宽效果: 
+
+## row
+    .topics tr { line-height: 14px; }
+## td
+    td{    
+        height: 14px; white-space: nowrap; 
+        width=&quot;pixels|%&quot;
+    }
 
 # 自适应
 ## 下拉菜单列表
