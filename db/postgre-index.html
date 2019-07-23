@@ -49,7 +49,7 @@ const MD_URL='post/db/postgre-index.md';
 <pre id="markdown" v-pre>---
 title: Postgre 的索引
 date: 2018-09-27
-updated: 2019-07-20
+updated: 2019-07-23
 ---
 # Postgre Index
 本文主要围绕postgre 总结一下索引, 参考：[PostgreSQL 9种索引的原理和应用场景](https://yq.aliyun.com/articles/111793)
@@ -98,6 +98,7 @@ create table constraint:
     );
 
 ### add index/constraint
+二者实质没啥区别
 add constraint 
 
     alter table t add CONSTRAINT uesrs_pkey PRIMARY KEY(id)
@@ -182,11 +183,17 @@ SERIAL 是自增
 ### foreign key
 为了保证 blogs 中的uid 一定存在于users中
 
-    create blogs(
+    create table blogs(
         uid INT references users(id),           -- 方法1
         FOREIGN KEY (uid) REFERENCES users(id), -- 方法2表级约束
         FOREIGN KEY (uid,name) REFERENCES users(id,name), -- 组合级约束
     )
+
+然后`\d users` 就会有：
+
+    &gt; \d users
+    Referenced by:
+        TABLE &quot;blogs&quot; CONSTRAINT &quot;blogs_uid_fkey&quot; FOREIGN KEY (uid) REFERENCES users(id)
 
 #### Delete strict
 如果不允许users 删除任何被其它表blogs 引用的记录, 直到所有引用行被删除, 可以使用 DELETE RESTRICT：
