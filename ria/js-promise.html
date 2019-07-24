@@ -49,8 +49,38 @@ const MD_URL='post/ria/js-promise.md';
 <pre id="markdown" v-pre>---
 title: JS Promise
 date: 2018-10-04
-updated: 2019-06-04
+updated: 2019-07-24
 ---
+# 递归promise
+Promise 是递归的，Reject 不是
+
+    const onResolved = e =&gt; console.log(&#x27;resolve , &#x27;, e );
+    const onRejected = e =&gt; console.log(&#x27;reject , &#x27;, e );
+
+    new Promise( ( resolve , reject ) =&gt; {
+        resolve( new Promise( ( resolve , reject ) =&gt; {
+            resolve(42);
+        } ) );
+    } ).then( onResolved , onRejected );
+
+    new Promise( ( resolve , reject ) =&gt; {
+        resolve( new Promise( ( resolve , reject ) =&gt; {
+            reject(42);
+        } ) );
+    } ).then( onResolved , onRejected );
+
+    new Promise( ( resolve , reject ) =&gt; {
+        reject( new Promise( ( resolve , reject ) =&gt; {
+            resolve(42);
+        } ) );
+    } ).then( onResolved , onRejected );
+
+    new Promise( ( resolve , reject ) =&gt; {
+        reject( new Promise( ( resolve , reject ) =&gt; {
+            reject(42);
+        } ) );
+    } ).then( onResolved , onRejected );
+
 # JS Promise
 实现异步串行写法
 1. generator
@@ -227,6 +257,13 @@ Promise.all()实现如下：
 1. then: async
 2. await: sync
 
+##
+    fetch(this.url, this.options).then(async (response) =&gt; {
+            throw (res)
+    }).catch(e =&gt; {
+        this.error(e.message || e, e);
+    })
+
 ## await catch data
 await 不能捕获exceptio/reject
 
@@ -349,7 +386,7 @@ e.g.:
 
 ## combine await/then/catch
 1. catch 不会向后面的 catch 传导, 但是会向后面的then 传值
-2. reject(r)、resolve(r) 不会终止函数，但是第一个r 会被promise 传给 catch/then
+2. reject(r)、resolve(r) 不会终止函数，但是第一个r 会被promise 传给 catch/then
 
 example:
 
