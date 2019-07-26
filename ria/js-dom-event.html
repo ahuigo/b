@@ -49,7 +49,7 @@ const MD_URL='post/ria/js-dom-event.md';
 <pre id="markdown" v-pre>---
 title: Event
 date: 2018-10-04
-updated: 2019-06-10
+updated: 2019-07-26
 ---
 # Event
 
@@ -158,6 +158,20 @@ Refer to : http://segmentfault.com/blog/jslite/1190000002465197
 
 	target.addEventListener(&#x27;click&#x27;, listener, false);
 	target.removeEventListener(&#x27;click&#x27;, listener, false);
+
+### remove all listener:
+
+    var el = document.getElementById(&#x27;el-id&#x27;),
+        elClone = el.cloneNode(true);
+
+    el.parentNode.replaceChild(elClone, el);
+
+or:
+
+    window.addEventListener(type, function (event) {
+        event.stopPropagation();
+    }, true);
+
 
 ### add listener
 

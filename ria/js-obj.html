@@ -48,8 +48,8 @@ const MD_URL='post/ria/js-obj.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: js notes
-date: 2019-07-19
-updated: 2019-07-19
+date: 2019-07-26
+updated: 2019-07-26
 ---
 # Object
 
@@ -163,14 +163,16 @@ items:
     { a: 3 }
 
 ## Property 属性
+property  list
 
     obj.constructor
-    obj.hasOwnProperty(&#x27;attr&#x27;) # 不是继承proto的
     obj.propertyIsEnumerable(&#x27;attr&#x27;)
         判断给定的属性是否可以用 for...in 语句进行枚举。
     obj.__proto__
 
-in 可以判断ownProp 以及继承的props
+obj.hasOwnProperty(&#x27;attr&#x27;) # 不是继承proto的
+
+in, `for in` 可以判断ownProp 以及继承的props
 
     &gt; oo={}
     &gt; oo.__proto__= {a:1}

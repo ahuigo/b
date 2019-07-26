@@ -2,12 +2,78 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-07-24T23:02:25Z</updated>
+<updated>2019-07-26T20:54:39Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Vsc for python</title>
+<link href="/b/vsc/vsc-python" rel="alternate" type="text/html"/>
+<updated>2019-07-26T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Vsc for python
+https://code.visualstudio.com/docs/python/python-tutorial
+
+## go to denifition
+1. 安</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>js-time</title>
+<link href="/b/ria/js-time" rel="alternate" type="text/html"/>
+<updated>2019-07-26T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Date Format
+&gt; https://zh.wikipedia.org/wiki/ISO_8601
+
+The only format in the spec is a simplified </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>js notes</title>
+<link href="/b/ria/js-obj" rel="alternate" type="text/html"/>
+<updated>2019-07-26T00:00:00Z</updated>
+<summary/>
+<published>2019-07-26T00:00:00Z</published>
+<content># Object
+
+## isEempty
+    ECMA 7+:
+    Object.entries(obj).length === 0 &amp;&amp; obj.constructor === Objec</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Event</title>
+<link href="/b/ria/js-dom-event" rel="alternate" type="text/html"/>
+<updated>2019-07-26T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Event
+
+## DOM MutationObserver
+http://javascript.ruanyifeng.com/dom/mutationobserver.html
+
+### DOM</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Js Array 整理</title>
+<link href="/b/ria/js-array" rel="alternate" type="text/html"/>
+<updated>2019-07-26T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Js Array 整理
+array 不像string 是primitive value, 所以length 可以缩短放大array。
+
+	arr = [1,2,3]
+	arr.length = 1</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Git 命令大全</title>
+<link href="/b/git/git-" rel="alternate" type="text/html"/>
+<updated>2019-07-26T00:00:00Z</updated>
+<summary/>
+<published>2019-07-26T00:00:00Z</published>
+<content># Git 配置
+
+## ConfigFile
+1. /etc/gitconfig #git config --system
+2. ~/.gitconfig 	#git config --global</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>JS Promise</title>
 <link href="/b/ria/js-promise" rel="alternate" type="text/html"/>
-<updated>2019-07-24T00:00:00Z</updated>
+<updated>2019-07-26T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># 递归promise
@@ -18,7 +84,7 @@ Promise 是递归的，Reject 不是
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>GMT,UTC,DST,CST 各种时间标准</title>
 <link href="/b/c/shell-time" rel="alternate" type="text/html"/>
-<updated>2019-07-24T00:00:00Z</updated>
+<updated>2019-07-26T00:00:00Z</updated>
 <summary/>
 <published>2012-07-08T00:00:00Z</published>
 <content># 各世界时间标准
@@ -411,75 +477,4 @@ liaoxuefeng 老师利用eval 写的js课程：
 # Device
 ## Navigator
 na</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>SSH SERVER 的配置</title>
-<link href="/b/net/net-ssh-server" rel="alternate" type="text/html"/>
-<updated>2019-07-13T00:00:00Z</updated>
-<summary/>
-<published>2019-06-23T00:00:00Z</published>
-<content># SSH SERVER
-OpenSSH Installations under CentOS Linux
-
-	# To install the server and client type:
-	yu</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>go 的时间函数</title>
-<link href="/b/go/19.go-time" rel="alternate" type="text/html"/>
-<updated>2019-07-13T00:00:00Z</updated>
-<summary/>
-<published>2019-07-13T00:00:00Z</published>
-<content># tick and after
-
-## timer/ticker, 定时器
-`chan time.Time: timer.C = ticker.C`
-定时器对象
-
-    timer := time</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Python 的Context Managers</title>
-<link href="/b/py/py-expr-context" rel="alternate" type="text/html"/>
-<updated>2019-07-13T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># Context Managers
-http://arnavk.com/posts/python-context-managers/
-https://docs.python.org/3/librar</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Python email处理</title>
-<link href="/b/py/py-email" rel="alternate" type="text/html"/>
-<updated>2019-07-13T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># Python mail
-1. yagmail 高效简单的email工具
-2. 邮件收发过程
-
-## yagmail
-```
-import yagmail
-yag = yagmail.SMTP(us</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Golang 的结构体</title>
-<link href="/b/go/go-struct" rel="alternate" type="text/html"/>
-<updated>2019-07-23T00:00:00Z</updated>
-<summary/>
-<published>2019-03-24T00:00:00Z</published>
-<content># Golang Notes: struct
-struct 是值类型，slice 是引用类型(指针), 以下赋值方法是按值的
-
-    type A struct{x int}
-    a:=A{}
-</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Golang 指针</title>
-<link href="/b/go/13.go-pointer" rel="alternate" type="text/html"/>
-<updated>2019-07-21T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Pointers
-1. 支持指针类型 *T,指针的指针 **T,以及包含包名前缀的 `*&lt;package&gt;.T`。
-2. 不能对指针做加减法等运算。
-3. 默认是`nil`, 没有`NULL`
-
-</content>
 </entry></feed>

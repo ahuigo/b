@@ -49,7 +49,7 @@ const MD_URL='post/ria/js-promise.md';
 <pre id="markdown" v-pre>---
 title: JS Promise
 date: 2018-10-04
-updated: 2019-07-24
+updated: 2019-07-26
 ---
 # 递归promise
 Promise 是递归的，Reject 不是
@@ -257,11 +257,11 @@ Promise.all()实现如下：
 1. then: async
 2. await: sync
 
-##
-    fetch(this.url, this.options).then(async (response) =&gt; {
-            throw (res)
+## then 包含了await
+    fetch(&#x27;/abc&#x27;).then(async (response) =&gt; {
+        throw &#x27;error&#x27;
     }).catch(e =&gt; {
-        this.error(e.message || e, e);
+        console.log([e, e]);
     })
 
 ## await catch data
