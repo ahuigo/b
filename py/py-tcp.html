@@ -49,12 +49,16 @@ const MD_URL='post/py/py-tcp.md';
 <pre id="markdown" v-pre>---
 title: py-tcp
 date: 2018-10-04
-updated: 2019-07-19
+updated: 2019-08-04
 ---
 # Preface
 Socket是网络编程的一个抽象概念。通常我们用一个Socket表示“打开了一个网络链接”，而打开一个Socket需要知道目标计算机的IP地址和端口号，再指定协议类型即可。
 
 # socket 
+
+## socket timeout
+    import socket
+    socket.setdefaulttimeout(120)
 
 ## socket bufer
 socket 可以控制window size: `socket.SO_RCVBUF` `SO_SNDBUF`

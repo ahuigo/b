@@ -49,23 +49,21 @@ const MD_URL='post/py/py-email.md';
 <pre id="markdown" v-pre>---
 title: Python email处理
 date: 2018-09-28
-updated: 2019-07-19
+updated: 2019-08-04
 ---
 # Python mail
 1. yagmail 高效简单的email工具
 2. 邮件收发过程
 
 ## yagmail
-```
-import yagmail
-yag = yagmail.SMTP(user=&#x27;test@163.com&#x27;, password=&#x27;password&#x27;, host=&#x27;smtp.163.com&#x27;, port=25)
-yag = yagmail.SMTP(&#x27;test@163.com&#x27;, host=&#x27;smtp.163.com&#x27;, port=587, smtp_starttls=True, smtp_ssl=False)
-yag = yagmail.SMTP(&#x27;mygmailusername&#x27;)
-yag.send([&#x27;to@someone.com&#x27;], &#x27;subject&#x27;, content, attachments=[&#x27;a.txt&#x27;, &#x27;b.jpg&#x27;])
-contents = [&quot;comtent1&quot;, &quot;contents2&quot;]
-yag.send(to = to, subject = subject, contents = [body, &#x27;&lt;div&gt;...&lt;/div&gt;&#x27;, &#x27;/local/to/a.png&#x27;])
 
-```
+    import yagmail
+    yag = yagmail.SMTP(user=&#x27;test@163.com&#x27;, password=&#x27;password&#x27;, host=&#x27;smtp.163.com&#x27;, port=25)
+    yag = yagmail.SMTP(&#x27;test@163.com&#x27;, host=&#x27;smtp.163.com&#x27;, port=587, smtp_starttls=True, smtp_ssl=False)
+    yag = yagmail.SMTP(&#x27;mygmailusername&#x27;)
+    yag.send([&#x27;to@someone.com&#x27;], &#x27;subject&#x27;, content, attachments=[&#x27;a.txt&#x27;, &#x27;b.jpg&#x27;])
+    contents = [&quot;comtent1&quot;, &quot;contents2&quot;]
+    yag.send(to = to, subject = subject, contents = [body, &#x27;&lt;div&gt;...&lt;/div&gt;&#x27;, &#x27;/local/to/a.png&#x27;])
 
 # 邮件收发过程
 我们回到电子邮件，假设我们自己的电子邮件地址是`me@163.com`，对方的电子邮件地址是`friend@sina.com`:
@@ -169,7 +167,7 @@ Python对SMTP支持有smtplib和email两个模块，`email`负责构造邮件，
 
 	server = smtplib.SMTP(smtp_server, 25)
 	server.set_debuglevel(1)
-	server.login(from_addr, password)
+   	server.login(from_addr, password)
 	server.sendmail(from_addr, [to_addr], msg.as_string())
 	server.quit()
 
