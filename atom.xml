@@ -2,9 +2,134 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-07-24T00:12:25Z</updated>
+<updated>2019-08-04T20:40:56Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Vsc for python</title>
+<link href="/b/vsc/vsc-python" rel="alternate" type="text/html"/>
+<updated>2019-08-04T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Vsc for python
+https://code.visualstudio.com/docs/python/python-tutorial
+
+## go to denifition
+1. 安</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>js-time</title>
+<link href="/b/ria/js-time" rel="alternate" type="text/html"/>
+<updated>2019-08-04T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Date Format
+&gt; https://zh.wikipedia.org/wiki/ISO_8601
+
+The only format in the spec is a simplified </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>js notes</title>
+<link href="/b/ria/js-obj" rel="alternate" type="text/html"/>
+<updated>2019-08-04T00:00:00Z</updated>
+<summary/>
+<published>2019-08-04T00:00:00Z</published>
+<content># Object
+
+## isEempty
+    ECMA 7+:
+    Object.entries(obj).length === 0 &amp;&amp; obj.constructor === Objec</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Event</title>
+<link href="/b/ria/js-dom-event" rel="alternate" type="text/html"/>
+<updated>2019-08-04T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Event
+
+## DOM MutationObserver
+http://javascript.ruanyifeng.com/dom/mutationobserver.html
+
+### DOM</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Js Array 整理</title>
+<link href="/b/ria/js-array" rel="alternate" type="text/html"/>
+<updated>2019-08-04T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Js Array 整理
+array 不像string 是primitive value, 所以length 可以缩短放大array。
+
+	arr = [1,2,3]
+	arr.length = 1</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>JS Promise</title>
+<link href="/b/ria/js-promise" rel="alternate" type="text/html"/>
+<updated>2019-08-04T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># 递归promise
+Promise 是递归的，Reject 不是
+
+    const onResolved = e =&gt; console.log('resolve , ', e );
+    c</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>try-catch</title>
+<link href="/b/ria/js-debug-exception" rel="alternate" type="text/html"/>
+<updated>2019-08-04T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># try-catch
+## throw any type
+    throw "string"
+    throw {message:"msg"}
+    e = Error('msg')
+    </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>go str</title>
+<link href="/b/go/go-str-serial" rel="alternate" type="text/html"/>
+<updated>2019-08-04T00:00:00Z</updated>
+<summary/>
+<published>2019-05-06T00:00:00Z</published>
+<content># go json
+
+## encode marshal bytes
+
+    import "encoding/json"
+    type response2 struct {
+        P</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Golang fmt</title>
+<link href="/b/go/6.go-fmt" rel="alternate" type="text/html"/>
+<updated>2019-08-04T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># fmt
+
+- fmt.Println : space, with newline
+- fmt.Print : without newline
+- fmt.Printf : format
+
+prin</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>学习下Golang 的反射</title>
+<link href="/b/go/17.go-reflect" rel="alternate" type="text/html"/>
+<updated>2019-08-04T00:00:00Z</updated>
+<summary/>
+<published>2019-01-07T00:00:00Z</published>
+<content># Relection json
+    import "github.com/mitchellh/mapstructure"
+	err := mapstructure.Decode(input, &amp;</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Golang func</title>
+<link href="/b/go/16.go-func" rel="alternate" type="text/html"/>
+<updated>2019-08-04T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># define func
+1. 不支持嵌套nested, 重载overload 和 
+2. 不支持默认参数default parameter
+3. 支持不定长变参数
+4. 多返回值
+5. 支持命名返</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>golang pkg的使用</title>
 <link href="/b/go/2.go-pkg" rel="alternate" type="text/html"/>
 <updated>2019-07-24T00:00:00Z</updated>
@@ -213,7 +338,7 @@ curl 转换器: https://curl.trillworks.com/
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>py-tcp</title>
 <link href="/b/py/py-tcp" rel="alternate" type="text/html"/>
-<updated>2019-07-17T00:00:00Z</updated>
+<updated>2019-08-04T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># Preface
@@ -223,14 +348,14 @@ Socket是网络编程的一个抽象概念。通常我们用一个Socket表示�
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>GMT,UTC,DST,CST 各种时间标准</title>
 <link href="/b/c/shell-time" rel="alternate" type="text/html"/>
-<updated>2019-07-19T00:00:00Z</updated>
+<updated>2019-08-04T00:00:00Z</updated>
 <summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Preface
-参考：https://zhuanlan.zhihu.com/p/30056870
+<published>2012-07-08T00:00:00Z</published>
+<content># 各世界时间标准
+我们经常遇到这4种时间：GMT,UTC,DST,CST。google了一下，在此做个小结.
 
-## CGI
-原始的CGI 程序只是单纯的多进程fork 模式[/demo/py/socket-</content>
+## 格林威治标准时间GMT
+含义：「格林威治标准时间」(Greenwich Mean</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>py-file-io</title>
 <link href="/b/py/py-file-io" rel="alternate" type="text/html"/>
@@ -353,129 +478,4 @@ OpenSSH Installations under CentOS Linux
 <content># Context Managers
 http://arnavk.com/posts/python-context-managers/
 https://docs.python.org/3/librar</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Python email处理</title>
-<link href="/b/py/py-email" rel="alternate" type="text/html"/>
-<updated>2019-07-13T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># Python mail
-1. yagmail 高效简单的email工具
-2. 邮件收发过程
-
-## yagmail
-```
-import yagmail
-yag = yagmail.SMTP(us</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Golang 的结构体</title>
-<link href="/b/go/go-struct" rel="alternate" type="text/html"/>
-<updated>2019-07-23T00:00:00Z</updated>
-<summary/>
-<published>2019-03-24T00:00:00Z</published>
-<content># Golang Notes: struct
-struct 是值类型，slice 是引用类型(指针), 以下赋值方法是按值的
-
-    type A struct{x int}
-    a:=A{}
-</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Golang 指针</title>
-<link href="/b/go/13.go-pointer" rel="alternate" type="text/html"/>
-<updated>2019-07-13T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Pointers
-1. 支持指针类型 *T,指针的指针 **T,以及包含包名前缀的 `*&lt;package&gt;.T`。
-2. 不能对指针做加减法等运算。
-3. 默认是`nil`, 没有`NULL`
-
-</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Git 命令大全</title>
-<link href="/b/git/git-" rel="alternate" type="text/html"/>
-<updated>2019-07-19T00:00:00Z</updated>
-<summary/>
-<published>2019-07-19T00:00:00Z</published>
-<content># Git 配置
-
-## ConfigFile
-1. /etc/gitconfig #git config --system
-2. ~/.gitconfig 	#git config --global</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Postgre 的索引</title>
-<link href="/b/db/postgre-index" rel="alternate" type="text/html"/>
-<updated>2019-07-23T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Postgre Index
-本文主要围绕postgre 总结一下索引, 参考：[PostgreSQL 9种索引的原理和应用场景](https://yq.aliyun.com/articles/11</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Postgre 安装\配置\管理</title>
-<link href="/b/db/postgre-ddl-install" rel="alternate" type="text/html"/>
-<updated>2019-07-07T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Postgre 安装\配置\管理
-    rpm -Uvh https://yum.postgresql.org/10/redhat/rhel-7-x86_64/pgdg-centos10-10-</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Gorm ddl</title>
-<link href="/b/db/gorm-ddl" rel="alternate" type="text/html"/>
-<updated>2019-07-07T00:00:00Z</updated>
-<summary/>
-<published>2019-07-07T00:00:00Z</published>
-<content># Gorm Migrate
-自动迁移仅仅会创建表，缺少列和索引，并且不会改变现有列的类型或删除未使用的列以保护数据。
-
-    db.AutoMigrate(&amp;User{})
-
-    db.Aut</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>在家里如何免费使用中国知网？</title>
-<link href="/b/course/paper" rel="alternate" type="text/html"/>
-<updated>2019-07-07T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content>在家里如何免费使用中国知网？
-https://www.zhihu.com/question/20188973/answer/142225168
-论文神网站
-https://www.zhihu.com/</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Shell 编程</title>
-<link href="/b/c/shell-" rel="alternate" type="text/html"/>
-<updated>2019-07-13T00:00:00Z</updated>
-<summary/>
-<published>2014-03-05T00:00:00Z</published>
-<content># Shell Programming
-Shell 编程笔记
-
-# Signal, 信号(trap)
-Refer to:
-http://billie66.github.io/TLCL/book/zh/</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>ops-init</title>
-<link href="/b/c/ops-init" rel="alternate" type="text/html"/>
-<updated>2019-07-07T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Preface
-
-# init
-
-## init
-init指linux 系统运行级runlevel 0~6. 可在/etc/inittab中指定:
-
-	id:3:initdefault:
-
-
-##</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>学习 docker</title>
-<link href="/b/arch/arch-docker" rel="alternate" type="text/html"/>
-<updated>2019-07-17T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># 什么是Docker
-虚拟机是对硬件的虚拟化(需要Hypervisor这个软件层), 而docker （LXC, linux container）是对操作系统的虚拟化。
-1. docker 基于li</content>
 </entry></feed>

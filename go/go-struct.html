@@ -49,12 +49,12 @@ const MD_URL='post/go/go-struct.md';
 <pre id="markdown" v-pre>---
 title: Golang 的结构体
 date: 2019-03-24
-updated: 2019-07-23
+updated: 2019-08-04
 ---
 # Golang Notes: struct
 struct 是值类型，slice 是引用类型(指针), 以下赋值方法是按值的
 
-    type A struct{x int}
+    type A struct{x int; b string}
     a:=A{}
     b:=A{}
     fmt.Printf(&quot;%p,%p\n&quot;, &amp;a,&amp;b)  //not same
@@ -225,6 +225,30 @@ Note: 相同层次的同名字段也会让编译器⽆无所适从, 应该用显
         title string 
     }
 
+### 继承get/set 值
+
+    type User struct {
+        gorm.Model
+        title string 
+    }
+    user:=User{Model:gorm.Model{ID:1}}
+    pf(&quot;%#v,%#v\n&quot;, user, user.ID==user.Model.ID)
+
+    user.ID=1
+    user.Model.ID=1
+
+example2
+
+    type Pet struct {
+        age int
+    }
+    type PetX struct {
+        Pet
+        name string
+    }
+
+    &lt;!-- main.PetX{Pet:main.Pet{age:200}, name:&quot;name&quot;}
+
 #### init
     type A struct{
         a int
@@ -238,35 +262,6 @@ Note: 相同层次的同名字段也会让编译器⽆无所适从, 应该用显
         b:=B{A:A{a:1}}
             //error: b:=B{a:A{a:1}}
         fmt.Println(b)
-
-
-### 继承与赋值
-    package main
-    import  &quot;fmt&quot;
-
-    type Pet struct {
-        age int
-    }
-    type PetX struct {
-        Pet
-        name string
-    }
-
-    func modify(pxp *PetX){
-        pxp.name = &quot;name&quot;
-        pxp.age = 123
-        pxp.Pet = Pet{200}
-    }
-
-    func main() {
-        px:= PetX{}
-        modify(&amp;px)
-
-        fmt.Printf(&quot;%#v\n&quot;, px)  
-        fmt.Printf(&quot;%#v\n&quot;, px.Pet)  
-    }
-    &lt;!-- main.PetX{Pet:main.Pet{age:200}, name:&quot;name&quot;}
-    main.Pet{age:200} --&gt;
 
 
 ## 面向对象
