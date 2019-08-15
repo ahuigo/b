@@ -2,9 +2,125 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-08-04T20:22:21Z</updated>
+<updated>2019-08-15T15:25:21Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Postgre 的索引</title>
+<link href="/b/db/postgre-index" rel="alternate" type="text/html"/>
+<updated>2019-08-15T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Postgre Index
+本文主要围绕postgre 总结一下索引, 参考：[PostgreSQL 9种索引的原理和应用场景](https://yq.aliyun.com/articles/11</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>JS worker</title>
+<link href="/b/ria/js-worker" rel="alternate" type="text/html"/>
+<updated>2019-08-15T00:00:00Z</updated>
+<summary/>
+<published>2019-08-14T00:00:00Z</published>
+<content># JS worker
+分为web worker 与service worker(只能用于https/localhost)
+
+限制：
+1. 不能传DOM
+2. 不能传function/prototyp</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Js dom 笔记</title>
+<link href="/b/ria/js-dom" rel="alternate" type="text/html"/>
+<updated>2019-08-15T00:00:00Z</updated>
+<summary/>
+<published>2016-01-23T00:00:00Z</published>
+<content># Js dom 笔记
+    document.documentElement ;//html
+    document.body;  //html
+# Device
+## Navigator
+na</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>net-route</title>
+<link href="/b/net/net-route" rel="alternate" type="text/html"/>
+<updated>2019-08-15T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Preface
+1. traceroute [option] host, 路由经过的节点
+    1. -m 10 跳数设置
+1. check route
+    0. netstat -nr
+ </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>防火墙</title>
+<link href="/b/net/net-iptables" rel="alternate" type="text/html"/>
+<updated>2019-08-15T00:00:00Z</updated>
+<summary/>
+<published>2019-08-15T00:00:00Z</published>
+<content># 原理
+参考[Iptables防火墙原理详解](http://segmentfault.com/a/1190000002540601)
+
+## netfilter/iptables
+Netfilte</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>net-dns</title>
+<link href="/b/net/net-dns" rel="alternate" type="text/html"/>
+<updated>2019-08-15T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Preface
+
+主机名.次级域名.顶级域名.根域名
+
+  host.sld.tld.root
+
+  A记录：服务器 IP
+  AAAA：服务器 IPv6 的地址。
+  CNAME记录： 你空间商</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Mac shortcuts</title>
+<link href="/b/mac/mac-shortcuts" rel="alternate" type="text/html"/>
+<updated>2019-08-15T00:00:00Z</updated>
+<summary/>
+<published>2019-08-15T00:00:00Z</published>
+<content>
+# mac 快捷键使用整理
+
+## Karabiner + Seil, 定制全键盘
+一开始是左手手指有点酸，估计是尾指按键盘左边的Ctrl键次数有点多，为此把左边的Ctrl键盘跟CapsLock对换</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Docker exec nsenter</title>
+<link href="/b/arch/docker-exec" rel="alternate" type="text/html"/>
+<updated>2019-08-15T00:00:00Z</updated>
+<summary/>
+<published>2019-08-15T00:00:00Z</published>
+<content># Docker exec nsenter
+## nsenter工具进入docker容器
+1. docker exec: 直接执行容器命令
+2. docker attach: 类似exec, 但是多个</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>CSS 笔记</title>
+<link href="/b/ria/js-css" rel="alternate" type="text/html"/>
+<updated>2019-08-15T00:00:00Z</updated>
+<summary/>
+<published>2017-12-12T00:00:00Z</published>
+<content># CSS 笔记
+css/html5/js 兼容表
+http://caniuse.com/
+
+# priority
+
+	style &gt; id &gt; hover(鼠标悬停) &gt; class &gt; tag
+ </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>语法总原则</title>
+<link href="/b/eng/eng-sentence" rel="alternate" type="text/html"/>
+<updated>2019-08-12T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># 语法总原则
+怎样学好英语语法？
+https://www.zhihu.com/question/24485886/answer/54300952
+你有什么相见恨晚的英语学习方法
+https://ww</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Python email处理</title>
 <link href="/b/py/py-email" rel="alternate" type="text/html"/>
 <updated>2019-08-04T00:00:00Z</updated>
@@ -32,7 +148,7 @@ https://code.visualstudio.com/docs/python/python-tutorial
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>js-time</title>
 <link href="/b/ria/js-time" rel="alternate" type="text/html"/>
-<updated>2019-07-26T00:00:00Z</updated>
+<updated>2019-08-12T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># Date Format
@@ -42,18 +158,18 @@ The only format in the spec is a simplified </content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>js notes</title>
 <link href="/b/ria/js-obj" rel="alternate" type="text/html"/>
-<updated>2019-08-04T00:00:00Z</updated>
+<updated>2019-08-15T00:00:00Z</updated>
 <summary/>
-<published>2019-08-04T00:00:00Z</published>
+<published>2019-08-15T00:00:00Z</published>
 <content># Object
 
-## isEempty
+## isEmpty
     ECMA 7+:
-    Object.entries(obj).length === 0 &amp;&amp; obj.constructor === Objec</content>
+    Object.entries(obj).length === 0 &amp;&amp; obj.constructor === Object</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Event</title>
 <link href="/b/ria/js-dom-event" rel="alternate" type="text/html"/>
-<updated>2019-07-26T00:00:00Z</updated>
+<updated>2019-08-12T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># Event
@@ -65,7 +181,7 @@ http://javascript.ruanyifeng.com/dom/mutationobserver.html
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Js Array 整理</title>
 <link href="/b/ria/js-array" rel="alternate" type="text/html"/>
-<updated>2019-07-26T00:00:00Z</updated>
+<updated>2019-08-15T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># Js Array 整理
@@ -109,7 +225,7 @@ Promise 是递归的，Reject 不是
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>css 布局</title>
 <link href="/b/ria/js-css-layout" rel="alternate" type="text/html"/>
-<updated>2019-07-23T00:00:00Z</updated>
+<updated>2019-08-12T00:00:00Z</updated>
 <summary/>
 <published>2018-03-03T00:00:00Z</published>
 <content># CSS 布局
@@ -120,7 +236,7 @@ Promise 是递归的，Reject 不是
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>学习 docker</title>
 <link href="/b/arch/arch-docker" rel="alternate" type="text/html"/>
-<updated>2019-07-23T00:00:00Z</updated>
+<updated>2019-08-12T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># 什么是Docker
@@ -251,9 +367,9 @@ http://initd.org/psycopg/docs/cursor.html
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Sed 简记</title>
 <link href="/b/c/ops-sed" rel="alternate" type="text/html"/>
-<updated>2019-07-20T00:00:00Z</updated>
+<updated>2019-08-15T00:00:00Z</updated>
 <summary/>
-<published>2019-07-20T00:00:00Z</published>
+<published>2019-08-15T00:00:00Z</published>
 <content># sed 与gsed
 grep 与sed 同样是以按行匹配，不过sed 不仅能按行匹配，还能替换字符
 
@@ -356,127 +472,4 @@ Non thread Safe: instantiated share by thread, not atomic
 # Format Convert Time
 
 ## select now(),sy</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>mysql 查询</title>
-<link href="/b/db/mysql-ddl-crud" rel="alternate" type="text/html"/>
-<updated>2019-07-18T00:00:00Z</updated>
-<summary/>
-<published>2019-07-18T00:00:00Z</published>
-<content># Result
-
-    | id | status |
-    +----+--------+
-    |  1 | A      |
-    update test5 set status = </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>curl manual</title>
-<link href="/b/c/ops-curl" rel="alternate" type="text/html"/>
-<updated>2019-07-18T00:00:00Z</updated>
-<summary/>
-<published>2019-07-18T00:00:00Z</published>
-<content># curlt to python/node/go...
-curl 转换器: https://curl.trillworks.com/
-
-# Usage
-
-	-F,--form
-	-D- Dump t</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>py-tcp</title>
-<link href="/b/py/py-tcp" rel="alternate" type="text/html"/>
-<updated>2019-08-04T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Preface
-Socket是网络编程的一个抽象概念。通常我们用一个Socket表示“打开了一个网络链接”，而打开一个Socket需要知道目标计算机的IP地址和端口号，再指定协议类型即可。
-
-# </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>py-server</title>
-<link href="/b/py/py-server" rel="alternate" type="text/html"/>
-<updated>2019-07-17T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Preface
-参考：https://zhuanlan.zhihu.com/p/30056870
-
-## CGI
-原始的CGI 程序只是单纯的多进程fork 模式[/demo/py/socket-</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>py-file-io</title>
-<link href="/b/py/py-file-io" rel="alternate" type="text/html"/>
-<updated>2019-07-17T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># Preface
-
-# flush buffer
-开启buffer 后，默认是换行才flush, print 调用的就是sys.stdout
-
-    PYTHONUNBUFFERED=0 pyth</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>py-argv</title>
-<link href="/b/py/py-argv" rel="alternate" type="text/html"/>
-<updated>2019-07-17T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># Preface
-- click
-click 之于argparse/argv, 相当于requests 之于urllib
-
-命令行程序开发
-
-	asciimatics：跨平台，全屏终端包（即鼠标/键</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>linux 下的Fork 与 Exec</title>
-<link href="/b/c/shell-redirect-fork2exec" rel="alternate" type="text/html"/>
-<updated>2019-07-17T00:00:00Z</updated>
-<summary/>
-<published>2019-07-17T00:00:00Z</published>
-<content># Preface
-多进程的的内容包括进程控制, 进程通信, 进程本身的结构.
-
-# 重定向
-标准输入输出:
-
-    /dev/stdin -&gt; /dev/fd/0
-    /dev/stdout </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>expect 键盘模拟</title>
-<link href="/b/c/ops-expect" rel="alternate" type="text/html"/>
-<updated>2019-07-17T00:00:00Z</updated>
-<summary/>
-<published>2019-07-17T00:00:00Z</published>
-<content># Preface
-Expect 是Tcl/Tk 语言最有名的扩展，可通过[tcl/tk](/p/linux-tcl) 了解tcl/tk 的用法
-
-&gt; 注意：spawn 结束后，一定要加上`inter</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Js 字符串大全</title>
-<link href="/b/ria/js-str" rel="alternate" type="text/html"/>
-<updated>2019-07-15T00:00:00Z</updated>
-<summary/>
-<published>2015-03-15T00:00:00Z</published>
-<content># Js 字符串大全
-字符定义与python 一样, 而且不区分双引号：
-
-    '\x00' == '\u0000'
-	'\x31' == "\x31"
-
-	'好' === '\u597D' //</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Js 的表达式</title>
-<link href="/b/ria/js-expr" rel="alternate" type="text/html"/>
-<updated>2019-07-19T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># eval
-
-    i=5
-    f=i=&gt;i
-    eval("f(i)")===5
-
-liaoxuefeng 老师利用eval 写的js课程：
-
-	var code = _mdGetCod</content>
 </entry></feed>

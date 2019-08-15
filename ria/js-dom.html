@@ -49,7 +49,7 @@ const MD_URL='post/ria/js-dom.md';
 <pre id="markdown" v-pre>---
 title: Js dom 笔记
 date: 2016-01-23
-updated: 2019-07-19
+updated: 2019-08-15
 ---
 # Js dom 笔记
     document.documentElement ;//html
@@ -626,7 +626,7 @@ insertAfter:
 ### .repalceChild
     toc.replaceChild(createToc(this.$el), children[0])
 
-## node 属性
+## node type
 
 	node.nodeName; //
 		TEXTAREA
@@ -658,7 +658,7 @@ node.value 与node.getAttribute(&#x27;value&#x27;) 不同: 前者是真正的值
 	array node.classList
 	string node.className +=&#x27; class&#x27;
 	node.classList.add(className);
-	node.classList.remove(className);
+	node.classList.remove(className);   //Array.prototype.remove 增加这个功能
 	node.classList.contains(className);
 	node.classList.toggle(className);
 

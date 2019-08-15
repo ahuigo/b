@@ -49,7 +49,7 @@ const MD_URL='post/ria/js-dom-event.md';
 <pre id="markdown" v-pre>---
 title: Event
 date: 2018-10-04
-updated: 2019-07-26
+updated: 2019-08-12
 ---
 # Event
 
@@ -268,13 +268,19 @@ addEvent submit handler: 只能用e.preventDefault()
     e.keyCode == e.which == e.button+1:
          16-Shift, 17-Ctrl, 18-Alt
          1-click 3-right-click
-    e.ctrlKey, e.altKey
+    e.ctrlKey, e.altKey,e.metaKey(true/false)
 
     //body.onkeydown = handler
     document.addEventListener(&#x27;keydown&#x27;, function(e){
         isShiftKey = window.event ? window.event.shiftKey : e.shiftKey
         console.log(e.which,e.keyCode,e.ctrlKey, isShiftKey)
      })
+
+shift click:
+
+    function onclick(e) {
+        console.log(e.button, e.shiftKey )
+    }
 
 ### keyEvent with textarea
 

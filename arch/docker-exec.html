@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/p/p3.md';
+const MD_URL='post/arch/docker-exec.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO 的笔记</title>
+<title>Docker exec nsenter</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -46,14 +46,44 @@ const MD_URL='post/p/p3.md';
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
-<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+<pre id="markdown" v-pre>---
+title: Docker exec nsenter
+date: 2019-08-15
+updated: 2019-08-15
+---
+# Docker exec nsenter
+## nsenter工具进入docker容器
+1. docker exec: 直接执行容器命令
+2. docker attach: 类似exec, 但是多个窗口attach 到一个窗口, 窗口都会同步的显示\阻塞
+3. nsenter: 外部工具
 
-<ul>
-<li>2018-09-28 <a href="/b/net/net-proxy-socks">net-socks</a> </li>
-<li>2019-02-20 <a href="/b/algorithm/list-copy">Copy List with Random Pointer</a> </li>
-</ul>
-</div>
-<div id="pager"> <a href="/b/index">p0</a> <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a> p3</div>
+nsenter命令抓包:
+
+    // 1、找到容器ID，并打印它的NS ID
+    docker inspect --format &quot;{{.State.Pid}}&quot;  16938de418ac
+    // 2、进入此容器的网络Namespace
+    nsenter -n -t  54438
+    // 3、抓DNS包
+    tcpdump -i eth0 udp dst port 53|grep youku.com
+ 
+-h --help
+
+    Options:
+    -t, --target &lt;pid&gt;     target process to get namespaces from
+    -m, --mount[=&lt;file&gt;]   enter mount namespace
+    -u, --uts[=&lt;file&gt;]     enter UTS namespace (hostname etc)
+    -i, --ipc[=&lt;file&gt;]     enter System V IPC namespace
+    -n, --net[=&lt;file&gt;]     enter network namespace
+    -p, --pid[=&lt;file&gt;]     enter pid namespace
+    -U, --user[=&lt;file&gt;]    enter user namespace
+    -S, --setuid &lt;uid&gt;     set uid in entered namespace
+    -G, --setgid &lt;gid&gt;     set gid in entered namespace
+        --preserve-credentials do not touch uids or gids
+    -r, --root[=&lt;dir&gt;]     set the root directory
+    -w, --wd[=&lt;dir&gt;]       set the working directory
+    -F, --no-fork          do not fork before exec&#x27;ing &lt;program&gt;
+    -Z, --follow-context   set SELinux context according to --target PID</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
