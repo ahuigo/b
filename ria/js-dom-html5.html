@@ -48,8 +48,8 @@ const MD_URL='post/ria/js-dom-html5.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: html5 笔记
-date: 2019-07-19
-updated: 2019-07-19
+date: 2019-08-16
+updated: 2019-08-16
 ---
 # Tag
 
@@ -319,9 +319,15 @@ Example:
 
 	var stateObj = { foo: &quot;bar&quot; };
 	history.pushState(stateObj, title=&quot;page 2&quot;, &quot;bar2.html&quot;);
-	//title 可能不生效
 
-## event
+参数：
+
+    stateObj
+        当离开此页时，popstate 会收到e.stateObj
+	title
+        可能不生效
+
+## popstate
 
 	window.onpopstate = function(event) {
 		alert(&quot;location: &quot; + document.location + &quot;, state: &quot; + JSON.stringify(event.state));
