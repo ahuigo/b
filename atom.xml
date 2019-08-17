@@ -2,9 +2,17 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-08-16T11:26:09Z</updated>
+<updated>2019-08-17T15:44:43Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>React Redirect</title>
+<link href="/b/ria/react-redirect" rel="alternate" type="text/html"/>
+<updated>2019-08-17T00:00:00Z</updated>
+<summary/>
+<published>2019-08-16T00:00:00Z</published>
+<content># React Redirect
+https://stackoverflow.com/questions/45089386/what-is-the-best-way-to-redirect-a-pag</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>html5 笔记</title>
 <link href="/b/ria/js-dom-html5" rel="alternate" type="text/html"/>
 <updated>2019-08-16T00:00:00Z</updated>
@@ -215,7 +223,7 @@ array 不像string 是primitive value, 所以length 可以缩短放大array。
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>JS Promise</title>
 <link href="/b/ria/js-promise" rel="alternate" type="text/html"/>
-<updated>2019-08-16T00:00:00Z</updated>
+<updated>2019-08-17T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># 递归promise
@@ -460,14 +468,4 @@ Non thread Safe: instantiated share by thread, not atomic
 
     // is slice of read only bytes
   </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>mysql-datatype</title>
-<link href="/b/db/mysql-var" rel="alternate" type="text/html"/>
-<updated>2019-07-18T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Data Type(数据类型)
-
-	NULL means you do not have to provide a value for the field... default to null
-	</content>
 </entry></feed>

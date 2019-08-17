@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/p/p1.md';
+const MD_URL='post/ria/react-redirect.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO 的笔记</title>
+<title>React Redirect</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -46,52 +46,48 @@ const MD_URL='post/p/p1.md';
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
-<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+<pre id="markdown" v-pre>---
+title: React Redirect
+date: 2019-08-16
+updated: 2019-08-17
+---
+# React Redirect
+https://stackoverflow.com/questions/45089386/what-is-the-best-way-to-redirect-a-page-using-react-router
 
-<ul>
-<li>2019-03-24 <a href="/b/go/go-struct">Golang 的结构体</a> </li>
-<li>2018-09-27 <a href="/b/go/9.go-str">golang string</a> </li>
-<li>2019-07-19 <a href="/b/go/19.go-time">go 的时间函数</a> </li>
-<li>2018-09-27 <a href="/b/go/13.go-pointer">Golang 指针</a> </li>
-<li>2012-07-08 <a href="/b/c/shell-time">GMT,UTC,DST,CST 各种时间标准</a> </li>
-<li>2019-07-19 <a href="/b/c/shell-expr">shell 表达式</a> </li>
-<li>2018-09-27 <a href="/b/db/postgre-index">Postgre 的索引</a> </li>
-<li>2018-09-27 <a href="/b/db/postgre-ddl-install">Postgre 安装\配置\管理</a> </li>
-<li>2014-03-05 <a href="/b/c/shell-">Shell 编程</a> </li>
-<li>2018-10-10 <a href="/b/mac/mac-tool">mac 工具集</a> </li>
-<li>2019-07-19 <a href="/b/sec/security-account">安全的帐号设计</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-websocket">js 的websocket 笔记</a> </li>
-<li>2019-08-16 <a href="/b/ria/js-dom-html5">html5 笔记</a> </li>
-<li>2018-09-28 <a href="/b/py/py-debug-pdb">py-debug-pdb</a> </li>
-<li>2018-08-23 <a href="/b/course/im-live-p2p">关于直播的P2P架构</a> </li>
-<li>2018-10-08 <a href="/b/c/shell-var-env">shell 环境变量</a> </li>
-<li>2019-07-05 <a href="/b/py/py-var-dict">python 字典</a> </li>
-<li>2018-09-28 <a href="/b/py/py-async-iteratortools">py-async-iteratortools</a> </li>
-<li>2018-03-03 <a href="/b/py/py-var-list">python 的list/tuple 笔记</a> </li>
-<li>2018-09-27 <a href="/b/db/mysql-var-str">Mysql 的字符串处理</a> </li>
-<li>2019-06-22 <a href="/b/db/mysql-ddl">mysql ddl</a> </li>
-<li>2018-09-28 <a href="/b/py/py-debug-log">py-debug-log</a> </li>
-<li>2019-06-19 <a href="/b/nginx/nginx-admin">lemp环境搭建</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-init">ops-init</a> </li>
-<li>2018-09-28 <a href="/b/py/py-file">Python 文件处理</a> </li>
-<li>2018-10-04 <a href="/b/nginx/nginx-proxy">nginx proxy</a> </li>
-<li>2018-09-27 <a href="/b/db/mongo-">不要用mongodb</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-time">js-time</a> </li>
-<li>2018-04-02 <a href="/b/py/py-time">python 时间函数的用法笔记</a> </li>
-<li>2019-07-26 <a href="/b/git/git-">Git 命令大全</a> </li>
-<li>2019-06-17 <a href="/b/c/ops-awk">awk 简介</a> </li>
-<li>2018-01-03 <a href="/b/vsc/vsc-">vscode 笔记</a> </li>
-<li>2016-09-27 <a href="/b/c/shell-tool">Shell 工具集合</a> </li>
-<li>2019-06-15 <a href="/b/c/linux-os">linux os</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-complete">vim-complete</a> </li>
-<li>2018-09-27 <a href="/b/db/postgre-ddl">FUNCTION</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-user">tool</a> </li>
-<li>2019-06-11 <a href="/b/vim/vim-var">vim 使用之变量</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-cmd">vim-cmd</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-options">vim-options</a> </li>
-</ul>
-</div>
-<div id="pager"> <a href="/b/index">p0</a> p1 <a href="/b/p/p2">p2</a> <a href="/b/p/p3">p3</a></div>
+## Redirect
+It should be redered as dom 
+
+    import React from &#x27;react&#x27;
+    import  { Redirect } from &#x27;react-router-dom&#x27;
+
+    const ProtectedComponent = () =&gt; {
+        if (authFails)
+            return &lt;Redirect to=&#x27;/login&#x27;  /&gt;
+        }
+        return &lt;div&gt; My Protected Component &lt;/div&gt;
+    }
+
+## via history push
+&gt; 注意不是原生的history.pushState
+
+
+    myFunction() {
+        addSomeStuff()
+        this.props.history.push(&#x27;/path&#x27;)
+    }
+
+In order to have access to history, you can wrap your component with an HOC called `withRouter` when you wrap your component with it, it passes match location and history props. 
+
+If your component is a child of &lt;Route /&gt; component, I mean if it is something like `&lt;Route path=&#x27;/path&#x27; component={myComponent} /&gt;` you don&#x27;t have to wrap your component with `withRouter &lt;Route /&gt;` passes match location and history to its child.
+
+## Redirect after clicking some element
+
+    &lt;div onClick={this.props.history.push(&#x27;/path&#x27;)}&gt; some stuff &lt;/div&gt;
+
+or you can use &lt;Link /&gt; component
+
+    &lt;Link to=&#x27;/path&#x27; &gt; some stuff &lt;/Link&gt;</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
