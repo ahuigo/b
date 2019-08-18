@@ -2,9 +2,20 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-08-18T14:02:05Z</updated>
+<updated>2019-08-18T15:10:37Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>js ajax legacy</title>
+<link href="/b/ria/js-ajax-legacy" rel="alternate" type="text/html"/>
+<updated>2019-08-18T00:00:00Z</updated>
+<summary/>
+<published>2019-08-18T00:00:00Z</published>
+<content># js ajax legacy
+
+## prototype
+	var xhr=new XMLHttpRequest();
+    xhr.onload=function(ProgressEvent)</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Git 命令大全</title>
 <link href="/b/git/git-" rel="alternate" type="text/html"/>
 <updated>2019-08-18T00:00:00Z</updated>
@@ -467,17 +478,4 @@ OpenSSH Installations under CentOS Linux
 
 	# To install the server and client type:
 	yu</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>go 的时间函数</title>
-<link href="/b/go/19.go-time" rel="alternate" type="text/html"/>
-<updated>2019-07-13T00:00:00Z</updated>
-<summary/>
-<published>2019-07-13T00:00:00Z</published>
-<content># tick and after
-
-## timer/ticker, 定时器
-`chan time.Time: timer.C = ticker.C`
-定时器对象
-
-    timer := time</content>
 </entry></feed>

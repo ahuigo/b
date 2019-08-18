@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/p/p7.md';
+const MD_URL='post/ria/js-ajax-legacy.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO 的笔记</title>
+<title>js ajax legacy</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -46,52 +46,116 @@ const MD_URL='post/p/p7.md';
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
-<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+<pre id="markdown" v-pre>---
+title: js ajax legacy
+date: 2019-08-18
+updated: 2019-08-18
+---
+# js ajax legacy
 
-<ul>
-<li>2019-02-13 <a href="/b/git/git-log">git 使用之日志、数据恢复</a> </li>
-<li>2019-08-18 <a href="/b/git/git-">Git 命令大全</a> </li>
-<li>2018-09-27 <a href="/b/git/git-diff">git-diff</a> </li>
-<li>2018-09-27 <a href="/b/ide/ide-netbeans">ide-netbeans</a> </li>
-<li>2018-09-27 <a href="/b/ide/framework-lumen">framework-lumen</a> </li>
-<li>2018-10-06 <a href="/b/db/mysql-ddl-online">mysql online ddl</a> </li>
-<li>2018-09-27 <a href="/b/db/mysql-datatype">mysql-datatype</a> </li>
-<li>2018-09-27 <a href="/b/db/mysql-connect">mysql-connect</a> </li>
-<li>2018-09-27 <a href="/b/db/mysql-charset">mysql-charset</a> </li>
-<li>2018-09-27 <a href="/b/db/mysql-backup">Backup and Recovery</a> </li>
-<li>2019-02-03 <a href="/b/db/mysql-admin">mysql install</a> </li>
-<li>2018-09-27 <a href="/b/db/mongo-var">MongoDB 数据类型</a> </li>
-<li>2018-09-27 <a href="/b/db/mongo-crud">Mongo crud 操作</a> </li>
-<li>2018-09-27 <a href="/b/db/mongo-">不要用mongodb</a> </li>
-<li>2018-09-27 <a href="/b/db/had-qbus">QBus消息如何入HDFS？</a> </li>
-<li>2018-09-27 <a href="/b/db/had-kafka">Debug</a> </li>
-<li>2018-09-27 <a href="/b/db/had-kafka-php">consumer</a> </li>
-<li>2018-09-27 <a href="/b/db/had-kafka-install">install kafka</a> </li>
-<li>2018-09-27 <a href="/b/db/had-hive">hive 命令</a> </li>
-<li>2018-09-27 <a href="/b/db/had-">hadoop 介绍</a> </li>
-<li>2018-09-27 <a href="/b/db/db-sqlite">shell command</a> </li>
-<li>2018-09-27 <a href="/b/db/db-opt">Cpu 优化</a> </li>
-<li>2018-09-27 <a href="/b/course/perl">perl</a> </li>
-<li>2018-09-27 <a href="/b/course/logic">Logic Mistick</a> </li>
-<li>2018-10-06 <a href="/b/course/ios-dev">swift</a> </li>
-<li>2018-09-27 <a href="/b/course/im-live-webrtc">基于webRTC 的p2p 直播架构</a> </li>
-<li>2018-09-27 <a href="/b/course/im-live-protocol">各种直播流协议</a> </li>
-<li>2018-09-27 <a href="/b/course/erlang">Golang要求用户必须在密集计算的代码中，自行Yield。</a> </li>
-<li>2018-09-27 <a href="/b/course/biology">biology</a> </li>
-<li>2018-10-06 <a href="/b/course/api-restful">RESTful 架构</a> </li>
-<li>2018-09-27 <a href="/b/course/api-apns">IOS Apns(Apple Push Notification Service)</a> </li>
-<li>2018-08-18 <a href="/b/code/code-regex">Posix Regex 正则语法</a> </li>
-<li>2018-10-06 <a href="/b/code/code-mail">mail 工具推荐</a> </li>
-<li>2018-09-27 <a href="/b/code/code-di-pattern">Dependency Injector(IoC)</a> </li>
-<li>2018-09-27 <a href="/b/c/shell-secureCRT">shell-secureCRT</a> </li>
-<li>2018-10-06 <a href="/b/c/shell-io-file">Shell IO及文件操作</a> </li>
-<li>2018-09-27 <a href="/b/c/shell-color">shell color</a> </li>
-<li>2019-01-23 <a href="/b/c/ops-yum">linux yum</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-windows-cmder">Windows 下的软件</a> </li>
-<li>2018-10-06 <a href="/b/c/ops-wifi">无线wifi</a> </li>
-</ul>
-</div>
-<div id="pager"> <a href="/b/index">p0</a> <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a> <a href="/b/p/p3">p3</a> <a href="/b/p/p4">p4</a> <a href="/b/p/p5">p5</a> <a href="/b/p/p6">p6</a> p7 <a href="/b/p/p8">p8</a> <a href="/b/p/p9">p9</a> <a href="/b/p/p10">p10</a> <a href="/b/p/p11">p11</a> <a href="/b/p/p12">p12</a> <a href="/b/p/p13">p13</a> <a href="/b/p/p14">p14</a> <a href="/b/p/p15">p15</a> <a href="/b/p/p16">p16</a> <a href="/b/p/p17">p17</a></div>
+## prototype
+	var xhr=new XMLHttpRequest();
+    xhr.onload=function(ProgressEvent){}
+	xhr.open(&quot;POST&quot;,&quot;http://hilo.sinaapp.com/header.php?demo&quot;,true);//默认true 异步
+	xhr.setRequestHeader(&quot;Content-Type&quot;, &quot;application/x-www-form-urlencoded&quot;);
+	xhr.setRequestHeader(&#x27;Accept&#x27;, &#x27;application/json&#x27;);
+	xhr.setRequestHeader(&#x27;X-Requested-With&#x27;, &#x27;XMLHttpRequest&#x27;);
+	xhr.send(&quot;xuehui1=1&amp;xuehui2=2&quot;);
+
+## listener
+所有的e.target 指向xhr
+
+        # download
+		xhr.addEventListener(&quot;load&quot;, uploadProcess, false); //e is ProgressEvent
+		xhr.addEventListener(&quot;loadstart&quot;, func, false);
+		xhr.addEventListener(&quot;loadend&quot;, func, false);
+		xhr.addEventListener(&quot;error&quot;, uploadFailed, false);
+		xhr.addEventListener(&quot;abort&quot;, uploadCanceled, false);
+
+### upload progress
+
+        # upload
+		xhr.upload.addEventListener(&quot;progress&quot;, uploadProgress, false); //e is ProgressEvent
+
+        &lt;progress max=&quot;100&quot; value=&quot;0&quot;&gt;&lt;/progress&gt;
+
+### download progress
+
+    xhr.onload = function(e){
+        //e is ProgressEvent
+        if(e.lengthComputable){
+            e.loaded/e.total
+        }
+    }
+
+### onreadystate
+
+	xhr.onreadystatechange=function(e) { //e = Event
+		if (xhr.readyState==4 &amp;&amp; xhr.status==200) {
+			var a=xhr.response;
+            var contentType = xhr.getResponseHeader(&quot;Content-Type&quot;);
+		}//redayState=!4 请求还在继续
+	}
+
+## Request
+### chunk upload
+demo: [js-lib/chunk/](js-lib/chunk/)
+refer: http://stackoverflow.com/questions/7853467/uploading-a-file-in-chunks-using-html5
+
+	function sendRequest() {
+		var blob = document.getElementById(&#x27;fileToUpload&#x27;).files[0];
+		const BYTES_PER_CHUNK = 2000; // 2kb chunk sizes.
+		const SIZE = blob.size;
+		var start = 0;
+		var end = BYTES_PER_CHUNK;
+		while( start &lt; SIZE ) {
+			var chunk = blob.slice(start, end);
+			uploadFile(chunk);
+			start = end;
+			end = start + BYTES_PER_CHUNK;
+		}
+	}
+
+	function uploadFile(blobFile) {
+		var fd = new FormData();
+		fd.append(&quot;fileToUpload&quot;, blobFile);
+		fd.append(&quot;var&quot;, &#x27;value&#x27;);
+
+		var xhr = new XMLHttpRequest();
+		xhr.open(&quot;POST&quot;, &quot;upload.php&quot;);
+		xhr.send(fd);
+	}
+
+## Add form listener:
+
+	$(&#x27;form&#x27;).submit(function(event) {
+        event.preventDefault();
+
+		//ajax....uploading code
+		var oReq = new XMLHttpRequest();
+		oReq.open(&quot;POST&quot;, &quot;stash.php&quot;, true);
+		oReq.onload = function(oEvent) {
+			if (oReq.status == 200) {... }
+		};
+		oReq.send(formData);
+    });
+
+&gt; here is an demo:
+http://stackoverflow.com/questions/166221/how-can-i-upload-files-asynchronously
+
+# Response
+# ResponseType:json
+
+    url = &#x27;https://ajax.googleapis.com/ajax/services/search/images?v=1.0&amp;q=http://m.weibo.cn&#x27;
+	var x = new XMLHttpRequest();
+	x.open(&#x27;GET&#x27;, url);
+	x.responseType = &#x27;json&#x27;;
+	x.onload = function(){
+		res = x.response;
+		console.log(res);//json
+	}
+</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
