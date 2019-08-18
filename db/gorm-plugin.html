@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/arch/docker-exec.md';
+const MD_URL='post/db/gorm-plugin.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>Docker exec nsenter</title>
+<title>Gorm plugin</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -47,42 +47,97 @@ const MD_URL='post/arch/docker-exec.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: Docker exec nsenter
-date: 2019-08-15
-updated: 2019-08-15
+title: Gorm plugin
+date: 2019-08-17
+updated: 2019-08-18
 ---
-# Docker exec nsenter
-## nsenter工具进入docker容器
-1. docker exec: 直接执行容器命令
-2. docker attach: 类似exec, 但是多个窗口attach 到一个窗口, 窗口都会同步的显示\阻塞
-3. nsenter: 外部工具
+# Gorm plugin
+GORM本身由Callbacks提供支持，因此您可以根据需要完全自定义GORM, 基于Scope
+跟hooks 不同，它不绑定Model
 
-nsenter命令抓包:
+## 注册新的callback
+注册新的callback到callbacks中
 
-    // 1、找到容器ID，并打印它的NS ID
-    docker inspect --format &quot;{{.State.Pid}}&quot;  16938de418ac
-    // 2、进入此容器的网络Namespace
-    nsenter -n -t  54438
-    // 3、抓DNS包
-    tcpdump -i eth0 udp dst port 53|grep youku.com
- 
--h --help
+    func updateCreated(scope *Scope) {
+        if scope.HasColumn(&quot;Created&quot;) {
+            scope.SetColumn(&quot;Created&quot;, &quot;Created by ahuigo&quot;)
+        }
+    }
 
-    Options:
-    -t, --target &lt;pid&gt;     target process to get namespaces from
-    -m, --mount[=&lt;file&gt;]   enter mount namespace
-    -u, --uts[=&lt;file&gt;]     enter UTS namespace (hostname etc)
-    -i, --ipc[=&lt;file&gt;]     enter System V IPC namespace
-    -n, --net[=&lt;file&gt;]     enter network namespace
-    -p, --pid[=&lt;file&gt;]     enter pid namespace
-    -U, --user[=&lt;file&gt;]    enter user namespace
-    -S, --setuid &lt;uid&gt;     set uid in entered namespace
-    -G, --setgid &lt;gid&gt;     set gid in entered namespace
-        --preserve-credentials do not touch uids or gids
-    -r, --root[=&lt;dir&gt;]     set the root directory
-    -w, --wd[=&lt;dir&gt;]       set the working directory
-    -F, --no-fork          do not fork before exec&#x27;ing &lt;program&gt;
-    -Z, --follow-context   set SELinux context according to --target PID</pre>
+影响db 和product:
+
+    db.Callback().Create().Before(&quot;gorm:create&quot;).Register(&quot;update_created_at&quot;, updateCreated)
+    product:=Product{Code: &quot;L1214&quot;, Created:&quot;&quot;,Price: 18}
+    db.Create(&amp;product)
+    fmt.Println(product)
+
+只改写product:
+
+    db.Callback().Create().After(&quot;gorm:create&quot;).Register(&quot;update_created_at&quot;, updateCreated)
+    product:=Product{Code: &quot;L1214&quot;, Created:&quot;&quot;,Price: 18}
+    db.Create(&amp;product)
+    fmt.Println(product)
+
+## 删除现有的callback
+从callbacks中删除callback
+
+    db.Callback().Create().Remove(&quot;gorm:create&quot;)
+    // 从Create回调中删除`gorm:create`回调
+
+## 替换现有的callback
+替换同名callback
+
+    db.Callback().Create().Replace(&quot;gorm:create&quot;, newCreateFunction)
+    // 使用新函数`newCreateFunction`替换回调`gorm:create`用于创建过程
+
+## 注册callback顺序
+注册 callback 顺序
+
+    db.Callback().Create().Before(&quot;gorm:create&quot;).Register(&quot;update_created_at&quot;, updateCreated)
+    db.Callback().Create().After(&quot;gorm:create&quot;).Register(&quot;update_created_at&quot;, updateCreated)
+    db.Callback().Query().After(&quot;gorm:query&quot;).Register(&quot;my_plugin:after_query&quot;, afterQuery)
+    db.Callback().Delete().After(&quot;gorm:delete&quot;).Register(&quot;my_plugin:after_delete&quot;, afterDelete)
+    db.Callback().Update().Before(&quot;gorm:update&quot;).Register(&quot;my_plugin:before_update&quot;, beforeUpdate)
+    db.Callback().Create().Before(&quot;gorm:create&quot;).After(&quot;gorm:before_create&quot;).Register(&quot;my_plugin:before_create&quot;, beforeCreate)
+
+## 预定义回调
+GORM定义了回调以执行其CRUD操作，在开始编写插件之前检查它们。
+
+1. Create callbacks
+1. Update callbacks
+1. Query callbacks
+1. Delete callbacks
+1. Row Query callbacks - 没有默认注册的 callback
+
+Row Query callbacks 在运行 Row 或 Rows 时被调用，默认情况下它没有注册的回调，你可以注册一个新的回调：
+
+    func updateTableName(scope *gorm.Scope) {
+        scope.Search.Table(scope.TableName() + &quot;_draft&quot;) // 追加 `_draft` 到表名后
+    }
+
+    db.Callback().RowQuery().Before(&#x27;gorm:row_query&#x27;).Register(&quot;publish:update_table_name&quot;, updateTableName)
+
+Test:
+
+    rows, err := db.Table(&quot;products&quot;).Select(&quot;Code&quot;).Rows()
+    for rows.Next() {
+        var name string
+        if err := rows.Scan(&amp;name); err != nil {
+        }
+    }
+
+
+# Scope
+
+## Table
+
+    scope.Search.Table(scope.TableName() + &quot;_draft&quot;) // 追加 `_draft` 到表名后
+
+## Column
+
+    if scope.HasColumn(&quot;Created&quot;){
+        scope.SetColumn(&quot;Created&quot;, &quot;Created by ahuigo&quot;)
+    }</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
