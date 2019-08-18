@@ -49,7 +49,7 @@ const MD_URL='post/ria/js-promise.md';
 <pre id="markdown" v-pre>---
 title: JS Promise
 date: 2018-10-04
-updated: 2019-08-17
+updated: 2019-08-04
 ---
 # 递归promise
 Promise 是递归的，Reject 不是
@@ -262,12 +262,9 @@ async function 本质就是promise:
 
 ## then 包含了await
     fetch(&#x27;/abc&#x27;).then(async (response) =&gt; {
-        if(1){return &#x27;result&#x27;}
         throw &#x27;error&#x27;
-    }).then(r =&gt; {
-        console.log({r});
     }).catch(e =&gt; {
-        console.log({error:e});
+        console.log([e, e]);
     })
 
 ## await exception
@@ -286,18 +283,18 @@ await exception
     }
     f()
 
-## Promise: 捕获try catch
-
-### exception within `new Promise`
-promise 中的exception 会被捕获为reject(exception)
+## Promise: 默认try catch
+promise 中的exception 会被reject
 
     new Promise(()=&gt;{throw new Exception(&#x27;aaaaa&#x27;);}).catch(r=&gt;r).then(r=&gt;console.log([r]))
 
-`new Promise()`比较特别，没有用await 模式， `async(r)` 是一个内promise, 这个内promise没有catch, 报`UnhandledPromiseRejectionWarning`
+
+Promise， 内`async(r)` 是一个内promise, 这个内promise没有catch, 报`UnhandledPromiseRejectionWarning`
 
     new Promise(async()=&gt;{throw new Exception(&#x27;aaaaa&#x27;);}).catch(r=&gt;r).then(r=&gt;console.log([r]))
 
-### promise within non-await async
+
+## example
 await reject:
 
     f = async ()=&gt;{
@@ -312,7 +309,17 @@ await reject:
     }
     f()
 
-## try catch with await
+## throw vs catch
+    new Promise(function() {
+        setTimeout(function() {
+            throw &#x27;or nah&#x27;;
+            //return Promise.reject(&#x27;or nah&#x27;); //also won&#x27;t work
+        }, 1000);
+    }).catch(function(e) {
+        console.log([e]); // doesn&#x27;t happen
+    });
+
+## try catch 
 catch err+data
 
     export function catchEm(promise) {

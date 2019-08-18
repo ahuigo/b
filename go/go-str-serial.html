@@ -49,7 +49,7 @@ const MD_URL='post/go/go-str-serial.md';
 <pre id="markdown" v-pre>---
 title: go str
 date: 2019-05-06
-updated: 2019-07-21
+updated: 2019-08-04
 ---
 # go json
 
@@ -70,8 +70,11 @@ updated: 2019-07-21
     enc.Encode(d)
 
 ## Unmarshal
+### str to struct
+    res := response2{}
+    json.Unmarshal([]byte(str), &amp;res)
 
-### to map
+### str to map 
 由于nil map 其实不能被赋值，所以go 利用reflect 动态生成的新map
 
     byt := []byte(`{&quot;num&quot;:6.13,&quot;strs&quot;:[&quot;a&quot;,&quot;b&quot;]}`)
@@ -82,10 +85,12 @@ updated: 2019-07-21
     strs := dat[&quot;strs&quot;].([]interface{})
         // [&quot;a&quot;,&quot;b&quot;]
 
-## to struct
-    res := response2{}
-    json.Unmarshal([]byte(str), &amp;res)
+### map to struct
+    //import &quot;github.com/mitchellh/mapstructure&quot;
+	err := mapstructure.Decode(mapinput, &amp;result)
+	err := mapstructure.Decode(&amp;mapinput, &amp;result)
 
+其实是利用反射：[go-lib/str/map2struct.go]
 </pre>
 <div id="pager"></div>
 <div class="hr"></div>
