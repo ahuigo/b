@@ -2,9 +2,64 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-08-18T15:10:37Z</updated>
+<updated>2019-08-18T19:14:07Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>React Build</title>
+<link href="/b/ria/react-build" rel="alternate" type="text/html"/>
+<updated>2019-08-18T00:00:00Z</updated>
+<summary/>
+<published>2019-08-18T00:00:00Z</published>
+<content># React Build
+
+## babel
+babel 使用`react-app/prod` 编译jsx
+
+    npm i babel
+    npx babel --watch src --</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>node 的npx 是什么？</title>
+<link href="/b/ria/node-npx" rel="alternate" type="text/html"/>
+<updated>2019-08-18T00:00:00Z</updated>
+<summary/>
+<published>2018-08-20T00:00:00Z</published>
+<content># node 的npx 是什么？
+&gt; http://www.ruanyifeng.com/blog/2019/02/npx.html
+
+以前我们要手动输入路径:
+
+    ./node_modules</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>JS comporess</title>
+<link href="/b/ria/js-compress" rel="alternate" type="text/html"/>
+<updated>2019-08-18T00:00:00Z</updated>
+<summary/>
+<published>2019-08-18T00:00:00Z</published>
+<content># JS compress 
+https://blog.bitsrc.io/10-javascript-compression-tools-and-libraries-for-2019-f141a0b</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>mac 工具集</title>
+<link href="/b/mac/mac-tool" rel="alternate" type="text/html"/>
+<updated>2019-08-18T00:00:00Z</updated>
+<summary/>
+<published>2018-10-10T00:00:00Z</published>
+<content># Preface
+本文是我所用的mac 工具集大杂烩。
+
+一些mac osx 能做而linux 桌面级OS 目前不能做的事情：
+
+- mac 支持全局readline , 字符编辑的效率非常非常高(</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Shell 工具集合</title>
+<link href="/b/c/shell-tool" rel="alternate" type="text/html"/>
+<updated>2019-08-18T00:00:00Z</updated>
+<summary/>
+<published>2016-09-27T00:00:00Z</published>
+<content># System debug, 系统调试工具
+
+- web: 对于 Web 调试，curl 和 curl -I 很方便灵活，或者也可以使用它们的同行 wget，或者更现代的 httpie。
+- dis</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>js ajax legacy</title>
 <link href="/b/ria/js-ajax-legacy" rel="alternate" type="text/html"/>
 <updated>2019-08-18T00:00:00Z</updated>
@@ -50,14 +105,14 @@ The only format in the spec is a simplified </content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>js notes</title>
 <link href="/b/ria/js-obj" rel="alternate" type="text/html"/>
-<updated>2019-08-04T00:00:00Z</updated>
+<updated>2019-08-18T00:00:00Z</updated>
 <summary/>
-<published>2019-08-04T00:00:00Z</published>
+<published>2019-08-18T00:00:00Z</published>
 <content># Object
 
-## isEempty
+## isEmpty
     ECMA 7+:
-    Object.entries(obj).length === 0 &amp;&amp; obj.constructor === Objec</content>
+    Object.entries(obj).length === 0 &amp;&amp; obj.constructor === Object</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Event</title>
 <link href="/b/ria/js-dom-event" rel="alternate" type="text/html"/>
@@ -417,65 +472,4 @@ click 之于argparse/argv, 相当于requests 之于urllib
 
     /dev/stdin -&gt; /dev/fd/0
     /dev/stdout </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>expect 键盘模拟</title>
-<link href="/b/c/ops-expect" rel="alternate" type="text/html"/>
-<updated>2019-07-17T00:00:00Z</updated>
-<summary/>
-<published>2019-07-17T00:00:00Z</published>
-<content># Preface
-Expect 是Tcl/Tk 语言最有名的扩展，可通过[tcl/tk](/p/linux-tcl) 了解tcl/tk 的用法
-
-&gt; 注意：spawn 结束后，一定要加上`inter</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Js 字符串大全</title>
-<link href="/b/ria/js-str" rel="alternate" type="text/html"/>
-<updated>2019-07-15T00:00:00Z</updated>
-<summary/>
-<published>2015-03-15T00:00:00Z</published>
-<content># Js 字符串大全
-字符定义与python 一样, 而且不区分双引号：
-
-    '\x00' == '\u0000'
-	'\x31' == "\x31"
-
-	'好' === '\u597D' //</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>js fuck</title>
-<link href="/b/ria/js-expr" rel="alternate" type="text/html"/>
-<updated>2019-07-15T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># eval
-
-    i=5
-    f=i=&gt;i
-    eval("f(i)")===5
-
-liaoxuefeng 老师利用eval 写的js课程：
-
-	var code = _mdGetCod</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Js dom 笔记</title>
-<link href="/b/ria/js-dom" rel="alternate" type="text/html"/>
-<updated>2019-07-17T00:00:00Z</updated>
-<summary/>
-<published>2016-01-23T00:00:00Z</published>
-<content># Js dom 笔记
-    document.documentElement ;//html
-    document.body;  //html
-# Device
-## Navigator
-na</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>SSH SERVER 的配置</title>
-<link href="/b/net/net-ssh-server" rel="alternate" type="text/html"/>
-<updated>2019-07-13T00:00:00Z</updated>
-<summary/>
-<published>2019-06-23T00:00:00Z</published>
-<content># SSH SERVER
-OpenSSH Installations under CentOS Linux
-
-	# To install the server and client type:
-	yu</content>
 </entry></feed>
