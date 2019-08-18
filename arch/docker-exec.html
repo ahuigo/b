@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/ui/ui-animation.md';
+const MD_URL='post/arch/docker-exec.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>收集了下UI 动画特效</title>
+<title>Docker exec nsenter</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -47,52 +47,42 @@ const MD_URL='post/ui/ui-animation.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: 收集了下UI 动画特效
-date: 2019-02-09
+title: Docker exec nsenter
+date: 2019-08-15
 updated: 2019-08-18
 ---
-# UI 动画特效
-https://medium.com/@ann.green/loading-indicators-e9d9ac9680b
+# Docker exec nsenter
+## nsenter工具进入docker容器
+1. docker exec: 直接执行容器命令
+2. docker attach: 类似exec, 但是多个窗口attach 到一个窗口, 窗口都会同步的显示\阻塞
+3. nsenter: 外部工具
 
-# Materia UI 
-https://materia.io
-https://www.mdui.org/design/material-design/environment.html#environment-3d-world
+nsenter命令抓包:
 
-## tools
-### share design
-任何人都可以独立于web/ios/android 修改样式，样式修改不必重启APP，APP内引入的的UI  相关的变量
-https://github.com/material-foundation/material-remixer
+    // 1、找到容器ID，并打印它的NS ID
+    docker inspect --format &quot;{{.State.Pid}}&quot;  16938de418ac
+    // 2、进入此容器的网络Namespace
+    nsenter -n -t  54438
+    // 3、抓DNS包
+    tcpdump -i eth0 udp dst port 53|grep youku.com
+ 
+-h --help
 
-### devices
-各种设备尺寸
-https://material.io/tools/devices/
-
-### resizer
-https://material.io/tools/resizer/
-
-# components
-https://rsuitejs.com/en/components/table
-
-# color
-普通人的配色方案
-http://www.ruanyifeng.com/blog/2019/03/coloring-scheme.html
-Flat UI 方案
-http://designmodo.github.io/Flat-UI/
-
-# icon
-阿里icon: https://www.iconfont.cn/search/index?q=line
-http://compute.vision/nouns/index.html
-svg icon
-https://icons8.com/icons/set/check
-推荐一个icon 资源站点:
-https://www.flaticon.com/free-icon/weibo_408769#term=weibo&amp;page=1&amp;position=5
-
-# pic
-一个收集无版权插图的网站，提供 SVG / PNG 格式下载，并且允许更改颜色
-https://gallery.manypixels.co/
-
-# fonts
-http://www.ruanyifeng.com/blog/2008/06/typography_notes.html</pre>
+    Options:
+    -t, --target &lt;pid&gt;     target process to get namespaces from
+    -m, --mount[=&lt;file&gt;]   enter mount namespace
+    -u, --uts[=&lt;file&gt;]     enter UTS namespace (hostname etc)
+    -i, --ipc[=&lt;file&gt;]     enter System V IPC namespace
+    -n, --net[=&lt;file&gt;]     enter network namespace
+    -p, --pid[=&lt;file&gt;]     enter pid namespace
+    -U, --user[=&lt;file&gt;]    enter user namespace
+    -S, --setuid &lt;uid&gt;     set uid in entered namespace
+    -G, --setgid &lt;gid&gt;     set gid in entered namespace
+        --preserve-credentials do not touch uids or gids
+    -r, --root[=&lt;dir&gt;]     set the root directory
+    -w, --wd[=&lt;dir&gt;]       set the working directory
+    -F, --no-fork          do not fork before exec&#x27;ing &lt;program&gt;
+    -Z, --follow-context   set SELinux context according to --target PID</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">

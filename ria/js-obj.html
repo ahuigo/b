@@ -48,12 +48,12 @@ const MD_URL='post/ria/js-obj.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: js notes
-date: 2019-08-04
-updated: 2019-08-04
+date: 2019-08-18
+updated: 2019-08-18
 ---
 # Object
 
-## isEempty
+## isEmpty
     ECMA 7+:
     Object.entries(obj).length === 0 &amp;&amp; obj.constructor === Object
     ECMA 5+:
@@ -170,6 +170,7 @@ property  list
         判断给定的属性是否可以用 for...in 语句进行枚举。
     obj.__proto__
 
+### for in prop
 obj.hasOwnProperty(&#x27;attr&#x27;) # 不是继承proto的
 
 in, `for in` 可以判断ownProp 以及继承的props
@@ -178,6 +179,16 @@ in, `for in` 可以判断ownProp 以及继承的props
     &gt; oo.__proto__= {a:1}
     &gt; &#x27;a&#x27; in oo
     true
+
+ Object.keys(obj)  ownprop
+
+     static ObjectFlip(obj) {
+        const ret = {};
+        Object.keys(obj).forEach((key) =&gt; {
+            ret[obj[key]] = key;
+        });
+        return ret;
+    }
 
 ## value
 
@@ -259,6 +270,7 @@ Example1，在ES5 中Prototype 可以用来将定义魔法属性，可以实现�
 # observe
 
 ## proxy 
+see js-obj-proxies.md
 
     let validator = {
         set: function(obj, prop, value) {
@@ -320,6 +332,12 @@ Example1，在ES5 中Prototype 可以用来将定义魔法属性，可以实现�
     };
 
 ## 对象实例的原型
+    &gt; new A().constructor===A
+        true
+    &gt; new A().__proto__===A.prototype
+        true
+
+So:
 1. prototype是原型独有的属性,也就是有constructor可以实例化对象的方法才有;
 2. `__proto__` 是对象才有的属性, 指向原型属性，实现原型继承.
 

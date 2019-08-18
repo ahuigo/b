@@ -48,8 +48,8 @@ const MD_URL='post/git/git-.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: Git 命令大全
-date: 2019-08-04
-updated: 2019-08-04
+date: 2019-08-18
+updated: 2019-08-18
 ---
 # Git 配置
 
@@ -719,15 +719,21 @@ to keep the remote or local file, :
 
 ## merge option
 
-    git pull -s ours      
-        ours ignore all theirs changes
-        --strategy=theirs
-        --strategy=ours
-    git pull -X ours
-        use ours if conflict
-	git merge -X &lt;options&gt;
-        -Xours   keep ours if conflict
-        -Xtheirs
+    -s, --strategy
+        resolve     This resolves cases with only two heads,
+        octopus     This resolves cases with more than two heads,
+        recursive   This can only resolve two heads using a 3-way merge algorithm
+            -X &lt;options&gt;     this strategy can take merge-options:
+            ours
+            theirs
+            patience
+            ignore-space-change
+        ours        This resolves any number of heads
+
+e.g.
+
+        git pull -X ours
+        git pull -s recursive -Xours  
 
 ### option
 

@@ -48,8 +48,8 @@ const MD_URL='post/ria/js-dom-html5.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: html5 笔记
-date: 2019-07-19
-updated: 2019-07-19
+date: 2019-08-18
+updated: 2019-08-18
 ---
 # Tag
 
@@ -119,15 +119,31 @@ Datalist-Option:
 
 ##　video
 
-	node.play();
-	node.pause();
-	node.load();
 
 	  &lt;video id=&quot;video1&quot; width=&quot;420&quot; style=&quot;margin-top:15px;&quot;&gt;
 		&lt;source src=&quot;/example/html5/mov_bbb.mp4&quot; type=&quot;video/mp4&quot; /&gt;
 		&lt;source src=&quot;/example/html5/mov_bbb.ogg&quot; type=&quot;video/ogg&quot; /&gt;
 		Your browser does not support HTML5 video.
 	  &lt;/video&gt;
+
+### play control
+
+    node = $(&#x27;#video1&#x27;)
+    node.src = $(&#x27;#src&#x27;).value
+    //or
+    node.children[0].src = $(&#x27;#src&#x27;).value
+	node.load();
+	node.play();
+	node.pause();
+
+speed:
+
+    /* play video twice as fast */
+    document.querySelector(&#x27;video&#x27;).defaultPlaybackRate = 2.0;
+    document.querySelector(&#x27;video&#x27;).play();
+
+    /* now play three times as fast just for the heck of it */
+    document.querySelector(&#x27;video&#x27;).playbackRate = 3.0;
 
 ## radio
 
@@ -319,9 +335,15 @@ Example:
 
 	var stateObj = { foo: &quot;bar&quot; };
 	history.pushState(stateObj, title=&quot;page 2&quot;, &quot;bar2.html&quot;);
-	//title 可能不生效
 
-## event
+参数：
+
+    stateObj
+        当离开此页时，popstate 会收到e.stateObj
+	title
+        可能不生效
+
+## popstate
 
 	window.onpopstate = function(event) {
 		alert(&quot;location: &quot; + document.location + &quot;, state: &quot; + JSON.stringify(event.state));

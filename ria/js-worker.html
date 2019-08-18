@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/ui/ui-animation.md';
+const MD_URL='post/ria/js-worker.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>收集了下UI 动画特效</title>
+<title>JS worker</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -47,52 +47,16 @@ const MD_URL='post/ui/ui-animation.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: 收集了下UI 动画特效
-date: 2019-02-09
+title: JS worker
+date: 2019-08-14
 updated: 2019-08-18
 ---
-# UI 动画特效
-https://medium.com/@ann.green/loading-indicators-e9d9ac9680b
+# JS worker
+分为web worker 与service worker(只能用于https/localhost)
 
-# Materia UI 
-https://materia.io
-https://www.mdui.org/design/material-design/environment.html#environment-3d-world
-
-## tools
-### share design
-任何人都可以独立于web/ios/android 修改样式，样式修改不必重启APP，APP内引入的的UI  相关的变量
-https://github.com/material-foundation/material-remixer
-
-### devices
-各种设备尺寸
-https://material.io/tools/devices/
-
-### resizer
-https://material.io/tools/resizer/
-
-# components
-https://rsuitejs.com/en/components/table
-
-# color
-普通人的配色方案
-http://www.ruanyifeng.com/blog/2019/03/coloring-scheme.html
-Flat UI 方案
-http://designmodo.github.io/Flat-UI/
-
-# icon
-阿里icon: https://www.iconfont.cn/search/index?q=line
-http://compute.vision/nouns/index.html
-svg icon
-https://icons8.com/icons/set/check
-推荐一个icon 资源站点:
-https://www.flaticon.com/free-icon/weibo_408769#term=weibo&amp;page=1&amp;position=5
-
-# pic
-一个收集无版权插图的网站，提供 SVG / PNG 格式下载，并且允许更改颜色
-https://gallery.manypixels.co/
-
-# fonts
-http://www.ruanyifeng.com/blog/2008/06/typography_notes.html</pre>
+限制：
+1. 不能传DOM
+2. 不能传function/prototype</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">

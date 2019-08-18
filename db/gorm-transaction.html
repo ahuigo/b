@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/ui/ui-animation.md';
+const MD_URL='post/db/gorm-transaction.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>收集了下UI 动画特效</title>
+<title>gorm transaction</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -47,52 +47,49 @@ const MD_URL='post/ui/ui-animation.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: 收集了下UI 动画特效
-date: 2019-02-09
-updated: 2019-08-18
+title: gorm transaction
+date: 2019-08-17
+updated: 2019-08-17
 ---
-# UI 动画特效
-https://medium.com/@ann.green/loading-indicators-e9d9ac9680b
+# gorm 事务
+GORM 默认会将单个的 create, update, delete操作封装在事务内进行处理，以确保数据的完整性。
 
-# Materia UI 
-https://materia.io
-https://www.mdui.org/design/material-design/environment.html#environment-3d-world
+    tx := db.Begin()
+    tx.Create(...)
 
-## tools
-### share design
-任何人都可以独立于web/ios/android 修改样式，样式修改不必重启APP，APP内引入的的UI  相关的变量
-https://github.com/material-foundation/material-remixer
+    // do sth....
 
-### devices
-各种设备尺寸
-https://material.io/tools/devices/
+    tx.Rollback()
+    //or
+    tx.Commit()
 
-### resizer
-https://material.io/tools/resizer/
+一个具体的例子
 
-# components
-https://rsuitejs.com/en/components/table
+    func CreateAnimals(db *gorm.DB) error {
+        // Note the use of tx as the database handle once you are within a transaction
+        tx := db.Begin()
+        defer func() {
+            if r := recover(); r != nil {
+            tx.Rollback()
+            }
+        }()
 
-# color
-普通人的配色方案
-http://www.ruanyifeng.com/blog/2019/03/coloring-scheme.html
-Flat UI 方案
-http://designmodo.github.io/Flat-UI/
+        if err := tx.Error; err != nil {
+            return err
+        }
 
-# icon
-阿里icon: https://www.iconfont.cn/search/index?q=line
-http://compute.vision/nouns/index.html
-svg icon
-https://icons8.com/icons/set/check
-推荐一个icon 资源站点:
-https://www.flaticon.com/free-icon/weibo_408769#term=weibo&amp;page=1&amp;position=5
+        if err := tx.Create(&amp;Animal{Name: &quot;Giraffe&quot;}).Error; err != nil {
+            tx.Rollback()
+            return err
+        }
 
-# pic
-一个收集无版权插图的网站，提供 SVG / PNG 格式下载，并且允许更改颜色
-https://gallery.manypixels.co/
+        if err := tx.Create(&amp;Animal{Name: &quot;Lion&quot;}).Error; err != nil {
+            tx.Rollback()
+            return err
+        }
 
-# fonts
-http://www.ruanyifeng.com/blog/2008/06/typography_notes.html</pre>
+        return tx.Commit().Error
+    }</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">

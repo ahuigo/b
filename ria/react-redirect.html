@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/ui/ui-animation.md';
+const MD_URL='post/ria/react-redirect.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>收集了下UI 动画特效</title>
+<title>React Redirect</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -47,52 +47,46 @@ const MD_URL='post/ui/ui-animation.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: 收集了下UI 动画特效
-date: 2019-02-09
+title: React Redirect
+date: 2019-08-16
 updated: 2019-08-18
 ---
-# UI 动画特效
-https://medium.com/@ann.green/loading-indicators-e9d9ac9680b
+# React Redirect
+https://stackoverflow.com/questions/45089386/what-is-the-best-way-to-redirect-a-page-using-react-router
 
-# Materia UI 
-https://materia.io
-https://www.mdui.org/design/material-design/environment.html#environment-3d-world
+## Redirect
+It should be redered as dom 
 
-## tools
-### share design
-任何人都可以独立于web/ios/android 修改样式，样式修改不必重启APP，APP内引入的的UI  相关的变量
-https://github.com/material-foundation/material-remixer
+    import React from &#x27;react&#x27;
+    import  { Redirect } from &#x27;react-router-dom&#x27;
 
-### devices
-各种设备尺寸
-https://material.io/tools/devices/
+    const ProtectedComponent = () =&gt; {
+        if (authFails)
+            return &lt;Redirect to=&#x27;/login&#x27;  /&gt;
+        }
+        return &lt;div&gt; My Protected Component &lt;/div&gt;
+    }
 
-### resizer
-https://material.io/tools/resizer/
+## via history push
+&gt; 注意不是原生的history.pushState
 
-# components
-https://rsuitejs.com/en/components/table
 
-# color
-普通人的配色方案
-http://www.ruanyifeng.com/blog/2019/03/coloring-scheme.html
-Flat UI 方案
-http://designmodo.github.io/Flat-UI/
+    myFunction() {
+        addSomeStuff()
+        this.props.history.push(&#x27;/path&#x27;)
+    }
 
-# icon
-阿里icon: https://www.iconfont.cn/search/index?q=line
-http://compute.vision/nouns/index.html
-svg icon
-https://icons8.com/icons/set/check
-推荐一个icon 资源站点:
-https://www.flaticon.com/free-icon/weibo_408769#term=weibo&amp;page=1&amp;position=5
+In order to have access to history, you can wrap your component with an HOC called `withRouter` when you wrap your component with it, it passes match location and history props. 
 
-# pic
-一个收集无版权插图的网站，提供 SVG / PNG 格式下载，并且允许更改颜色
-https://gallery.manypixels.co/
+If your component is a child of &lt;Route /&gt; component, I mean if it is something like `&lt;Route path=&#x27;/path&#x27; component={myComponent} /&gt;` you don&#x27;t have to wrap your component with `withRouter &lt;Route /&gt;` passes match location and history to its child.
 
-# fonts
-http://www.ruanyifeng.com/blog/2008/06/typography_notes.html</pre>
+## Redirect after clicking some element
+
+    &lt;div onClick={this.props.history.push(&#x27;/path&#x27;)}&gt; some stuff &lt;/div&gt;
+
+or you can use &lt;Link /&gt; component
+
+    &lt;Link to=&#x27;/path&#x27; &gt; some stuff &lt;/Link&gt;</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">

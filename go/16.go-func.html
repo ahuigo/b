@@ -49,7 +49,7 @@ const MD_URL='post/go/16.go-func.md';
 <pre id="markdown" v-pre>---
 title: Golang func
 date: 2018-09-27
-updated: 2019-08-04
+updated: 2019-08-18
 ---
 # define func
 1. 不支持嵌套nested, 重载overload 和 
@@ -360,6 +360,15 @@ error类型本身就是一个预定义好的接口，里面定义了一个method
 
 	err=nil
 	err=io.EOF
+
+## if err
+err 作用域限定为if/else 内
+
+    if rows, err := db.Table(&quot;products&quot;).Select(&quot;*&quot;).Rows(); err==nil{
+      ...
+    }else{
+        fmt.Println(&quot;error:&quot;,err)
+    }
 
 ## 方式1：errrors.New
 

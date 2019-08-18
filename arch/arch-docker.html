@@ -49,7 +49,7 @@ const MD_URL='post/arch/arch-docker.md';
 <pre id="markdown" v-pre>---
 title: 学习 docker
 date: 2018-09-27
-updated: 2019-07-19
+updated: 2019-08-18
 ---
 # 什么是Docker
 虚拟机是对硬件的虚拟化(需要Hypervisor这个软件层), 而docker （LXC, linux container）是对操作系统的虚拟化。
@@ -149,6 +149,7 @@ Delete all images
     ahuigo/ubuntu:v2:指定要创建的目标镜像名
 
 ### 通过容器导出tar
+#### image: save to load
 image to image.tar
 
     docker save [OPTIONS] IMAGE [IMAGE...] -o image.tar
@@ -161,6 +162,8 @@ image.tar to image
     docker load -i fedora.tar
         # Load an image from a tar archive or STDIN
 
+#### container to image: export to import
+container(可以是exited statush)
 container to tar
 
     docker export &lt;container&gt; -o container.tar
@@ -171,11 +174,12 @@ containter.tar to image: Import the contents from a tarball to create a filesyst
     docker import [OPTIONS] file|URL|- [REPOSITORY[:TAG]]
         docker import container.tar 
         docker import container.tar reop:v0.0.1
+        cat ubuntu_export.tar | sudo docker import - ubuntu:18.04
 
 import 类似 commit:
 docker import理解为将外部文件复制进来形成只有一层文件系统的镜像，而docker commit则是将当前的改动提交为一层文件系统，然后叠加到原有镜像之上。
 
-    $ docker commit e218edb10161 ahuigo/ubuntu:v2
+    $ docker commit &lt;container&gt; ahuigo/ubuntu:v2
 
 ### Dockerfile 创建image
 参考： http://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html
@@ -219,7 +223,7 @@ dockerfile CMD, 不会解析环境变量
     或
     CMD echo $PROJECTNAME
 
-#### ARG ENV
+#### ARG and ENV
 docker `--build-arg &lt;varname&gt;=&lt;value&gt;`
 
     ARG &lt;name&gt;[=&lt;default value&gt;]
@@ -409,6 +413,11 @@ remove all images
     $ docker logs 2b1b7a428627
 
 ## 启动容器选项
+### limit shm memory 
+限制写文件大小：
+
+    docker run -it --shm-size=256m oracle11g /bin/bash
+
 ### 指定容器name
 
     docker run -d -P --name runoob training/webapp python app.py
@@ -534,12 +543,34 @@ docker inspect -f &#x27;{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}
 
 
 # Docker Compose
+Refer: https://yeasy.gitbooks.io/docker_practice/compose/introduction.html
 如果想将两个容器连接到一起：比如myweb 连接 wordpressdb:mysql(mysql是容器别名)
 
     docker container run -d --name wordpressdb --env MYSQL_ROOT_PASSWORD=123456 --env MYSQL_DATABASE=wordpress mysql:5.7
     docker container run --name web --volume &quot;$PWD/wordpress/&quot;:/var/www/html --link wordpressdb:mysql myweb
+
+Compose 中有两个重要的概念：
+
+    服务 (service)：一个应用的容器，实际上可以包括若干运行相同镜像的容器实例。
+    项目 (project)：由一组关联的应用容器组成的一个完整业务单元，在 docker-compose.yml 文件中定义。
     
 但是大量的容器连接, 就需要用 compose 一键启动\停止\rm 容器:
+
+## 命令+选项
+compose 有很多docker 自己的选项
+
+    -d 后台运行容器。
+    --name NAME 为容器指定一个名字。
+    --entrypoint CMD 覆盖默认的容器启动指令。
+    -e KEY=VAL 设置环境变量值，可多次使用选项来设置多个环境变量。
+    -u, --user=&quot;&quot; 指定运行容器的用户名或者 uid。
+    --no-deps 不自动启动关联的服务容器。
+    --rm 运行命令后自动删除容器，d 模式下将忽略。
+    -p, --publish=[] 映射容器端口到本地主机。
+    --service-ports 配置服务端口并映射到本地主机。
+    -T 不分配伪 tty，意味着依赖 tty 的指令将无法运行。
+
+compose 有很多命令，
 
     $ docker-compose -h
 
@@ -574,7 +605,7 @@ example
     # docker-compose -f docker-compose.yml up -d
     $ cat docker-compose.yml
 
-
+## 配置
 当前目录下配置docker-compose.yml 配置
 
     version: &#x27;1.1&#x27;
@@ -595,7 +626,6 @@ example
             working_dir: /var/www/html
             volumes:
             - wordpress:/var/www/html
-
     
 # help
     docker help run

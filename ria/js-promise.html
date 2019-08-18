@@ -49,7 +49,7 @@ const MD_URL='post/ria/js-promise.md';
 <pre id="markdown" v-pre>---
 title: JS Promise
 date: 2018-10-04
-updated: 2019-08-04
+updated: 2019-08-18
 ---
 # 递归promise
 Promise 是递归的，Reject 不是
@@ -262,9 +262,12 @@ async function 本质就是promise:
 
 ## then 包含了await
     fetch(&#x27;/abc&#x27;).then(async (response) =&gt; {
+        if(1){return &#x27;result&#x27;}
         throw &#x27;error&#x27;
+    }).then(r =&gt; {
+        console.log({r});
     }).catch(e =&gt; {
-        console.log([e, e]);
+        console.log({error:e});
     })
 
 ## await exception
@@ -283,18 +286,18 @@ await exception
     }
     f()
 
-## Promise: 默认try catch
-promise 中的exception 会被reject
+## Promise: 捕获try catch
+
+### exception within `new Promise`
+promise 中的exception 会被捕获为reject(exception)
 
     new Promise(()=&gt;{throw new Exception(&#x27;aaaaa&#x27;);}).catch(r=&gt;r).then(r=&gt;console.log([r]))
 
-
-Promise， 内`async(r)` 是一个内promise, 这个内promise没有catch, 报`UnhandledPromiseRejectionWarning`
+`new Promise()`比较特别，没有用await 模式， `async(r)` 是一个内promise, 这个内promise没有catch, 报`UnhandledPromiseRejectionWarning`
 
     new Promise(async()=&gt;{throw new Exception(&#x27;aaaaa&#x27;);}).catch(r=&gt;r).then(r=&gt;console.log([r]))
 
-
-## example
+### promise within non-await async
 await reject:
 
     f = async ()=&gt;{
@@ -309,17 +312,7 @@ await reject:
     }
     f()
 
-## throw vs catch
-    new Promise(function() {
-        setTimeout(function() {
-            throw &#x27;or nah&#x27;;
-            //return Promise.reject(&#x27;or nah&#x27;); //also won&#x27;t work
-        }, 1000);
-    }).catch(function(e) {
-        console.log([e]); // doesn&#x27;t happen
-    });
-
-## try catch 
+## try catch with await
 catch err+data
 
     export function catchEm(promise) {
@@ -388,8 +381,24 @@ e.g.:
                                                 //但是没有timer runing, 不会阻塞程序的退出
     });
 
-## async in then:
+# async in then:
+## resolve(promise)
+resolve 会返回await promise
+
+    new Promise(resolve=&gt;{
+        resolve(Promise.resolve(111))
+    }).then(console.log)
+    //得到111 而不是promise
+
+或这样
+
+    Promise.resolve(3).then(res=&gt;{
+        return Promise.resolve(111)
+       }).then(res=&gt;console.log([res]))
+       //得到是111
+
 ## promise in then:
+会传promise
 
     fetch(url).then(async response=&gt;await response.json())
 

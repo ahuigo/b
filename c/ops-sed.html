@@ -48,8 +48,8 @@ const MD_URL='post/c/ops-sed.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: Sed 简记
-date: 2019-07-20
-updated: 2019-07-20
+date: 2019-08-18
+updated: 2019-08-18
 ---
 # sed 与gsed
 grep 与sed 同样是以按行匹配，不过sed 不仅能按行匹配，还能替换字符
@@ -81,6 +81,8 @@ sed 命令行基本格式为:
 
     s 替换
     c change line
+        $ gsed -i &#x27;/^import skele/c ahui&#x27; b.txt
+        $ gsed -i &#x27;/^import skele/c\ahui&#x27; b.txt
     d 删除line
     i 插入line
     a 追加line

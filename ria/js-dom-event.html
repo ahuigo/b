@@ -49,7 +49,7 @@ const MD_URL='post/ria/js-dom-event.md';
 <pre id="markdown" v-pre>---
 title: Event
 date: 2018-10-04
-updated: 2019-08-04
+updated: 2019-08-18
 ---
 # Event
 
@@ -268,13 +268,19 @@ addEvent submit handler: 只能用e.preventDefault()
     e.keyCode == e.which == e.button+1:
          16-Shift, 17-Ctrl, 18-Alt
          1-click 3-right-click
-    e.ctrlKey, e.altKey
+    e.ctrlKey, e.altKey,e.metaKey(true/false)
 
     //body.onkeydown = handler
     document.addEventListener(&#x27;keydown&#x27;, function(e){
         isShiftKey = window.event ? window.event.shiftKey : e.shiftKey
         console.log(e.which,e.keyCode,e.ctrlKey, isShiftKey)
      })
+
+shift click:
+
+    function onclick(e) {
+        console.log(e.button, e.shiftKey )
+    }
 
 ### keyEvent with textarea
 
@@ -334,7 +340,7 @@ trigger resize:
 trigger:
 
     $(&#x27;#container&#x27;).on(&#x27;click&#x27;, &#x27;a&#x27;, function(e) {
-　　　　window.history.pushState(null, null, $(this).attr(&#x27;href&#x27;));
+　　　　window.history.pushState(null, &quot;title&quot;, $(this).attr(&#x27;href&#x27;));
 　　　　// ajax fetch &amp; render
 　　　　e.preventDefault();
 　　});
@@ -369,7 +375,8 @@ manully trigger popstate/hashchange
 
     history.pushState(state, &#x27;&#x27;, url);
     var popStateEvent = new PopStateEvent(&#x27;popstate&#x27;, { state: state });
-    dispatchEvent(popStateEvent);</pre>
+    dispatchEvent(popStateEvent);
+</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
