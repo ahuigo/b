@@ -49,7 +49,7 @@ const MD_URL='post/go/16.go-func.md';
 <pre id="markdown" v-pre>---
 title: Golang func
 date: 2018-09-27
-updated: 2019-07-21
+updated: 2019-08-18
 ---
 # define func
 1. 不支持嵌套nested, 重载overload 和 
@@ -239,6 +239,43 @@ Named value redeclared error:
         println(s1, s2)
     }
 
+# Argument 
+传参时类型要匹配(包括pointer). 
+
+## struct as arg
+&gt; 不过struct 作为caller 时：`struct.method` 与`(&amp;struct).method` 等价（）
+struct 作为参数是按值传递:
+
+    package main
+    import &quot;fmt&quot;
+    type S struct{
+        Name string
+        age int
+    }
+    func test(s S){
+        s.Name=&quot;modify&quot;
+    }
+
+    func main(){
+        s:=S{&quot;jack&quot;,0}
+        test(s)
+        fmt.Println(s)
+            //{&quot;jack&quot;, 0}
+    }
+
+## map as arg
+map 作为参数是按引用传递:
+
+    func test(s map[string]int){
+        s[&quot;one&quot;]=100
+    }
+
+    func main(){
+        m := map[string]int{&quot;one&quot;: 1, &quot;two&quot;: 2}
+        test(m)
+        fmt.Println(m)
+    }
+
 # Methods(struct)
 Go does not have classes. However, you can define methods with a special receiver argument.
 The receiver appears in its `own argument list` between the `func keyword` and the `method name`.
@@ -301,7 +338,17 @@ If you wanna change receivers, use pointer pls.
 	}
 
 ### pointer as arg
-`p.Abs()` 和 `(*p).Abs()`等价，是传值还是指针完全看定义
+`p.Abs()` 和 `(*p).Abs()`等价，是传值还是指针完全看成员方法的定义
+
+纯函数类型则要严格匹配
+
+    func test(p int){
+        p=1
+    }
+    i:=0
+    j:=&amp;i
+    test(j)
+    println(*j)
 
 # Errors
 The error type is a built-in interface similar to fmt.Stringer:
@@ -313,6 +360,15 @@ error类型本身就是一个预定义好的接口，里面定义了一个method
 
 	err=nil
 	err=io.EOF
+
+## if err
+err 作用域限定为if/else 内
+
+    if rows, err := db.Table(&quot;products&quot;).Select(&quot;*&quot;).Rows(); err==nil{
+      ...
+    }else{
+        fmt.Println(&quot;error:&quot;,err)
+    }
 
 ## 方式1：errrors.New
 

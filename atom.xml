@@ -2,9 +2,31 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-08-17T15:44:43Z</updated>
+<updated>2019-08-18T13:45:44Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Gorm plugin</title>
+<link href="/b/db/gorm-plugin" rel="alternate" type="text/html"/>
+<updated>2019-08-18T00:00:00Z</updated>
+<summary/>
+<published>2019-08-17T00:00:00Z</published>
+<content># Gorm plugin
+GORM本身由Callbacks提供支持，因此您可以根据需要完全自定义GORM, 基于Scope
+跟hooks 不同，它不绑定Model
+
+## 注册新的callback
+</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Gorm dialect</title>
+<link href="/b/db/gorm-dialect" rel="alternate" type="text/html"/>
+<updated>2019-08-18T00:00:00Z</updated>
+<summary/>
+<published>2019-08-17T00:00:00Z</published>
+<content># Gorm dialect
+GORM 官方支持以下几种方言：sqlite, mysql, postgres, mssql.
+
+当你创建一个新方言的时候，你必须实现 the dialect inter</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>React Redirect</title>
 <link href="/b/ria/react-redirect" rel="alternate" type="text/html"/>
 <updated>2019-08-17T00:00:00Z</updated>
@@ -15,9 +37,9 @@ https://stackoverflow.com/questions/45089386/what-is-the-best-way-to-redirect-a-
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>html5 笔记</title>
 <link href="/b/ria/js-dom-html5" rel="alternate" type="text/html"/>
-<updated>2019-08-16T00:00:00Z</updated>
+<updated>2019-08-18T00:00:00Z</updated>
 <summary/>
-<published>2019-08-16T00:00:00Z</published>
+<published>2019-08-18T00:00:00Z</published>
 <content># Tag
 
 ## Forms
@@ -301,7 +323,7 @@ Promise 是递归的，Reject 不是
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Golang func</title>
 <link href="/b/go/16.go-func" rel="alternate" type="text/html"/>
-<updated>2019-07-21T00:00:00Z</updated>
+<updated>2019-08-18T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># define func
@@ -445,27 +467,4 @@ time.Time accept format
     2002-10-02T10:00:00-05:00
     2002-10-02T15:00:00Z
     200</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Golang Singleton</title>
-<link href="/b/go/go-design-single" rel="alternate" type="text/html"/>
-<updated>2019-07-19T00:00:00Z</updated>
-<summary/>
-<published>2019-04-29T00:00:00Z</published>
-<content># Golang Singleton
-Non thread Safe: instantiated share by thread, not atomic
-
-    //instantiated and</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>golang string</title>
-<link href="/b/go/9.go-str" rel="alternate" type="text/html"/>
-<updated>2019-07-21T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># rune vs byte
-
-    type byte uint8
-    type rune int32 //'a'
-
-    // is slice of read only bytes
-  </content>
 </entry></feed>

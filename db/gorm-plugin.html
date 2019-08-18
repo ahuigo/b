@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/p/p1.md';
+const MD_URL='post/db/gorm-plugin.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO 的笔记</title>
+<title>Gorm plugin</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -46,52 +46,99 @@ const MD_URL='post/p/p1.md';
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
-<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+<pre id="markdown" v-pre>---
+title: Gorm plugin
+date: 2019-08-17
+updated: 2019-08-18
+---
+# Gorm plugin
+GORM本身由Callbacks提供支持，因此您可以根据需要完全自定义GORM, 基于Scope
+跟hooks 不同，它不绑定Model
 
-<ul>
-<li>2018-09-28 <a href="/b/py/py-email">Python email处理</a> </li>
-<li>2011-11-11 <a href="/b/net/net-tcpip">tcp/ip 协议</a> </li>
-<li>2019-03-24 <a href="/b/go/go-struct">Golang 的结构体</a> </li>
-<li>2018-09-27 <a href="/b/go/9.go-str">golang string</a> </li>
-<li>2019-07-19 <a href="/b/go/19.go-time">go 的时间函数</a> </li>
-<li>2018-09-27 <a href="/b/go/13.go-pointer">Golang 指针</a> </li>
-<li>2012-07-08 <a href="/b/c/shell-time">GMT,UTC,DST,CST 各种时间标准</a> </li>
-<li>2019-07-19 <a href="/b/c/shell-expr">shell 表达式</a> </li>
-<li>2018-09-27 <a href="/b/db/postgre-index">Postgre 的索引</a> </li>
-<li>2018-09-27 <a href="/b/db/postgre-ddl-install">Postgre 安装\配置\管理</a> </li>
-<li>2014-03-05 <a href="/b/c/shell-">Shell 编程</a> </li>
-<li>2018-10-10 <a href="/b/mac/mac-tool">mac 工具集</a> </li>
-<li>2019-07-19 <a href="/b/sec/security-account">安全的帐号设计</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-websocket">js 的websocket 笔记</a> </li>
-<li>2019-08-18 <a href="/b/ria/js-dom-html5">html5 笔记</a> </li>
-<li>2018-09-28 <a href="/b/py/py-debug-pdb">py-debug-pdb</a> </li>
-<li>2018-08-23 <a href="/b/course/im-live-p2p">关于直播的P2P架构</a> </li>
-<li>2018-10-08 <a href="/b/c/shell-var-env">shell 环境变量</a> </li>
-<li>2019-07-05 <a href="/b/py/py-var-dict">python 字典</a> </li>
-<li>2018-09-28 <a href="/b/py/py-async-iteratortools">py-async-iteratortools</a> </li>
-<li>2018-03-03 <a href="/b/py/py-var-list">python 的list/tuple 笔记</a> </li>
-<li>2018-09-27 <a href="/b/db/mysql-var-str">Mysql 的字符串处理</a> </li>
-<li>2019-06-22 <a href="/b/db/mysql-ddl">mysql ddl</a> </li>
-<li>2018-09-28 <a href="/b/py/py-debug-log">py-debug-log</a> </li>
-<li>2019-06-19 <a href="/b/nginx/nginx-admin">lemp环境搭建</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-init">ops-init</a> </li>
-<li>2018-09-28 <a href="/b/py/py-file">Python 文件处理</a> </li>
-<li>2018-10-04 <a href="/b/nginx/nginx-proxy">nginx proxy</a> </li>
-<li>2018-09-27 <a href="/b/db/mongo-">不要用mongodb</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-time">js-time</a> </li>
-<li>2018-04-02 <a href="/b/py/py-time">python 时间函数的用法笔记</a> </li>
-<li>2019-07-26 <a href="/b/git/git-">Git 命令大全</a> </li>
-<li>2019-06-17 <a href="/b/c/ops-awk">awk 简介</a> </li>
-<li>2018-01-03 <a href="/b/vsc/vsc-">vscode 笔记</a> </li>
-<li>2016-09-27 <a href="/b/c/shell-tool">Shell 工具集合</a> </li>
-<li>2019-06-15 <a href="/b/c/linux-os">linux os</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-complete">vim-complete</a> </li>
-<li>2018-09-27 <a href="/b/db/postgre-ddl">FUNCTION</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-user">tool</a> </li>
-<li>2019-06-11 <a href="/b/vim/vim-var">vim 使用之变量</a> </li>
-</ul>
-</div>
-<div id="pager"> <a href="/b/index">p0</a> p1 <a href="/b/p/p2">p2</a> <a href="/b/p/p3">p3</a></div>
+## 注册新的callback
+注册新的callback到callbacks中
+
+    func updateCreated(scope *Scope) {
+        if scope.HasColumn(&quot;Created&quot;) {
+            scope.SetColumn(&quot;Created&quot;, &quot;Created by ahuigo&quot;)
+        }
+    }
+
+影响db 和product:
+
+    db.Callback().Create().Before(&quot;gorm:create&quot;).Register(&quot;update_created_at&quot;, updateCreated)
+    product:=Product{Code: &quot;L1214&quot;, Created:&quot;&quot;,Price: 18}
+    db.Create(&amp;product)
+    fmt.Println(product)
+
+只改写product:
+
+    db.Callback().Create().After(&quot;gorm:create&quot;).Register(&quot;update_created_at&quot;, updateCreated)
+    product:=Product{Code: &quot;L1214&quot;, Created:&quot;&quot;,Price: 18}
+    db.Create(&amp;product)
+    fmt.Println(product)
+
+## 删除现有的callback
+从callbacks中删除callback
+
+    db.Callback().Create().Remove(&quot;gorm:create&quot;)
+    // 从Create回调中删除`gorm:create`回调
+
+## 替换现有的callback
+替换同名callback
+
+    db.Callback().Create().Replace(&quot;gorm:create&quot;, newCreateFunction)
+    // 使用新函数`newCreateFunction`替换回调`gorm:create`用于创建过程
+
+## 注册callback顺序
+注册 callback 顺序
+
+    db.Callback().Create().Before(&quot;gorm:create&quot;).Register(&quot;update_created_at&quot;, updateCreated)
+    db.Callback().Create().After(&quot;gorm:create&quot;).Register(&quot;update_created_at&quot;, updateCreated)
+    db.Callback().Query().After(&quot;gorm:query&quot;).Register(&quot;my_plugin:after_query&quot;, afterQuery)
+    db.Callback().Delete().After(&quot;gorm:delete&quot;).Register(&quot;my_plugin:after_delete&quot;, afterDelete)
+    db.Callback().Update().Before(&quot;gorm:update&quot;).Register(&quot;my_plugin:before_update&quot;, beforeUpdate)
+    db.Callback().Create().Before(&quot;gorm:create&quot;).After(&quot;gorm:before_create&quot;).Register(&quot;my_plugin:before_create&quot;, beforeCreate)
+
+## 预定义回调
+GORM定义了回调以执行其CRUD操作，在开始编写插件之前检查它们。
+
+1. Create callbacks
+1. Update callbacks
+1. Query callbacks
+1. Delete callbacks
+1. Row Query callbacks - 没有默认注册的 callback
+
+Row Query callbacks 在运行 Row 或 Rows 时被调用，默认情况下它没有注册的回调，你可以注册一个新的回调：
+
+    func updateTableName(scope *gorm.Scope) {
+        scope.Search.Table(scope.TableName() + &quot;_draft&quot;) // 追加 `_draft` 到表名后
+    }
+
+    db.Callback().RowQuery().Before(&#x27;gorm:row_query&#x27;).Register(&quot;publish:update_table_name&quot;, updateTableName)
+
+Test:
+
+    rows, err := db.Table(&quot;products&quot;).Select(&quot;Code&quot;).Rows()
+    for rows.Next() {
+        var name string
+        if err := rows.Scan(&amp;name); err != nil {
+        }
+    }
+
+
+# Scope
+
+## Table
+
+    scope.Search.Table(scope.TableName() + &quot;_draft&quot;) // 追加 `_draft` 到表名后
+
+## Column
+
+    if scope.HasColumn(&quot;Created&quot;){
+        scope.SetColumn(&quot;Created&quot;, &quot;Created by ahuigo&quot;)
+    }</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
