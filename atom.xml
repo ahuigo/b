@@ -2,9 +2,20 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-08-18T14:02:05Z</updated>
+<updated>2019-08-19T11:00:15Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>字符编码简介</title>
+<link href="/b/code/code-character" rel="alternate" type="text/html"/>
+<updated>2019-08-19T00:00:00Z</updated>
+<summary/>
+<published>2014-05-10T00:00:00Z</published>
+<content># 字符编码简介
+本文是字符编码系统的整体结构归纳总结.
+
+# 字符编码
+按照[现代的编码模型],字符编码的主要概念分为：有哪些字符(字符表)、它们的编号(编码字符集)、这些编号如何编码成一系列的“码</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Git 命令大全</title>
 <link href="/b/git/git-" rel="alternate" type="text/html"/>
 <updated>2019-08-18T00:00:00Z</updated>
@@ -467,17 +478,4 @@ OpenSSH Installations under CentOS Linux
 
 	# To install the server and client type:
 	yu</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>go 的时间函数</title>
-<link href="/b/go/19.go-time" rel="alternate" type="text/html"/>
-<updated>2019-07-13T00:00:00Z</updated>
-<summary/>
-<published>2019-07-13T00:00:00Z</published>
-<content># tick and after
-
-## timer/ticker, 定时器
-`chan time.Time: timer.C = ticker.C`
-定时器对象
-
-    timer := time</content>
 </entry></feed>
