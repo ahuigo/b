@@ -2,9 +2,21 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-08-19T11:00:15Z</updated>
+<updated>2019-08-19T11:16:58Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Shell 变量的数据类型</title>
+<link href="/b/c/1.shell-var" rel="alternate" type="text/html"/>
+<updated>2019-08-19T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Shell 变量的数据类型
+shell 主要支持字符串 和 数组 两种数据类型。数组功能很弱，如果想做复杂的处理，建议用python 等脚本处理。
+
+## 变量定义与删除
+
+    VAR='he</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>字符编码简介</title>
 <link href="/b/code/code-character" rel="alternate" type="text/html"/>
 <updated>2019-08-19T00:00:00Z</updated>
@@ -467,15 +479,4 @@ liaoxuefeng 老师利用eval 写的js课程：
 # Device
 ## Navigator
 na</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>SSH SERVER 的配置</title>
-<link href="/b/net/net-ssh-server" rel="alternate" type="text/html"/>
-<updated>2019-07-13T00:00:00Z</updated>
-<summary/>
-<published>2019-06-23T00:00:00Z</published>
-<content># SSH SERVER
-OpenSSH Installations under CentOS Linux
-
-	# To install the server and client type:
-	yu</content>
 </entry></feed>

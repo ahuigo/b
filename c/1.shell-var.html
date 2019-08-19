@@ -36,7 +36,7 @@ const MD_URL='post/c/1.shell-var.md';
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,7 +49,7 @@ const MD_URL='post/c/1.shell-var.md';
 <pre id="markdown" v-pre>---
 title: Shell 变量的数据类型
 date: 2018-09-27
-updated: 2019-03-08
+updated: 2019-08-19
 ---
 # Shell 变量的数据类型
 shell 主要支持字符串 和 数组 两种数据类型。数组功能很弱，如果想做复杂的处理，建议用python 等脚本处理。
@@ -200,14 +200,15 @@ or:
 
 	awk -v str=&quot;$a&quot; -v substr=&quot;$b&quot; &#x27;BEGIN{print index(str,substr)}&#x27;; #
 
-#### match
+#### match in
 使用 grep
 
 	[ $(echo &quot;$st&quot; | grep -E &quot;^[0-9]{8}$&quot;) ] &amp;&amp; echo &quot;match&quot;
 
-使用字符串替换：
+使用字符串替换(注意等号两边的空白)：
 
 	[[ ${str_a/${str_b}//} == $str_a ]]
+	[[ ! ${str_a/${str_b}//} == $str_a ]] &amp;&amp; echo yes
 
 #### regex
 使用ERE or wildcard
@@ -244,6 +245,7 @@ substr is beginning:
 	echo ${str%/}
 
 #### replace, 替换与删除
+支持通配符`*`
 
     #...%
 	变量配置方式	说明
@@ -254,11 +256,15 @@ substr is beginning:
     ${path%end}
 	${变量%关键词}	若变量内容从尾向前的数据符合『关键词』，则将符合的最短数据删除
 	${变量%%关键词}	若变量内容从尾向前的数据符合『关键词』，则将符合的最长数据删除
+    a=&#x27;ab--bx-end&#x27;
+    echo ${a%b*end} ;# ab--
+    echo ${a%%b*end};# a
 
     ${path/middle}
 	${变量/字符串}	若变量内容符合『字符串』则『第一次出现的字符串会被删除』
 	${变量//字符串}	若变量内容符合『字符串』则『全部出现的字符串会被删除』
 	${var//[^s|S]} 只保保留s|S
+    ${repo//[[:space:]]} 去掉空白符
 
 	${变量/旧字符串/新字符串}	若变量内容符合『旧字符串』则『第一个旧字符串会被新字符串取代』
 	${变量//旧字符串/新字符串}	若变量内容符合『旧字符串』则『全部的旧字符串会被新字符串取代』
@@ -358,7 +364,13 @@ padding num
 
 定义(zsh下标从1 开始, bash 从0开始, 见上段话):
 
+    # 这两个等价
 	var=(1 2 3)
+	var=(1, 2, 3)
+
+    # 5个参数(包含,)
+	var=(1 , 2 , 3)
+
 	var=(1
 	2
 	3)
@@ -446,8 +458,8 @@ With Bash4.3, it only creates a reference to the original array, it doesn&#x27;t
 
 ### loop array
 
-	for i in (&#x27;1 2&#x27;, 3);
-	for i in ${array[@]}; //3 个
+	for i in (&#x27;1 2&#x27;, 3); //error
+	for i in ${array[@]}; //3 个(不要用这个)
 	for i in &quot;${array[@]}&quot;;// 2个
 	do
 		echo $i
@@ -458,7 +470,7 @@ With Bash4.3, it only creates a reference to the original array, it doesn&#x27;t
 ### in_array
 shell 参数不支持array传递. 只能变通实现[in_array](http://stackoverflow.com/questions/5788249/shell-script-function-and-for-loop)了
 
-- 用shift 实现
+用shift 实现
 
 shift: 左移出1 (注意:shell 不支持unshift push pop)
 shift 3: 左移出3
@@ -477,7 +489,7 @@ shift 3: 左移出3
 	in_array &#x27;Hello  Jack&#x27; $arr &amp;&amp; echo has;		# for zsh only
 	in_array &#x27;Hello  Jack&#x27; &quot;${arr[@]}&quot; &amp;&amp; echo has; # for zsh and bash
 
-- 利用eval 访问外围的arr
+利用eval 访问外围的arr
 
 	in_array(){
 		a=&quot;$2&quot;
