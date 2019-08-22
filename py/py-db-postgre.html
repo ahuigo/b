@@ -49,7 +49,7 @@ const MD_URL='post/py/py-db-postgre.md';
 <pre id="markdown" v-pre>---
 title: help
 date: 2018-09-28
-updated: 2019-07-20
+updated: 2019-08-22
 ---
 # help
 http://initd.org/psycopg/docs/cursor.html
@@ -77,7 +77,27 @@ postgre 是用cusor 去执行+缓存数据
     cur.query # return sql query string
 
 ### execute
-cursor.execute, conn.commit,close 查询fetch 如果没有修改数据，不需要commit
+cursor.execute, conn.commit,close 查询fetch 
+如果没有修改数据，不需要commit
+
+#### batch execute
+executemany:
+
+    tup = [(1,&#x27;x&#x27;), (2,&#x27;y&#x27;)]
+    cur.executemany(&quot;INSERT INTO table VALUES(%s,%s,)&quot;, tup)
+
+method2:
+
+    args_str = &#x27;,&#x27;.join(cur.mogrify(&quot;(%s,%s,)&quot;, x) for x in tup)
+    cur.execute(&quot;INSERT INTO table VALUES &quot; + args_str) 
+
+method3:
+
+    data = [(1,&#x27;x&#x27;), (2,&#x27;y&#x27;)]
+    insert_query = &#x27;insert into t (a, b) values %s&#x27;
+    psycopg2.extras.execute_values (
+        cursor, insert_query, data, template=None, page_size=100
+    )
 
 #### bind params
 1. 关键字用：sql.Identifier
