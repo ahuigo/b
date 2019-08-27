@@ -2,9 +2,24 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-08-27T21:59:15Z</updated>
+<updated>2019-08-27T16:44:21Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>go 的变量</title>
+<link href="/b/go/7.go-var" rel="alternate" type="text/html"/>
+<updated>2019-08-27T00:00:00Z</updated>
+<summary/>
+<published>2016-09-27T00:00:00Z</published>
+<content># go print
+## println
+只能用于string, int..
+
+    # no need import fmt
+    println(xyz)
+
+## fmt.Println
+a</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>React Build</title>
 <link href="/b/ria/react-build" rel="alternate" type="text/html"/>
 <updated>2019-08-18T00:00:00Z</updated>
@@ -458,18 +473,4 @@ click 之于argparse/argv, 相当于requests 之于urllib
 命令行程序开发
 
 	asciimatics：跨平台，全屏终端包（即鼠标/键</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>linux 下的Fork 与 Exec</title>
-<link href="/b/c/shell-redirect-fork2exec" rel="alternate" type="text/html"/>
-<updated>2019-07-17T00:00:00Z</updated>
-<summary/>
-<published>2019-07-17T00:00:00Z</published>
-<content># Preface
-多进程的的内容包括进程控制, 进程通信, 进程本身的结构.
-
-# 重定向
-标准输入输出:
-
-    /dev/stdin -&gt; /dev/fd/0
-    /dev/stdout </content>
 </entry></feed>
