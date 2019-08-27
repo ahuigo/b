@@ -2,100 +2,74 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-08-27T09:04:21Z</updated>
+<updated>2019-08-18T19:14:07Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
-<title>Js 中的this scope</title>
-<link href="/b/ria/js-func-scope" rel="alternate" type="text/html"/>
-<updated>2019-08-27T00:00:00Z</updated>
+<title>React Build</title>
+<link href="/b/ria/react-build" rel="alternate" type="text/html"/>
+<updated>2019-08-18T00:00:00Z</updated>
 <summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Js 中的this scope
-一般this 是使用的时候才确定指向:
+<published>2019-08-18T00:00:00Z</published>
+<content># React Build
 
-    function A(){
-        this.name='ahui'
-    }
-    A.protot</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Js dom 笔记</title>
-<link href="/b/ria/js-dom" rel="alternate" type="text/html"/>
-<updated>2019-08-27T00:00:00Z</updated>
-<summary/>
-<published>2016-01-23T00:00:00Z</published>
-<content># Js dom 笔记
-    document.documentElement ;//html
-    document.body;  //html
-# Device
-## Navigator
-na</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Postgre CRUD</title>
-<link href="/b/db/postgre-crud" rel="alternate" type="text/html"/>
-<updated>2019-08-27T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Postgre CRUD
-## string or keyword
-    select 'string';
-    select "count"(1) from "table_name"
+## babel
+babel 使用`react-app/prod` 编译jsx
 
-##</content>
+    npm i babel
+    npx babel --watch src --</content>
 </entry><entry xml:base="https://ahuigo.github.io">
-<title>help</title>
-<link href="/b/py/py-db-postgre" rel="alternate" type="text/html"/>
-<updated>2019-08-22T00:00:00Z</updated>
+<title>node 的npx 是什么？</title>
+<link href="/b/ria/node-npx" rel="alternate" type="text/html"/>
+<updated>2019-08-18T00:00:00Z</updated>
 <summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># help
-http://initd.org/psycopg/docs/cursor.html
+<published>2018-08-20T00:00:00Z</published>
+<content># node 的npx 是什么？
+&gt; http://www.ruanyifeng.com/blog/2019/02/npx.html
 
-# psycopg2
-## conn
+以前我们要手动输入路径:
 
-    import psycopg2
-    import</content>
+    ./node_modules</content>
 </entry><entry xml:base="https://ahuigo.github.io">
-<title>About Http</title>
-<link href="/b/net/http" rel="alternate" type="text/html"/>
-<updated>2019-08-22T00:00:00Z</updated>
+<title>JS comporess</title>
+<link href="/b/ria/js-compress" rel="alternate" type="text/html"/>
+<updated>2019-08-18T00:00:00Z</updated>
 <summary/>
-<published>2019-08-22T00:00:00Z</published>
+<published>2019-08-18T00:00:00Z</published>
+<content># JS compress 
+https://blog.bitsrc.io/10-javascript-compression-tools-and-libraries-for-2019-f141a0b</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>mac 工具集</title>
+<link href="/b/mac/mac-tool" rel="alternate" type="text/html"/>
+<updated>2019-08-18T00:00:00Z</updated>
+<summary/>
+<published>2018-10-10T00:00:00Z</published>
 <content># Preface
+本文是我所用的mac 工具集大杂烩。
 
-# range:
+一些mac osx 能做而linux 桌面级OS 目前不能做的事情：
 
-header 头
-
-    Range: bytes=0-1024
-
-响应:
-
-    http_code=206 Partial Content
-    C</content>
+- mac 支持全局readline , 字符编辑的效率非常非常高(</content>
 </entry><entry xml:base="https://ahuigo.github.io">
-<title>Shell 变量的数据类型</title>
-<link href="/b/c/1.shell-var" rel="alternate" type="text/html"/>
-<updated>2019-08-19T00:00:00Z</updated>
+<title>Shell 工具集合</title>
+<link href="/b/c/shell-tool" rel="alternate" type="text/html"/>
+<updated>2019-08-18T00:00:00Z</updated>
 <summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Shell 变量的数据类型
-shell 主要支持字符串 和 数组 两种数据类型。数组功能很弱，如果想做复杂的处理，建议用python 等脚本处理。
+<published>2016-09-27T00:00:00Z</published>
+<content># System debug, 系统调试工具
 
-## 变量定义与删除
-
-    VAR='he</content>
+- web: 对于 Web 调试，curl 和 curl -I 很方便灵活，或者也可以使用它们的同行 wget，或者更现代的 httpie。
+- dis</content>
 </entry><entry xml:base="https://ahuigo.github.io">
-<title>字符编码简介</title>
-<link href="/b/code/code-character" rel="alternate" type="text/html"/>
-<updated>2019-08-19T00:00:00Z</updated>
+<title>js ajax legacy</title>
+<link href="/b/ria/js-ajax-legacy" rel="alternate" type="text/html"/>
+<updated>2019-08-18T00:00:00Z</updated>
 <summary/>
-<published>2014-05-10T00:00:00Z</published>
-<content># 字符编码简介
-本文是字符编码系统的整体结构归纳总结.
+<published>2019-08-18T00:00:00Z</published>
+<content># js ajax legacy
 
-# 字符编码
-按照[现代的编码模型],字符编码的主要概念分为：有哪些字符(字符表)、它们的编号(编码字符集)、这些编号如何编码成一系列的“码</content>
+## prototype
+	var xhr=new XMLHttpRequest();
+    xhr.onload=function(ProgressEvent)</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Git 命令大全</title>
 <link href="/b/git/git-" rel="alternate" type="text/html"/>
@@ -131,14 +105,14 @@ The only format in the spec is a simplified </content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>js notes</title>
 <link href="/b/ria/js-obj" rel="alternate" type="text/html"/>
-<updated>2019-08-04T00:00:00Z</updated>
+<updated>2019-08-18T00:00:00Z</updated>
 <summary/>
-<published>2019-08-04T00:00:00Z</published>
+<published>2019-08-18T00:00:00Z</published>
 <content># Object
 
-## isEempty
+## isEmpty
     ECMA 7+:
-    Object.entries(obj).length === 0 &amp;&amp; obj.constructor === Objec</content>
+    Object.entries(obj).length === 0 &amp;&amp; obj.constructor === Object</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Event</title>
 <link href="/b/ria/js-dom-event" rel="alternate" type="text/html"/>
@@ -223,7 +197,7 @@ prin</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Golang func</title>
 <link href="/b/go/16.go-func" rel="alternate" type="text/html"/>
-<updated>2019-08-04T00:00:00Z</updated>
+<updated>2019-08-18T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># define func
@@ -347,7 +321,7 @@ curl 转换器: https://curl.trillworks.com/
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>学习 docker</title>
 <link href="/b/arch/arch-docker" rel="alternate" type="text/html"/>
-<updated>2019-07-19T00:00:00Z</updated>
+<updated>2019-08-18T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># 什么是Docker
@@ -484,4 +458,18 @@ click 之于argparse/argv, 相当于requests 之于urllib
 命令行程序开发
 
 	asciimatics：跨平台，全屏终端包（即鼠标/键</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>linux 下的Fork 与 Exec</title>
+<link href="/b/c/shell-redirect-fork2exec" rel="alternate" type="text/html"/>
+<updated>2019-07-17T00:00:00Z</updated>
+<summary/>
+<published>2019-07-17T00:00:00Z</published>
+<content># Preface
+多进程的的内容包括进程控制, 进程通信, 进程本身的结构.
+
+# 重定向
+标准输入输出:
+
+    /dev/stdin -&gt; /dev/fd/0
+    /dev/stdout </content>
 </entry></feed>

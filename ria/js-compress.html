@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/ria/js-ajax.md';
+const MD_URL='post/ria/js-compress.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>js ajax legacy</title>
+<title>JS comporess</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -20,13 +20,10 @@ const MD_URL='post/ria/js-ajax.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -35,10 +32,11 @@ const MD_URL='post/ria/js-ajax.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,115 +47,29 @@ const MD_URL='post/ria/js-ajax.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: js ajax legacy
-date: 2018-10-06
-updated: 2018-10-06
+title: JS comporess
+date: 2019-08-18
+updated: 2019-08-18
 ---
-# js ajax legacy
+# JS compress 
+https://blog.bitsrc.io/10-javascript-compression-tools-and-libraries-for-2019-f141a0b15414
+有很多tool
+1. terser
+2. minify
+3. uglify-js
 
-## prototype
-	var xhr=new XMLHttpRequest();
-    xhr.onload=function(ProgressEvent){}
-	xhr.open(&quot;POST&quot;,&quot;http://hilo.sinaapp.com/header.php?demo&quot;,true);//默认true 异步
-	xhr.setRequestHeader(&quot;Content-Type&quot;, &quot;application/x-www-form-urlencoded&quot;);
-	xhr.setRequestHeader(&#x27;Accept&#x27;, &#x27;application/json&#x27;);
-	xhr.setRequestHeader(&#x27;X-Requested-With&#x27;, &#x27;XMLHttpRequest&#x27;);
-	xhr.send(&quot;xuehui1=1&amp;xuehui2=2&quot;);
+## minify
 
-## listener
-所有的e.target 指向xhr
+    const minify = require(&#x27;minify&#x27;);
+    minify(&#x27;./client.js&#x27;)
+    .then(console.log)
+    .catch(console.error);
 
-        # download
-		xhr.addEventListener(&quot;load&quot;, uploadProcess, false); //e is ProgressEvent
-		xhr.addEventListener(&quot;loadstart&quot;, func, false);
-		xhr.addEventListener(&quot;loadend&quot;, func, false);
-		xhr.addEventListener(&quot;error&quot;, uploadFailed, false);
-		xhr.addEventListener(&quot;abort&quot;, uploadCanceled, false);
+## terser example:
 
-### upload progress
-
-        # upload
-		xhr.upload.addEventListener(&quot;progress&quot;, uploadProgress, false); //e is ProgressEvent
-
-        &lt;progress max=&quot;100&quot; value=&quot;0&quot;&gt;&lt;/progress&gt;
-
-### download progress
-
-    xhr.onload = function(e){
-        //e is ProgressEvent
-        if(e.lengthComputable){
-            e.loaded/e.total
-        }
-    }
-
-### onreadystate
-
-	xhr.onreadystatechange=function(e) { //e = Event
-		if (xhr.readyState==4 &amp;&amp; xhr.status==200) {
-			var a=xhr.response;
-            var contentType = xhr.getResponseHeader(&quot;Content-Type&quot;);
-		}//redayState=!4 请求还在继续
-	}
-
-## Request
-### chunk upload
-demo: [js-lib/chunk/](js-lib/chunk/)
-refer: http://stackoverflow.com/questions/7853467/uploading-a-file-in-chunks-using-html5
-
-	function sendRequest() {
-		var blob = document.getElementById(&#x27;fileToUpload&#x27;).files[0];
-		const BYTES_PER_CHUNK = 2000; // 2kb chunk sizes.
-		const SIZE = blob.size;
-		var start = 0;
-		var end = BYTES_PER_CHUNK;
-		while( start &lt; SIZE ) {
-			var chunk = blob.slice(start, end);
-			uploadFile(chunk);
-			start = end;
-			end = start + BYTES_PER_CHUNK;
-		}
-	}
-
-	function uploadFile(blobFile) {
-		var fd = new FormData();
-		fd.append(&quot;fileToUpload&quot;, blobFile);
-		fd.append(&quot;var&quot;, &#x27;value&#x27;);
-
-		var xhr = new XMLHttpRequest();
-		xhr.open(&quot;POST&quot;, &quot;upload.php&quot;);
-		xhr.send(fd);
-	}
-
-## Add form listener:
-
-	$(&#x27;form&#x27;).submit(function(event) {
-        event.preventDefault();
-
-		//ajax....uploading code
-		var oReq = new XMLHttpRequest();
-		oReq.open(&quot;POST&quot;, &quot;stash.php&quot;, true);
-		oReq.onload = function(oEvent) {
-			if (oReq.status == 200) {... }
-		};
-		oReq.send(formData);
-    });
-
-&gt; here is an demo:
-http://stackoverflow.com/questions/166221/how-can-i-upload-files-asynchronously
-
-# Response
-# ResponseType:json
-
-    url = &#x27;https://ajax.googleapis.com/ajax/services/search/images?v=1.0&amp;q=http://m.weibo.cn&#x27;
-	var x = new XMLHttpRequest();
-	x.open(&#x27;GET&#x27;, url);
-	x.responseType = &#x27;json&#x27;;
-	x.onload = function(){
-		res = x.response;
-		console.log(res);//json
-	}
-</pre>
-<div id="pager" v-pre></div>
+    npm install terser -g
+    npx terser -c -m -o like_button.min.js -- like_button.js</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -179,10 +91,10 @@ http://stackoverflow.com/questions/166221/how-can-i-upload-files-asynchronously
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
@@ -204,6 +116,9 @@ http://stackoverflow.com/questions/166221/how-can-i-upload-files-asynchronously
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>

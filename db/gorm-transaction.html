@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/db/gorm-plugin.md';
+const MD_URL='post/db/gorm-transaction.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>Gorm plugin</title>
+<title>gorm transaction</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -47,96 +47,48 @@ const MD_URL='post/db/gorm-plugin.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: Gorm plugin
+title: gorm transaction
 date: 2019-08-17
-updated: 2019-08-18
+updated: 2019-08-17
 ---
-# Gorm plugin
-GORM本身由Callbacks提供支持，因此您可以根据需要完全自定义GORM, 基于Scope
-跟hooks 不同，它不绑定Model
+# gorm 事务
+GORM 默认会将单个的 create, update, delete操作封装在事务内进行处理，以确保数据的完整性。
 
-## 注册新的callback
-注册新的callback到callbacks中
+    tx := db.Begin()
+    tx.Create(...)
 
-    func updateCreated(scope *Scope) {
-        if scope.HasColumn(&quot;Created&quot;) {
-            scope.SetColumn(&quot;Created&quot;, &quot;Created by ahuigo&quot;)
+    // do sth....
+
+    tx.Rollback()
+    //or
+    tx.Commit()
+
+一个具体的例子
+
+    func CreateAnimals(db *gorm.DB) error {
+        // Note the use of tx as the database handle once you are within a transaction
+        tx := db.Begin()
+        defer func() {
+            if r := recover(); r != nil {
+            tx.Rollback()
+            }
+        }()
+
+        if err := tx.Error; err != nil {
+            return err
         }
-    }
 
-影响db 和product:
-
-    db.Callback().Create().Before(&quot;gorm:create&quot;).Register(&quot;update_created_at&quot;, updateCreated)
-    product:=Product{Code: &quot;L1214&quot;, Created:&quot;&quot;,Price: 18}
-    db.Create(&amp;product)
-    fmt.Println(product)
-
-只改写product:
-
-    db.Callback().Create().After(&quot;gorm:create&quot;).Register(&quot;update_created_at&quot;, updateCreated)
-    product:=Product{Code: &quot;L1214&quot;, Created:&quot;&quot;,Price: 18}
-    db.Create(&amp;product)
-    fmt.Println(product)
-
-## 删除现有的callback
-从callbacks中删除callback
-
-    db.Callback().Create().Remove(&quot;gorm:create&quot;)
-    // 从Create回调中删除`gorm:create`回调
-
-## 替换现有的callback
-替换同名callback
-
-    db.Callback().Create().Replace(&quot;gorm:create&quot;, newCreateFunction)
-    // 使用新函数`newCreateFunction`替换回调`gorm:create`用于创建过程
-
-## 注册callback顺序
-注册 callback 顺序
-
-    db.Callback().Create().Before(&quot;gorm:create&quot;).Register(&quot;update_created_at&quot;, updateCreated)
-    db.Callback().Create().After(&quot;gorm:create&quot;).Register(&quot;update_created_at&quot;, updateCreated)
-    db.Callback().Query().After(&quot;gorm:query&quot;).Register(&quot;my_plugin:after_query&quot;, afterQuery)
-    db.Callback().Delete().After(&quot;gorm:delete&quot;).Register(&quot;my_plugin:after_delete&quot;, afterDelete)
-    db.Callback().Update().Before(&quot;gorm:update&quot;).Register(&quot;my_plugin:before_update&quot;, beforeUpdate)
-    db.Callback().Create().Before(&quot;gorm:create&quot;).After(&quot;gorm:before_create&quot;).Register(&quot;my_plugin:before_create&quot;, beforeCreate)
-
-## 预定义回调
-GORM定义了回调以执行其CRUD操作，在开始编写插件之前检查它们。
-
-1. Create callbacks
-1. Update callbacks
-1. Query callbacks
-1. Delete callbacks
-1. Row Query callbacks - 没有默认注册的 callback
-
-Row Query callbacks 在运行 Row 或 Rows 时被调用，默认情况下它没有注册的回调，你可以注册一个新的回调：
-
-    func updateTableName(scope *gorm.Scope) {
-        scope.Search.Table(scope.TableName() + &quot;_draft&quot;) // 追加 `_draft` 到表名后
-    }
-
-    db.Callback().RowQuery().Before(&#x27;gorm:row_query&#x27;).Register(&quot;publish:update_table_name&quot;, updateTableName)
-
-Test:
-
-    rows, err := db.Table(&quot;products&quot;).Select(&quot;Code&quot;).Rows()
-    for rows.Next() {
-        var name string
-        if err := rows.Scan(&amp;name); err != nil {
+        if err := tx.Create(&amp;Animal{Name: &quot;Giraffe&quot;}).Error; err != nil {
+            tx.Rollback()
+            return err
         }
-    }
 
+        if err := tx.Create(&amp;Animal{Name: &quot;Lion&quot;}).Error; err != nil {
+            tx.Rollback()
+            return err
+        }
 
-# Scope
-
-## Table
-
-    scope.Search.Table(scope.TableName() + &quot;_draft&quot;) // 追加 `_draft` 到表名后
-
-## Column
-
-    if scope.HasColumn(&quot;Created&quot;){
-        scope.SetColumn(&quot;Created&quot;, &quot;Created by ahuigo&quot;)
+        return tx.Commit().Error
     }</pre>
 <div id="pager"></div>
 <div class="hr"></div>

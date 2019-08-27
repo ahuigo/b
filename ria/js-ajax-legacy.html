@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/p/p1.md';
+const MD_URL='post/ria/js-ajax-legacy.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO 的笔记</title>
+<title>js ajax legacy</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -46,52 +46,116 @@ const MD_URL='post/p/p1.md';
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
-<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+<pre id="markdown" v-pre>---
+title: js ajax legacy
+date: 2019-08-18
+updated: 2019-08-18
+---
+# js ajax legacy
 
-<ul>
-<li>2018-09-27 <a href="/b/db/postgre-ddl-install">Postgre 安装\配置\管理</a> </li>
-<li>2014-03-05 <a href="/b/c/shell-">Shell 编程</a> </li>
-<li>2018-10-06 <a href="/b/ria/js-dom-file">js dom file</a> </li>
-<li>2019-06-20 <a href="/b/db/postgre-var">Posgtre Var</a> </li>
-<li>2019-06-20 <a href="/b/db/postgre-help">PG help</a> </li>
-<li>2019-06-20 <a href="/b/db/postgre-ddl-function">Postgre SQL function</a> </li>
-<li>2019-02-09 <a href="/b/ui/ui-animation">收集了下UI 动画特效</a> </li>
-<li>2018-09-27 <a href="/b/math/geo-distance">计算球面两点的距离</a> </li>
-<li>2018-10-08 <a href="/b/math/geo-distance-geohash">搜索附近的地点</a> </li>
-<li>2018-10-07 <a href="/b/ria/js-dom-event-slide">原生js 写的SlideUp、SlideDown 教程(收藏)</a> </li>
-<li>2018-10-04 <a href="/b/news/ticketing-software">关于抢票以及12306 的票仓的sku 设计</a> </li>
-<li>2016-09-26 <a href="/b/algorithm/algorithm-find-the-nth-of-2-sorted-array">查找两有序数组中第N 大的值</a> </li>
-<li>2018-09-26 <a href="/b/algorithm/game-countword">coder试题:有几个bing?</a> </li>
-<li>2018-10-06 <a href="/b/algorithm/sort-vote">投票类网站的排序算法</a> </li>
-<li>2014-10-10 <a href="/b/algorithm/algo-young-tableau-topk">杨氏矩阵（Young Tableau）的topK 算法</a> </li>
-<li>2018-09-26 <a href="/b/algorithm/tree-trie">Trie 树</a> </li>
-<li>2017-09-26 <a href="/b/algorithm/tree-skiplist">跳跃表</a> </li>
-<li>2019-02-11 <a href="/b/algorithm/tree-binheap">二叉堆</a> </li>
-<li>2018-09-26 <a href="/b/algorithm/tree-binary-search-tree">二叉查找树和红黑树</a> </li>
-<li>2018-09-26 <a href="/b/algorithm/tree-">数据结构之树</a> </li>
-<li>2016-10-20 <a href="/b/net/3.net-tool">Linux Network Tool</a> </li>
-<li>2018-09-27 <a href="/b/c/shell-help">linux 的帮助系统</a> </li>
-<li>2018-10-06 <a href="/b/c/shell-zsh">shell 终端使用技巧</a> </li>
-<li>2019-02-09 <a href="/b/algorithm/algo-prefix-postfix-expr">前缀、中缀、后缀表达式</a> </li>
-<li>2014-05-10 <a href="/b/code/code-character">字符编码简介</a> </li>
-<li>2018-09-27 <a href="/b/em/em-copyright-open-source">开源软件的版权保护</a> </li>
-<li>2015-03-04 <a href="/b/math/math-envelope">红包飞的概率问题</a> </li>
-<li>2018-10-04 <a href="/b/math/math-symbol">数学符号与古希腊字符</a> </li>
-<li>2018-10-06 <a href="/b/news/geek-proj">Bellard 大神的项目 -- jslinux</a> </li>
-<li>2018-09-15 <a href="/b/algorithm/1.time-complex">Analysis of Algorithm</a> </li>
-<li>2019-02-03 <a href="/b/net/1.net-config">centos网络配置</a> </li>
-<li>2018-10-04 <a href="/b/py/py-var-collections">named tuples</a> </li>
-<li>2018-04-04 <a href="/b/py/py-math-mathplot-kline">用 Python mathplot 画K 线图</a> </li>
-<li>2019-02-10 <a href="/b/py/py-math">Python 的math 语法</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-array">Js Array 整理</a> </li>
-<li>2019-01-10 <a href="/b/vim/vim-notes">vim 笔记</a> </li>
-<li>2019-02-04 <a href="/b/vim/vim-var">vim 使用之变量</a> </li>
-<li>2018-09-26 <a href="/b/algorithm/algorithm-pigeonhole_principle">Pigeonhole principle, 鸽巢（抽屉）原理</a> </li>
-<li>2018-09-26 <a href="/b/algorithm/algorithm-pi">圆周率算法</a> </li>
-<li>2018-09-26 <a href="/b/algorithm/algorithm-otp">利用google authentication 构建otp 动态口令</a> </li>
-</ul>
-</div>
-<div id="pager"> <a href="/b/index">p0</a> p1 <a href="/b/p/p2">p2</a> <a href="/b/p/p3">p3</a> <a href="/b/p/p4">p4</a> <a href="/b/p/p5">p5</a> <a href="/b/p/p6">p6</a> <a href="/b/p/p7">p7</a> <a href="/b/p/p8">p8</a> <a href="/b/p/p9">p9</a> <a href="/b/p/p10">p10</a> <a href="/b/p/p11">p11</a> <a href="/b/p/p12">p12</a> <a href="/b/p/p13">p13</a> <a href="/b/p/p14">p14</a> <a href="/b/p/p15">p15</a> <a href="/b/p/p16">p16</a> <a href="/b/p/p17">p17</a></div>
+## prototype
+	var xhr=new XMLHttpRequest();
+    xhr.onload=function(ProgressEvent){}
+	xhr.open(&quot;POST&quot;,&quot;http://hilo.sinaapp.com/header.php?demo&quot;,true);//默认true 异步
+	xhr.setRequestHeader(&quot;Content-Type&quot;, &quot;application/x-www-form-urlencoded&quot;);
+	xhr.setRequestHeader(&#x27;Accept&#x27;, &#x27;application/json&#x27;);
+	xhr.setRequestHeader(&#x27;X-Requested-With&#x27;, &#x27;XMLHttpRequest&#x27;);
+	xhr.send(&quot;xuehui1=1&amp;xuehui2=2&quot;);
+
+## listener
+所有的e.target 指向xhr
+
+        # download
+		xhr.addEventListener(&quot;load&quot;, uploadProcess, false); //e is ProgressEvent
+		xhr.addEventListener(&quot;loadstart&quot;, func, false);
+		xhr.addEventListener(&quot;loadend&quot;, func, false);
+		xhr.addEventListener(&quot;error&quot;, uploadFailed, false);
+		xhr.addEventListener(&quot;abort&quot;, uploadCanceled, false);
+
+### upload progress
+
+        # upload
+		xhr.upload.addEventListener(&quot;progress&quot;, uploadProgress, false); //e is ProgressEvent
+
+        &lt;progress max=&quot;100&quot; value=&quot;0&quot;&gt;&lt;/progress&gt;
+
+### download progress
+
+    xhr.onload = function(e){
+        //e is ProgressEvent
+        if(e.lengthComputable){
+            e.loaded/e.total
+        }
+    }
+
+### onreadystate
+
+	xhr.onreadystatechange=function(e) { //e = Event
+		if (xhr.readyState==4 &amp;&amp; xhr.status==200) {
+			var a=xhr.response;
+            var contentType = xhr.getResponseHeader(&quot;Content-Type&quot;);
+		}//redayState=!4 请求还在继续
+	}
+
+## Request
+### chunk upload
+demo: [js-lib/chunk/](js-lib/chunk/)
+refer: http://stackoverflow.com/questions/7853467/uploading-a-file-in-chunks-using-html5
+
+	function sendRequest() {
+		var blob = document.getElementById(&#x27;fileToUpload&#x27;).files[0];
+		const BYTES_PER_CHUNK = 2000; // 2kb chunk sizes.
+		const SIZE = blob.size;
+		var start = 0;
+		var end = BYTES_PER_CHUNK;
+		while( start &lt; SIZE ) {
+			var chunk = blob.slice(start, end);
+			uploadFile(chunk);
+			start = end;
+			end = start + BYTES_PER_CHUNK;
+		}
+	}
+
+	function uploadFile(blobFile) {
+		var fd = new FormData();
+		fd.append(&quot;fileToUpload&quot;, blobFile);
+		fd.append(&quot;var&quot;, &#x27;value&#x27;);
+
+		var xhr = new XMLHttpRequest();
+		xhr.open(&quot;POST&quot;, &quot;upload.php&quot;);
+		xhr.send(fd);
+	}
+
+## Add form listener:
+
+	$(&#x27;form&#x27;).submit(function(event) {
+        event.preventDefault();
+
+		//ajax....uploading code
+		var oReq = new XMLHttpRequest();
+		oReq.open(&quot;POST&quot;, &quot;stash.php&quot;, true);
+		oReq.onload = function(oEvent) {
+			if (oReq.status == 200) {... }
+		};
+		oReq.send(formData);
+    });
+
+&gt; here is an demo:
+http://stackoverflow.com/questions/166221/how-can-i-upload-files-asynchronously
+
+# Response
+# ResponseType:json
+
+    url = &#x27;https://ajax.googleapis.com/ajax/services/search/images?v=1.0&amp;q=http://m.weibo.cn&#x27;
+	var x = new XMLHttpRequest();
+	x.open(&#x27;GET&#x27;, url);
+	x.responseType = &#x27;json&#x27;;
+	x.onload = function(){
+		res = x.response;
+		console.log(res);//json
+	}
+</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>

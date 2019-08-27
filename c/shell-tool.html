@@ -49,7 +49,7 @@ const MD_URL='post/c/shell-tool.md';
 <pre id="markdown" v-pre>---
 title: Shell 工具集合
 date: 2016-09-27
-updated: 2019-06-16
+updated: 2019-08-18
 ---
 # System debug, 系统调试工具
 
@@ -162,46 +162,6 @@ tab delim
     cut -f2 -d$&#x27;\t&#x27;
     # ctrl+v tab
     cut -f2 -d&#x27;    &#x27;
-
-# xargs
-shell 中很多命令都是支持read from stdin的。 对于不支持stdin 的ls 可以使用xargs
-
-	xargs [-0Epn] command
-	 -0      Change xargs to expect NUL (``\0&#x27;&#x27;) characters as separators, instead of spaces and newlines.  This is expected to be used in concert with the -print0 function in find(1).
-
-     -E eofstr
-             Use eofstr as a logical EOF marker.
-	 -p      Echo each command to be executed
-	 -n number
-		 use number of parameter in each exec command
-	 -J replstr
-		 Replacing one or more occurrences of replstr in up to replacements arguments
-		 The replstr must show up as a distinct argument to xargs
-	 -I replstr
-		Replacing one or more occurrences of replstr in up to replacements arguments
-	 -t
-	 	Echo the command to be executed to standard error immediately before it is executed.
-
-Example:
-
-	echo -e &quot;string1\x00string2\x00end\x00string3&quot;| xargs -0p -E&#x27;end&#x27; echo
-	ls | grep .php$ | xargs -n 1 php -l
-	# Use &quot;%&quot; as a variable that store parameter
-	ls | grep .php$ | xargs -n 1 -J % mv % dst/
-	xargs -n 1 -J % -I % echo cp -r % ../v4_feed/%
-
-	cut -d&#x27;:&#x27; -f1 /etc/passwd |head -n 3| xargs finger
-	cut -d&#x27;:&#x27; -f1 /etc/passwd |head -n 3| xargs -p -n 2 finger #每个命令执行时都需要提示.
-	cut -d&#x27;:&#x27; -f1 /etc/passwd |head -n 3| xargs -p -n 2 -E &#x27;root&#x27; finger #见到root 后截止
-
-&gt; xargs 可以用于不支持管道的命令, 比如ls. 有的命令可通过参数&quot;-&quot;支持管道, 就不需要xargs 了
-&gt; 当 xargs 后面没有接任何的命令时，默认是以 echo 来进行输出喔！
-
-## xargs eval
-eval is a shell builtin command, not a standalone executable. Thus, xargs can&#x27;t run it directly. You probably want:
-
-	ls -1 | gawk &#x27;{print &quot;`mv &quot;$0&quot; &quot;tolower($0)&quot;`&quot;}&#x27; | xargs -t sh -c &quot;eval {}&quot;
-	sh -c &quot;$cmd&quot; &#x27;2nd,3rd,.. args is ignored&#x27;
 
 # sort
 
