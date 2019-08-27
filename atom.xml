@@ -2,9 +2,46 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-08-22T16:32:50Z</updated>
+<updated>2019-08-27T09:04:21Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Js 中的this scope</title>
+<link href="/b/ria/js-func-scope" rel="alternate" type="text/html"/>
+<updated>2019-08-27T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Js 中的this scope
+一般this 是使用的时候才确定指向:
+
+    function A(){
+        this.name='ahui'
+    }
+    A.protot</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Js dom 笔记</title>
+<link href="/b/ria/js-dom" rel="alternate" type="text/html"/>
+<updated>2019-08-27T00:00:00Z</updated>
+<summary/>
+<published>2016-01-23T00:00:00Z</published>
+<content># Js dom 笔记
+    document.documentElement ;//html
+    document.body;  //html
+# Device
+## Navigator
+na</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Postgre CRUD</title>
+<link href="/b/db/postgre-crud" rel="alternate" type="text/html"/>
+<updated>2019-08-27T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Postgre CRUD
+## string or keyword
+    select 'string';
+    select "count"(1) from "table_name"
+
+##</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>help</title>
 <link href="/b/py/py-db-postgre" rel="alternate" type="text/html"/>
 <updated>2019-08-22T00:00:00Z</updated>
@@ -447,41 +484,4 @@ click 之于argparse/argv, 相当于requests 之于urllib
 命令行程序开发
 
 	asciimatics：跨平台，全屏终端包（即鼠标/键</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>linux 下的Fork 与 Exec</title>
-<link href="/b/c/shell-redirect-fork2exec" rel="alternate" type="text/html"/>
-<updated>2019-07-17T00:00:00Z</updated>
-<summary/>
-<published>2019-07-17T00:00:00Z</published>
-<content># Preface
-多进程的的内容包括进程控制, 进程通信, 进程本身的结构.
-
-# 重定向
-标准输入输出:
-
-    /dev/stdin -&gt; /dev/fd/0
-    /dev/stdout </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>expect 键盘模拟</title>
-<link href="/b/c/ops-expect" rel="alternate" type="text/html"/>
-<updated>2019-07-17T00:00:00Z</updated>
-<summary/>
-<published>2019-07-17T00:00:00Z</published>
-<content># Preface
-Expect 是Tcl/Tk 语言最有名的扩展，可通过[tcl/tk](/p/linux-tcl) 了解tcl/tk 的用法
-
-&gt; 注意：spawn 结束后，一定要加上`inter</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Js 字符串大全</title>
-<link href="/b/ria/js-str" rel="alternate" type="text/html"/>
-<updated>2019-07-15T00:00:00Z</updated>
-<summary/>
-<published>2015-03-15T00:00:00Z</published>
-<content># Js 字符串大全
-字符定义与python 一样, 而且不区分双引号：
-
-    '\x00' == '\u0000'
-	'\x31' == "\x31"
-
-	'好' === '\u597D' //</content>
 </entry></feed>

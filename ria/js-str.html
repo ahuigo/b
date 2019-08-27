@@ -49,7 +49,7 @@ const MD_URL='post/ria/js-str.md';
 <pre id="markdown" v-pre>---
 title: Js 字符串大全
 date: 2015-03-15
-updated: 2019-07-19
+updated: 2019-08-27
 ---
 # Js 字符串大全
 字符定义与python 一样, 而且不区分双引号：
@@ -132,9 +132,11 @@ str vs base64 string
 
     &gt;     Buffer.from(&#x27;a&#x27;).toString(&#x27;base64&#x27;)
     &#x27;YQ==&#x27;
-    ### base64(chrome only)
-	btoa(str)
-	atob(str)
+    &gt;     Buffer.from(&#x27;YQ==&#x27;, &#x27;base64&#x27;).toString()
+    &#x27;a&#x27;
+    ### base64(chrome only) 没有buffer 概念
+	b64str = btoa(str)  //encode
+	atob(b64str)        //decode
 
 str vs hex string:
 
