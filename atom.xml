@@ -2,9 +2,32 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-08-27T16:44:21Z</updated>
+<updated>2019-08-30T21:53:48Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>JS Math</title>
+<link href="/b/ria/js-math" rel="alternate" type="text/html"/>
+<updated>2019-08-30T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Math
+
+	E	返回算术常量 e，即自然对数的底数（约等于2.718）。
+	LN2	返回 2 的自然对数（约等于0.693）。
+	LN10	返回 10 的自然对数（约等于2.302）。
+	LOG</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Golang 的结构体</title>
+<link href="/b/go/go-struct" rel="alternate" type="text/html"/>
+<updated>2019-08-30T00:00:00Z</updated>
+<summary/>
+<published>2019-03-24T00:00:00Z</published>
+<content># Golang Notes: struct
+struct 是值类型，slice 是引用类型(指针), 以下赋值方法是按值的
+
+    type A struct{x int; b string}
+ </content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>go 的变量</title>
 <link href="/b/go/7.go-var" rel="alternate" type="text/html"/>
 <updated>2019-08-27T00:00:00Z</updated>
@@ -143,7 +166,7 @@ http://javascript.ruanyifeng.com/dom/mutationobserver.html
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Js Array 整理</title>
 <link href="/b/ria/js-array" rel="alternate" type="text/html"/>
-<updated>2019-08-04T00:00:00Z</updated>
+<updated>2019-08-30T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># Js Array 整理
@@ -336,18 +359,18 @@ curl 转换器: https://curl.trillworks.com/
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>学习 docker</title>
 <link href="/b/arch/arch-docker" rel="alternate" type="text/html"/>
-<updated>2019-08-18T00:00:00Z</updated>
+<updated>2019-08-30T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># 什么是Docker
 虚拟机是对硬件的虚拟化(需要Hypervisor这个软件层), 而docker （LXC, linux container）是对操作系统的虚拟化。
 1. docker 基于li</content>
 </entry><entry xml:base="https://ahuigo.github.io">
-<title>html5</title>
+<title>html5 笔记</title>
 <link href="/b/ria/js-dom-html5" rel="alternate" type="text/html"/>
-<updated>2019-07-19T00:00:00Z</updated>
+<updated>2019-08-30T00:00:00Z</updated>
 <summary/>
-<published>2019-07-19T00:00:00Z</published>
+<published>2019-08-30T00:00:00Z</published>
 <content># Tag
 
 ## Forms
@@ -448,29 +471,4 @@ Socket是网络编程的一个抽象概念。通常我们用一个Socket表示�
 
 ## 格林威治标准时间GMT
 含义：「格林威治标准时间」(Greenwich Mean</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>py-file-io</title>
-<link href="/b/py/py-file-io" rel="alternate" type="text/html"/>
-<updated>2019-07-17T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># Preface
-
-# flush buffer
-开启buffer 后，默认是换行才flush, print 调用的就是sys.stdout
-
-    PYTHONUNBUFFERED=0 pyth</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>py-argv</title>
-<link href="/b/py/py-argv" rel="alternate" type="text/html"/>
-<updated>2019-07-17T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># Preface
-- click
-click 之于argparse/argv, 相当于requests 之于urllib
-
-命令行程序开发
-
-	asciimatics：跨平台，全屏终端包（即鼠标/键</content>
 </entry></feed>

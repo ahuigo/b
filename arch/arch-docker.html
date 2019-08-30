@@ -49,7 +49,7 @@ const MD_URL='post/arch/arch-docker.md';
 <pre id="markdown" v-pre>---
 title: 学习 docker
 date: 2018-09-27
-updated: 2019-08-12
+updated: 2019-08-30
 ---
 # 什么是Docker
 虚拟机是对硬件的虚拟化(需要Hypervisor这个软件层), 而docker （LXC, linux container）是对操作系统的虚拟化。
@@ -272,6 +272,7 @@ Note: ENV 同名变量会覆盖 ARG
     或
     docker run -it --entrypoint=/bin/bash $IMAGE -i
 
+#### RUN
 RUN 两种格式
 
     Shell 格式：RUN
@@ -279,6 +280,19 @@ RUN 两种格式
 
     # $HOME 不会被shell 替换
     RUN [&quot;echo&quot;, &quot;$HOME&quot;]
+
+A dockerfile is nothing more but a wrapper on docker run + docker commit.
+
+    FROM ubuntu:12.10
+    RUN mkdir tmp123
+    RUN cd tmp123
+    RUN pwd
+
+Is the same thing as doing:
+
+    CID=$(docker run ubuntu:12.10 mkdir tmp123); ID=$(docker commit $CID)
+    CID=$(docker run $ID cd tmp123); ID=$(docker commit $CID)
+    CID=$(docker run $ID pwd); ID=$(docker commit $CID)
 
 #### 开始build
 
