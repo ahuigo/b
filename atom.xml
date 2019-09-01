@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-08-30T21:53:48Z</updated>
+<updated>2019-09-01T14:18:16Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
 <title>JS Math</title>
@@ -30,7 +30,7 @@ struct 是值类型，slice 是引用类型(指针), 以下赋值方法是按值
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>go 的变量</title>
 <link href="/b/go/7.go-var" rel="alternate" type="text/html"/>
-<updated>2019-08-27T00:00:00Z</updated>
+<updated>2019-09-01T00:00:00Z</updated>
 <summary/>
 <published>2016-09-27T00:00:00Z</published>
 <content># go print
@@ -154,7 +154,7 @@ The only format in the spec is a simplified </content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Event</title>
 <link href="/b/ria/js-dom-event" rel="alternate" type="text/html"/>
-<updated>2019-08-04T00:00:00Z</updated>
+<updated>2019-09-01T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># Event
