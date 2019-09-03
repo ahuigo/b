@@ -32,11 +32,11 @@ const MD_URL='post/go/12.go-file.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,25 +49,150 @@ const MD_URL='post/go/12.go-file.md';
 <pre id="markdown" v-pre>---
 title: filepath
 date: 2018-09-27
-updated: 2019-01-07
+updated: 2019-09-03
 ---
-# filepath
+# dirpath
 
-  import &quot;path/filepath&quot;
-  fileext := filepath.Ext(filename)
+## pathinfo
+extinfo 
+
+    import &quot;path/filepath&quot;
+    fileext := filepath.Ext(filename)
+
+abs
+
+    filepath.Abs(exec.LookPath(os.Args[0]))。
+
+## os path
+### execute path
+
+    import (
+        &quot;fmt&quot;
+        &quot;os&quot;
+        &quot;path/filepath&quot;
+    )
+
+    func main() {
+        ex, err := os.Executable()
+        if err != nil { panic(err) }
+        exPath := filepath.Dir(ex)
+        fmt.Println(exPath)
+    }
+
+### working copy: 
+func Getwd() (pwd string, err error)
+
+    import (
+        &quot;fmt&quot;
+        &quot;os&quot;
+    )
+
+    func main() {
+        pwd, err := os.Getwd()
+        if err != nil {
+            fmt.Println(err)
+            os.Exit(1)
+        }
+        fmt.Println(pwd)
+    }
 
 # file
 
+## open
+    f, err := os.Open(&quot;/tmp/dat&quot;)
+    f.Close()
+
 ## read
+read:
 
-  &quot;io/ioutil&quot;
-  content, err := ioutil.ReadFile(filename)
+    b1 := make([]byte, 5)
+    n1, err := f.Read(b1)
 
-  if err != nil {
-       fmt.Printf(&quot;   404 Not Found!\n&quot;)
-       w.WriteHeader(http.StatusNotFound)
-       return
-  }</pre>
+### seek
+    o2, err := f.Seek(6, 0)
+    // There is no built-in rewind, but `Seek(0, 0)`
+    _, err = f.Seek(0, 0)
+
+
+### readFile
+
+    &quot;io/ioutil&quot;
+    content, err := ioutil.ReadFile(filename)
+
+
+### ReadAtLeast
+
+    b3 := make([]byte, 2)
+    n3, err := io.ReadAtLeast(f, b3, 2)
+
+### buffer read
+
+    // The `bufio` package implements a buffered
+    // reader that may be useful both for its efficiency
+    // with many small reads and because of the additional
+    // reading methods it provides.
+    r4 := bufio.NewReader(f)
+    b4, err := r4.Peek(5)
+    check(err)
+    fmt.Printf(&quot;5 bytes: %s\n&quot;, string(b4))
+
+## write
+
+### writeFile
+
+    d1 := []byte(&quot;hello\ngo\n&quot;)
+    err := ioutil.WriteFile(&quot;/tmp/dat1&quot;, d1, 0644)
+
+### Write
+Write bytes
+
+    f, err := os.Create(&quot;/tmp/dat2&quot;)
+    defer f.Close()
+    d2 := []byte{115, 111, 109, 101, 10}
+    n2, err := f.Write(d2)
+    fmt.Printf(&quot;wrote %d bytes\n&quot;, n2)
+
+WriteString
+
+    // A `WriteString` is also available.
+    n3, err := f.WriteString(&quot;writes\n&quot;)
+    fmt.Printf(&quot;wrote %d bytes\n&quot;, n3)
+
+### sync
+
+    // Issue a `Sync` to flush writes to stable storage.
+    f.Sync()
+
+    // `bufio` provides buffered writers in addition
+    // to the buffered readers we saw earlier.
+    w := bufio.NewWriter(f)
+    n4, err := w.WriteString(&quot;buffered\n&quot;)
+    fmt.Printf(&quot;wrote %d bytes\n&quot;, n4)
+
+    // Use `Flush` to ensure all buffered operations
+    w.Flush()
+
+## Copy
+定义
+
+    type rot13Reader struct {
+		r io.Reader
+	}
+	func (r *rot13Reader) Read(b []byte) (int, error){
+			n, err:= (*r).r.Read(b)
+			return n, err
+	}
+
+使用：
+
+    _, err = io.Copy(out, &amp;file)
+    _, err = io.Copy(io.stdout, &amp;file)
+    
+	func main() {
+		s := strings.NewReader(&quot;Lbh penpxrq gur pbqr!&quot;)
+		r := rot13Reader{s}
+		io.Copy(os.Stdout, &amp;r)
+	}</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
