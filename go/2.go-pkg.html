@@ -49,7 +49,7 @@ const MD_URL='post/go/2.go-pkg.md';
 <pre id="markdown" v-pre>---
 title: golang pkg的使用
 date: 2016-09-27
-updated: 2019-07-24
+updated: 2019-09-01
 ---
 # 结构
 1. 参考How to Write Go Code https://golang.org/doc/code.html
@@ -246,6 +246,10 @@ https://ieevee.com/tech/2018/08/28/go-modules.html
 &gt; Refer to: https://github.com/golang/go/wiki/Modules#quick-start
 go get 使用的目录是 $GOROOT/src/github.com/
 go mod 使用的目录是 $GOROOT/pkg/mod/github.com/
+
+## go get
+
+    HTTP_PROXY=socks5://127.0.0.1:1080 go get  github.com/gin-gonic/gin
 
 # go mod
 Usage: go help mod

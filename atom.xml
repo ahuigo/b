@@ -2,23 +2,17 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-09-03T09:55:34Z</updated>
+<updated>2019-09-01T21:04:41Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
-<title>filepath</title>
-<link href="/b/go/12.go-file" rel="alternate" type="text/html"/>
-<updated>2019-09-03T00:00:00Z</updated>
+<title>shell proxy tool</title>
+<link href="/b/net/net-proxy-tool" rel="alternate" type="text/html"/>
+<updated>2019-09-01T00:00:00Z</updated>
 <summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># dirpath
-
-## pathinfo
-extinfo 
-
-    import "path/filepath"
-    fileext := filepath.Ext(filename)
-
-a</content>
+<published>2019-09-01T00:00:00Z</published>
+<content># Android
+HowTo: Proxy Non-Proxy-Aware Android Applications through Burp
+http://blog.dornea.nu/2014/</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>JS Math</title>
 <link href="/b/ria/js-math" rel="alternate" type="text/html"/>
@@ -126,9 +120,9 @@ https://blog.bitsrc.io/10-javascript-compression-tools-and-libraries-for-2019-f1
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Git 命令大全</title>
 <link href="/b/git/git-" rel="alternate" type="text/html"/>
-<updated>2019-08-18T00:00:00Z</updated>
+<updated>2019-09-01T00:00:00Z</updated>
 <summary/>
-<published>2019-08-18T00:00:00Z</published>
+<published>2019-09-01T00:00:00Z</published>
 <content># Git 配置
 
 ## ConfigFile
@@ -262,7 +256,7 @@ prin</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>golang pkg的使用</title>
 <link href="/b/go/2.go-pkg" rel="alternate" type="text/html"/>
-<updated>2019-07-24T00:00:00Z</updated>
+<updated>2019-09-01T00:00:00Z</updated>
 <summary/>
 <published>2016-09-27T00:00:00Z</published>
 <content># 结构
