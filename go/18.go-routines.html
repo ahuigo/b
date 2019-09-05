@@ -32,11 +32,11 @@ const MD_URL='post/go/18.go-routines.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,7 +49,7 @@ const MD_URL='post/go/18.go-routines.md';
 <pre id="markdown" v-pre>---
 title: go routines
 date: 2018-09-27
-updated: 2019-01-23
+updated: 2019-09-05
 ---
 # go routines
 A goroutine is a `lightweight thread` managed by the Go runtime.
@@ -64,6 +64,9 @@ goroutine is base on thread, 默认情况下go 将GOMAXPROCS 设定为cpu core�
     import &quot;runtime&quot;
     ...
     runtime.GOMAXPROCS(4);// 4核
+
+    // 或者
+    $ GOMAXPROCS=4 time -p ./test
 
 并发有安全问题:
 
@@ -94,6 +97,62 @@ goroutine is base on thread, 默认情况下go 将GOMAXPROCS 设定为cpu core�
         fmt.Println(total_tickets, &quot;done&quot;) //退出时打印还有多少票
     }
 
+## 主动调度 vs 自动调度
+和协程 yield 作⽤用类似，Gosched 让出底层线程，将当前 goroutine 暂停，放回队列等 待下次被调度执⾏行。
+
+    go func() {
+        defer wg.Done()
+        for i := 0; i &lt; 6; i++ {
+            println(i)
+            if i == 3 { runtime.Gosched() }
+        }
+    }()
+
+channel 会自动调度的!
+
+    package main
+    import (
+        &quot;fmt&quot;
+        &quot;runtime&quot;
+        &quot;time&quot;
+    )
+    func sum(c, d chan int) {
+        sum := 0
+        time.Sleep(1 * time.Second)
+        sum += &lt;-c
+        time.Sleep(1 * time.Second)
+        sum += &lt;-c 
+        d &lt;- sum // send sum to c
+    }
+
+    func main() {
+        runtime.GOMAXPROCS(0);
+        start := time.Now()
+        c, d := make(chan int,0), make(chan int,3)
+        fmt.Println(&quot;start...numRoutine:&quot;, runtime.NumGoroutine())
+        go sum(c, d)
+        fmt.Println(&quot;start...numRoutine:&quot;, runtime.NumGoroutine())
+        c&lt;-1; 
+        fmt.Println(&quot;send 1&quot;, time.Since(start))
+        c&lt;-2; 
+        fmt.Println(&quot;send 2&quot;, time.Since(start))
+        close(c)
+        fmt.Println(&quot;close&quot;, time.Since(start))
+        
+        println(&lt;-d)
+    }
+
+
+output: 
+
+    start...numRoutine: 1
+    start...numRoutine: 2
+    send 1 1.003819671s
+    send 2 2.006895944s
+    close 2.006929484s
+    3
+
+
 ## Mutex
 避免并发, 使用mutex 保证`total_tickets &gt; 0 &amp;&amp; total_tickets--` 构成原子性:
 
@@ -106,7 +165,6 @@ goroutine is base on thread, 默认情况下go 将GOMAXPROCS 设定为cpu core�
             mutex.Unlock()
         }(i)
     }
-
 
 ## goroutine 实现
 https://www.zhihu.com/question/20862617
@@ -141,6 +199,14 @@ sync/atomic 原子化
     atomic.AddUint32(&amp;cnt, 1)
     cntFinal := cnt                  //取数据
     cntFinal := atomic.LoadUint32(&amp;cnt)//取数据
+
+## atomic singleton
+
+    import &quot;sync&quot;
+    var once sync.Once
+    once.Do(func() {
+            instantiated = &amp;single{}
+    }
 
 # channel
 Like maps and slices, channels must be created before use:
@@ -177,17 +243,15 @@ This allows goroutines to synchronize without explicit locks or condition variab
     }
 
 ## buffer channel
-initialize a buffered channel with 100 length:
+By default, a channel has a buffer size of 0 (you get this with make(chan int)). 
+This means that every single send will block until another goroutine receives from the channel.
 
-    ch := make(chan int, 100)
+    //var ch chan int = make(chan int, 0)
+    c := make(chan int, 1)
+    c &lt;- 1 // doesn&#x27;t block
+    c &lt;- 2 // blocks until another goroutine receives from the channel
 
 Sends to a buffered channel block only when the buffer is full. Receives block when the buffer is empty.
-
-    ch := make(chan int, 2)
-        ch &lt;- 1
-        ch &lt;- 2
-        fmt.Println(&lt;-ch)
-        fmt.Println(&lt;-ch)
 
 ## loop channel
 `for i := range ch` receives values from channel repeatedly until `it is closed`
@@ -195,17 +259,34 @@ Sends to a buffered channel block only when the buffer is full. Receives block w
     for i := range ch{
         fmt.Println(i)
     }
-    v, ok := &lt;-ch
+    if v, ok := &lt;-ch; ok{}
         `ok == false` if there are no more values.
 
 ## close channel
 A sender could close channel, receiver can test whether a channel is closed.
 
-  ch := make(chan int)
-  close(ch)
+    ch := make(chan int)
+    close(ch)
+
+`Sending on a closed channel` will cause a `panic`.
+receive will get `0`:
+
+    dd := make(chan int,0)
+    close(dd)
+    println(&lt;-dd)
 
 
-&gt; `Sending on a closed channel` will cause a `panic`.
+## 单向channel
+只收或只发
+
+    c := make(chan int, 3)
+    var send chan&lt;- int = c
+    var recv &lt;-chan int = c
+
+不能将单向转成双向：
+
+    //error
+    (chan int)(send) 
 
 # wait
 ## wait all goroutine
@@ -241,7 +322,22 @@ A sender could close channel, receiver can test whether a channel is closed.
         wg.Wait()
     }
 
-## select
+## 利用channel 实现semmaphore
+    sem := make(chan int, 1)
+    for i := 0; i &lt; 3; i++ {
+        go func(id int) {
+            defer wg.Done()
+
+            sem &lt;- 1 // 向 sem 发送数据，阻塞或者成功。
+            for x := 0; x &lt; 3; x++ {
+                fmt.Println(id, x)
+            } 
+            &lt;-sem // 接收数据，使得其他阻塞 goroutine 可以发送数据。
+        }(i) 
+    }
+    wg.Wait() 
+
+## select channel
 1. `select` wait on multiple channel 
 2. The default case in a slect is run if no other case is ready
 
@@ -261,6 +357,10 @@ Channel的无阻塞例子
                 time.Sleep(50 * time.Millisecond)
         }
     }
+
+没有可用 channel，阻塞 main goroutine。
+
+    select{}
 </pre>
 <div id="pager"></div>
 <div class="hr"></div>

@@ -2,9 +2,41 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-09-05T20:12:58Z</updated>
+<updated>2019-09-05T23:07:36Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>go routines</title>
+<link href="/b/go/18.go-routines" rel="alternate" type="text/html"/>
+<updated>2019-09-05T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># go routines
+A goroutine is a `lightweight thread` managed by the Go runtime.
+
+execution of f happe</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Golang Interfaces</title>
+<link href="/b/go/16.go-interface" rel="alternate" type="text/html"/>
+<updated>2019-09-05T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Interfaces
+Interface：
+1. Interface 可以用来模拟泛型，但是是运行时模拟，没有编译时快
+1. method 没有 public protecte..., 如果要被其</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Postgre CRUD</title>
+<link href="/b/db/postgre-crud" rel="alternate" type="text/html"/>
+<updated>2019-09-05T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Postgre CRUD
+## string or keyword
+    select 'string';
+    select "count"(1) from "table_name"
+
+##</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>CSS 笔记</title>
 <link href="/b/ria/js-css" rel="alternate" type="text/html"/>
 <updated>2019-09-05T00:00:00Z</updated>
@@ -380,9 +412,9 @@ Expect 是Tcl/Tk 语言最有名的扩展，可通过[tcl/tk](/p/linux-tcl) 了�
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>curl manual</title>
 <link href="/b/c/ops-curl" rel="alternate" type="text/html"/>
-<updated>2019-07-19T00:00:00Z</updated>
+<updated>2019-09-05T00:00:00Z</updated>
 <summary/>
-<published>2019-07-19T00:00:00Z</published>
+<published>2019-09-05T00:00:00Z</published>
 <content># curlt to python/node/go...
 curl 转换器: https://curl.trillworks.com/
 
@@ -432,43 +464,4 @@ curl 转换器: https://curl.trillworks.com/
 
 # Postgre User and Authentication
     ps</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>FUNCTION</title>
-<link href="/b/db/postgre-ddl" rel="alternate" type="text/html"/>
-<updated>2019-07-19T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># shell
-
-## connect shell
-默认同时支持 unix domain socket + ip/port net socket
-
-    psql DBNAME USERNAME
- </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>mysql-time</title>
-<link href="/b/db/mysql-time" rel="alternate" type="text/html"/>
-<updated>2019-07-18T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Time Type
-精确到微秒
-
-    TIME(6), DATETIME(6), TIMESTAMP(6)
-
-# Format Convert Time
-
-## select now(),sy</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>mysql 查询</title>
-<link href="/b/db/mysql-ddl-crud" rel="alternate" type="text/html"/>
-<updated>2019-07-18T00:00:00Z</updated>
-<summary/>
-<published>2019-07-18T00:00:00Z</published>
-<content># Result
-
-    | id | status |
-    +----+--------+
-    |  1 | A      |
-    update test5 set status = </content>
 </entry></feed>

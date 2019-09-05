@@ -49,7 +49,7 @@ const MD_URL='post/db/postgre-crud.md';
 <pre id="markdown" v-pre>---
 title: Postgre CRUD
 date: 2018-09-27
-updated: 2019-08-27
+updated: 2019-09-05
 ---
 # Postgre CRUD
 ## string or keyword
@@ -115,9 +115,21 @@ INSERT INTO table (id, field, field2)
 
     SELECT cname, MAX(avg)  FROM makerar GROUP BY cname;
 
-use distinct:
+#### group by expression
+group by hour
 
-    SELECT DISTINCT ON (cname) cname , wmname, MAX(avg)  FROM makerar GROUP BY cname;
+    group by date_trunc(&#x27;hour&#x27;, ctime)
+    group by date_trunc(&#x27;day&#x27;, ctime)
+    group by date_trunc(&#x27;week&#x27;, ctime)
+
+不等价:
+
+    select hour/2 as hour2 from users group by hour2;
+    select hour/2 as hour from users group by hour;
+
+with order by:
+
+    select hour/2 as hour2 from users group by hour2 order by hour2;
 
 #### group by with top N
 https://stackoverflow.com/questions/3800551/select-first-row-in-each-group-by-group
@@ -162,9 +174,15 @@ delete and keep top 2 row(order by peg) with group by industry
             stock) x WHERE x.r &gt; 2
         )
 
-#### DISTINCT
+### DISTINCT
+&gt; https://stackoverflow.com/questions/18539223/select-random-row-for-each-group-in-a-postgres-table
+&gt; SELECT DISTINCT ON expressions must match initial ORDER BY expressions
+
+Select random one for each group of customer
+
 In PostgreSQL this is typically simpler and faster (more performance optimization below):
 
+    # customer 必须出现在: order by
     SELECT DISTINCT ON (customer)
         id, customer, total
     FROM   purchases
