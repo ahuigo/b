@@ -2,9 +2,34 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-09-01T21:04:41Z</updated>
+<updated>2019-09-05T20:12:58Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>CSS 笔记</title>
+<link href="/b/ria/js-css" rel="alternate" type="text/html"/>
+<updated>2019-09-05T00:00:00Z</updated>
+<summary/>
+<published>2017-12-12T00:00:00Z</published>
+<content># CSS 笔记
+css/html5/js 兼容表
+http://caniuse.com/
+
+# priority
+
+	style &gt; id &gt; hover(鼠标悬停) &gt; class &gt; tag
+ </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>css 布局</title>
+<link href="/b/ria/js-css-layout" rel="alternate" type="text/html"/>
+<updated>2019-09-05T00:00:00Z</updated>
+<summary/>
+<published>2018-03-03T00:00:00Z</published>
+<content># CSS 布局
+&gt; 参考: http://zh.learnlayout.com/position.html
+
+# display
+1. block: This makes the element a</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>shell proxy tool</title>
 <link href="/b/net/net-proxy-tool" rel="alternate" type="text/html"/>
 <updated>2019-09-01T00:00:00Z</updated>
@@ -175,7 +200,7 @@ http://javascript.ruanyifeng.com/dom/mutationobserver.html
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Js Array 整理</title>
 <link href="/b/ria/js-array" rel="alternate" type="text/html"/>
-<updated>2019-08-30T00:00:00Z</updated>
+<updated>2019-09-05T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># Js Array 整理
@@ -446,27 +471,4 @@ curl 转换器: https://curl.trillworks.com/
     +----+--------+
     |  1 | A      |
     update test5 set status = </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>curl manual</title>
-<link href="/b/c/ops-curl" rel="alternate" type="text/html"/>
-<updated>2019-07-18T00:00:00Z</updated>
-<summary/>
-<published>2019-07-18T00:00:00Z</published>
-<content># curlt to python/node/go...
-curl 转换器: https://curl.trillworks.com/
-
-# Usage
-
-	-F,--form
-	-D- Dump t</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>py-tcp</title>
-<link href="/b/py/py-tcp" rel="alternate" type="text/html"/>
-<updated>2019-08-04T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Preface
-Socket是网络编程的一个抽象概念。通常我们用一个Socket表示“打开了一个网络链接”，而打开一个Socket需要知道目标计算机的IP地址和端口号，再指定协议类型即可。
-
-# </content>
 </entry></feed>

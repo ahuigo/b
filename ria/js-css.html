@@ -49,7 +49,7 @@ const MD_URL='post/ria/js-css.md';
 <pre id="markdown" v-pre>---
 title: CSS 笔记
 date: 2017-12-12
-updated: 2019-08-15
+updated: 2019-09-05
 ---
 # CSS 笔记
 css/html5/js 兼容表
@@ -61,12 +61,16 @@ http://caniuse.com/
     后者css优先覆盖前者
     .cls1.cls2 大于 .cls1 .cls2
     li a.active 优先 a.active
+    先定义优先于后定义:
+        class=&quot;oldDefined newDefined&quot;
 
 ## 层次
 
 	div ul {} # ul 可以是孙子 孙孙子
 	div &gt; ul {} #ul 是div 的children
 	tr,td{} #并列
+	.class1.claas2{} #and
+	.class1 .claas2{} #or
 
 ## width
 
