@@ -49,7 +49,7 @@ const MD_URL='post/ria/js-str.md';
 <pre id="markdown" v-pre>---
 title: Js 字符串大全
 date: 2015-03-15
-updated: 2019-08-27
+updated: 2019-09-07
 ---
 # Js 字符串大全
 字符定义与python 一样, 而且不区分双引号：
@@ -60,11 +60,13 @@ updated: 2019-08-27
 	&#x27;好&#x27; === &#x27;\u597D&#x27; // true
 	&#x27;好&#x27; === &#x27;\u{597D}&#x27; // true (js only)
 
-Note: &#x27;\x87&#x27; 并不是单字节字符！它其实表示的是双位uicode(所以是合法的)
+Note: &#x27;\x87&#x27; 并不是单字节字符！它不是合法utf8, 会被转成合法的utf8 `\xc2\x87`
 
-    &#x27;\u0087&#x27; == b&#x27;\xc2\x87&#x27;.decode()
-        &#x27;\x87&#x27; == bytes([0xc2,0x87]).decode() == chr(0x87)
-        &#x27;\x87&#x27; === Buffer.from([0xc2,0x87]).toString() === String.fromCharCode(0x87)
+    //python
+    &#x27;\x87&#x27; == bytes([0xc2,0x87]).decode() == chr(0x87)
+    &#x27;\x87&#x27; == &#x27;\u0087&#x27; == b&#x27;\xc2\x87&#x27;.decode()
+    //js
+    &#x27;\x87&#x27; === Buffer.from([0xc2,0x87]).toString() === String.fromCharCode(0x87)
 
 ## es6 string
 支持backquote 多行(es6):
@@ -81,19 +83,22 @@ length/slice/substr/都是基于字符的
 	&#x27;中&#x27;.charAt(0) str[pos=0]
         &#x27;中&#x27;
 	&#x27;中&#x27;.charCodeAt(pos) //返回unicode 十进制表示
-        30475
+        20013
 	String.fromCharCode(97,98)
 
-但是js 对四字节utf8 的unicode 支持不好
+js 对四字节utf8 的unicode 支持不好
 
     // same as ES5.1
-    &quot;𠮷&quot;.length == 2
+    &quot;𠮷&quot;.length == 2    //true
+	&#x27;中&#x27;.length == 1    //true
 
     // new RegExp behaviour, opt-in ‘u’
     &quot;𠮷&quot;.match(/./u)[0].length == 2
 
     // new form
     &quot;\u{20BB7}&quot; == &quot;𠮷&quot; == &quot;\uD842\uDFB7&quot;
+
+新es6 很好的支持了codePoint
 
     // new String ops
     &quot;𠮷&quot;.codePointAt(0) == 0x20BB7
