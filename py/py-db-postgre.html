@@ -49,7 +49,7 @@ const MD_URL='post/py/py-db-postgre.md';
 <pre id="markdown" v-pre>---
 title: help
 date: 2018-09-28
-updated: 2019-08-22
+updated: 2019-09-07
 ---
 # help
 http://initd.org/psycopg/docs/cursor.html
@@ -123,7 +123,7 @@ table name 这些则不支持，应该使用:
 
 #### cur.query
     &gt;&gt;&gt; cur.execute(&quot;INSERT INTO test (num, data) VALUES (%s, %s)&quot;, (42, &#x27;bar&#x27;))
-    &gt;&gt;&gt; cur.query
+    &gt;&gt;&gt; print(cur.query)
     &quot;INSERT INTO test (num, data) VALUES (42, E&#x27;bar&#x27;)&quot;
 
 #### fetch iter

@@ -49,7 +49,7 @@ const MD_URL='post/db/postgre-crud.md';
 <pre id="markdown" v-pre>---
 title: Postgre CRUD
 date: 2018-09-27
-updated: 2019-09-05
+updated: 2019-09-07
 ---
 # Postgre CRUD
 ## string or keyword
@@ -149,6 +149,7 @@ Supported by any database:
     ON y.customer = x.customer AND y.max_total = x.total
     GROUP BY x.customer, x.total
 
+
 #### partition
 partition:
 
@@ -164,6 +165,7 @@ partition:
     FROM summary s
     WHERE s.rk = 1
 
+##### delete duplicated row
 delete and keep top 2 row(order by peg) with group by industry
 
     DELETE FROM stock where id in 
@@ -173,6 +175,10 @@ delete and keep top 2 row(order by peg) with group by industry
             FROM
             stock) x WHERE x.r &gt; 2
         )
+
+多维支持
+
+    PARTITION BY company, department
 
 ### DISTINCT
 &gt; https://stackoverflow.com/questions/18539223/select-random-row-for-each-group-in-a-postgres-table

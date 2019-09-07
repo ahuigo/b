@@ -49,7 +49,7 @@ const MD_URL='post/go/18.go-routines.md';
 <pre id="markdown" v-pre>---
 title: go routines
 date: 2018-09-27
-updated: 2019-09-05
+updated: 2019-09-07
 ---
 # go routines
 A goroutine is a `lightweight thread` managed by the Go runtime.
@@ -358,7 +358,9 @@ Channel的无阻塞例子
         }
     }
 
-没有可用 channel，阻塞 main goroutine。
+`case &lt;-tick`不是阻塞的
+
+没有可用 channel，会阻塞 main goroutine。
 
     select{}
 </pre>

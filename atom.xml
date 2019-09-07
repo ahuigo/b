@@ -2,12 +2,47 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-09-05T23:07:36Z</updated>
+<updated>2019-09-07T20:13:14Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>python 时间函数的用法笔记</title>
+<link href="/b/py/py-time" rel="alternate" type="text/html"/>
+<updated>2019-09-07T00:00:00Z</updated>
+<summary/>
+<published>2018-04-02T00:00:00Z</published>
+<content># time 工具
+time 提供基本的时间，sleep
+
+	import time
+	time.time()
+		19972314124.05238
+        time.localetime(</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>help</title>
+<link href="/b/py/py-db-postgre" rel="alternate" type="text/html"/>
+<updated>2019-09-07T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># help
+http://initd.org/psycopg/docs/cursor.html
+
+# psycopg2
+## conn
+
+    import psycopg2
+    import</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Postgre 的索引</title>
+<link href="/b/db/postgre-index" rel="alternate" type="text/html"/>
+<updated>2019-09-07T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Postgre Index
+本文主要围绕postgre 总结一下索引, 参考：[PostgreSQL 9种索引的原理和应用场景](https://yq.aliyun.com/articles/11</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>go routines</title>
 <link href="/b/go/18.go-routines" rel="alternate" type="text/html"/>
-<updated>2019-09-05T00:00:00Z</updated>
+<updated>2019-09-07T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># go routines
@@ -27,7 +62,7 @@ Interface：
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Postgre CRUD</title>
 <link href="/b/db/postgre-crud" rel="alternate" type="text/html"/>
-<updated>2019-09-05T00:00:00Z</updated>
+<updated>2019-09-07T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># Postgre CRUD
@@ -53,7 +88,7 @@ http://caniuse.com/
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>css 布局</title>
 <link href="/b/ria/js-css-layout" rel="alternate" type="text/html"/>
-<updated>2019-09-05T00:00:00Z</updated>
+<updated>2019-09-07T00:00:00Z</updated>
 <summary/>
 <published>2018-03-03T00:00:00Z</published>
 <content># CSS 布局
@@ -431,37 +466,4 @@ curl 转换器: https://curl.trillworks.com/
 <content># 什么是Docker
 虚拟机是对硬件的虚拟化(需要Hypervisor这个软件层), 而docker （LXC, linux container）是对操作系统的虚拟化。
 1. docker 基于li</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>html5 笔记</title>
-<link href="/b/ria/js-dom-html5" rel="alternate" type="text/html"/>
-<updated>2019-08-30T00:00:00Z</updated>
-<summary/>
-<published>2019-08-30T00:00:00Z</published>
-<content># Tag
-
-## Forms
-属性
-
-    enctype="multipart/form-data"
-        default content-type: application/x-ww</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Postgre 安装\配置\管理</title>
-<link href="/b/db/postgre-ddl-install" rel="alternate" type="text/html"/>
-<updated>2019-07-19T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Postgre 安装\配置\管理
-    rpm -Uvh https://yum.postgresql.org/10/redhat/rhel-7-x86_64/pgdg-centos10-10-</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Postgre User and Authentication</title>
-<link href="/b/db/postgre-admin-user" rel="alternate" type="text/html"/>
-<updated>2019-07-19T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># help
-    \h alter
-    ALTER ROLE name RENAME TO new_name
-
-# Postgre User and Authentication
-    ps</content>
 </entry></feed>
