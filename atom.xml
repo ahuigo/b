@@ -2,9 +2,30 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-09-07T22:04:44Z</updated>
+<updated>2019-09-07T22:58:06Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>创业者社保</title>
+<link href="/b/proj/shebao" rel="alternate" type="text/html"/>
+<updated>2019-09-07T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># 15年
+已到退休年龄，但社保没有缴够15年怎么办？
+https://zhuanlan.zhihu.com/p/52324711
+在北京社保缴满15年，是否就可以在京领取养老待遇？
+https://</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>install java</title>
+<link href="/b/java/java-install" rel="alternate" type="text/html"/>
+<updated>2019-09-07T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># install java
+    JRE： Java Runtime Environment
+    JDK：Java Development Kit 
+    JDK = JRE(JVM)+ja</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Js 字符串大全</title>
 <link href="/b/ria/js-str" rel="alternate" type="text/html"/>
 <updated>2019-09-07T00:00:00Z</updated>
@@ -447,27 +468,4 @@ Shell 编程笔记
 # Signal, 信号(trap)
 Refer to:
 http://billie66.github.io/TLCL/book/zh/</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>expect 键盘模拟</title>
-<link href="/b/c/ops-expect" rel="alternate" type="text/html"/>
-<updated>2019-07-19T00:00:00Z</updated>
-<summary/>
-<published>2019-07-19T00:00:00Z</published>
-<content># Preface
-Expect 是Tcl/Tk 语言最有名的扩展，可通过[tcl/tk](/p/linux-tcl) 了解tcl/tk 的用法
-
-&gt; 注意：spawn 结束后，一定要加上`inter</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>curl manual</title>
-<link href="/b/c/ops-curl" rel="alternate" type="text/html"/>
-<updated>2019-09-05T00:00:00Z</updated>
-<summary/>
-<published>2019-09-05T00:00:00Z</published>
-<content># curlt to python/node/go...
-curl 转换器: https://curl.trillworks.com/
-
-# Usage
-
-	-F,--form
-	-D- Dump t</content>
 </entry></feed>
