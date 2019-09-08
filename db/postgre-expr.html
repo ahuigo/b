@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/vsc/vsc-python.md';
+const MD_URL='post/db/postgre-expr.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>Vsc for python</title>
+<title>Postgre expression</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -47,31 +47,35 @@ const MD_URL='post/vsc/vsc-python.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: Vsc for python
-date: 2018-10-04
+title: Postgre expression
+date: 2019-09-08
 updated: 2019-09-08
 ---
-# Vsc for python
-https://code.visualstudio.com/docs/python/python-tutorial
+# Postgre expression
 
-## todo
-python in vscode 调试方法
-https://www.zhihu.com/question/339718367
 
-## go to denifition
-1. 安装python extension (go to definition)
-    2. `shift+cmd+p` using the `Python: Select Interpreter` command on the `Command Palette (⇧⌘P)`, 
-    2. brew install ctags #go to definition(不需要了)
-2. python for vscode (给一些错误tips)
+# variable 
+## variable as table
+https://stackoverflow.com/questions/35559093/how-to-use-variable-as-table-name-in-plpgsql
 
-注意：
-1. golang 的项目必须放在GOPATH/src 下面才能用go to definition. (软连接也不行！)
-2. 本地的包，应该创建touch __init__.py
-
-## Navigation
-    F12 Go to definition
-    ⌃- / ⌃⇧- Go back/forward
-    cmd+j toggle panel (cmd+`)</pre>
+    CREATE OR REPLACE FUNCTION f_test()
+      RETURNS void AS
+    $func$
+    DECLARE
+       v_table text;
+    BEGIN
+       FOR v_table IN
+          SELECT table_name  
+          FROM   information_schema.tables 
+          WHERE  table_catalog = &#x27;my_database&#x27; 
+          AND    table_schema = &#x27;public&#x27;
+          AND    table_name NOT LIKE &#x27;z_%&#x27;
+       LOOP
+          EXECUTE format(&#x27;DELETE FROM %I v WHERE v.id &gt; (SELECT max(id) FROM %I)&#x27;
+                        , v_table, &#x27;z_&#x27; || v_table);
+       END LOOP;
+    END
+    $func$  LANGUAGE plpgsql;</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
