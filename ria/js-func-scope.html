@@ -49,7 +49,7 @@ const MD_URL='post/ria/js-func-scope.md';
 <pre id="markdown" v-pre>---
 title: Js 中的this scope
 date: 2018-10-04
-updated: 2019-08-27
+updated: 2019-09-11
 ---
 # Js 中的this scope
 一般this 是使用的时候才确定指向:
@@ -255,19 +255,29 @@ global -&gt; caller -&gt; callback(anonymous)
 	}
 	caller();//I&#x27;m global
 
+# if scope
+const scope 是块级的，对if block 敏感
+
+    if(1){ var a=4 }
+    console.log(a); //4
+
+    if(1){ const a=2 }
+    console.log(a); //undefined
 
 # Lexical arguments
+箭头函数：
+
     function square() {
-    let example = () =&gt; {
-        let numbers = [];
-        for (let number of arguments) {
-        numbers.push(number * number);
-        }
+        let example = () =&gt; {
+            let numbers = [];
+            for (let number of arguments) {
+                numbers.push(number * number);
+            }
 
-        return numbers;
-    };
+            return numbers;
+        };
 
-    return example();
+        return example();
     }
 
     square(2, 4, 7.5, 8, 11.5, 21); // returns: [4, 16, 56.25, 64, 132.25, 441]</pre>

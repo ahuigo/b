@@ -5,7 +5,7 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/math/vetor.md';
+const MD_URL='post/math/vector.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
@@ -20,13 +20,10 @@ const MD_URL='post/math/vetor.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -35,10 +32,11 @@ const MD_URL='post/math/vetor.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -51,7 +49,7 @@ const MD_URL='post/math/vetor.md';
 <pre id="markdown" v-pre>---
 title: 向量(vector)
 date: 2018-10-04
-updated: 2018-10-06
+updated: 2019-09-11
 ---
 # 向量(vector)
 也称矢量, 在数学中，矢量常采用更为抽象的矢量空间（也称为线性空间）来定义，而定义具有物理意义上的大小和方向的矢量概念则需要引进了范数和内积的欧几里得空间。
@@ -80,6 +78,8 @@ updated: 2018-10-06
 $A·B = |A||B|cos(θ)$    
 $A·B = A_B|B|=B_A|A|$
 
+    [a1,a2,...]*[b1,b2,...] = a1*b1+a2*b2+...
+
 ### 标量投影
 欧氏空间中向量A在向量B上的标量投影是指
 
@@ -102,6 +102,18 @@ $a \times b =|a||b|\sin \theta \;\hat{n}$
 &gt; 在这里 ø 表示 a与b 之间的角度。而 $\hat{n}$ 是一个与a,b所构成的平面垂直的单位向量。
 
 ![math/vetor-1.png](/img/math/vetor-1.png)
+
+### 三维坐标
+外积能表示三维：
+
+    i*j=k
+    j*k=i
+    k*i=j
+    j*i=-k
+
+叉积也可以用四元数来表示。若将向量[a1, a2, a3]表示成四元数a1i + a2j + a3k，两个向量的叉积可以这样计算：计算两个四元数的乘积得到一个四元数，并将这个四元数的实部去掉，即为结果。
+
+七维向量的叉积可以通过八元数得到，与上述的四元数方法相同.
 
 ### 性质
 1. 几何性质: 与点积类似a乘b, 相当于b向a的垂线(即距离, 平行分量抵消了), 再乘以a的长度
@@ -130,7 +142,7 @@ $z=a×(b+c)=a×b+a×c$（加法的左分配律）
 $\vec{a}\cdot(\vec{b}\times \vec{c})=
 \vec{b}\cdot(\vec{c}\times \vec{a})=
 \vec{c}\cdot(\vec{a}\times \vec{b})$</pre>
-<div id="pager" v-pre></div>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -152,10 +164,10 @@ $\vec{a}\cdot(\vec{b}\times \vec{c})=
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
@@ -177,6 +189,9 @@ $\vec{a}\cdot(\vec{b}\times \vec{c})=
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>

@@ -48,8 +48,8 @@ const MD_URL='post/ria/js-obj.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: js notes
-date: 2019-08-18
-updated: 2019-08-18
+date: 2019-09-11
+updated: 2019-09-11
 ---
 # Object
 
@@ -522,6 +522,13 @@ constructor方法默认返回实例对象（即this），完全可以指定返�
         constructor() {
             return Object.create(null);
         }
+    }
+
+### method vs function
+
+    up(){
+        setTimeout(this.up, 1000)       //error
+        setTimeout(this.up.bind(this), 1000) //ok
     }
 
 ### set/get
