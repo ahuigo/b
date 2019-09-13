@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/p/p3.md';
+const MD_URL='post/ria/cesium.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO 的笔记</title>
+<title>Cesium</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -46,26 +46,44 @@ const MD_URL='post/p/p3.md';
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
-<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+<pre id="markdown" v-pre>---
+title: Cesium
+date: 2019-09-12
+updated: 2019-09-13
+---
+# Cesium
 
-<ul>
-<li>2018-09-28 <a href="/b/py/py-db-postgre">help</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-ajax-cors">ajax cors</a> </li>
-<li>2019-09-05 <a href="/b/c/ops-curl">curl manual</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-promise">JS Promise</a> </li>
-<li>2019-09-11 <a href="/b/ria/js-obj">js notes</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-debug-exception">try-catch</a> </li>
-<li>2019-05-12 <a href="/b/ria/react-webpack-babel">How to set up React, webpack, and Babel 7 from scratch</a> </li>
-<li>2019-05-23 <a href="/b/ria/react-framework">react framework</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-css-less">js-css-less</a> </li>
-<li>2019-03-08 <a href="/b/py/py-async-cpu">does-a-thread-waiting-on-io-also-block-a-core?</a> </li>
-<li>2019-03-02 <a href="/b/db/redis-cache">cache 穿透问题</a> </li>
-<li>2019-02-28 <a href="/b/algorithm/algo-str-search">字符串搜索算法KMP</a> </li>
-<li>2018-09-28 <a href="/b/net/net-proxy-socks">net-socks</a> </li>
-<li>2019-02-20 <a href="/b/algorithm/list-copy">Copy List with Random Pointer</a> </li>
-</ul>
-</div>
-<div id="pager"> <a href="/b/index">p0</a> <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a> p3</div>
+## Entity
+### Delete Entity
+
+    var polylineEntity = viewer.entities.add({
+        //...
+    });
+    viewer.entities.remove(polylineEntity);
+
+remove all
+
+    viewer.entities.removeAll()
+
+### Entity Camera
+https://stackoverflow.com/questions/35066575/cesium-having-the-camera-in-an-entitys-first-person-view
+
+    Cesium.Camera.prototype.rotateView = function(rotation) {
+        let { heading, pitch, roll } = rotation;
+        heading = this.heading + (heading || 0);
+        pitch = this.pitch + (pitch || 0);
+        roll = this.roll + (roll || 0);
+        const destination = this.position;
+        this.setView({
+            destination,
+            orientation: {
+                heading,
+                pitch,
+                roll
+            }
+        });
+    };</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>

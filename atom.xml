@@ -2,9 +2,23 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-09-11T15:06:20Z</updated>
+<updated>2019-09-13T22:58:23Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Cesium</title>
+<link href="/b/ria/cesium" rel="alternate" type="text/html"/>
+<updated>2019-09-13T00:00:00Z</updated>
+<summary/>
+<published>2019-09-12T00:00:00Z</published>
+<content># Cesium
+
+## Entity
+### Delete Entity
+
+    var polylineEntity = viewer.entities.add({
+        //...
+</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>写npm 包</title>
 <link href="/b/ria/node-npm-pkg" rel="alternate" type="text/html"/>
 <updated>2019-09-11T00:00:00Z</updated>
@@ -447,14 +461,4 @@ prin</content>
 
 ## workspace
 可以有多个</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>mysql-datatype</title>
-<link href="/b/db/mysql-var" rel="alternate" type="text/html"/>
-<updated>2019-07-19T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Data Type(数据类型)
-
-	NULL means you do not have to provide a value for the field... default to null
-	</content>
 </entry></feed>
