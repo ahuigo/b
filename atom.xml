@@ -2,9 +2,23 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-09-20T14:43:06Z</updated>
+<updated>2019-09-21T14:41:22Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>ops-process-lsof</title>
+<link href="/b/c/ops-process-lsof" rel="alternate" type="text/html"/>
+<updated>2019-09-21T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># lsof
+[/p/linux-process-lsof](/p/linux-process-lsof)
+
+List Open File
+
+## format
+
+	-n  inhibits  the</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>防火墙</title>
 <link href="/b/net/net-iptables" rel="alternate" type="text/html"/>
 <updated>2019-09-20T00:00:00Z</updated>
@@ -232,7 +246,7 @@ http://blog.dornea.nu/2014/</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>JS Math</title>
 <link href="/b/ria/js-math" rel="alternate" type="text/html"/>
-<updated>2019-08-30T00:00:00Z</updated>
+<updated>2019-09-21T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># Math
@@ -448,13 +462,4 @@ Promise 是递归的，Reject 不是
 - fmt.Printf : format
 
 prin</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>学习下Golang 的反射</title>
-<link href="/b/go/17.go-reflect" rel="alternate" type="text/html"/>
-<updated>2019-08-04T00:00:00Z</updated>
-<summary/>
-<published>2019-01-07T00:00:00Z</published>
-<content># Relection json
-    import "github.com/mitchellh/mapstructure"
-	err := mapstructure.Decode(input, &amp;</content>
 </entry></feed>
