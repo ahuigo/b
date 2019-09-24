@@ -2,9 +2,17 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-09-24T21:47:11Z</updated>
+<updated>2019-09-25T00:39:00Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>brew</title>
+<link href="/b/mac/mac-brew" rel="alternate" type="text/html"/>
+<updated>2019-09-25T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># brew
+- brew(Homebrew) 是近来极流行的 安装gawk,gsed,macvim等命令的安装工具，所有的包都被安装到/usr/local/Cellar下，然后再以`ln -s` 软</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Js dom 笔记</title>
 <link href="/b/ria/js-dom" rel="alternate" type="text/html"/>
 <updated>2019-09-24T00:00:00Z</updated>
@@ -452,15 +460,4 @@ array 不像string 是primitive value, 所以length 可以缩短放大array。
 
 	arr = [1,2,3]
 	arr.length = 1</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>JS Promise</title>
-<link href="/b/ria/js-promise" rel="alternate" type="text/html"/>
-<updated>2019-08-04T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># 递归promise
-Promise 是递归的，Reject 不是
-
-    const onResolved = e =&gt; console.log('resolve , ', e );
-    c</content>
 </entry></feed>

@@ -32,11 +32,11 @@ const MD_URL='post/mac/mac-brew.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,7 +49,7 @@ const MD_URL='post/mac/mac-brew.md';
 <pre id="markdown" v-pre>---
 title: brew
 date: 2018-09-27
-updated: 2019-01-23
+updated: 2019-09-25
 ---
 # brew
 - brew(Homebrew) 是近来极流行的 安装gawk,gsed,macvim等命令的安装工具，所有的包都被安装到/usr/local/Cellar下，然后再以`ln -s` 软链接的形式链接到`/usr/local/`目录下
@@ -101,11 +101,11 @@ or:
 
 切换回官方源：
 
-    重置brew.git:
+    #重置brew.git:
     cd &quot;$(brew --repo)&quot;
     git remote set-url origin https://github.com/Homebrew/brew.git
 
-    重置homebrew-core.git:
+    # 重置homebrew-core.git:
     cd &quot;$(brew --repo)/Library/Taps/homebrew/homebrew-core&quot;
     git remote set-url origin https://github.com/Homebrew/homebrew-core.git
 
@@ -205,7 +205,8 @@ Refer to : [brew-cask](http://ksmx.me/blog/2013/10/05/homebrew-cask-cli-workflow
 ### debug
 
 	 brew update &amp;&amp; brew upgrade brew-cask
-	 brew cleanup &amp;&amp; brew cask cleanup</pre>
+	 brew cleanup &amp;&amp; brew cask cleanup
+</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
