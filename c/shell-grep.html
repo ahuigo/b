@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/p/p3.md';
+const MD_URL='post/c/shell-grep.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO 的笔记</title>
+<title>grep &amp; ag 的使用</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -46,29 +46,158 @@ const MD_URL='post/p/p3.md';
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
-<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+<pre id="markdown" v-pre>---
+title: grep &amp; ag 的使用
+date: 2018-09-27
+updated: 2019-09-24
+---
+# grep &amp; ag 的使用
+# ag
+ag 比ack/grep 还快
 
-<ul>
-<li>2019-05-29 <a href="/b/c/shell-zsh">shell 终端使用技巧</a> </li>
-<li>2019-06-04 <a href="/b/vim/vim-notes">vim 笔记</a> </li>
-<li>2019-06-17 <a href="/b/vim/vim-motion">vim-motion</a> </li>
-<li>2018-09-28 <a href="/b/py/py-db-postgre">help</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-ajax-cors">ajax cors</a> </li>
-<li>2019-09-05 <a href="/b/c/ops-curl">curl manual</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-promise">JS Promise</a> </li>
-<li>2019-09-11 <a href="/b/ria/js-obj">js notes</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-debug-exception">try-catch</a> </li>
-<li>2019-05-12 <a href="/b/ria/react-webpack-babel">How to set up React, webpack, and Babel 7 from scratch</a> </li>
-<li>2019-05-23 <a href="/b/ria/react-framework">react framework</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-css-less">js-css-less</a> </li>
-<li>2019-03-08 <a href="/b/py/py-async-cpu">does-a-thread-waiting-on-io-also-block-a-core?</a> </li>
-<li>2019-03-02 <a href="/b/db/redis-cache">cache 穿透问题</a> </li>
-<li>2019-02-28 <a href="/b/algorithm/algo-str-search">字符串搜索算法KMP</a> </li>
-<li>2018-09-28 <a href="/b/net/net-proxy-socks">net-socks</a> </li>
-<li>2019-02-20 <a href="/b/algorithm/list-copy">Copy List with Random Pointer</a> </li>
-</ul>
-</div>
-<div id="pager"> <a href="/b/index">p0</a> <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a> p3</div>
+    brew install the_silver_searcher
+
+
+## 自动忽略`.gitinore` 中的文件
+
+    # ignore /bar/.gitignore
+    ag  foo /bar/ ;
+
+    # ignore case
+    ag -i foo /bar/ ;
+
+    # word match
+    ag -w foo /bar/ ;
+
+    # invert match
+    ag -v foo /bar/
+
+其它的，类似grep
+
+    # filename only -l
+    ag foo /bar/ -l
+
+## ag regex
+
+    echo abc1234 |ag &#x27;abc\d{3}$&#x27;
+
+## ag escape string
+    ag  -F -- &#x27;-&gt;&gt;&#x27;
+
+## ag AB
+ag after before 不会重复输出：
+
+    ag getsizeof . -A 3 -B 3
+
+# grep
+
+	grep [-acinv] [--color=auto] [--] &#x27;pattern&#x27; filename
+	选项与参数：
+	-x : whole line
+	-a ：将 binary 文件以 text 文件的方式搜寻数据
+	-c ：计算找到 &#x27;搜寻字符串&#x27; 的行数
+	-i ：忽略大小写的不同，所以大小写视为相同
+	-I : ingore binary file
+	-n ：顺便输出行号
+	-v ：反向选择，亦即显示出没有 &#x27;搜寻字符串&#x27; 内容的那一行！
+	-V : version
+	-F : 不解释pattern, pattern作为固定的字符串
+	-f patterns-file
+	-l, --files-with-matches(相当于-m 1 -H)
+		 Only the names of files containing selected lines are written to standard output.  grep will only search a file until a match has been found, making searches potentially less expensive.
+     -m NUM, --max-count=NUM
+          Stop  reading  a  file after NUM matching lines.
+	-L, --files-without-match
+	-o : 只输出匹配字符串
+	--include=PATTERN     Recurse in directories only searching file matching PATTERN.
+	--exclude=PATTERN     Recurse in directories skip file matching PATTERN.
+    --exclude-dir=PATTERN
+	--color=auto ：可以将找到的关键词部分加上颜色的显示喔！
+
+	-h, --no-filename
+	-H, --with-filename
+	-E, --extended-regexp
+	-e &#x27;pattern1&#x27; -e pattern2
+	-P perl patterns
+
+## -c wc -l
+
+    grep -P pattern | wc -l
+    grep -Pc pattern
+
+## max-count
+
+	-m max-count 匹配次数
+
+## other grep:
+
+	fgrep
+		grep -F
+	rgrep
+		grep -r
+	agrep
+		approximate grep
+	zgrep
+		grep compress file
+
+## grep binary
+
+	-I
+       ignore binary
+    -a, --text
+       Process a binary file as if it  were  text
+
+## grep context
+
+	-C num context num
+		-C 2  The default is 2 and is equivalent to -A 2 -B 2
+
+## grep filter self
+Refer to: [](/p/shell)
+
+Remove grep command while use ps
+
+	ps aux | grep perl | grep -v grep
+	ps aux | grep [p]erl
+
+## exclude file &amp; dir
+
+	--exclude=\*.{html,htm,js}
+    grep -R --exclude-dir=node_modules &#x27;some pattern&#x27; /path/to/search
+
+## multi patterns
+
+	-e &#x27;pattern1&#x27; -e pattern2
+	-f pattern.txt
+
+If you want to do the minimal amount of work, change
+
+	grep -o -P &#x27;PATTERN&#x27; file.txt
+
+to
+
+	perl -nle&#x27;print $&amp; if m{PATTERN}&#x27; file.txt
+
+So you get:
+
+	var1=`perl -nle&#x27;print $&amp; if m{(?&lt;=&lt;st:italic&gt;).*(?=&lt;/italic&gt;)}&#x27; file.txt`
+	var2=`perl -nle&#x27;print $&amp; if m{(property:)\K.*\d+(?=end)}&#x27; file.txt`
+
+However, you can achieve simpler code with extra work.
+
+	var1=`perl -nle&#x27;print $1 if m{&lt;st:italic&gt;(.*)&lt;/italic&gt;}&#x27; file.txt`
+	var2=`perl -nle&#x27;print $1 if /property:(.*\d+)end/&#x27; file.txt`
+
+&gt; $print $&amp; 打印全部匹配到的字段,  而print $1而为打印第一个括号
+
+## print the filename only
+
+	-L, --files-without-match
+		Only the names of files not containing selected lines are written to standard output.  Pathnames are listed once per file searched.  If the standard input is searched, the string ``(standard input)&#x27;&#x27; is written.
+
+	-l, --files-with-matches
+		Only the names of files containing selected lines are written to standard output.  grep will only search a file until a match has been found, making searches potentially less expensive.  Pathnames are listed once per file searched.  If the standard input is searched, the string ``(standard input)&#x27;&#x27; is written.</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>

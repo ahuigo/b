@@ -49,7 +49,7 @@ const MD_URL='post/db/postgre-crud.md';
 <pre id="markdown" v-pre>---
 title: Postgre CRUD
 date: 2018-09-27
-updated: 2019-09-07
+updated: 2019-09-24
 ---
 # Postgre CRUD
 ## string or keyword
@@ -225,131 +225,7 @@ mysql update 多个unique key 时,如果遇到 `duplicate key`, 比如所有的i
 
 	UPDATE &lt;table&gt; set i=-i where id&gt;10; # 先变负，就不存在+1冲突
 	UPDATE &lt;table&gt; set i=1-i where id&gt;10;
-
-# var
-
-## type
-
-SELECT pg_typeof(your_variable);
-json_typeof(var)
-
-类型转换
-
-    var::int
-    var::jsonb
-    var::text::jsonb
-
-## 默认值
-
-    COALESCE(variable,0)
-    COALESCE(counters-&gt;&gt;&#x27;bar&#x27;,&#x27;0&#x27;)::int
-
-## timestamp
-
-   select date &#x27;2001-09-28&#x27; + integer &#x27;7&#x27;
-   select created_at + interval &#x27;1&#x27; day * day_field as deadline
-   select created_at + interval &#x27;1&#x27; hour * hour_field as deadline
-
-   select created_at + hour_field as deadline //not work
-
-## string
-1. 字符串，只能用`&#x27;` 为边界，双引号是用于关键字的(e.g. table_name)
-
-postgre 不支持\ 转义 
-
-    select &#x27;\\&#x27;; #按字面输出
-    select &#x27;\&#x27;&#x27;; #error 
-
-插入单引号
-
-    select &#x27;ahui&#x27;&#x27;s blog&#x27;; 
-    select &#x27;a&#x27;&#x27;b&#x27; # 不支持 ’a\&#x27;b&#x27; 
-
-### concat
-    select &#x27;a:&#x27;||&#x27;b&#x27;||1.2 as bb;
-    select concat(&#x27;a:&#x27;,&#x27;b&#x27;, 1.2)
-    select concat(key1,key2)
-
-join:
-
-    CONCAT_WS(separator,str_1,str_2,...);
-
-join group:
-
-    string_agg(actor, &#x27;, &#x27;) AS actor_list
-    SELECT movie, string_agg(actor, &#x27;, &#x27; ORDER BY actor) AS actor_list FROM   tbl GROUP  BY 1;
-
-
-### string length
-
-    CHAR_LENGTH(name)
-    REPLACE(name, &#x27;substring&#x27;, &#x27;&#x27;)
-
-## array
-
-    select array[1,2];
-    select array[&#x27;a&#x27;,&#x27;b&#x27;];
-    select array[&#x27;a&#x27;,1]; # error
-
-### array length
-
-    select array_length(string_to_array(name, &#x27;o&#x27;), 1) - 1
-
-## jsonb
-https://www.postgresql.org/docs/current/static/functions-json.html
-
-### 定义
-jsonb 即可以直接使用 json 字符串, 插入取出时自动转换成`::jsonb` 得到jsonb 类型
-
-    select &#x27;{&quot;key&quot;:123}&#x27;
-    select concat(&#x27;{&quot;key&quot;:&#x27;,123,&#x27;}&#x27;)::jsonb;
-    select &#x27;1&#x27; intger
-    select &#x27;&quot;1&quot;&#x27; char
-
-### increment
-1. with ||jsonb, 只适合第一层级, 更好的办法是使用jsonb_set(col, path, data)
-2. `-&gt;&gt;` 将jsonb 转换成text, 转成数字还需要`::int`, 并且`::`与`+`优先级都高于`-&gt;&gt;`
-
-    UPDATE users SET counters = counters || &#x27;{&quot;bar&quot;: 314}&#x27;::jsonb WHERE id = 1;
-    UPDATE users SET counters = counters || CONCAT(&#x27;{&quot;bar&quot;:&#x27;, COALESCE(counters-&gt;&gt;&#x27;bar&#x27;,&#x27;0&#x27;)::int + 1, &#x27;}&#x27;)::jsonb WHERE id = 1;
-    UPDATE users SET counters = jsonb_set(counters, &#x27;{bar}&#x27;, CONCAT(COALESCE(counters-&gt;&gt;&#x27;bar&#x27;)::int + 1)::jsonb) WHERE id = 1;
-
-### 使用:
-
-    []-&gt;int	 Get JSON array(0, -3)          &#x27;[{&quot;a&quot;:&quot;foo&quot;},{&quot;b&quot;:&quot;bar&quot;},{&quot;c&quot;:&quot;baz&quot;}]&#x27;::json-&gt;2
-    {}-&gt;&#x27;text&#x27; Get JSON object field by key   &#x27;{&quot;a&quot;: {&quot;b&quot;:&quot;foo&quot;}}&#x27;::json-&gt;&#x27;a&#x27;
-    []-&gt;&gt;int	as text                     &#x27;[1,2,3]&#x27;::json-&gt;&gt;2	3
-    {}-&gt;&gt;&#x27;text&#x27;	as text                     &#x27;{&quot;a&quot;:1,&quot;b&quot;:2}&#x27;::json-&gt;&gt;&#x27;b&#x27;	2
-    # 多级路径path
-    {}[]#&gt;&#x27;{k1,k2}&#x27; Get JSON object	        &#x27;{&quot;a&quot;: {&quot;b&quot;:{&quot;c&quot;: &quot;foo&quot;}}}&#x27;::json#&gt;&#x27;{a,b}&#x27;	{&quot;c&quot;: &quot;foo&quot;}
-    {}[]#&gt;&gt;&#x27;{k1,k2}&#x27;Get JSON object as text	&#x27;{&quot;a&quot;:[1,2,3],&quot;b&quot;:[4,5,6]}&#x27;::json#&gt;&gt;&#x27;{a,2}&#x27;	3
-
-其它：
-
-    a @&gt; b  check a include b
-    a &lt;@ b  check a is included by b
-    dic?&#x27;b&#x27; check b key exists
-    dic?|array(&#x27;b&#x27;,&#x27;a&#x27;) check any [a,b] exists
-    dic?&amp;array(&#x27;b&#x27;,&#x27;a&#x27;) check all [a,b] exists
-    a||b merge
-    dic-&#x27;key&#x27;  delete
-    dic-&#x27;{k1,k2}&#x27; del
-    arr-2       del 2nd valume
-    #-path      del by path
-
-path:
-
-    &#x27;{1,kl2,kl3,kl4,5}&#x27;
-
-### merge
-merge jsonb via `||`:
-
-    UPDATE users SET counters = counters || CONCAT(&#x27;{&quot;foo&quot;:&#x27;, COALESCE(counters-&gt;&gt;&#x27;foo&#x27;,&#x27;0&#x27;)::int + 27, &#x27;}&#x27;)::jsonb WHERE id = 1;
-
-add jsonb via `jsonb_set`:
-
-    jsonb_set(&#x27;{&quot;bar&quot;:1,&quot;x&quot;:{}}&#x27;::jsonb, &#x27;{x,y}&#x27;, 1::text::jsonb);
-    {&quot;x&quot;: {&quot;y&quot;: 1}, &quot;bar&quot;: 1}</pre>
+</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">

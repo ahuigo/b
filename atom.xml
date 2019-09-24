@@ -2,9 +2,48 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-09-21T14:41:22Z</updated>
+<updated>2019-09-24T21:47:11Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Js dom 笔记</title>
+<link href="/b/ria/js-dom" rel="alternate" type="text/html"/>
+<updated>2019-09-24T00:00:00Z</updated>
+<summary/>
+<published>2016-01-23T00:00:00Z</published>
+<content># Js dom 笔记
+    document.documentElement ;//html
+    document.body;  //html
+# Device
+## Navigator
+na</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>grep &amp; ag 的使用</title>
+<link href="/b/c/shell-grep" rel="alternate" type="text/html"/>
+<updated>2019-09-24T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># grep &amp; ag 的使用
+# ag
+ag 比ack/grep 还快
+
+    brew install the_silver_searcher
+
+
+## 自动忽略`.gitinore` 中的文件</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>c-mem</title>
+<link href="/b/c/c-mem" rel="alternate" type="text/html"/>
+<updated>2019-09-24T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Preface
+
+# swap
+内存足够的情况下 不需要 swap
+
+    临时： swapoff /dev/sdax  （swapoff -a 关闭）
+    永久： /etc/fstab 将</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>ops-process-lsof</title>
 <link href="/b/c/ops-process-lsof" rel="alternate" type="text/html"/>
 <updated>2019-09-21T00:00:00Z</updated>
@@ -200,7 +239,7 @@ Interface：
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Postgre CRUD</title>
 <link href="/b/db/postgre-crud" rel="alternate" type="text/html"/>
-<updated>2019-09-07T00:00:00Z</updated>
+<updated>2019-09-24T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># Postgre CRUD
@@ -212,7 +251,7 @@ Interface：
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>CSS 笔记</title>
 <link href="/b/ria/js-css" rel="alternate" type="text/html"/>
-<updated>2019-09-05T00:00:00Z</updated>
+<updated>2019-09-24T00:00:00Z</updated>
 <summary/>
 <published>2017-12-12T00:00:00Z</published>
 <content># CSS 笔记
@@ -424,42 +463,4 @@ Promise 是递归的，Reject 不是
 
     const onResolved = e =&gt; console.log('resolve , ', e );
     c</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>try-catch</title>
-<link href="/b/ria/js-debug-exception" rel="alternate" type="text/html"/>
-<updated>2019-08-04T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># try-catch
-## throw any type
-    throw "string"
-    throw {message:"msg"}
-    e = Error('msg')
-    </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>go str</title>
-<link href="/b/go/go-str-serial" rel="alternate" type="text/html"/>
-<updated>2019-08-04T00:00:00Z</updated>
-<summary/>
-<published>2019-05-06T00:00:00Z</published>
-<content># go json
-
-## encode marshal bytes
-
-    import "encoding/json"
-    type response2 struct {
-        P</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Golang fmt</title>
-<link href="/b/go/6.go-fmt" rel="alternate" type="text/html"/>
-<updated>2019-08-04T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># fmt
-
-- fmt.Println : space, with newline
-- fmt.Print : without newline
-- fmt.Printf : format
-
-prin</content>
 </entry></feed>
