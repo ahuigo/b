@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/ria/react-diff.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>React diff</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: React diff
+date: 2019-09-09
+updated: 2019-09-27
+---
+# Diff 的设计动力
+在 state 或 props 更新时，相同的 render() 方法会返回一棵新的树。React 需要基于这两棵树之间的差别来判断如何有效率的更新 UI 以保证当前 UI 与最新的树保持同步。
+
+这个算法问题有一些通用的解决方案，即生成将一棵树转换成另一棵树的最小操作数。 然而，即使在最前沿的算法中，该算法的复杂程度为 O(n 3 )，其中 n 是树中元素的数量。 React 在以下两个假设的基础之上提出了一套 O(n) 的启发式算法：
+
+1. 两个不同类型的元素会产生出不同的树；
+2. 开发者可以通过 key prop 来暗示哪些子元素在不同的渲染下能保持稳定；
+在实践中，我们发现以上假设在几乎所有实用的场景下都成立。
+
+# Diff 算法
+当对比两颗树时，React 首先比较两棵树的根节点。不同类型的根节点元素会有不同的形态。
+## 类型比对 
+### 比对不同类型的元素
+当根节点为不同类型的元素时，React 会拆卸原有的树并且建立起新的树。举个例子，
+
+    当一个元素从 &lt;a&gt; 变成 &lt;img&gt;，
+    从 &lt;Article&gt; 变成 &lt;Comment&gt;，
+    或从 &lt;Button&gt; 变成 &lt;div&gt; 都会触发一个完整的重建流程。
+
+当拆卸一颗树时
+1. 对应的 DOM 节点也会被销毁。组件实例将执行 `componentWillUnmount()` 方法。
+
+当建立一颗新的树时:
+1. 对应的 DOM 节点会被创建以及插入到 DOM 中。
+2. 组件实例将执行 `componentWillMount()` 方法，
+3. 紧接着 componentDidMount() 方法。所有跟之前的树所关联的 state 也会被销毁。
+
+    在根节点以下的组件也会被卸载，它们的状态会被销毁。比如，当比对以下更变时：
+
+    &lt;div&gt;
+        &lt;Counter /&gt;
+    &lt;/div&gt;
+
+    &lt;span&gt;
+        &lt;Counter /&gt;
+    &lt;/span&gt;
+
+React 会销毁 Counter 组件并且重新装载一个新的组件。
+
+### 比对同一类型的元素
+当比对两个相同类型的 React 元素时，React 会保留 DOM 节点，仅比对及更新有改变的属性。比如：
+通过比对这两个元素，React 知道只需要修改 DOM 元素上的 className 属性。
+
+    &lt;div className=&quot;before&quot; title=&quot;stuff&quot; /&gt;
+    &lt;div className=&quot;after&quot; title=&quot;stuff&quot; /&gt;
+
+
+当更新 style 属性时，React 仅更新有所更变的属性。比如：
+通过比对这两个元素，React 知道只需要修改 DOM 元素上的 color 样式，无需修改 fontWeight。
+
+    &lt;div style={{color: &#x27;red&#x27;, fontWeight: &#x27;bold&#x27;}} /&gt;
+    &lt;div style={{color: &#x27;green&#x27;, fontWeight: &#x27;bold&#x27;}} /&gt;
+
+在处理完当前节点之后，React 继续对子节点进行递归。
+
+### 比对同类型的组件元素
+1. 当一个组件更新时，组件实例保持不变，这样 state 在跨越不同的渲染时保持一致。
+2. React 将更新该组件实例的 props 以跟最新的元素保持一致，并且调用该实例的 componentWillReceiveProps() 和 componentWillUpdate() 方法。
+
+下一步，调用 render() 方法，diff 算法将在之前的结果以及新的结果中进行递归。
+
+## 对子节点进行递归
+在默认条件下，当递归 DOM 节点的子元素时，React 会同时遍历两个子元素的列表；当产生差异时，生成一个 mutation。
+
+在子元素列表末尾新增元素时，更变开销比较小。比如：
+
+    &lt;ul&gt;
+      &lt;li&gt;first&lt;/li&gt;
+      &lt;li&gt;second&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;first&lt;/li&gt;
+      &lt;li&gt;second&lt;/li&gt;
+      &lt;li&gt;third&lt;/li&gt;
+    &lt;/ul&gt;
+
+React 会先匹配 `&lt;li&gt;first&lt;/li&gt;` 对应的树，然后匹配第二个元素 `&lt;li&gt;second&lt;/li&gt;` 对应的树，最后插入第三个元素的 &lt;li&gt;third&lt;/li&gt; 树。
+
+如果在列表头部插入会很影响性能，那么更变开销会比较大。比如：
+
+    &lt;ul&gt;
+      &lt;li&gt;Duke&lt;/li&gt;
+      &lt;li&gt;Villanova&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;Connecticut&lt;/li&gt;
+      &lt;li&gt;Duke&lt;/li&gt;
+      &lt;li&gt;Villanova&lt;/li&gt;
+    &lt;/ul&gt;
+
+React 会针对每个子元素 mutate销毁和重建, `&lt;li&gt;Duke&lt;/li&gt; 和 &lt;li&gt;Villanova&lt;/li&gt;` 子树会被销毁和重建，元素一多可能导致性能问题
+
+### Keys
+为了解决以上问题，React 支持 key 属性。当子元素拥有 key 时，React 使用 key 来匹配原有树上的子元素以及最新树上的子元素。
+仅当 key 变化时， React 会创建一个新的而不是更新一个既有的组件
+
+    &lt;EmailInput key={this.props.user.id} /&gt;
+
+以下例子在新增 key 之后使得之前的低效转换变得高效：
+
+    &lt;ul&gt;
+      &lt;li key=&quot;2015&quot;&gt;Duke&lt;/li&gt;
+      &lt;li key=&quot;2016&quot;&gt;Villanova&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;ul&gt;
+      &lt;li key=&quot;2014&quot;&gt;Connecticut&lt;/li&gt;
+      &lt;li key=&quot;2015&quot;&gt;Duke&lt;/li&gt;
+      &lt;li key=&quot;2016&quot;&gt;Villanova&lt;/li&gt;
+    &lt;/ul&gt;
+
+现在 React 知道只有带着 &#x27;2014&#x27; key 的元素是新元素，带着 &#x27;2015&#x27; 以及 &#x27;2016&#x27; key 的元素仅仅移动了。
+
+    &lt;li key={item.id}&gt;{item.name}&lt;/li&gt;
+
+你可以用一部分内容作为哈希值来生成一个 key。这个 key 不需要全局唯一，但在列表中需要保持唯一。
+#### 不用index 当key
+最后，你也可以使用元素在数组中的下标作为 key。这个策略在元素不进行重新排序时比较合适，
+
+如果 key 是一个下标，那么修改顺序时会修改当前的 key，导致非受控组件的 state（比如输入框）可能相互篡改导致无法预期的变动。
+
+# 权衡
+我们定期探索优化协调算法。在当前的实现中，
+1. 可以理解为一棵子树能在其`兄弟之间`移动，但不能移动到其他位置。在这种情况下，算法会重新渲染整棵子树。
+2. 该算法`不会尝试匹配不同组件类型`的子树。如果你发现你在两种不同类型的组件中切换，但输出非常相似的内容，建议把它们改成同一类型。
+3. 不稳定的 key（比如通过 Math.random() 生成的）会导致许多组件实例和 DOM 节点被不必要地重新创建
+
+</pre>
+<div id="pager"></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"><ol><li>笔记</li><ol></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

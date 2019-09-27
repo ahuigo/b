@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/ria/js-chart.md';
+const MD_URL='post/ria/chart-antv.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>js charts</title>
+<title>antv and bizcharts</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -32,11 +32,11 @@ const MD_URL='post/ria/js-chart.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -47,84 +47,17 @@ const MD_URL='post/ria/js-chart.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: js charts
-date: 2018-12-06
-updated: 2018-12-06
+title: antv and bizcharts
+date: 2019-09-27
+updated: 2019-09-27
 ---
-# Preface
-http://socialcompare.com/en/comparison/javascript-graphs-and-charts-libraries
+# Antv &amp; bizcharts
 
-# chartjs
-http://www.chartjs.org/docs/#line-chart-example-usage
+# style
+## padding
+https://bizcharts.net/products/bizCharts/docs/qa 设置padding 解决留白
 
-1. canvas 必须指定宽高
-2. 必须是window 中的dom
-3. 以下几种都可以
-
-    ctx = $(&#x27;#id&#x27;)
-    ctx = $(&#x27;#id&#x27;)[0]
-    ctx = $(&#x27;#id&#x27;)[0].getContext(&#x27;2d&#x27;)
-    new chart(ctx, options);
-
-example
-
-    var data = [];
-    for(var i in list){
-        var item = {x:moment(list[i].rettime) ,y:parseInt(list[i][key])}
-        data.push(item);
-    }
-    var config = {
-        type: &#x27;line&#x27;,
-        data: {
-            datasets: [{
-                label: &#x27;xtitle&#x27;,
-                data: data
-            }]
-        },
-        options: {
-            scales: {
-                xAxes: [{
-                    type: &#x27;time&#x27;,
-                    position: &#x27;bottom&#x27;
-                }]
-            }
-        }
-    };
-
-    var $ctx = $(&#x27;&lt;canvas width=&quot;400&quot; height=&quot;200&quot;&gt;&lt;/canvas&gt;&#x27;);
-    container.append($ctx);
-    new Chart($ctx, config);
-
-## title
-ytitle (&gt; 2.0)
-
-    options = {
-      scales: {
-        yAxes: [{
-          scaleLabel: {
-            display: true,
-            labelString: &#x27;probability&#x27;
-          }
-        }]
-    }
-
-# canvasjs
-http://canvasjs.com/javascript-charts/
-
-# echarts:
-Canvas by baidu, 对手机支持不好
-http://echarts.baidu.com/doc/example/line1.html
-
-# GoJS
-GoJS 是一个功能丰富的 JS 库，用于在浏览器上实现自定义交互式图表和复杂的可视化图表。 （@nivance 投稿）
-
-
-# D3
-SVG 定制性更强，但也更复杂
-
-# highcharts
-[hicharts](/p/ria-chart-highcharts)
-</pre>
+    &lt;Chart height={window.innerHeight} width={&quot;100%&quot;} height={130} padding={[0, 0, 0, 0]} data={periodDv} scale={scale} forceFit &gt;</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
@@ -150,7 +83,7 @@ SVG 定制性更强，但也更复杂
 <div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>

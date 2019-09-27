@@ -49,7 +49,7 @@ const MD_URL='post/ria/js-css-layout.md';
 <pre id="markdown" v-pre>---
 title: css 布局
 date: 2018-03-03
-updated: 2019-09-07
+updated: 2019-09-27
 ---
 # CSS 布局
 &gt; 参考: http://zh.learnlayout.com/position.html
@@ -82,6 +82,13 @@ box 的 horizonal 水平居中
     p{
         column-count: 3;
         column-gap: 1em;
+    }
+
+## hide scrollbar
+
+    .hideScrollBar::-webkit-scrollbar{ 
+        width: 0 !important ;
+        height: 0 !important ;
     }
 
 ## img 

@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/ria/node-npm-pkg.md';
+const MD_URL='post/ria/chart.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>写npm 包</title>
+<title>js charts</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -47,71 +47,84 @@ const MD_URL='post/ria/node-npm-pkg.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: 写npm 包
-date: 2018-10-04
+title: js charts
+date: 2019-09-27
 updated: 2019-09-27
 ---
-# npm reistry
-    npm config set @company:registry https://sina.com.cn/artifactory/api/npm/npm-sina/
-    npm login --registry=https://artifactory.company.works/artifactory/api/npm/npm-company/ --scope=@company
+# Preface
+http://socialcompare.com/en/comparison/javascript-graphs-and-charts-libraries
 
-# 写npm 包
-1. 生成包信息package.json
-    npm init
-2. https://www.npmjs.com/ 注册账号
-3. `npm adduser` 添加账号
-3. `npm whoami` 验证
-5. `npm publish` 发布
-6. `npm unpublish &lt;package&gt;@&lt;version&gt;` //可以撤销发布自己发布过的某个版本代码。
+# chartjs
+http://www.chartjs.org/docs/#line-chart-example-usage
 
-参考: [js-dom-event-slide](/p/ria/js-dom-event-slide)
+1. canvas 必须指定宽高
+2. 必须是window 中的dom
+3. 以下几种都可以
 
-## bin
-如果要编写bin cli, 配置package.json
+    ctx = $(&#x27;#id&#x27;)
+    ctx = $(&#x27;#id&#x27;)[0]
+    ctx = $(&#x27;#id&#x27;)[0].getContext(&#x27;2d&#x27;)
+    new chart(ctx, options);
 
-    &quot;bin&quot;: {
-        &quot;egg-bin&quot;: &quot;bin/egg-bin.js&quot;,
-        &quot;mocha&quot;: &quot;bin/mocha.js&quot;
-        &quot;hi&quot;: &quot;bin/hi.js&quot;
-    },
+example
 
-npm install 的bin 位于`/usr/local/bin/{mocha, egg-bin}`
+    var data = [];
+    for(var i in list){
+        var item = {x:moment(list[i].rettime) ,y:parseInt(list[i][key])}
+        data.push(item);
+    }
+    var config = {
+        type: &#x27;line&#x27;,
+        data: {
+            datasets: [{
+                label: &#x27;xtitle&#x27;,
+                data: data
+            }]
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    type: &#x27;time&#x27;,
+                    position: &#x27;bottom&#x27;
+                }]
+            }
+        }
+    };
 
-也可参考：https://github.com/nicejade/arya-jarvis
+    var $ctx = $(&#x27;&lt;canvas width=&quot;400&quot; height=&quot;200&quot;&gt;&lt;/canvas&gt;&#x27;);
+    container.append($ctx);
+    new Chart($ctx, config);
 
-## import 
-import directory 其实是import directory/index.js
+## title
+ytitle (&gt; 2.0)
 
-    import {sth} from &#x27;./directory&#x27;
-
-
-## link
-在插件还没发布前，可以通过 npm link 的方式进行本地测试，具体参见 npm-link
-
-    $ cd example-app
-    $ npm link ../egg-ua
-    $ npm i
-    $ npm test
-
-## install
-安装到本地
-
-    npm install ./your-project -g
-    yarn add ./your-project
-
-npm:
-
-    cd ~/projects/node-bloggy  # go into the dir of your main project
-    npm link ../node-redis     # link the dir of your dependency
-
-you can declare local dependencies in package.json
-
-    &quot;dependencies&quot;: {
-        &quot;bar&quot;: &quot;file:../foo/bar&quot;
+    options = {
+      scales: {
+        yAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: &#x27;probability&#x27;
+          }
+        }]
     }
 
-# 参考
-- Node 实现一个命令行程序 https://zhuanlan.zhihu.com/p/28705824</pre>
+# canvasjs
+http://canvasjs.com/javascript-charts/
+
+# echarts:
+Canvas by baidu, 对手机支持不好
+http://echarts.baidu.com/doc/example/line1.html
+
+# GoJS
+GoJS 是一个功能丰富的 JS 库，用于在浏览器上实现自定义交互式图表和复杂的可视化图表。 （@nivance 投稿）
+
+
+# D3
+SVG 定制性更强，但也更复杂
+
+# highcharts
+[hicharts](/p/ria-chart-highcharts)
+</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
