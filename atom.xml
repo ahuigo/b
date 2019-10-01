@@ -2,9 +2,22 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-09-27T20:33:19Z</updated>
+<updated>2019-10-01T17:41:27Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>用BeautifulSoup 处理 html/xml</title>
+<link href="/b/py/py-html" rel="alternate" type="text/html"/>
+<updated>2019-10-01T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># 用BeautifulSoup 处理 html/xml
+一般转义html 用一下几个方法
+
+via html
+
+    html.escape(u'&lt;看&gt;')
+    &gt;&gt;&gt; html.escape</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>React diff</title>
 <link href="/b/ria/react-diff" rel="alternate" type="text/html"/>
 <updated>2019-09-27T00:00:00Z</updated>
@@ -160,16 +173,16 @@ Netfilte</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Cesium</title>
 <link href="/b/ria/cesium" rel="alternate" type="text/html"/>
-<updated>2019-09-20T00:00:00Z</updated>
+<updated>2019-10-01T00:00:00Z</updated>
 <summary/>
 <published>2019-09-12T00:00:00Z</published>
 <content># Cesium
+# imagery 图层
+Supported Imagery Formats:
 
-## PolylineCollection
-
-    polylines.removeAll();
-    PolylineCollection#add
-    PolylineC</content>
+    WMS
+    TMS
+    WMTS (with time dynamic imager</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>写npm 包</title>
 <link href="/b/ria/node-npm-pkg" rel="alternate" type="text/html"/>
@@ -262,7 +275,7 @@ https://</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>python 时间函数的用法笔记</title>
 <link href="/b/py/py-time" rel="alternate" type="text/html"/>
-<updated>2019-09-07T00:00:00Z</updated>
+<updated>2019-10-01T00:00:00Z</updated>
 <summary/>
 <published>2018-04-02T00:00:00Z</published>
 <content># time 工具
@@ -443,14 +456,4 @@ https://blog.bitsrc.io/10-javascript-compression-tools-and-libraries-for-2019-f1
 一些mac osx 能做而linux 桌面级OS 目前不能做的事情：
 
 - mac 支持全局readline , 字符编辑的效率非常非常高(</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Shell 工具集合</title>
-<link href="/b/c/shell-tool" rel="alternate" type="text/html"/>
-<updated>2019-08-18T00:00:00Z</updated>
-<summary/>
-<published>2016-09-27T00:00:00Z</published>
-<content># System debug, 系统调试工具
-
-- web: 对于 Web 调试，curl 和 curl -I 很方便灵活，或者也可以使用它们的同行 wget，或者更现代的 httpie。
-- dis</content>
 </entry></feed>
