@@ -49,7 +49,7 @@ const MD_URL='post/ria/js-dom-event.md';
 <pre id="markdown" v-pre>---
 title: Event
 date: 2018-10-04
-updated: 2019-09-01
+updated: 2019-10-11
 ---
 # Event
 
@@ -151,6 +151,28 @@ onpopstate(when or popstate):
 
 Refer to : http://segmentfault.com/blog/jslite/1190000002465197
 
+## mouse event
+mousedown mouseup
+
+mouseenter 与 mouseout. mouseover 类似mouseenter, 但切换item 会触发
+
+    &lt;ul id=&quot;test&quot;&gt;
+        &lt;li&gt;item 1&lt;/li&gt;
+        &lt;li&gt;item 2&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;script&gt;
+        test.addEventListener(&quot;mouseenter&quot;, function( e) {   
+            console.log(&#x27;enter&#x27;,e.target)
+        }, false);
+        test.addEventListener(&quot;mouseover&quot;, function( e) {   
+            console.log(&#x27;over&#x27;,e.target)
+        }, false);
+        test.addEventListener(&quot;mouseout&quot;, function( e) {   
+            console.log(&#x27;out&#x27;,e.target)
+        }, false);
+    &lt;/script&gt;
+
+
 ## listener
 
     onclick=&quot;func(this)&quot; //notice: this 传的是click node(vue this===window)
@@ -209,6 +231,36 @@ or:
 	event.preventDefault()  prevents the default action the browser makes on that event.
     //event.returnValue = false;
 	event.stopPropagation() stops the event from bubbling up/capturing the event chain.
+
+如果事件发生在当前层, 那下列无效，listener(捕获与冒泡没有先后) 全部按FIFO 运行：
+
+    e.preventDefault()  //无效
+    e.stopPropagation() //无效
+
+如果事件发生在内层, 那下列无效，
+
+    e.preventDefault()  //无效
+    e.stopPropagation() //有效
+
+除非
+
+    //停止后续所有listner 的执行（所有的捕获+冒泡）
+    e.stopImmediatePropagation()
+
+example:
+
+    const h=m=&gt;{
+        return (e)=&gt;{
+            console.log(m)
+            e.stopImmediatePropagation()
+            //e.preventDefault()
+            //e.stopPropagation()
+        }
+    }
+    div.addEventListener(&#x27;click&#x27;, h(1), true)
+    div.addEventListener(&#x27;click&#x27;, h(2), false)
+    div.addEventListener(&#x27;click&#x27;, h(3), true)
+
 
 ### method target
 both jquery and dom support e.target...
