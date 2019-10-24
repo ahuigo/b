@@ -48,8 +48,8 @@ const MD_URL='post/git/git-.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: Git 命令大全
-date: 2019-09-01
-updated: 2019-09-01
+date: 2019-10-22
+updated: 2019-10-22
 ---
 # Git 配置
 
@@ -610,6 +610,7 @@ Create an archive of files from a named tree.
 
 	git push &lt;repo&gt; &lt;local_branch&gt;[:remote_branch]
 	git push origin master:test
+	git push . master:test  #.代表upstream origin?
 
     # git push -f git@github.com:&lt;USERNAME&gt;/&lt;REPO&gt;.git master:gh-pages
 

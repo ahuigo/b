@@ -20,13 +20,10 @@ const MD_URL='post/c/shell-color.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -35,10 +32,11 @@ const MD_URL='post/c/shell-color.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -51,11 +49,26 @@ const MD_URL='post/c/shell-color.md';
 <pre id="markdown" v-pre>---
 title: shell color
 date: 2018-09-27
-updated: 2018-10-06
+updated: 2019-10-24
 ---
 # shell color
 https://en.wikipedia.org/wiki/ANSI_escape_code
 http://pueblo.sourceforge.net/doc/manual/ansi_color_codes.html
+
+## python
+
+    class bcolors:
+        ENDC = &#x27;\033[0m&#x27;
+        HEADER = &#x27;\033[95m&#x27;
+        OKBLUE = &#x27;\033[94m&#x27;
+        RED = &#x27;\033[41m&#x27;
+        OKGREEN = &#x27;\033[92m&#x27;
+        WARNING = &#x27;\033[93m&#x27;
+        FAIL = &#x27;\033[91m&#x27;
+        BOLD = &#x27;\033[1m&#x27;
+        UNDERLINE = &#x27;\033[4m&#x27;
+
+    print(bcolors.WARNING + &quot;Warning: xxxx&quot; + bcolors.ENDC)
 
 ## color codes
 
@@ -83,8 +96,16 @@ while 40-47 selected the background.
 
 ## color code list
 
+    $ sh
+    $ RED=&#x27;\033[0;31m&#x27;
+    $ NC=&#x27;\033[0m&#x27; # No Color
+    $ printf &quot;I ${RED}love${NC} Stack Overflow\n&quot;
+
+zsh color list
+
     &quot;COLOR_SEQ%sRESET_SEQ&quot;
     &quot;BOLD_SEQ%sRESET_SEQ&quot;
+
 
     Code: Client: Meaning:
     [0m     -- reset; clears all colors and styles (to white on black)
@@ -117,8 +138,49 @@ while 40-47 selected the background.
     [47m    --  set background color to white
     [49m    2.53    set background color to default (black)
 
-&gt;  In version 2.50 and later, bold is interpreted as high-intensity</pre>
-<div id="pager" v-pre></div>
+&gt;  In version 2.50 and later, bold is interpreted as high-intensity
+
+
+# color
+## color tool
+mac:
+1. digital color meter
+1. ColorSync Utility
+2. chrome color picker
+
+在计算机中经常使用rgb/rgba 三原色来表示所有的颜色。 在做艺术设计时，经常使用另一种更多允观的HSL或者HSV 来表示。对于HSL 来说， 
+    hsl(359, 100%, 50%)
+    hsla(239, 100%, 50%, 0.36)
+
+在计算机中经常使用rgb 三原色来表示所有的颜色。
+在做艺术设计时，经常使用另一种更多允观的HSL或者HSV 来表示。对于HSL 来说，
+
+	H: Hue 色相(0~359)
+	S: Saration 饱和度,(0%是灰色,100%是饱和)
+	V/L: 明度/亮度. (0%是黑色，50%是普通亮度，100%白色)
+    A: 透明度
+
+对于HSL(h,s,l)来说, 如果色相本身对应(hr,hg,hb):
+
+	r = 50%+(hr-50%)*s + {-50% + s*(hr-50%) } *[(l-50%)/50%]
+	r = 2 * {l + [s*(hr-0.5)+0.5] - l*[s*(hr-0.5)+0.5]} -1
+	g = 2 * {l + [s*(hg-0.5)+0.5] - l*[s*(hg-0.5)+0.5]} -1
+	b = 2 * {l + [s*(hb-0.5)+0.5] - l*[s*(hb-0.5)+0.5]} -1
+
+色相表示人类能感知的颜色(rgb 两两组合的颜色)
+饱和度0表示灰色(50%,50%,50%)=rgb(#888)
+明亮度表示接近黑色(0，0，0), 或者白色(1,1,1) 的程度
+
+![Have](/img/ria.color.hue.png)
+
+## coloer list
+
+    a:hover{background: cadetblue}
+    a:link{background: lightgray}
+    rebeccapurple, 
+    #2f363d
+</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -140,10 +202,10 @@ while 40-47 selected the background.
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
@@ -165,6 +227,9 @@ while 40-47 selected the background.
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>

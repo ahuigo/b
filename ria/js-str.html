@@ -49,7 +49,7 @@ const MD_URL='post/ria/js-str.md';
 <pre id="markdown" v-pre>---
 title: Js 字符串大全
 date: 2015-03-15
-updated: 2019-09-07
+updated: 2019-10-22
 ---
 # Js 字符串大全
 字符定义与python 一样, 而且不区分双引号：
@@ -332,6 +332,16 @@ Create RegExp：test, exec
 	/\u1321/.test(&#x27;\u1321&#x27;);//true
 	/\x31/u.test(&#x27;\x31&#x27;);//true
 
+### group name
+
+    /name=&quot;(?&lt;name&gt;\w+)&quot;/.exec(`name=&quot;ahui&quot;`).group.name
+
+非global 模式的match, 也可以显示groups
+
+    &quot;first 1 second 1&quot;.match(/(?&lt;x&gt;\w+) 1/).groups.x
+
+global 模式的match, 结果只有数组
+
 ### zero-width 断言
 正向断言，假定该位置后跟的是X
 
@@ -368,6 +378,8 @@ $ 放前面就不会成功
 
 ### exec 
 like python findall/finditer(返回分组)
+
+while 时必须开启global, 否则会死循环(reg 的cursor不会变)
 
 	str=&#x27; 1ing 2ing 3ing&#x27;;
 	r=/\d(ing)/igm;

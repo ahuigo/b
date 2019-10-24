@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/p/p3.md';
+const MD_URL='post/ria/React-ref.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO 的笔记</title>
+<title>React Ref</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -46,38 +46,126 @@ const MD_URL='post/p/p3.md';
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
-<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+<pre id="markdown" v-pre>---
+title: React Ref
+date: 2019-09-07
+updated: 2019-10-22
+---
+# React Ref
+Ref 是用来绑定dom 或 Component实例 的
 
-<ul>
-<li>2018-09-27 <a href="/b/eng/eng-punctuation">english punctuation</a> </li>
-<li>2018-09-27 <a href="/b/db/postgre-crud">Postgre CRUD</a> </li>
-<li>2014-05-10 <a href="/b/code/code-character">字符编码简介</a> </li>
-<li>2019-06-04 <a href="/b/c/ops-process">linux 之进程</a> </li>
-<li>2015-07-13 <a href="/b/c/as-elf">ELF 文件格式</a> </li>
-<li>2019-05-29 <a href="/b/vim/vim-edit">Vim Edit</a> </li>
-<li>2019-05-29 <a href="/b/vim/vim-visual">Vim visual</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-help">vim-help</a> </li>
-<li>2019-05-29 <a href="/b/vim/vim-guide">Vim Guide</a> </li>
-<li>2019-05-29 <a href="/b/c/shell-zsh">shell 终端使用技巧</a> </li>
-<li>2019-06-04 <a href="/b/vim/vim-notes">vim 笔记</a> </li>
-<li>2019-06-17 <a href="/b/vim/vim-motion">vim-motion</a> </li>
-<li>2018-09-28 <a href="/b/py/py-db-postgre">help</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-ajax-cors">ajax cors</a> </li>
-<li>2019-09-05 <a href="/b/c/ops-curl">curl manual</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-promise">JS Promise</a> </li>
-<li>2019-09-11 <a href="/b/ria/js-obj">js notes</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-debug-exception">try-catch</a> </li>
-<li>2019-05-12 <a href="/b/ria/react-webpack-babel">How to set up React, webpack, and Babel 7 from scratch</a> </li>
-<li>2019-05-23 <a href="/b/ria/react-framework">react framework</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-css-less">js-css-less</a> </li>
-<li>2019-03-08 <a href="/b/py/py-async-cpu">does-a-thread-waiting-on-io-also-block-a-core?</a> </li>
-<li>2019-03-02 <a href="/b/db/redis-cache">cache 穿透问题</a> </li>
-<li>2019-02-28 <a href="/b/algorithm/algo-str-search">字符串搜索算法KMP</a> </li>
-<li>2018-09-28 <a href="/b/net/net-proxy-socks">net-socks</a> </li>
-<li>2019-02-20 <a href="/b/algorithm/list-copy">Copy List with Random Pointer</a> </li>
-</ul>
-</div>
-<div id="pager"> <a href="/b/index">p0</a> <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a> p3</div>
+## Dom Ref
+ref.current 指向 div
+
+    const ref= React.createRef();
+    return &lt;div ref={ref}/&gt;
+
+### 回调Refs
+你也可以这样用回调Refs 实现精确的控制:
+
+    &lt;div ref={node=&gt;ref.current=node}/&gt;
+
+回调Refs 更新过程中它会被执行两次，第一次传入参数 null，然后第二次会传入参数 DOM 元素。
+
+    ref={node=&gt; console.log(&#x27;node:&#x27;,node) }
+
+这是因为:
+1. 在每次渲染时会创建一个新的函数实例，所以 React 清空旧的 ref 并且设置新的。(卸载null与创建, 参考react-diff)
+2. 通过将 ref 的回调函数定义成 class 的绑定函数的方式可以避免上述问题(大多数情况无关紧要)
+
+
+## 组件Ref
+ref.current 指向 Com3
+
+    &lt;Com3 ref={ref}/&gt;
+
+### 函数组件Ref
+你不能在函数组件上传递 ref 属性，因为它们没有实例,
+不过你可以通过`React.forwardRef`这样做
+
+    import React from &#x27;react&#x27;;
+
+    const Com2 = React.forwardRef((props, ref) =&gt; {
+        console.log({com3:props, ref})
+          return &lt;p&gt;
+                &lt;button ref={ref} className=&quot;FancyButton1&quot;&gt;
+                    {props.children}
+                  &lt;/button&gt;
+            &lt;/p&gt;
+    });
+
+    export default class Com extends React.Component{
+        constructor(props){
+            super(props)
+        }
+        componentDidMount(nextProps){
+            console.log(this.ref) //ref.current point to h1
+            console.log(this.subref) //ref.current point to h1
+        }
+
+
+        render(){
+            this.subref = React.createRef();
+            //任何对象都 可以 的，e.g.: 
+            this.ref= React.createRef();
+            this.ref = {}
+
+            return &lt;h1 ref={this.ref}&gt;
+                &lt;Com2 a=&quot;1&quot; b=&quot;12&quot; key={2} ref={this.subref}&gt;com2&lt;/Com2&gt;
+            &lt;/h1&gt;
+        }
+    }
+
+Note:
+1. 用 React.forwardRef, 它不可控: 孙子组件如何改变它，破坏它不可控
+1. 第二个参数 ref 只在使用 React.forwardRef 定义组件时存在。常规函数和 class 组件不接收 ref 参数，且 props 中也不存在 ref。
+
+### 孙子组件ref
+由于ref 只能通过forwardRef 向下传递，中间组件传ref 时需要改成别的名：
+
+    return React.forwardRef((props, ref) =&gt; {
+        return &lt;MiddleWare {...props} forwardedRef={ref} /&gt;;
+    });
+    function MiddleWare(props){
+        const {forwardRef, ...rest} = props;
+        return &lt;Sub ref={forwardRef} {...rest}&gt;
+    }
+
+## ref 与生命周期
+React 会在组件挂载时给 current 属性传入 DOM 元素，并在组件卸载时传入 null 值。
+1. ref 会在 `componentDidMount` 或 `componentDidUpdate` 生命周期钩子触发前更新
+
+## 组件自定义名称Com.displayName
+React.forwardRef 接受一个渲染函数。React DevTools 使用该函数来决定为 ref 转发组件显示的内容。
+
+例如，以下组件将在 DevTools 中显示为 “anonymouse:ForwardRef”：
+
+    const WrappedComponent = React.forwardRef((props, ref) =&gt; {
+        return &lt;LogProps {...props} forwardedRef={ref} /&gt;;
+    });
+
+显示 命名了渲染函数: `“myFunction:ForwardRef”`
+
+    const WrappedComponent = React.forwardRef( function myFunction(props, ref) {
+        return &lt;LogProps {...props} forwardedRef={ref} /&gt;;
+    });
+
+自定义组件的名称 displayName 属性：
+
+    function logProps(Component) {
+        function forwardRef(props, ref) {
+            return &lt;Component {...props} forwardedRef={ref} /&gt;;
+        }
+
+        const name = Component.displayName || Component.name;
+        forwardRef.displayName = `logProps(${name})`;
+
+        return React.forwardRef(forwardRef);
+    }
+
+# Refer
+1. https://zh-hans.reactjs.org/docs/forwarding-refs.html</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>

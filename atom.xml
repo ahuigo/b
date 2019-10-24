@@ -2,12 +2,91 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-10-12T23:01:32Z</updated>
+<updated>2019-10-24T15:53:35Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>JS Math</title>
+<link href="/b/ria/js-math" rel="alternate" type="text/html"/>
+<updated>2019-10-24T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Math
+
+	E	返回算术常量 e，即自然对数的底数（约等于2.718）。
+	LN2	返回 2 的自然对数（约等于0.693）。
+	LN10	返回 10 的自然对数（约等于2.302）。
+	LOG</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>管理包和依赖的工具。</title>
+<link href="/b/py/py-pkg" rel="alternate" type="text/html"/>
+<updated>2019-10-24T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># 管理包和依赖的工具。
+
+pip：Python 包和依赖关系管理工具。官网
+pip-tools：保证 Python 包依赖关系更新的一组工具。官网
+conda：跨平台，Python 二进制包管理工具</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>shell color</title>
+<link href="/b/c/shell-color" rel="alternate" type="text/html"/>
+<updated>2019-10-24T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># shell color
+https://en.wikipedia.org/wiki/ANSI_escape_code
+http://pueblo.sourceforge.net/doc/manua</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Chrome devtools 使用汇总</title>
+<link href="/b/ria/js-debug-chrome" rel="alternate" type="text/html"/>
+<updated>2019-10-22T00:00:00Z</updated>
+<summary/>
+<published>2018-03-03T00:00:00Z</published>
+<content># Chrome devtools 使用汇总
+chrome://chrome-urls/
+
+## Network dns
+- Dns Cache
+chrome://net-internals/#dns</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Js Array 整理</title>
+<link href="/b/ria/js-array" rel="alternate" type="text/html"/>
+<updated>2019-10-22T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Js Array 整理
+array 不像string 是primitive value, 所以length 可以缩短放大array。
+
+	arr = [1,2,3]
+	arr.length = 1</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>React Ref</title>
+<link href="/b/ria/React-ref" rel="alternate" type="text/html"/>
+<updated>2019-10-22T00:00:00Z</updated>
+<summary/>
+<published>2019-09-07T00:00:00Z</published>
+<content># React Ref
+Ref 是用来绑定dom 或 Component实例 的
+
+## Dom Ref
+ref.current 指向 div
+
+    const ref= React.create</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Git 命令大全</title>
+<link href="/b/git/git-" rel="alternate" type="text/html"/>
+<updated>2019-10-22T00:00:00Z</updated>
+<summary/>
+<published>2019-10-22T00:00:00Z</published>
+<content># Git 配置
+
+## ConfigFile
+1. /etc/gitconfig #git config --system
+2. ~/.gitconfig 	#git config --global</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Event</title>
 <link href="/b/ria/js-dom-event" rel="alternate" type="text/html"/>
-<updated>2019-10-11T00:00:00Z</updated>
+<updated>2019-10-24T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># Event
@@ -131,15 +210,16 @@ https://bizcharts.net/products/bizCharts/docs/qa 设置padding 解决</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Js dom 笔记</title>
 <link href="/b/ria/js-dom" rel="alternate" type="text/html"/>
-<updated>2019-09-24T00:00:00Z</updated>
+<updated>2019-10-24T00:00:00Z</updated>
 <summary/>
 <published>2016-01-23T00:00:00Z</published>
 <content># Js dom 笔记
     document.documentElement ;//html
     document.body;  //html
+
 # Device
 ## Navigator
-na</content>
+n</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>grep &amp; ag 的使用</title>
 <link href="/b/c/shell-grep" rel="alternate" type="text/html"/>
@@ -206,7 +286,7 @@ Netfilte</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Cesium</title>
 <link href="/b/ria/cesium" rel="alternate" type="text/html"/>
-<updated>2019-10-01T00:00:00Z</updated>
+<updated>2019-10-22T00:00:00Z</updated>
 <summary/>
 <published>2019-09-12T00:00:00Z</published>
 <content># Cesium
@@ -295,7 +375,7 @@ https://</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Js 字符串大全</title>
 <link href="/b/ria/js-str" rel="alternate" type="text/html"/>
-<updated>2019-09-07T00:00:00Z</updated>
+<updated>2019-10-22T00:00:00Z</updated>
 <summary/>
 <published>2015-03-15T00:00:00Z</published>
 <content># Js 字符串大全
@@ -372,89 +452,4 @@ Interface：
     select "count"(1) from "table_name"
 
 ##</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>CSS 笔记</title>
-<link href="/b/ria/js-css" rel="alternate" type="text/html"/>
-<updated>2019-09-24T00:00:00Z</updated>
-<summary/>
-<published>2017-12-12T00:00:00Z</published>
-<content># CSS 笔记
-css/html5/js 兼容表
-http://caniuse.com/
-
-# priority
-
-	style &gt; id &gt; hover(鼠标悬停) &gt; class &gt; tag
- </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>css 布局</title>
-<link href="/b/ria/js-css-layout" rel="alternate" type="text/html"/>
-<updated>2019-09-27T00:00:00Z</updated>
-<summary/>
-<published>2018-03-03T00:00:00Z</published>
-<content># CSS 布局
-&gt; 参考: http://zh.learnlayout.com/position.html
-
-# display
-1. block: This makes the element a</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>shell proxy tool</title>
-<link href="/b/net/net-proxy-tool" rel="alternate" type="text/html"/>
-<updated>2019-09-01T00:00:00Z</updated>
-<summary/>
-<published>2019-09-01T00:00:00Z</published>
-<content># Android
-HowTo: Proxy Non-Proxy-Aware Android Applications through Burp
-http://blog.dornea.nu/2014/</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>JS Math</title>
-<link href="/b/ria/js-math" rel="alternate" type="text/html"/>
-<updated>2019-09-21T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Math
-
-	E	返回算术常量 e，即自然对数的底数（约等于2.718）。
-	LN2	返回 2 的自然对数（约等于0.693）。
-	LN10	返回 10 的自然对数（约等于2.302）。
-	LOG</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Golang 的结构体</title>
-<link href="/b/go/go-struct" rel="alternate" type="text/html"/>
-<updated>2019-08-30T00:00:00Z</updated>
-<summary/>
-<published>2019-03-24T00:00:00Z</published>
-<content># Golang Notes: struct
-struct 是值类型，slice 是引用类型(指针), 以下赋值方法是按值的
-
-    type A struct{x int; b string}
- </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>go 的变量</title>
-<link href="/b/go/7.go-var" rel="alternate" type="text/html"/>
-<updated>2019-09-01T00:00:00Z</updated>
-<summary/>
-<published>2016-09-27T00:00:00Z</published>
-<content># go print
-## println
-只能用于string, int..
-
-    # no need import fmt
-    println(xyz)
-
-## fmt.Println
-a</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>React Build</title>
-<link href="/b/ria/react-build" rel="alternate" type="text/html"/>
-<updated>2019-08-18T00:00:00Z</updated>
-<summary/>
-<published>2019-08-18T00:00:00Z</published>
-<content># React Build
-
-## babel
-babel 使用`react-app/prod` 编译jsx
-
-    npm i babel
-    npx babel --watch src --</content>
 </entry></feed>
