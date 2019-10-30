@@ -20,13 +20,10 @@ const MD_URL='post/code/code-regex.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -35,10 +32,11 @@ const MD_URL='post/code/code-regex.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -51,7 +49,7 @@ const MD_URL='post/code/code-regex.md';
 <pre id="markdown" v-pre>---
 title: Posix Regex 正则语法
 date: 2018-08-18
-updated: 2018-10-06
+updated: 2019-10-30
 ---
 # Wildcard 通配符 和 Posix 正则
 正则分两大类:Posix和PCRE(Perl Compatible Regular Expression ). posix 已经很老了, 效率也没有PCRE高. 但是它被linux命令行广泛支持.
@@ -107,6 +105,20 @@ updated: 2018-10-06
     Out[13]: (None,)
     &gt;&gt; re.findall(&quot;(switchport)?&quot;, &quot; switchport&quot;)
     Out[16]: [&#x27;&#x27;, &#x27;switchport&#x27;, &#x27;&#x27;]
+
+## 0宽度断言
+判断密码必须符合至少8个字符、大小写、数字
+
+    //(?=exp)	匹配exp前面的位置
+    //(?&lt;=exp)	匹配exp后面的位置
+    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/
+    /^
+    (?=.*\d)          // should contain at least one digit 注意不是 (?=\d)
+    (?=.*[a-z])       // should contain at least one lower case
+    (?=.*[A-Z])       // should contain at least one upper case
+    [a-zA-Z0-9]{8,}   // should contain at least 8 from the mentioned characters
+    $/
+
 
 # Posix Expression
 POSIX正则表达式分为：BRE (Basic Regular Expression) 和 ERE (Extended Regular Expressions)。
@@ -230,7 +242,7 @@ mac OSX 下的`grep -E` 与GNU 的`grep -P` 是等价的, 你也可以安装GNU 
 ## Reference
 - http://www.ruanyifeng.com/blog/2018/09/bash-wildcards.html
 </pre>
-<div id="pager" v-pre></div>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -252,10 +264,10 @@ mac OSX 下的`grep -E` 与GNU 的`grep -P` 是等价的, 你也可以安装GNU 
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
@@ -277,6 +289,9 @@ mac OSX 下的`grep -E` 与GNU 的`grep -P` 是等价的, 你也可以安装GNU 
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>

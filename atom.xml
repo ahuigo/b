@@ -2,9 +2,52 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-10-24T15:53:35Z</updated>
+<updated>2019-10-30T10:55:27Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>node 系统相关</title>
+<link href="/b/ria/node-os" rel="alternate" type="text/html"/>
+<updated>2019-10-30T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># node 系统相关
+
+    global.process === process 
+
+## shell child process
+
+    const execSync = require('</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>js-css-less</title>
+<link href="/b/ria/js-css-less" rel="alternate" type="text/html"/>
+<updated>2019-10-30T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Preface
+从最早的Less、SASS，到后来的 PostCSS，再到最近的 CSS in JS，都是为了解决这个问题。--- ruanyifeng(css modules)
+
+less vs</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>三角形triangle</title>
+<link href="/b/math/geo-triangle" rel="alternate" type="text/html"/>
+<updated>2019-10-30T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># 三角形triangle
+## 三角心
+http://math001.com/triangle_lines_onepoint/
+
+1. 角平分线相交于内心，即内切圆圆心
+1. 中线相交于重心. 即切</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Posix Regex 正则语法</title>
+<link href="/b/code/code-regex" rel="alternate" type="text/html"/>
+<updated>2019-10-30T00:00:00Z</updated>
+<summary/>
+<published>2018-08-18T00:00:00Z</published>
+<content># Wildcard 通配符 和 Posix 正则
+正则分两大类:Posix和PCRE(Perl Compatible Regular Expression ). posix 已经很老了, 效率也没有</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>JS Math</title>
 <link href="/b/ria/js-math" rel="alternate" type="text/html"/>
 <updated>2019-10-24T00:00:00Z</updated>
@@ -86,7 +129,7 @@ ref.current 指向 div
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Event</title>
 <link href="/b/ria/js-dom-event" rel="alternate" type="text/html"/>
-<updated>2019-10-24T00:00:00Z</updated>
+<updated>2019-10-30T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># Event
@@ -320,7 +363,7 @@ Supported Imagery Formats:
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>向量(vector)</title>
 <link href="/b/math/vector" rel="alternate" type="text/html"/>
-<updated>2019-09-11T00:00:00Z</updated>
+<updated>2019-10-30T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># 向量(vector)
@@ -412,44 +455,4 @@ http://initd.org/psycopg/docs/cursor.html
 
     import psycopg2
     import</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Postgre 的索引</title>
-<link href="/b/db/postgre-index" rel="alternate" type="text/html"/>
-<updated>2019-10-12T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Postgre Index
-本文主要围绕postgre 总结一下索引, 参考：[PostgreSQL 9种索引的原理和应用场景](https://yq.aliyun.com/articles/11</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>go routines</title>
-<link href="/b/go/18.go-routines" rel="alternate" type="text/html"/>
-<updated>2019-09-07T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># go routines
-A goroutine is a `lightweight thread` managed by the Go runtime.
-
-execution of f happe</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Golang Interfaces</title>
-<link href="/b/go/16.go-interface" rel="alternate" type="text/html"/>
-<updated>2019-09-05T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Interfaces
-Interface：
-1. Interface 可以用来模拟泛型，但是是运行时模拟，没有编译时快
-1. method 没有 public protecte..., 如果要被其</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Postgre CRUD</title>
-<link href="/b/db/postgre-crud" rel="alternate" type="text/html"/>
-<updated>2019-09-24T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Postgre CRUD
-## string or keyword
-    select 'string';
-    select "count"(1) from "table_name"
-
-##</content>
 </entry></feed>
