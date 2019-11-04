@@ -2,9 +2,78 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-10-30T10:55:27Z</updated>
+<updated>2019-11-04T21:39:05Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Node 执行shell 的方法</title>
+<link href="/b/ria/node-shell" rel="alternate" type="text/html"/>
+<updated>2019-11-04T00:00:00Z</updated>
+<summary/>
+<published>2018-08-25T00:00:00Z</published>
+<content># Node 执行shell 的方法
+child_process 提供了很多执行shell 的包:
+- exec+ util.promisify
+- execSync
+- spawn
+- spawnS</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>ES6 Modudle 使用</title>
+<link href="/b/ria/js-module-es6" rel="alternate" type="text/html"/>
+<updated>2019-11-04T00:00:00Z</updated>
+<summary/>
+<published>2018-04-05T00:00:00Z</published>
+<content># js load
+## defer vs async
+
+    &lt;script src="async.js" async&gt;&lt;/script&gt;
+    &lt;script src="async.js" d</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>js 的函数</title>
+<link href="/b/ria/js-func" rel="alternate" type="text/html"/>
+<updated>2019-11-04T00:00:00Z</updated>
+<summary/>
+<published>2017-07-11T00:00:00Z</published>
+<content># async
+## generator
+    function* foo() {
+        yield 11
+        return 22;//没用
+    }
+    f=foo()</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>ops-find</title>
+<link href="/b/c/shell-find" rel="alternate" type="text/html"/>
+<updated>2019-11-04T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Preface
+
+	find -maxdepth 1 -name '*' -inum 1324 -exec rm {} \;
+	find -maxdepth 1 -name '*' -inum 1</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Shell 变量的数据类型</title>
+<link href="/b/c/1.shell-var" rel="alternate" type="text/html"/>
+<updated>2019-11-04T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Shell 变量的数据类型
+shell 主要支持字符串 和 数组 两种数据类型。数组功能很弱，如果想做复杂的处理，建议用python 等脚本处理。
+
+## 变量定义与删除
+
+    VAR='he</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>rsion?=0.3.0</title>
+<link href="/b/arch/docker-makefile" rel="alternate" type="text/html"/>
+<updated>2019-11-04T00:00:00Z</updated>
+<summary/>
+<published>2019-11-04T00:00:00Z</published>
+<content>version?=0.3.0
+image:
+	echoraw $(version)
+	docker image build -t blog:$(version) .
+	docker tag blog:</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>node 系统相关</title>
 <link href="/b/ria/node-os" rel="alternate" type="text/html"/>
 <updated>2019-10-30T00:00:00Z</updated>
@@ -118,9 +187,9 @@ ref.current 指向 div
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Git 命令大全</title>
 <link href="/b/git/git-" rel="alternate" type="text/html"/>
-<updated>2019-10-22T00:00:00Z</updated>
+<updated>2019-11-04T00:00:00Z</updated>
 <summary/>
-<published>2019-10-22T00:00:00Z</published>
+<published>2019-11-04T00:00:00Z</published>
 <content># Git 配置
 
 ## ConfigFile
@@ -129,7 +198,7 @@ ref.current 指向 div
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Event</title>
 <link href="/b/ria/js-dom-event" rel="alternate" type="text/html"/>
-<updated>2019-10-30T00:00:00Z</updated>
+<updated>2019-11-04T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># Event
@@ -266,7 +335,7 @@ n</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>grep &amp; ag 的使用</title>
 <link href="/b/c/shell-grep" rel="alternate" type="text/html"/>
-<updated>2019-09-24T00:00:00Z</updated>
+<updated>2019-11-04T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># grep &amp; ag 的使用
@@ -276,7 +345,7 @@ ag 比ack/grep 还快
     brew install the_silver_searcher
 
 
-## 自动忽略`.gitinore` 中的文件</content>
+## 自动忽略`.gitinore/.hgig</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>c-mem</title>
 <link href="/b/c/c-mem" rel="alternate" type="text/html"/>
@@ -382,77 +451,4 @@ Supported Imagery Formats:
 3. 默认是`nil`, 没有`NULL`
 
 </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Postgre expression</title>
-<link href="/b/db/postgre-expr" rel="alternate" type="text/html"/>
-<updated>2019-09-08T00:00:00Z</updated>
-<summary/>
-<published>2019-09-08T00:00:00Z</published>
-<content># Postgre expression
-
-
-# variable 
-## variable as table
-https://stackoverflow.com/questions/35559093</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>创业者社保</title>
-<link href="/b/proj/shebao" rel="alternate" type="text/html"/>
-<updated>2019-09-08T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># 15年
-已到退休年龄，但社保没有缴够15年怎么办？
-https://zhuanlan.zhihu.com/p/52324711
-在北京社保缴满15年，是否就可以在京领取养老待遇？
-https://</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>install java</title>
-<link href="/b/java/java-install" rel="alternate" type="text/html"/>
-<updated>2019-09-09T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># install java
-    JRE： Java Runtime Environment
-    JDK：Java Development Kit 
-    JDK = JRE(JVM)+ja</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Js 字符串大全</title>
-<link href="/b/ria/js-str" rel="alternate" type="text/html"/>
-<updated>2019-10-22T00:00:00Z</updated>
-<summary/>
-<published>2015-03-15T00:00:00Z</published>
-<content># Js 字符串大全
-字符定义与python 一样, 而且不区分双引号：
-
-    '\x00' == '\u0000'
-	'\x31' == "\x31"
-
-	'好' === '\u597D' //</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>python 时间函数的用法笔记</title>
-<link href="/b/py/py-time" rel="alternate" type="text/html"/>
-<updated>2019-10-01T00:00:00Z</updated>
-<summary/>
-<published>2018-04-02T00:00:00Z</published>
-<content># time 工具
-time 提供基本的时间，sleep
-
-	import time
-	time.time()
-		19972314124.05238
-        time.localetime(</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>help</title>
-<link href="/b/py/py-db-postgre" rel="alternate" type="text/html"/>
-<updated>2019-09-07T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># help
-http://initd.org/psycopg/docs/cursor.html
-
-# psycopg2
-## conn
-
-    import psycopg2
-    import</content>
 </entry></feed>

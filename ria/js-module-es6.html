@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/ria/js-module-es6.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>ES6 Modudle 使用</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: ES6 Modudle 使用
+date: 2018-04-05
+updated: 2019-11-04
+---
+# js load
+## defer vs async
+
+    &lt;script src=&quot;async.js&quot; async&gt;&lt;/script&gt;
+    &lt;script src=&quot;async.js&quot; defer&gt;&lt;/script&gt;
+
+1. defer: guarantees the order of execution in which they appear. (after html parsed done)
+    1. defer: html 解析完成后, 顺序阻塞, 一定在 `DOMContentLoaded`/onload前, 
+2. async: excute as soon as loaded(no order, 无序)
+    2. async: 非阻塞异步，可能在 `DOMContentLoaded` 事件前后，但是一定在`window.onload 事件`之前
+
+onready:  DomContentLoaded
+onload: inlude dom+pic
+
+# global variable
+Module: don&#x27;t use globals in my applications.
+
+    // es5
+    ROOT_DIR=__dirname;  // 不要用 const, var(es5)
+
+    // es6
+    (global||window).ROOT_DIR=__dirname;
+
+    // module.js
+    let users = require(ROOT_DIR+&#x27;/conf/users&#x27;)
+    let users = require(global.ROOT_DIR+&#x27;/conf/users&#x27;)
+    let users = require(&#x27;../conf/users&#x27;)
+
+## module storage
+ES6 recommend import global module:
+
+    //a.js
+    require(&#x27;./config&#x27;)[&#x27;name&#x27;]=&#x27;ahui&#x27;
+    //b.js
+    require(&#x27;./config&#x27;)[&#x27;name&#x27;]===&#x27;ahui&#x27;
+
+in webpack, use definePlugin to config new consants:
+
+    /* Webpack configuration */
+    const webpack = require(&#x27;webpack&#x27;);
+    new webpack.DefinePlugin({
+        &#x27;VALUE_1&#x27;: 123,
+        &#x27;VALUE_2&#x27;: &#x27;abc&#x27;
+    });
+
+    /* SomeComponent.js */
+    if (VALUE_1 === 123) {
+        // do something
+    }
+
+## module this
+module `this` is `{}`, not `global===window`
+
+# Es6 module
+- export 定义值
+- import 引入
+
+## export
+profile.js
+
+    // 写法一
+    export var m = 1;
+
+    // 写法二
+    var m = 1;
+    export {m};
+
+    // 写法三
+    var n = 1;
+    export {n};
+    export {n as m};
+
+变量foo，值为bar，500 毫秒之后变成baz。
+
+    export var foo = &#x27;bar&#x27;;
+    setTimeout(() =&gt; foo = &#x27;baz&#x27;, 500);
+
+这一点与 CommonJS 规范完全不同。CommonJS 模块输出的是值的缓存，不存在动态更新
+
+### export default 命令
+因为export default命令的本质是将后面的值，赋给default变量，所以它后面不能跟变量声明语句
+
+    // 正确
+    var a = 1;
+    export default a; //default = a
+    export default 42; //default = 42
+    export {a as default}
+
+    // 错误
+    export default var a = 1; // default = var a=1
+    export default a = 1;      // default = a = 1 // a is not defined(strict)
+
+default 与其他变量混用
+
+    import AnyDefaultName, { each, each as forEach } from &#x27;lodash&#x27;;
+
+### export *
+    // lib/mathplusplus.js
+    export * from &quot;lib/math&quot;;
+    export var e = 2.71828182846;
+    export default function(x) {
+        return Math.exp(x);
+    }
+    // app.js
+    import exp, {pi, e} from &quot;lib/mathplusplus&quot;;
+    console.log(&quot;e^π = &quot; + exp(pi));
+
+## import 
+1. import vs node require: https://cnodejs.org/topic/5a0f2da5f9de6bb0542f090b
+2. 默认只能是`*.mjs`，通过Loader Hooks可以自定义配置规则支持`*.js,*.json`等Node原有支持文件
+    1. node --experimental-modules ./index.mjs
+
+es6 eg.
+
+    // ES6模块
+    import &#x27;fs&#x27;;
+    import {stat} from &#x27;fs&#x27;;
+    import { stat as st, exists, readFile } from &#x27;fs&#x27;;
+
+    import A from &#x27;./a?v=2017&#x27;
+        ./a.js
+        a.js
+        a
+
+profile.js
+
+    export var foo = &#x27;bar&#x27;;     //export.foo = ...
+    export var area = &#x27;China&#x27;;  //export.area = ...
+
+main.js(babel)
+
+    import {foo} from &#x27;./profile.js&#x27;;
+    import {foo} from &#x27;./profile&#x27;;
+    import * from &#x27;./profile&#x27;;
+    import * from &#x27;profile&#x27;;
+    import * as profile from &#x27;./profile&#x27;;
+
+注意，`export *` 命令会忽略模块的default方法
+
+## import index.js
+`import ./module` 代表`module/index.js`:
+
+    import {Foo} from &#x27;./module&#x27;
+
+## export 与 import 的复合写法 
+
+    export { foo, bar } from &#x27;my_module&#x27;;
+
+    // 可以简单理解为
+    import { foo, bar } from &#x27;my_module&#x27;;
+    export { foo, bar };
+
+    export * from &#x27;my_module&#x27;;
+    export { es6 as default } from &#x27;./someModule&#x27;;
+
+# Package, 打包
+http://www.ruanyifeng.com/blog/2014/09/package-management.html
+
+old:
+- Bower - 不打包，只是install/update..: YeoMan和Grunt 建立在Bower基础之上
+    　　# 模块的名称
+    　　$ bower install jquery
+    　　# github用户名/项目名
+    　　$ bower install jquery/jquery
+- Browserify - 将多个require(&#x27;js&#x27;) 合并
+    - browserify robot.js &gt; bundle.js
+- dao: package both js/css
+- Gulp: 一个新的基于流的`管道式构建工具`，用于代替过时的Grunt。 类似于java 的Maven
+    - http://javascript.ruanyifeng.com/tool/gulp.html
+    - https://segmentfault.com/a/1190000002491282
+
+new:
+- webpack: 静态模块打包器(module bundler): js/css/png/font/..., 整合了gulp的优
+- parcel: 比较webpack 属于0配置，专注也web，不能用于打包npm
+- rollup: Facebook出品的es2015 Rollup 是下一代的 javascript 打包器，它使用 tree-shaking 的技术使打包的结果只包括实际用到的 exports。 使用它打包的代码，基本没有冗余的代码，减少了很多的代码体积
+    1. https://w3ctech.com/topic/1996
+    2. http://www.rollupjs.com
+
+## dao
+将js/css 合并
+
+    $ cat index.css
+    @import &#x27;necolas/normalize.css&#x27;;
+    @import &#x27;./layout/layout.css&#x27;;
+　　
+　　 body {
+　　  color: teal;
+　　  background: url(&#x27;./background-image.jpg&#x27;);
+　　 }
+    
+    $ duo index.css &gt; build.css
+</pre>
+<div id="pager"></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"><ol><li>笔记</li><ol></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>
