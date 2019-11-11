@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-11-11T15:01:01Z</updated>
+<updated>2019-11-11T15:01:58Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
 <title>Typescript 的module</title>
@@ -37,7 +37,7 @@
     ECMA 7+:
     Object.entries(obj).length === 0 &amp;&amp; obj.constructor === Object</content>
 </entry><entry xml:base="https://ahuigo.github.io">
-<title>2019崇礼富龙滑雪指引：雪场、装备、价格</title>
+<title>2019崇礼富龙滑雪指引</title>
 <link href="/b/life/ski" rel="alternate" type="text/html"/>
 <updated>2019-11-11T00:00:00Z</updated>
 <summary/>
