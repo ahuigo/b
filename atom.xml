@@ -2,9 +2,119 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-11-04T21:39:05Z</updated>
+<updated>2019-11-11T13:07:39Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Typescript 的module</title>
+<link href="/b/ria/ts/ts-module" rel="alternate" type="text/html"/>
+<updated>2019-11-11T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content>## 外部模块与内部模块
+外部模块(.js) 通过查找.d.ts 导入
+
+    外部模块(.js) + .d.ts = 内部模块(.ts)
+
+外部模块.d.ts 查找目录
+1. node_modul</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>function buildName({firstName = 'Tom', lastName=''}:{firstName:string, lastName:string}={}) {</title>
+<link href="/b/ria/ts/ts-a-todo" rel="alternate" type="text/html"/>
+<updated>2019-11-11T00:00:00Z</updated>
+<summary/>
+<published>2019-11-11T00:00:00Z</published>
+<content>    function buildName({firstName = 'Tom', lastName=''}:{firstName:string, lastName:string}={}) {
+  </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>js notes</title>
+<link href="/b/ria/js-obj" rel="alternate" type="text/html"/>
+<updated>2019-11-11T00:00:00Z</updated>
+<summary/>
+<published>2019-11-11T00:00:00Z</published>
+<content># Object
+
+## isEmpty
+    ECMA 7+:
+    Object.entries(obj).length === 0 &amp;&amp; obj.constructor === Object</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>2019崇礼滑雪指引：雪场、装备、价格</title>
+<link href="/b/life/ski" rel="alternate" type="text/html"/>
+<updated>2019-11-11T00:00:00Z</updated>
+<summary/>
+<published>2019-10-10T00:00:00Z</published>
+<content># 2019崇礼滑雪指引
+位于崇礼的雪场一直来都是北京滑雪爱好者的“圣地“。
+
+一是与吉林新疆雪场相比，崇礼离北京只有200多公里，适合工作之余的周末去; 
+二是与北京近郊的南山、渔阳、怀北、石京龙相</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>mac 工具集</title>
+<link href="/b/mac/mac-tool" rel="alternate" type="text/html"/>
+<updated>2019-11-11T00:00:00Z</updated>
+<summary/>
+<published>2018-10-10T00:00:00Z</published>
+<content># Preface
+本文是我所用的mac 工具集大杂烩。
+
+一些mac osx 能做而linux 桌面级OS 目前不能做的事情：
+
+- mac 支持全局readline , 字符编辑的效率非常非常高(</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>GMT,UTC,DST,CST 各种时间标准</title>
+<link href="/b/c/shell-time" rel="alternate" type="text/html"/>
+<updated>2019-11-11T00:00:00Z</updated>
+<summary/>
+<published>2012-07-08T00:00:00Z</published>
+<content># 各世界时间标准
+我们经常遇到这4种时间：GMT,UTC,DST,CST。google了一下，在此做个小结.
+
+## 格林威治标准时间GMT
+含义：「格林威治标准时间」(Greenwich Mean</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>ops-process-ps</title>
+<link href="/b/c/ops-process-ps" rel="alternate" type="text/html"/>
+<updated>2019-11-11T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Preface
+
+# processe status
+linux上进程有5种状态:
+
+1. 运行(正在运行或在运行队列中等待)
+2. 中断(休眠中, 受阻, 在等待某个条件的形成或接受到信号)
+3</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>webspider</title>
+<link href="/b/py/py-webspider" rel="alternate" type="text/html"/>
+<updated>2019-11-06T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># webspider
+Python 3网络爬虫开发实战 
+https://germey.gitbooks.io/python3webspider/1.2.2-Selenium%E7%9A%84%E5</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Sth. About Mobile Communication</title>
+<link href="/b/life/life-mobile" rel="alternate" type="text/html"/>
+<updated>2019-11-06T00:00:00Z</updated>
+<summary/>
+<published>2019-11-06T00:00:00Z</published>
+<content># Preface
+&gt; ps: 绝大部分业务在月末是无法办理的.
+
+# 大宝卡
+移动大王卡、联通大王卡和电信超牛卡、到底谁划算?
+https://zhuanlan.zhihu.com/p/242492</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>学习 docker</title>
+<link href="/b/arch/docker-" rel="alternate" type="text/html"/>
+<updated>2019-11-11T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># 什么是Docker
+虚拟机是对硬件的虚拟化(需要Hypervisor这个软件层), 而docker （LXC, linux container）是对操作系统的虚拟化。
+1. docker 基于li</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Node 执行shell 的方法</title>
 <link href="/b/ria/node-shell" rel="alternate" type="text/html"/>
 <updated>2019-11-04T00:00:00Z</updated>
@@ -131,7 +241,7 @@ http://math001.com/triangle_lines_onepoint/
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>管理包和依赖的工具。</title>
 <link href="/b/py/py-pkg" rel="alternate" type="text/html"/>
-<updated>2019-10-24T00:00:00Z</updated>
+<updated>2019-11-11T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># 管理包和依赖的工具。
@@ -332,123 +442,4 @@ https://bizcharts.net/products/bizCharts/docs/qa 设置padding 解决</content>
 # Device
 ## Navigator
 n</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>grep &amp; ag 的使用</title>
-<link href="/b/c/shell-grep" rel="alternate" type="text/html"/>
-<updated>2019-11-04T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># grep &amp; ag 的使用
-# ag
-ag 比ack/grep 还快
-
-    brew install the_silver_searcher
-
-
-## 自动忽略`.gitinore/.hgig</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>c-mem</title>
-<link href="/b/c/c-mem" rel="alternate" type="text/html"/>
-<updated>2019-09-24T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Preface
-
-# swap
-内存足够的情况下 不需要 swap
-
-    临时： swapoff /dev/sdax  （swapoff -a 关闭）
-    永久： /etc/fstab 将</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>ops-process-lsof</title>
-<link href="/b/c/ops-process-lsof" rel="alternate" type="text/html"/>
-<updated>2019-09-21T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># lsof
-[/p/linux-process-lsof](/p/linux-process-lsof)
-
-List Open File
-
-## format
-
-	-n  inhibits  the</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>防火墙</title>
-<link href="/b/net/net-iptables" rel="alternate" type="text/html"/>
-<updated>2019-09-20T00:00:00Z</updated>
-<summary/>
-<published>2019-09-20T00:00:00Z</published>
-<content># 原理
-参考[Iptables防火墙原理详解](http://segmentfault.com/a/1190000002540601)
-
-## netfilter/iptables
-Netfilte</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Java Object</title>
-<link href="/b/java/java-obj" rel="alternate" type="text/html"/>
-<updated>2019-09-20T00:00:00Z</updated>
-<summary/>
-<published>2019-09-16T00:00:00Z</published>
-<content># Java Class
-## static method
-
-    class Languages {
-        public static void main(String[] args) </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Cesium</title>
-<link href="/b/ria/cesium" rel="alternate" type="text/html"/>
-<updated>2019-10-22T00:00:00Z</updated>
-<summary/>
-<published>2019-09-12T00:00:00Z</published>
-<content># Cesium
-# imagery 图层
-Supported Imagery Formats:
-
-    WMS
-    TMS
-    WMTS (with time dynamic imager</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>写npm 包</title>
-<link href="/b/ria/node-npm-pkg" rel="alternate" type="text/html"/>
-<updated>2019-09-27T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># npm reistry
-    npm config set @company:registry https://sina.com.cn/artifactory/api/npm/npm-sina/</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Js 中的this scope</title>
-<link href="/b/ria/js-func-scope" rel="alternate" type="text/html"/>
-<updated>2019-09-11T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Js 中的this scope
-一般this 是使用的时候才确定指向:
-
-    function A(){
-        this.name='ahui'
-    }
-    A.protot</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>向量(vector)</title>
-<link href="/b/math/vector" rel="alternate" type="text/html"/>
-<updated>2019-10-30T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># 向量(vector)
-也称矢量, 在数学中，矢量常采用更为抽象的矢量空间（也称为线性空间）来定义，而定义具有物理意义上的大小和方向的矢量概念则需要引进了范数和内积的欧几里得空间。
-
-## 矢量表示</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Golang 指针</title>
-<link href="/b/go/13.go-pointer" rel="alternate" type="text/html"/>
-<updated>2019-09-11T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Pointers
-1. 支持指针类型 *T,指针的指针 **T,以及包含包名前缀的 `*&lt;package&gt;.T`。
-2. 不能对指针做加减法等运算。
-3. 默认是`nil`, 没有`NULL`
-
-</content>
 </entry></feed>

@@ -32,11 +32,11 @@ const MD_URL='post/life/life-mobile.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -48,8 +48,8 @@ const MD_URL='post/life/life-mobile.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: Sth. About Mobile Communication
-date: 2018-12-02
-updated: 2018-12-02
+date: 2019-11-06
+updated: 2019-11-06
 ---
 # Preface
 &gt; ps: 绝大部分业务在月末是无法办理的.
@@ -68,6 +68,8 @@ https://zhuanlan.zhihu.com/p/24249217?from=groupmessage
 ## 关于10010短信码
     TCYLMX ”至10010查询套餐使用及余量明细
 	cxyl	查询余量
+    3.编辑短信“CXYE”或“YE”至10010；
+
 ## 关于10086短信码
 
 	0000 统一查询也退订
@@ -128,17 +130,6 @@ http://service.bj.10086.cn/poffice/package/showpackage.action?PACKAGECODE=GNBHGA
 1. 0.25Yuan/min
 2. 300M+50分国内+磅150分钟长市(送12个月)
 
-### 动感上网套餐(38元)
-
-	费用:	38元/月，380元/年
-	本市主叫:	0.12元/分钟 免费送80分钟本地呼叫
-	呼叫国内: 0.18元/分钟
-	17951IP:
-		若本地主叫分钟数未用完
-			闲时0.08元/分钟 忙时0.1元/分钟计费；
-		若本地主叫分钟数已用完
-			闲时0.2元/分钟 忙时按0.22元/分钟计费
-	流量:	200MB 超出0.5元/MB
 
 ## 4G流量安心包
 什么是4G流量安心包?是指你的流量使用如果超了套餐额度之后,会自动帮你开通10元包100M的业务,避免你超产生大量的流量费用
@@ -184,7 +175,7 @@ JF到10086查询您当前的积分
 <div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
