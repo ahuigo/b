@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-11-11T14:47:00Z</updated>
+<updated>2019-11-11T15:01:01Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
 <title>Typescript 的module</title>
@@ -37,16 +37,16 @@
     ECMA 7+:
     Object.entries(obj).length === 0 &amp;&amp; obj.constructor === Object</content>
 </entry><entry xml:base="https://ahuigo.github.io">
-<title>2019崇礼滑雪指引：雪场、装备、价格</title>
+<title>2019崇礼富龙滑雪指引：雪场、装备、价格</title>
 <link href="/b/life/ski" rel="alternate" type="text/html"/>
 <updated>2019-11-11T00:00:00Z</updated>
 <summary/>
 <published>2019-10-10T00:00:00Z</published>
-<content># 2019崇礼滑雪指引
+<content># 2019 年崇礼富龙滑雪指引
 位于崇礼的雪场一直来都是北京滑雪爱好者的“圣地“。
 
 一是与吉林新疆雪场相比，崇礼离北京只有200多公里，适合工作之余的周末去; 
-二是与北京近郊的南山、渔阳、怀北、石京龙相</content>
+二是与北京近郊的南山、渔阳、怀北、</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>mac 工具集</title>
 <link href="/b/mac/mac-tool" rel="alternate" type="text/html"/>
