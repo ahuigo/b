@@ -49,7 +49,7 @@ const MD_URL='post/ria/js-dom-event.md';
 <pre id="markdown" v-pre>---
 title: Event
 date: 2018-10-04
-updated: 2019-11-04
+updated: 2019-11-20
 ---
 # Event
 
@@ -193,6 +193,20 @@ or:
     window.addEventListener(type, function (event) {
         event.stopPropagation();
     }, true);
+
+最新的:
+
+    getEventListeners(document);
+    getEventListeners(window);
+        click: Array[1]
+        closePopups: Array[1]
+        keyup: Array[1]
+
+    for(var eventType in getEventListeners(document)) {
+        getEventListeners(document)[eventType].forEach(
+            function(o) { o.remove(); }
+        ) 
+    }
 
 
 ### add listener

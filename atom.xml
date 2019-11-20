@@ -2,9 +2,64 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-11-11T18:59:54Z</updated>
+<updated>2019-11-20T11:07:21Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>js dom file</title>
+<link href="/b/ria/js-dom-file" rel="alternate" type="text/html"/>
+<updated>2019-11-20T00:00:00Z</updated>
+<summary/>
+<published>2019-11-20T00:00:00Z</published>
+<content># Focus
+
+    var isFocused = (document.activeElement === dummyEl);
+    ele.focus()
+
+# FormData
+
+## i</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>CSS 笔记</title>
+<link href="/b/ria/js-css" rel="alternate" type="text/html"/>
+<updated>2019-11-20T00:00:00Z</updated>
+<summary/>
+<published>2017-12-12T00:00:00Z</published>
+<content># CSS 笔记
+css/html5/js 兼容表
+http://caniuse.com/
+
+# priority
+你应该知道的一些事情——CSS权重
+https://www.w3cplus.com/</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>mac user manager</title>
+<link href="/b/mac/mac-user" rel="alternate" type="text/html"/>
+<updated>2019-11-20T00:00:00Z</updated>
+<summary/>
+<published>2019-11-20T00:00:00Z</published>
+<content>
+# Preface
+mac下没有adduser, 那如何在mac中添加用户/组?
+
+# 命令行操作 
+
+## 交互
+从命令行进入交互模式：
+ 
+	dscl localhost
+
+进入组目录:
+
+	c</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Postgre 的索引</title>
+<link href="/b/db/postgre-index" rel="alternate" type="text/html"/>
+<updated>2019-11-20T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Postgre Index
+本文主要围绕postgre 总结一下索引, 参考：[PostgreSQL 9种索引的原理和应用场景](https://yq.aliyun.com/articles/11</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Typescript 的module</title>
 <link href="/b/ria/ts/ts-module" rel="alternate" type="text/html"/>
 <updated>2019-11-11T00:00:00Z</updated>
@@ -39,7 +94,7 @@
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>2019崇礼富龙滑雪指引</title>
 <link href="/b/life/ski" rel="alternate" type="text/html"/>
-<updated>2019-11-11T00:00:00Z</updated>
+<updated>2019-11-20T00:00:00Z</updated>
 <summary/>
 <published>2019-10-10T00:00:00Z</published>
 <content># 2019 年崇礼富龙滑雪指引
@@ -108,7 +163,7 @@ https://zhuanlan.zhihu.com/p/242492</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>学习 docker</title>
 <link href="/b/arch/docker-" rel="alternate" type="text/html"/>
-<updated>2019-11-11T00:00:00Z</updated>
+<updated>2019-11-20T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># 什么是Docker
@@ -308,7 +363,7 @@ ref.current 指向 div
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Event</title>
 <link href="/b/ria/js-dom-event" rel="alternate" type="text/html"/>
-<updated>2019-11-04T00:00:00Z</updated>
+<updated>2019-11-20T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># Event
@@ -354,7 +409,7 @@ via html
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>React diff</title>
 <link href="/b/ria/react-diff" rel="alternate" type="text/html"/>
-<updated>2019-09-27T00:00:00Z</updated>
+<updated>2019-11-20T00:00:00Z</updated>
 <summary/>
 <published>2019-09-09T00:00:00Z</published>
 <content># Diff 的设计动力
@@ -400,46 +455,4 @@ https://www.npmjs.com/package/node-highcharts-exporter</content>
 # style
 ## padding
 https://bizcharts.net/products/bizCharts/docs/qa 设置padding 解决</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>FUNCTION</title>
-<link href="/b/db/postgre-ddl" rel="alternate" type="text/html"/>
-<updated>2019-09-27T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># shell
-
-## connect shell
-默认同时支持 unix domain socket + ip/port net socket
-
-    psql DBNAME USERNAME
- </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Postgre 安装\配置\管理</title>
-<link href="/b/db/postgre-ddl-install" rel="alternate" type="text/html"/>
-<updated>2019-09-27T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Postgre 安装\配置\管理
-    rpm -Uvh https://yum.postgresql.org/10/redhat/rhel-7-x86_64/pgdg-centos10-10-</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>brew</title>
-<link href="/b/mac/mac-brew" rel="alternate" type="text/html"/>
-<updated>2019-09-25T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># brew
-- brew(Homebrew) 是近来极流行的 安装gawk,gsed,macvim等命令的安装工具，所有的包都被安装到/usr/local/Cellar下，然后再以`ln -s` 软</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Js dom 笔记</title>
-<link href="/b/ria/js-dom" rel="alternate" type="text/html"/>
-<updated>2019-10-24T00:00:00Z</updated>
-<summary/>
-<published>2016-01-23T00:00:00Z</published>
-<content># Js dom 笔记
-    document.documentElement ;//html
-    document.body;  //html
-
-# Device
-## Navigator
-n</content>
 </entry></feed>

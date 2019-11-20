@@ -49,7 +49,7 @@ const MD_URL='post/ria/react-diff.md';
 <pre id="markdown" v-pre>---
 title: React diff
 date: 2019-09-09
-updated: 2019-09-27
+updated: 2019-11-20
 ---
 # Diff 的设计动力
 在 state 或 props 更新时，相同的 render() 方法会返回一棵新的树。React 需要基于这两棵树之间的差别来判断如何有效率的更新 UI 以保证当前 UI 与最新的树保持同步。
@@ -173,6 +173,20 @@ React 会针对每个子元素 mutate销毁和重建, `&lt;li&gt;Duke&lt;/li&gt;
 最后，你也可以使用元素在数组中的下标作为 key。这个策略在元素不进行重新排序时比较合适，
 
 如果 key 是一个下标，那么修改顺序时会修改当前的 key，导致非受控组件的 state（比如输入框）可能相互篡改导致无法预期的变动。
+
+## 执行但不render
+    function App(props){
+        const [c,setClick] = useState(0);
+        const [a,setA] = useState(0);
+        console.log(&#x27;renderApp&#x27;,a,c)
+        return (&lt;Provider store={store}&gt;
+            &lt;div&gt;
+                &lt;h1 onClick={e=&gt;{ setA(1) }}
+                &gt;a: {a}; {(e=&gt;{console.log(&#x27;执行但不render&#x27;);return Math.random()})()}&lt;/h1&gt;
+                {a&lt;5 &amp;&amp; &lt;Child a={1} pclick={setClick.bind(this)} /&gt; }
+            &lt;/div&gt;
+        &lt;/Provider&gt;)
+    }
 
 # 权衡
 我们定期探索优化协调算法。在当前的实现中，

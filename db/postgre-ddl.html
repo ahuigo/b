@@ -49,7 +49,7 @@ const MD_URL='post/db/postgre-ddl.md';
 <pre id="markdown" v-pre>---
 title: FUNCTION
 date: 2018-09-27
-updated: 2019-09-27
+updated: 2019-11-20
 ---
 # shell
 
@@ -165,6 +165,7 @@ relative path
     \copy (select * from my_table limit 10) TO &#x27;./a.csv&#x27;; -- 空格分析
     \copy (select * from my_table limit 10) TO &#x27;./a.csv&#x27; CSV 
     \copy (select * from my_table limit 10) TO &#x27;./a.csv&#x27; CSV HEADER
+    \copy (select * from my_table limit 10) TO &#x27;./a.csv&#x27; HEADER
 
 full path
 
@@ -213,6 +214,8 @@ connect db:
         \connect database_name
     SELECT current_database();
 
+current database?
+
 ## table
 
 ### show table
@@ -237,16 +240,23 @@ show create table:
         install_date date
     );
 
+#### create view table
+	create view t_view as
+		select s1,s2,t1.id from t1,t2 where t1.id=t2.id order by s2;
+
+	create view t_view_alias (seg1, seg2, id) as
+		select s1,s2,t1.id from t1,t2 where t1.id=t2.id order by s2;
+
 ### drop
 
     drop TABLE [IF EXISTS ] xxx
-    drop TABLE [IF EXISTS ] xxx1,xx2
+    drop TABLE xxx1,xx2
 
 ## Alter
 ALTER TABLE table_name `&lt;action&gt;`:
 
     column:
-        ADD COLUMN column_name VARCHAR;
+        ADD COLUMN column_name VARCHAR TYPE [not null  default 3];
         DROP COLUMN column_name;
         ALTER COLUMN location TYPE VARCHAR,
             ALTER COLUMN asset_no TYPE INT USING asset_no::integer;
@@ -259,7 +269,28 @@ ALTER TABLE table_name `&lt;action&gt;`:
     tablename:
         RENAME TO new_table_name;
     constraint:
-        ADD CONSTRAINT constraint_name constraint_definition</pre>
+        ADD CONSTRAINT constraint_name constraint_definition
+
+### default
+To set a new default for a column, use a command like:
+
+    ALTER TABLE products ALTER COLUMN price SET DEFAULT 7.77;
+
+To remove any default value, use:
+
+    ALTER TABLE products ALTER COLUMN price DROP DEFAULT;
+
+### autoincrement
+删除id, 再重建
+
+    ALTER TABLE player drop column id;
+    ALTER TABLE player ADD COLUMN id SERIAL PRIMARY KEY;
+
+也可不删除id, 创建自增序列：
+
+    create sequence player_id_seq;
+    alter table player alter playerid set default nextval(&#x27;player_id_seq&#x27;);
+    Select setval(&#x27;player_id_seq&#x27;, 2000051 ); --set to the highest current value of playerID</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">

@@ -48,8 +48,8 @@ const MD_URL='post/ria/js-dom-file.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: js dom file
-date: 2019-07-05
-updated: 2019-07-05
+date: 2019-11-20
+updated: 2019-11-20
 ---
 # Focus
 
@@ -124,12 +124,14 @@ Via FormData and file:
 
 ## blob
 
+### blob as form
+
 	// JavaScript file-like 对象
 	var content = &#x27;&lt;a id=&quot;a&quot;&gt;&lt;b id=&quot;b&quot;&gt;hey!&lt;/b&gt;&lt;/a&gt;&#x27;; // 新文件的正文...
 	var blob = new Blob([content], { type: &quot;text/xml&quot;});
 	formData.append(&quot;webmasterfile&quot;, blob);
 
-### blob as url
+### blob as data:url
 
     var blob = new Blob([&#x27;content&#x27;], { type: &#x27;text/csv;charset=utf-8;&#x27; });
     var link = document.createElement(&quot;a&quot;);
@@ -150,6 +152,13 @@ vs:
     var blob = new Blob([&#x27;content&#x27;], { type: &#x27;text/csv;charset=utf-8;&#x27; });
     link.setAttribute(&quot;href&quot;, URL.createObjectURL(blob));
 
+### blob as base64
+    var reader = new FileReader();
+    reader.readAsDataURL(blob); 
+    reader.onloadend = function() {
+        var base64data = reader.result;                
+        console.log(base64data);
+    }
 
 ### blob=file.slice
 

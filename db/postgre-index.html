@@ -49,7 +49,7 @@ const MD_URL='post/db/postgre-index.md';
 <pre id="markdown" v-pre>---
 title: Postgre 的索引
 date: 2018-09-27
-updated: 2019-10-12
+updated: 2019-11-20
 ---
 # Postgre Index
 本文主要围绕postgre 总结一下索引, 参考：[PostgreSQL 9种索引的原理和应用场景](https://yq.aliyun.com/articles/111793)
@@ -267,6 +267,13 @@ table 独立的unique:
         WHERE NOT (client_ip &gt; inet &#x27;192.168.100.0&#x27; AND client_ip &lt; inet &#x27;192.168.100.255&#x27;);
     下面的查询将会用到该部分索引：
     SELECT * FROM access_log WHERE url = &#x27;/index.html&#x27; AND client_ip = inet &#x27;212.78.10.32&#x27;;
+
+## autoincrement
+
+    CREATE TABLE fruits(
+        id SERIAL PRIMARY KEY,
+        name VARCHAR NOT NULL
+    );
 
 # optimize,优化
 
