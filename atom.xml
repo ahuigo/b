@@ -2,9 +2,20 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-11-20T22:49:30Z</updated>
+<updated>2019-11-20T22:52:29Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Ant desigin pro 开发介绍</title>
+<link href="/b/ria/umi/umi-antd-pro" rel="alternate" type="text/html"/>
+<updated>2019-11-20T00:00:00Z</updated>
+<summary/>
+<published>2019-11-20T00:00:00Z</published>
+<content># Ant desigin pro 开发介绍
+antd pro 由umijs 这个脚手架生成， 我看重的几点：
+1. 按需要加载: 不会因为项目变大，首页加载变慢
+2. HMR: 开发时的热更新
+3.</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>js dom file</title>
 <link href="/b/ria/js-dom-file" rel="alternate" type="text/html"/>
 <updated>2019-11-20T00:00:00Z</updated>
@@ -444,15 +455,4 @@ https://www.npmjs.com/package/node-highcharts-exporter</content>
 
 ## responsive highcharts
 好的设计方法是, 事先设定好renderTo </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>antv and bizcharts</title>
-<link href="/b/ria/chart-antv" rel="alternate" type="text/html"/>
-<updated>2019-09-27T00:00:00Z</updated>
-<summary/>
-<published>2019-09-27T00:00:00Z</published>
-<content># Antv &amp; bizcharts
-
-# style
-## padding
-https://bizcharts.net/products/bizCharts/docs/qa 设置padding 解决</content>
 </entry></feed>

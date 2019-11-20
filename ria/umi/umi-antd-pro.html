@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/p/p2.md';
+const MD_URL='post/ria/umi/umi-antd-pro.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO 的笔记</title>
+<title>Ant desigin pro 开发介绍</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -46,52 +46,92 @@ const MD_URL='post/p/p2.md';
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
-<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+<pre id="markdown" v-pre>---
+title: Ant desigin pro 开发介绍
+date: 2019-11-20
+updated: 2019-11-20
+---
+# Ant desigin pro 开发介绍
+antd pro 由umijs 这个脚手架生成， 我看重的几点：
+1. 按需要加载: 不会因为项目变大，首页加载变慢
+2. HMR: 开发时的热更新
+3. TS 支持: 避免类型错误
+3. 模板脚手架、自定义模板: 页面一键生成
+5. Mock 数据支持
+6. 集成Jest 测试
 
-<ul>
-<li>2019-07-19 <a href="/b/c/shell-redirect-fork2exec">linux 下的Fork 与 Exec</a> </li>
-<li>2019-07-19 <a href="/b/c/ops-expect">expect 键盘模拟</a> </li>
-<li>2019-06-23 <a href="/b/net/net-ssh-server">SSH SERVER 的配置</a> </li>
-<li>2018-10-04 <a href="/b/nginx/nginx-upstream">nginx 负载均衡</a> </li>
-<li>2018-09-28 <a href="/b/py/py-expr-context">Python 的Context Managers</a> </li>
-<li>2018-09-28 <a href="/b/py/py-email">Python email处理</a> </li>
-<li>2011-11-11 <a href="/b/net/net-tcpip">tcp/ip 协议</a> </li>
-<li>2018-09-27 <a href="/b/go/9.go-str">golang string</a> </li>
-<li>2019-07-19 <a href="/b/go/19.go-time">go 的时间函数</a> </li>
-<li>2012-07-08 <a href="/b/c/shell-time">GMT,UTC,DST,CST 各种时间标准</a> </li>
-<li>2019-07-19 <a href="/b/c/shell-expr">shell 表达式</a> </li>
-<li>2018-09-27 <a href="/b/db/postgre-ddl-install">Postgre 安装\配置\管理</a> </li>
-<li>2014-03-05 <a href="/b/c/shell-">Shell 编程</a> </li>
-<li>2019-07-19 <a href="/b/sec/security-account">安全的帐号设计</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-websocket">js 的websocket 笔记</a> </li>
-<li>2018-09-28 <a href="/b/py/py-debug-pdb">py-debug-pdb</a> </li>
-<li>2018-08-23 <a href="/b/course/im-live-p2p">关于直播的P2P架构</a> </li>
-<li>2018-10-08 <a href="/b/c/shell-var-env">shell 环境变量</a> </li>
-<li>2019-07-05 <a href="/b/py/py-var-dict">python 字典</a> </li>
-<li>2018-09-27 <a href="/b/db/mysql-var-str">Mysql 的字符串处理</a> </li>
-<li>2019-06-22 <a href="/b/db/mysql-ddl">mysql ddl</a> </li>
-<li>2018-09-28 <a href="/b/py/py-debug-log">py-debug-log</a> </li>
-<li>2019-06-19 <a href="/b/nginx/nginx-admin">lemp环境搭建</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-init">ops-init</a> </li>
-<li>2018-09-28 <a href="/b/py/py-file">Python 文件处理</a> </li>
-<li>2018-10-04 <a href="/b/nginx/nginx-proxy">nginx proxy</a> </li>
-<li>2018-09-27 <a href="/b/db/mongo-">不要用mongodb</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-time">js-time</a> </li>
-<li>2018-04-02 <a href="/b/py/py-time">python 时间函数的用法笔记</a> </li>
-<li>2019-11-04 <a href="/b/git/git-">Git 命令大全</a> </li>
-<li>2019-06-17 <a href="/b/c/ops-awk">awk 简介</a> </li>
-<li>2018-01-03 <a href="/b/vsc/vsc-">vscode 笔记</a> </li>
-<li>2019-06-15 <a href="/b/c/linux-os">linux os</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-complete">vim-complete</a> </li>
-<li>2018-09-27 <a href="/b/db/postgre-ddl">FUNCTION</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-user">tool</a> </li>
-<li>2019-06-11 <a href="/b/vim/vim-var">vim 使用之变量</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-cmd">vim-cmd</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-options">vim-options</a> </li>
-<li>2016-01-23 <a href="/b/ria/js-dom">Js dom 笔记</a> </li>
-</ul>
-</div>
-<div id="pager"> <a href="/b/index">p0</a> <a href="/b/p/p1">p1</a> p2 <a href="/b/p/p3">p3</a> <a href="/b/p/p4">p4</a></div>
+## 基础学习
+1. React:基本概念和hooks 重点看 https://zh-hans.reactjs.org/docs/hello-world.html
+2. typescript(可选) https://github.com/xcatliu/typescript-tutorial
+3. antd pro 学习：https://pro.ant.design/docs/getting-started-cn
+4. antd 学习: https://ant.design/docs/react/getting-started-cn 
+
+## antd pro 文件结构
+典型的业务代码结构：
+
+    src/
+        pages/          这里放页面
+            page1/
+                index.tsx   react 渲染页
+                model.ts    数据管理（基于dva-redux）
+                service.ts  api封装
+                _mock.ts    mock api
+                *.less      局部组件的样式表
+                *.ts        其它逻辑代码
+            page2/
+                ....
+    config/
+        config.ts       这时放路由、配置
+        
+完整的目录说明, 参考：https://pro.ant.design/docs/getting-started-cn
+
+    ├── config                   # umi 配置，包含路由，构建等配置
+    ├── mock                     # 本地模拟数据
+    ├── public
+    │   └── favicon.png          # Favicon
+    ├── src
+    │   ├── assets               # 本地静态资源
+    │   ├── components           # 业务通用组件
+    │   ├── e2e                  # 集成测试用例
+    │   ├── layouts              # 通用布局
+    │   ├── models               # 全局 dva model
+    │   ├── pages                # 业务页面入口和常用模板
+    │   ├── services             # 后台接口服务
+    │   ├── utils                # 工具库
+    │   ├── locales              # 国际化资源
+    │   ├── global.less          # 全局样式
+    │   └── global.ts            # 全局 JS
+    ├── tests                    # 测试工具
+    ├── README.md
+    └── package.json
+
+## 一个welcome 页面
+初始化一个welcome 页面
+
+    mkdir -p newProject
+    cd newProject
+    yarn create umi
+
+    # 安装module
+    yarn
+    # 启动
+    npm start
+
+## 脚手架
+antd pro 的umi 提供了非常方便的脚手架, 你可以
+1. 通过访问localhost:3000 选择模板、区块创建新页面
+2. 通过命令行直接生成新页面, 参考https://pro.ant.design/docs/block-cn
+
+你可以自定义模板-区块，默认的区块源是：
+
+    config/config.ts
+    72: defaultGitUrl: &#x27;https://github.com/ant-design/pro-blocks&#x27;,
+
+有了block 脚手架，如果我们可以一键生成这样的页面
+
+![](/img/ria/umi/antd-pro-block.png)
+</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
