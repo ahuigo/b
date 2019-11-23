@@ -2,12 +2,31 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-11-20T22:52:29Z</updated>
+<updated>2019-11-24T01:29:56Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>antv and bizcharts</title>
+<link href="/b/ria/chart-antv" rel="alternate" type="text/html"/>
+<updated>2019-11-24T00:00:00Z</updated>
+<summary/>
+<published>2019-11-24T00:00:00Z</published>
+<content># Antv &amp; bizcharts
+
+# style
+## padding
+https://bizcharts.net/products/bizCharts/docs/qa 设置padding 解决</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>deny ngx_http_access_module</title>
+<link href="/b/nginx/nginx-location" rel="alternate" type="text/html"/>
+<updated>2019-11-24T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content>### deny ngx_http_access_module
+Allows/Deny access for the specified network or address. If the spec</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Ant desigin pro 开发介绍</title>
 <link href="/b/ria/umi/umi-antd-pro" rel="alternate" type="text/html"/>
-<updated>2019-11-20T00:00:00Z</updated>
+<updated>2019-11-24T00:00:00Z</updated>
 <summary/>
 <published>2019-11-20T00:00:00Z</published>
 <content># Ant desigin pro 开发介绍
@@ -436,23 +455,4 @@ http://socialcompare.com/en/comparison/javascript-graphs-and-charts-libraries
 
 # chartjs
 h</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>to png</title>
-<link href="/b/ria/chart-img" rel="alternate" type="text/html"/>
-<updated>2019-09-27T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># to png
-https://www.npmjs.com/package/node-highcharts-exporter</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>highcharts</title>
-<link href="/b/ria/chart-highchart" rel="alternate" type="text/html"/>
-<updated>2019-09-27T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># highcharts
-[hicharts](/p/js/js-chart-highcharts)
-
-## responsive highcharts
-好的设计方法是, 事先设定好renderTo </content>
 </entry></feed>

@@ -48,8 +48,8 @@ const MD_URL='post/ria/chart-antv.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: antv and bizcharts
-date: 2019-09-27
-updated: 2019-09-27
+date: 2019-11-24
+updated: 2019-11-24
 ---
 # Antv &amp; bizcharts
 
@@ -57,7 +57,30 @@ updated: 2019-09-27
 ## padding
 https://bizcharts.net/products/bizCharts/docs/qa 设置padding 解决留白
 
-    &lt;Chart height={window.innerHeight} width={&quot;100%&quot;} height={130} padding={[0, 0, 0, 0]} data={periodDv} scale={scale} forceFit &gt;</pre>
+    &lt;Chart height={window.innerHeight} width={&quot;100%&quot;} height={130} padding={[0, 0, 0, 0]} data={periodDv} scale={scale} forceFit &gt;
+
+# data set
+
+    const ds = new DataSet();
+    const dv = ds.createView().source(aveTime);
+    dv.transform({
+        type: &#x27;fold&#x27;,
+        fields: [&#x27;aveExecutionTime&#x27;, &#x27;aveQueueWaitTime&#x27;],
+        key: &#x27;type&#x27;,
+        value: &#x27;value&#x27;,
+    });
+    const scale = {
+        type: {
+            formatter: k =&gt; {
+                return { aveExecutionTime: &#x27;执行时长&#x27;, aveQueueWaitTime: &#x27;排队时长&#x27; }[k];
+            }
+        },
+        startDate: {
+            type: &#x27;time&#x27;,
+            tickCount: 8,
+            mask: &#x27;YYYY-MM&#x27;,
+        },
+    };</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
