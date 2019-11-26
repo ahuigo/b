@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/life/ski.md';
+const MD_URL='post/ria/react-com-hoc.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>2019滑雪指引</title>
+<title>React HOC 高阶组件</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -47,100 +47,62 @@ const MD_URL='post/life/ski.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: 2019滑雪指引
-date: 2019-11-20
+title: React HOC 高阶组件
+date: 2019-09-08
 updated: 2019-11-26
 ---
-# 2019石京龙滑雪指引
-准备本周日12.1去石京龙滑雪. 下面是信息汇总. 有什么问题可评论区留言~~
+# React HOC 高阶组件
+具体而言，高阶组件是参数为组件，返回值为新组件的函数。
 
-## 单板vs双板
-一张雪票只能选一个板型。
-1. 双板学得快，大概半天能学会
-2. 单板入门慢，可能4天才能推坡转弯
+    const EnhancedComponent = higherOrderComponent(WrappedComponent);
 
-我是滑单板的，双板也能做简单的指导。
+## 自定义组件名
+为了方便调试时知道组件是经过包装的
 
-## 价格
-    试营业票价(周末) 130 
-    大巴往返        40
-    租雪服雪裤 30元 或者自备冲锋衣服裤子（不要穿不防水的裤子）
-    午餐    混沌是28吧? 可自备午餐(如自热米饭)
-    租柜子    20还是30？
+    function withSubscription(WrappedComponent) {
+      class WithSubscription extends React.Component {/* ... */}
+      WithSubscription.displayName = `WithSubscription(${getDisplayName(WrappedComponent)})`;
+      return WithSubscription;
+    }
 
-## 交通
-早上从惠新西街南口地铁C口早止07：30出发，下午4点从雪场返回
-自驾: 大概有西直门出发，90公里车程
+    //Chrome 会获取Com.displayName
+    function getDisplayName(WrappedComponent) {
+      return WrappedComponent.displayName || WrappedComponent.name || &#x27;Component&#x27;;
+    }
 
-## 需要带的物品
-    袜子1双
-    热水瓶
-    午餐
-    单板经常摔，最好买好护臀、护膝、护手
+## Note
+### 不要在 render 方法中使用 HOC
+React 的 diff 算法（称为协调）使用`组件标识`来确定它是应该更新现有子树还是将其丢弃并挂载新子树。 
+1. 如果从 render 返回的组件与前一个渲染中的组件相同（===），则 React 通过将子树与新子树进行区分来递归更新子树。 
+2. 如果它们不相等，则完全卸载前一个子树。
 
-# 2019 年崇礼富龙滑雪指引
-位于崇礼的雪场一直来都是北京滑雪爱好者的“圣地“。
+通常，你不需要考虑这点。但对 HOC 来说这一点很重要，因为这代表着你不应在组件的 render 方法中对一个组件应用 HOC：
 
-1. 一是与吉林新疆雪场相比，崇礼离北京只有200多公里，适合工作之余的周末去; 
-2. 二是与北京近郊的南山、渔阳、怀北、石京龙相比，近郊雪场的雪道最多1KM多点、周末人太多、每一圏缆车排队时间超长. 排队20分钟, 滑5分钟。
+    render() {
+      // 每次调用 render 函数都会创建一个新的 EnhancedComponent
+      // EnhancedComponent1 !== EnhancedComponent2
+      const EnhancedComponent = enhance(MyComponent);
+      // 这将导致子树每次渲染都会进行卸载，和重新挂载的操作！: 导致该组件及其所有子组件的状态丢失。
+      return &lt;EnhancedComponent /&gt;;
+    }
 
-崇礼的大雪场除了远点，雪道长、雪质好、人少(相对)、排队少，滑雪更有效率和乐趣，非常适合爽滑2天。排队5分钟，滑20分钟。当然，票价也更贵了。
+如果在组件之外创建 HOC，这样一来组件只会创建一次。因此，每次 render 时都会是同一个组件。
 
-## 装备
-需要自带的装备:
-1. 滑雪手套 自行购买（富龙可以租10元的, 网上买也可以）
-3. 面罩（防风用) 可选, 毕竟富龙那边风不大
-3. 护具(单板必须, 双板初学时不必要): 单板肯定会一直摔，需要买护臀、护膝、护手。 我以前买的这家店， https://item.taobao.com/item.htm?spm=a1z09.2.0.0.b6b62e8dHSfWY9&amp;id=8589428688&amp;_u=b257qatc8fc
-4. 保暖长袜子、或者滑雪袜子两双
-5. 暧水壶 可选
-6. 手机充电宝等
+### 别忘记复制静态方法
+新HOC组件没有原始组件的任何静态方法`Com.staticMethod`, 需要手动复制过去
 
-客服说2019的价格还没有出来，客服也只是估计(实际价格会有浮动)：
-1. 双板+鞋: 雪场租比较贵，单独去雪具店租便宜，一般150-200元/2天。单板+鞋: 大概100元/2天
-    1. 租雪具时要确认：拍照并检查雪具的状况，是否零部件完整板。
-2. 其它租赁价格：(头盔30元，雪服80元，雪镜30元，手套10元，小衣柜20元，大衣柜40元/1天)*2天
-参考下富龙2018价格： http://www.chonglihuaxue.cn/info.asp?id=93
+    function enhance(WrappedComponent) {
+      class Enhance extends React.Component {/*...*/}
+      // 必须准确知道应该拷贝哪些方法 :(
+      Enhance.staticMethod = WrappedComponent.staticMethod;
+      // 或者使用 hoist-non-react-statics 自动拷贝所有非 React 的静态方法:
+      hoistNonReactStatic(Enhance, WrappedComponent);
 
+      return Enhance;
 
-## 富龙价格
-现在是富龙试营业，雪票价格便宜接近50%吧。
-1. 雪票+1晚住宿+1早餐: 2人间的、4人间套票比较便宜。算下来1人1天才150元的雪票+住宿。（不过试营业只有初中级道）.万龙2人2天要1100元（不含住宿）
-2. 交通:3个多小时的高速
-    1. 自驾或租车自驾: 成本高+累，往返油费300多元/4人, 租车+车险成本600元/2天。考虑到可能晚上9点前还车比较赶，所以租车可能是900元/3天
-    2. 约顺风车：往返200元/人
-    2. 巴士：往返200/人 11.22号周5下午6:30从北京健德门出发 https://traveldetail.fliggy.com/item.htm?spm=a1z10.5-b-s.w4011-18968439214.48.3f8f3bef7RDS6G&amp;id=583317670650&amp;rn=ffb67b7fc61379b8a6a29f220d12c5ec&amp;abbucket=1
-3. 就餐：可自带点自热米饭、零食
-
-相关特价票：
-1.万龙试滑特价(贵族雪场)： http://www.wlski.com/products/detail/92 
-2.富龙试滑特价(很便宜，且含住宿): https://traveldetail.fliggy.com/item.htm?id=578103520662&amp;spm=a1z09.2.0.0.c0272e8dwvJwFd
-
-## 怀北滑雪指引
-1. 班车： https://mp.weixin.qq.com/s/AfiSH41pTWFyKTdG1_i04A
-全程高速，往返40元/人， 发车时间： 芍药居：8:00分 16：00—16：30从怀北滑雪场C停车场回京，返程只到芍药居地铁站。 
-
-## 崇礼各大雪场
-![](/img/life/ski-place-chongli.png)
-
-各大雪场的评测：https://zhuanlan.zhihu.com/p/32248834
-
-富龙是各大雪场中离崇礼城区最近的雪场了
-
-    富龙 1.8km 
-    银河 3.3km 
-    万龙 11km 
-    长城岭 17km 
-    多乐 21km 
-    云顶 25km 
-    太舞 25km
-
-从北京去崇礼滑雪，有哪些攻略?
-https://www.zhihu.com/question/27319234
-
-# 怀北
-柜子 40
-雪服 40
-头盔 25</pre>
+### ref 不被传递
+参考react-ref
+</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
