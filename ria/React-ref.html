@@ -49,7 +49,7 @@ const MD_URL='post/ria/React-ref.md';
 <pre id="markdown" v-pre>---
 title: React Ref
 date: 2019-09-07
-updated: 2019-10-22
+updated: 2019-11-28
 ---
 # React Ref
 Ref 是用来绑定dom 或 Component实例 的
@@ -81,7 +81,7 @@ ref.current 指向 Com3
 
 ### 函数组件Ref
 你不能在函数组件上传递 ref 属性，因为它们没有实例,
-不过你可以通过`React.forwardRef`这样做
+不过你可以通过`React.forwardRef` wrap 一层，第二个参数传ref:
 
     import React from &#x27;react&#x27;;
 

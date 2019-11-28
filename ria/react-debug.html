@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/index.md';
+const MD_URL='post/ria/react-debug.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO 的笔记</title>
+<title>React Error 边界</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -46,52 +46,107 @@ const MD_URL='post/index.md';
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
-<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+<pre id="markdown" v-pre>---
+title: React Error 边界
+date: 2019-09-07
+updated: 2019-11-28
+---
+# React Error 边界
+React 提供Error 捕获，但错误边界无法捕获以下场景中产生的错误(本质就是try-catch)：
 
-<ul>
-<li>2018-10-04 <a href="/b/ria/js-cors">浏览器同源政策及其规避方法</a> </li>
-<li>2019-09-08 <a href="/b/ria/react-com-hoc">React HOC 高阶组件</a> </li>
-<li>2019-09-09 <a href="/b/ria/react-diff">React diff</a> </li>
-<li>2018-10-10 <a href="/b/mac/mac-tool">mac 工具集</a> </li>
-<li>2018-09-27 <a href="/b/db/postgre-index">Postgre 的索引</a> </li>
-<li>2012-07-08 <a href="/b/c/shell-time">GMT,UTC,DST,CST 各种时间标准</a> </li>
-<li>2018-10-04 <a href="/b/nginx/nginx-location">deny ngx<em>http</em>access_module</a> </li>
-<li>2019-11-20 <a href="/b/ria/umi/umi-antd-pro">Ant desigin pro 开发介绍</a> </li>
-<li>2019-11-25 <a href="/b/ria/js-dom-file">js dom file</a> </li>
-<li>2019-11-25 <a href="/b/mac/mac-user">mac user manager</a> </li>
-<li>2019-11-20 <a href="/b/life/ski">2019滑雪指引</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-process-ps">ops-process-ps</a> </li>
-<li>2018-10-04 <a href="/b/py/py-webspider">webspider</a> </li>
-<li>2018-09-27 <a href="/b/arch/docker-">学习 docker</a> </li>
-<li>2018-08-25 <a href="/b/ria/node-shell">Node 执行shell 的方法</a> </li>
-<li>2018-04-05 <a href="/b/ria/js-module-es6">ES6 Modudle 使用</a> </li>
-<li>2018-09-27 <a href="/b/c/shell-find">ops-find</a> </li>
-<li>2018-09-27 <a href="/b/c/1.shell-var">Shell 变量的数据类型</a> </li>
-<li>2019-11-04 <a href="/b/arch/docker-makefile">rsion?=0.3.0</a> </li>
-<li>2018-10-04 <a href="/b/ria/node-os">node 系统相关</a> </li>
-<li>2018-09-27 <a href="/b/math/geo-triangle">三角形triangle</a> </li>
-<li>2018-08-18 <a href="/b/code/code-regex">Posix Regex 正则语法</a> </li>
-<li>2018-10-04 <a href="/b/py/py-pkg">管理包和依赖的工具。</a> </li>
-<li>2018-09-27 <a href="/b/c/shell-color">shell color</a> </li>
-<li>2018-03-03 <a href="/b/ria/js-debug-chrome">Chrome devtools 使用汇总</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-css-selector">CSS3 选择器</a> </li>
-<li>2018-10-04 <a href="/b/py/py-profiler">profile</a> </li>
-<li>2018-10-04 <a href="/b/ria/ts/ts-module">Typescript 的module</a> </li>
-<li>2018-10-04 <a href="/b/ria/ts/ts-decorator">TypeScript 装饰器</a> </li>
-<li>2018-03-03 <a href="/b/py/py-var-list">python 的list/tuple 笔记</a> </li>
-<li>2019-10-03 <a href="/b/py/py-type">Python 的类型注解</a> </li>
-<li>2018-03-01 <a href="/b/py/py-expr">Python 语法</a> </li>
-<li>2018-09-28 <a href="/b/py/py-async-iteratortools">py-async-iteratortools</a> </li>
-<li>2019-10-30 <a href="/b/py/math/py-math">Python 的math 语法</a> </li>
-<li>2018-10-04 <a href="/b/py/math/py-math-tool">Data tool</a> </li>
-<li>2019-10-03 <a href="/b/phone/nexus5">Nexus5 刷机</a> </li>
-<li>2019-10-02 <a href="/b/go/go-pool">Go Sync.Pool</a> </li>
-<li>2018-09-28 <a href="/b/py/py-html">用BeautifulSoup 处理 html/xml</a> </li>
-<li>2018-10-04 <a href="/b/ria/node-npm-pkg">写npm 包</a> </li>
-<li>2019-09-28 <a href="/b/ria/chart">js charts</a> </li>
-</ul>
-</div>
-<div id="pager"> p0 <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a> <a href="/b/p/p3">p3</a></div>
+    事件处理（了解更多）
+    异步代码（例如 setTimeout 或 requestAnimationFrame 回调函数）
+    服务端渲染
+    它自身抛出来的错误（并非它的子组件）
+
+## ErrorBoundary
+如果一个 class 组件中定义了 `static getDerivedStateFromError() 或 componentDidCatch()` 这两个生命周期方法中的任意一个（或两个）时，
+那么它就变成一个错误边界。
+
+当抛出错误后，请使用 static getDerivedStateFromError() 渲染备用 UI ，使用 componentDidCatch() 打印错误信息。
+
+    class ErrorBoundary extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = { hasError: false };
+      }
+
+      static getDerivedStateFromError(error) {
+        // 更新 state 使下一次渲染能够显示降级后的 UI
+        return { hasError: true };
+      }
+
+      componentDidCatch(error, errorInfo) {
+        // 你同样可以将错误日志上报给服务器
+        logErrorToMyService(error, errorInfo);
+      }
+
+      render() {
+        if (this.state.hasError) {
+          // 你可以自定义降级后的 UI 并渲染
+          return &lt;h1&gt;Something went wrong.&lt;/h1&gt;;
+        }
+
+        return this.props.children; 
+      }
+    }
+
+然后你可以将它作为一个常规组件去使用：
+
+    &lt;ErrorBoundary&gt;
+        &lt;MyWidget /&gt;
+    &lt;/ErrorBoundary&gt;
+
+# StrictMode 严格模式
+&gt; 严格模式仅在开发模式下运行
+
+是一个用来突出显示应用程序中潜在问题的工具。与 Fragment 一样，StrictMode 不会渲染任何可见的 UI。它为其后代元素触发额外的检查和警告。
+
+    &lt;Header /&gt;
+    &lt;React.StrictMode&gt;
+        &lt;div&gt;
+          &lt;ComOne /&gt;
+          &lt;ComTwo /&gt;
+        &lt;/div&gt;
+    &lt;/React.StrictMode&gt;
+
+以上，Header 不被 strict 检查，ComOne/ComTwo 会被 strcitMode 检查
+
+## 作用
+    识别不安全的生命周期
+    关于使用过时字符串 ref API 的警告
+    关于使用废弃的 findDOMNode 方法的警告
+        在给定 class 实例的情况下在树中搜索 DOM 节点, 返回第一个子节点。
+        通常你不需要这样做，因为你可以将 ref 直接绑定到 DOM 节点。
+    检测意外的副作用
+    检测过时的 context API
+
+## 幅作用
+严格模式不能自动检测到你的副作用，但它可以帮助你发现它们，使它们更具确定性。通过故意重复调用以下方法来实现的该操作：
+
+    class 组件的 constructor 方法
+    render 方法
+    setState 更新函数 (第一个参数）
+    静态的 getDerivedStateFromProps 生命周期方法
+
+&gt; 默认开发模式下，当发生未捕获异常时，也会double 执行 constructor
+
+# Error 问题
+
+## double construct, 组件重新装载
+### excection construct
+当发生异常时，如果不捕获，就会double construct(即组件卸载、并重新render)
+
+    this.undefined.foo
+
+### Render 不要动态生成Hoc
+render 内生成动态高阶组件，将导致高阶组件频繁生成、卸载，无法应用diff 算法
+
+## memory leak
+&gt; Warning: Can&#x27;t perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in the componentWillUnmount method
+
+一般都是因为fetch ajax 请求还没有结束</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>

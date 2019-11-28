@@ -49,7 +49,7 @@ const MD_URL='post/c/shell-time.md';
 <pre id="markdown" v-pre>---
 title: GMT,UTC,DST,CST 各种时间标准
 date: 2012-07-08
-updated: 2019-11-11
+updated: 2019-11-28
 ---
 # 各世界时间标准
 我们经常遇到这4种时间：GMT,UTC,DST,CST。google了一下，在此做个小结.
@@ -170,6 +170,11 @@ CST是时区缩写，可以指下列的时区：
 
     echo &#x27;export TZ=Asia/Shanghai&#x27; &gt;&gt; ~/.profile
 
+docker 设置时区
+
+    # 注意，Debian Stretch 版本后需要 rm /etc/localtime，否则时区修改可能无法生效（被替换回原值）。
+    RUN rm /etc/localtime &amp;&amp; echo &quot;Asia/Shanghai&quot; &gt; /etc/timezone &amp;&amp; dpkg-reconfigure -f noninteractive tzdata
+
 # Linux date命令
 man date可以发现其参数众多。看起来有些乱，归纳一下：
 
@@ -268,7 +273,7 @@ The following optional flags may follow &#x27;%&#x27;:
 	$date -s &#x27;2013-08-14 12:50:00 +8&#x27; //设置时间(rfc-2822格式) 东8区
 	$date -s &#x27;Wed Aug 14 14:48:33 CST 2013&#x27; //设置时间(美国时间格式)
 
-# mac
+# mac date 命令
 
     The command:
 

@@ -49,7 +49,7 @@ const MD_URL='post/ria/js-css-layout.md';
 <pre id="markdown" v-pre>---
 title: css 布局
 date: 2018-03-03
-updated: 2019-09-27
+updated: 2019-11-28
 ---
 # CSS 布局
 &gt; 参考: http://zh.learnlayout.com/position.html
@@ -329,6 +329,7 @@ button 自带`text-align:center`, `lineHeight:100%`+`vertical-align:center`
     }
 
 ## flex container align
+主要的：
 
     //parent
 	justify-content: horizonal center
@@ -337,13 +338,17 @@ button 自带`text-align:center`, `lineHeight:100%`+`vertical-align:center`
 
 居中:
 
-    &lt;div style=&quot;display: flex;
-        width: 100%;
-        justify-content: center;
-        align-items: center; //height
-        height: 100%;
+    &lt;div style=&quot;
         display: flex;
+        justify-content: center;
+        align-items: center; 
+        width: 100%;
+        height: 100%;
         position: fixed;
+        z-index: 9999;
+        background:rgba(128,128,128, 0.5);
+        top: 0;
+        left:0;
     &quot;&gt;&lt;img src=&quot;/a/img//eng/eng-tense-and-auxiliary-verbs.png&quot; alt=&quot;&quot;&gt;&lt;/div&gt;
 
 ## inline align(self)

@@ -2,9 +2,40 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-11-26T20:59:37Z</updated>
+<updated>2019-11-28T11:28:45Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>React Error 边界</title>
+<link href="/b/ria/react-debug" rel="alternate" type="text/html"/>
+<updated>2019-11-28T00:00:00Z</updated>
+<summary/>
+<published>2019-09-07T00:00:00Z</published>
+<content># React Error 边界
+React 提供Error 捕获，但错误边界无法捕获以下场景中产生的错误(本质就是try-catch)：
+
+    事件处理（了解更多）
+    异步代码（例如 se</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>css 布局</title>
+<link href="/b/ria/js-css-layout" rel="alternate" type="text/html"/>
+<updated>2019-11-28T00:00:00Z</updated>
+<summary/>
+<published>2018-03-03T00:00:00Z</published>
+<content># CSS 布局
+&gt; 参考: http://zh.learnlayout.com/position.html
+
+# display
+1. block: This makes the element a</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>浏览器同源政策及其规避方法</title>
+<link href="/b/ria/js-cors" rel="alternate" type="text/html"/>
+<updated>2019-11-28T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># 浏览器同源政策及其规避方法
+http://www.ruanyifeng.com/blog/2016/04/same-origin-policy.html
+http://www.ruanyifeng</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>React HOC 高阶组件</title>
 <link href="/b/ria/react-com-hoc" rel="alternate" type="text/html"/>
 <updated>2019-11-26T00:00:00Z</updated>
@@ -36,7 +67,7 @@ Allows/Deny access for the specified network or address. If the spec</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Ant desigin pro 开发介绍</title>
 <link href="/b/ria/umi/umi-antd-pro" rel="alternate" type="text/html"/>
-<updated>2019-11-24T00:00:00Z</updated>
+<updated>2019-11-28T00:00:00Z</updated>
 <summary/>
 <published>2019-11-20T00:00:00Z</published>
 <content># Ant desigin pro 开发介绍
@@ -159,7 +190,7 @@ mac下没有adduser, 那如何在mac中添加用户/组?
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>GMT,UTC,DST,CST 各种时间标准</title>
 <link href="/b/c/shell-time" rel="alternate" type="text/html"/>
-<updated>2019-11-11T00:00:00Z</updated>
+<updated>2019-11-28T00:00:00Z</updated>
 <summary/>
 <published>2012-07-08T00:00:00Z</published>
 <content># 各世界时间标准
@@ -381,7 +412,7 @@ array 不像string 是primitive value, 所以length 可以缩短放大array。
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>React Ref</title>
 <link href="/b/ria/React-ref" rel="alternate" type="text/html"/>
-<updated>2019-10-22T00:00:00Z</updated>
+<updated>2019-11-28T00:00:00Z</updated>
 <summary/>
 <published>2019-09-07T00:00:00Z</published>
 <content># React Ref
@@ -405,7 +436,7 @@ ref.current 指向 div
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Event</title>
 <link href="/b/ria/js-dom-event" rel="alternate" type="text/html"/>
-<updated>2019-11-20T00:00:00Z</updated>
+<updated>2019-11-28T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># Event
@@ -424,36 +455,4 @@ http://javascript.ruanyifeng.com/dom/mutationobserver.html
 https://developer.mozilla.org/zh-CN/docs/Learn/CSS/Building_blocks/Cascade_and_inheritance
 
 # </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>profile</title>
-<link href="/b/py/py-profiler" rel="alternate" type="text/html"/>
-<updated>2019-10-11T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># profile
-- cProfile
-类似于xdebug cachegrind profiler 性能画像
-- py-spy python 版的top
-    - py-spy --pid 123</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>用BeautifulSoup 处理 html/xml</title>
-<link href="/b/py/py-html" rel="alternate" type="text/html"/>
-<updated>2019-10-01T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># 用BeautifulSoup 处理 html/xml
-一般转义html 用一下几个方法
-
-via html
-
-    html.escape(u'&lt;看&gt;')
-    &gt;&gt;&gt; html.escape</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>React diff</title>
-<link href="/b/ria/react-diff" rel="alternate" type="text/html"/>
-<updated>2019-11-20T00:00:00Z</updated>
-<summary/>
-<published>2019-09-09T00:00:00Z</published>
-<content># Diff 的设计动力
-在 state 或 props 更新时，相同的 render() 方法会返回一棵新的树。React 需要基于这两棵树之间的差别来判断如何有效率的更新 UI 以保证当前 UI </content>
 </entry></feed>
