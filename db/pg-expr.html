@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/db/postgre-var.md';
+const MD_URL='post/db/pg-expr.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>Posgtre Var</title>
+<title>Postgre expression</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -47,25 +47,35 @@ const MD_URL='post/db/postgre-var.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: Posgtre Var
-date: 2019-06-20
-updated: 2019-07-19
+title: Postgre expression
+date: 2019-09-08
+updated: 2019-11-29
 ---
-# Posgtre Var
-## Define and assign
-    DECLARE vSite varchar DEFAULT &#x27;TechOnTheNet.com&#x27;;
-    DECLARE vSite varchar := &#x27;TechOnTheNet.com&#x27;;
-    vSite := &#x27;CheckYourMath.com&#x27;;
+# Postgre expression
 
-# Datetime
-timestamp
 
-timestamp to date:&#x27;2018-07-25 10:30:30&#x27; to &#x27;2018-07-25&#x27;, 3种方法
+# variable 
+## variable as table
+https://stackoverflow.com/questions/35559093/how-to-use-variable-as-table-name-in-plpgsql
 
-    SELECT DATE(column_name) FROM table_name;
-    SELECT column_name::DATE;
-        SELECT &#x27;2018-07-25 10:30:30&#x27;::TIMESTAMP::DATE;
-    SELECT DATE(SUBSTRING(&#x27;2018-07-25 10:30:30&#x27; FROM 1 FOR 10));</pre>
+    CREATE OR REPLACE FUNCTION f_test()
+      RETURNS void AS
+    $func$
+    DECLARE
+       v_table text;
+    BEGIN
+       FOR v_table IN
+          SELECT table_name  
+          FROM   information_schema.tables 
+          WHERE  table_catalog = &#x27;my_database&#x27; 
+          AND    table_schema = &#x27;public&#x27;
+          AND    table_name NOT LIKE &#x27;z_%&#x27;
+       LOOP
+          EXECUTE format(&#x27;DELETE FROM %I v WHERE v.id &gt; (SELECT max(id) FROM %I)&#x27;
+                        , v_table, &#x27;z_&#x27; || v_table);
+       END LOOP;
+    END
+    $func$  LANGUAGE plpgsql;</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">

@@ -5,7 +5,7 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/db/postgre-crud.md';
+const MD_URL='post/db/pg-crud.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
@@ -49,7 +49,7 @@ const MD_URL='post/db/postgre-crud.md';
 <pre id="markdown" v-pre>---
 title: Postgre CRUD
 date: 2018-09-27
-updated: 2019-09-24
+updated: 2019-11-29
 ---
 # Postgre CRUD
 ## string or keyword
@@ -81,13 +81,13 @@ INSERT INTO table (id, field, field2)
     INSERT INTO the_table (id, column_1, column_2) VALUES (1, &#x27;A&#x27;, &#x27;X&#x27;), (2, &#x27;B&#x27;, &#x27;Y&#x27;), (3, &#x27;C&#x27;, &#x27;Z&#x27;)
     ON CONFLICT (id) 
     DO UPDATE 
-        SET column_1 = EXCLUDED.column_1, 
-            column_2 = the_table.column_2 
+        SET column_1 = EXCLUDED.column_1, -- 更新值
+            column_2 = the_table.column_2  -- 保留值
         [RETURNING id];
     DO NOTHING;
 
 #### on conflict
-`ON CONFLICT target action [RETURNING id]`:
+`ON CONFLICT [target] action [RETURNING id]`:
 
     target:
         (uid, phone)
@@ -95,6 +95,10 @@ INSERT INTO table (id, field, field2)
         WHERE predicate
     action:
         DO UPDATE SET column_1 = EXCLUDED.value_1,v2, .. WHERE condition
+
+可以什么都不做时，就不需要target:
+
+    ON CONFLICT DO NOTHING
 
 ## select 
 双引号 反引号。表示特殊的字段：
@@ -134,9 +138,11 @@ with order by:
 #### group by with top N
 https://stackoverflow.com/questions/3800551/select-first-row-in-each-group-by-group
 
+不存在first 这个函数, 下面是伪代码
+
     # SELECT FIRST(id), customer, FIRST(total) FROM  purchases GROUP BY customer ORDER BY total DESC;
 
-Supported by any database:
+Supported by any database: 利用 group + column=max(column)
 
     SELECT MIN(x.id),  -- change to MAX if you want the highest
          x.customer, 
@@ -184,11 +190,8 @@ delete and keep top 2 row(order by peg) with group by industry
 &gt; https://stackoverflow.com/questions/18539223/select-random-row-for-each-group-in-a-postgres-table
 &gt; SELECT DISTINCT ON expressions must match initial ORDER BY expressions
 
-Select random one for each group of customer
+distinct 就是分组，然后按序(order by 取top1)/或随机取一个row
 
-In PostgreSQL this is typically simpler and faster (more performance optimization below):
-
-    # customer 必须出现在: order by
     SELECT DISTINCT ON (customer)
         id, customer, total
     FROM   purchases
@@ -201,6 +204,24 @@ Or shorter (if not as clear) with ordinal numbers of output columns:
         id, customer, total
     FROM   purchases
     ORDER  BY 2, 3 DESC, 1;
+
+`distinct on(fieldList)` 必须匹配`order by list` 排序. 
+`fieldList`中字段顺序不影响分组及结果。
+
+    # ERROR: DISTINCT ON expressions must match initial ORDER BY expressions
+    select distinct on (code,pe) code,pe,end_date from profits order by end_date;
+    # 不是以code-pe分组，而是以pe 分组。code 在这里被忽略
+    select distinct on (code,end_date) code,pe,end_date from profits order by end_date;
+    # 以code分组, 取最新end_date
+    select distinct on (code) code,end_date,pe,peg from profits order by code,end_date desc
+
+where filter, 会导致提前过滤掉的分组top1行, 导致留下topN列上位顶替原来的top1
+
+    # 比如我想找所有股票code 中，最新end_date财报中, peg&lt;1 的(有问题)
+    select distinct on (code,end_date) code,end_date,pe from profits where peg&gt;0 order by code,end_date desc limit 1
+    # 没有问题
+    select p.* from (select distinct on (code) code,end_date,pe,peg from profits order by code,end_date desc  ) p where p.peg&lt;1;
+
 
 If total can be NULL (won&#x27;t hurt either way, but you&#x27;ll want to match existing indexes):
 

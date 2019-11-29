@@ -2,9 +2,100 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-11-28T11:28:45Z</updated>
+<updated>2019-11-29T21:44:39Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Postgre 的索引</title>
+<link href="/b/db/pg-index" rel="alternate" type="text/html"/>
+<updated>2019-11-29T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Postgre Index
+本文主要围绕postgre 总结一下索引, 参考：[PostgreSQL 9种索引的原理和应用场景](https://yq.aliyun.com/articles/11</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>PG help</title>
+<link href="/b/db/pg-help" rel="alternate" type="text/html"/>
+<updated>2019-11-29T00:00:00Z</updated>
+<summary/>
+<published>2019-06-20T00:00:00Z</published>
+<content># PG help
+
+    \h
+    \?
+
+show function
+
+    \sf[+]  FUNCNAME       show a function's definition
+   </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Postgre expression</title>
+<link href="/b/db/pg-expr" rel="alternate" type="text/html"/>
+<updated>2019-11-29T00:00:00Z</updated>
+<summary/>
+<published>2019-09-08T00:00:00Z</published>
+<content># Postgre expression
+
+
+# variable 
+## variable as table
+https://stackoverflow.com/questions/35559093</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>FUNCTION</title>
+<link href="/b/db/pg-ddl" rel="alternate" type="text/html"/>
+<updated>2019-11-29T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># shell
+
+## connect shell
+默认同时支持 unix domain socket + ip/port net socket
+
+    psql DBNAME USERNAME
+ </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Postgre User and Authentication</title>
+<link href="/b/db/pg-ddl-user" rel="alternate" type="text/html"/>
+<updated>2019-11-29T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># help
+    \h alter
+    ALTER ROLE name RENAME TO new_name
+
+# Postgre User and Authentication
+    ps</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Postgre 安装\配置\管理</title>
+<link href="/b/db/pg-ddl-install" rel="alternate" type="text/html"/>
+<updated>2019-11-29T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Postgre 安装\配置\管理
+    rpm -Uvh https://yum.postgresql.org/10/redhat/rhel-7-x86_64/pgdg-centos10-10-</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Postgre SQL function</title>
+<link href="/b/db/pg-ddl-function" rel="alternate" type="text/html"/>
+<updated>2019-11-29T00:00:00Z</updated>
+<summary/>
+<published>2019-06-20T00:00:00Z</published>
+<content># Postgre SQL function
+## 基本语法
+必须指定语言 `LANGUAGE plpsql|sql`, `$$` 是分割符
+
+    CREATE OR REPLACE FUNCTI</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Postgre CRUD</title>
+<link href="/b/db/pg-crud" rel="alternate" type="text/html"/>
+<updated>2019-11-29T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Postgre CRUD
+## string or keyword
+    select 'string';
+    select "count"(1) from "table_name"
+
+##</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>React Error 边界</title>
 <link href="/b/ria/react-debug" rel="alternate" type="text/html"/>
 <updated>2019-11-28T00:00:00Z</updated>
@@ -366,93 +457,4 @@ http://math001.com/triangle_lines_onepoint/
 	LN2	返回 2 的自然对数（约等于0.693）。
 	LN10	返回 10 的自然对数（约等于2.302）。
 	LOG</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>管理包和依赖的工具。</title>
-<link href="/b/py/py-pkg" rel="alternate" type="text/html"/>
-<updated>2019-11-11T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># 管理包和依赖的工具。
-
-pip：Python 包和依赖关系管理工具。官网
-pip-tools：保证 Python 包依赖关系更新的一组工具。官网
-conda：跨平台，Python 二进制包管理工具</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>shell color</title>
-<link href="/b/c/shell-color" rel="alternate" type="text/html"/>
-<updated>2019-10-24T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># shell color
-https://en.wikipedia.org/wiki/ANSI_escape_code
-http://pueblo.sourceforge.net/doc/manua</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Chrome devtools 使用汇总</title>
-<link href="/b/ria/js-debug-chrome" rel="alternate" type="text/html"/>
-<updated>2019-10-22T00:00:00Z</updated>
-<summary/>
-<published>2018-03-03T00:00:00Z</published>
-<content># Chrome devtools 使用汇总
-chrome://chrome-urls/
-
-## Network dns
-- Dns Cache
-chrome://net-internals/#dns</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Js Array 整理</title>
-<link href="/b/ria/js-array" rel="alternate" type="text/html"/>
-<updated>2019-10-22T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Js Array 整理
-array 不像string 是primitive value, 所以length 可以缩短放大array。
-
-	arr = [1,2,3]
-	arr.length = 1</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>React Ref</title>
-<link href="/b/ria/React-ref" rel="alternate" type="text/html"/>
-<updated>2019-11-28T00:00:00Z</updated>
-<summary/>
-<published>2019-09-07T00:00:00Z</published>
-<content># React Ref
-Ref 是用来绑定dom 或 Component实例 的
-
-## Dom Ref
-ref.current 指向 div
-
-    const ref= React.create</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Git 命令大全</title>
-<link href="/b/git/git-" rel="alternate" type="text/html"/>
-<updated>2019-11-04T00:00:00Z</updated>
-<summary/>
-<published>2019-11-04T00:00:00Z</published>
-<content># Git 配置
-
-## ConfigFile
-1. /etc/gitconfig #git config --system
-2. ~/.gitconfig 	#git config --global</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Event</title>
-<link href="/b/ria/js-dom-event" rel="alternate" type="text/html"/>
-<updated>2019-11-28T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Event
-
-## DOM MutationObserver
-http://javascript.ruanyifeng.com/dom/mutationobserver.html
-
-### DOM</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>CSS3 选择器</title>
-<link href="/b/ria/js-css-selector" rel="alternate" type="text/html"/>
-<updated>2019-10-11T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Doc
-https://developer.mozilla.org/zh-CN/docs/Learn/CSS/Building_blocks/Cascade_and_inheritance
-
-# </content>
 </entry></feed>
