@@ -9,7 +9,7 @@ const MD_URL='post/py/py-expr.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>Python 语法</title>
+<title>Python 的语法</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -47,18 +47,18 @@ const MD_URL='post/py/py-expr.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: Python 语法
+title: Python 的语法
 date: 2018-03-01
-updated: 2019-07-19
+updated: 2019-11-30
 ---
-# compare
-```s
-&gt;&gt;&gt; 1&lt;3&gt;=3&gt;1==1&lt;100
-True
-```
+# 多条件compare
+多条件比较
 
+    &gt;&gt;&gt; 5&lt;i&lt;100
+    &gt;&gt;&gt; 1 &lt; 3 &gt;= 3 &gt; 1==1 &lt;100
+    True
 
-# Condition &amp; Loop
+# 条件和循环
 
 ## try finnaly
 
@@ -95,9 +95,15 @@ True
 
 	x=10;
 	if 1&lt;=x&lt;=5:
-		print x
-	elif x==6: print x*x
-	else: print x*x*x
+		print(x)
+	elif x==6:
+        print x*x
+	else: 
+        print(x*x*x)
+
+if `[]` and `None`
+
+    if [] or None: print(&#x27;not print&#x27;)
 
 if is
 
@@ -169,29 +175,20 @@ for循环后面还可以加上if判断，这样我们就可以筛选出仅偶数
 	&gt;&gt;&gt; import os # 导入os模块，模块的概念后面讲到
 	&gt;&gt;&gt; [d for d in os.listdir(&#x27;.&#x27;)] # os.listdir可以列出文件和目录
 
-# logic expression
+# logic/bit/compare expression
 
-	&gt;&gt;&gt; x =5; 1 &lt; x &lt; 10
-	True
-	&gt;&gt;&gt; False or 0 or &#x27;&#x27; or 3
-	3
+## bit/logic expr
+and or not xor
 
-	and or not
-	!= (not equal)
-	== (equal)
-	&gt;= (greater-than-equal)
-	&lt;= (less-than-equal)
-	True
-	False
-
-# bit expr
-
-    x &lt;&lt; y
-    x &gt;&gt; y
     x &amp; y
     x | y
     ~ x
     x ^ y
+
+bit
+
+    x &lt;&lt; y
+    x &gt;&gt; y  
 
     &gt;&gt;&gt; -1&lt;&lt;2
     -4
@@ -203,6 +200,22 @@ for循环后面还可以加上if判断，这样我们就可以筛选出仅偶数
     0
     &gt;&gt;&gt; 1^1
     0
+
+## logic
+    and or not
+	&gt;&gt;&gt; False or 0 or &#x27;&#x27; or 3
+	3
+
+## compare
+	&gt;&gt;&gt; x =5; 1 &lt; x &lt; 10
+	True
+
+	!= (not equal)
+	== (equal)
+	&gt;= (greater-than-equal)
+	&lt;= (less-than-equal)
+	True
+	False
 
 # with
 with 可以捕获异常, 类必须支持`__enter__, __exit__`相当于文件open/close:

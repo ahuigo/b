@@ -2,9 +2,41 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-11-29T21:44:39Z</updated>
+<updated>2019-11-30T18:49:52Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>py-func</title>
+<link href="/b/py/py-func" rel="alternate" type="text/html"/>
+<updated>2019-11-30T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Preface
+
+函数式编程
+
+# call func
+getattr(foo, 'bar')()
+locals()['bar']()
+globals()['bar']()
+
+## exec fu</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Python 的语法</title>
+<link href="/b/py/py-expr" rel="alternate" type="text/html"/>
+<updated>2019-11-30T00:00:00Z</updated>
+<summary/>
+<published>2018-03-01T00:00:00Z</published>
+<content># 多条件compare
+多条件比较
+
+    &gt;&gt;&gt; 5&lt;i&lt;100
+    &gt;&gt;&gt; 1 &lt; 3 &gt;= 3 &gt; 1==1 &lt;100
+    True
+
+# 条件和循环
+
+## try finnaly</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Postgre 的索引</title>
 <link href="/b/db/pg-index" rel="alternate" type="text/html"/>
 <updated>2019-11-29T00:00:00Z</updated>
@@ -437,24 +469,4 @@ http://math001.com/triangle_lines_onepoint/
 
 1. 角平分线相交于内心，即内切圆圆心
 1. 中线相交于重心. 即切</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Posix Regex 正则语法</title>
-<link href="/b/code/code-regex" rel="alternate" type="text/html"/>
-<updated>2019-10-30T00:00:00Z</updated>
-<summary/>
-<published>2018-08-18T00:00:00Z</published>
-<content># Wildcard 通配符 和 Posix 正则
-正则分两大类:Posix和PCRE(Perl Compatible Regular Expression ). posix 已经很老了, 效率也没有</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>JS Math</title>
-<link href="/b/ria/js-math" rel="alternate" type="text/html"/>
-<updated>2019-10-24T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Math
-
-	E	返回算术常量 e，即自然对数的底数（约等于2.718）。
-	LN2	返回 2 的自然对数（约等于0.693）。
-	LN10	返回 10 的自然对数（约等于2.302）。
-	LOG</content>
 </entry></feed>

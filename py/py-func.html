@@ -49,7 +49,7 @@ const MD_URL='post/py/py-func.md';
 <pre id="markdown" v-pre>---
 title: py-func
 date: 2018-09-28
-updated: 2019-07-05
+updated: 2019-11-30
 ---
 # Preface
 
@@ -59,6 +59,16 @@ updated: 2019-07-05
 getattr(foo, &#x27;bar&#x27;)()
 locals()[&#x27;bar&#x27;]()
 globals()[&#x27;bar&#x27;]()
+
+## exec func by name
+
+    locals()[&quot;myfunction&quot;]()
+    globals()[&quot;myfunction&quot;]()
+
+or 
+
+    import foo
+    getattr(foo, &#x27;bar&#x27;)()
 
 ## access var accross file
 settings.py
