@@ -48,8 +48,8 @@ const MD_URL='post/ria/chart-antv.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: antv and bizcharts
-date: 2019-11-24
-updated: 2019-11-24
+date: 2019-12-06
+updated: 2019-12-06
 ---
 # Antv &amp; bizcharts
 
@@ -69,6 +69,9 @@ https://bizcharts.net/products/bizCharts/docs/qa 设置padding 解决留白
         key: &#x27;type&#x27;,
         value: &#x27;value&#x27;,
     });
+
+# 各元素
+## yAxis 名
     const scale = {
         type: {
             formatter: k =&gt; {
@@ -80,7 +83,53 @@ https://bizcharts.net/products/bizCharts/docs/qa 设置padding 解决留白
             tickCount: 8,
             mask: &#x27;YYYY-MM&#x27;,
         },
-    };</pre>
+    };
+
+## Axis
+
+    &lt;Axis name=&quot;value&quot; label={
+        { formatter: val =&gt; { return (val / 10000).toFixed(1) + &quot;k&quot;; } }
+    } /&gt;
+
+先map 后fold
+
+    dv.transform({
+        type: &#x27;map&#x27;,
+        callback(row) {
+            row.ave_execution_time /= 3600;
+            row.ave_queue_wait_time /= 3600;
+            return row;
+        }
+    });
+    dv.transform({
+        type: &#x27;fold&#x27;,
+        fields: [&#x27;ave_execution_time&#x27;, &#x27;ave_queue_wait_time&#x27;],
+        key: &#x27;type&#x27;,
+        value: &#x27;value&#x27;,
+    })
+
+## Tooltip
+https://www.yuque.com/antv/g2-docs/api-tooltip#tg6xkz
+悬浮提示
+
+    &lt;Tooltip crosshairs={{ type: &quot;line&quot; }} /&gt;
+
+### tooltip value format
+    // year*value
+    const scale = {
+      value: {
+        alias: &quot;The Share Price in Dollars&quot;,
+        formatter: function(val) {
+          return &quot;$&quot; + val;
+        }
+      },
+      year: {
+        range: [0, 1]
+      }
+    };
+
+## Legend 图例
+    &lt;Legend /&gt;</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">

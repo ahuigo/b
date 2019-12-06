@@ -48,8 +48,8 @@ const MD_URL='post/ria/js-dom-file.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: js dom file
-date: 2019-11-20
-updated: 2019-11-20
+date: 2019-12-06
+updated: 2019-12-06
 ---
 # Focus
 
@@ -145,7 +145,8 @@ Via FormData and file:
         document.body.removeChild(link);
     }
 
-vs:
+### blob as blob:url
+比如给链接增加下载功能
 
     link.setAttribute(&#x27;href&#x27;, &#x27;data:text/plain;charset=utf-8,&#x27; + encodeURIComponent(text));
 
