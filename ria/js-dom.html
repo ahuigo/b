@@ -49,7 +49,7 @@ const MD_URL='post/ria/js-dom.md';
 <pre id="markdown" v-pre>---
 title: Js dom 笔记
 date: 2016-01-23
-updated: 2019-10-24
+updated: 2019-12-06
 ---
 # Js dom 笔记
     document.documentElement ;//html
@@ -107,24 +107,40 @@ redirect:
 	history.forward() // history.go(1)
 
 ## cookie
+setcookie:
 
 	document.cookie=&#x27;DEBUG=;expires=Mon, 05 Jul 2000 00:00:00 GMT&#x27;
 	document.cookie = &#x27;a=1;expires=&#x27;+d.toGMTString()
     document.cookie = cookieName +&quot;=&quot; + cookieValue + &quot;;expires=&quot; + myDate 
                   + &quot;;domain=.example.com;path=/&quot;;
-	function getCookie(k){
-		c=document.cookie;
-		start = c.indexOf(k+&#x27;=&#x27;);
-		v = &#x27;&#x27;;
-		if(start&gt;-1){
-			end = c.indexOf(&#x27;;&#x27;, start);
-			if(end &lt;0) end = c.length;
-			v = c.substr(start, end)
-		}
-		return v;
-	}
+
+    function setCookie(name,value,days) {
+        var expires = &quot;&quot;;
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days*24*60*60*1000));
+            expires = &quot;; expires=&quot; + date.toUTCString();
+        }
+        document.cookie = name + &quot;=&quot; + (value || &quot;&quot;)  + expires + &quot;; path=/&quot;;
+    }
+getcookie:
+
+    function getCookie(name) {
+        var nameEQ = name + &quot;=&quot;;
+        var ca = document.cookie.split(&#x27;;&#x27;);
+        for(var i=0;i &lt; ca.length;i++) {
+            var c = ca[i];
+            while (c.charAt(0)==&#x27; &#x27;) c = c.substring(1,c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+        }
+        return null;
+    }
 
 清理时，必须带path=/
+
+    function eraseCookie(name) {   
+        document.cookie = name+&#x27;=; Max-Age=-99999999;&#x27;;  
+    }
 
     function deleteAllCookies() {
         var cookies = document.cookie.split(&quot;;&quot;);
