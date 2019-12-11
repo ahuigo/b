@@ -49,7 +49,7 @@ const MD_URL='post/c/shell-time.md';
 <pre id="markdown" v-pre>---
 title: GMT,UTC,DST,CST 各种时间标准
 date: 2012-07-08
-updated: 2019-11-28
+updated: 2019-12-11
 ---
 # 各世界时间标准
 我们经常遇到这4种时间：GMT,UTC,DST,CST。google了一下，在此做个小结.
@@ -159,21 +159,31 @@ CST是时区缩写，可以指下列的时区：
 	Send packet CA-&gt;Netherlands-&gt;CA .... 150,000,000 ns  = 150 ms
 
 # 时区设定：
-全局
+## 全局
 
     echo &#x27;Asia/Beijing&#x27; | sudo tee /etc/timezone
     # 或者
     ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
     dpkg-reconfigure -f noninteractive tzdata
 
-局部
-
-    echo &#x27;export TZ=Asia/Shanghai&#x27; &gt;&gt; ~/.profile
-
 docker 设置时区
 
     # 注意，Debian Stretch 版本后需要 rm /etc/localtime，否则时区修改可能无法生效（被替换回原值）。
-    RUN rm /etc/localtime &amp;&amp; echo &quot;Asia/Shanghai&quot; &gt; /etc/timezone &amp;&amp; dpkg-reconfigure -f noninteractive tzdata
+    RUN rm /etc/localtime &amp;&amp;\
+    echo &quot;Asia/Shanghai&quot; &gt; /etc/timezone &amp;&amp; \
+    dpkg-reconfigure -f noninteractive tzdata
+
+docker alpine 还要安装tzdata
+
+    apk add --no-cache tzdata
+
+## 局部
+
+    echo &#x27;export TZ=Asia/Shanghai&#x27; &gt;&gt; ~/.profile
+
+golang:
+
+    os.Setenv(&quot;TZ&quot;, &quot;Africa/Cairo&quot;)
 
 # Linux date命令
 man date可以发现其参数众多。看起来有些乱，归纳一下：
