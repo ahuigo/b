@@ -2,12 +2,12 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-12-11T22:13:19Z</updated>
+<updated>2019-12-15T04:02:22Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
 <title>Js dom 笔记</title>
 <link href="/b/ria/js-dom" rel="alternate" type="text/html"/>
-<updated>2019-12-06T00:00:00Z</updated>
+<updated>2019-12-15T00:00:00Z</updated>
 <summary/>
 <published>2016-01-23T00:00:00Z</published>
 <content># Js dom 笔记
@@ -201,7 +201,7 @@ React 提供Error 捕获，但错误边界无法捕获以下场景中产生的�
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>css 布局</title>
 <link href="/b/ria/js-css-layout" rel="alternate" type="text/html"/>
-<updated>2019-11-28T00:00:00Z</updated>
+<updated>2019-12-15T00:00:00Z</updated>
 <summary/>
 <published>2018-03-03T00:00:00Z</published>
 <content># CSS 布局
@@ -231,9 +231,9 @@ http://www.ruanyifeng</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>antv and bizcharts</title>
 <link href="/b/ria/chart-antv" rel="alternate" type="text/html"/>
-<updated>2019-12-06T00:00:00Z</updated>
+<updated>2019-12-15T00:00:00Z</updated>
 <summary/>
-<published>2019-12-06T00:00:00Z</published>
+<published>2019-12-15T00:00:00Z</published>
 <content># Antv &amp; bizcharts
 
 # style

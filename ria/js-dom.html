@@ -49,7 +49,7 @@ const MD_URL='post/ria/js-dom.md';
 <pre id="markdown" v-pre>---
 title: Js dom 笔记
 date: 2016-01-23
-updated: 2019-12-06
+updated: 2019-12-15
 ---
 # Js dom 笔记
     document.documentElement ;//html
@@ -123,6 +123,7 @@ setcookie:
         }
         document.cookie = name + &quot;=&quot; + (value || &quot;&quot;)  + expires + &quot;; path=/&quot;;
     }
+
 getcookie:
 
     function getCookie(name) {
@@ -140,6 +141,7 @@ getcookie:
 
     function eraseCookie(name) {   
         document.cookie = name+&#x27;=; Max-Age=-99999999;&#x27;;  
+        document.cookie = name+&#x27;=; Max-Age=-99999999; Domain=.ahuigo.com&#x27;;  
     }
 
     function deleteAllCookies() {

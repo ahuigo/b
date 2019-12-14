@@ -48,8 +48,8 @@ const MD_URL='post/ria/chart-antv.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: antv and bizcharts
-date: 2019-12-06
-updated: 2019-12-06
+date: 2019-12-15
+updated: 2019-12-15
 ---
 # Antv &amp; bizcharts
 
@@ -86,13 +86,40 @@ https://bizcharts.net/products/bizCharts/docs/qa 设置padding 解决留白
     };
 
 ## Axis
+Axis 是不分纵横的。
+
+    &lt;Axis name=&quot;year&quot; title/&gt;
+    &lt;Axis name=&quot;value&quot; title/&gt;
+    &lt;Geom type=&quot;areaStack&quot; position=&quot;year*value&quot; color=&quot;country&quot; /&gt;
+
+
+### Axis label
 
     &lt;Axis name=&quot;value&quot; label={
-        { formatter: val =&gt; { return (val / 10000).toFixed(1) + &quot;k&quot;; } }
+        { 
+            formatter: val =&gt; { return (val / 10000).toFixed(1) + &quot;k&quot;; },
+            offset: 12,
+        }
     } /&gt;
 
-先map 后fold
+### Axis title
+必须和geom 中的一样命名country ：
 
+    const scale = {
+        country: { alias: &#x27;里程&#x27; },
+    }
+
+    &lt;Axis name=&quot;country&quot; title /&gt;
+    &lt;Geom type=&quot;interval&quot; position=&quot;country*population&quot; /&gt;
+
+
+
+## 分组fold
+https://bizcharts.net/products/bizCharts/demo/detail?id=g2-clustered-stacked&amp;selectedKey=%E6%A6%82%E8%A7%88
+https://codepen.io/ahuigo/pen/jOEMBed?&amp;editable=true
+
+    const ds = new DataSet();
+    const dv = ds.createView().source(data);
     dv.transform({
         type: &#x27;map&#x27;,
         callback(row) {
@@ -100,13 +127,44 @@ https://bizcharts.net/products/bizCharts/docs/qa 设置padding 解决留白
             row.ave_queue_wait_time /= 3600;
             return row;
         }
-    });
-    dv.transform({
+    }).transform({
         type: &#x27;fold&#x27;,
         fields: [&#x27;ave_execution_time&#x27;, &#x27;ave_queue_wait_time&#x27;],
-        key: &#x27;type&#x27;,
+        key: &#x27;time&#x27;,
         value: &#x27;value&#x27;,
     })
+
+
+### 根据值分类
+像这样：
+https://bizcharts.net/products/bizCharts/demo/detail?id=area-stacked&amp;selectedKey=%E7%82%B9%E5%9B%BE
+https://codepen.io/ahuigo/pen/YzPGZmr
+
+    const data = [
+      {
+        country: &quot;Asia&quot;,
+        year: &quot;1750&quot;,
+        value: 502
+      },
+      {
+        country: &quot;Asia&quot;,
+        year: &quot;1800&quot;,
+        value: 635
+      },
+      {
+        country: &quot;Africa&quot;,
+        year: &quot;1750&quot;,
+        value: 106
+      },
+      {
+        country: &quot;Africa&quot;,
+        year: &quot;1800&quot;,
+        value: 107
+      },
+    ]
+    &lt;Geom type=&quot;line&quot; position=&quot;year*value&quot; color=&quot;country&quot; /&gt;
+
+
 
 ## Tooltip
 https://www.yuque.com/antv/g2-docs/api-tooltip#tg6xkz
