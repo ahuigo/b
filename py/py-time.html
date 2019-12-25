@@ -49,7 +49,7 @@ const MD_URL='post/py/py-time.md';
 <pre id="markdown" v-pre>---
 title: python 时间函数的用法笔记
 date: 2018-04-02
-updated: 2019-10-01
+updated: 2019-12-25
 ---
 # time 工具
 time 提供基本的时间，sleep
@@ -289,9 +289,13 @@ https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior
 	datetime.datetime(2015, 5, 21, 4, 57, 3, 540997)
 
 ### diff
-
-    (datetime.now()-d).total_seconds()
-    (datetime.now()-d).seconds
+    # 精确到us
+    (datetime.now()-d).total_seconds() 
+    # 精确到s, 是除去天之后余秒
+    diff.seconds 
+    # 总天数
+    diff.days
+    
 
 compare
 
@@ -308,6 +312,9 @@ compare
     &#x27;Thu Sep 22 2016 17:50:56 GMT+0800 (CST)&#x27;
 
 # timezone
+    import datetime
+    datetime.datetime.now(datetime.timezone.utc).isoformat()
+    &#x27;2019-12-25T04:13:39.774413+00:00&#x27;
 
 ## create timeinfo
 一个datetime类型有一个时区属性tzinfo
