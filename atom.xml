@@ -2,9 +2,23 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-12-15T04:02:22Z</updated>
+<updated>2019-12-25T09:59:14Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Python 字符处理</title>
+<link href="/b/py/py-str" rel="alternate" type="text/html"/>
+<updated>2019-12-25T00:00:00Z</updated>
+<summary/>
+<published>2017-08-09T00:00:00Z</published>
+<content># Python 字符处理
+- serialize
+见/py/py-serial.md
+
+# String
+same as js:
+
+	print "a\nb" ;# The character he</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Js dom 笔记</title>
 <link href="/b/ria/js-dom" rel="alternate" type="text/html"/>
 <updated>2019-12-15T00:00:00Z</updated>
@@ -458,14 +472,4 @@ child_process 提供了很多执行shell 的包:
         return 22;//没用
     }
     f=foo()</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>ops-find</title>
-<link href="/b/c/shell-find" rel="alternate" type="text/html"/>
-<updated>2019-11-04T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Preface
-
-	find -maxdepth 1 -name '*' -inum 1324 -exec rm {} \;
-	find -maxdepth 1 -name '*' -inum 1</content>
 </entry></feed>

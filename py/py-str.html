@@ -36,7 +36,7 @@ const MD_URL='post/py/py-str.md';
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,7 +49,7 @@ const MD_URL='post/py/py-str.md';
 <pre id="markdown" v-pre>---
 title: Python 字符处理
 date: 2017-08-09
-updated: 2019-02-28
+updated: 2019-12-25
 ---
 # Python 字符处理
 - serialize
@@ -122,11 +122,9 @@ raw string
 
 ## format()
 ### value type
-```
-&#x27;{:s}&#x27;.format(&#x27;str&#x27;)
-&#x27;{:d}&#x27;.format(123)
-&#x27;{:f}&#x27;.format(123.0)
-```
+    &#x27;{:s}&#x27;.format(&#x27;str&#x27;)
+    &#x27;{:d}&#x27;.format(123)
+    &#x27;{:f}&#x27;.format(123.0)
 
 ### value conversion(str &amp; repr)
 ```
@@ -330,7 +328,35 @@ e.g
     #!/usr/bin/env python3
     # -*- coding: utf-8 -*-
 
-### raw string
+### binary/hex binascii
+bin to Hexadecimal hex(b2a)
+
+    &gt;&gt;&gt; binascii.b2a_hex(b&#x27;01&#x27;)
+    b&#x27;3031&#x27;
+    &gt;&gt;&gt; binascii.a2b_hex(b&#x27;3031&#x27;)
+    b&#x27;01&#x27;
+
+bin to binary literal
+
+    &gt;&gt;&gt; 0b11
+    3
+    &gt;&gt;&gt; bin(255)
+    &#x27;0b11111111&#x27;
+    &gt;&gt;&gt; list(map(bin, b&#x27;\x01\x02\x10&#x27;)) 
+    [&#x27;0b1&#x27;, &#x27;0b10&#x27;, &#x27;0b10000&#x27;]
+
+binary literal to number:
+
+    &gt;&gt;&gt; int(&#x27;1111&#x27;,2) 
+    15
+
+#### char to hex literals
+
+    &gt;&gt;&gt; hex(ord(&#x27;0&#x27;))
+    &#x27;0x30&#x27;
+    &gt;&gt;&gt; map(hex, map(ord,&#x27;abc&#x27;))
+
+### raw string(regex)
 string literals: r&#x27;...&#x27;, r&#x27;&#x27;&#x27;...&#x27;&#x27;&#x27;, r&quot;...&quot;, r&quot;&quot;&quot;...&quot;&quot;&quot; are all literal strings for regex
 
     &gt;&gt;&gt; r&#x27;a\n\t&#x27;
