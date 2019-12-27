@@ -2,9 +2,35 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-12-25T23:18:10Z</updated>
+<updated>2019-12-27T14:44:41Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>JS Math</title>
+<link href="/b/ria/js-math" rel="alternate" type="text/html"/>
+<updated>2019-12-27T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Math
+
+	E	返回算术常量 e，即自然对数的底数（约等于2.718）。
+	LN2	返回 2 的自然对数（约等于0.693）。
+	LN10	返回 10 的自然对数（约等于2.302）。
+	LOG</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>grep &amp; ag 的使用</title>
+<link href="/b/c/shell-grep" rel="alternate" type="text/html"/>
+<updated>2019-12-27T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># grep &amp; ag 的使用
+# ag
+ag 比ack/grep 还快
+
+    brew install the_silver_searcher
+
+
+## 自动忽略`.gitinore/.hgig</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>python 时间函数的用法笔记</title>
 <link href="/b/py/py-time" rel="alternate" type="text/html"/>
 <updated>2019-12-25T00:00:00Z</updated>
@@ -449,27 +475,4 @@ https://zhuanlan.zhihu.com/p/242492</content>
 <content># 什么是Docker
 虚拟机是对硬件的虚拟化(需要Hypervisor这个软件层), 而docker （LXC, linux container）是对操作系统的虚拟化。
 1. docker 基于li</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Node 执行shell 的方法</title>
-<link href="/b/ria/node-shell" rel="alternate" type="text/html"/>
-<updated>2019-11-04T00:00:00Z</updated>
-<summary/>
-<published>2018-08-25T00:00:00Z</published>
-<content># Node 执行shell 的方法
-child_process 提供了很多执行shell 的包:
-- exec+ util.promisify
-- execSync
-- spawn
-- spawnS</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>ES6 Modudle 使用</title>
-<link href="/b/ria/js-module-es6" rel="alternate" type="text/html"/>
-<updated>2019-11-04T00:00:00Z</updated>
-<summary/>
-<published>2018-04-05T00:00:00Z</published>
-<content># js load
-## defer vs async
-
-    &lt;script src="async.js" async&gt;&lt;/script&gt;
-    &lt;script src="async.js" d</content>
 </entry></feed>
