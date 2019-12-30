@@ -2,9 +2,70 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-12-27T15:03:10Z</updated>
+<updated>2019-12-31T01:18:01Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>收集了下UI 动画特效</title>
+<link href="/b/ui/ui-animation" rel="alternate" type="text/html"/>
+<updated>2019-12-31T00:00:00Z</updated>
+<summary/>
+<published>2019-02-09T00:00:00Z</published>
+<content># UI 动画特效
+https://medium.com/@ann.green/loading-indicators-e9d9ac9680b
+
+# Materia UI 
+https://materi</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>tcp/ip 协议</title>
+<link href="/b/net/net-tcpip" rel="alternate" type="text/html"/>
+<updated>2019-12-31T00:00:00Z</updated>
+<summary/>
+<published>2011-11-11T00:00:00Z</published>
+<content># 互联网协议栈
+分为链路层(link), 网络层(Network), 传输层(Transport), 应用层(Application)
+
+应用层
+	DHCP DHCPv6 DNS FTP Gophe</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Python 的math 语法</title>
+<link href="/b/py/math/py-math" rel="alternate" type="text/html"/>
+<updated>2019-12-31T00:00:00Z</updated>
+<summary/>
+<published>2019-12-31T00:00:00Z</published>
+<content># number
+
+    0x61
+    0o77
+    0b11
+
+## random
+
+	import random
+	random.randint(3,8)
+
+	# 主要用于密码强随机
+	</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>sequence of numbers</title>
+<link href="/b/math/math-num-seq" rel="alternate" type="text/html"/>
+<updated>2019-12-31T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># sequence of numbers
+
+## 等差数列(arithmetic progression (AP) or arithmetic sequence)
+$S_n=n(a_n+a_1)/2</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>hadoop 介绍</title>
+<link href="/b/db/had-" rel="alternate" type="text/html"/>
+<updated>2019-12-31T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># hadoop 介绍
+http://www.cnblogs.com/sunddenly/p/3977011.html
+hadoop 大数据时代的宠儿-池建强
+http://www.cnblogs.c</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>install java</title>
 <link href="/b/java/1.java-install" rel="alternate" type="text/html"/>
 <updated>2019-12-27T00:00:00Z</updated>
@@ -17,7 +78,7 @@
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>JS Math</title>
 <link href="/b/ria/js-math" rel="alternate" type="text/html"/>
-<updated>2019-12-27T00:00:00Z</updated>
+<updated>2019-12-31T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># Math
@@ -43,7 +104,7 @@ ag 比ack/grep 还快
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>python 时间函数的用法笔记</title>
 <link href="/b/py/py-time" rel="alternate" type="text/html"/>
-<updated>2019-12-25T00:00:00Z</updated>
+<updated>2019-12-31T00:00:00Z</updated>
 <summary/>
 <published>2018-04-02T00:00:00Z</published>
 <content># time 工具
@@ -294,9 +355,9 @@ http://www.ruanyifeng</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>antv and bizcharts</title>
 <link href="/b/ria/chart-antv" rel="alternate" type="text/html"/>
-<updated>2019-12-15T00:00:00Z</updated>
+<updated>2019-12-31T00:00:00Z</updated>
 <summary/>
-<published>2019-12-15T00:00:00Z</published>
+<published>2019-12-31T00:00:00Z</published>
 <content># Antv &amp; bizcharts
 
 # style
@@ -418,62 +479,4 @@ mac下没有adduser, 那如何在mac中添加用户/组?
 位于崇礼的雪场一直来都是北京滑雪爱好者的“圣地“。 准备本周日12.7去石京龙滑雪. 
 
 1. 一是与吉林新疆雪场相比，崇礼离北京只有200多公里，适合工作之余的周末去;</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>mac 工具集</title>
-<link href="/b/mac/mac-tool" rel="alternate" type="text/html"/>
-<updated>2019-11-11T00:00:00Z</updated>
-<summary/>
-<published>2018-10-10T00:00:00Z</published>
-<content># Preface
-本文是我所用的mac 工具集大杂烩。
-
-一些mac osx 能做而linux 桌面级OS 目前不能做的事情：
-
-- mac 支持全局readline , 字符编辑的效率非常非常高(</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>GMT,UTC,DST,CST 各种时间标准</title>
-<link href="/b/c/shell-time" rel="alternate" type="text/html"/>
-<updated>2019-12-25T00:00:00Z</updated>
-<summary/>
-<published>2012-07-08T00:00:00Z</published>
-<content># 各世界时间标准
-我们经常遇到这4种时间：GMT,UTC,DST,CST。google了一下，在此做个小结.
-
-## 格林威治标准时间GMT
-含义：「格林威治标准时间」(Greenwich Mean</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>ops-process-ps</title>
-<link href="/b/c/ops-process-ps" rel="alternate" type="text/html"/>
-<updated>2019-11-11T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Preface
-
-# processe status
-linux上进程有5种状态:
-
-1. 运行(正在运行或在运行队列中等待)
-2. 中断(休眠中, 受阻, 在等待某个条件的形成或接受到信号)
-3</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>webspider</title>
-<link href="/b/py/py-webspider" rel="alternate" type="text/html"/>
-<updated>2019-11-06T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># webspider
-Python 3网络爬虫开发实战 
-https://germey.gitbooks.io/python3webspider/1.2.2-Selenium%E7%9A%84%E5</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Sth. About Mobile Communication</title>
-<link href="/b/life/life-mobile" rel="alternate" type="text/html"/>
-<updated>2019-11-06T00:00:00Z</updated>
-<summary/>
-<published>2019-11-06T00:00:00Z</published>
-<content># Preface
-&gt; ps: 绝大部分业务在月末是无法办理的.
-
-# 大宝卡
-移动大王卡、联通大王卡和电信超牛卡、到底谁划算?
-https://zhuanlan.zhihu.com/p/242492</content>
 </entry></feed>

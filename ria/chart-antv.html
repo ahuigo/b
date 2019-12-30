@@ -48,8 +48,8 @@ const MD_URL='post/ria/chart-antv.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: antv and bizcharts
-date: 2019-12-15
-updated: 2019-12-15
+date: 2019-12-31
+updated: 2019-12-31
 ---
 # Antv &amp; bizcharts
 
@@ -70,27 +70,89 @@ https://bizcharts.net/products/bizCharts/docs/qa 设置padding 解决留白
         value: &#x27;value&#x27;,
     });
 
+
+# geom
+
+    // 柱形
+    &lt;Geom type=&quot;interval&quot;/&gt;
+    // 面积
+    &lt;Geom type=&quot;area&quot;/&gt;
+
+# 轴
+## 横轴
+指定轴的数据是时间、还是线性... lineNear vs time
+
+    scale = {
+        year: {
+            type: &quot;linear&quot;,
+            tickInterval: 50
+        }
+
+        startDate: {
+            type: &#x27;time&#x27;,
+            tickCount: 8,
+            mask: &#x27;YYYY-MM&#x27;,
+        },
+    }
+
+## 纵轴
+给纵轴数据值加 label 单位k, 或者其它（`%`,`km`...）
+
+    &lt;Axis
+        name=&quot;value&quot;
+        label={{
+            formatter: val =&gt; {
+            return (val / 10000).toFixed(1) + &quot;k&quot;;
+            }
+        }}
+    /&gt;
+
 # 各元素
 ## yAxis 名
+聚合轴名
+
     const scale = {
         type: {
             formatter: k =&gt; {
                 return { aveExecutionTime: &#x27;执行时长&#x27;, aveQueueWaitTime: &#x27;排队时长&#x27; }[k];
             }
         },
-        startDate: {
-            type: &#x27;time&#x27;,
-            tickCount: 8,
-            mask: &#x27;YYYY-MM&#x27;,
-        },
+        price:{
+            alias: &#x27;价格&#x27;
+        }
     };
+
+### Label
+Label 一般用于圆饼图标签
+
+        &lt;Geom
+            type=&quot;intervalStack&quot;
+            position=&quot;percent&quot;
+            tooltip={[
+              &quot;item*percent&quot;,
+              (item, percent) =&gt; {
+                percent = percent * 100 + &quot;%&quot;;
+                return {
+                  name: item,
+                  value: percent
+                };
+              }
+            ]}
+          &gt;
+            &lt;Label
+              content=&quot;percent&quot;
+              formatter={(val, item) =&gt; {
+                return item.point.item + &quot;: &quot; + val;
+              }}
+            /&gt;
+          &lt;/Geom&gt;
 
 ## Axis
 Axis 是不分纵横的。
 
     &lt;Axis name=&quot;year&quot; title/&gt;
     &lt;Axis name=&quot;value&quot; title/&gt;
-    &lt;Geom type=&quot;areaStack&quot; position=&quot;year*value&quot; color=&quot;country&quot; /&gt;
+    &lt;Geom type=&quot;areaStack&quot; position=&quot;year*value&quot; /&gt;
 
 
 ### Axis label
@@ -164,19 +226,21 @@ https://codepen.io/ahuigo/pen/YzPGZmr
     ]
     &lt;Geom type=&quot;line&quot; position=&quot;year*value&quot; color=&quot;country&quot; /&gt;
 
-
+color 取数据field
 
 ## Tooltip
 https://www.yuque.com/antv/g2-docs/api-tooltip#tg6xkz
+https://bizcharts.net/products/bizCharts/demo/detail?id=area-stacked&amp;selectedKey=%E7%82%B9%E5%9B%BE
 悬浮提示
 
-    &lt;Tooltip crosshairs={{ type: &quot;line&quot; }} /&gt;
+    &lt;Tooltip crosshairs={{ type: &quot;cross&quot; }} /&gt;
 
 ### tooltip value format
+
     // year*value
     const scale = {
       value: {
-        alias: &quot;The Share Price in Dollars&quot;,
+        alias: &quot;价格&quot;,
         formatter: function(val) {
           return &quot;$&quot; + val;
         }
@@ -187,6 +251,9 @@ https://www.yuque.com/antv/g2-docs/api-tooltip#tg6xkz
     };
 
 ## Legend 图例
+多条线fold/或多线, 它是图例
+https://bizcharts.net/products/bizCharts/demo/detail?id=area-stacked&amp;selectedKey=%E7%82%B9%E5%9B%BE
+
     &lt;Legend /&gt;</pre>
 <div id="pager"></div>
 <div class="hr"></div>
