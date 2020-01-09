@@ -36,7 +36,7 @@ const MD_URL='post/net/net-tcpdump.md';
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -48,8 +48,8 @@ const MD_URL='post/net/net-tcpdump.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: tcpdump
-date: 2019-03-08
-updated: 2019-03-08
+date: 2020-01-04
+updated: 2020-01-04
 ---
 # tcpdump
 example: https://www.rationallyparanoid.com/articles/tcpdump.html
@@ -62,7 +62,7 @@ tcpdump可以分为三大部分内容，第一是“选项”，第二是“过�
 &gt; 要用tcpdump抓包，一定要切换到root账户下，因为只有root才有权限将网卡变更为“混杂模式”。
 
 ## tcpdump 解析图
-    /demo/py-demo/tcp/parse-tcp.txt
+    https://github.com/ahuigo/py-lib/blob/master/socket/tcpdump-parse.txt
 
 ## tshark
 tshark 介绍：https://www.zhihu.com/question/31188903
@@ -281,10 +281,17 @@ packet filter syntax
 	tcpdump -i lo0 &lt;protocol&gt;
 		tcp, udp, arp, ip, ether,ip6,rarp 等, 但tcpdump 不深入到应用层协议(eg. http)
 
+tcp vs udp
+
 	tcpdump -i lo0 &#x27;tcp&#x27;
 
 	# 抓DNS请求数据
 	tcpdump -i eth1 udp dst port 53
+
+udp:
+
+    sudo tcpdump -i eth0 udp
+    sudo tcpdump -i eth0 proto 17
 
 ## dst &amp; src
 可以借助`or` `and`, 限制源与目的机ip

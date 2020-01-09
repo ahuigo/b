@@ -2,9 +2,69 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2019-12-31T01:18:01Z</updated>
+<updated>2020-01-09T17:51:10Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>test</title>
+<link href="/b/c/ops-benchmark" rel="alternate" type="text/html"/>
+<updated>2020-01-08T00:00:00Z</updated>
+<summary/>
+<published>2020-01-08T00:00:00Z</published>
+<content># Preface
+
+性能/压力测试的内涵：
+
+	基准/基线测试 base line testing / benchmark testing
+	负载测试 load testing
+	压力测试 stre</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>tcpdump</title>
+<link href="/b/net/net-tcpdump" rel="alternate" type="text/html"/>
+<updated>2020-01-04T00:00:00Z</updated>
+<summary/>
+<published>2020-01-04T00:00:00Z</published>
+<content># tcpdump
+example: https://www.rationallyparanoid.com/articles/tcpdump.html
+book:
+
+学术的说，tcpdump是一种嗅探</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>netcat</title>
+<link href="/b/net/net-ncat" rel="alternate" type="text/html"/>
+<updated>2020-01-04T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># netcat,
+[nc](http://www.oschina.net/translate/linux-netcat-command?p=2#comments)
+
+# nc
+Netcat 或者叫 </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>python 字典</title>
+<link href="/b/py/py-var-dict" rel="alternate" type="text/html"/>
+<updated>2020-01-03T00:00:00Z</updated>
+<summary/>
+<published>2020-01-03T00:00:00Z</published>
+<content># Dict
+
+    key='city'
+	dic = {'x': 1, 'y': 2, 2:100, key:'bj'}
+	del dict['x']
+    dict.pop(2) # key</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>curl manual</title>
+<link href="/b/c/ops-curl" rel="alternate" type="text/html"/>
+<updated>2020-01-08T00:00:00Z</updated>
+<summary/>
+<published>2020-01-08T00:00:00Z</published>
+<content># curlt to python/node/go...
+curl 转换器: https://curl.trillworks.com/
+
+# Usage
+
+	-F,--form
+	-D- Dump t</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>收集了下UI 动画特效</title>
 <link href="/b/ui/ui-animation" rel="alternate" type="text/html"/>
 <updated>2019-12-31T00:00:00Z</updated>
@@ -355,9 +415,9 @@ http://www.ruanyifeng</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>antv and bizcharts</title>
 <link href="/b/ria/chart-antv" rel="alternate" type="text/html"/>
-<updated>2019-12-31T00:00:00Z</updated>
+<updated>2020-01-09T00:00:00Z</updated>
 <summary/>
-<published>2019-12-31T00:00:00Z</published>
+<published>2020-01-09T00:00:00Z</published>
 <content># Antv &amp; bizcharts
 
 # style
@@ -429,54 +489,4 @@ mac下没有adduser, 那如何在mac中添加用户/组?
 进入组目录:
 
 	c</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Postgre 的索引</title>
-<link href="/b/db/postgre-index" rel="alternate" type="text/html"/>
-<updated>2019-11-20T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Postgre Index
-本文主要围绕postgre 总结一下索引, 参考：[PostgreSQL 9种索引的原理和应用场景](https://yq.aliyun.com/articles/11</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Typescript 的module</title>
-<link href="/b/ria/ts/ts-module" rel="alternate" type="text/html"/>
-<updated>2019-11-11T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content>## 外部模块与内部模块
-外部模块(.js) 通过查找.d.ts 导入
-
-    外部模块(.js) + .d.ts = 内部模块(.ts)
-
-外部模块.d.ts 查找目录
-1. node_modul</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>function buildName({firstName = 'Tom', lastName=''}:{firstName:string, lastName:string}={}) {</title>
-<link href="/b/ria/ts/ts-a-todo" rel="alternate" type="text/html"/>
-<updated>2019-11-11T00:00:00Z</updated>
-<summary/>
-<published>2019-11-11T00:00:00Z</published>
-<content>    function buildName({firstName = 'Tom', lastName=''}:{firstName:string, lastName:string}={}) {
-  </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>js notes</title>
-<link href="/b/ria/js-obj" rel="alternate" type="text/html"/>
-<updated>2019-11-11T00:00:00Z</updated>
-<summary/>
-<published>2019-11-11T00:00:00Z</published>
-<content># Object
-
-## isEmpty
-    ECMA 7+:
-    Object.entries(obj).length === 0 &amp;&amp; obj.constructor === Object</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>2019 年崇礼富龙滑雪</title>
-<link href="/b/life/ski" rel="alternate" type="text/html"/>
-<updated>2019-12-06T00:00:00Z</updated>
-<summary/>
-<published>2019-12-01T00:00:00Z</published>
-<content># 2019 年崇礼富龙滑雪
-位于崇礼的雪场一直来都是北京滑雪爱好者的“圣地“。 准备本周日12.7去石京龙滑雪. 
-
-1. 一是与吉林新疆雪场相比，崇礼离北京只有200多公里，适合工作之余的周末去;</content>
 </entry></feed>

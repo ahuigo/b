@@ -48,8 +48,8 @@ const MD_URL='post/c/ops-curl.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: curl manual
-date: 2019-09-05
-updated: 2019-09-05
+date: 2020-01-08
+updated: 2020-01-08
 ---
 # curlt to python/node/go...
 curl 转换器: https://curl.trillworks.com/
@@ -105,6 +105,15 @@ modify host for https:
 
 	-I, --head
 	  (HTTP/FTP/FILE)  Fetch  the  HTTP-header only!
+# output
+## format
+
+    curl http://zhihu.com -w &#x27;code=%{http_code};time=%{time_total}s&#x27;
+
+## output
+
+    -o, --output
+        -o /dev/null 
 
 # upload
 form 不要自己设置content-type(boundary 因为要自动算)
@@ -119,6 +128,11 @@ urlencode
 
      curl &#x27;https://httpbin.org/post?c=1&amp;p=2&#x27; -d &#x27;f=1&#x27; -d &#x27;b=2&amp;c=3&#x27;
         //    &quot;Content-Type&quot;: &quot;application/x-www-form-urlencoded&quot;,
+
+## octet-stream
+
+    curl --header &quot;Content-Type:application/octet-stream&quot; --trace-ascii debugdump.txt -d @asdf.file http://server:1234/url
+    curl --header &quot;Content-Type:application/octet-stream&quot; -d @asdf.file http://server:1234/url
 
 # compress
 如果数据经过了gzip等压缩，则需要加选项:

@@ -48,8 +48,8 @@ const MD_URL='post/ria/chart-antv.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: antv and bizcharts
-date: 2019-12-31
-updated: 2019-12-31
+date: 2020-01-09
+updated: 2020-01-09
 ---
 # Antv &amp; bizcharts
 
@@ -77,6 +77,11 @@ https://bizcharts.net/products/bizCharts/docs/qa 设置padding 解决留白
     &lt;Geom type=&quot;interval&quot;/&gt;
     // 面积
     &lt;Geom type=&quot;area&quot;/&gt;
+
+柱的大小：
+
+    &lt;Geom type=&quot;interval&quot; size={10}/&gt;
+
 
 # 轴
 ## 横轴
@@ -156,16 +161,31 @@ Axis 是不分纵横的。
 
 
 ### Axis label
+&gt;api: https://bizcharts.net/product/bizcharts/category/7/page/26
+
+formatter + offset
 
     &lt;Axis name=&quot;value&quot; label={
         { 
             formatter: val =&gt; { return (val / 10000).toFixed(1) + &quot;k&quot;; },
             offset: 12,
+            autoRotate: false,
         }
     } /&gt;
 
+label textStyle
+
+    { offset:200,
+       textStyle: {
+            fontSize: &#x27;22&#x27;,
+            textAlign: &#x27;right&#x27;,
+            fontWeight: &#x27;bold&#x27;,
+        }, 
+    }
+
 ### Axis title
-必须和geom 中的一样命名country ：
+&gt; title 的object|string|null 与 Axis.label一样
+必须和geom 中的一样指定name：
 
     const scale = {
         country: { alias: &#x27;里程&#x27; },
@@ -175,6 +195,9 @@ Axis 是不分纵横的。
     &lt;Geom type=&quot;interval&quot; position=&quot;country*population&quot; /&gt;
 
 
+### Axis position
+
+     &lt;Axis name=&quot;value&quot; position={&#x27;right&#x27;} /&gt;
 
 ## 分组fold
 https://bizcharts.net/products/bizCharts/demo/detail?id=g2-clustered-stacked&amp;selectedKey=%E6%A6%82%E8%A7%88

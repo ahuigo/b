@@ -48,8 +48,8 @@ const MD_URL='post/py/py-var-dict.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: python 字典
-date: 2019-07-05
-updated: 2019-07-05
+date: 2020-01-03
+updated: 2020-01-03
 ---
 # Dict
 
@@ -107,6 +107,25 @@ dict, list 赋值都是按引用的，如果是一维的值:
     dic[key]
 	dict.items()
 		[(&#x27;x&#x27;, 1), (&#x27;y&#x27;, 2)]
+
+### destruct
+python  没有es6的destruction
+
+    const {a,b}={a:1,b:2}
+
+但是有params descruct
+
+    def some_func(a, b):
+        print a,b
+
+    params = {&#x27;a&#x27;:1,&#x27;b&#x27;:2}
+    som_func(**params)
+
+你可以这样：
+
+    d = {&#x27;a&#x27;:&#x27;Apple&#x27;, &#x27;b&#x27;:&#x27;Banana&#x27;,&#x27;c&#x27;:&#x27;Carrot&#x27;}
+    a,b,c = [d[k] for k in (&#x27;a&#x27;, &#x27;b&#x27;,&#x27;c&#x27;)]
+
 
 ### dict get keys and values
 
