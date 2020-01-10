@@ -49,7 +49,7 @@ const MD_URL='post/ria/js-str.md';
 <pre id="markdown" v-pre>---
 title: Js 字符串大全
 date: 2015-03-15
-updated: 2019-10-22
+updated: 2020-01-10
 ---
 # Js 字符串大全
 字符定义与python 一样, 而且不区分双引号：
@@ -172,18 +172,6 @@ repeat(alloc)
     &gt; Buffer.alloc(5, 15)
     &lt;Buffer 0f 0f 0f 0f 0f&gt;
 
-## pad+repeat
-
-    (&#x27;0&#x27;+6).slice(-2)
-    &#x27;6&#x27;.padStart(3,&#x27;0&#x27;)             //&#x27;006&#x27;
-    &#x27;Vue&#x27;.padStart(10)          //&#x27;       Vue&#x27;
-    &#x27;Vue&#x27;.padStart(10, &#x27;_*&#x27;)    //&#x27;_*_*_*_Vue&#x27;
-    &#x27;Vue&#x27;.padEnd(10, &#x27;_*&#x27;)      //&#x27;Vue_*_*_*_&#x27;
-
-    &#x27;abc&#x27;.repeat(2);    // &#x27;abcabc&#x27;
-
-    [...Array(2)].map(()=&gt;&#x27;value&#x27;); //[&#x27;value&#x27;, &#x27;value&#x27;]
-
 ## 字符串是不可变的
     var s = &#x27;Test&#x27;;
     s[0] = &#x27;X&#x27;;
@@ -217,10 +205,24 @@ endsWith
     isNaN(s) // check +s
     s.match(/^-?\d+$/)
 
+### pad+repeat
+
+    (&#x27;0&#x27;+6).slice(-2)
+    &#x27;6&#x27;.padStart(3,&#x27;0&#x27;)             //&#x27;006&#x27;
+    &#x27;Vue&#x27;.padStart(10)          //&#x27;       Vue&#x27;
+    &#x27;Vue&#x27;.padStart(10, &#x27;_*&#x27;)    //&#x27;_*_*_*_Vue&#x27;
+    &#x27;Vue&#x27;.padEnd(10, &#x27;_*&#x27;)      //&#x27;Vue_*_*_*_&#x27;
+
+    &#x27;abc&#x27;.repeat(2);    // &#x27;abcabc&#x27;
+
+    [...Array(2)].map(()=&gt;&#x27;value&#x27;); //[&#x27;value&#x27;, &#x27;value&#x27;]
+
 ### .trim()
 trim space only
 
 	&#x27; a &#x27;.trim()
+	&#x27; a &#x27;.trimStart()
+	&#x27; a &#x27;.trimEnd()
 
 replace strip
 
@@ -328,6 +330,7 @@ Create RegExp：test, exec
 	new RegExp(&quot;^str$&quot;,&#x27;igm&#x27;)
 	new RegExp(&quot;(^|&amp;)str$&quot;,&#x27;igm&#x27;)
 
+### unicode
 
 	/\u1321/.test(&#x27;\u1321&#x27;);//true
 	/\x31/u.test(&#x27;\x31&#x27;);//true

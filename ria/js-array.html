@@ -49,7 +49,7 @@ const MD_URL='post/ria/js-array.md';
 <pre id="markdown" v-pre>---
 title: Js Array 整理
 date: 2018-10-04
-updated: 2019-10-22
+updated: 2020-01-10
 ---
 # Js Array 整理
 array 不像string 是primitive value, 所以length 可以缩短放大array。
@@ -310,12 +310,19 @@ dict and array:
         console.log(key, value); // &quot;first&quot;, &quot;one&quot;
     }
 
+### fromEntries
+    Object.fromEntries([[&#x27;a&#x27;,1],[&#x27;b&#x27;,2]])
+
 ## loop circle
 
     var len = myArray.length
     for (const [i, value] of myArray.entries()) {
         console.log(&#x27;%d: %s&#x27;, i, myArray[(i+1)%len]);
     }
+
+## flat
+    [[1,2],3].flat() //[1,2,3]
+    [&#x27;a&#x27;,&#x27;b,c&#x27;].flatMap(v=&gt;v.split(&#x27;,&#x27;)) //[a,b,c]
 
 ## inter, diff, union 交差并
 intersection:

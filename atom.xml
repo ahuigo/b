@@ -2,9 +2,33 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-01-09T17:51:10Z</updated>
+<updated>2020-01-10T13:15:11Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Js 字符串大全</title>
+<link href="/b/ria/js-str" rel="alternate" type="text/html"/>
+<updated>2020-01-10T00:00:00Z</updated>
+<summary/>
+<published>2015-03-15T00:00:00Z</published>
+<content># Js 字符串大全
+字符定义与python 一样, 而且不区分双引号：
+
+    '\x00' == '\u0000'
+	'\x31' == "\x31"
+
+	'好' === '\u597D' //</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Js Array 整理</title>
+<link href="/b/ria/js-array" rel="alternate" type="text/html"/>
+<updated>2020-01-10T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Js Array 整理
+array 不像string 是primitive value, 所以length 可以缩短放大array。
+
+	arr = [1,2,3]
+	arr.length = 1</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>test</title>
 <link href="/b/c/ops-benchmark" rel="alternate" type="text/html"/>
 <updated>2020-01-08T00:00:00Z</updated>
@@ -267,7 +291,7 @@ globals()['bar']()
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Python 的语法</title>
 <link href="/b/py/py-expr" rel="alternate" type="text/html"/>
-<updated>2019-11-30T00:00:00Z</updated>
+<updated>2020-01-10T00:00:00Z</updated>
 <summary/>
 <published>2018-03-01T00:00:00Z</published>
 <content># 多条件compare
@@ -456,37 +480,4 @@ antd pro 由umijs 这个脚手架生成， 我看重的几点：
 # FormData
 
 ## i</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>CSS 笔记</title>
-<link href="/b/ria/js-css" rel="alternate" type="text/html"/>
-<updated>2019-11-20T00:00:00Z</updated>
-<summary/>
-<published>2017-12-12T00:00:00Z</published>
-<content># CSS 笔记
-css/html5/js 兼容表
-http://caniuse.com/
-
-# priority
-你应该知道的一些事情——CSS权重
-https://www.w3cplus.com/</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>mac user manager</title>
-<link href="/b/mac/mac-user" rel="alternate" type="text/html"/>
-<updated>2019-11-20T00:00:00Z</updated>
-<summary/>
-<published>2019-11-20T00:00:00Z</published>
-<content>
-# Preface
-mac下没有adduser, 那如何在mac中添加用户/组?
-
-# 命令行操作 
-
-## 交互
-从命令行进入交互模式：
- 
-	dscl localhost
-
-进入组目录:
-
-	c</content>
 </entry></feed>
