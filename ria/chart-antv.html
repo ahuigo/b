@@ -48,8 +48,8 @@ const MD_URL='post/ria/chart-antv.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: antv and bizcharts
-date: 2020-01-09
-updated: 2020-01-09
+date: 2020-01-13
+updated: 2020-01-13
 ---
 # Antv &amp; bizcharts
 
@@ -175,7 +175,7 @@ formatter + offset
 
 label textStyle
 
-    { offset:200,
+    label={ offset:200,
        textStyle: {
             fontSize: &#x27;22&#x27;,
             textAlign: &#x27;right&#x27;,
@@ -257,6 +257,17 @@ https://bizcharts.net/products/bizCharts/demo/detail?id=area-stacked&amp;selecte
 悬浮提示
 
     &lt;Tooltip crosshairs={{ type: &quot;cross&quot; }} /&gt;
+
+### tooltip format
+https://bizcharts.net/products/bizCharts/api/geom
+
+    &lt;Geom
+    tooltip={[&#x27;sales*city&#x27;, (sales, city)=&gt;{
+        return {
+        name:&#x27;xxx&#x27;,
+        value:city + &#x27;:&#x27; + sales
+        }
+    }]}
 
 ### tooltip value format
 
