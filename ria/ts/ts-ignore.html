@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/p/p3.md';
+const MD_URL='post/ria/ts/ts-ignore.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO 的笔记</title>
+<title>TS ignore type when import module</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -46,52 +46,17 @@ const MD_URL='post/p/p3.md';
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
-<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+<pre id="markdown" v-pre>---
+title: TS ignore type when import module
+date: 2020-01-14
+updated: 2020-01-14
+---
+# TS ignore module type
+e.g.
 
-<ul>
-<li>2018-10-04 <a href="/b/vim/vim-cmd">vim-cmd</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-options">vim-options</a> </li>
-<li>2016-01-23 <a href="/b/ria/js-dom">Js dom 笔记</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-dom-event">Event</a> </li>
-<li>2018-03-03 <a href="/b/ria/js-css-layout">css 布局</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-pattern">vim-pattern</a> </li>
-<li>2019-06-04 <a href="/b/vim/vim-map">vim 之 map命令</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-change">vim-change</a> </li>
-<li>2019-02-09 <a href="/b/ui/ui-animation">收集了下UI 动画特效</a> </li>
-<li>2018-10-04 <a href="/b/ria/node-npm">command</a> </li>
-<li>2019-05-20 <a href="/b/ria/js-svg">SVG 语法</a> </li>
-<li>2015-03-15 <a href="/b/ria/js-str">Js 字符串大全</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-math">JS Math</a> </li>
-<li>2017-07-11 <a href="/b/ria/js-func">js 的函数</a> </li>
-<li>2017-12-12 <a href="/b/ria/js-css">CSS 笔记</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-css-font">font</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-array">Js Array 整理</a> </li>
-<li>2018-10-04 <a href="/b/py/py-process">py-process</a> </li>
-<li>2018-09-27 <a href="/b/eng/eng-spoken">eng-spoken</a> </li>
-<li>2018-09-27 <a href="/b/eng/eng-punctuation">english punctuation</a> </li>
-<li>2014-05-10 <a href="/b/code/code-character">字符编码简介</a> </li>
-<li>2019-06-04 <a href="/b/c/ops-process">linux 之进程</a> </li>
-<li>2015-07-13 <a href="/b/c/as-elf">ELF 文件格式</a> </li>
-<li>2019-05-29 <a href="/b/vim/vim-edit">Vim Edit</a> </li>
-<li>2019-05-29 <a href="/b/vim/vim-visual">Vim visual</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-help">vim-help</a> </li>
-<li>2019-05-29 <a href="/b/vim/vim-guide">Vim Guide</a> </li>
-<li>2019-05-29 <a href="/b/c/shell-zsh">shell 终端使用技巧</a> </li>
-<li>2019-06-04 <a href="/b/vim/vim-notes">vim 笔记</a> </li>
-<li>2019-06-17 <a href="/b/vim/vim-motion">vim-motion</a> </li>
-<li>2018-09-28 <a href="/b/py/py-db-postgre">help</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-ajax-cors">ajax cors</a> </li>
-<li>2020-01-08 <a href="/b/c/ops-curl">curl manual</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-promise">JS Promise</a> </li>
-<li>2019-11-11 <a href="/b/ria/js-obj">js notes</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-debug-exception">try-catch</a> </li>
-<li>2019-05-12 <a href="/b/ria/react-webpack-babel">How to set up React, webpack, and Babel 7 from scratch</a> </li>
-<li>2019-05-23 <a href="/b/ria/react-framework">react framework</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-css-less">js-css-less</a> </li>
-<li>2019-03-08 <a href="/b/py/py-async-cpu">does-a-thread-waiting-on-io-also-block-a-core?</a> </li>
-</ul>
-</div>
-<div id="pager"> <a href="/b/index">p0</a> <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a> p3 <a href="/b/p/p4">p4</a></div>
+    // @ts-ignore
+    import Brush from &quot;@antv/g2-brush&quot;;</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
