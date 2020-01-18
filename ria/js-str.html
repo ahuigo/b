@@ -49,7 +49,7 @@ const MD_URL='post/ria/js-str.md';
 <pre id="markdown" v-pre>---
 title: Js 字符串大全
 date: 2015-03-15
-updated: 2020-01-10
+updated: 2020-01-17
 ---
 # Js 字符串大全
 字符定义与python 一样, 而且不区分双引号：
@@ -268,12 +268,18 @@ replace strip
 	&quot;1 2 3&quot;.match(/(\d) s/g); //return null
 
 #### match group
+如果regexp没有g, 则会匹配子模式
 
-	//如果regexp没有g, 则会匹配子模式
     &quot;first 1 second 1&quot;.match(/(\w+) 1/);  [ &#x27;first 1&#x27;, &#x27;first&#x27;, index: 0, input: &#x27;first 1 second 1&#x27;]
         matches.index //0 相当于indexOf返回的位置
 
+如果regexp有g, 则会返回数组
+
     &quot;first 1 second 1&quot;.match(/(\w+) 1/g); // [ &#x27;first 1&#x27;, &#x27;second 1&#x27; ]
+
+如果需要group name:
+
+    /name=&quot;(?&lt;name&gt;\w+)&quot;/.exec(`name=&quot;ahui&quot;`).groups.name
 
 &gt; 如果需要同时支持regExp global 及 子表达式, 请使用RegExp.prototype.exec
 &gt; match 成功后，`RegExp.$1~$9` 代表子组，`RegExp.$0` 不存在
@@ -337,7 +343,7 @@ Create RegExp：test, exec
 
 ### group name
 
-    /name=&quot;(?&lt;name&gt;\w+)&quot;/.exec(`name=&quot;ahui&quot;`).group.name
+    /name=&quot;(?&lt;name&gt;\w+)&quot;/.exec(`name=&quot;ahui&quot;`).groups.name
 
 非global 模式的match, 也可以显示groups
 

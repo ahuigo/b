@@ -48,8 +48,8 @@ const MD_URL='post/ria/js-dom-html5.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: html5 笔记
-date: 2019-08-30
-updated: 2019-08-30
+date: 2020-01-17
+updated: 2020-01-17
 ---
 # Tag
 
@@ -324,31 +324,6 @@ jquery:
     element.dataset.key // undefined
 
     $(element).attr(&#x27;data-key&#x27;, &#x27;value&#x27;);
-
-# history
-
-## pushstate
-不刷新页面ajax
-http://www.cnblogs.com/xuchengzone/archive/2013/04/18/html5-history-pushstate.html
-- help.gitbook.io
-
-Example:
-
-	var stateObj = { foo: &quot;bar&quot; };
-	history.pushState(stateObj, title=&quot;page 2&quot;, &quot;bar2.html&quot;);
-
-参数：
-
-    stateObj
-        当离开此页时，popstate 会收到e.stateObj
-	title
-        可能不生效
-
-## popstate
-
-	window.onpopstate = function(event) {
-		alert(&quot;location: &quot; + document.location + &quot;, state: &quot; + JSON.stringify(event.state));
-	};
 </pre>
 <div id="pager"></div>
 <div class="hr"></div>

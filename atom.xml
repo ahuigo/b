@@ -2,9 +2,58 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-01-14T22:48:56Z</updated>
+<updated>2020-01-17T17:23:58Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>html5 笔记</title>
+<link href="/b/ria/js-dom-html5" rel="alternate" type="text/html"/>
+<updated>2020-01-17T00:00:00Z</updated>
+<summary/>
+<published>2020-01-17T00:00:00Z</published>
+<content># Tag
+
+## Forms
+属性
+
+    enctype="multipart/form-data"
+        default content-type: application/x-ww</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Event</title>
+<link href="/b/ria/js-dom-event" rel="alternate" type="text/html"/>
+<updated>2020-01-17T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Event
+
+## DOM MutationObserver
+http://javascript.ruanyifeng.com/dom/mutationobserver.html
+
+### DOM</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>font</title>
+<link href="/b/ria/js-css-font" rel="alternate" type="text/html"/>
+<updated>2020-01-17T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># font
+like bootstrap
+
+    @font-face {
+    font-family: 'Glyphicons Halflings';
+
+    src: url('../f</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Git 命令大全</title>
+<link href="/b/git/git-" rel="alternate" type="text/html"/>
+<updated>2020-01-17T00:00:00Z</updated>
+<summary/>
+<published>2020-01-17T00:00:00Z</published>
+<content># Git 配置
+
+## ConfigFile
+1. /etc/gitconfig #git config --system
+2. ~/.gitconfig 	#git config --global</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>TS ignore type when import module</title>
 <link href="/b/ria/ts/ts-ignore" rel="alternate" type="text/html"/>
 <updated>2020-01-14T00:00:00Z</updated>
@@ -27,7 +76,7 @@ e.g.
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Js 字符串大全</title>
 <link href="/b/ria/js-str" rel="alternate" type="text/html"/>
-<updated>2020-01-10T00:00:00Z</updated>
+<updated>2020-01-17T00:00:00Z</updated>
 <summary/>
 <published>2015-03-15T00:00:00Z</published>
 <content># Js 字符串大全
@@ -437,42 +486,4 @@ React 提供Error 捕获，但错误边界无法捕获以下场景中产生的�
 
 # display
 1. block: This makes the element a</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>浏览器同源政策及其规避方法</title>
-<link href="/b/ria/js-cors" rel="alternate" type="text/html"/>
-<updated>2019-11-28T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># 浏览器同源政策及其规避方法
-http://www.ruanyifeng.com/blog/2016/04/same-origin-policy.html
-http://www.ruanyifeng</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>React HOC 高阶组件</title>
-<link href="/b/ria/react-com-hoc" rel="alternate" type="text/html"/>
-<updated>2019-11-26T00:00:00Z</updated>
-<summary/>
-<published>2019-09-08T00:00:00Z</published>
-<content># React HOC 高阶组件
-具体而言，高阶组件是参数为组件，返回值为新组件的函数。
-
-    const EnhancedComponent = higherOrderComponent(Wra</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>antv and bizcharts</title>
-<link href="/b/ria/chart-antv" rel="alternate" type="text/html"/>
-<updated>2020-01-13T00:00:00Z</updated>
-<summary/>
-<published>2020-01-13T00:00:00Z</published>
-<content># Antv &amp; bizcharts
-
-# style
-## padding
-https://bizcharts.net/products/bizCharts/docs/qa 设置padding 解决</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>deny ngx_http_access_module</title>
-<link href="/b/nginx/nginx-location" rel="alternate" type="text/html"/>
-<updated>2019-11-24T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content>### deny ngx_http_access_module
-Allows/Deny access for the specified network or address. If the spec</content>
 </entry></feed>

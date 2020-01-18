@@ -48,8 +48,8 @@ const MD_URL='post/git/git-.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: Git 命令大全
-date: 2019-11-04
-updated: 2019-11-04
+date: 2020-01-17
+updated: 2020-01-17
 ---
 # Git 配置
 
@@ -292,6 +292,7 @@ If you want to also remove *directories*, run
 
 checkout 适合working 回滚到某一分支
 - git revert: checkout+add+commit
+    - git revert [倒数第一个提交] [倒数第二个提交]
 	Revert some existing commits
 - git reset: 改变commit+index: 顺便清理working
  	rollback commit: (clean index)
@@ -627,7 +628,8 @@ Create an archive of files from a named tree.
 
 ## push all remote
 
-    git push remote [branch]
+    git push --all origin
+    git push origin
 
 ## push buffer
 &gt; `git config http.postBuffer 5242880000` 设置push 时的大小限制, 否则会报 The remote end hung up unexpectedly。 还有一个原因是服务端限制
@@ -729,8 +731,9 @@ Step 2. Merge the branch and push the changes to GitLab
 
 Also, you can use pull directly:
 
-	git pull other master
-	git pull other # fetch only
+	git pull origin master
+	git pull origin 
+	git pull 
 
 to keep the remote or local file, :
 
@@ -752,8 +755,11 @@ to keep the remote or local file, :
 
 e.g.
 
-        git pull -X ours
+    # 直接用自己的
+        git pull -s ours   
+    # recursive 冲突时才用自己的
         git pull -s recursive -Xours  
+        git pull -Xours   # 默认-s recursive
 
 ### option
 

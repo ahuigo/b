@@ -49,7 +49,7 @@ const MD_URL='post/ria/js-dom-event.md';
 <pre id="markdown" v-pre>---
 title: Event
 date: 2018-10-04
-updated: 2019-11-28
+updated: 2020-01-17
 ---
 # Event
 
@@ -424,47 +424,6 @@ trigger resize:
     window.dispatchEvent(new Event(&#x27;resize&#x27;));
 
 
-
-## history event
-trigger:
-
-    $(&#x27;#container&#x27;).on(&#x27;click&#x27;, &#x27;a&#x27;, function(e) {
-　　　　window.history.pushState(null, &quot;title&quot;, $(this).attr(&#x27;href&#x27;));
-　　　　// ajax fetch &amp; render
-　　　　e.preventDefault();
-　　});
-
-### onpushstate
-listen pushstate:
-
-    (function(history){
-        var pushState = history.pushState;
-        history.pushState = function(state) {
-            if (typeof history.onpushstate == &quot;function&quot;) {
-                history.onpushstate({state: state});
-            }
-            return pushState.apply(history, arguments);
-        };
-    })(window.history);
-
-### onpopstate, onhashchange
-listen popstate(on user click back only): 
-
-    //window.onpopstate
-    window.addEventListener(&#x27;popstate&#x27;, function(e) {     
-　　　　anchorClick(location.pathname); 	
- 　　});
-
-Note:
-这popstate/hashchange only triggered by doing a `browser action`
-1. history.back() 会trigger popstate/hashchange
-2. 调用history.pushState() 本身不会trigger(这个算是bug) 
-
-manully trigger popstate/hashchange
-
-    history.pushState(state, &#x27;&#x27;, url);
-    var popStateEvent = new PopStateEvent(&#x27;popstate&#x27;, { state: state });
-    dispatchEvent(popStateEvent);
 </pre>
 <div id="pager"></div>
 <div class="hr"></div>
