@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-01-17T17:23:58Z</updated>
+<updated>2020-01-20T21:48:13Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
 <title>html5 笔记</title>
@@ -284,7 +284,7 @@ same as js:
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Js dom 笔记</title>
 <link href="/b/ria/js-dom" rel="alternate" type="text/html"/>
-<updated>2019-12-15T00:00:00Z</updated>
+<updated>2020-01-20T00:00:00Z</updated>
 <summary/>
 <published>2016-01-23T00:00:00Z</published>
 <content># Js dom 笔记
