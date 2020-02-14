@@ -2,9 +2,22 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-01-20T21:48:13Z</updated>
+<updated>2020-02-14T22:56:54Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>CSS 笔记</title>
+<link href="/b/ria/js-css" rel="alternate" type="text/html"/>
+<updated>2020-02-11T00:00:00Z</updated>
+<summary/>
+<published>2017-12-12T00:00:00Z</published>
+<content># CSS 笔记
+css/html5/js 兼容表
+http://caniuse.com/
+
+# priority
+你应该知道的一些事情——CSS权重
+https://www.w3cplus.com/</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>html5 笔记</title>
 <link href="/b/ria/js-dom-html5" rel="alternate" type="text/html"/>
 <updated>2020-01-17T00:00:00Z</updated>
@@ -436,11 +449,15 @@ https://stackoverflow.com/questions/35559093</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Postgre 安装\配置\管理</title>
 <link href="/b/db/pg-ddl-install" rel="alternate" type="text/html"/>
-<updated>2019-11-29T00:00:00Z</updated>
+<updated>2020-02-14T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># Postgre 安装\配置\管理
-    rpm -Uvh https://yum.postgresql.org/10/redhat/rhel-7-x86_64/pgdg-centos10-10-</content>
+
+## intall
+centos:
+
+    rpm -Uvh https://yum.postgresql.org/10/redhat/rhel-7-x86_</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Postgre SQL function</title>
 <link href="/b/db/pg-ddl-function" rel="alternate" type="text/html"/>
@@ -475,15 +492,4 @@ React 提供Error 捕获，但错误边界无法捕获以下场景中产生的�
 
     事件处理（了解更多）
     异步代码（例如 se</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>css 布局</title>
-<link href="/b/ria/js-css-layout" rel="alternate" type="text/html"/>
-<updated>2020-01-13T00:00:00Z</updated>
-<summary/>
-<published>2018-03-03T00:00:00Z</published>
-<content># CSS 布局
-&gt; 参考: http://zh.learnlayout.com/position.html
-
-# display
-1. block: This makes the element a</content>
 </entry></feed>

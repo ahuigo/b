@@ -49,20 +49,19 @@ const MD_URL='post/db/pg-ddl-install.md';
 <pre id="markdown" v-pre>---
 title: Postgre 安装\配置\管理
 date: 2018-09-27
-updated: 2019-11-29
+updated: 2020-02-14
 ---
 # Postgre 安装\配置\管理
+
+## intall
+centos:
+
     rpm -Uvh https://yum.postgresql.org/10/redhat/rhel-7-x86_64/pgdg-centos10-10-2.noarch.rpm
     yum install postgresql10-server postgresql10 -y
     # Create a new PostgreSQL database cluster:
     /usr/pgsql-10/bin/postgresql-10-setup initdb
 
-## output format
-
-    # \x
-    Expanded display is on.
-    # \x
-    Expanded display is off.
+mac:
 
 ## auth
 see db-user.md
@@ -71,7 +70,7 @@ see db-user.md
     psql -U postgres -c &#x27;SHOW hba_file&#x27;
     /usr/local/var/postgres/pg_hba.conf        | Sets the server&#x27;s &quot;hba&quot; configuration file.
 
-## run
+## run &amp; config
 
     if centos:
         systemctl start postgresql-10.service
@@ -81,14 +80,15 @@ see db-user.md
     elif osx:
         # To have launchd start postgresql now and restart at login:
         brew services start postgresql
-        # ps aux
+        # Or, if you don&#x27;t want/need a background service you can just run:
         pg_ctl -D /usr/local/var/postgres start
 
-        # 
+        # 开机启动
         ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
 
         cat &lt;&lt;MM &gt;&gt; ~/.zshrc
         alias pg-start=&quot;launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist&quot;
+        # 就是rm plist
         alias pg-stop=&quot;launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist&quot;
         MM
 
@@ -119,6 +119,14 @@ then:
     # 再重启
     systemctl restart postgresql
 
+
+# client
+## output format
+
+    # \x
+    Expanded display is on.
+    # \x
+    Expanded display is off.
 </pre>
 <div id="pager"></div>
 <div class="hr"></div>
