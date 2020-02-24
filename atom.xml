@@ -2,9 +2,20 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-02-14T22:56:54Z</updated>
+<updated>2020-02-24T17:18:20Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>python 的正则表达式</title>
+<link href="/b/py/py-str-regex" rel="alternate" type="text/html"/>
+<updated>2020-02-24T00:00:00Z</updated>
+<summary/>
+<published>2020-02-24T00:00:00Z</published>
+<content># regex 语法
+
+	import re
+    re.compile(pattern, [,modifier]).match(str)
+    re.match(pattern, str[, m</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>CSS 笔记</title>
 <link href="/b/ria/js-css" rel="alternate" type="text/html"/>
 <updated>2020-02-11T00:00:00Z</updated>
@@ -297,7 +308,7 @@ same as js:
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Js dom 笔记</title>
 <link href="/b/ria/js-dom" rel="alternate" type="text/html"/>
-<updated>2020-01-20T00:00:00Z</updated>
+<updated>2020-02-24T00:00:00Z</updated>
 <summary/>
 <published>2016-01-23T00:00:00Z</published>
 <content># Js dom 笔记
@@ -481,15 +492,4 @@ centos:
     select "count"(1) from "table_name"
 
 ##</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>React Error 边界</title>
-<link href="/b/ria/react-debug" rel="alternate" type="text/html"/>
-<updated>2019-11-28T00:00:00Z</updated>
-<summary/>
-<published>2019-09-07T00:00:00Z</published>
-<content># React Error 边界
-React 提供Error 捕获，但错误边界无法捕获以下场景中产生的错误(本质就是try-catch)：
-
-    事件处理（了解更多）
-    异步代码（例如 se</content>
 </entry></feed>
