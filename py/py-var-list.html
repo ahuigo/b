@@ -49,7 +49,7 @@ const MD_URL='post/py/py-var-list.md';
 <pre id="markdown" v-pre>---
 title: python 的list/tuple 笔记
 date: 2018-03-03
-updated: 2019-06-25
+updated: 2020-02-25
 ---
 # list and tuple
 因为tuple 是增加删除元素的不可变的list(数据可以变)，所以代码更安全。
@@ -286,6 +286,10 @@ repeat
 
 	&#x27;.&#x27;.join([&#x27;pad&#x27;]*2)
 
+## concat
+
+    a+b
+
 ## pop,append(push)
 
 	&gt;&gt;&gt; list = [1,2]
@@ -297,10 +301,25 @@ repeat
 	&gt;&gt;&gt; list.pop(0) # first one
 	1
 
+### remove inplace
+
+    list.remove(value) # inplace
+
 ### insert and shift
 
     list.insert(pos, item)
     list = list[1:]
+
+move item:
+
+    l.insert(newindex, l.pop(oldindex))
+
+replace
+
+    l[slice] = [item]
+    l[0:0] = [item]
+
+deque:
 
     from collections import deque
     items = deque([1, 2])
@@ -356,6 +375,7 @@ remove and insert(in place)
 	.remove(value) -- remove first occurrence of value.
 
 ## sorted list
+not in place
 
     colors = [&#x27;red&#x27;, &#x27;green&#x27;, &#x27;blue&#x27;, &#x27;yellow&#x27;]
     sorted(colors):
