@@ -2,9 +2,19 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-03-02T23:54:50Z</updated>
+<updated>2020-03-04T17:33:30Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>brew dev</title>
+<link href="/b/mac/mac-brew-dev" rel="alternate" type="text/html"/>
+<updated>2020-03-04T00:00:00Z</updated>
+<summary/>
+<published>2020-03-04T00:00:00Z</published>
+<content># Preface
+
+# rule
+brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Library/</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>python 的list/tuple 笔记</title>
 <link href="/b/py/py-var-list" rel="alternate" type="text/html"/>
 <updated>2020-02-25T00:00:00Z</updated>
@@ -459,7 +469,7 @@ https://stackoverflow.com/questions/35559093</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Postgre User and Authentication</title>
 <link href="/b/db/pg-ddl-user" rel="alternate" type="text/html"/>
-<updated>2019-11-29T00:00:00Z</updated>
+<updated>2020-03-04T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># help
@@ -471,7 +481,7 @@ https://stackoverflow.com/questions/35559093</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Postgre 安装\配置\管理</title>
 <link href="/b/db/pg-ddl-install" rel="alternate" type="text/html"/>
-<updated>2020-03-02T00:00:00Z</updated>
+<updated>2020-03-04T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># Postgre 安装\配置\管理
@@ -480,15 +490,4 @@ https://stackoverflow.com/questions/35559093</content>
 centos:
 
     rpm -Uvh https://yum.postgresql.org/10/redhat/rhel-7-x86_</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Postgre SQL function</title>
-<link href="/b/db/pg-ddl-function" rel="alternate" type="text/html"/>
-<updated>2019-11-29T00:00:00Z</updated>
-<summary/>
-<published>2019-06-20T00:00:00Z</published>
-<content># Postgre SQL function
-## 基本语法
-必须指定语言 `LANGUAGE plpsql|sql`, `$$` 是分割符
-
-    CREATE OR REPLACE FUNCTI</content>
 </entry></feed>

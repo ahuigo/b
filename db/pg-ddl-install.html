@@ -49,7 +49,7 @@ const MD_URL='post/db/pg-ddl-install.md';
 <pre id="markdown" v-pre>---
 title: Postgre 安装\配置\管理
 date: 2018-09-27
-updated: 2020-03-02
+updated: 2020-03-04
 ---
 # Postgre 安装\配置\管理
 
@@ -80,6 +80,7 @@ see db-user.md
     elif osx:
         # To have launchd start postgresql now and restart at login:
         brew services start postgresql
+
         # Or, if you don&#x27;t want/need a background service you can just run:
         pg_ctl -D /usr/local/var/postgres start
 
@@ -87,12 +88,24 @@ see db-user.md
         ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
 
         cat &lt;&lt;MM &gt;&gt; ~/.zshrc
+        # 开机启动
         alias pg-start=&quot;launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist&quot;
-        # 就是rm plist
+
+        # 关闭开机启动 是rm plist
         alias pg-stop=&quot;launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist&quot;
         MM
 
     createdb `whoami`
+
+## path
+### log
+mac log默认在
+
+    /usr/local/var/log/postgres
+
+### 数据文件
+    $ ls /usr/local/var/postgres/PG_VERSION
+    $ ls /usr/local/var/postgres@11/
 
 ### debug
 #### 升级问题
@@ -108,7 +121,9 @@ see db-user.md
 方案1：
 
     $ brew postgresql-upgrade-database
-    FATAL:  role &quot;ahui&quot; does not exist
+    FATAL:  role &quot;role2&quot; does not exist
+
+    pg_upgrade -U role1
 
 方案2：
 

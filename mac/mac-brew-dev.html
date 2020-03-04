@@ -36,7 +36,7 @@ const MD_URL='post/mac/mac-brew-dev.md';
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -48,8 +48,8 @@ const MD_URL='post/mac/mac-brew-dev.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: brew dev
-date: 2019-02-20
-updated: 2019-02-20
+date: 2020-03-04
+updated: 2020-03-04
 ---
 # Preface
 
@@ -74,7 +74,14 @@ brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Librar
 	  end
 	end
 
+## sha256
+
+    $ shasum -a 256 test.tgz
+
 ## binary package
+https://github.com/v2ray/homebrew-v2ray/blob/master/Formula/v2ray-core.rb
+
+利用bin.install, etc.install copy
 
     def install
         # ENV.deparallelize  # if your formula fails when building in parallel
@@ -82,7 +89,12 @@ brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Librar
         # system &quot;tar -Jvxf otfcc-mac64-0.2.3.tgz&quot;
         bin.install &quot;otfccbuild&quot;
         bin.install &quot;otfccdump&quot;
+
+        (etc/&quot;v2ray&quot;).mkpath
+        etc.install &quot;config.json&quot; =&gt; &quot;v2ray/config.json&quot;
     end
+
+
 
 ## depends on
 
@@ -96,14 +108,45 @@ brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Librar
         depends_on :xcode =&gt; &quot;9.3&quot;
     end
 
-# install process
+# Use Formula
+&gt; refer to : https://segmentfault.com/a/1190000012826983
+
+repo可以省略`homebrew-`
+
+    brew tap &lt;user/repo&gt;
+    brew untap &lt;user/repo&gt;
+
+    brew install vim  # installs from homebrew/core
+    brew install username/repo/vim  # installs from your custom repo
+
+## tap example
+https://github.com/v2ray/homebrew-v2ray/blob/master/Formula/v2ray-core.rb
+
+    brew tap v2ray/v2ray
+    brew install v2ray-core
+
+or
+
+    brew install v2ray/v2ray/v2ray-core
+
+https://github.com/ahuigo/homebrew-ahui/blob/master/langdao-dict.rb
+
+     brew install ahuigo/ahui/langdao-dict
+     brew install --verbose --debug ahuigo/ahui/langdao-dict
+
+# install dir
+dir:
 
     brew --repo
+        /usr/local/Homebrew
     brew --cache
         ~/Library/Caches/Homebrew/downloads
 
-# brew via ss
-export ALL_PROXY=socks5://127.0.0.1:1080</pre>
+# dev command
+    $ /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/cmd/postgresql-upgrade-database.rb
+
+# proxy(via socks5)
+    export ALL_PROXY=socks5://127.0.0.1:1080</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
