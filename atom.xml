@@ -2,9 +2,22 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-03-04T17:33:30Z</updated>
+<updated>2020-03-10T21:41:06Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>golang pkg的使用</title>
+<link href="/b/go/2.go-pkg" rel="alternate" type="text/html"/>
+<updated>2020-03-10T00:00:00Z</updated>
+<summary/>
+<published>2016-09-27T00:00:00Z</published>
+<content># 结构
+1. 参考How to Write Go Code https://golang.org/doc/code.html
+
+2. 环境变量$ go env
+
+## workspace
+可以有多个</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>brew dev</title>
 <link href="/b/mac/mac-brew-dev" rel="alternate" type="text/html"/>
 <updated>2020-03-04T00:00:00Z</updated>
@@ -478,16 +491,4 @@ https://stackoverflow.com/questions/35559093</content>
 
 # Postgre User and Authentication
     ps</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Postgre 安装\配置\管理</title>
-<link href="/b/db/pg-ddl-install" rel="alternate" type="text/html"/>
-<updated>2020-03-04T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Postgre 安装\配置\管理
-
-## intall
-centos:
-
-    rpm -Uvh https://yum.postgresql.org/10/redhat/rhel-7-x86_</content>
 </entry></feed>
