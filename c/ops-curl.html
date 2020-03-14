@@ -48,8 +48,8 @@ const MD_URL='post/c/ops-curl.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: curl manual
-date: 2020-01-08
-updated: 2020-01-08
+date: 2020-03-14
+updated: 2020-03-14
 ---
 # curlt to python/node/go...
 curl 转换器: https://curl.trillworks.com/
@@ -119,6 +119,7 @@ modify host for https:
 form 不要自己设置content-type(boundary 因为要自动算)
 
 	curl &#x27;http://localhost:8000/up.php&#x27;  -F &#x27;pic=@img/a.png&#x27;
+    curl https://httpbin.org/post --F &#x27;file=@a.txt&#x27;  -F &#x27;b=1&#x27;  -F  &#x27;c=2&#x27;
 	curl &#x27;http://localhost:8000/up.php&#x27;  -F &#x27;pic=@img/a.png&#x27; -F &#x27;var=value&#x27; -F &#x27;k2=v2&#x27;
 	curl -F &quot;file=@localfile;filename=nameinpost&quot; url.com
 	curl -F &quot;file=@localfile;filename=nameinpost;type=text/html&quot; url.com

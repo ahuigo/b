@@ -2,9 +2,58 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-03-10T21:41:06Z</updated>
+<updated>2020-03-14T19:07:49Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>安全的帐号设计</title>
+<link href="/b/sec/sec-account" rel="alternate" type="text/html"/>
+<updated>2020-03-14T00:00:00Z</updated>
+<summary/>
+<published>2020-03-14T00:00:00Z</published>
+<content># Preface
+帐号设计可以涉及到很多细节，本文主要从安全的角度作一个总结:
+
+1. password 安全
+1. sid 的设计
+3. 内部Api 授权
+4. SSO 单点登录
+
+# passw</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-http</title>
+<link href="/b/py/py-http" rel="alternate" type="text/html"/>
+<updated>2020-03-14T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Preface
+
+# urllib
+urllib2 is deprecated, use requests instead , except: `urllib.parse.urlsplit/url</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>mac 工具集</title>
+<link href="/b/mac/mac-tool" rel="alternate" type="text/html"/>
+<updated>2020-03-14T00:00:00Z</updated>
+<summary/>
+<published>2018-10-10T00:00:00Z</published>
+<content># Preface
+本文是我所用的mac 工具集大杂烩。
+
+一些mac osx 能做而linux 桌面级OS 目前不能做的事情：
+
+- mac 支持全局readline , 字符编辑的效率非常非常高(</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Postgre CRUD</title>
+<link href="/b/db/pg-crud" rel="alternate" type="text/html"/>
+<updated>2020-03-14T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Postgre CRUD
+## string or keyword
+    select 'string';
+    select "count"(1) from "table_name"
+
+##</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>golang pkg的使用</title>
 <link href="/b/go/2.go-pkg" rel="alternate" type="text/html"/>
 <updated>2020-03-10T00:00:00Z</updated>
@@ -125,7 +174,7 @@ e.g.
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>学习 docker</title>
 <link href="/b/arch/docker-" rel="alternate" type="text/html"/>
-<updated>2020-03-02T00:00:00Z</updated>
+<updated>2020-03-14T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># 什么是Docker
@@ -205,9 +254,9 @@ Netcat 或者叫 </content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>curl manual</title>
 <link href="/b/c/ops-curl" rel="alternate" type="text/html"/>
-<updated>2020-01-08T00:00:00Z</updated>
+<updated>2020-03-14T00:00:00Z</updated>
 <summary/>
-<published>2020-01-08T00:00:00Z</published>
+<published>2020-03-14T00:00:00Z</published>
 <content># curlt to python/node/go...
 curl 转换器: https://curl.trillworks.com/
 
@@ -439,56 +488,4 @@ globals()['bar']()
 <published>2018-09-27T00:00:00Z</published>
 <content># Postgre Index
 本文主要围绕postgre 总结一下索引, 参考：[PostgreSQL 9种索引的原理和应用场景](https://yq.aliyun.com/articles/11</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>PG help</title>
-<link href="/b/db/pg-help" rel="alternate" type="text/html"/>
-<updated>2019-11-29T00:00:00Z</updated>
-<summary/>
-<published>2019-06-20T00:00:00Z</published>
-<content># PG help
-
-    \h
-    \?
-
-show function
-
-    \sf[+]  FUNCNAME       show a function's definition
-   </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Postgre expression</title>
-<link href="/b/db/pg-expr" rel="alternate" type="text/html"/>
-<updated>2019-11-29T00:00:00Z</updated>
-<summary/>
-<published>2019-09-08T00:00:00Z</published>
-<content># Postgre expression
-
-
-# variable 
-## variable as table
-https://stackoverflow.com/questions/35559093</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>FUNCTION</title>
-<link href="/b/db/pg-ddl" rel="alternate" type="text/html"/>
-<updated>2019-11-29T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># shell
-
-## connect shell
-默认同时支持 unix domain socket + ip/port net socket
-
-    psql DBNAME USERNAME
- </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Postgre User and Authentication</title>
-<link href="/b/db/pg-ddl-user" rel="alternate" type="text/html"/>
-<updated>2020-03-04T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># help
-    \h alter
-    ALTER ROLE name RENAME TO new_name
-
-# Postgre User and Authentication
-    ps</content>
 </entry></feed>

@@ -49,7 +49,7 @@ const MD_URL='post/py/py-http.md';
 <pre id="markdown" v-pre>---
 title: py-http
 date: 2018-09-28
-updated: 2019-07-19
+updated: 2020-03-14
 ---
 # Preface
 
@@ -208,6 +208,18 @@ If you want, you can send strings to be received as files:
 
 	data=urllib.parse.parse_qs(&#x27;a=1&amp;b=1&#x27;)
 	&gt;&gt;&gt; r = requests.post(&quot;http://httpbin.org/post&quot;, data = data)
+
+### dump curl
+    def dump_curl():
+        req = response.request
+
+        command = &quot;curl -X {method} -H {headers} -d &#x27;{data}&#x27; &#x27;{uri}&#x27;&quot;
+        method = req.method
+        uri = req.url
+        data = req.body
+        headers = [&#x27;&quot;{0}: {1}&quot;&#x27;.format(k, v) for k, v in req.headers.items()]
+        headers = &quot; -H &quot;.join(headers)
+        return command.format(method=method, headers=headers, data=data, uri=uri)
 
 ## proxy
 代理
@@ -436,6 +448,9 @@ iterate
 
     for cookie in session.cookies:
         print(cookie.name, cookie.value, cookie.domain)
+
+### save/load cookie
+	session.cookies.save(COOKIE_FILE, ignore_discard=True, ignore_expires=True)
 
 other: save cookie
 
