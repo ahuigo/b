@@ -2,9 +2,39 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-03-14T19:07:49Z</updated>
+<updated>2020-03-17T17:12:10Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>vscode 笔记</title>
+<link href="/b/vsc/vsc-shortcut" rel="alternate" type="text/html"/>
+<updated>2020-03-17T00:00:00Z</updated>
+<summary/>
+<published>2018-01-03T00:00:00Z</published>
+<content># vscode
+cmd+p
+
+    ?   help
+    @{symbol} jump to symbol 
+    cmd+shift+m 切换问题面板
+    cmd+j 切换集成终端(c</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>ops-device</title>
+<link href="/b/c/ops-device" rel="alternate" type="text/html"/>
+<updated>2020-03-17T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Preface
+
+# cpu
+
+## proc/
+
+	grep -c ^processor /proc/cpuinfo
+
+## lscpu
+
+	lscpu | grep -E ^(?&lt;=CPU\(</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>安全的帐号设计</title>
 <link href="/b/sec/sec-account" rel="alternate" type="text/html"/>
 <updated>2020-03-14T00:00:00Z</updated>
@@ -464,28 +494,4 @@ locals()['bar']()
 globals()['bar']()
 
 ## exec fu</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Python 的语法</title>
-<link href="/b/py/py-expr" rel="alternate" type="text/html"/>
-<updated>2020-01-10T00:00:00Z</updated>
-<summary/>
-<published>2018-03-01T00:00:00Z</published>
-<content># 多条件compare
-多条件比较
-
-    &gt;&gt;&gt; 5&lt;i&lt;100
-    &gt;&gt;&gt; 1 &lt; 3 &gt;= 3 &gt; 1==1 &lt;100
-    True
-
-# 条件和循环
-
-## try finnaly</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Postgre 的索引</title>
-<link href="/b/db/pg-index" rel="alternate" type="text/html"/>
-<updated>2019-11-29T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Postgre Index
-本文主要围绕postgre 总结一下索引, 参考：[PostgreSQL 9种索引的原理和应用场景](https://yq.aliyun.com/articles/11</content>
 </entry></feed>
