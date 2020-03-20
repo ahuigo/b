@@ -49,7 +49,7 @@ const MD_URL='post/py/py-profiler.md';
 <pre id="markdown" v-pre>---
 title: profile
 date: 2018-10-04
-updated: 2019-10-11
+updated: 2020-03-20
 ---
 # profile
 - cProfile
@@ -105,6 +105,18 @@ py:
     p.print_stats(4)    # 打印出前4个
 
 ### for file
+prime.py
+
+    import time
+    def s(n=1): time.sleep(n)
+    def s1(): s(1)
+    def s2(): s(2)
+    def f():
+        s(3)
+        s1()
+
+    f()
+
 cProfile 执行整个脚本:
 
     python -m cProfile -o out.pstats prime.py arg1 arg2
@@ -112,14 +124,22 @@ cProfile 执行整个脚本:
     python -m cProfile -o out.pstats $(which py.test)
 
 可用以下脚本分析：
-```
+
     import pstats
     p = pstats.Stats(&#x27;out.pstats&#x27;)
     p.strip_dirs()
-    #p.sort_stats(&#x27;cumtime&#x27;)
-    p.sort_stats(&#x27;time&#x27;) # 基于对time排序
+    p.sort_stats(&#x27;cumtime&#x27;)
+    #p.sort_stats(&#x27;time&#x27;) # 基于对time排序
     p.print_stats(50)
-```
+
+结果：
+
+            self               total
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    4.007    4.007 a.py:8(f)
+        2    0.000    0.000    4.007    2.004 a.py:3(s)
+        2    4.007    2.004    4.007    2.004 {built-in method time.sleep}
+        1    0.000    0.000    1.003    1.003 a.py:6(s1)
 
 还可以使用一些图形化工具，比如 gprof2dot 来可视化分析 cProfile 的诊断结果: 火焰图,
 用dot 生成调用结构图(循环调用这种最麻烦了)
@@ -240,8 +260,6 @@ Line #      Hits         Time  Per Hit   % Time  Line Contents
     22        50           54      1.1     28.4      return [2]+[x for x in s if x]
 ```
 
-
-
 ## memory
 ```
 $ pip install psutil
@@ -278,12 +296,12 @@ memory_profiler和line_profiler有一个鲜为人知的小窍门，两者都有�
 
 这样可以节省你很多时间和精力，因为你的源代码不需要为使用这些分析命令而进行修改。
 
-### objgraph 内存泄漏在哪里？
+# objgraph 内存泄漏在哪里？
 cPython解释器使用引用计数做为记录内存使用的主要方法. 
 1. 如果程序中不再被使用的对象的引用一直被占有，那么就经常发生内存泄漏。
 2. 查找“内存泄漏”可用objgraph，查看内存中对象的数量，定位含有该对象的引用的所有代码的位置。
 
-#### 安装 objgraph
+## 安装 objgraph
 
     $ pip install objgraph
 
@@ -309,7 +327,8 @@ cPython解释器使用引用计数做为记录内存使用的主要方法.
     getset_descriptor          451
     type                       439
     ```
-    哪些对象已经被添加或删除？
+
+### 哪些对象已经被添加或删除？
 
 我们也可以查看两个时间点之间那些对象已经被添加或删除：
 
@@ -327,7 +346,8 @@ cPython解释器使用引用计数做为记录内存使用的主要方法.
     list                   667        +1
     tuple                16969        +1
     ```
-谁引用着泄漏的对象？
+
+### 谁引用着泄漏的对象？
 
 继续，你还可以查看哪里包含给定对象的引用。让我们以下述简单的程序做为一个例子：
 
@@ -335,12 +355,14 @@ cPython解释器使用引用计数做为记录内存使用的主要方法.
     x = [1]
     y = [x, [x], {&quot;a&quot;:x}]
     import pdb; pdb.set_trace()
-    ```
+
 想要看看哪里包含变量x的引用，执行objgraph.show_backref()函数：
+
     ```
     (pdb) import objgraph
     (pdb) objgraph.show_backref([x], filename=&quot;/tmp/backrefs.png&quot;)
     ```
+
 我们得到一个refs.png 引用图</pre>
 <div id="pager"></div>
 <div class="hr"></div>
