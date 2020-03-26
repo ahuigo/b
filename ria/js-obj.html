@@ -48,8 +48,8 @@ const MD_URL='post/ria/js-obj.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: js notes
-date: 2019-11-11
-updated: 2019-11-11
+date: 2020-03-26
+updated: 2020-03-26
 ---
 # Object
 
@@ -111,11 +111,11 @@ list forEach
 		console.log(key, obj[key])
 	})
 
-keys / for-in base / getOwnPropertyNames all
+keys / for-in base proto / getOwnPropertyNames enumerable
 
     var o = Object.create({base:0})
     Object.defineProperty(o, &#x27;yes&#x27;, {enumerable: true})
-    Object.defineProperty(o, &#x27;not&#x27;, {enumerable: false})
+    Object.defineProperty(o, &#x27;not&#x27;, {enumerable: false, value:2})
 
     console.log(Object.keys(o))
     // [ &#x27;yes&#x27; ]
@@ -874,7 +874,17 @@ ClassB 继承 ClassA
 	}
 	new ClassB(&#x27;red&#x27;, 5);
 
-### Call()
+### bind
+
+    i = &#x27;global&#x27;
+    obj={i:&#x27;local&#x27;, f:function(){console.log(this.i)}}
+    obj.bind(null)(); // global
+    obj.bind()(); // global
+    obj.bind({i:&#x27;haha&#x27;})(); // haha
+
+注意： bind 无法改变箭头函数的this
+
+### call()
 
 	function sayColor(sPrefix,sSuffix) {
 		alert(sPrefix + this.color + sSuffix);

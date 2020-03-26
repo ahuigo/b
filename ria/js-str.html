@@ -49,7 +49,7 @@ const MD_URL='post/ria/js-str.md';
 <pre id="markdown" v-pre>---
 title: Js 字符串大全
 date: 2015-03-15
-updated: 2020-01-17
+updated: 2020-03-26
 ---
 # Js 字符串大全
 字符定义与python 一样, 而且不区分双引号：
@@ -135,6 +135,7 @@ str vs base64 buffer
 
 str vs base64 string
 
+    ### node only
     &gt;     Buffer.from(&#x27;a&#x27;).toString(&#x27;base64&#x27;)
     &#x27;YQ==&#x27;
     &gt;     Buffer.from(&#x27;YQ==&#x27;, &#x27;base64&#x27;).toString()
@@ -224,7 +225,7 @@ trim space only
 	&#x27; a &#x27;.trimStart()
 	&#x27; a &#x27;.trimEnd()
 
-replace strip
+replace strip 字符集
 
     &#x27;#adf#&#x27;.replace(/^#+|#+$/g,&#x27;&#x27;)
 
@@ -454,7 +455,8 @@ htmlentities:
 		for (var i = 0; i &lt; hex.length; i += 2)
 			str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
 		return str;
-	}</pre>
+	}
+</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
