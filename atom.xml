@@ -2,9 +2,43 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-03-26T16:22:58Z</updated>
+<updated>2020-03-28T07:50:53Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>path</title>
+<link href="/b/vsc/vsc-path" rel="alternate" type="text/html"/>
+<updated>2020-03-28T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># path
+Available variables which can be used inside of strings.
+
+    // ${workspaceRoot}: the root f</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>hash</title>
+<link href="/b/sec/sec-hash" rel="alternate" type="text/html"/>
+<updated>2020-03-28T00:00:00Z</updated>
+<summary/>
+<published>2020-03-28T00:00:00Z</published>
+<content># Preface
+
+# hash in php
+crc32() - Calculates the crc32 polynomial of a string
+hash() - Generate a h</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-debug</title>
+<link href="/b/py/py-debug" rel="alternate" type="text/html"/>
+<updated>2020-03-28T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Preface
+1. exception
+2. 调试包括print, assert, 
+3. 使用logging/sentry/q(强烈推荐)
+4. pdb/ipdb
+3. perf 性能
+1. </content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>js notes</title>
 <link href="/b/ria/js-obj" rel="alternate" type="text/html"/>
 <updated>2020-03-26T00:00:00Z</updated>
@@ -88,7 +122,7 @@ cmd+p
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>py-http</title>
 <link href="/b/py/py-http" rel="alternate" type="text/html"/>
-<updated>2020-03-14T00:00:00Z</updated>
+<updated>2020-03-28T00:00:00Z</updated>
 <summary/>
 <published>2018-09-28T00:00:00Z</published>
 <content># Preface
@@ -454,41 +488,4 @@ time 提供基本的时间，sleep
 same as js:
 
 	print "a\nb" ;# The character he</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Js dom 笔记</title>
-<link href="/b/ria/js-dom" rel="alternate" type="text/html"/>
-<updated>2020-03-02T00:00:00Z</updated>
-<summary/>
-<published>2016-01-23T00:00:00Z</published>
-<content># Js dom 笔记
-    document.documentElement ;//html
-    document.body;  //html
-
-# Device
-## Navigator
-n</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>code split</title>
-<link href="/b/webpack/12.webpack-codesplit-and-lazy" rel="alternate" type="text/html"/>
-<updated>2019-12-06T00:00:00Z</updated>
-<summary/>
-<published>2019-12-06T00:00:00Z</published>
-<content># code split
-有三种常用的代码分离方法：
-
-    入口起点：使用 entry 配置手动地分离代码。
-    防止重复：使用 CommonsChunkPlugin 去重和分离 chunk。</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>git 使用之日志、数据恢复</title>
-<link href="/b/git/git-log" rel="alternate" type="text/html"/>
-<updated>2019-12-06T00:00:00Z</updated>
-<summary/>
-<published>2019-12-06T00:00:00Z</published>
-<content># 日志过滤
-
-## by branch
-1. `^` means not in
-1. `A..B` means from A to B(exclude A)
-
-	git log [repo/]bra</content>
 </entry></feed>
