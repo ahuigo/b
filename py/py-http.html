@@ -209,16 +209,20 @@ If you want, you can send strings to be received as files:
 	&gt;&gt;&gt; r = requests.post(&quot;http://httpbin.org/post&quot;, data = data)
 
 ### dump curl
-    def dump_curl():
-        req = response.request
-
+    def dump_curl(req):
         command = &quot;curl -X {method} -H {headers} -d &#x27;{data}&#x27; &#x27;{uri}&#x27;&quot;
         method = req.method
         uri = req.url
-        data = req.body
+        data = req.body.decode()
         headers = [&#x27;&quot;{0}: {1}&quot;&#x27;.format(k, v) for k, v in req.headers.items()]
         headers = &quot; -H &quot;.join(headers)
         return command.format(method=method, headers=headers, data=data, uri=uri)
+    req = response.request
+    dump_curl(req)
+
+### disable redirects
+    r = requests.get(&#x27;http://github.com&#x27;, allow_redirects=False)
+    print(r.status_code, r.headers[&#x27;Location&#x27;])
 
 ## proxy
 代理
@@ -375,12 +379,14 @@ You can tell Requests to stop waiting for a response after a given number of sec
 	requests.exceptions.Timeout: HTTPConnectionPool(host=&#x27;github.com&#x27;, port=80): Request timed out. (timeout=0.001)
 
 ## Cookie
-If a response contains some Cookies(instance of RequestsCookieJar), you can quickly access them:
+get Cookies(instance of RequestsCookieJar)
 
 	&gt;&gt;&gt; r.cookies[&#x27;example_cookie_name&#x27;]
 	&#x27;example_cookie_value&#x27;
+    &gt;&gt;&gt; print(r.cookies.get_dict())
 
-To send your own cookies to the server, you can use the cookies parameter:
+
+To send your own cookies
 
 	&gt;&gt;&gt; r = requests.get(url, cookies={&#x27;key&#x27;:&#x27;value&#x27;})
 	&gt;&gt;&gt; r = requests.get(url, cookies=&#x27;key=value&#x27;) # wrong!!!!

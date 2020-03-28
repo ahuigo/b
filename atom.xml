@@ -2,9 +2,21 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-03-28T07:50:53Z</updated>
+<updated>2020-03-28T19:10:30Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>golang pkg的使用</title>
+<link href="/b/go/2.go-pkg-dev" rel="alternate" type="text/html"/>
+<updated>2020-03-28T00:00:00Z</updated>
+<summary/>
+<published>2016-09-27T00:00:00Z</published>
+<content># gopath 结构
+1. 参考How to Write Go Code https://golang.org/doc/code.html
+
+2. 环境变量$ go env
+
+## workspac</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>path</title>
 <link href="/b/vsc/vsc-path" rel="alternate" type="text/html"/>
 <updated>2020-03-28T00:00:00Z</updated>
@@ -474,18 +486,4 @@ time 提供基本的时间，sleep
 	time.time()
 		19972314124.05238
         time.localetime(</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Python 字符处理</title>
-<link href="/b/py/py-str" rel="alternate" type="text/html"/>
-<updated>2019-12-25T00:00:00Z</updated>
-<summary/>
-<published>2017-08-09T00:00:00Z</published>
-<content># Python 字符处理
-- serialize
-见/py/py-serial.md
-
-# String
-same as js:
-
-	print "a\nb" ;# The character he</content>
 </entry></feed>
