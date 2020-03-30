@@ -2,9 +2,65 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-03-28T19:10:30Z</updated>
+<updated>2020-03-30T13:05:07Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>vim plug 插件系统</title>
+<link href="/b/vim/nvim-plugin" rel="alternate" type="text/html"/>
+<updated>2020-03-30T00:00:00Z</updated>
+<summary/>
+<published>2018-05-09T00:00:00Z</published>
+<content># vim plug 插件系统
+
+    curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+        ht</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Requests</title>
+<link href="/b/py/py-aiohttp" rel="alternate" type="text/html"/>
+<updated>2020-03-30T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Requests
+Refer to: http://aiohttp.readthedocs.io/en/stable/tutorial.html#aiohttp-tutorial
+```
+impo</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>server</title>
+<link href="/b/py/py-aiohttp-server" rel="alternate" type="text/html"/>
+<updated>2020-03-30T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># server
+异步编程要小心循环阻塞, 不可以使所有任务task被阻塞的函数：
+1. time.sleep(10)
+
+## simple server
+
+    from aiohttp impo</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Golang 的结构体</title>
+<link href="/b/go/go-struct" rel="alternate" type="text/html"/>
+<updated>2020-03-30T00:00:00Z</updated>
+<summary/>
+<published>2019-03-24T00:00:00Z</published>
+<content># Golang Notes: struct
+struct 是值类型，slice 是引用类型(指针), 以下赋值方法是按值的
+
+    type A struct{x int; b string}
+ </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>golang help</title>
+<link href="/b/go/11.go-help" rel="alternate" type="text/html"/>
+<updated>2020-03-30T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># help command
+Use "go help [command]" for more information about a command.
+
+    go help fmt
+
+# go </content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>golang pkg的使用</title>
 <link href="/b/go/2.go-pkg-dev" rel="alternate" type="text/html"/>
 <updated>2020-03-28T00:00:00Z</updated>
@@ -134,7 +190,7 @@ cmd+p
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>py-http</title>
 <link href="/b/py/py-http" rel="alternate" type="text/html"/>
-<updated>2020-03-28T00:00:00Z</updated>
+<updated>2020-03-30T00:00:00Z</updated>
 <summary/>
 <published>2018-09-28T00:00:00Z</published>
 <content># Preface
@@ -366,9 +422,9 @@ Netcat 或者叫 </content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>curl manual</title>
 <link href="/b/c/ops-curl" rel="alternate" type="text/html"/>
-<updated>2020-03-14T00:00:00Z</updated>
+<updated>2020-03-30T00:00:00Z</updated>
 <summary/>
-<published>2020-03-14T00:00:00Z</published>
+<published>2020-03-30T00:00:00Z</published>
 <content># curlt to python/node/go...
 curl 转换器: https://curl.trillworks.com/
 
@@ -427,63 +483,4 @@ https://materi</content>
 
 ## 等差数列(arithmetic progression (AP) or arithmetic sequence)
 $S_n=n(a_n+a_1)/2</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>hadoop 介绍</title>
-<link href="/b/db/had-" rel="alternate" type="text/html"/>
-<updated>2019-12-31T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># hadoop 介绍
-http://www.cnblogs.com/sunddenly/p/3977011.html
-hadoop 大数据时代的宠儿-池建强
-http://www.cnblogs.c</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>install java</title>
-<link href="/b/java/1.java-install" rel="alternate" type="text/html"/>
-<updated>2019-12-27T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># install java
-    JRE： Java Runtime Environment
-    JDK：Java Development Kit 
-    JDK = JRE(JVM)+ja</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>JS Math</title>
-<link href="/b/ria/js-math" rel="alternate" type="text/html"/>
-<updated>2019-12-31T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Math
-
-	E	返回算术常量 e，即自然对数的底数（约等于2.718）。
-	LN2	返回 2 的自然对数（约等于0.693）。
-	LN10	返回 10 的自然对数（约等于2.302）。
-	LOG</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>grep &amp; ag 的使用</title>
-<link href="/b/c/shell-grep" rel="alternate" type="text/html"/>
-<updated>2019-12-27T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># grep &amp; ag 的使用
-# ag
-ag 比ack/grep 还快
-
-    brew install the_silver_searcher
-
-
-## 自动忽略`.gitinore/.hgig</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>python 时间函数的用法笔记</title>
-<link href="/b/py/py-time" rel="alternate" type="text/html"/>
-<updated>2019-12-31T00:00:00Z</updated>
-<summary/>
-<published>2018-04-02T00:00:00Z</published>
-<content># time 工具
-time 提供基本的时间，sleep
-
-	import time
-	time.time()
-		19972314124.05238
-        time.localetime(</content>
 </entry></feed>

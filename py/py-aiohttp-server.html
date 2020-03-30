@@ -36,7 +36,7 @@ const MD_URL='post/py/py-aiohttp-server.md';
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,7 +49,7 @@ const MD_URL='post/py/py-aiohttp-server.md';
 <pre id="markdown" v-pre>---
 title: server
 date: 2018-09-28
-updated: 2019-03-12
+updated: 2020-03-30
 ---
 # server
 异步编程要小心循环阻塞, 不可以使所有任务task被阻塞的函数：
@@ -238,7 +238,27 @@ e.g.
     app.router.add_get(&#x27;/greet/{name}&#x27;, Handler().handle_greeting)
     name = request.match_info.get(&#x27;name&#x27;, &quot;Anonymous&quot;)
 
+
+## files
+    data = yield from request.post()
+
+    # filename contains the name of the file in string format.
+    filename = data[&#x27;mp3&#x27;].filename
+
+    # input_file contains the actual file data which needs to be
+    # stored somewhere.
+
+    input_file = data[&#x27;mp3&#x27;].file
+
+    content = input_file.read()
+
+
 # Response
+
+    def handler(request):
+        data = {&#x27;some&#x27;: &#x27;data&#x27;}
+        return web.json_response(data)
+
 ## response type
     1. text: 
         return web.Response(text=&quot;Hello, world&quot;, status=404)
@@ -248,6 +268,9 @@ e.g.
     3. file:
         return web.FileResponse(&#x27;./index.html&#x27;)
         app.router.add_static(&#x27;/prefix&#x27;, path_to_static_folder)
+
+## response header cookie
+
 
 ## Template Rendering
 1. First, setup a jinja2 environment with a call to aiohttp_jinja2.setup():
@@ -269,6 +292,8 @@ e.g.
         return web.json_response(data)
 
 ## WebSockets
+&gt; https://www.liaoxuefeng.com/wiki/001434446689867b27157e896e74d51a89c25cc8b43bdb3000/0014727922914053479c966220f47da91991fa9c27ac3ea000
+&gt; 
 aiohttp.web supports WebSockets out-of-the-box.
 
     async def websocket_handler(request):
