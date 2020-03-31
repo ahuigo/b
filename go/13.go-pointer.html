@@ -49,7 +49,7 @@ const MD_URL='post/go/13.go-pointer.md';
 <pre id="markdown" v-pre>---
 title: Golang 指针
 date: 2018-09-27
-updated: 2019-09-11
+updated: 2020-03-31
 ---
 # Pointers
 1. 支持指针类型 *T,指针的指针 **T,以及包含包名前缀的 `*&lt;package&gt;.T`。
@@ -65,6 +65,31 @@ updated: 2019-09-11
     p = &amp;d
     fmt.Printf(&quot;%p, %v, %v\n&quot;, p, *p, p.a)
     fmt.Printf(&quot;%p, %v, %v\n&quot;, &amp;d, d, d.a)
+
+## type with pointer(error)
+You can&#x27;t declare a new type with a pointer TypeSpec.
+
+    // wrong
+    type T *int
+    func (t T)B(){
+        fmt.Println(t)
+    }
+
+Declaring a new type is used specifically to **remove the entire method set**
+
+不要用`type Connection *ssh.Client`, 要用Anonymous extend
+
+    type Connection struct {
+        *ssh.Client
+    }
+
+
+## convert pointer T
+
+    type T int
+    i := int(10)
+    a:= &amp;i
+    b := T(*a)
 
 ## pointer address 
 pointer address 本身也是变量，其地址不可变

@@ -2,9 +2,59 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-03-30T13:05:07Z</updated>
+<updated>2020-03-31T15:34:04Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>vim-motion</title>
+<link href="/b/vim/vim-motion" rel="alternate" type="text/html"/>
+<updated>2020-03-31T00:00:00Z</updated>
+<summary/>
+<published>2020-03-31T00:00:00Z</published>
+<content># Motion, Movement
+Movement 移动光标、字符，Vim 最核心的功能操作
+
+    基本 hjkl
+    单词 
+        小单词wbe
+            w: </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>go 的变量</title>
+<link href="/b/go/7.go-var" rel="alternate" type="text/html"/>
+<updated>2020-03-31T00:00:00Z</updated>
+<summary/>
+<published>2016-09-27T00:00:00Z</published>
+<content># go print
+## println
+只能用于string, int..
+
+    # no need import fmt
+    println(xyz)
+
+## fmt.Println
+a</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>map</title>
+<link href="/b/go/7.go-var-map" rel="alternate" type="text/html"/>
+<updated>2020-03-31T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># map
+
+## define map
+键必须是⽀支持相等运算符 (==、!=) 类型，⽐比如 number、string、 pointer、array、struct，以及对应的 interface</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Golang 指针</title>
+<link href="/b/go/13.go-pointer" rel="alternate" type="text/html"/>
+<updated>2020-03-31T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Pointers
+1. 支持指针类型 *T,指针的指针 **T,以及包含包名前缀的 `*&lt;package&gt;.T`。
+2. 不能对指针做加减法等运算。
+3. 默认是`nil`, 没有`NULL`
+
+</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>vim plug 插件系统</title>
 <link href="/b/vim/nvim-plugin" rel="alternate" type="text/html"/>
 <updated>2020-03-30T00:00:00Z</updated>
@@ -40,7 +90,7 @@ impo</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Golang 的结构体</title>
 <link href="/b/go/go-struct" rel="alternate" type="text/html"/>
-<updated>2020-03-30T00:00:00Z</updated>
+<updated>2020-03-31T00:00:00Z</updated>
 <summary/>
 <published>2019-03-24T00:00:00Z</published>
 <content># Golang Notes: struct
@@ -432,55 +482,4 @@ curl 转换器: https://curl.trillworks.com/
 
 	-F,--form
 	-D- Dump t</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>收集了下UI 动画特效</title>
-<link href="/b/ui/ui-animation" rel="alternate" type="text/html"/>
-<updated>2019-12-31T00:00:00Z</updated>
-<summary/>
-<published>2019-02-09T00:00:00Z</published>
-<content># UI 动画特效
-https://medium.com/@ann.green/loading-indicators-e9d9ac9680b
-
-# Materia UI 
-https://materi</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>tcp/ip 协议</title>
-<link href="/b/net/net-tcpip" rel="alternate" type="text/html"/>
-<updated>2019-12-31T00:00:00Z</updated>
-<summary/>
-<published>2011-11-11T00:00:00Z</published>
-<content># 互联网协议栈
-分为链路层(link), 网络层(Network), 传输层(Transport), 应用层(Application)
-
-应用层
-	DHCP DHCPv6 DNS FTP Gophe</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Python 的math 语法</title>
-<link href="/b/py/math/py-math" rel="alternate" type="text/html"/>
-<updated>2019-12-31T00:00:00Z</updated>
-<summary/>
-<published>2019-12-31T00:00:00Z</published>
-<content># number
-
-    0x61
-    0o77
-    0b11
-
-## random
-
-	import random
-	random.randint(3,8)
-
-	# 主要用于密码强随机
-	</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>sequence of numbers</title>
-<link href="/b/math/math-num-seq" rel="alternate" type="text/html"/>
-<updated>2019-12-31T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># sequence of numbers
-
-## 等差数列(arithmetic progression (AP) or arithmetic sequence)
-$S_n=n(a_n+a_1)/2</content>
 </entry></feed>

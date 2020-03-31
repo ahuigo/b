@@ -49,12 +49,14 @@ const MD_URL='post/go/7.go-var-map.md';
 <pre id="markdown" v-pre>---
 title: map
 date: 2018-09-27
-updated: 2019-07-21
+updated: 2020-03-31
 ---
 # map
 
 ## define map
 键必须是⽀支持相等运算符 (==、!=) 类型，⽐比如 number、string、 pointer、array、struct，以及对应的 interface。值可以是任意类型，没有限制。
+
+    map[KEY]VALUE
 
 ### make map
 
@@ -100,14 +102,12 @@ init with variable key:
 The `zero` value of a map is `nil`. A `nil` map has no keys, nor can keys be added.
 
   var m map[string]int
-  fmt.Println(m==nil); //true
-  fmt.Printf(&quot;%#v\n&quot;, m)
-    //map[string]int(nil)
+  fmt.Println(m==nil);      //true
+  fmt.Printf(&quot;%#v\n&quot;, m)    //map[string]int(nil)
 
   m=make(map[string]int)
-  fmt.Println(m==nil); //false
-  fmt.Printf(&quot;%#v\n&quot;, m)
-    // map[string]int{}
+  fmt.Println(m==nil);      //false
+  fmt.Printf(&quot;%#v\n&quot;, m)    // map[string]int{}
 
 ## add
     m[&quot;new_key&quot;] = 1

@@ -49,7 +49,7 @@ const MD_URL='post/go/7.go-var.md';
 <pre id="markdown" v-pre>---
 title: go 的变量
 date: 2016-09-27
-updated: 2019-09-01
+updated: 2020-03-31
 ---
 # go print
 ## println
@@ -243,11 +243,22 @@ When you need an integer value you should use `int` unless you have a specific r
 	fmt.Printf(&quot;type :%T\n&quot;,i)
 
 ## Alias Type
+type alias
+
+	type S = []int
+
+type definition 是新类型,不是别名
 
 	type MyFloat float64
 	type A [3]int
 	type S []int
-	type S = []int
+
+### interface conver
+
+    type MyInt int
+    type MyInt2 int
+    var a interface{} = int(10)
+    var b MyInt = a.(MyInt)     //error: MyInt 与int 是不同的类型
 
 ## Type convert
 The expression T(v) converts the value v to the type T.
@@ -265,6 +276,7 @@ The expression T(v) converts the value v to the type T.
 
     &lt;-chan int(c) // 相当于 &lt;-(chan int(c)) 
     (&lt;-chan int)(c)
+
 
 ## 未命名类型 与 隐式转换
 相同声明的未命名类型（array,slice, map 等）才视为同一类型, 未命名类型类型及长度都不确定

@@ -48,8 +48,8 @@ const MD_URL='post/py/math/py-math.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: Python 的math 语法
-date: 2019-12-31
-updated: 2019-12-31
+date: 2020-03-31
+updated: 2020-03-31
 ---
 # number
 
@@ -58,8 +58,13 @@ updated: 2019-12-31
     0b11
 
 ## random
+`[0,1)` 小数
 
 	import random
+    random.random()
+
+包含`[3,8]` 的整数
+
 	random.randint(3,8)
 
 	# 主要用于密码强随机
@@ -71,7 +76,9 @@ updated: 2019-12-31
 
     import math
     math.ceil(x)
+        负数： -(-5//2) == math.ceil(5/2)
     math.floor(x) == x//1
+        正数：math.floor(5/2) == 5//2	
     round(x, 2) # 小数点后两位, 四舍五入
 		&#x27;%.2f&#x27;%x
 	&#x27;%.3e&#x27; % 53.3432 # 有效位数，四舍五入
@@ -79,8 +86,6 @@ updated: 2019-12-31
 ## operator
 
     2**5	math.pow(2,5)
-    5//2	math.floor(5/2)
-    -(-5//2) math.ceil(5/2)
 
 ## number type
 
