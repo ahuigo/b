@@ -49,7 +49,7 @@ const MD_URL='post/py/py-argv.md';
 <pre id="markdown" v-pre>---
 title: py-argv
 date: 2018-09-28
-updated: 2019-07-19
+updated: 2020-04-03
 ---
 # Preface
 - click
@@ -95,6 +95,7 @@ click 之于argparse/argv, 相当于requests 之于urllib
 
     import argparse
     parser = argparse.ArgumentParser()
+    parser.add_argument(&quot;-n&quot;, &quot;--name&quot;, default=&quot;ahui&quot;, help=&quot;your name&quot;)
     parser.parse_args()
 
 ## description and help
@@ -104,11 +105,10 @@ click 之于argparse/argv, 相当于requests 之于urllib
 
 ## file
 
-    &gt;&gt;&gt; parser = argparse.ArgumentParser()
-    &gt;&gt;&gt; parser.add_argument(&#x27;--raw&#x27;, type=argparse.FileType(&#x27;wb&#x27;, 0))
-    &gt;&gt;&gt; parser.add_argument(&#x27;out&#x27;, type=argparse.FileType(&#x27;w&#x27;, encoding=&#x27;UTF-8&#x27;))
-    &gt;&gt;&gt; parser.parse_args([&#x27;--raw&#x27;, &#x27;raw.dat&#x27;, &#x27;file.txt&#x27;])
-    Namespace(out=&lt;_io.TextIOWrapper name=&#x27;file.txt&#x27; mode=&#x27;w&#x27; encoding=&#x27;UTF-8&#x27;&gt;, raw=&lt;_io.FileIO name=&#x27;raw.dat&#x27; mode=&#x27;wb&#x27;&gt;)
+    parser = argparse.ArgumentParser()
+    parser.add_argument(&#x27;--raw&#x27;, type=argparse.FileType(&#x27;wb&#x27;, 0))
+    parser.add_argument(&#x27;out&#x27;, type=argparse.FileType(&#x27;w&#x27;, encoding=&#x27;UTF-8&#x27;))
+    parser.parse_args([&#x27;--raw&#x27;, &#x27;raw.dat&#x27;, &#x27;file.txt&#x27;])
 
 ## enum args
     from enum import Enum

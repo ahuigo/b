@@ -36,7 +36,7 @@ const MD_URL='post/py/py-pkg-setuptool.md';
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,7 +49,7 @@ const MD_URL='post/py/py-pkg-setuptool.md';
 <pre id="markdown" v-pre>---
 title: py-pkg-setuptool
 date: 2018-10-04
-updated: 2019-03-12
+updated: 2020-04-03
 ---
 # Preface
 https://packaging.python.org/tutorials/packaging-projects/
@@ -164,7 +164,6 @@ use:
     1. use your existing login,
     2. register as a new user,
     3. have the server generate a new password for you (and email it to you), or
-    4. quit
     Your selection [default 1]:
 
 Once this is done, `~/.pypirc` file will store the login name and the password. 
@@ -180,11 +179,16 @@ run Twine to upload all of the archives under dist:
     # pip install --upgrade twine
     twine upload  dist/*
 
+一键上传：
+
+    python setup.py sdist bdist_wininst upload -r http://example.com/pypi
+
 use:
 
     pip install --index-url https://test.pypi.org/simple/ example_pkg
 
-# subcommand
+# Config
+## subcommand
 https://stackoverflow.com/questions/1710839/custom-distutils-commands
 有两种`distutils.commmands`,`cmdclass`
 
@@ -194,7 +198,7 @@ https://stackoverflow.com/questions/1710839/custom-distutils-commands
         ],
     },
 
-## cmdclass
+### cmdclass
 我们添加一个测试命令为例子吧：
 
     from setuptools.command.test import test as TestCommand
@@ -221,20 +225,7 @@ https://stackoverflow.com/questions/1710839/custom-distutils-commands
         def test_main(self):
             assert &quot;Lucy&quot; in sh(&#x27;echo &quot;Lucy,Artist,16&quot; | xcut -f 1 -t index --no-title&#x27;)
 
-# import obj
-
-    # Install the Q() object in sys.modules so that &quot;import q&quot; gives a callable q.
-    sys.modules[&#x27;q&#x27;] = Q()
-
-# Requirements
-pip freeze &gt; requirements.txt
-pip install -r requirements.txt
-
-# install dev
-
-    pip install -e dir 
-
-# cli tool
+## cli tool
 可以在setup.py 为script 加入口.
 
 1. 第一种scripts：
@@ -252,7 +243,24 @@ pip install -r requirements.txt
         flaskr2=bin.fileset2:main
     &#x27;&#x27;&#x27;
 
-注意，安装`pip install -e .` 之后的再`uninstall` 不会删除/usr/bin 目录下的fileset</pre>
+注意，安装`pip install -e .` 之后的再`uninstall` 不会删除/usr/bin 目录下的fileset
+
+# import obj
+
+    # Install the Q() object in sys.modules so that &quot;import q&quot; gives a callable q.
+    sys.modules[&#x27;q&#x27;] = Q()
+
+# Requirements
+    pip freeze &gt; requirements.txt
+    pip install -r requirements.txt
+
+# install dev
+
+    pip install -e dir 
+    pip install -e /xxx/xxx
+    pip install -e .
+
+</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">

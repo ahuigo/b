@@ -2,9 +2,76 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-03-31T15:34:04Z</updated>
+<updated>2020-04-03T01:50:22Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>css 布局</title>
+<link href="/b/ria/js-css-layout" rel="alternate" type="text/html"/>
+<updated>2020-04-03T00:00:00Z</updated>
+<summary/>
+<published>2018-03-03T00:00:00Z</published>
+<content># CSS 布局
+&gt; 参考: http://zh.learnlayout.com/position.html
+
+# display
+1. block: This makes the element a</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-pkg-setuptool</title>
+<link href="/b/py/py-pkg-setuptool" rel="alternate" type="text/html"/>
+<updated>2020-04-03T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Preface
+https://packaging.python.org/tutorials/packaging-projects/
+
+setuptools 与 disutils
+1. distu</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-argv</title>
+<link href="/b/py/py-argv" rel="alternate" type="text/html"/>
+<updated>2020-04-03T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Preface
+- click
+click 之于argparse/argv, 相当于requests 之于urllib
+
+命令行程序开发
+
+	asciimatics：跨平台，全屏终端包（即鼠标/键</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>current status of China</title>
+<link href="/b/life/covid-19" rel="alternate" type="text/html"/>
+<updated>2020-04-03T00:00:00Z</updated>
+<summary/>
+<published>2020-04-03T00:00:00Z</published>
+<content># current status of China
+China has 829 million Internet users
+
+# hideing cases?
+Hide cases???
+In Ch</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>ina is only the first country to detect the virus. If the first country which detect and report the virus should responsible for it, then no country will report the virus.</title>
+<link href="/b/life/covid-19-china" rel="alternate" type="text/html"/>
+<updated>2020-04-03T00:00:00Z</updated>
+<summary/>
+<published>2020-04-03T00:00:00Z</published>
+<content>China is only the first country to detect the virus. If the first country which detect and report th</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>go str</title>
+<link href="/b/go/go-str-serial" rel="alternate" type="text/html"/>
+<updated>2020-04-03T00:00:00Z</updated>
+<summary/>
+<published>2019-05-06T00:00:00Z</published>
+<content># go json
+
+## encode marshal bytes
+
+    import "encoding/json"
+    type response2 struct {
+        P</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>vim-motion</title>
 <link href="/b/vim/vim-motion" rel="alternate" type="text/html"/>
 <updated>2020-03-31T00:00:00Z</updated>
@@ -20,7 +87,7 @@ Movement 移动光标、字符，Vim 最核心的功能操作
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>go 的变量</title>
 <link href="/b/go/7.go-var" rel="alternate" type="text/html"/>
-<updated>2020-03-31T00:00:00Z</updated>
+<updated>2020-04-03T00:00:00Z</updated>
 <summary/>
 <published>2016-09-27T00:00:00Z</published>
 <content># go print
@@ -35,7 +102,7 @@ a</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>map</title>
 <link href="/b/go/7.go-var-map" rel="alternate" type="text/html"/>
-<updated>2020-03-31T00:00:00Z</updated>
+<updated>2020-04-03T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># map
@@ -146,7 +213,7 @@ hash() - Generate a h</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>py-debug</title>
 <link href="/b/py/py-debug" rel="alternate" type="text/html"/>
-<updated>2020-03-28T00:00:00Z</updated>
+<updated>2020-04-03T00:00:00Z</updated>
 <summary/>
 <published>2018-09-28T00:00:00Z</published>
 <content># Preface
@@ -411,75 +478,4 @@ e.g.
 	'\x31' == "\x31"
 
 	'好' === '\u597D' //</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Js Array 整理</title>
-<link href="/b/ria/js-array" rel="alternate" type="text/html"/>
-<updated>2020-01-10T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Js Array 整理
-array 不像string 是primitive value, 所以length 可以缩短放大array。
-
-	arr = [1,2,3]
-	arr.length = 1</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>test</title>
-<link href="/b/c/ops-benchmark" rel="alternate" type="text/html"/>
-<updated>2020-01-08T00:00:00Z</updated>
-<summary/>
-<published>2020-01-08T00:00:00Z</published>
-<content># Preface
-
-性能/压力测试的内涵：
-
-	基准/基线测试 base line testing / benchmark testing
-	负载测试 load testing
-	压力测试 stre</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>tcpdump</title>
-<link href="/b/net/net-tcpdump" rel="alternate" type="text/html"/>
-<updated>2020-01-04T00:00:00Z</updated>
-<summary/>
-<published>2020-01-04T00:00:00Z</published>
-<content># tcpdump
-example: https://www.rationallyparanoid.com/articles/tcpdump.html
-book:
-
-学术的说，tcpdump是一种嗅探</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>netcat</title>
-<link href="/b/net/net-ncat" rel="alternate" type="text/html"/>
-<updated>2020-01-04T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># netcat,
-[nc](http://www.oschina.net/translate/linux-netcat-command?p=2#comments)
-
-# nc
-Netcat 或者叫 </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>python 字典</title>
-<link href="/b/py/py-var-dict" rel="alternate" type="text/html"/>
-<updated>2020-01-03T00:00:00Z</updated>
-<summary/>
-<published>2020-01-03T00:00:00Z</published>
-<content># Dict
-
-    key='city'
-	dic = {'x': 1, 'y': 2, 2:100, key:'bj'}
-	del dict['x']
-    dict.pop(2) # key</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>curl manual</title>
-<link href="/b/c/ops-curl" rel="alternate" type="text/html"/>
-<updated>2020-03-30T00:00:00Z</updated>
-<summary/>
-<published>2020-03-30T00:00:00Z</published>
-<content># curlt to python/node/go...
-curl 转换器: https://curl.trillworks.com/
-
-# Usage
-
-	-F,--form
-	-D- Dump t</content>
 </entry></feed>

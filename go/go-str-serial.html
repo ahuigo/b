@@ -49,7 +49,7 @@ const MD_URL='post/go/go-str-serial.md';
 <pre id="markdown" v-pre>---
 title: go str
 date: 2019-05-06
-updated: 2019-08-04
+updated: 2020-04-03
 ---
 # go json
 
@@ -64,6 +64,13 @@ updated: 2019-08-04
     bytes1 := json.Marshal(response2{})
     bytes1 := json.Marshal(&amp;response2{})
 
+map
+
+    bytes1 := json.Marshal(map[string]interface{}{
+        &quot;a&quot;:1,
+        &quot;k2&quot;:&quot;b&quot;,
+    })
+
 ### encode stdout
     enc := json.NewEncoder(os.Stdout)
     d := map[string]int{&quot;apple&quot;: 5, &quot;lettuce&quot;: 7}
@@ -71,7 +78,15 @@ updated: 2019-08-04
 
 ## Unmarshal
 ### str to struct
-    res := response2{}
+https://gobyexample.com/json
+
+    type Resp struct {
+        Name            string              `json:&quot;name&quot;`
+        Description     string              `json:&quot;description&quot;`
+        Fruits []string `json:&quot;fruits&quot;`
+
+    }
+    res := Resp{}
     json.Unmarshal([]byte(str), &amp;res)
 
 ### str to map 

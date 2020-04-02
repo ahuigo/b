@@ -49,7 +49,7 @@ const MD_URL='post/py/py-debug.md';
 <pre id="markdown" v-pre>---
 title: py-debug
 date: 2018-09-28
-updated: 2020-03-28
+updated: 2020-04-03
 ---
 # Preface
 1. exception
@@ -71,20 +71,6 @@ getframe(0) 是`debug_info`本身，getframe(1) 是caller
             &#x27;caller&#x27;:sys._getframe(1).f_code.co_name,
         }
 
-或者：
-
-    import sys
-    def foo(exctype, value, tb):
-        print(&#x27;My Error Information&#x27;)
-        print(&#x27;Type:&#x27;, exctype)
-        print(&#x27;Value:&#x27;, value)
-        print(&#x27;Traceback:&#x27;, tb)
-        print(&#x27;tb_frame&#x27;, tb.tb_frame)
-        import code
-        code.interact(local=locals())
-
-    sys.excepthook = foo
-
 ## 异常调用栈
     try:
         a=1/0
@@ -92,6 +78,31 @@ getframe(0) 是`debug_info`本身，getframe(1) 是caller
         print(e) # only e.__str__
         import traceback
         tb = traceback.format_exc()
+
+## global exception handler
+
+    import sys
+    def my_except_hook(exctype, value, traceback):
+        if exctype == KeyboardInterrupt:
+            print(&quot;Handler code goes here&quot;)
+        print(&#x27;Value:&#x27;, value)
+        print(&#x27;tb_frame&#x27;, traceback.tb_frame)
+        &lt;!-- print(&#x27;tb_frame&#x27;, traceback.format_exc()) --&gt;
+        sys.__excepthook__(exctype, value, traceback)
+    sys.excepthook = my_except_hook
+
+## interactive
+    import sys
+    def foo(exctype, value, traceback):
+        print(&#x27;My Error Information&#x27;)
+        print(&#x27;Type:&#x27;, exctype)
+        print(&#x27;Value:&#x27;, value)
+        print(&#x27;Traceback:&#x27;, traceback)
+        print(&#x27;tb_frame&#x27;, traceback.tb_frame)
+        import code
+        code.interact(local=locals())
+
+    sys.excepthook = foo
 
 ## For More
 Python 代码调试技巧: \

@@ -49,7 +49,7 @@ const MD_URL='post/go/7.go-var-map.md';
 <pre id="markdown" v-pre>---
 title: map
 date: 2018-09-27
-updated: 2020-03-31
+updated: 2020-04-03
 ---
 # map
 
@@ -74,9 +74,17 @@ updated: 2020-03-31
     fmt.Println(v) // 输出 2
 
 ### init map(可以扩容)
+key:int
 
     m1 := map[string]int{&quot;one&quot;: 1, &quot;two&quot;: 2, &quot;three&quot;: 3}
     fmt.Println(m1) //输出 map[two:2 three:3 one:1] (顺序在运行时可能不一样)
+
+key:interface
+
+    map[string]interface{}{
+        &quot;a&quot;:1,
+        &quot;k2&quot;:&quot;b&quot;,
+    }
 
 struct map:
 
