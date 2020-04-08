@@ -49,7 +49,7 @@ const MD_URL='post/py/py-func.md';
 <pre id="markdown" v-pre>---
 title: py-func
 date: 2018-09-28
-updated: 2019-11-30
+updated: 2020-04-08
 ---
 # Preface
 
@@ -79,6 +79,7 @@ Next, your subfile.py can import globals:
 
 	import settings
 	settings.myList.append(&#x27;hey&#x27;)
+
 
 # function
 
@@ -264,6 +265,12 @@ or:
         foo.counter += 1
 
 # args
+## destruct args
+    *args, **kw
+
+    l = [*l1, *l2]
+    l = l1+l2
+
 ## find def args name:
 
 &gt;&gt;&gt; func = lambda x, y: (x, y)

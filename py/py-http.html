@@ -49,7 +49,7 @@ const MD_URL='post/py/py-http.md';
 <pre id="markdown" v-pre>---
 title: py-http
 date: 2018-09-28
-updated: 2020-03-30
+updated: 2020-04-08
 ---
 # Preface
 
@@ -379,6 +379,7 @@ You can tell Requests to stop waiting for a response after a given number of sec
 	requests.exceptions.Timeout: HTTPConnectionPool(host=&#x27;github.com&#x27;, port=80): Request timed out. (timeout=0.001)
 
 ## Cookie
+### get cookie
 get Cookies(instance of RequestsCookieJar)
 
 	&gt;&gt;&gt; r.cookies[&#x27;example_cookie_name&#x27;]
@@ -386,6 +387,7 @@ get Cookies(instance of RequestsCookieJar)
     &gt;&gt;&gt; print(r.cookies.get_dict())
 
 
+### send cookie
 To send your own cookies
 
 	&gt;&gt;&gt; r = requests.get(url, cookies={&#x27;key&#x27;:&#x27;value&#x27;})
