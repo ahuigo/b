@@ -49,7 +49,7 @@ const MD_URL='post/py/py-http.md';
 <pre id="markdown" v-pre>---
 title: py-http
 date: 2018-09-28
-updated: 2020-04-08
+updated: 2020-04-09
 ---
 # Preface
 
@@ -68,12 +68,26 @@ urllib2 is deprecated, use requests instead , except: `urllib.parse.urlsplit/url
         print(&#x27;Data:&#x27;, data.decode(&#x27;utf-8&#x27;))
 
 ## .parse.urlparse
-	urllib.parse.urlsplit(url)
-	urllib.parse.urlparse(url)
+	u = urllib.parse.urlparse(url)
 		.scheme
 		.path
 		.query
 		.netloc not .host
+    &gt;&gt;&gt; u._replace(scheme=&#x27;http&#x27;)
+
+urlparse
+
+    &gt;&gt;&gt; from urlparse import urlparse
+    &gt;&gt;&gt; o = urlparse(&#x27;http://www.cwi.nl:80/%7Eguido/Python.html&#x27;)
+    &gt;&gt;&gt; o   
+    ParseResult(scheme=&#x27;http&#x27;, netloc=&#x27;www.cwi.nl:80&#x27;, path=&#x27;/%7Eguido/Python.html&#x27;,
+                params=&#x27;&#x27;, query=&#x27;&#x27;, fragment=&#x27;&#x27;)
+    &gt;&gt;&gt; o.scheme
+    &#x27;http&#x27;
+    &gt;&gt;&gt; o.port
+    80
+    &gt;&gt;&gt; o.geturl()
+    &#x27;http://www.cwi.nl:80/%7Eguido/Python.html&#x27;
 
 ### .parse.parse_qsl
 

@@ -49,7 +49,7 @@ const MD_URL='post/py/py-debug.md';
 <pre id="markdown" v-pre>---
 title: py-debug
 date: 2018-09-28
-updated: 2020-04-03
+updated: 2020-04-09
 ---
 # Preface
 1. exception
@@ -84,7 +84,7 @@ getframe(0) 是`debug_info`本身，getframe(1) 是caller
     import sys
     def my_except_hook(exctype, value, traceback):
         if exctype == KeyboardInterrupt:
-            print(&quot;Handler code goes here&quot;)
+            print(&quot;KeyboardInterrupt...&quot;)
         print(&#x27;Value:&#x27;, value)
         print(&#x27;tb_frame&#x27;, traceback.tb_frame)
         &lt;!-- print(&#x27;tb_frame&#x27;, traceback.format_exc()) --&gt;
@@ -109,8 +109,12 @@ Python 代码调试技巧: \
     https://www.ibm.com/developerworks/cn/linux/l-cn-pythondebugger/
 
 # 异常
+## new Exception
 
-## exception
+    e = Exception(obj1, obj2)
+    e.args # (obj1,obj2)
+
+## exception type
 
     BaseException
      +-- SystemExit
