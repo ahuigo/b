@@ -5,7 +5,7 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/ria/js-css-layout.md';
+const MD_URL='post/ria/css-layout.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
@@ -49,9 +49,9 @@ const MD_URL='post/ria/js-css-layout.md';
 <pre id="markdown" v-pre>---
 title: css 布局
 date: 2018-03-03
-updated: 2020-04-09
+updated: 2020-04-10
 ---
-# CSS 布局
+# 参考
 &gt; 参考: http://zh.learnlayout.com/position.html
 
 # display
@@ -61,7 +61,7 @@ updated: 2020-04-09
 4. none: disappear from the page entirely!
 
 # container, 容器
-1. block, 块容器 [](/ria/js-css-flex.md)
+1. block, 块容器 
 1. flex 容器
 1. table 容器
 1. inline-[block|flex|...] 行内级
@@ -96,21 +96,21 @@ img 会超出div范围, 可以用max-width 限制
 
     &lt;img style=&#x27;max-height: 100%; max-width: 100%; &#x27;/&gt; 
 
-# table
+## table
 https://css-tricks.com/almanac/properties/t/table-layout/
 
     table-layout: fixed; //等宽效果: 
 
-## row
+### row
     .topics tr { line-height: 14px; }
-## td
+### td
     td{    
         height: 14px; white-space: nowrap; 
         width=&quot;pixels|%&quot;
     }
 
-# 自适应
-## 下拉菜单列表
+## ul/li自适应(百分比)
+### 下拉菜单列表
 http://imweb.io/topic/559f902a3d7bb8096b69cfdd
 
     &lt;parent&gt;
@@ -119,19 +119,20 @@ http://imweb.io/topic/559f902a3d7bb8096b69cfdd
         position: absolute;
         top: 100%;
 
-### 策略
+#### 策略
     &lt;ul&gt;        .self{block}       -&gt; none   (.self.active: block)
         &lt;li&gt;    .child inline -&gt; block+absolute  display
         抽屉    .self postion  -&gt; absolute       position
         wrap   .parent flex    -&gt; block          flex 
 
-## ul,li
+### ul,li空白
 li 之间如果有空白，去掉的方式有几种
 
      ul{font-size:0}
+     //或
      ul { display: flex; }
 
-# flex
+# flex 属性
 display:flex, 比 inline-block 简单
 
 	.parent{ display:flex;}
@@ -258,19 +259,6 @@ http://zh.learnlayout.com/flexbox.html
 	align-items: center;
 	justify-content: center;
 
-pop window center
-
-    #flex-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-    }
-
 ## flex 被子div 放大
 
     .container{
@@ -279,7 +267,7 @@ pop window center
         flex-direction: column;
     }
     &lt;div class=&#x27;container&#x27;&gt;
-        &lt;div&gt;
+        &lt;div&gt;&lt;/div&gt;
     &lt;/div&gt;
 
 ## case
@@ -327,171 +315,6 @@ flex 能有效传递height percent(需要`flex:1`填满)
     .c{background:purple;flex:1;display:flex;}
     .d{background:green;flex:1;margin:10px;}    better
     .d{background:green;height:100%;margin:10px;}    better
-
-# align
-## text-align + vertical-align:top
- `lineHeight:100%`+`vertical-align:center`
-
-    &lt;div style=&quot;text-align:left&quot;&gt;
-        &lt;img style=&quot;vertical-align:top&quot;&gt;
-    &lt;/div&gt;
-
-## circle center
-    div{
-        background: red;
-        width:200px;
-        height:200px;
-        text-align:center; //左右
-        line-height: 200px; // 上下，依赖于lineHeight: 默认vertical-align:center; 
-        border-radius:50%
-    }
-
-## button center
-button 自带`text-align:center`, `lineHeight:100%`+`vertical-align:center`
-
-    static centerMsg(msg) {
-        let div = document.createElement(&#x27;button&#x27;)
-        div.style = `font-size:1em; position: absolute; top: 30%; left: 50%; width: 300px; height: 70px; margin: auto; border-width: 3px 3px 3px 4px; border-style: solid; border-color: transparent; border-image: initial; background-color: rgba(33, 150, 243, 0.2); color: white; border-radius: 6px;
-        `;
-        div.innerText = msg
-        document.body.appendChild(div)
-        setTimeout(() =&gt; { div.remove() }, 2000)
-    }
-
-## flex container align
-主要的：
-
-    //parent
-	justify-content: horizonal center
-	align-items: vertical center
-	align-content: justify-content属性类似。只不过这里元素是以多行生效。
-
-居中:
-
-    &lt;div style=&quot;
-        display: flex;
-        justify-content: center;
-        align-items: center; 
-        width: 100%;
-        height: 100%;
-        position: fixed;
-        z-index: 9999;
-        background:rgba(128,128,128, 0.5);
-        top: 0;
-        left:0;
-    &quot;&gt;&lt;img src=&quot;/a/img//eng/eng-tense-and-auxiliary-verbs.png&quot; alt=&quot;&quot;&gt;&lt;/div&gt;
-
-## inline align(self)
-这给针对行内元素的，
-
-    vertical-align: 
-        top/bottom              与行中`最高元素`的顶/底端对齐
-        text-top/text-bottom    与父元素`字体`的底端对齐(line-height)
-        center
-    margin: 0 auto;
-
-## text align(inner)
-
-	text-align:	left/center/right
-
-    &lt;div style=&quot;text-align:center;&quot;&gt;
-        &lt;button&gt;button1&lt;/button&gt;
-        &lt;button&gt;button2&lt;/button&gt;
-    &lt;/div&gt;
-
-## 传统居中
-### 水平
-1. margin: 0 auto;
-2. margin-right/left+float: 计算量大
-    3. width:200px; margin-right: -200px;float:right; 
-3. flex: 大招
-4. absolue/relative+translate: 
-    relative: left/top:50%
-    transform: translate(-50%, -50%);
-5. absolue/relative+margin: 
-    5. left:50%, margin-left: -width:
-5. absolue+relative: 两层
-    1. div_parent: left:50%; div_sub: relative,left: -50% 
-
-### page center
-one: flex (inner center)
-
-    display: flex
-    justify-content: center;
-    align-items: center; 
-    height: 100px;
-
-one: 利用absolute + margin 修正(一层, 但得算margin=-width/2)
-
-	&lt;div style=&quot;position: absolute; left: 50%;top: 50%;z-index: 99;background: red;
-			width: 500px;height: 500px;
-			margin-top: -250px;margin-left: -250px;&quot;&gt;
-    &lt;/div&gt;
-
-one: absolute + translate(self)
-
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);// 基于自己的width/height
-
-两层: 利用absolute + 内层relative top/left 修正(两层)(absolue/relative 随便用哪个都一样)
-
-    &lt;div style=&quot;
-		position: absolute;
-		left: 50%;
-	&quot;&gt;
-        &lt;div style=&quot;
-		position: relative;
-		left: -50%;
-		border: dotted red 1px;
-		&quot;&gt;
-            I am some centered shrink-to-fit content! &lt;br /&gt;
-        &lt;/div&gt;
-    &lt;/div&gt;
-
-## screen center
-flex
-
-    &lt;div style=&quot;
-		position: fixed;
-		top: 0;
-		left: 0;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		width: 99%;
-		height: 99%;
-		background: red;
-		opacity: 0.5;
-		&quot;&gt;
-        &lt;div style=&quot;background:blue&quot;&gt;center&lt;/div&gt;
-    &lt;/div&gt;
-
-利用fixed + margin修正(margin = -width/2):
-` margin-top: -50px;	//不可以用百分比`
-
-	&lt;div style=&quot; position: fixed;
-		top: 50%;
-		left: 50%;
-		margin-top: -50px;
-		margin-left: -50px;
-		width: 100px;
-		height: 100px;
-		background: red;
-		z-index: 99999;
-	&quot;&gt;&lt;/div&gt;
-
-利用fixed + 内层relative top/left 修正
-`top: -250px;	`
-`top: -50%;	//基于父元素position width/height, 父元素的初始值必须有`
-
-	&lt;div style=&quot; position: fixed; top: 50%; left: 50%;&quot;&gt;
-		&lt;div style=&quot; position: relative; width: 500px; height: 500px; background: blue;
-		top: -250px; left: -250px;
-		&quot;&gt;
-		&lt;/div&gt;
-	&lt;/div&gt;
 
 # 位置的css 核心属性
 
