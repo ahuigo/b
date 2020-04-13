@@ -49,7 +49,7 @@ const MD_URL='post/py/py-webspider.md';
 <pre id="markdown" v-pre>---
 title: webspider
 date: 2018-10-04
-updated: 2019-11-06
+updated: 2020-04-13
 ---
 # webspider
 Python 3网络爬虫开发实战 
@@ -105,6 +105,25 @@ https://github.com/csbun/thal
 ### remove 
     page.removeAllListeners()
     page.removeListener(listener)
+
+## cookie
+### Save cookies to disk
+
+    const fs = require(&#x27;fs&#x27;).promises;
+
+    // ... puppeteer code
+    const cookies = await page.cookies();
+    await fs.writeFile(&#x27;./cookies.json&#x27;, JSON.stringify(cookies, null, 2));
+    This will read the cookies for the current URL and save them to disk via JSON.stringify and fs.writeFile.
+
+### Reuse cookies
+
+    const fs = require(&#x27;fs&#x27;).promises;
+
+    // ... puppeteer code
+    const cookiesString = await fs.readFile(&#x27;./cookies.json&#x27;);
+    const cookies = JSON.parse(cookiesString);
+    await page.setCookie(...cookies);
 </pre>
 <div id="pager"></div>
 <div class="hr"></div>

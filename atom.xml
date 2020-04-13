@@ -2,9 +2,27 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-04-10T14:32:30Z</updated>
+<updated>2020-04-13T15:25:09Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>webspider</title>
+<link href="/b/py/py-webspider" rel="alternate" type="text/html"/>
+<updated>2020-04-13T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># webspider
+Python 3网络爬虫开发实战 
+https://germey.gitbooks.io/python3webspider/1.2.2-Selenium%E7%9A%84%E5</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>学习 docker</title>
+<link href="/b/arch/docker-begin" rel="alternate" type="text/html"/>
+<updated>2020-04-13T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># 什么是Docker
+虚拟机是对硬件的虚拟化(需要Hypervisor这个软件层), 而docker （LXC, linux container）是对操作系统的虚拟化。
+1. docker 基于li</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>css 布局</title>
 <link href="/b/ria/css-layout" rel="alternate" type="text/html"/>
 <updated>2020-04-10T00:00:00Z</updated>
@@ -205,17 +223,16 @@ Use "go help [command]" for more information about a command.
 
 # go </content>
 </entry><entry xml:base="https://ahuigo.github.io">
-<title>golang pkg的使用</title>
+<title>golang pkg 开发包</title>
 <link href="/b/go/2.go-pkg-dev" rel="alternate" type="text/html"/>
-<updated>2020-04-03T00:00:00Z</updated>
+<updated>2020-04-13T00:00:00Z</updated>
 <summary/>
 <published>2016-09-27T00:00:00Z</published>
 <content># gopath 结构
 1. 参考How to Write Go Code https://golang.org/doc/code.html
-
 2. 环境变量$ go env
 
-## workspac</content>
+## workspace</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>path</title>
 <link href="/b/vsc/vsc-path" rel="alternate" type="text/html"/>
@@ -461,26 +478,4 @@ like bootstrap
     font-family: 'Glyphicons Halflings';
 
     src: url('../f</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Git 命令大全</title>
-<link href="/b/git/git-" rel="alternate" type="text/html"/>
-<updated>2020-01-17T00:00:00Z</updated>
-<summary/>
-<published>2020-01-17T00:00:00Z</published>
-<content># Git 配置
-
-## ConfigFile
-1. /etc/gitconfig #git config --system
-2. ~/.gitconfig 	#git config --global</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>TS ignore type when import module</title>
-<link href="/b/ria/ts/ts-ignore" rel="alternate" type="text/html"/>
-<updated>2020-01-14T00:00:00Z</updated>
-<summary/>
-<published>2020-01-14T00:00:00Z</published>
-<content># TS ignore module type
-e.g.
-
-    // @ts-ignore
-    import Brush from "@antv/g2-brush";</content>
 </entry></feed>
