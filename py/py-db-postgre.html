@@ -49,7 +49,7 @@ const MD_URL='post/py/py-db-postgre.md';
 <pre id="markdown" v-pre>---
 title: help
 date: 2018-09-28
-updated: 2019-09-07
+updated: 2020-04-14
 ---
 # help
 http://initd.org/psycopg/docs/cursor.html
@@ -76,12 +76,18 @@ postgre 是用cusor 去执行+缓存数据
     cursor.connection.commit()
     cur.query # return sql query string
 
-### execute
+### execute insert
 cursor.execute, conn.commit,close 查询fetch 
 如果没有修改数据，不需要commit
 
+    cursor.execute(&quot;insert into  prices values(%s,%s,%s)&quot;, [&#x27;20170930&#x27;, &#x27;sh0001&#x27;, 10.0])
+
+#### exception
+execute 永远返回None.
+如果异常，你需要手动try-catch(上层做、底层做，完全看业务需求)
+
 #### batch execute
-executemany:
+executemany(recommend):
 
     tup = [(1,&#x27;x&#x27;), (2,&#x27;y&#x27;)]
     cur.executemany(&quot;INSERT INTO table VALUES(%s,%s,)&quot;, tup)
@@ -89,7 +95,7 @@ executemany:
 method2:
 
     args_str = &#x27;,&#x27;.join(cur.mogrify(&quot;(%s,%s,)&quot;, x) for x in tup)
-    cur.execute(&quot;INSERT INTO table VALUES &quot; + args_str) 
+    cur.execute(&quot;INSERT INTO prices VALUES &quot; + args_str) 
 
 method3:
 
@@ -103,7 +109,7 @@ method3:
 1. 关键字用：sql.Identifier
 2. 普通数据先自己用%s 拼好，再bind_param
 
-execute 支持变量绑定
+execute 支持变量绑定: %s 针对任何类型
 
     &gt;&gt;&gt; SQL = &quot;INSERT INTO authors (name) VALUES (%s);&quot; # Note: no quotes
     &gt;&gt;&gt; data = (&quot;O&#x27;Reilly&quot;, )
@@ -119,6 +125,15 @@ table name 这些则不支持，应该使用:
     from psycopg2 import sql
     cur.execute( sql.SQL(&quot;insert into {} values (%s, %s)&quot;) .format(sql.Identifier(&#x27;my_table&#x27;)), [10, 20])
 
+### where 数据类型
+postgre 能自动处理Array/Datetime
+
+        cursor.execute( 
+            &quot;select * from prices where code = ANY (%s) and time=%s&quot;,
+            [codes, datetime.now],
+        )
+        cursor.query
+
 ### select fetch
 
 #### cur.query
@@ -128,8 +143,9 @@ table name 这些则不支持，应该使用:
 
 #### fetch iter
 
-    cur.execute(&quot;SELECT id, name, address, salary from COMPANY&quot;)
-    for row in cur: print(row)
+    cursor.execute(&quot;SELECT id, name, address, salary from COMPANY&quot;)
+    for row in cursor:
+        print(row)
 
 #### fetchall
 
@@ -142,8 +158,39 @@ table name 这些则不支持，应该使用:
 
 #### fetchone,fetchmany:
 
-    cursor.fetchone()
-    cursor.fetchmany([size=cursor.arraysize])</pre>
+    row = cursor.fetchone()
+    rows = cursor.fetchmany([size=cursor.arraysize])
+    if row is None:
+    if rows == []:
+
+#### fetch var
+    cursor.execute(&quot;select name from prices where code=%s order by trade_date desc limit 1&quot;, [code])
+    return cursor.fetchone()
+
+## ddl
+### databases
+    \l
+    cursor.execute(&#x27;SELECT datname FROM pg_database;&#x27;)
+
+### tables
+    \dt
+    SELECT * FROM pg_catalog.pg_tables WHERE schemaname != &#x27;pg_catalog&#x27; AND schemaname != &#x27;information_schema&#x27;;
+
+all
+
+    cursor.execute(&quot;&quot;&quot;SELECT table_name FROM information_schema.tables WHERE table_schema = &#x27;public&#x27;&quot;&quot;&quot;)
+    for table in cursor.fetchall():
+        print(table)
+
+## import
+
+    cur = conn.cursor()
+    cur.copy_from(open(&#x27;a.csv&#x27;), &#x27;table_name&#x27;, null=&quot;&quot;, columns=df.keys()) # null values become &#x27;&#x27;
+    conn.commit()
+
+copy_to
+
+    cur.copy_to(open(&#x27;out.csv&#x27;,&#x27;w&#x27;), &#x27;table&#x27;)</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
