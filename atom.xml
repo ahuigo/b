@@ -2,9 +2,35 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-04-14T21:46:38Z</updated>
+<updated>2020-04-17T02:42:57Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Python 的语法</title>
+<link href="/b/py/py-expr" rel="alternate" type="text/html"/>
+<updated>2020-04-17T00:00:00Z</updated>
+<summary/>
+<published>2018-03-01T00:00:00Z</published>
+<content># 多条件compare
+多条件比较
+
+    &gt;&gt;&gt; 5&lt;i&lt;100
+    &gt;&gt;&gt; 1 &lt; 3 &gt;= 3 &gt; 1==1 &lt;100
+    True
+
+# 条件和循环
+
+## try finnaly</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Go log</title>
+<link href="/b/go/go-log" rel="alternate" type="text/html"/>
+<updated>2020-04-17T00:00:00Z</updated>
+<summary/>
+<published>2019-09-21T00:00:00Z</published>
+<content># Go log
+    import "log"
+    log.Println("timeout of 5 seconds.")
+    //2019/09/21 08:34:19 timeout</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>管理包和依赖的工具。</title>
 <link href="/b/py/py-pkg" rel="alternate" type="text/html"/>
 <updated>2020-04-14T00:00:00Z</updated>
@@ -88,7 +114,7 @@ globals()['bar']()
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>py-pkg-setuptool</title>
 <link href="/b/py/py-pkg-setuptool" rel="alternate" type="text/html"/>
-<updated>2020-04-03T00:00:00Z</updated>
+<updated>2020-04-17T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># Preface
@@ -452,30 +478,4 @@ brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Librar
 	import re
     re.compile(pattern, [,modifier]).match(str)
     re.match(pattern, str[, m</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>CSS 笔记</title>
-<link href="/b/ria/js-css" rel="alternate" type="text/html"/>
-<updated>2020-02-11T00:00:00Z</updated>
-<summary/>
-<published>2017-12-12T00:00:00Z</published>
-<content># CSS 笔记
-css/html5/js 兼容表
-http://caniuse.com/
-
-# priority
-你应该知道的一些事情——CSS权重
-https://www.w3cplus.com/</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>html5 笔记</title>
-<link href="/b/ria/js-dom-html5" rel="alternate" type="text/html"/>
-<updated>2020-01-17T00:00:00Z</updated>
-<summary/>
-<published>2020-01-17T00:00:00Z</published>
-<content># Tag
-
-## Forms
-属性
-
-    enctype="multipart/form-data"
-        default content-type: application/x-ww</content>
 </entry></feed>
