@@ -2,9 +2,40 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-04-17T02:42:57Z</updated>
+<updated>2020-04-19T19:56:03Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>ops-ftp-rsync</title>
+<link href="/b/c/ops-ftp-rsync" rel="alternate" type="text/html"/>
+<updated>2020-04-19T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Preface
+
+# rsync
+
+## rsync client
+
+	rsync option source[source2 ... sourceN] destination
+	rsync -a</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>linux 文件管理</title>
+<link href="/b/c/ops-file" rel="alternate" type="text/html"/>
+<updated>2020-04-19T00:00:00Z</updated>
+<summary/>
+<published>2020-04-19T00:00:00Z</published>
+<content># Preface
+本该讲述的是与shell 相关的 Linux文件管理
+
+# ls
+
+	ll -S 按文件大小排序
+	ll -i 查看文件的inode
+
+# find
+
+	find [-H | -L</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Python 的语法</title>
 <link href="/b/py/py-expr" rel="alternate" type="text/html"/>
 <updated>2020-04-17T00:00:00Z</updated>
@@ -23,13 +54,15 @@
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Go log</title>
 <link href="/b/go/go-log" rel="alternate" type="text/html"/>
-<updated>2020-04-17T00:00:00Z</updated>
+<updated>2020-04-19T00:00:00Z</updated>
 <summary/>
 <published>2019-09-21T00:00:00Z</published>
 <content># Go log
+
+## log.Println
     import "log"
-    log.Println("timeout of 5 seconds.")
-    //2019/09/21 08:34:19 timeout</content>
+    log.Println("timeout of 5 seconds.", []string{"abc"})
+</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>管理包和依赖的工具。</title>
 <link href="/b/py/py-pkg" rel="alternate" type="text/html"/>
@@ -183,7 +216,7 @@ Movement 移动光标、字符，Vim 最核心的功能操作
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>go 的变量</title>
 <link href="/b/go/7.go-var" rel="alternate" type="text/html"/>
-<updated>2020-04-03T00:00:00Z</updated>
+<updated>2020-04-19T00:00:00Z</updated>
 <summary/>
 <published>2016-09-27T00:00:00Z</published>
 <content># go print
@@ -387,9 +420,9 @@ cmd+p
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>安全的帐号设计</title>
 <link href="/b/sec/sec-account" rel="alternate" type="text/html"/>
-<updated>2020-03-26T00:00:00Z</updated>
+<updated>2020-04-19T00:00:00Z</updated>
 <summary/>
-<published>2020-03-26T00:00:00Z</published>
+<published>2020-04-19T00:00:00Z</published>
 <content># Preface
 帐号设计可以涉及到很多细节，本文主要从安全的角度作一个总结:
 
@@ -412,7 +445,7 @@ urllib2 is deprecated, use requests instead , except: `urllib.parse.urlsplit/url
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>mac 工具集</title>
 <link href="/b/mac/mac-tool" rel="alternate" type="text/html"/>
-<updated>2020-03-26T00:00:00Z</updated>
+<updated>2020-04-19T00:00:00Z</updated>
 <summary/>
 <published>2018-10-10T00:00:00Z</published>
 <content># Preface
@@ -456,26 +489,4 @@ urllib2 is deprecated, use requests instead , except: `urllib.parse.urlsplit/url
 
 # rule
 brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Library/</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>python 的list/tuple 笔记</title>
-<link href="/b/py/py-var-list" rel="alternate" type="text/html"/>
-<updated>2020-02-25T00:00:00Z</updated>
-<summary/>
-<published>2018-03-03T00:00:00Z</published>
-<content># list and tuple
-因为tuple 是增加删除元素的不可变的list(数据可以变)，所以代码更安全。
-如果可能，能用tuple代替list就尽量用tuple。
-
-	list = [1,2</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>python 的正则表达式</title>
-<link href="/b/py/py-str-regex" rel="alternate" type="text/html"/>
-<updated>2020-02-24T00:00:00Z</updated>
-<summary/>
-<published>2020-02-24T00:00:00Z</published>
-<content># regex 语法
-
-	import re
-    re.compile(pattern, [,modifier]).match(str)
-    re.match(pattern, str[, m</content>
 </entry></feed>

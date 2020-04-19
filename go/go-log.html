@@ -49,11 +49,13 @@ const MD_URL='post/go/go-log.md';
 <pre id="markdown" v-pre>---
 title: Go log
 date: 2019-09-21
-updated: 2020-04-17
+updated: 2020-04-19
 ---
 # Go log
+
+## log.Println
     import &quot;log&quot;
-    log.Println(&quot;timeout of 5 seconds.&quot;)
+    log.Println(&quot;timeout of 5 seconds.&quot;, []string{&quot;abc&quot;})
     //2019/09/21 08:34:19 timeout of 5 seconds.
 
 ## logger

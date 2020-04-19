@@ -20,13 +20,10 @@ const MD_URL='post/c/ops-ftp-rsync.md';
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
-<link href="/b/../a/css/main2.css" rel="stylesheet">
-<script src="/b/../a/js/marked.js"></script>
-<script src="/b/../a/js/toc.js"></script>
 </head>
 <body class="layout-documentation page-layout">
 <div id="app">
-<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><img :src="imgsrc"></div>
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
 <div class="pure-menu pure-menu-horizontal">
 <div>
 <ul class="pure-menu-list">
@@ -35,10 +32,11 @@ const MD_URL='post/c/ops-ftp-rsync.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -51,7 +49,7 @@ const MD_URL='post/c/ops-ftp-rsync.md';
 <pre id="markdown" v-pre>---
 title: ops-ftp-rsync
 date: 2018-09-27
-updated: 2018-10-06
+updated: 2020-04-19
 ---
 # Preface
 
@@ -320,14 +318,6 @@ rsync error: error in socket IO
 
 	sed -i &#x27;s/^SELINUX=enforcing/SELINUX=disabled/&#x27; /etc/selinux/config
 
-# inotify
-inotify是Linux核心子系统之一，做为文件系统的附加功能，它可监控文件系统并将异动通知应用程序。本系统的出现取代了旧有Linux核心里，拥有类似功能之dnotify模块。
-
-inotify的原始开发者为John McCutchan、罗伯特·拉姆与Amy Griffis。于Linux核心2.6.13发布时(2005年六月十八日)，被正式纳入Linux核心[1]。尽管如此，它仍可通过补丁的方式与2.6.12甚至更早期的Linux核心集成。
-
-inotify的主要应用于桌面搜索软件，像：Beagle，得以针对有变动的文件重新索引，而不必没有效率地每隔几分钟就要扫描整个文件系统。相较于主动轮询文件系统，通过操作系统主动告知文件异动的方式，让Beagle等软件甚至可以在文件更动后一秒内更新索引。
-
-此外，诸如：更新目录查看、重新加载设置文件、追踪变更、备份、同步甚至上传...等许多自动化作业流程，都可因而受惠。
 
 # 用tar 备份文件系统
 
@@ -517,8 +507,9 @@ security: &#x27;one_process_model&#x27; is anonymous only
 ## 其它原因
 
 	service iptables stop #关闭防火墙
-	sudo setenforce 0 #关闭selinux</pre>
-<div id="pager" v-pre></div>
+	sudo setenforce 0 #关闭selinux
+</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>
@@ -540,10 +531,10 @@ security: &#x27;one_process_model&#x27; is anonymous only
 <div id="comments"></div>
 </div>
 <div class="right">
-<div id="toc"></div>
+<div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
@@ -565,6 +556,9 @@ security: &#x27;one_process_model&#x27; is anonymous only
 <template id="md">
 <div id="content" v-html="marked(md)"></div>
 </template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
 <script src="/b/../a/js/blog2.js"></script>
 </body>
 </html>

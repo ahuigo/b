@@ -49,7 +49,7 @@ const MD_URL='post/go/7.go-var.md';
 <pre id="markdown" v-pre>---
 title: go 的变量
 date: 2016-09-27
-updated: 2020-04-03
+updated: 2020-04-19
 ---
 # go print
 ## println
@@ -267,6 +267,23 @@ type definition 是新类型:
     type MyInt2 int
     var a interface{} = int(10)
     var b MyInt = a.(MyInt)     //error: MyInt 与int 是不同的类型
+
+`[]T` vs `[]interface{}`是不同类型，
+
+    var s []T
+    var t []interface{}
+    t = []T(t) //error
+
+只能一个个元素传值
+
+    t := []int{1, 2, 3, 4}
+    s := make([]interface{}, len(t))
+    s=t //error
+    for i, v := range t {
+        s[i] = v
+    }
+
+
 
 ## Type convert
 The expression T(v) converts the value v to the type T.
