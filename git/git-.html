@@ -48,8 +48,8 @@ const MD_URL='post/git/git-.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: Git 命令大全
-date: 2020-01-17
-updated: 2020-01-17
+date: 2020-04-23
+updated: 2020-04-23
 ---
 # Git 配置
 
@@ -498,6 +498,10 @@ git show specify commit
 	git show $REV:$FILE
 	git show somebranch:from/the/root/myfile.txt
 	git show HEAD^^^:test/test.py
+
+## show remote
+
+    git show origin/dev:go.sum
 
 ## show commit diff
 	git show $REV [FILE]

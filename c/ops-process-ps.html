@@ -49,7 +49,7 @@ const MD_URL='post/c/ops-process-ps.md';
 <pre id="markdown" v-pre>---
 title: ops-process-ps
 date: 2018-09-27
-updated: 2019-11-11
+updated: 2020-04-23
 ---
 # Preface
 
@@ -248,11 +248,18 @@ top 中的MEM：
 	-+= 00001 root /sbin/launchd
 	\-+= 03001 root /usr/sbin/httpd -D FOREGROUND
 	\--- 03027 www /usr/sbin/httpd -D FOREGROUND
+	$ pstree -alp 3027
+        -a     Show command line arguments.
+        -l     Display long lines.
+        -p, --show-pids
+        -n     Sort processes with the same ancestor by PID instead of by
+              name.  (Numeric sort.)
 
 # proc
 proc(`man 5 proc`) 可以获取更详细的进程信息
 
 	/proc/&lt;pid&gt;/cwd
+	/proc/&lt;pid&gt;/cmdline
 	/proc/&lt;pid&gt;/port
 
 ## process status
@@ -267,7 +274,8 @@ proc(`man 5 proc`) 可以获取更详细的进程信息
 通过`/proc/&lt;pid&gt;/smaps`可以查看进程整个虚拟地址空间的映射情况，它的输出从低地址到高地址按顺序输出每一个映射区域的相关信息，如下所示：
 
 	$ cat /proc/&lt;pid&gt;/smaps
-	注意：rwxp中，p表示私有映射（采用Copy-On-Write技术）。 Size字段就是该区域的大小。</pre>
+	注意：rwxp中，p表示私有映射（采用Copy-On-Write技术）。 Size字段就是该区域的大小。
+</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">

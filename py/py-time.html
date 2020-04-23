@@ -49,7 +49,7 @@ const MD_URL='post/py/py-time.md';
 <pre id="markdown" v-pre>---
 title: python 时间函数的用法笔记
 date: 2018-04-02
-updated: 2019-12-31
+updated: 2020-04-23
 ---
 # time 工具
 time 提供基本的时间，sleep
@@ -182,11 +182,17 @@ pd.date_range():
 	timestamp
 		d.timestamp()
 
-### by format
+### show format
 
 	d=datetime.strptime(&#x27;2015-6-1 18:19:59&#x27;, &#x27;%Y-%m-%d %H:%M:%S&#x27;)
 	d.strftime(&#x27;%a, %b %d %H:%M&#x27;)
 	d.strftime(&#x27;%Y-%m-%d %H:%M&#x27;)
+
+rfc3339 format:
+
+    import datetime
+    datetime.datetime.now(datetime.timezone.utc).isoformat()
+    //&quot;2016-07-19T07:30:36.000+00:00&quot;
 
 和shell 一样
 
@@ -266,6 +272,13 @@ https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior
 
     # with format
 	d=datetime.strptime(&#x27;2015-6-1 18:19:59&#x27;, &#x27;%Y-%m-%d %H:%M:%S&#x27;)
+
+parse rfc3339 format:
+
+    from dateutil.parser import parse
+    s = &quot;2016-07-19T07:30:36+05:00&quot;
+    d = parse(&quot;2016-07-19T07:30:36+05:00&quot;)
+
 
 ## timedelta: datetime加减
 

@@ -2,9 +2,99 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-04-19T19:56:03Z</updated>
+<updated>2020-04-23T15:57:11Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>install:</title>
+<link href="/b/py/py-str-yaml" rel="alternate" type="text/html"/>
+<updated>2020-04-23T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># install:
+    ```
+    pip3 install pyyaml
+    ```
+
+# load
+    ```
+    &gt;&gt;&gt; import yaml
+    &gt;&gt;&gt; a=yam</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>python 的正则表达式</title>
+<link href="/b/py/py-str-regex" rel="alternate" type="text/html"/>
+<updated>2020-04-23T00:00:00Z</updated>
+<summary/>
+<published>2020-04-23T00:00:00Z</published>
+<content># regex 语法
+
+	import re
+    re.compile(pattern, [,modifier]).match(str)
+    re.match(pattern, str[, m</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>golang pkg 开发包</title>
+<link href="/b/go/go-pkg-dev" rel="alternate" type="text/html"/>
+<updated>2020-04-23T00:00:00Z</updated>
+<summary/>
+<published>2016-09-27T00:00:00Z</published>
+<content># golang write mod package
+&gt; 下面的例子我放在了：https://github.com/ahuigo/go-lib/tree/master/import-local-mod</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>系统调用</title>
+<link href="/b/go/go-os" rel="alternate" type="text/html"/>
+<updated>2020-04-23T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># 系统调用
+Go语言主要是通过两个包完成的。一个是os包，一个是syscall包
+
+1. syscall里提供了什么Chroot/Chmod/Chmod/Chdir…，Getenv/Getgid/G</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>go-test</title>
+<link href="/b/go/15.go-test" rel="alternate" type="text/html"/>
+<updated>2020-04-23T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Preface
+Go has a lightweight test framework composed of the go test command and the testing packag</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Git 命令大全</title>
+<link href="/b/git/git-" rel="alternate" type="text/html"/>
+<updated>2020-04-23T00:00:00Z</updated>
+<summary/>
+<published>2020-04-23T00:00:00Z</published>
+<content># Git 配置
+
+## ConfigFile
+1. /etc/gitconfig #git config --system
+2. ~/.gitconfig 	#git config --global</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Postgre 安装\配置\管理</title>
+<link href="/b/db/pg-ddl-install" rel="alternate" type="text/html"/>
+<updated>2020-04-23T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Postgre 安装\配置\管理
+
+## intall
+centos:
+
+    yum install postgresql-server postgresql-contrib -y
+    s</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>ops-process-ps</title>
+<link href="/b/c/ops-process-ps" rel="alternate" type="text/html"/>
+<updated>2020-04-23T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Preface
+
+# processe status
+linux上进程有5种状态:
+
+1. 运行(正在运行或在运行队列中等待)
+2. 中断(休眠中, 受阻, 在等待某个条件的形成或接受到信号)
+3</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>ops-ftp-rsync</title>
 <link href="/b/c/ops-ftp-rsync" rel="alternate" type="text/html"/>
 <updated>2020-04-19T00:00:00Z</updated>
@@ -190,7 +280,7 @@ In Ch</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>go str</title>
 <link href="/b/go/go-str-serial" rel="alternate" type="text/html"/>
-<updated>2020-04-03T00:00:00Z</updated>
+<updated>2020-04-23T00:00:00Z</updated>
 <summary/>
 <published>2019-05-06T00:00:00Z</published>
 <content># go json
@@ -286,7 +376,7 @@ impo</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Golang 的结构体</title>
 <link href="/b/go/go-struct" rel="alternate" type="text/html"/>
-<updated>2020-03-31T00:00:00Z</updated>
+<updated>2020-04-23T00:00:00Z</updated>
 <summary/>
 <published>2019-03-24T00:00:00Z</published>
 <content># Golang Notes: struct
@@ -387,106 +477,4 @@ hash() - Generate a h</content>
 类似于xdebug cachegrind profiler 性能画像
 - py-spy python 版的top
     - py</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>vscode 笔记</title>
-<link href="/b/vsc/vsc-shortcut" rel="alternate" type="text/html"/>
-<updated>2020-03-17T00:00:00Z</updated>
-<summary/>
-<published>2018-01-03T00:00:00Z</published>
-<content># vscode
-cmd+p
-
-    ?   help
-    @{symbol} jump to symbol 
-    cmd+shift+m 切换问题面板
-    cmd+j 切换集成终端(c</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>ops-device</title>
-<link href="/b/c/ops-device" rel="alternate" type="text/html"/>
-<updated>2020-03-17T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Preface
-
-# cpu
-
-## proc/
-
-	grep -c ^processor /proc/cpuinfo
-
-## lscpu
-
-	lscpu | grep -E ^(?&lt;=CPU\(</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>安全的帐号设计</title>
-<link href="/b/sec/sec-account" rel="alternate" type="text/html"/>
-<updated>2020-04-19T00:00:00Z</updated>
-<summary/>
-<published>2020-04-19T00:00:00Z</published>
-<content># Preface
-帐号设计可以涉及到很多细节，本文主要从安全的角度作一个总结:
-
-1. password 安全
-1. sid 的设计
-3. 内部Api 授权
-4. SSO 单点登录
-
-# passw</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>py-http</title>
-<link href="/b/py/py-http" rel="alternate" type="text/html"/>
-<updated>2020-04-09T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># Preface
-
-# urllib
-urllib2 is deprecated, use requests instead , except: `urllib.parse.urlsplit/url</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>mac 工具集</title>
-<link href="/b/mac/mac-tool" rel="alternate" type="text/html"/>
-<updated>2020-04-19T00:00:00Z</updated>
-<summary/>
-<published>2018-10-10T00:00:00Z</published>
-<content># Preface
-本文是我所用的mac 工具集大杂烩。
-
-一些mac osx 能做而linux 桌面级OS 目前不能做的事情：
-
-- mac 支持全局readline , 字符编辑的效率非常非常高(</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Postgre CRUD</title>
-<link href="/b/db/pg-crud" rel="alternate" type="text/html"/>
-<updated>2020-03-14T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Postgre CRUD
-## string or keyword
-    select 'string';
-    select "count"(1) from "table_name"
-
-##</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>golang pkg的使用</title>
-<link href="/b/go/2.go-pkg" rel="alternate" type="text/html"/>
-<updated>2020-03-10T00:00:00Z</updated>
-<summary/>
-<published>2016-09-27T00:00:00Z</published>
-<content># 结构
-1. 参考How to Write Go Code https://golang.org/doc/code.html
-
-2. 环境变量$ go env
-
-## workspace
-可以有多个</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>brew dev</title>
-<link href="/b/mac/mac-brew-dev" rel="alternate" type="text/html"/>
-<updated>2020-03-04T00:00:00Z</updated>
-<summary/>
-<published>2020-03-04T00:00:00Z</published>
-<content># Preface
-
-# rule
-brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Library/</content>
 </entry></feed>

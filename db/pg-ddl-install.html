@@ -49,34 +49,38 @@ const MD_URL='post/db/pg-ddl-install.md';
 <pre id="markdown" v-pre>---
 title: Postgre 安装\配置\管理
 date: 2018-09-27
-updated: 2020-03-04
+updated: 2020-04-23
 ---
 # Postgre 安装\配置\管理
 
 ## intall
 centos:
 
-    rpm -Uvh https://yum.postgresql.org/10/redhat/rhel-7-x86_64/pgdg-centos10-10-2.noarch.rpm
-    yum install postgresql10-server postgresql10 -y
-    # Create a new PostgreSQL database cluster:
-    /usr/pgsql-10/bin/postgresql-10-setup initdb
+    yum install postgresql-server postgresql-contrib -y
+    sudo postgresql-setup initdb
+    sudo systemctl start postgresql
 
 mac:
+
+    brew install postgresql
 
 ## auth
 see db-user.md
 
     psql -U postgres -c &#x27;SHOW all&#x27; |grep hba_file
     psql -U postgres -c &#x27;SHOW hba_file&#x27;
+
+    # mac
     /usr/local/var/postgres/pg_hba.conf        | Sets the server&#x27;s &quot;hba&quot; configuration file.
+    # centos
+     /var/lib/pgsql/data/pg_hba.conf
 
 ## run &amp; config
 
     if centos:
-        systemctl start postgresql-10.service
-        systemctl enable postgresql-10.service
-        #sudo systemctl start postgresql
-        #sudo systemctl enable postgresql
+        sudo systemctl start postgresql
+        # auto reboot
+        sudo systemctl enable postgresql
     elif osx:
         # To have launchd start postgresql now and restart at login:
         brew services start postgresql
@@ -95,7 +99,19 @@ see db-user.md
         alias pg-stop=&quot;launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist&quot;
         MM
 
-    createdb `whoami`
+## debug
+
+    ps aux| grep postgres
+
+## login 
+第一次默认安装后只有一个role： postgres, 只登录这个role
+
+    sudo -u postgres -i
+    psql
+
+或者：
+
+    psql -U postgres postgres
 
 ## path
 ### log
@@ -139,6 +155,10 @@ mac conf:
 
     /usr/local/var/postgres/pg_hba.conf
     /usr/local/var/postgres/postgresql.conf
+
+centos conf:
+
+    /var/lib/pgsql/data/pg_hba.conf
 
 ### change listen host
 1. postgres -h 0.0.0.0

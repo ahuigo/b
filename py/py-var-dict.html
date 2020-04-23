@@ -48,8 +48,8 @@ const MD_URL='post/py/py-var-dict.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: python 字典
-date: 2020-01-03
-updated: 2020-01-03
+date: 2020-04-23
+updated: 2020-04-23
 ---
 # Dict
 
@@ -109,7 +109,7 @@ dict, list 赋值都是按引用的，如果是一维的值:
 		[(&#x27;x&#x27;, 1), (&#x27;y&#x27;, 2)]
 
 ### destruct
-python  没有es6的destruction
+python dict 没有es6的destruction
 
     const {a,b}={a:1,b:2}
 
@@ -155,7 +155,7 @@ python &gt;=3.5
 	z = {**x, **y}
 ```
 
-or with update:
+or with update inplace:
 
     d = {}
     d.update(d1).update(d2)
@@ -369,9 +369,8 @@ method2:
     d.update((k, v * 0.5) for k,v in d.items())
 
 ## delete dict
-Note: in python 3 to iterate through a dictionary you have to *explicidly* write: *list(d.keys())* because d.keys() returns a &quot;dictionary view&quot; (an iterable that provide a dynamic view on the dictionary’s keys).
 
-	# list 将iter 转了一下
+	# list 必须将iter 转了一下
     for k in list(d.keys()):
         if k.startswith(&#x27;r&#x27;):
             del d[k]
