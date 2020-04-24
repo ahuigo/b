@@ -49,7 +49,7 @@ const MD_URL='post/py/py-debug.md';
 <pre id="markdown" v-pre>---
 title: py-debug
 date: 2018-09-28
-updated: 2020-04-09
+updated: 2020-04-24
 ---
 # Preface
 1. exception
@@ -113,6 +113,17 @@ Python 代码调试技巧: \
 
     e = Exception(obj1, obj2)
     e.args # (obj1,obj2)
+
+## custom exception
+
+    class ValidationError(Exception):
+        def __init__(self, message, errors):
+
+            # Call the base class constructor with the parameters it needs
+            super().__init__(message)
+
+            # Now for your custom code...
+            self.errors = errors
 
 ## exception type
 
