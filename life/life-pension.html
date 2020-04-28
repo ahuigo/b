@@ -32,11 +32,11 @@ const MD_URL='post/life/life-pension.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,9 +49,12 @@ const MD_URL='post/life/life-pension.md';
 <pre id="markdown" v-pre>---
 title: 社保及养老保险
 date: 2018-09-27
-updated: 2018-11-04
+updated: 2020-04-28
 ---
 # 重要
+
+## 商业保险
+https://zhuanlan.zhihu.com/p/37196587
 
 ## 北京社保代理
 代缴社保和在公司缴纳的社保都是一样的: 五险:三金包括社保金（养老保险，失业保险）、医保金（医疗保险，工伤保险，生育保险）、还有住房公积金。
@@ -86,13 +89,7 @@ http://wap.mybj.gov.cn/gjj
 ## 失业(0.2%+1%)
 ## 生育(0+0.8%)
 ## 工伤(0+0.7%)
-
-# 总结
-五险很重要: 涉及到北京办理通行证, 小孩小学
-
-## 个税
-(工资-五险一金)*税率-扣除数
-http://www.rong360.com/calculator/wuxianyijin.html</pre>
+</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
@@ -118,7 +115,7 @@ http://www.rong360.com/calculator/wuxianyijin.html</pre>
 <div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>
