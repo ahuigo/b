@@ -2,9 +2,57 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-04-28T14:34:27Z</updated>
+<updated>2020-05-02T02:30:59Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>net-dns</title>
+<link href="/b/net/net-dns" rel="alternate" type="text/html"/>
+<updated>2020-05-02T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># DNS 简介
+主机名.次级域名.顶级域名.根域名
+
+  host.sld.tld.root
+
+  A记录：服务器 IP
+  AAAA：服务器 IPv6 的地址。
+  CNAME记录： 你空间商给您</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Postgre CRUD</title>
+<link href="/b/db/pg-crud" rel="alternate" type="text/html"/>
+<updated>2020-05-02T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Postgre CRUD
+## string or keyword
+    select 'string';
+    select "count"(1) from "table_name"
+
+##</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>查找数组中的第K大的值</title>
+<link href="/b/algorithm/sort-topk-kth" rel="alternate" type="text/html"/>
+<updated>2020-05-02T00:00:00Z</updated>
+<summary/>
+<published>2019-02-14T00:00:00Z</published>
+<content># 查找数组中的第K大的值
+
+## 通过最大最小堆
+时间复杂度 : $O(N \log k)$
+空间复杂度 : $O(k)$，用于存储堆元素。
+
+## QuickSelect(快速选择)
+This i</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>动态规划(Dynamic programing, DP)</title>
+<link href="/b/algorithm/algo-dp" rel="alternate" type="text/html"/>
+<updated>2020-05-02T00:00:00Z</updated>
+<summary/>
+<published>2018-09-26T00:00:00Z</published>
+<content># 动态规划(Dynamic programing, DP)
+动态规则(Dynamic programing, DP) 的大体思路是(数学归纳法)：将一个特定的问题，切割成若干类似的子问题，最后合并子</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Js dom 笔记</title>
 <link href="/b/ria/js-dom" rel="alternate" type="text/html"/>
 <updated>2020-04-28T00:00:00Z</updated>
@@ -432,51 +480,4 @@ a</content>
 Refer to: http://aiohttp.readthedocs.io/en/stable/tutorial.html#aiohttp-tutorial
 ```
 impo</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>server</title>
-<link href="/b/py/py-aiohttp-server" rel="alternate" type="text/html"/>
-<updated>2020-03-30T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># server
-异步编程要小心循环阻塞, 不可以使所有任务task被阻塞的函数：
-1. time.sleep(10)
-
-## simple server
-
-    from aiohttp impo</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Golang 的结构体</title>
-<link href="/b/go/go-struct" rel="alternate" type="text/html"/>
-<updated>2020-04-23T00:00:00Z</updated>
-<summary/>
-<published>2019-03-24T00:00:00Z</published>
-<content># Golang Notes: struct
-struct 是值类型，slice 是引用类型(指针), 以下赋值方法是按值的
-
-    type A struct{x int; b string}
- </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>golang help</title>
-<link href="/b/go/11.go-help" rel="alternate" type="text/html"/>
-<updated>2020-03-30T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># help command
-Use "go help [command]" for more information about a command.
-
-    go help fmt
-
-# go </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>golang pkg 开发包</title>
-<link href="/b/go/2.go-pkg-dev" rel="alternate" type="text/html"/>
-<updated>2020-04-13T00:00:00Z</updated>
-<summary/>
-<published>2016-09-27T00:00:00Z</published>
-<content># gopath 结构
-1. 参考How to Write Go Code https://golang.org/doc/code.html
-2. 环境变量$ go env
-
-## workspace</content>
 </entry></feed>
