@@ -2,9 +2,91 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-05-02T02:30:59Z</updated>
+<updated>2020-05-07T12:49:42Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>try-catch</title>
+<link href="/b/ria/js-debug-exception" rel="alternate" type="text/html"/>
+<updated>2020-05-07T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># try-catch
+## throw any type
+    throw "string"
+    throw {message:"msg"}
+    e = Error('msg')
+    </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>install</title>
+<link href="/b/nginx/nginx-install" rel="alternate" type="text/html"/>
+<updated>2020-05-07T00:00:00Z</updated>
+<summary/>
+<published>2020-05-07T00:00:00Z</published>
+<content># install
+
+    brew install openresty/brew/openresty
+
+# start
+如果想以非deamon 方式启动()：
+
+    //nginx.conf
+</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>nginx debug</title>
+<link href="/b/nginx/nginx-debug-log" rel="alternate" type="text/html"/>
+<updated>2020-05-07T00:00:00Z</updated>
+<summary/>
+<published>2020-05-07T00:00:00Z</published>
+<content># Preface
+
+# log
+## log scope
+
+	main, http, server, location
+
+## log type
+
+	access_log /var/log/ngin</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Lua 的变量</title>
+<link href="/b/lua/lua-var" rel="alternate" type="text/html"/>
+<updated>2020-05-07T00:00:00Z</updated>
+<summary/>
+<published>2019-02-05T00:00:00Z</published>
+<content># Lua 变量
+
+## 数据类型
+
+    nil	这个最简单，只有值nil属于该类，表示一个无效值（在条件表达式中相当于false）。
+    boolean	包含两个值：false和true。
+</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>lua module</title>
+<link href="/b/lua/lua-module" rel="alternate" type="text/html"/>
+<updated>2020-05-07T00:00:00Z</updated>
+<summary/>
+<published>2019-01-06T00:00:00Z</published>
+<content># 定义module.lua
+
+    -- 文件名为 module.lua
+    -- 定义一个名为 module 的模块
+    module = {}
+    
+    -- 定义一个常量
+ </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>ops-process-lsof</title>
+<link href="/b/c/ops-process-lsof" rel="alternate" type="text/html"/>
+<updated>2020-05-07T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># lsof
+[/p/linux-process-lsof](/p/linux-process-lsof)
+
+List Open File. 比如查看所有打开file descriptor
+
+    </content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>net-dns</title>
 <link href="/b/net/net-dns" rel="alternate" type="text/html"/>
 <updated>2020-05-02T00:00:00Z</updated>
@@ -179,9 +261,9 @@ Go has a lightweight test framework composed of the go test command and the test
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Git 命令大全</title>
 <link href="/b/git/git-" rel="alternate" type="text/html"/>
-<updated>2020-04-23T00:00:00Z</updated>
+<updated>2020-05-07T00:00:00Z</updated>
 <summary/>
-<published>2020-04-23T00:00:00Z</published>
+<published>2020-05-07T00:00:00Z</published>
 <content># Git 配置
 
 ## ConfigFile
@@ -410,74 +492,4 @@ In Ch</content>
     import "encoding/json"
     type response2 struct {
         P</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>vim-motion</title>
-<link href="/b/vim/vim-motion" rel="alternate" type="text/html"/>
-<updated>2020-03-31T00:00:00Z</updated>
-<summary/>
-<published>2020-03-31T00:00:00Z</published>
-<content># Motion, Movement
-Movement 移动光标、字符，Vim 最核心的功能操作
-
-    基本 hjkl
-    单词 
-        小单词wbe
-            w: </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>go 的变量</title>
-<link href="/b/go/7.go-var" rel="alternate" type="text/html"/>
-<updated>2020-04-19T00:00:00Z</updated>
-<summary/>
-<published>2016-09-27T00:00:00Z</published>
-<content># go print
-## println
-只能用于string, int..
-
-    # no need import fmt
-    println(xyz)
-
-## fmt.Println
-a</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>map</title>
-<link href="/b/go/7.go-var-map" rel="alternate" type="text/html"/>
-<updated>2020-04-03T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># map
-
-## define map
-键必须是⽀支持相等运算符 (==、!=) 类型，⽐比如 number、string、 pointer、array、struct，以及对应的 interface</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Golang 指针</title>
-<link href="/b/go/13.go-pointer" rel="alternate" type="text/html"/>
-<updated>2020-03-31T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Pointers
-1. 支持指针类型 *T,指针的指针 **T,以及包含包名前缀的 `*&lt;package&gt;.T`。
-2. 不能对指针做加减法等运算。
-3. 默认是`nil`, 没有`NULL`
-
-</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>vim plug 插件系统</title>
-<link href="/b/vim/nvim-plugin" rel="alternate" type="text/html"/>
-<updated>2020-03-30T00:00:00Z</updated>
-<summary/>
-<published>2018-05-09T00:00:00Z</published>
-<content># vim plug 插件系统
-
-    curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
-        ht</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Requests</title>
-<link href="/b/py/py-aiohttp" rel="alternate" type="text/html"/>
-<updated>2020-03-30T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># Requests
-Refer to: http://aiohttp.readthedocs.io/en/stable/tutorial.html#aiohttp-tutorial
-```
-impo</content>
 </entry></feed>

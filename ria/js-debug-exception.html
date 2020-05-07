@@ -49,7 +49,7 @@ const MD_URL='post/ria/js-debug-exception.md';
 <pre id="markdown" v-pre>---
 title: try-catch
 date: 2018-10-04
-updated: 2019-08-04
+updated: 2020-05-07
 ---
 # try-catch
 ## throw any type
@@ -65,6 +65,25 @@ updated: 2019-08-04
     function UserException(message) {
         this.message = message;
         this.name = &quot;UserException&quot;;
+    }
+    UserException.prototype = new Error();
+
+    e = new UserException(&quot;msg&quot;)
+    e.stack string
+    e.message
+    e.name
+
+## catch specific exception
+
+    // ...
+    try {
+        throw new SpecificError;
+    } catch (e) {
+        if (e instanceof SpecificError) {
+            // specific error
+        } else {
+            throw e; // let others bubble up
+        }
     }
 
 ## ReferenceError:

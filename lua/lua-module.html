@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/c/ops-process-lsof.md';
+const MD_URL='post/lua/lua-module.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>ops-process-lsof</title>
+<title>lua module</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -47,143 +47,66 @@ const MD_URL='post/c/ops-process-lsof.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: ops-process-lsof
-date: 2018-09-27
+title: lua module
+date: 2019-01-06
 updated: 2020-05-07
 ---
-# lsof
-[/p/linux-process-lsof](/p/linux-process-lsof)
+# 定义module.lua
 
-List Open File. 比如查看所有打开file descriptor
+    -- 文件名为 module.lua
+    -- 定义一个名为 module 的模块
+    module = {}
+    
+    -- 定义一个常量
+    module.constant = &quot;这是一个常量&quot;
+    
+    -- 定义一个函数
+    function module.func1()
+        io.write(&quot;这是一个公有函数！\n&quot;)
+    end
+    
+    local function func2()
+        print(&quot;这是一个私有函数！&quot;)
+    end
+    
+    function module.func3()
+        func2()
+    end
+    
+    return module
 
-    lsof | wc -l
+# require module
 
-## format
+    require(&quot;&lt;模块名&gt;&quot;)
+    -- 或者
+    require &quot;&lt;模块名&gt;
+    print(module.constant)
 
-	-n  inhibits  the conversion of network numbers to host names for network files.
-	-P  inhibits  the conversion of port numbers to port names for network files.
+别名
 
-## via socket
-Find original owning process of a Linux socket
+    local m = require(&quot;module&quot;)
+    print(m.constant)
 
-	sudo lsof /dev/shm/mc.sock
+## 加载机制：
+1.先在全局变量 package.path（由LUA_PATH 定义）找lua，如果找过目标文件，则会调用 package.loadfile 来加载模块。
 
-## filter
-	-U          #selects the listing of UNIX domain socket files.
-    -u users    #selects  the  listing of files for the user whose login names or
-                user ID numbers  are  in  the  comma-separated  set  s  -  e.g.,
-                ``abe&#x27;&#x27;,  or  ``548,root&#x27;&#x27;.
+    export LUA_PATH=&quot;~/lua/?.lua;;&quot;
+    # 文件路径以 &quot;;&quot; 号分隔，最后的 2 个 &quot;;;&quot; 表示新加的路径后面加上原来的默认路径。
+    # ~/lua/?.lua;./?.lua;
 
-## and logic
+2.否则，就找从全局变量 package.cpath 获取(LUA_CPATH) 找?.so 或 ?.dll 类型的c程序库
 
-	-a	and logic.
-	-U -a -ufoo
-		selects -U(socket) that belong to processes owned by user‘‘foo’’.
+## 加载c包
+C包在使用以前必须首先加载并连接so/dll
 
-## via fd
-
-	$ strace -p &lt;pid&gt; -f
-	poll([{fd=5, events=POLLIN|POLLPRI|POLLRDNORM|POLLRDBAND}], 1, 1000) = 0 (Timeout)
-	$ lsof -d 5 | grep &lt;pid&gt;
-	php        2624      www    5u  IPv4        3876970637      0t0        TCP *:45473-&gt;host-31.alipay.com:https (ESTABLISHED)
-
-
-## via port and protocol
-
-	-i [i]
-	-i [46][protocol][@hostname|hostaddr][:service|port]
-		selects  the  listing  of  files any of whose Internet address matches the address specified in i.
-		46	ipv4 or ipv6
-
-example
-
-	lsof -i :portNumber
-	lsof -i tcp:portNumber
-	lsof -i udp:portNumber
-	lsof -i :80
-	lsof -i :80 | grep LISTEN
-
-find all listen port
-
-     sudo lsof -i -P -n | grep LISTEN
-
-列出目前连接主机nf5260i5-td上端口为：20，21，80相关的所有文件信息，且每隔3秒重复执行
-
-	lsof -i @nf5260i5-td:20,21,80 -r 3
-
-### via protocol
-
-	lsof -n -i4TCP:$PORT | grep LISTEN
-
-## user
-查看用户username的进程所打开的文件
-
-	$ lsof -u username
-	# 用户打开的进程
-	$ ps -lu username
-
-## via process
-查询init进程当前打开的文件
-
-	$lsof -c &lt;进程名&gt;
-	$lsof -c init
-
-查询指定的进程ID(23295)打开的文件：
-
-	$lsof -p 23295
-	$lsof -p $$
-	$lsof -p pid1 -p pid2
-
-    # OR
-    ls -l /proc/23295/fd/
-
-## via dir
-查询指定目录下被进程开启的文件（使用+D 递归目录）：
-
-	$lsof +d mydir1/
-
-# /proc(procfs File System)
-/proc (or procfs) is a pseudo-file system that it is dynamically generated after each reboot. It is used to access kernel information.
-
-    /proc/PID/cmdline : process arguments
-    /proc/PID/cwd : process current working directory (symlink)
-    /proc/PID/exe : path to actual process executable file (symlink)
-    /proc/PID/environ : environment used by process
-    /proc/PID/root : the root path as seen by the process. For most processes this will be a link to / unless the process is running in a chroot jail.
-    /proc/PID/status : basic information about a process including its run state and memory usage.
-    /proc/PID/task : hard links to any tasks that have been started by this (the parent) process.
-
-# List File Descriptors in Kernel Memory
-
-    $ sysctl fs.file-nr
-    fs.file-nr = 1020	0	70000
-    # or
-    $ cat /proc/sys/fs/file-nr
-
-Where:
-
-    1020 The number of allocated file handles.
-    0 The number of unused-but-allocated file handles.
-    70000 The system-wide maximum number of file handles.
-
-find out the system-wide maximum number of file handles:
-
-    $ sysctl fs.file-max
-    fs.file-max = 70000
-
-# find process
-
-	lsof file 查看文件被哪些进程使用
-	fuser -m -u file
-		-m 显示pid
-		-u 显示owner
-		-k kill 占用的进程
+    local path = &quot;/usr/local/lua/lib/libluasocket.so&quot;
+    -- 所有c 包需要加载和连接，连接一般用初始化的函数luaopen_socket
+    local f = loadlib(path, &quot;luaopen_socket&quot;)
+    -- 真正执行连接函数
+    f()
 
 
-# References
-- [c-debug-tool]
-
-[c-debug-tool]: http://linuxtools-rst.readthedocs.org/zh_CN/latest/advance/02_program_debug.html#nm</pre>
+</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
