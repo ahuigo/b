@@ -49,7 +49,7 @@ const MD_URL='post/lua/lua-var.md';
 <pre id="markdown" v-pre>---
 title: Lua 的变量
 date: 2019-02-05
-updated: 2020-05-07
+updated: 2020-05-11
 ---
 # Lua 变量
 
@@ -65,7 +65,7 @@ updated: 2020-05-07
     table	Lua 中的表（table）其实是一个&quot;关联数组&quot;（associative arrays），数组的索引可以是数字或者是字符串。
         在 Lua 里，table 的创建是通过&quot;构造表达式&quot;来完成，最简单构造表达式是{}，用来创建一个空表。
 
-type
+## type
 
     print(type(&quot;Hello world&quot;))      --&gt; string
     print(type(10.4*3))             --&gt; number
@@ -75,6 +75,7 @@ type
     print(type(nil))                --&gt; nil
     print(type(type(X)))            --&gt; string
 
+    if not (type(name) == &quot;string&quot;) then
 
 
 ## thread
