@@ -49,7 +49,7 @@ const MD_URL='post/c/1.shell-var.md';
 <pre id="markdown" v-pre>---
 title: Shell 变量的数据类型
 date: 2018-09-27
-updated: 2019-11-04
+updated: 2020-05-12
 ---
 # Shell 变量的数据类型
 shell 主要支持字符串 和 数组 两种数据类型。数组功能很弱，如果想做复杂的处理，建议用python 等脚本处理。
@@ -60,6 +60,47 @@ shell 主要支持字符串 和 数组 两种数据类型。数组功能很弱�
 	unset VAR
 
 ## String, 字符串
+
+### heredoc and nowdoc
+Act as stdin
+
+	# heredoc 任何字词都可以当作分界符 (cat &lt; file)
+	cat  &lt;&lt; MM
+	echo $? #支持变量替换
+	MM
+
+	#nowdoc 加引号防止变量替换
+	cat &lt;&lt; &#x27;MM&#x27; &gt; out.txt
+	echo $?
+	MM
+
+	# `&lt;&lt;-` ignore tab(not space)
+	if true ; then
+		cat &lt;&lt;- MM | sudo tee -a file &gt; /dev/null
+		The leading tab is ignored.
+    MM
+	fi
+	# nowdoc + ignore tab(not include space) MM 仍然要顶行写
+	cat &lt;&lt;-&#x27;MM&#x27; | sudo tee -a a.txt &gt; /dev/null
+		echo $PATH
+    MM
+
+#### here string
+&gt; Note: here string 结尾会追加&#x27;\n&#x27;
+
+Act as stdin
+
+    python &lt;&lt;&lt;&#x27;import os;os._exit(0)&#x27;
+	tr a-z A-Z &lt;&lt;&lt; &#x27;one two&#x27;
+	cat &lt;&lt;&lt; &#x27;one two&#x27;
+
+	cat &lt;&lt;&lt; $PATH a.txt
+	echo &quot;$PATH&quot; | cat a.txt
+
+Note that here string behavior can also be accomplished (reversing the order) via piping and the echo command, as in:
+
+	echo &#x27;one two&#x27; | tr a-z A-Z
+
 
 ### str2hex
 

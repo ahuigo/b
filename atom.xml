@@ -2,9 +2,35 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-05-11T22:23:11Z</updated>
+<updated>2020-05-12T21:57:04Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>shell 表达式</title>
+<link href="/b/c/shell-expr" rel="alternate" type="text/html"/>
+<updated>2020-05-12T00:00:00Z</updated>
+<summary/>
+<published>2020-05-12T00:00:00Z</published>
+<content># shell 表达式
+
+# Loop
+
+## for
+
+	for a in "$*" ; do echo "$a "; done
+	for a in "$@" ; do echo "$a "; do</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Shell 变量的数据类型</title>
+<link href="/b/c/1.shell-var" rel="alternate" type="text/html"/>
+<updated>2020-05-12T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Shell 变量的数据类型
+shell 主要支持字符串 和 数组 两种数据类型。数组功能很弱，如果想做复杂的处理，建议用python 等脚本处理。
+
+## 变量定义与删除
+
+    VAR='he</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>nginx 的变量类型</title>
 <link href="/b/nginx/nginx-var" rel="alternate" type="text/html"/>
 <updated>2020-05-11T00:00:00Z</updated>
@@ -79,7 +105,7 @@ end
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Shell 编程</title>
 <link href="/b/c/shell-cmd" rel="alternate" type="text/html"/>
-<updated>2020-05-11T00:00:00Z</updated>
+<updated>2020-05-12T00:00:00Z</updated>
 <summary/>
 <published>2014-03-05T00:00:00Z</published>
 <content># Shell Programming
@@ -472,24 +498,4 @@ http://initd.org/psycopg/docs/cursor.html
 <content># webspider
 Python 3网络爬虫开发实战 
 https://germey.gitbooks.io/python3webspider/1.2.2-Selenium%E7%9A%84%E5</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>学习 docker</title>
-<link href="/b/arch/docker-begin" rel="alternate" type="text/html"/>
-<updated>2020-04-13T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># 什么是Docker
-虚拟机是对硬件的虚拟化(需要Hypervisor这个软件层), 而docker （LXC, linux container）是对操作系统的虚拟化。
-1. docker 基于li</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>css 布局</title>
-<link href="/b/ria/css-layout" rel="alternate" type="text/html"/>
-<updated>2020-04-10T00:00:00Z</updated>
-<summary/>
-<published>2018-03-03T00:00:00Z</published>
-<content># 参考
-&gt; 参考: http://zh.learnlayout.com/position.html
-
-# display
-1. block: This makes the element a blo</content>
 </entry></feed>
