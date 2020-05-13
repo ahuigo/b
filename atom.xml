@@ -2,14 +2,14 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-05-12T21:57:04Z</updated>
+<updated>2020-05-13T22:50:47Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
 <title>shell 表达式</title>
 <link href="/b/c/shell-expr" rel="alternate" type="text/html"/>
-<updated>2020-05-12T00:00:00Z</updated>
+<updated>2020-05-13T00:00:00Z</updated>
 <summary/>
-<published>2020-05-12T00:00:00Z</published>
+<published>2020-05-13T00:00:00Z</published>
 <content># shell 表达式
 
 # Loop
@@ -72,7 +72,7 @@ location 是用于路由的. 默认路由 或者location 语句体为空，则�
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>nginx proxy</title>
 <link href="/b/nginx/nginx-proxy" rel="alternate" type="text/html"/>
-<updated>2020-05-11T00:00:00Z</updated>
+<updated>2020-05-13T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># http_proxy
@@ -105,7 +105,7 @@ end
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Shell 编程</title>
 <link href="/b/c/shell-cmd" rel="alternate" type="text/html"/>
-<updated>2020-05-12T00:00:00Z</updated>
+<updated>2020-05-13T00:00:00Z</updated>
 <summary/>
 <published>2014-03-05T00:00:00Z</published>
 <content># Shell Programming
@@ -394,7 +394,7 @@ centos:
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>ops-process-ps</title>
 <link href="/b/c/ops-process-ps" rel="alternate" type="text/html"/>
-<updated>2020-04-23T00:00:00Z</updated>
+<updated>2020-05-13T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># Preface

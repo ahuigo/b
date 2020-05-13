@@ -49,7 +49,7 @@ const MD_URL='post/c/ops-process-ps.md';
 <pre id="markdown" v-pre>---
 title: ops-process-ps
 date: 2018-09-27
-updated: 2020-04-23
+updated: 2020-05-13
 ---
 # Preface
 
@@ -69,6 +69,12 @@ ps工具标识进程的5种状态码:
 1. D 不可中断 uninterruptible sleep (usually IO)
 1. Z 僵死 a defunct (”zombie”) process
 1. T 停止 traced or stopped
+
+## check pid exist
+
+    kill -0 $pid &amp;&amp; echo pid exist
+    [ -n &quot;$PID&quot; -a -e /proc/$PID ]
+    [ -n &quot;$(ps -p $PID -o pid=)&quot; ]
 
 # ps
 
