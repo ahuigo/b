@@ -48,8 +48,8 @@ const MD_URL='post/vim/vim-motion.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: vim-motion
-date: 2020-03-31
-updated: 2020-03-31
+date: 2020-05-15
+updated: 2020-05-15
 ---
 # Motion, Movement
 Movement 移动光标、字符，Vim 最核心的功能操作
@@ -361,6 +361,8 @@ ps: &lt;C-O&gt; 或者 &lt;C-I&gt;/&lt;TAB&gt; 前面都可加数字(jumpid),比
 
     &lt;C-o&gt; + hjkl
     &lt;C-o&gt; + wbeWBE
+    &quot; C-\ 不会切换光标位置
+    &lt;C-\&gt;&lt;C-o&gt; + wbeWBE
 
 一般`&lt;C-o&gt;` 是要结合map 做成方便的快捷键的, 比如在`~/.vimrc` 加入
 

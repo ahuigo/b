@@ -2,9 +2,76 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-05-13T22:50:47Z</updated>
+<updated>2020-05-15T21:37:12Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>vim-motion</title>
+<link href="/b/vim/vim-motion" rel="alternate" type="text/html"/>
+<updated>2020-05-15T00:00:00Z</updated>
+<summary/>
+<published>2020-05-15T00:00:00Z</published>
+<content># Motion, Movement
+Movement 移动光标、字符，Vim 最核心的功能操作
+
+    基本 hjkl
+    单词 
+        小单词wbe
+            w: </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>vim 之 map命令</title>
+<link href="/b/vim/vim-map" rel="alternate" type="text/html"/>
+<updated>2020-05-15T00:00:00Z</updated>
+<summary/>
+<published>2020-05-15T00:00:00Z</published>
+<content># Preface
+map命令手册位于：
+
+    :h map.txt
+
+map 命令语法：
+
+   map {lhs} {rhs}
+
+# map command list - map 命令列表
+
+</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-argv</title>
+<link href="/b/py/py-argv" rel="alternate" type="text/html"/>
+<updated>2020-05-15T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Preface
+- click
+click 之于argparse/argv, 相当于requests 之于urllib
+
+命令行程序开发
+
+	asciimatics：跨平台，全屏终端包（即鼠标/键</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>mac 工具集</title>
+<link href="/b/mac/mac-tool" rel="alternate" type="text/html"/>
+<updated>2020-05-15T00:00:00Z</updated>
+<summary/>
+<published>2018-10-10T00:00:00Z</published>
+<content># Preface
+本文是我所用的mac 工具集大杂烩。
+
+一些mac osx 能做而linux 桌面级OS 目前不能做的事情：
+
+- mac 支持全局readline , 字符编辑的效率非常非常高(</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>shell 终端使用技巧</title>
+<link href="/b/c/shell-zsh" rel="alternate" type="text/html"/>
+<updated>2020-05-15T00:00:00Z</updated>
+<summary/>
+<published>2020-05-15T00:00:00Z</published>
+<content># Preface
+本文总结了shell 终端的使用技术: 主要包括Readline 使用，以及zsh 与iTerm2 的使用
+
+# Shortcuts
+下面列出的快捷键大部分是通用的，有一小部分快捷</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>shell 表达式</title>
 <link href="/b/c/shell-expr" rel="alternate" type="text/html"/>
 <updated>2020-05-13T00:00:00Z</updated>
@@ -173,7 +240,7 @@ http://billie66.github.io/TLCL/book/zh/</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>lua module</title>
 <link href="/b/lua/lua-module" rel="alternate" type="text/html"/>
-<updated>2020-05-11T00:00:00Z</updated>
+<updated>2020-05-15T00:00:00Z</updated>
 <summary/>
 <published>2019-01-06T00:00:00Z</published>
 <content># 定义module.lua
@@ -436,66 +503,4 @@ linux上进程有5种状态:
 # find
 
 	find [-H | -L</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Python 的语法</title>
-<link href="/b/py/py-expr" rel="alternate" type="text/html"/>
-<updated>2020-04-17T00:00:00Z</updated>
-<summary/>
-<published>2018-03-01T00:00:00Z</published>
-<content># 多条件compare
-多条件比较
-
-    &gt;&gt;&gt; 5&lt;i&lt;100
-    &gt;&gt;&gt; 1 &lt; 3 &gt;= 3 &gt; 1==1 &lt;100
-    True
-
-# 条件和循环
-
-## try finnaly</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Go log</title>
-<link href="/b/go/go-log" rel="alternate" type="text/html"/>
-<updated>2020-04-19T00:00:00Z</updated>
-<summary/>
-<published>2019-09-21T00:00:00Z</published>
-<content># Go log
-
-## log.Println
-    import "log"
-    log.Println("timeout of 5 seconds.", []string{"abc"})
-</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>管理包和依赖的工具。</title>
-<link href="/b/py/py-pkg" rel="alternate" type="text/html"/>
-<updated>2020-04-14T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># 管理包和依赖的工具。
-
-pip：Python 包和依赖关系管理工具。官网
-pip-tools：保证 Python 包依赖关系更新的一组工具。官网
-conda：跨平台，Python 二进制包管理工具</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>help</title>
-<link href="/b/py/py-db-postgre" rel="alternate" type="text/html"/>
-<updated>2020-04-14T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># help
-http://initd.org/psycopg/docs/cursor.html
-
-# psycopg2
-## conn
-
-    import psycopg2
-    import</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>webspider</title>
-<link href="/b/py/py-webspider" rel="alternate" type="text/html"/>
-<updated>2020-04-13T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># webspider
-Python 3网络爬虫开发实战 
-https://germey.gitbooks.io/python3webspider/1.2.2-Selenium%E7%9A%84%E5</content>
 </entry></feed>

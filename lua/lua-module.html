@@ -49,7 +49,7 @@ const MD_URL='post/lua/lua-module.md';
 <pre id="markdown" v-pre>---
 title: lua module
 date: 2019-01-06
-updated: 2020-05-11
+updated: 2020-05-15
 ---
 # 定义module.lua
 
@@ -104,7 +104,7 @@ old way lua modle in 5.1 5.0 不用return
 ## 加载机制：
 1.先在全局变量 LUA_PATH + package.path 找lua，如果找过目标文件，则会调用 package.loadfile 来加载模块。
 
-    export LUA_PATH=&quot;~/lua/?.lua;;&quot;
+    export LUA_PATH=&quot;path1;path2;~/lua/?.lua;;&quot;
     # 文件路径以 &quot;;&quot; 号分隔，最后的 2 个 &quot;;;&quot; 表示新加的路径后面加上原来的默认路径。
     # ~/lua/?.lua;./?.lua;
 

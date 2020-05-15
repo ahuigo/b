@@ -49,7 +49,7 @@ const MD_URL='post/py/py-argv.md';
 <pre id="markdown" v-pre>---
 title: py-argv
 date: 2018-09-28
-updated: 2020-04-03
+updated: 2020-05-15
 ---
 # Preface
 - click
@@ -160,6 +160,12 @@ action=&quot;store_true&quot; is bool
 # click 
 ## help?
     @click.command(no_args_is_help=True)
+
+echo help:
+
+    ctx = click.get_current_context()
+    click.echo(ctx.get_help())
+    ctx.exit()
 
 ## option
 option 的先后，也args name的先后无关
