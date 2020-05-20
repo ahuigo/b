@@ -48,8 +48,8 @@ const MD_URL='post/c/shell-redirect-fork2exec.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: linux 下的Fork 与 Exec
-date: 2019-07-19
-updated: 2019-07-19
+date: 2020-05-20
+updated: 2020-05-20
 ---
 # Preface
 多进程的的内容包括进程控制, 进程通信, 进程本身的结构.
@@ -61,7 +61,15 @@ updated: 2019-07-19
     /dev/stdout -&gt; /dev/fd/1
     /dev/stderr -&gt; /dev/fd/2
 
-重定向：
+    # sleep 130 &gt;&amp; 1.txt &amp;
+    [2] 19598
+    # ls -la /proc/19598/fd
+    lrwx------ 1 root root 64 May 20 19:34 0 -&gt; /dev/pts/1
+    l-wx------ 1 root root 64 May 20 19:34 1 -&gt; /root/1.txt
+    l-wx------ 1 root root 64 May 20 19:34 2 -&gt; /root/1.txt
+
+## 重定向语法
+### 重定向：
 
     &lt; or 0&lt; : 
         $ cat &lt;a.txt
@@ -71,13 +79,38 @@ updated: 2019-07-19
         $ { echo ass; xxxxxxx} 2&gt;a.txt
         zsh: command not found: xxxxxxx
 
+### 叠加重定
+下面的语法全等价, 都是重定向err+stdout到a.txt
+
+    &gt;&amp; a.txt
+    &amp;&gt; a.txt
+    &gt;&amp;a.txt
+    &amp;&gt;a.txt
+    # 可以记忆为`&amp;` 代表err,  `&gt;`代表stdtout
+
+感觉应该尽量使用`&gt;&amp;`：
+
+    # out+err
+    ( echo ass; xxxxxxx) 2&gt;&amp;1 | tee stdout.txt
+
+    # 两次stdout
+    ( echo ass; xxxxxxx) &gt;&amp;1 | tee stdout.txt
+
+`&amp;&gt;`与`&gt;&amp;`相同，`2&amp;&gt;` 非常特殊
+
+    # out+err 到文件1 (stdout screen关闭)
+    ( echo ass; xxxxxxx) &amp;&gt;1 
+
+    # 语法问题
+    ( echo ass; xxxxxxx) 2&amp;&gt;1
+
 参考下面的exec
 
     &gt;&amp; or &amp;&gt; : 重定向标准输出和标准错误
         $ { echo ass; xxxxxxx} &gt;&amp; a.txt
         ass
         zsh: command not found: xxxxxxx
-    2&gt;&amp; 重定向标准错误(重复)
+    2&gt;&amp; 重定向标准错误(重复error, 没有stdout)
         $ { echo ass; xxxxxxx} 2&gt;&amp; a.txt
 
 ## 输入重定向

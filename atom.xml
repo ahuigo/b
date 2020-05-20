@@ -2,9 +2,108 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-05-15T21:37:12Z</updated>
+<updated>2020-05-20T21:54:10Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>python 字典</title>
+<link href="/b/py/py-var-dict" rel="alternate" type="text/html"/>
+<updated>2020-05-20T00:00:00Z</updated>
+<summary/>
+<published>2020-05-20T00:00:00Z</published>
+<content># Dict
+
+    key='city'
+	dic = {'x': 1, 'y': 2, 2:100, key:'bj'}
+	del dict['x']
+    dict.pop(2) # key</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>help</title>
+<link href="/b/py/py-db-postgre" rel="alternate" type="text/html"/>
+<updated>2020-05-20T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># help
+http://initd.org/psycopg/docs/cursor.html
+
+# psycopg2
+## conn
+
+    import psycopg2
+    import</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>linux 下的Fork 与 Exec</title>
+<link href="/b/c/shell-redirect-fork2exec" rel="alternate" type="text/html"/>
+<updated>2020-05-20T00:00:00Z</updated>
+<summary/>
+<published>2020-05-20T00:00:00Z</published>
+<content># Preface
+多进程的的内容包括进程控制, 进程通信, 进程本身的结构.
+
+# 重定向
+标准输入输出:
+
+    /dev/stdin -&gt; /dev/fd/0
+    /dev/stdout </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>ops-init</title>
+<link href="/b/c/service/ops-init" rel="alternate" type="text/html"/>
+<updated>2020-05-20T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Preface
+
+# init
+
+## init
+init指linux 系统运行级runlevel 0~6. 可在/etc/inittab中指定:
+
+	id:3:initdefault:
+
+
+##</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Systemd</title>
+<link href="/b/c/service/init-systemd" rel="alternate" type="text/html"/>
+<updated>2020-05-20T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Systemd
+使用了 Systemd，就不需要再用init了。Systemd 取代了initd，成为系统的第一个进程（PID 等于 1），其他进程都是它的子进程。
+
+	$ systemctl -</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Systemd 日志管理</title>
+<link href="/b/c/service/init-systemd-log" rel="alternate" type="text/html"/>
+<updated>2020-05-20T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Systemd 日志管理: journalctl
+Systemd 统一管理所有 Unit 的启动日志。带来的好处就是，可以只用journalctl一个命令，查看所有日志（内核日志和应用日志）。日志</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Js Array 整理</title>
+<link href="/b/ria/js-array" rel="alternate" type="text/html"/>
+<updated>2020-05-18T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Js Array 整理
+array 不像string 是primitive value, 所以length 可以缩短放大array。
+
+	arr = [1,2,3]
+	arr.length = 1</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>nginx 的变量类型</title>
+<link href="/b/nginx/nginx-var-env-str" rel="alternate" type="text/html"/>
+<updated>2020-05-18T00:00:00Z</updated>
+<summary/>
+<published>2020-05-18T00:00:00Z</published>
+<content># Variable
+## set variable
+Set variable's value:
+
+	Syntax:	set $variable value;
+	Default:	—
+	Context</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>vim-motion</title>
 <link href="/b/vim/vim-motion" rel="alternate" type="text/html"/>
 <updated>2020-05-15T00:00:00Z</updated>
@@ -128,7 +227,7 @@ Set variable's value:
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>nginx location</title>
 <link href="/b/nginx/nginx-router" rel="alternate" type="text/html"/>
-<updated>2020-05-11T00:00:00Z</updated>
+<updated>2020-05-18T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># nginx router
@@ -139,7 +238,7 @@ location 是用于路由的. 默认路由 或者location 语句体为空，则�
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>nginx proxy</title>
 <link href="/b/nginx/nginx-proxy" rel="alternate" type="text/html"/>
-<updated>2020-05-13T00:00:00Z</updated>
+<updated>2020-05-20T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># http_proxy
@@ -196,9 +295,9 @@ http://billie66.github.io/TLCL/book/zh/</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>install</title>
 <link href="/b/nginx/nginx-install" rel="alternate" type="text/html"/>
-<updated>2020-05-07T00:00:00Z</updated>
+<updated>2020-05-20T00:00:00Z</updated>
 <summary/>
-<published>2020-05-07T00:00:00Z</published>
+<published>2020-05-20T00:00:00Z</published>
 <content># install
 
     brew install openresty/brew/openresty
@@ -227,7 +326,7 @@ http://billie66.github.io/TLCL/book/zh/</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Lua 的变量</title>
 <link href="/b/lua/lua-var" rel="alternate" type="text/html"/>
-<updated>2020-05-11T00:00:00Z</updated>
+<updated>2020-05-20T00:00:00Z</updated>
 <summary/>
 <published>2019-02-05T00:00:00Z</published>
 <content># Lua 变量
@@ -279,7 +378,7 @@ List Open File. 比如查看所有打开file descriptor
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Postgre CRUD</title>
 <link href="/b/db/pg-crud" rel="alternate" type="text/html"/>
-<updated>2020-05-02T00:00:00Z</updated>
+<updated>2020-05-20T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># Postgre CRUD
@@ -408,99 +507,4 @@ https://zhuanlan.zhihu.com/p/37196587
 	import re
     re.compile(pattern, [,modifier]).match(str)
     re.match(pattern, str[, m</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>golang pkg 开发包</title>
-<link href="/b/go/go-pkg-dev" rel="alternate" type="text/html"/>
-<updated>2020-04-23T00:00:00Z</updated>
-<summary/>
-<published>2016-09-27T00:00:00Z</published>
-<content># golang write mod package
-&gt; 下面的例子我放在了：https://github.com/ahuigo/go-lib/tree/master/import-local-mod</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>系统调用</title>
-<link href="/b/go/go-os" rel="alternate" type="text/html"/>
-<updated>2020-04-23T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># 系统调用
-Go语言主要是通过两个包完成的。一个是os包，一个是syscall包
-
-1. syscall里提供了什么Chroot/Chmod/Chmod/Chdir…，Getenv/Getgid/G</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>go-test</title>
-<link href="/b/go/15.go-test" rel="alternate" type="text/html"/>
-<updated>2020-04-23T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Preface
-Go has a lightweight test framework composed of the go test command and the testing packag</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Git 命令大全</title>
-<link href="/b/git/git-" rel="alternate" type="text/html"/>
-<updated>2020-05-07T00:00:00Z</updated>
-<summary/>
-<published>2020-05-07T00:00:00Z</published>
-<content># Git 配置
-
-## ConfigFile
-1. /etc/gitconfig #git config --system
-2. ~/.gitconfig 	#git config --global</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Postgre 安装\配置\管理</title>
-<link href="/b/db/pg-ddl-install" rel="alternate" type="text/html"/>
-<updated>2020-04-23T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Postgre 安装\配置\管理
-
-## intall
-centos:
-
-    yum install postgresql-server postgresql-contrib -y
-    s</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>ops-process-ps</title>
-<link href="/b/c/ops-process-ps" rel="alternate" type="text/html"/>
-<updated>2020-05-13T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Preface
-
-# processe status
-linux上进程有5种状态:
-
-1. 运行(正在运行或在运行队列中等待)
-2. 中断(休眠中, 受阻, 在等待某个条件的形成或接受到信号)
-3</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>ops-ftp-rsync</title>
-<link href="/b/c/ops-ftp-rsync" rel="alternate" type="text/html"/>
-<updated>2020-04-19T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Preface
-
-# rsync
-
-## rsync client
-
-	rsync option source[source2 ... sourceN] destination
-	rsync -a</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>linux 文件管理</title>
-<link href="/b/c/ops-file" rel="alternate" type="text/html"/>
-<updated>2020-04-19T00:00:00Z</updated>
-<summary/>
-<published>2020-04-19T00:00:00Z</published>
-<content># Preface
-本该讲述的是与shell 相关的 Linux文件管理
-
-# ls
-
-	ll -S 按文件大小排序
-	ll -i 查看文件的inode
-
-# find
-
-	find [-H | -L</content>
 </entry></feed>

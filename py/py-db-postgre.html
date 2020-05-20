@@ -49,7 +49,7 @@ const MD_URL='post/py/py-db-postgre.md';
 <pre id="markdown" v-pre>---
 title: help
 date: 2018-09-28
-updated: 2020-04-14
+updated: 2020-05-20
 ---
 # help
 http://initd.org/psycopg/docs/cursor.html
@@ -166,6 +166,14 @@ postgre 能自动处理Array/Datetime
 #### fetch var
     cursor.execute(&quot;select name from prices where code=%s order by trade_date desc limit 1&quot;, [code])
     return cursor.fetchone()
+
+#### fetch as dict
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    ....
+    rows = cursor.fetchall() # list
+    for row in rows:
+        row[&#x27;id&#x27;],row[0] # 特殊的dict
+        row = dict(row) # 普通的dict
 
 ## ddl
 ### databases

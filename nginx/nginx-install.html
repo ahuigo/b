@@ -48,8 +48,8 @@ const MD_URL='post/nginx/nginx-install.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: install
-date: 2020-05-07
-updated: 2020-05-07
+date: 2020-05-20
+updated: 2020-05-20
 ---
 # install
 
@@ -64,7 +64,12 @@ updated: 2020-05-07
 或者在命令行中启动
 
     $ nginx    -p `pwd`/ -c conf/redis.conf -g &#x27;daemon off;&#x27;
-    $ nginx -s reload   -p `pwd`/ -c conf/redis.conf -g &#x27;daemon off;&#x27;</pre>
+    $ nginx -s reload   -p `pwd`/ -c conf/redis.conf -g &#x27;daemon off;&#x27;
+
+## reload 
+refer: http://nginx.org/en/docs/control.html
+
+refer: ops-fs-watch</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
