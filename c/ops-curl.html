@@ -48,8 +48,8 @@ const MD_URL='post/c/ops-curl.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: curl manual
-date: 2020-03-30
-updated: 2020-03-30
+date: 2020-05-21
+updated: 2020-05-21
 ---
 # curlt to python/node/go...
 curl 转换器: https://curl.trillworks.com/
@@ -124,11 +124,25 @@ post 默认是:application/x-www-form-urlencoded, 则不是multipart
 form 不要自己设置content-type(boundary 因为要自动算)
 
 	curl &#x27;http://localhost:8000/up.php&#x27;  -F &#x27;pic=@img/a.png&#x27;
-    curl https://httpbin.org/post --F &#x27;file=@a.txt&#x27;  -F &#x27;b=1&#x27;  -F  &#x27;c=2&#x27;
+    curl https://httpbin.org/post -F &#x27;pic=@a.txt&#x27;  -F &#x27;b=1&#x27;  -F  &#x27;c=2&#x27;
 	curl &#x27;http://localhost:8000/up.php&#x27;  -F &#x27;pic=@img/a.png&#x27; -F &#x27;var=value&#x27; -F &#x27;k2=v2&#x27;
 	curl -F &quot;file=@localfile;filename=nameinpost&quot; url.com
 	curl -F &quot;file=@localfile;filename=nameinpost;type=text/html&quot; url.com
-	curl &#x27;http://localhost:8000/up.php&#x27; -H &#x27;Content-Type: multipart/form-data; boundary=W&#x27; -d $&#x27;--W\r\nContent-Disposition: form-data; name=&quot;pic&quot;; filename=&quot;a.png&quot;\r\nContent-Type: image/png\r\n\r\ndata\r\n--W\r\nContent-Disposition: form-data; name=&quot;var&quot;\r\n\r\nvalue\r\n--W--\r\n&#x27;
+	curl https://httpbin.org/post -H &#x27;Content-Type: multipart/form-data; boundary=W&#x27; -d $&#x27;--W\r\nContent-Disposition: form-data; name=&quot;pic&quot;; filename=&quot;a.png&quot;\r\nContent-Type: image/png\r\n\r\ndata\r\n--W\r\nContent-Disposition: form-data; name=&quot;var&quot;\r\n\r\nvalue\r\n--W--\r\n&#x27;
+
+注意boundary=W, 以及`\r\n` 不是`\n--W`:
+
+    --W
+    Content-Disposition: form-data; name=&quot;pic&quot;; filename=&quot;a.png&quot;
+    Content-Type: image/png
+    
+    data
+    
+    --W
+    Content-Disposition: form-data; name=&quot;var&quot;
+    
+    value
+    --W--
 
 urlencode
 

@@ -2,9 +2,72 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-05-20T21:54:10Z</updated>
+<updated>2020-05-21T20:50:54Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>php str</title>
+<link href="/b/php/php-str" rel="alternate" type="text/html"/>
+<updated>2020-05-21T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># encoding
+## internal encoding
+mb_internal_encoding('UTF-8');
+echo mb_internal_encoding();
+ini_get(</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Git 命令大全</title>
+<link href="/b/git/git-" rel="alternate" type="text/html"/>
+<updated>2020-05-21T00:00:00Z</updated>
+<summary/>
+<published>2020-05-21T00:00:00Z</published>
+<content># Git 配置
+
+## ConfigFile
+1. /etc/gitconfig #git config --system
+2. ~/.gitconfig 	#git config --global</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>curl manual</title>
+<link href="/b/c/ops-curl" rel="alternate" type="text/html"/>
+<updated>2020-05-21T00:00:00Z</updated>
+<summary/>
+<published>2020-05-21T00:00:00Z</published>
+<content># curlt to python/node/go...
+curl 转换器: https://curl.trillworks.com/
+
+# Usage
+
+	-F,--form
+	-D- Dump t</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>test</title>
+<link href="/b/c/ops-benchmark" rel="alternate" type="text/html"/>
+<updated>2020-05-21T00:00:00Z</updated>
+<summary/>
+<published>2020-05-21T00:00:00Z</published>
+<content># Preface
+
+性能/压力测试的内涵：
+
+	基准/基线测试 base line testing / benchmark testing
+	负载测试 load testing
+	压力测试 stre</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>哈希</title>
+<link href="/b/algorithm/4.algo-hash" rel="alternate" type="text/html"/>
+<updated>2020-05-21T00:00:00Z</updated>
+<summary/>
+<published>2019-01-18T00:00:00Z</published>
+<content>
+# 哈希函数
+1. key 均匀的落到不同的slots
+2. key 本身不能影响到hash 的均匀性
+
+## 散列法
+### 取模法
+hash = key mod m
+1. m尽量用质数，不要用$</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>python 字典</title>
 <link href="/b/py/py-var-dict" rel="alternate" type="text/html"/>
 <updated>2020-05-20T00:00:00Z</updated>
@@ -444,67 +507,4 @@ n</content>
 <content># 浏览器同源政策及其规避方法
 http://www.ruanyifeng.com/blog/2016/04/same-origin-policy.html
 http://www.ruanyifeng</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>python 时间函数的用法笔记</title>
-<link href="/b/py/py-time" rel="alternate" type="text/html"/>
-<updated>2020-04-28T00:00:00Z</updated>
-<summary/>
-<published>2018-04-02T00:00:00Z</published>
-<content># time 工具
-time 提供基本的时间，sleep
-
-	import time
-	time.time()
-		19972314124.05238
-        time.localetime(</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>社保及养老保险</title>
-<link href="/b/life/life-pension" rel="alternate" type="text/html"/>
-<updated>2020-04-28T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># 重要
-
-## 商业保险
-https://zhuanlan.zhihu.com/p/37196587
-
-## 北京社保代理
-代缴社保和在公司缴纳的社保都是一样的: 五险:三金包括社保金（养老保险，失</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>GMT,UTC,DST,CST 各种时间标准</title>
-<link href="/b/c/shell-time" rel="alternate" type="text/html"/>
-<updated>2020-04-28T00:00:00Z</updated>
-<summary/>
-<published>2012-07-08T00:00:00Z</published>
-<content># 各世界时间标准
-我们经常遇到这4种时间：GMT,UTC,DST,CST。google了一下，在此做个小结.
-
-## 格林威治标准时间GMT
-含义：「格林威治标准时间」(Greenwich Mean</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>install:</title>
-<link href="/b/py/py-str-yaml" rel="alternate" type="text/html"/>
-<updated>2020-04-23T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># install:
-    ```
-    pip3 install pyyaml
-    ```
-
-# load
-    ```
-    &gt;&gt;&gt; import yaml
-    &gt;&gt;&gt; a=yam</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>python 的正则表达式</title>
-<link href="/b/py/py-str-regex" rel="alternate" type="text/html"/>
-<updated>2020-04-23T00:00:00Z</updated>
-<summary/>
-<published>2020-04-23T00:00:00Z</published>
-<content># regex 语法
-
-	import re
-    re.compile(pattern, [,modifier]).match(str)
-    re.match(pattern, str[, m</content>
 </entry></feed>
