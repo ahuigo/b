@@ -49,7 +49,7 @@ const MD_URL='post/py/py-file.md';
 <pre id="markdown" v-pre>---
 title: Python 文件处理
 date: 2018-09-28
-updated: 2019-06-19
+updated: 2020-05-24
 ---
 # Directory
 建议用Path 代替
@@ -126,6 +126,10 @@ example:
         import shutil
         shutil.rmtree(&#x27;/path/to/your/dir/&#x27;); # recursive
 
+### link file
+    os.symlink(src, dst)
+    os.link(src, dst)
+
 ### rename file:
 
 	os.rename(fileA_or_dirA, existedDir/fileB)
@@ -174,7 +178,7 @@ Starting with Python version 3.5, the glob module supports the `&quot;**&quot;` 
 
 	import glob
 	glob.glob(pathname, *, recursive=False); # list
-	glob.iglob(pathname, *, recursive=False); # iterator
+	glob.iglob(pathname, *, recursive=False); # iterator `**`
 
 	for filepath in glob.iglob(&#x27;src/**/*.c&#x27;, recursive=True):
 		print(filepath)

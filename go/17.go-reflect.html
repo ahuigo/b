@@ -49,7 +49,7 @@ const MD_URL='post/go/17.go-reflect.md';
 <pre id="markdown" v-pre>---
 title: 学习下Golang 的反射
 date: 2019-01-07
-updated: 2019-08-04
+updated: 2020-05-24
 ---
 # Relection json
     import &quot;github.com/mitchellh/mapstructure&quot;
@@ -429,6 +429,9 @@ Golang 有一个匿名struct field 委托行为(Embeded Fields)，
 2. https://github.com/golang/go/issues/16522 
 
 这两个issue 都有一段时间没有任何进展了, 最好的办法就是不要使用Embeded Fields。
+
+# Struct Tag
+例子：go-lib/struct/struct-tag.go
 
 # 参考
 - [go reflection]

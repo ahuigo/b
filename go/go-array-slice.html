@@ -5,7 +5,7 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/go/10.go-slice-array.md';
+const MD_URL='post/go/go-array-slice.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
@@ -49,7 +49,7 @@ const MD_URL='post/go/10.go-slice-array.md';
 <pre id="markdown" v-pre>---
 title: Golang：Array and slice
 date: 2018-09-27
-updated: 2019-08-17
+updated: 2020-05-24
 ---
 # array vs slice
 1. An array has fixed size, `[N]T`
@@ -104,6 +104,16 @@ The type `[n]T` is an array of `n` values of type `T`
 	pfArr := [...]*int{&amp;x,&amp;y}
 	fmt.Println(pf)
 	fmt.Println(pfArr)
+
+## in_array
+    func arrayIndex(a string, list []string) (int) {
+        for i, b := range list {
+            if b == a {
+                return i
+            }
+        }
+        return -1
+    }
 
 # Slices
 slice 中的array 是C++隐式引用array:
@@ -186,8 +196,13 @@ Slice is reference:
 len 限制了slice 读写，用reslice 创建新的slice 以便在cap 范围内读写：
 
     s1 := []int{0,1,2,3,4,5,6,7,8,9}
-    s2 := s1[2:3:5]     //len=1,cap=3, {2}
-    s3 := s2[1:]        //{3,4}
+    s2 := s1[2:3:5]     //len=1,cap=3: {2}
+                        //s2[1] 是index out of range
+    s3 := s2[1:]        //len=0,cap=2: {} 
+    s3 := s2[1:2:3]        //len=1,cap=2: {3}
+    s3 := s2[1:3:3]        //len=2,cap=2: {3,4}
+
+&gt; reslice 不能超出cap 大小
 
 ## join slice
 
@@ -266,8 +281,8 @@ The `range` form the `for loop iterates` over a `array, slice, string or map`, o
 You can skip the index or value by assigning to _.
 
     for _, v := range [2]int{1,2} {
-            fmt.Printf(&quot;2**%d = %d\n&quot;, _, v)
-        }
+        fmt.Printf(&quot;2**%d = %d\n&quot;, _, v)
+    }
 
 skip value:
 

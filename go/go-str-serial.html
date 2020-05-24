@@ -49,7 +49,7 @@ const MD_URL='post/go/go-str-serial.md';
 <pre id="markdown" v-pre>---
 title: go str
 date: 2019-05-06
-updated: 2020-04-23
+updated: 2020-05-24
 ---
 # go json
 
@@ -58,6 +58,7 @@ updated: 2020-04-23
     import &quot;encoding/json&quot;
     type response2 struct {
         Page   int      `json:&quot;page&quot;` //json 是可选的, 用于转名字
+        Password   string     `json:&quot;-&quot;` //json 不保存
         Fruits []string `json:&quot;fruits&quot;`
     }
     //等价

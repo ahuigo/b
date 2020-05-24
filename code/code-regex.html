@@ -49,16 +49,18 @@ const MD_URL='post/code/code-regex.md';
 <pre id="markdown" v-pre>---
 title: Posix Regex 正则语法
 date: 2018-08-18
-updated: 2019-10-30
+updated: 2020-05-24
 ---
 # Wildcard 通配符 和 Posix 正则
 正则分两大类:Posix和PCRE(Perl Compatible Regular Expression ). posix 已经很老了, 效率也没有PCRE高. 但是它被linux命令行广泛支持.
 在介绍Posix Regex之前, 我们先看看wildcard 通配符
 
 # wildcard 通配符
+wildcard 通配符 是用于匹配路径的
 
-	* 多个字符
-	? 单个字符
+	* 多个字符(不含文件分隔符)
+	** 多个字符(含文件分隔符)
+	? 单个字符(不含文件分隔符)
 	\* \? 转义特殊字符
     [...] 字符集合
         [^...]和[!...] 两种写法是等价的。
@@ -70,7 +72,7 @@ updated: 2019-10-30
     {a..z} 字符串范围
         echo {10..20}.txt
 
-目录匹配: `*` 不匹配`/`, `*/`匹配单层目录, 但最`**/` 则匹配多层目录
+目录匹配: `*` 不匹配文件分割符`/`, `**` 则匹配文件分割符
 
     # 单层目录
     $ ls */*.md |grep s-if

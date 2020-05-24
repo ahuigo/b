@@ -49,7 +49,7 @@ const MD_URL='post/go/16.go-func.md';
 <pre id="markdown" v-pre>---
 title: Golang func
 date: 2018-09-27
-updated: 2019-12-06
+updated: 2020-05-24
 ---
 # define func
 1. 不支持嵌套nested, 重载overload 和 
@@ -189,6 +189,7 @@ any type: interface{} , `$ godoc fmt Printf`
 	a := []interface{}{&quot;hello&quot;, &quot;world&quot;, 42}
 
 ## Multiple results
+### return multiple value
 A function can return any number of results.
 
 	func swap(x, y string) (string, string) {
@@ -210,6 +211,14 @@ multi return 不能赋值为单值，但是可以传给变参、多参
         println(args[0],args[1])
     }(swap(&quot;a&quot;,&quot;b&quot;))
 
+fmt.Println(a ...interface{}) 就能接入多参返回
+
+    fmt.Println(swap(&quot;a&quot;,&quot;b&quot;))          //ok
+
+发送参数时，不可以混用; 接收参数时可以混用
+
+    fmt.Println(&quot;swap&quot;, swap(&quot;a&quot;,&quot;b&quot;))  //error: single-value context
+
 参数匹配数不对时，就不能变参与形参混用了, 报: multiple-value in sigle-value context error
 不传多值时，就可以混用
 
@@ -220,8 +229,6 @@ multi return 不能赋值为单值，但是可以传给变参、多参
     func(z int, args ...string){
         println(z, args[0],args[1])
     }(swap(2, &quot;a&quot;,&quot;b&quot;))
-
-
 
 ### Named return values
 A return statement `without` arguments returns the `named return values`.

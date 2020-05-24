@@ -49,42 +49,8 @@ const MD_URL='post/go/7.go-var.md';
 <pre id="markdown" v-pre>---
 title: go 的变量
 date: 2016-09-27
-updated: 2020-04-19
+updated: 2020-05-24
 ---
-# go print
-## println
-只能用于string, int..
-
-    # no need import fmt
-    println(xyz)
-
-## fmt.Println
-any type:
-
-    fmt.Println(a1,b2)
-
-## fmt.Printf
-
-    var i int
-	var f float64
-	var b bool
-	var s string
-	fmt.Printf(&quot;%v %v %v %q\n&quot;, i, f, b, s)
-        0 0 false &quot;&quot;
-
-https://gobyexample.com/string-formatting
-
-    %T type
-    %q double-quote strings
-    %#v Go syntax representation
-
-### print address
-
-    var i = 0
-    fmt.Printf(&quot;%p&quot;, &amp;i)
-    var slice=[]int{0}
-    fmt.Printf(&quot;%p&quot;, slice)
-
 # Variables
 The var statement declares a list of variables
 

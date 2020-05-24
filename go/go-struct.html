@@ -49,7 +49,7 @@ const MD_URL='post/go/go-struct.md';
 <pre id="markdown" v-pre>---
 title: Golang 的结构体
 date: 2019-03-24
-updated: 2020-04-23
+updated: 2020-05-24
 ---
 # Golang Notes: struct
 struct 是值类型，slice 是引用类型(指针), 以下赋值方法是按值的
@@ -268,7 +268,8 @@ User继承 Model 所有属性， 包括gorm.Model.ID、方法
         gorm.Model
         title string 
     }
-    user:=User{Model:gorm.Model{ID:1}}
+    user:=User{Model:gorm.Model{ID:1}}  # ok
+    user:=User{Model:{gorm.Model{ID:1}}} # missing type in composite literal
 
     // 完全等价
     user.ID=1
