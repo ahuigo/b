@@ -48,8 +48,8 @@ const MD_URL='post/py/py-str-regex.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: python 的正则表达式
-date: 2020-05-24
-updated: 2020-05-24
+date: 2020-05-26
+updated: 2020-05-26
 ---
 # regex 语法
 
@@ -148,6 +148,8 @@ groupdict 判断key 存在性
 可以是unicode
 
     re.split(r&#x27;[，,]+&#x27;, &#x27;你好，我是..&#x27;)
+    &gt;&gt;&gt; re.match(r&#x27;.&#x27;, &#x27;你好&#x27;).group()
+    &#x27;你&#x27;
 
 ## 去贪婪
 

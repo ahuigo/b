@@ -36,7 +36,7 @@ const MD_URL='post/algorithm/tree-skiplist.md';
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,7 +49,7 @@ const MD_URL='post/algorithm/tree-skiplist.md';
 <pre id="markdown" v-pre>---
 title: 跳跃表
 date: 2017-09-26
-updated: 2019-03-12
+updated: 2020-05-26
 ---
 # 跳跃表
 我们实现redis 的有序集合用什么结构呢？
@@ -59,6 +59,11 @@ updated: 2019-03-12
 跳跃表(skiplist) 是一种随机化的数据结构，相当于为链表增加了索引，其效率比拟于二叉查找平衡树（平均查找时间是O(logN)）
 
 基本上，跳跃列表是对`有序的链表`增加上附加的`前进链接`，增加是以随机化的方式进行的，所以在列表中的查找可以快速的跳过部分列表(因此得名)。所有操作都以对数随机化的时间进行。
+
+## 跳跃表与红黑树
+1. 算法复杂度差不多，红黑实现更复杂一点
+2. skiplist 并发更好一点: 红黑涉及rebalance操作，而skiplist只锁需要盯住的节点更少
+2. skiplist 内存好像占用比红黑树大一点（每个节点4指针）
 
 # skiplist 特点
 一个跳表，应该具有以下特征：
@@ -312,7 +317,8 @@ Here is an example, https://www.cs.auckland.ac.nz/~jmor159/PLDS210/niemann/s_skl
 			deleteNode(a[i]);
 		}
 		return 0;
-	}</pre>
+	}
+</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">

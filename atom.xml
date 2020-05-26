@@ -2,9 +2,70 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-05-24T21:34:05Z</updated>
+<updated>2020-05-26T13:33:44Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>vim-pattern</title>
+<link href="/b/vim/vim-pattern" rel="alternate" type="text/html"/>
+<updated>2020-05-26T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Preface
+
+# pattern
+
+	:h pattern
+
+## charlist
+Character classes
+
+	\s	whitespace character: &lt;Space&gt; </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Python 字符处理</title>
+<link href="/b/py/py-str" rel="alternate" type="text/html"/>
+<updated>2020-05-26T00:00:00Z</updated>
+<summary/>
+<published>2017-08-09T00:00:00Z</published>
+<content># Python 字符处理
+- serialize
+见/py/py-serial.md
+
+# String
+same as js:
+
+	print "a\nb" ;# The character he</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>python 的正则表达式</title>
+<link href="/b/py/py-str-regex" rel="alternate" type="text/html"/>
+<updated>2020-05-26T00:00:00Z</updated>
+<summary/>
+<published>2020-05-26T00:00:00Z</published>
+<content># regex 语法
+
+	import re
+    re.compile(pattern, [,modifier]).match(str)
+    re.match(pattern, str[, m</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>跳跃表</title>
+<link href="/b/algorithm/tree-skiplist" rel="alternate" type="text/html"/>
+<updated>2020-05-26T00:00:00Z</updated>
+<summary/>
+<published>2017-09-26T00:00:00Z</published>
+<content># 跳跃表
+我们实现redis 的有序集合用什么结构呢？
+1. list: 插入的复杂度是O(n)
+2. 链表: 查找的复杂度是O(n)
+
+跳跃表(skiplist) 是一种随机化的数据结构，相当于为</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>二叉查找树和红黑树</title>
+<link href="/b/algorithm/tree-binary-search-tree" rel="alternate" type="text/html"/>
+<updated>2020-05-26T00:00:00Z</updated>
+<summary/>
+<published>2018-09-26T00:00:00Z</published>
+<content># 二叉查找树
+二叉查找树（Binary Search Tree），也称二叉搜索树、有序二叉树（ordered binary tree），排序二叉树（sorted binary tree），是指一棵空</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>nginx security</title>
 <link href="/b/nginx/nginx-sec" rel="alternate" type="text/html"/>
 <updated>2020-05-24T00:00:00Z</updated>
@@ -155,9 +216,9 @@ curl 转换器: https://curl.trillworks.com/
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>test</title>
 <link href="/b/c/ops-benchmark" rel="alternate" type="text/html"/>
-<updated>2020-05-21T00:00:00Z</updated>
+<updated>2020-05-26T00:00:00Z</updated>
 <summary/>
-<published>2020-05-21T00:00:00Z</published>
+<published>2020-05-26T00:00:00Z</published>
 <content># Preface
 
 性能/压力测试的内涵：
@@ -258,7 +319,7 @@ Systemd 统一管理所有 Unit 的启动日志。带来的好处就是，可以
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Js Array 整理</title>
 <link href="/b/ria/js-array" rel="alternate" type="text/html"/>
-<updated>2020-05-18T00:00:00Z</updated>
+<updated>2020-05-26T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># Js Array 整理
@@ -436,67 +497,4 @@ else
     print("4")
 end
 </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>brew</title>
-<link href="/b/mac/mac-brew" rel="alternate" type="text/html"/>
-<updated>2020-05-11T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># brew
-- brew(Homebrew) 是近来极流行的 安装gawk,gsed,macvim等命令的安装工具，所有的包都被安装到/usr/local/Cellar下，然后再以`ln -s` 软</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Shell 编程</title>
-<link href="/b/c/shell-cmd" rel="alternate" type="text/html"/>
-<updated>2020-05-13T00:00:00Z</updated>
-<summary/>
-<published>2014-03-05T00:00:00Z</published>
-<content># Shell Programming
-Shell 编程笔记
-
-# Signal, 信号(trap)
-Refer to:
-http://billie66.github.io/TLCL/book/zh/</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>try-catch</title>
-<link href="/b/ria/js-debug-exception" rel="alternate" type="text/html"/>
-<updated>2020-05-07T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># try-catch
-## throw any type
-    throw "string"
-    throw {message:"msg"}
-    e = Error('msg')
-    </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>install</title>
-<link href="/b/nginx/nginx-install" rel="alternate" type="text/html"/>
-<updated>2020-05-20T00:00:00Z</updated>
-<summary/>
-<published>2020-05-20T00:00:00Z</published>
-<content># install
-
-    brew install openresty/brew/openresty
-
-# start
-如果想以非deamon 方式启动()：
-
-    //nginx.conf
-</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>nginx debug</title>
-<link href="/b/nginx/nginx-debug-log" rel="alternate" type="text/html"/>
-<updated>2020-05-11T00:00:00Z</updated>
-<summary/>
-<published>2020-05-11T00:00:00Z</published>
-<content># Preface
-
-# log
-## log scope
-
-	main, http, server, location
-
-## log type
-
-	access_log /var/log/ngin</content>
 </entry></feed>

@@ -36,7 +36,7 @@ const MD_URL='post/algorithm/tree-binary-search-tree.md';
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,7 +49,7 @@ const MD_URL='post/algorithm/tree-binary-search-tree.md';
 <pre id="markdown" v-pre>---
 title: 二叉查找树和红黑树
 date: 2018-09-26
-updated: 2019-03-12
+updated: 2020-05-26
 ---
 # 二叉查找树
 二叉查找树（Binary Search Tree），也称二叉搜索树、有序二叉树（ordered binary tree），排序二叉树（sorted binary tree），是指一棵空树或者具有下列性质的二叉树：
@@ -58,6 +58,13 @@ updated: 2019-03-12
 - 任意节点的右子树不空，则右子树上所有结点的值均大于它的根结点的值；
 - 任意节点的左、右子树也分别为二叉查找树。
 - 没有键值相等的节点（no duplicate nodes）。
+##  各种树比较
+&gt; https://github.com/skywind3000/avlmini
+
+- AVL树: 平衡二叉树。Solais 用了AVL, windows对进程地址空间的管理用到了AVL树。
+- 红黑树: 平衡二叉树，广泛用在C++的STL中。如map和set都是用红黑树实现的
+- B/B+树: 用在磁盘文件组织 数据索引和数据库索引。
+- Trie树(字典树): 用在统计和排序大量字符串，如自动机
 
 ## 特点
 1. 中序遍历的结果是有序的
@@ -440,6 +447,8 @@ AVL 树的每个节点存放了一个平衡因子：
    1. 如果没有子树，直接删除此节点，父节点Balance 变化需要再平衡
 
 AVL 树的实现可以参考:
+0. https://github.com/skywind3000/avlmini/blob/master/avlmini.c
+https://github.com/ahuigo/avlmini/blob/master/avlmini.c
 1. 维基百科
 2. Problem Solving with Algorithms and Data Structures using Python：
     1. http://interactivepython.org/runestone/static/pythonds/Trees/AVLTreePerformance.html
