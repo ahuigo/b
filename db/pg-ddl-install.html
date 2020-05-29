@@ -49,7 +49,7 @@ const MD_URL='post/db/pg-ddl-install.md';
 <pre id="markdown" v-pre>---
 title: Postgre 安装\配置\管理
 date: 2018-09-27
-updated: 2020-04-23
+updated: 2020-05-29
 ---
 # Postgre 安装\配置\管理
 
@@ -82,6 +82,7 @@ see db-user.md
         # auto reboot
         sudo systemctl enable postgresql
     elif osx:
+        # 手动
         # To have launchd start postgresql now and restart at login:
         brew services start postgresql
 
@@ -98,6 +99,10 @@ see db-user.md
         # 关闭开机启动 是rm plist
         alias pg-stop=&quot;launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist&quot;
         MM
+
+然后登录：
+
+    psql -U role1 ahuigo
 
 ## debug
 

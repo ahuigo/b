@@ -32,11 +32,11 @@ const MD_URL='post/db/mysql-index.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -48,8 +48,8 @@ const MD_URL='post/db/mysql-index.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: mysql 索引
-date: 2018-12-29
-updated: 2018-12-29
+date: 2020-05-29
+updated: 2020-05-29
 ---
 # Index Type
 &gt; http://stackoverflow.com/questions/12813363/what-is-the-difference-between-a-candidate-key-and-a-primary-key
@@ -75,7 +75,52 @@ updated: 2018-12-29
 ## 外键Foreign Key
 连接两表之间的关系属性或者属性集合，通常是主键属性。
 
-	在关系数据库中，关系用来表示表间关系：父数据表(Parent Entity)的Primary Key 会放在另一张表中, 两表通过PK 建立关系，这个PK 属性就是外键。
+    他们通过person_id 关联就是主键关联。
+    person_t: 
+        person_id 
+        persion_name 
+    address_t 
+        person_id 
+        address_name 
+
+    他们通过 address_id 关联是外键关联 
+    person_t: 
+        person_id 
+        address_id 
+
+    address_t 
+        address_id 
+        address_name 
+
+Foreignkey: Profile.UserRefer -&gt; User.ID
+
+    type User struct {
+        gorm.Model
+        Name string
+    }
+
+    type Profile struct {
+        gorm.Model
+        Name      string
+        User      User `gorm:&quot;foreignkey:UserRefer&quot;` // use UserRefer as foreign key
+        UserRefer string
+    }
+
+Association ForeignKey:
+Profile.UserRefer-&gt;User.Refer
+
+    type User struct {
+      gorm.Model
+      Refer int
+      Name string
+    }
+    
+    type Profile struct {
+      gorm.Model
+      Name      string
+      User      User `gorm:&quot;association_foreignkey:Refer&quot;` // use Refer as association foreign key
+      UserRefer string
+    }
 
 用户量大，并发度高: 不要用外键，mysql IO消耗大
 
@@ -347,7 +392,6 @@ B树数据库充分利用了磁盘块(4K)的原理
 	那可能有人会问，这个比例有什么经验值吗？使用场景不同，这个值也很难确定，一般需要join的字段我们都要求是0.1以上，即平均1条扫描10条记录
 4. 索引列不能参与计算，保持列“干净”，比如from_unixtime(create_time) = ’2014-05-29’就不能使用到索引，原因很简单，b+树中存的都是数据表中的字段值，但进行检索时，需要把所有元素都应用函数才能比较，显然成本太大。
 	所以语句应该写成create_time = unix_timestamp(’2014-05-29’);
-5. 尽量的扩展索引，不要新建索引。比如表中已经有a的索引，现在要加(a,b)的索引，那么只需要修改原来的索引即可
 
 ## 对于准备要索引的列必须使用NOT NULL
 这样就不会存储NULL(含NULL 的列区分度低), 而是默认值。
@@ -394,7 +438,7 @@ http://mysql.taobao.org/monthly/2017/11/09/
 <div id="toc"><ol><li>笔记</li><ol></div>
 <div id="search" class="pure-form">
 <fieldset>
-<input id="search_q" @keyup.enter="searchBlog($('#search_q').value)">
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
 <button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
 </fieldset>
 </div>

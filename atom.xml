@@ -2,9 +2,70 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-05-26T13:33:44Z</updated>
+<updated>2020-05-29T22:34:47Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>golang pkg 开发包</title>
+<link href="/b/go/go-pkg-dev" rel="alternate" type="text/html"/>
+<updated>2020-05-29T00:00:00Z</updated>
+<summary/>
+<published>2016-09-27T00:00:00Z</published>
+<content># golang write mod package
+&gt; 下面的例子我放在了：https://github.com/ahuigo/go-lib/tree/master/import-local-mod</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>go-test</title>
+<link href="/b/go/15.go-test" rel="alternate" type="text/html"/>
+<updated>2020-05-29T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Preface
+Go has a lightweight test framework composed of the go test command and the testing packag</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Postgre User and Authentication</title>
+<link href="/b/db/pg-ddl-user" rel="alternate" type="text/html"/>
+<updated>2020-05-29T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># help
+    \h alter
+    ALTER ROLE name RENAME TO new_name
+
+# Postgre User and Authentication
+找到pg_h</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Postgre 安装\配置\管理</title>
+<link href="/b/db/pg-ddl-install" rel="alternate" type="text/html"/>
+<updated>2020-05-29T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Postgre 安装\配置\管理
+
+## intall
+centos:
+
+    yum install postgresql-server postgresql-contrib -y
+    s</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>mysql 索引</title>
+<link href="/b/db/mysql-index" rel="alternate" type="text/html"/>
+<updated>2020-05-29T00:00:00Z</updated>
+<summary/>
+<published>2020-05-29T00:00:00Z</published>
+<content># Index Type
+&gt; http://stackoverflow.com/questions/12813363/what-is-the-difference-between-a-candidat</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Shell 变量的数据类型</title>
+<link href="/b/c/shell-var" rel="alternate" type="text/html"/>
+<updated>2020-05-29T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Shell 变量的数据类型
+shell 主要支持字符串 和 数组 两种数据类型。数组功能很弱，如果想做复杂的处理，建议用python 等脚本处理。
+
+## 变量定义与删除
+
+    VAR='he</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>vim-pattern</title>
 <link href="/b/vim/vim-pattern" rel="alternate" type="text/html"/>
 <updated>2020-05-26T00:00:00Z</updated>
@@ -80,7 +141,7 @@ http://www.cyberciti.biz/tips/linux-unix-bsd-nginx-webserver-security.html
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Golang 的结构体</title>
 <link href="/b/go/go-struct" rel="alternate" type="text/html"/>
-<updated>2020-05-24T00:00:00Z</updated>
+<updated>2020-05-29T00:00:00Z</updated>
 <summary/>
 <published>2019-03-24T00:00:00Z</published>
 <content># Golang Notes: struct
@@ -115,7 +176,7 @@ sugar log 支持任意的类型(基于reflect</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Golang：Array and slice</title>
 <link href="/b/go/go-array-slice" rel="alternate" type="text/html"/>
-<updated>2020-05-24T00:00:00Z</updated>
+<updated>2020-05-29T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># array vs slice
@@ -330,9 +391,9 @@ array 不像string 是primitive value, 所以length 可以缩短放大array。
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>nginx 的变量类型</title>
 <link href="/b/nginx/nginx-var-env-str" rel="alternate" type="text/html"/>
-<updated>2020-05-18T00:00:00Z</updated>
+<updated>2020-05-29T00:00:00Z</updated>
 <summary/>
-<published>2020-05-18T00:00:00Z</published>
+<published>2020-05-29T00:00:00Z</published>
 <content># Variable
 ## set variable
 Set variable's value:
@@ -421,80 +482,4 @@ click 之于argparse/argv, 相当于requests 之于urllib
 
 	for a in "$*" ; do echo "$a "; done
 	for a in "$@" ; do echo "$a "; do</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Shell 变量的数据类型</title>
-<link href="/b/c/1.shell-var" rel="alternate" type="text/html"/>
-<updated>2020-05-12T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Shell 变量的数据类型
-shell 主要支持字符串 和 数组 两种数据类型。数组功能很弱，如果想做复杂的处理，建议用python 等脚本处理。
-
-## 变量定义与删除
-
-    VAR='he</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>nginx 的变量类型</title>
-<link href="/b/nginx/nginx-var" rel="alternate" type="text/html"/>
-<updated>2020-05-11T00:00:00Z</updated>
-<summary/>
-<published>2020-05-11T00:00:00Z</published>
-<content># Variable
-## set variable
-Set variable's value:
-
-	Syntax:	set $variable value;
-	Default:	—
-	Context</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>nginx 负载均衡</title>
-<link href="/b/nginx/nginx-upstream" rel="alternate" type="text/html"/>
-<updated>2020-05-11T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># nginx upstream
-定义一组服务器， UNIX/TCP 可以 混合使用
-
-	语法:	upstream name { ... }
-	默认值:	—
-	上下文:	http
-
-## 域名解析
- </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>nginx location</title>
-<link href="/b/nginx/nginx-router" rel="alternate" type="text/html"/>
-<updated>2020-05-18T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># nginx router
-## location 路由语句块
-location 是用于路由的. 默认路由 或者location 语句体为空，则直接去读静态资源
-
-	Context: server </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>nginx proxy</title>
-<link href="/b/nginx/nginx-proxy" rel="alternate" type="text/html"/>
-<updated>2020-05-20T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># http_proxy
-The ngx_http_proxy_module module allows passing requests to another server.
-
-## proxy_p</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>2</title>
-<link href="/b/nginx/a." rel="alternate" type="text/html"/>
-<updated>2020-05-11T00:00:00Z</updated>
-<summary/>
-<published>2020-05-11T00:00:00Z</published>
-<content>a=2
-if(nil) then
-    print("0 为 true")
-elseif(a==1) then
-    print("3")
-else
-    print("4")
-end
-</content>
 </entry></feed>

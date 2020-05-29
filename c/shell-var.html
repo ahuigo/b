@@ -5,7 +5,7 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/c/1.shell-var.md';
+const MD_URL='post/c/shell-var.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
@@ -49,7 +49,7 @@ const MD_URL='post/c/1.shell-var.md';
 <pre id="markdown" v-pre>---
 title: Shell 变量的数据类型
 date: 2018-09-27
-updated: 2020-05-12
+updated: 2020-05-29
 ---
 # Shell 变量的数据类型
 shell 主要支持字符串 和 数组 两种数据类型。数组功能很弱，如果想做复杂的处理，建议用python 等脚本处理。
@@ -273,6 +273,7 @@ substr is beginning:
 #### substr 截取
 
 	echo ${str:start:length}
+	echo ${str:start} #start 不为负数.否则当作0
 	echo ${str: -1}; #负数前面需要有空格
 	echo ${str:(-1)}; #或者负数用括号. 否则负数不会生效
 

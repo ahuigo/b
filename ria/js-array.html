@@ -49,7 +49,7 @@ const MD_URL='post/ria/js-array.md';
 <pre id="markdown" v-pre>---
 title: Js Array 整理
 date: 2018-10-04
-updated: 2020-05-26
+updated: 2020-05-29
 ---
 # Js Array 整理
 array 不像string 是primitive value, 所以length 可以缩短放大array。
@@ -105,16 +105,23 @@ concat()方法可以接收任意个元素和Array，并且自动把Array拆开�
 	var arr = [&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;];
 	arr.concat(1, 2, [3, 4]); // [&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;, 1, 2, 3, 4]
 
-## join 转换:
+## join/obj
+### join 转换:
 
     arr.toString();arr.valueOf();
     arr.join(&#x27;,&#x27;);//
 	.join([separator]); //implode
+### obj 转换:
+    obj ={...arr}
 
 ## concat
 
 	.concat(arr2) not in-place
 	.concat(1,2) not in-place
+
+## flat
+
+    arr.flat(2); //二维变一维
 
 ## push,pop, shift
 

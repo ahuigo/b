@@ -49,7 +49,7 @@ const MD_URL='post/go/go-array-slice.md';
 <pre id="markdown" v-pre>---
 title: Golang：Array and slice
 date: 2018-09-27
-updated: 2020-05-24
+updated: 2020-05-29
 ---
 # array vs slice
 1. An array has fixed size, `[N]T`
@@ -253,7 +253,7 @@ len(src)&gt;len(dst) 会被golang 截断
 
 新分配空间 append 会copy 并扩容
 
-    s2 = append(s,1,2) //s!=s2 (完全不同的内存区域)
+    s2 = append(s,1,2) //s!=s2 (如果是新分配空间，则是完全不同的内存区域)
 
 如果不分配空间就用:
 
@@ -298,7 +298,70 @@ Since a slice doesn&#x27;t make a copy of the underlying array. To decrease memo
         c := make([]byte, len(b))
         copy(c, b)
         return c
-    }</pre>
+    }
+
+# copy and deepcopy
+https://flaviocopes.com/go-copying-structs/
+
+## 浅copy
+见go-lib/struct/copy-*.go
+
+### slice 浅copy
+slice copy：
+
+    copy(s_dst, s_src)
+
+e.g:
+
+    type Cat struct {
+        age     int
+        name    string
+        friends []string
+    }
+
+    func main() {
+        wilson := []Cat{{7, &quot;Wilson&quot;, []string{&quot;Tom&quot;, &quot;Tabata&quot;, &quot;Willie&quot;}}}
+        nikita := []Cat{{}}        
+        copy(nikita, wilson)            //Cat是浅复制
+        nikita[0].age=6
+        nikita[0].friends[0]=&quot;newuser&quot;  //friends 同时改变
+
+        fmt.Println(wilson)             //[{7 Wilson [newuser Tabata Willie]}]
+        fmt.Println(nikita)             //[{6 Wilson [newuser Tabata Willie]}]
+    }
+
+### assign 浅copy
+    s_dst := s_src[:]
+    s_dst := s_src
+
+与copy slice 一样的结果
+
+    wilson := Cat{7, &quot;Wilson&quot;, []string{&quot;Tom&quot;, &quot;Tabata&quot;, &quot;Willie&quot;}}
+    nikita := wilson        //浅copy Cat
+    nikita.age = 6
+    nikita.friends[0]= &quot;newuser&quot;
+
+## append 浅copy
+
+    cat:= Cat{7, &quot;Wilson&quot;, []string{&quot;Tom&quot;, &quot;Tabata&quot;, &quot;Willie&quot;}}
+    s := append([]Cat{}, cat)
+    s[0].age=6
+    s[0].friends[0]=&quot;newuser&quot;
+    fmt.Println(s)      //[{6 Wilson [newuser Tabata Willie]}]
+
+
+## deepcopy
+深复制的方法：利用copier+新对象
+
+### copier+new Class
+
+    // &quot;github.com/jinzhu/copier&quot;
+    wilson := Cat{7, &quot;Wilson&quot;, []string{&quot;Tom&quot;, &quot;Tabata&quot;, &quot;Willie&quot;}}
+    nikita := Cat{}
+    copier.Copy(&amp;nikita, &amp;wilson)
+
+### copier+make
+    nikita.friends = make([]string, len(wilson.friends))  //指针替换</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">

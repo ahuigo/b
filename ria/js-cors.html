@@ -49,7 +49,7 @@ const MD_URL='post/ria/js-cors.md';
 <pre id="markdown" v-pre>---
 title: 浏览器同源政策及其规避方法
 date: 2018-10-04
-updated: 2020-04-28
+updated: 2020-05-29
 ---
 # 浏览器同源政策及其规避方法
 http://www.ruanyifeng.com/blog/2016/04/same-origin-policy.html
@@ -140,6 +140,16 @@ iframe窗口和window.open方法打开的窗口，它们与父窗口无法通信
 举例来说，A网页是http://w1.example.com/a.html，B网页是http://w2.example.com/b.html，那么只要设置相同的document.domain，两个网页就可以共享Cookie. （对其它资源无效)
 
     document.domain = &#x27;example.com&#x27;;
+
+
+以下限制：只能是子域名, 不能是top域名
+
+    //不能是其它域名
+    document.domain = &#x27;other.com&#x27; 
+    // 不能是顶级域名
+    document.domain = &#x27;localhost&#x27;
+    // 不能加端口
+    document.domain = &#x27;example.com:83&#x27;;
 
 ## window.postMessage
 &gt; 示例： js-lib/cors-iframe/parent.html
