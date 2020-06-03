@@ -2,9 +2,30 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-05-29T22:34:47Z</updated>
+<updated>2020-05-31T21:15:34Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>nginx location</title>
+<link href="/b/nginx/nginx-router" rel="alternate" type="text/html"/>
+<updated>2020-05-31T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># nginx router
+## location 路由语句块
+location 是用于路由的. 默认路由 或者location 语句体为空，则直接去读静态资源
+
+	Context: server </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>nginx proxy</title>
+<link href="/b/nginx/nginx-proxy" rel="alternate" type="text/html"/>
+<updated>2020-05-31T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># http_proxy
+The ngx_http_proxy_module module allows passing requests to another server.
+
+## proxy_p</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>golang pkg 开发包</title>
 <link href="/b/go/go-pkg-dev" rel="alternate" type="text/html"/>
 <updated>2020-05-29T00:00:00Z</updated>
@@ -457,29 +478,4 @@ click 之于argparse/argv, 相当于requests 之于urllib
 一些mac osx 能做而linux 桌面级OS 目前不能做的事情：
 
 - mac 支持全局readline , 字符编辑的效率非常非常高(</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>shell 终端使用技巧</title>
-<link href="/b/c/shell-zsh" rel="alternate" type="text/html"/>
-<updated>2020-05-15T00:00:00Z</updated>
-<summary/>
-<published>2020-05-15T00:00:00Z</published>
-<content># Preface
-本文总结了shell 终端的使用技术: 主要包括Readline 使用，以及zsh 与iTerm2 的使用
-
-# Shortcuts
-下面列出的快捷键大部分是通用的，有一小部分快捷</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>shell 表达式</title>
-<link href="/b/c/shell-expr" rel="alternate" type="text/html"/>
-<updated>2020-05-13T00:00:00Z</updated>
-<summary/>
-<published>2020-05-13T00:00:00Z</published>
-<content># shell 表达式
-
-# Loop
-
-## for
-
-	for a in "$*" ; do echo "$a "; done
-	for a in "$@" ; do echo "$a "; do</content>
 </entry></feed>
