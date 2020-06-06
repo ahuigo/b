@@ -2,9 +2,35 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-05-31T21:15:34Z</updated>
+<updated>2020-06-06T16:17:08Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Js 字符串大全</title>
+<link href="/b/ria/js-str" rel="alternate" type="text/html"/>
+<updated>2020-06-06T00:00:00Z</updated>
+<summary/>
+<published>2015-03-15T00:00:00Z</published>
+<content># Js 字符串大全
+字符定义与python 一样, 而且不区分双引号：
+
+    '\x00' == '\u0000'
+	'\x31' == "\x31"
+
+	'好' === '\u597D' //</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>grep &amp; ag 的使用</title>
+<link href="/b/c/shell-grep" rel="alternate" type="text/html"/>
+<updated>2020-06-06T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># grep &amp; ag 的使用
+# ag
+ag 比ack/grep 还快
+
+    brew install the_silver_searcher
+
+## 自动忽略`.gitinore/.hgign</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>nginx location</title>
 <link href="/b/nginx/nginx-router" rel="alternate" type="text/html"/>
 <updated>2020-05-31T00:00:00Z</updated>
@@ -453,29 +479,4 @@ map 命令语法：
 # map command list - map 命令列表
 
 </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>py-argv</title>
-<link href="/b/py/py-argv" rel="alternate" type="text/html"/>
-<updated>2020-05-15T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># Preface
-- click
-click 之于argparse/argv, 相当于requests 之于urllib
-
-命令行程序开发
-
-	asciimatics：跨平台，全屏终端包（即鼠标/键</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>mac 工具集</title>
-<link href="/b/mac/mac-tool" rel="alternate" type="text/html"/>
-<updated>2020-05-15T00:00:00Z</updated>
-<summary/>
-<published>2018-10-10T00:00:00Z</published>
-<content># Preface
-本文是我所用的mac 工具集大杂烩。
-
-一些mac osx 能做而linux 桌面级OS 目前不能做的事情：
-
-- mac 支持全局readline , 字符编辑的效率非常非常高(</content>
 </entry></feed>

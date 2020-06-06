@@ -49,7 +49,7 @@ const MD_URL='post/ria/js-str.md';
 <pre id="markdown" v-pre>---
 title: Js 字符串大全
 date: 2015-03-15
-updated: 2020-03-26
+updated: 2020-06-06
 ---
 # Js 字符串大全
 字符定义与python 一样, 而且不区分双引号：
@@ -69,13 +69,19 @@ Note: &#x27;\x87&#x27; 并不是单字节字符！它不是合法utf8, 会被转
     &#x27;\x87&#x27; === Buffer.from([0xc2,0x87]).toString() === String.fromCharCode(0x87)
 
 ## es6 string
-支持backquote 多行(es6):
+支持backquote 多行(es6): 解析`\`和 `$`
 
 	`multiple
+    ${var}
 	line`
 
-    # 可能适合用于复杂的正则
+raw 只解析 `$`
+
+    # 适合用于复杂的正则
     String.raw`\a` === `\\a`
+    String.raw`\a` === `\\a`
+    &gt; String.raw`${1+2}`
+    &#x27;3&#x27;
 
 ### charcode(unicode)
 length/slice/substr/都是基于字符的
