@@ -2,9 +2,35 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-06-06T16:17:08Z</updated>
+<updated>2020-06-08T16:14:00Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>nginx debug</title>
+<link href="/b/nginx/nginx-debug-log" rel="alternate" type="text/html"/>
+<updated>2020-06-08T00:00:00Z</updated>
+<summary/>
+<published>2020-06-08T00:00:00Z</published>
+<content># Preface
+
+# log
+## log scope
+
+	main, http, server, location
+
+## log type
+
+	access_log /var/log/ngin</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>数据库CAP 理论 与事务</title>
+<link href="/b/arch/arch-cap" rel="alternate" type="text/html"/>
+<updated>2020-06-08T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># CAP定理（CAP theorem）
+CAP定理（CAP theorem), 指出对于一个分布式计算系统来说，不可能同时满足以下三点:
+
+1. 一致性(Consistency) (所有节点在同一时</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Js 字符串大全</title>
 <link href="/b/ria/js-str" rel="alternate" type="text/html"/>
 <updated>2020-06-06T00:00:00Z</updated>
@@ -33,7 +59,7 @@ ag 比ack/grep 还快
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>nginx location</title>
 <link href="/b/nginx/nginx-router" rel="alternate" type="text/html"/>
-<updated>2020-05-31T00:00:00Z</updated>
+<updated>2020-06-08T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
 <content># nginx router
@@ -448,35 +474,4 @@ Set variable's value:
 	Syntax:	set $variable value;
 	Default:	—
 	Context</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>vim-motion</title>
-<link href="/b/vim/vim-motion" rel="alternate" type="text/html"/>
-<updated>2020-05-15T00:00:00Z</updated>
-<summary/>
-<published>2020-05-15T00:00:00Z</published>
-<content># Motion, Movement
-Movement 移动光标、字符，Vim 最核心的功能操作
-
-    基本 hjkl
-    单词 
-        小单词wbe
-            w: </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>vim 之 map命令</title>
-<link href="/b/vim/vim-map" rel="alternate" type="text/html"/>
-<updated>2020-05-15T00:00:00Z</updated>
-<summary/>
-<published>2020-05-15T00:00:00Z</published>
-<content># Preface
-map命令手册位于：
-
-    :h map.txt
-
-map 命令语法：
-
-   map {lhs} {rhs}
-
-# map command list - map 命令列表
-
-</content>
 </entry></feed>

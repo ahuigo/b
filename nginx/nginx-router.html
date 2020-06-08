@@ -49,7 +49,7 @@ const MD_URL='post/nginx/nginx-router.md';
 <pre id="markdown" v-pre>---
 title: nginx location
 date: 2018-10-04
-updated: 2020-05-31
+updated: 2020-06-08
 ---
 # nginx router
 ## location 路由语句块
@@ -65,7 +65,7 @@ location 是用于路由的. 默认路由 或者location 语句体为空，则�
 	^~ /path   #表示普通字符前缀匹配，
             相当于 $uri.startsWith(&quot;/path&quot;)
 	~ &quot;\.png$&quot; #波浪线表示执行一个正则匹配，区分大小写
-            reg.match($uri, /\.png$/)
+            相当于 reg.match($uri, /\.png$/)
         ~*    大小写不敏感匹配
         !~    大小写敏感不匹配(!~) 
         !~*   大小写不敏感不匹配(!~*)
@@ -75,8 +75,8 @@ location 是用于路由的. 默认路由 或者location 语句体为空，则�
 
 优先级顺序：
 
-    第一优先级：等号类型（=）的优先级最高。一旦匹配成功，则不再查找其他匹配项。
-    第二优先级：^~类型表达式。一旦匹配成功，则不再查找其他匹配项。
+    第一优先级：等号类型（=）的优先级最高。
+    第二优先级：^~类型表达式。
     第三优先级：正则表达式类型（~ ~*）的优先级次之。
         如果有多个location的正则的话，先定义的优先
     第四优先级：常规字符串匹配类型。

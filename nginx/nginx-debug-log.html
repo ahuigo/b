@@ -48,8 +48,8 @@ const MD_URL='post/nginx/nginx-debug-log.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: nginx debug
-date: 2020-05-11
-updated: 2020-05-11
+date: 2020-06-08
+updated: 2020-06-08
 ---
 # Preface
 
@@ -71,7 +71,7 @@ updated: 2020-05-11
                 &#x27;$status $body_bytes_sent &quot;$http_referer&quot; &#x27;
                 &#x27;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#x27;;
 		access_log  logs/access.log  main;
-		error_log /var/log/nginx-error.log info;
+		# error_log /var/log/nginx-error.log info;
 		error_log  /dir/error.log  main;
     }
 
