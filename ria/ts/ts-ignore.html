@@ -49,13 +49,33 @@ const MD_URL='post/ria/ts/ts-ignore.md';
 <pre id="markdown" v-pre>---
 title: TS ignore type when import module
 date: 2020-01-14
-updated: 2020-01-14
+updated: 2020-06-09
 ---
-# TS ignore module type
-e.g.
+# TS ignore
+对于tsline来说用 `/* tslint:disable-next-line */`
+
+如果想让tsc 忽略下一行的错误
 
     // @ts-ignore
-    import Brush from &quot;@antv/g2-brush&quot;;</pre>
+    import Brush from &quot;@antv/g2-brush&quot;;
+
+    // @ts-ignore: Unreachable code error
+    console.log(&quot;hello&quot;);
+
+## tsx ignore
+
+    {/*
+    // @ts-ignore */}
+    &lt;MyOtherComponent prop={123} /&gt;
+
+    &lt;Comp
+        // @ts-ignore
+        badProp={1}
+    /&gt;
+    &lt;Comp
+        // @ts-expect-error
+        badProp={1}
+    /&gt;</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
