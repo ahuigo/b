@@ -2,9 +2,52 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-06-09T20:22:00Z</updated>
+<updated>2020-06-16T11:39:07Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Js Array 整理</title>
+<link href="/b/ria/js-array" rel="alternate" type="text/html"/>
+<updated>2020-06-16T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Js Array 整理
+array 不像string 是primitive value, 所以length 可以缩短放大array。
+
+	arr = [1,2,3]
+	arr.length = 1</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>python thread 线程笔记</title>
+<link href="/b/py/py-thread" rel="alternate" type="text/html"/>
+<updated>2020-06-16T00:00:00Z</updated>
+<summary/>
+<published>2020-06-16T00:00:00Z</published>
+<content># threading
+Python的标准库提供了两个模块：`_thread`和`threading`: `_thread`是低级模块，threading是高级模块，对_thread进行了封装。
+
+绝</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>mac 工具集</title>
+<link href="/b/mac/mac-tool" rel="alternate" type="text/html"/>
+<updated>2020-06-16T00:00:00Z</updated>
+<summary/>
+<published>2018-10-10T00:00:00Z</published>
+<content># Preface
+本文是我所用的mac 工具集大杂烩。
+
+一些mac osx 能做而linux 桌面级OS 目前不能做的事情：
+
+- mac 支持全局readline , 字符编辑的效率非常非常高(</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Sed 简记</title>
+<link href="/b/c/ops-sed" rel="alternate" type="text/html"/>
+<updated>2020-06-16T00:00:00Z</updated>
+<summary/>
+<published>2020-06-16T00:00:00Z</published>
+<content># sed 与gsed
+grep 与sed 同样是以按行匹配，不过sed 不仅能按行匹配，还能替换字符
+
+&gt;ps: mac 下的sed与linux下的gnu sed有很大的不同，建议安装gsed（如果</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>TS ignore type when import module</title>
 <link href="/b/ria/ts/ts-ignore" rel="alternate" type="text/html"/>
 <updated>2020-06-09T00:00:00Z</updated>
@@ -20,7 +63,7 @@
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>css 布局</title>
 <link href="/b/ria/css-layout" rel="alternate" type="text/html"/>
-<updated>2020-06-09T00:00:00Z</updated>
+<updated>2020-06-16T00:00:00Z</updated>
 <summary/>
 <published>2018-03-03T00:00:00Z</published>
 <content># 参考
@@ -422,59 +465,4 @@ hash = key mod m
 	dic = {'x': 1, 'y': 2, 2:100, key:'bj'}
 	del dict['x']
     dict.pop(2) # key</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>help</title>
-<link href="/b/py/py-db-postgre" rel="alternate" type="text/html"/>
-<updated>2020-05-20T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># help
-http://initd.org/psycopg/docs/cursor.html
-
-# psycopg2
-## conn
-
-    import psycopg2
-    import</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>linux 下的Fork 与 Exec</title>
-<link href="/b/c/shell-redirect-fork2exec" rel="alternate" type="text/html"/>
-<updated>2020-05-20T00:00:00Z</updated>
-<summary/>
-<published>2020-05-20T00:00:00Z</published>
-<content># Preface
-多进程的的内容包括进程控制, 进程通信, 进程本身的结构.
-
-# 重定向
-标准输入输出:
-
-    /dev/stdin -&gt; /dev/fd/0
-    /dev/stdout </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>ops-init</title>
-<link href="/b/c/service/ops-init" rel="alternate" type="text/html"/>
-<updated>2020-05-20T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Preface
-
-# init
-
-## init
-init指linux 系统运行级runlevel 0~6. 可在/etc/inittab中指定:
-
-	id:3:initdefault:
-
-
-##</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Systemd</title>
-<link href="/b/c/service/init-systemd" rel="alternate" type="text/html"/>
-<updated>2020-05-20T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Systemd
-使用了 Systemd，就不需要再用init了。Systemd 取代了initd，成为系统的第一个进程（PID 等于 1），其他进程都是它的子进程。
-
-	$ systemctl -</content>
 </entry></feed>

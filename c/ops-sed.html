@@ -48,13 +48,15 @@ const MD_URL='post/c/ops-sed.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: Sed 简记
-date: 2019-08-15
-updated: 2019-08-15
+date: 2020-06-16
+updated: 2020-06-16
 ---
 # sed 与gsed
 grep 与sed 同样是以按行匹配，不过sed 不仅能按行匹配，还能替换字符
 
 &gt;ps: mac 下的sed与linux下的gnu sed有很大的不同，建议安装gsed（如果你熟悉gnu-sed）: brew install gnu-sed
+
+## mac linux sed
 
 mac 使用的是BSD sed, `-i` 参数后必须跟一个扩展名, 如果想直接修改原文件，则扩展名用空字符串:
 
@@ -67,6 +69,7 @@ mac 使用的是BSD sed, `-i` 参数后必须跟一个扩展名, 如果想直接
 	gsed $&#x27;/^PATH=/c\\\n sth.&#x27; a.txt &gt; a.txt.ori
 	gsed -i $&#x27;/^PATH=/c\\\n sth.&#x27; a.txt #&gt; a.txt
 
+## sed 基本格式
 sed 命令行基本格式为:
 
 	sed option &#x27;script&#x27; file1 file2 ...
@@ -76,6 +79,10 @@ sed 命令行基本格式为:
 
 	/pattern/action
 	range{/pattern/action}
+
+example:
+
+    echo abc | gsed &#x27;s/a/A/&#x27;
 
 # action, 操作码
 

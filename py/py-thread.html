@@ -36,7 +36,7 @@ const MD_URL='post/py/py-thread.md';
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -48,8 +48,8 @@ const MD_URL='post/py/py-thread.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: python thread 线程笔记
-date: 2019-03-05
-updated: 2019-03-05
+date: 2020-06-16
+updated: 2020-06-16
 ---
 # threading
 Python的标准库提供了两个模块：`_thread`和`threading`: `_thread`是低级模块，threading是高级模块，对_thread进行了封装。
@@ -108,6 +108,17 @@ Python的threading模块有个current_thread()函数，它永远返回当前线�
 ### attr
 threading.current_thread().ident
 threading.current_thread().name
+
+## 变量的线程不安全
+因为有些操作的字节码 不是原子性的
+
+    n = 1
+    def foo:
+        global n
+        n+=1 # 不是原子的
+
+    import dis
+    dis..(foo) //多个字节码，不是原子的
 
 ## lock thread
 如果线程要修改全局变量，为防collision 冲突，可以加lock
@@ -223,7 +234,7 @@ thread.start() 后为true
 
 
 ## communicate via pool.apply_async().get()
-对比下ThreadPool vs Thread
+对比下 ThreadPool vs Thread
 
     t = threading.Thread(target=loop, name=&#x27;LoopThread&#x27;)
         #t.start() t.join()
