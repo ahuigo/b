@@ -49,7 +49,7 @@ const MD_URL='post/go/15.go-test.md';
 <pre id="markdown" v-pre>---
 title: go-test
 date: 2018-09-27
-updated: 2020-05-29
+updated: 2020-06-18
 ---
 # Preface
 Go has a lightweight test framework composed of the go test command and the testing package.
@@ -108,13 +108,26 @@ github.com/ahuigo/go-lib/gotest
     go test ./..; //
 
     // test file
-    go test math_test.go
+    go test math_test.go //no ok
 
 
 In package list mode ，successful package test result will be cached and reused, 
 如果想禁止cache ，就用-count=1
 
     go test . -count=1;
+
+#### test with specify file
+1. `go test` is okay.
+2. `go test &lt;pkg&gt;`  is okay.
+3. `go test whatever_test.go` is not okay: `undefined: xxxx` 
+
+To select which tests to run use the 
+
+    -run &lt;regexp&gt; 
+    -run &lt;regexp&gt; flag (interpreted as `.*&lt;regexp&gt;.*` match function)
+    $ go test -run Say # from within the package&#x27;s directory
+    $ go test -run Say my/package/import/path # from anywhere
+
 
 ### test log
 

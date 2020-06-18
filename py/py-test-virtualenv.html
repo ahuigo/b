@@ -32,11 +32,11 @@ const MD_URL='post/py/py-test-virtualenv.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,13 +49,25 @@ const MD_URL='post/py/py-test-virtualenv.md';
 <pre id="markdown" v-pre>---
 title: python virtualenv
 date: 2018-10-04
-updated: 2019-02-08
+updated: 2020-06-18
 ---
-# virtualenv
-本文介绍两种python 虚拟环境
+# python env
+本文介绍数种python 虚拟环境
 - virtualenv 提供了 Python 虚拟环境的隔离，但是命令复杂，目录的管理也比较混乱，
 - VirtualEnvWrapper 基于它提供了更简易的命令和操作。
+- venv, python3 自带，类似于virtualenv
+# venv
+    python3 -m venv blog_dir
+    #不带pip
+    pyvenv --without-pip blog_dir
 
+使用：
+
+    $ . blog_dir/bin/activate
+    (blog_pyenv) ➜ umi3$ git:(dev) ✗ 
+    $ deactivate   
+
+# virtualenv
 ## install
 
 首先，我们用pip安装virtualenv：
@@ -83,7 +95,7 @@ updated: 2019-02-08
 ## start
 新建的Python环境被放到当前目录下的venv目录。有了venv这个Python环境，可以用source进入该环境：
 
-	Mac:myproject michael$ source venv/bin/activate
+	Mac:myproject michael$ source env/bin/activate
 	(venv)Mac:myproject michael$
 
 注意到命令提示符变了，有个(venv)前缀，表示当前环境是一个名为venv的Python环境。

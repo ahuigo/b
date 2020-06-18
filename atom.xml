@@ -2,9 +2,48 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-06-16T11:39:07Z</updated>
+<updated>2020-06-18T19:15:36Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>JS Promise</title>
+<link href="/b/ria/js-promise" rel="alternate" type="text/html"/>
+<updated>2020-06-18T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># promise 执行顺序
+macrotasks: setTimeout, setInterval, setImmediate, I/O, UI rendering
+microtasks: proc</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>python virtualenv</title>
+<link href="/b/py/py-test-virtualenv" rel="alternate" type="text/html"/>
+<updated>2020-06-18T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># python env
+本文介绍数种python 虚拟环境
+- virtualenv 提供了 Python 虚拟环境的隔离，但是命令复杂，目录的管理也比较混乱，
+- VirtualEnvWrappe</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>wireshark</title>
+<link href="/b/net/net-sniffer-wireshark" rel="alternate" type="text/html"/>
+<updated>2020-06-18T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># wireshark
+Refer : http://www.bo56.com/tcpdump-%E5%92%8C-wireshark%E7%BB%84%E5%90%88%E6%8B%B3%EF%BC</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Postgre CRUD</title>
+<link href="/b/db/pg-crud" rel="alternate" type="text/html"/>
+<updated>2020-06-18T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Postgre meta
+## string or keyword
+    select 'string';
+    select "count"(1) from "table_name"
+
+##</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Js Array 整理</title>
 <link href="/b/ria/js-array" rel="alternate" type="text/html"/>
 <updated>2020-06-16T00:00:00Z</updated>
@@ -166,7 +205,7 @@ The ngx_http_proxy_module module allows passing requests to another server.
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>go-test</title>
 <link href="/b/go/15.go-test" rel="alternate" type="text/html"/>
-<updated>2020-05-29T00:00:00Z</updated>
+<updated>2020-06-18T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># Preface
@@ -412,57 +451,4 @@ ini_get(</content>
 ## ConfigFile
 1. /etc/gitconfig #git config --system
 2. ~/.gitconfig 	#git config --global</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>curl manual</title>
-<link href="/b/c/ops-curl" rel="alternate" type="text/html"/>
-<updated>2020-05-21T00:00:00Z</updated>
-<summary/>
-<published>2020-05-21T00:00:00Z</published>
-<content># curlt to python/node/go...
-curl 转换器: https://curl.trillworks.com/
-
-# Usage
-
-	-F,--form
-	-D- Dump t</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>test</title>
-<link href="/b/c/ops-benchmark" rel="alternate" type="text/html"/>
-<updated>2020-05-26T00:00:00Z</updated>
-<summary/>
-<published>2020-05-26T00:00:00Z</published>
-<content># Preface
-
-性能/压力测试的内涵：
-
-	基准/基线测试 base line testing / benchmark testing
-	负载测试 load testing
-	压力测试 stre</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>哈希</title>
-<link href="/b/algorithm/4.algo-hash" rel="alternate" type="text/html"/>
-<updated>2020-05-21T00:00:00Z</updated>
-<summary/>
-<published>2019-01-18T00:00:00Z</published>
-<content>
-# 哈希函数
-1. key 均匀的落到不同的slots
-2. key 本身不能影响到hash 的均匀性
-
-## 散列法
-### 取模法
-hash = key mod m
-1. m尽量用质数，不要用$</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>python 字典</title>
-<link href="/b/py/py-var-dict" rel="alternate" type="text/html"/>
-<updated>2020-05-20T00:00:00Z</updated>
-<summary/>
-<published>2020-05-20T00:00:00Z</published>
-<content># Dict
-
-    key='city'
-	dic = {'x': 1, 'y': 2, 2:100, key:'bj'}
-	del dict['x']
-    dict.pop(2) # key</content>
 </entry></feed>
