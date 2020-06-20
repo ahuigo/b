@@ -9,7 +9,7 @@ const MD_URL='post/c/ops-benchmark.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>test</title>
+<title>压测工具</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -47,13 +47,12 @@ const MD_URL='post/c/ops-benchmark.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: test
-date: 2020-05-26
-updated: 2020-05-26
+title: 压测工具
+date: 2020-06-20
+updated: 2020-06-20
 ---
 # Preface
-
-性能/压力测试的内涵：
+性能/压力测试的分类：
 
 	基准/基线测试 base line testing / benchmark testing
 	负载测试 load testing
@@ -69,7 +68,14 @@ updated: 2020-05-26
 	服务器资源：从系统角度
 	吞吐量：从业务角度
 
-推荐的测试工具：
+
+# stress testing(压力测试)
+压力测试的工具有
+
+    ab/siege/wrk/webbench: web server
+    sysbench: mysql,mssql(TPS, Transactions Per Second)
+
+有很多不错的压测工作
 - boom
 https://github.com/rakyll/boom
 HTTP(S) load generator, ApacheBench (ab) replacement, written in Go
@@ -85,13 +91,6 @@ Fast multi-core TCP and WebSockets load generator.
 - gor
 https://github.com/buger/gor
 HTTP traffic replay in real-time. Replay traffic from production to staging and dev environments.
-
-# stress testing(压力测试)
-
-压力测试的工具有
-
-ab/siege/wrk/webbench: web server
-sysbench: mysql,mssql(TPS, Transactions Per Second)
 
 压力测试的指标
 
@@ -135,7 +134,7 @@ https://github.com/machinezone/tcpkali
 Fast multi-core TCP and WebSockets load generator.
 
 ## tcpcopy 压测
-或者用 gor
+或者用 gor:
 gor 已经上线的 远程api 回调 ,调试的时候直接把流量复制到本地方便测试
 
 ## siege
@@ -184,7 +183,7 @@ Refer: [tcp-ip](/p/tcp-ip)
 	sysctl net.ipv4.tcp_tw_recycle=1 # 表示开启TCP连接中TIME-WAIT sockets的快速回收
 
 ## vegeta(golang版本)
-压测工具
+vegeta 是golang 写的压测工具
 
 ## ab ApacheBench 
 

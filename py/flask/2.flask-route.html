@@ -49,7 +49,7 @@ const MD_URL='post/py/flask/2.flask-route.md';
 <pre id="markdown" v-pre>---
 title: flask route request response
 date: 2018-09-28
-updated: 2020-05-24
+updated: 2020-06-20
 ---
 # flask route request response
 1. @app.tearup_appcontex
@@ -151,6 +151,14 @@ data:
 
 # response
     return redirect(url_for(&#x27;login&#x27;)),302
+
+## global header
+    @app.after_request
+    def apply_caching(response):
+        response.headers[&quot;X-Frame-Options&quot;] = &quot;SAMEORIGIN&quot;
+        return response
+
+The flask.request context is still available when this hook runs
 
 ## cookie header
 定制404
