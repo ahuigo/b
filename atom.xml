@@ -2,9 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-06-23T17:14:32Z</updated>
+<updated>2020-06-24T12:03:58Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>shell color</title>
+<link href="/b/c/shell-color" rel="alternate" type="text/html"/>
+<updated>2020-06-24T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># shell color
+https://en.wikipedia.org/wiki/ANSI_escape_code
+http://pueblo.sourceforge.net/doc/manua</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>flask route request response</title>
 <link href="/b/py/flask/2.flask-route" rel="alternate" type="text/html"/>
 <updated>2020-06-20T00:00:00Z</updated>
@@ -229,7 +238,7 @@ The ngx_http_proxy_module module allows passing requests to another server.
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>go-test</title>
 <link href="/b/go/15.go-test" rel="alternate" type="text/html"/>
-<updated>2020-06-18T00:00:00Z</updated>
+<updated>2020-06-24T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># Preface
@@ -421,7 +430,7 @@ The var statement declares a list of variables
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Golang func</title>
 <link href="/b/go/16.go-func" rel="alternate" type="text/html"/>
-<updated>2020-05-24T00:00:00Z</updated>
+<updated>2020-06-24T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># define func
@@ -445,12 +454,4 @@ extinfo
     fileext := filepath.Ext(filename)
 
 a</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Posix Regex 正则语法</title>
-<link href="/b/code/code-regex" rel="alternate" type="text/html"/>
-<updated>2020-05-24T00:00:00Z</updated>
-<summary/>
-<published>2018-08-18T00:00:00Z</published>
-<content># Wildcard 通配符 和 Posix 正则
-正则分两大类:Posix和PCRE(Perl Compatible Regular Expression ). posix 已经很老了, 效率也没有</content>
 </entry></feed>

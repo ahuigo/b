@@ -49,7 +49,7 @@ const MD_URL='post/go/15.go-test.md';
 <pre id="markdown" v-pre>---
 title: go-test
 date: 2018-09-27
-updated: 2020-06-18
+updated: 2020-06-24
 ---
 # Preface
 Go has a lightweight test framework composed of the go test command and the testing package.
@@ -139,7 +139,10 @@ testing.T 提供了几种日志输出方法:
 
     Log	打印日志
     Logf	格式化打印日志
+        t.Logf(&quot;%d&quot;, 12)
     Error	打印错误日
+        t.Error(errors.New(&quot;msg&quot;)) 
+        t.Error(&quot;msg&quot;) 
     Errorf	格式化打印错误日志
     Fatal	打印致命日志，同时结束该测试单元
     Fatalf	格式化打印致命日志，同时结束该测试单元

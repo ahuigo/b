@@ -49,7 +49,7 @@ const MD_URL='post/c/shell-color.md';
 <pre id="markdown" v-pre>---
 title: shell color
 date: 2018-09-27
-updated: 2019-10-24
+updated: 2020-06-24
 ---
 # shell color
 https://en.wikipedia.org/wiki/ANSI_escape_code
@@ -69,8 +69,9 @@ http://pueblo.sourceforge.net/doc/manual/ansi_color_codes.html
         UNDERLINE = &#x27;\033[4m&#x27;
 
     print(bcolors.WARNING + &quot;Warning: xxxx&quot; + bcolors.ENDC)
+    for i in range(120): print(f&#x27;\033[{i}m&#x27;+f&#x27;中国{i}&#x27;+&#x27;\033[0m&#x27;)    
 
-## color codes
+## color codes 语法
 
     &quot;\033&quot;+color_code
 
@@ -80,6 +81,7 @@ http://pueblo.sourceforge.net/doc/manual/ansi_color_codes.html
     RESET_SEQ = &quot;\033[0m&quot;
 
 ### mix color codes
+混合color 语法
 
     &quot;\033[1;33m&quot;
     &quot;\033[1;33;45m&quot;
