@@ -2,9 +2,23 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-06-30T15:54:18Z</updated>
+<updated>2020-06-30T17:18:57Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>vim-style</title>
+<link href="/b/vim/vim-style" rel="alternate" type="text/html"/>
+<updated>2020-06-30T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Preface
+
+# show charactors
+See tab, new line:
+
+	:set list
+	:set listchars=tab:&gt;-,eol:&lt;,nbsp:%
+	:se</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>go 的变量</title>
 <link href="/b/go/go-var" rel="alternate" type="text/html"/>
 <updated>2020-06-30T00:00:00Z</updated>
@@ -453,16 +467,4 @@ same as js:
 <published>2018-09-26T00:00:00Z</published>
 <content># 二叉查找树
 二叉查找树（Binary Search Tree），也称二叉搜索树、有序二叉树（ordered binary tree），排序二叉树（sorted binary tree），是指一棵空</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>nginx security</title>
-<link href="/b/nginx/nginx-sec" rel="alternate" type="text/html"/>
-<updated>2020-05-24T00:00:00Z</updated>
-<summary/>
-<published>2020-05-24T00:00:00Z</published>
-<content># Preface
-
-# Todo
-http://www.cyberciti.biz/tips/linux-unix-bsd-nginx-webserver-security.html
-
-## res</content>
 </entry></feed>
