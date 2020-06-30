@@ -49,7 +49,7 @@ const MD_URL='post/go/go-os.md';
 <pre id="markdown" v-pre>---
 title: 系统调用
 date: 2018-09-27
-updated: 2020-04-23
+updated: 2020-06-30
 ---
 # 系统调用
 Go语言主要是通过两个包完成的。一个是os包，一个是syscall包
@@ -62,27 +62,26 @@ Go语言主要是通过两个包完成的。一个是os包，一个是syscall包
 ## os.env 环境变量
  包括:
 
-  os.Setenv(k, v)
-  os.Getenv(k) string
-  range os.Environ()
+    os.Setenv(k, v)
+    os.Getenv(k) string
+    range os.Environ()
 
-  _, isExist := os.LookupEnv(key)
+    _, isExist := os.LookupEnv(key)
 
 例子
 
-  import &quot;os&quot;
-  import &quot;strings&quot;
+    import &quot;os&quot;
+    import &quot;strings&quot;
 
-  func main() {
-      os.Setenv(&quot;WEB&quot;, &quot;http://coolshell.cn&quot;) //设置环境变量
-      println(os.Getenv(&quot;WEB&quot;)) //读出来
+    func main() {
+        os.Setenv(&quot;WEB&quot;, &quot;http://coolshell.cn&quot;) //设置环境变量
+        println(os.Getenv(&quot;WEB&quot;)) //读出来
 
-      for _, env := range os.Environ() { //穷举环境变量
-          e := strings.Split(env, &quot;=&quot;)
-          println(e[0], &quot;=&quot;, e[1])
-      }
-  }
-  a_
+        for _, env := range os.Environ() { //穷举环境变量
+            e := strings.Split(env, &quot;=&quot;)
+            println(e[0], &quot;=&quot;, e[1])
+        }
+    }
 
 ## shell args
 

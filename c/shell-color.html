@@ -49,7 +49,7 @@ const MD_URL='post/c/shell-color.md';
 <pre id="markdown" v-pre>---
 title: shell color
 date: 2018-09-27
-updated: 2020-06-24
+updated: 2020-06-30
 ---
 # shell color
 https://en.wikipedia.org/wiki/ANSI_escape_code
@@ -70,6 +70,10 @@ http://pueblo.sourceforge.net/doc/manual/ansi_color_codes.html
 
     print(bcolors.WARNING + &quot;Warning: xxxx&quot; + bcolors.ENDC)
     for i in range(120): print(f&#x27;\033[{i}m&#x27;+f&#x27;中国{i}&#x27;+&#x27;\033[0m&#x27;)    
+
+## js color
+    console.log(&#x27;%c str1 %c str2&#x27;, &#x27;css1&#x27;,&#x27;css2&#x27;);
+    console.log(&#x27;%c haha! &#x27;, &#x27;background: #222; color: #bada55&#x27;);
 
 ## color codes 语法
 

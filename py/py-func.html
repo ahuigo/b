@@ -49,7 +49,7 @@ const MD_URL='post/py/py-func.md';
 <pre id="markdown" v-pre>---
 title: py-func
 date: 2018-09-28
-updated: 2020-04-08
+updated: 2020-06-30
 ---
 # Preface
 
@@ -854,6 +854,15 @@ functools.partial就是帮助我们创建一个偏函数的，不需要我们自
 	args = (10, 5, 6, 7)
 	max(*args)
 
+# atexit
+    import atexit
+    atexit.register(func)
+
+atexit 用于退出前执行finally func. 以下情况除外：
+1. 未处理的信号
+2. 调用`os._exit()`
+3. python 内部错误
+
 # lru_cache
 函数名+args为缓存的键值,只缓存最近使用的maxsize 条
 
@@ -867,7 +876,12 @@ functools.partial就是帮助我们创建一个偏函数的，不需要我们自
     [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610]
 
     &gt;&gt;&gt; fib.cache_info()
-    CacheInfo(hits=28, misses=16, maxsize=None, currsize=16)</pre>
+    CacheInfo(hits=28, misses=16, maxsize=None, currsize=16)
+
+说明
+
+    @functools.lru_cache(maxsize=None, typed=False)
+    typed：若为 True，则不同参数类型的调用将分别缓存。</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">

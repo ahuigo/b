@@ -49,7 +49,7 @@ const MD_URL='post/ria/js-str.md';
 <pre id="markdown" v-pre>---
 title: Js 字符串大全
 date: 2015-03-15
-updated: 2020-06-06
+updated: 2020-06-30
 ---
 # Js 字符串大全
 字符定义与python 一样, 而且不区分双引号：
@@ -84,7 +84,7 @@ raw 只解析 `$`
     &#x27;3&#x27;
 
 ### charcode(unicode)
-length/slice/substr/都是基于字符的
+length/slice/substr/都是基于字符的
 
 	&#x27;中&#x27;.charAt(0) str[pos=0]
         &#x27;中&#x27;
@@ -141,9 +141,10 @@ str vs base64 buffer
 
 str vs base64 string
 
-    ### node only
+    ### node only: b64encode
     &gt;     Buffer.from(&#x27;a&#x27;).toString(&#x27;base64&#x27;)
     &#x27;YQ==&#x27;
+    ### node only: b64decode
     &gt;     Buffer.from(&#x27;YQ==&#x27;, &#x27;base64&#x27;).toString()
     &#x27;a&#x27;
     ### base64(chrome only) 没有buffer 概念

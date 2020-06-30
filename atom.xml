@@ -2,12 +2,80 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-06-24T12:03:58Z</updated>
+<updated>2020-06-30T14:52:02Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Python 的math 语法</title>
+<link href="/b/py/math/py-math" rel="alternate" type="text/html"/>
+<updated>2020-06-30T00:00:00Z</updated>
+<summary/>
+<published>2020-06-30T00:00:00Z</published>
+<content># number
+
+    0x61
+    0o77
+    0b11
+
+## random
+`[0,1)` 小数
+
+	import random
+    random.random()
+
+包含`[</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>tcp/ip 协议</title>
+<link href="/b/net/net-tcpip" rel="alternate" type="text/html"/>
+<updated>2020-06-30T00:00:00Z</updated>
+<summary/>
+<published>2011-11-11T00:00:00Z</published>
+<content># 互联网协议栈
+分为链路层(link), 网络层(Network), 传输层(Transport), 应用层(Application)
+
+应用层
+	DHCP DHCPv6 DNS FTP Gophe</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>系统调用</title>
+<link href="/b/go/go-os" rel="alternate" type="text/html"/>
+<updated>2020-06-30T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># 系统调用
+Go语言主要是通过两个包完成的。一个是os包，一个是syscall包
+
+1. syscall里提供了什么Chroot/Chmod/Chmod/Chdir…，Getenv/Getgid/G</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>golang help</title>
+<link href="/b/go/11.go-help" rel="alternate" type="text/html"/>
+<updated>2020-06-30T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># help command
+Use "go help [command]" for more information about a command.
+
+    go help fmt
+
+
+
+# g</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>shell 表达式</title>
+<link href="/b/c/shell-expr" rel="alternate" type="text/html"/>
+<updated>2020-06-30T00:00:00Z</updated>
+<summary/>
+<published>2020-06-30T00:00:00Z</published>
+<content># shell 表达式
+
+# Loop
+
+## for
+
+	for a in "$*" ; do echo "$a "; done
+	for a in "$@" ; do echo "$a "; do</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>shell color</title>
 <link href="/b/c/shell-color" rel="alternate" type="text/html"/>
-<updated>2020-06-24T00:00:00Z</updated>
+<updated>2020-06-30T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># shell color
@@ -28,9 +96,9 @@ http://pueblo.sourceforge.net/doc/manua</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>压测工具</title>
 <link href="/b/c/ops-benchmark" rel="alternate" type="text/html"/>
-<updated>2020-06-20T00:00:00Z</updated>
+<updated>2020-06-30T00:00:00Z</updated>
 <summary/>
-<published>2020-06-20T00:00:00Z</published>
+<published>2020-06-30T00:00:00Z</published>
 <content># Preface
 性能/压力测试的分类：
 
@@ -230,7 +298,7 @@ The ngx_http_proxy_module module allows passing requests to another server.
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>golang pkg 开发包</title>
 <link href="/b/go/go-pkg-dev" rel="alternate" type="text/html"/>
-<updated>2020-05-29T00:00:00Z</updated>
+<updated>2020-06-30T00:00:00Z</updated>
 <summary/>
 <published>2016-09-27T00:00:00Z</published>
 <content># golang write mod package
@@ -238,7 +306,7 @@ The ngx_http_proxy_module module allows passing requests to another server.
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>go-test</title>
 <link href="/b/go/15.go-test" rel="alternate" type="text/html"/>
-<updated>2020-06-24T00:00:00Z</updated>
+<updated>2020-06-30T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># Preface
@@ -375,7 +443,7 @@ struct 是值类型，slice 是引用类型(指针), 以下赋值方法是按值
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>go str</title>
 <link href="/b/go/go-str-serial" rel="alternate" type="text/html"/>
-<updated>2020-05-24T00:00:00Z</updated>
+<updated>2020-06-30T00:00:00Z</updated>
 <summary/>
 <published>2019-05-06T00:00:00Z</published>
 <content># go json
@@ -396,62 +464,4 @@ Refer: https://studygolang.com/articles/17394
 
 ## Sugar Logger
 sugar log 支持任意的类型(基于reflect</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Golang：Array and slice</title>
-<link href="/b/go/go-array-slice" rel="alternate" type="text/html"/>
-<updated>2020-05-29T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># array vs slice
-1. An array has fixed size, `[N]T`
-2. a slice is a dynamically-sized. `[]T` 
-3. sli</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>go 的变量</title>
-<link href="/b/go/7.go-var" rel="alternate" type="text/html"/>
-<updated>2020-05-24T00:00:00Z</updated>
-<summary/>
-<published>2016-09-27T00:00:00Z</published>
-<content># Variables
-The var statement declares a list of variables
-
-	var c, python, java bool
-	var i int
-	fm</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>学习下Golang 的反射</title>
-<link href="/b/go/17.go-reflect" rel="alternate" type="text/html"/>
-<updated>2020-05-24T00:00:00Z</updated>
-<summary/>
-<published>2019-01-07T00:00:00Z</published>
-<content># Relection json
-    import "github.com/mitchellh/mapstructure"
-	err := mapstructure.Decode(input, &amp;</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Golang func</title>
-<link href="/b/go/16.go-func" rel="alternate" type="text/html"/>
-<updated>2020-06-24T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># define func
-1. 不支持嵌套nested, 重载overload 和 
-2. 不支持默认参数default parameter
-3. 支持不定长变参数
-4. 多返回值
-5. 支持命名返</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>filepath</title>
-<link href="/b/go/12.go-file" rel="alternate" type="text/html"/>
-<updated>2020-05-24T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># dirpath
-
-## pathinfo
-extinfo 
-
-    import "path/filepath"
-    fileext := filepath.Ext(filename)
-
-a</content>
 </entry></feed>

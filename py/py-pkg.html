@@ -49,7 +49,7 @@ const MD_URL='post/py/py-pkg.md';
 <pre id="markdown" v-pre>---
 title: 管理包和依赖的工具。
 date: 2018-10-04
-updated: 2020-04-14
+updated: 2020-06-30
 ---
 # 管理包和依赖的工具。
 
@@ -58,6 +58,10 @@ pip-tools：保证 Python 包依赖关系更新的一组工具。官网
 conda：跨平台，Python 二进制包管理工具。官网
 Curdling：管理 Python 包的命令行工具。官网
 wheel：Python 分发的新标准，意在取代 eggs。官网
+
+## 查看包路径
+
+    python -c &quot;print(&#x27;\n&#x27;.join(__import__(&#x27;pkg&#x27;).file))&quot;
 
 # pip
 

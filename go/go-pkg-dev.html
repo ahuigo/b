@@ -49,7 +49,7 @@ const MD_URL='post/go/go-pkg-dev.md';
 <pre id="markdown" v-pre>---
 title: golang pkg 开发包
 date: 2016-09-27
-updated: 2020-05-29
+updated: 2020-06-30
 ---
 # golang write mod package
 &gt; 下面的例子我放在了：https://github.com/ahuigo/go-lib/tree/master/import-local-mod
@@ -113,6 +113,12 @@ clean 命令清：
         rm -r $GOPATH/pkg/mod
 
 ## install
+安装本地包/远程包
+
+    go install .
+    go install github.com/ahuigo/xxx
+
+其它命令
 
 	run         compile and run Go program (no bin)
 	build       compile packages and dependencies(with bin)

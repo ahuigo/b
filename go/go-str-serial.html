@@ -49,7 +49,7 @@ const MD_URL='post/go/go-str-serial.md';
 <pre id="markdown" v-pre>---
 title: go str
 date: 2019-05-06
-updated: 2020-05-24
+updated: 2020-06-30
 ---
 # go json
 
@@ -71,6 +71,9 @@ map
         &quot;a&quot;:1,
         &quot;k2&quot;:&quot;b&quot;,
     })
+
+### prettify json
+    data, _ := json.MarshalIndent(&quot;hahaha&quot;, &quot;&quot;, &quot;    &quot;)
 
 ### encode stdout
     enc := json.NewEncoder(os.Stdout)
