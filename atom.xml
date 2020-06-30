@@ -2,9 +2,45 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-06-30T14:52:02Z</updated>
+<updated>2020-06-30T15:54:18Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>go 的变量</title>
+<link href="/b/go/go-var" rel="alternate" type="text/html"/>
+<updated>2020-06-30T00:00:00Z</updated>
+<summary/>
+<published>2016-09-27T00:00:00Z</published>
+<content># Variables
+The var statement declares a list of variables
+
+	var c, python, java bool
+	var i int
+	fm</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>map</title>
+<link href="/b/go/go-var-map" rel="alternate" type="text/html"/>
+<updated>2020-06-30T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># map
+
+## define map
+键必须是⽀支持相等运算符 (==、!=) 类型，⽐比如 number、string、 pointer、array、struct，以及对应的 interface</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>make</title>
+<link href="/b/go/go-var-make" rel="alternate" type="text/html"/>
+<updated>2020-06-30T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># 引用
+引⽤用类型包括 slice、map 和 channel。
+
+    // 提供初始化表达式。
+    a := []int{0, 0, 0}
+    a[1] = 10
+
+# new mak</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Python 的math 语法</title>
 <link href="/b/py/math/py-math" rel="alternate" type="text/html"/>
 <updated>2020-06-30T00:00:00Z</updated>
@@ -429,39 +465,4 @@ same as js:
 http://www.cyberciti.biz/tips/linux-unix-bsd-nginx-webserver-security.html
 
 ## res</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Golang 的结构体</title>
-<link href="/b/go/go-struct" rel="alternate" type="text/html"/>
-<updated>2020-05-29T00:00:00Z</updated>
-<summary/>
-<published>2019-03-24T00:00:00Z</published>
-<content># Golang Notes: struct
-struct 是值类型，slice 是引用类型(指针), 以下赋值方法是按值的
-
-    type A struct{x int; b string}
- </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>go str</title>
-<link href="/b/go/go-str-serial" rel="alternate" type="text/html"/>
-<updated>2020-06-30T00:00:00Z</updated>
-<summary/>
-<published>2019-05-06T00:00:00Z</published>
-<content># go json
-
-## encode marshal bytes
-
-    import "encoding/json"
-    type response2 struct {
-        P</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Go log</title>
-<link href="/b/go/go-log" rel="alternate" type="text/html"/>
-<updated>2020-05-24T00:00:00Z</updated>
-<summary/>
-<published>2019-09-21T00:00:00Z</published>
-<content># zap log
-Refer: https://studygolang.com/articles/17394
-
-## Sugar Logger
-sugar log 支持任意的类型(基于reflect</content>
 </entry></feed>

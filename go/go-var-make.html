@@ -5,7 +5,7 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/go/7.go-var-make.md';
+const MD_URL='post/go/go-var-make.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
@@ -32,11 +32,11 @@ const MD_URL='post/go/7.go-var-make.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,39 +49,41 @@ const MD_URL='post/go/7.go-var-make.md';
 <pre id="markdown" v-pre>---
 title: make
 date: 2018-09-27
-updated: 2019-01-07
+updated: 2020-06-30
 ---
+# 引用
+引⽤用类型包括 slice、map 和 channel。
+
+    // 提供初始化表达式。
+    a := []int{0, 0, 0}
+    a[1] = 10
+
 # new make
-new 负责分配内存，new(T) 返回*T 指向一个零值 T 的指针
+1. new 负责分配内存，new(T) 返回`*T` 指向一个零值 T 的指针
+2. make 负责初始化值，make(T) 返回初始化后的 T ，而非指针
 
-make 负责初始化值，make(T) 返回初始化后的 T ，而非指针
-最重要的一点：make 仅适用于slice，map 和channel
-
-new 的作用是:为其分配零值内存, 初始化 一个指向类型的指针 `(*T)`，
+## new: *T
+new 的作用是:为其分配零值内存, 初始化一个指向类型的指针 `(*T)`，
 `someInt := new(int)` 相当于:
+
     func newInt *int {
         var i int
         return &amp;i; //golang 和 c 语言不一样，栈区分配的存储空间不会随着函数的返回而释放，本地变量地址所占据的存储空间会生存下来。 
     }
     someInt := newInt()
 
-new 返回Pointer
+new 返回Pointer(数组就是指针)
 
-	// Error: invalid operation: c[1] (index of type *[]int)
-	c := new([]int) //&amp;[]
+	// Error: invalid operation: c[1]
+	c := new([]int) // var i []int =&gt; *[]int
 	c[1] = 10
 
-make 的作用是为 slice, map 或者 channel 初始化，并且返回引用 `T`
+    // ok
+	c := new([3]int) // var i [3]int =&gt; *[3]int
+	c[1] = 10
 
-	a := []int{0, 0, 0}
-	a[1] = 10
-
-	// makeslice
-	b := make([]int, 3)
-	b[1] = 10
-
-# make
-auto allocate
+## make
+最重要的一点：make 仅适用于slice，map 和channel
 
     ch := make(chan int)
     ch := make(chan string)
@@ -92,7 +94,11 @@ auto allocate
 static size
 
     slice := make([]int, 3)
-        []int{0, 0, 0}</pre>
+        []int{0, 0, 0}
+
+slice cap:
+
+    make([]Type, length, capacity)</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
