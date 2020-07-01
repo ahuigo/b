@@ -48,14 +48,11 @@ const MD_URL='post/net/http.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: About Http
-date: 2019-08-22
-updated: 2019-08-22
+date: 2020-07-01
+updated: 2020-07-01
 ---
-# Preface
-
-# range:
-
-header 头
+# range
+range 这个header 头，主要是用于分段下载
 
     Range: bytes=0-1024
 
@@ -111,7 +108,7 @@ header 头
 	0
 
 ## http/2
-为解决 Head-of-line blocking, 诞生了[Http/2](/http2)(SPDY 协议的改进)
+为解决 Head-of-line blocking, 诞生了[Http/2](/p/net/http2)(SPDY 协议的改进)
 
 # favicon.ico
 Disable favicon
@@ -158,6 +155,12 @@ nginx:
 			setcookie($name, &#x27;&#x27;, time()-1000, &#x27;/&#x27;);
 		}
 	}
+
+用max-age设置有效期更简单：
+
+    //子域名也可以用sub.ahuigo.com
+    Set-Cookie: id_token=value; Path=/; Domain=ahuigo.com; Max-Age=86400
+    Set-Cookie: id_token=; Path=/; Domain=ahuigo.com; Max-Age=0
 
 # Method
 1. GET 幂等(safe methods): 是安全的, 所以GET返回的内容可以被浏览器、Cache服务器缓存，

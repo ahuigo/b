@@ -49,7 +49,7 @@ const MD_URL='post/go/go-var-map.md';
 <pre id="markdown" v-pre>---
 title: map
 date: 2018-09-27
-updated: 2020-06-30
+updated: 2020-07-01
 ---
 # map
 
@@ -116,6 +116,31 @@ The `zero` value of a map is `nil`. A `nil` map has no keys, nor can keys be add
   m=make(map[string]int)
   fmt.Println(m==nil);      //false
   fmt.Printf(&quot;%#v\n&quot;, m)    // map[string]int{}
+
+## make map address 扩容
+map 只能用于：`regular addressable value`类型(即：非复杂类型和指针)的扩容：
+https://stackoverflow.com/questions/32751537/why-do-i-get-a-cannot-assign-error-when-setting-value-to-a-struct-as-a-value-i
+
+应该用：`map[string]*MyStruct`参与赋值
+
+cannot assign to struct field p[&quot;HM&quot;].age in map
+
+    package main
+
+    import &quot;fmt&quot;
+    type Person struct {
+        name string
+        age int
+    }
+
+    type People map[string]Person
+
+    func main() {
+        p := make(People)
+        p[&quot;HM&quot;] = Person{&quot;Hank McNamara&quot;, 39}
+        p[&quot;HM&quot;].age = p[&quot;HM&quot;].age + 1
+        fmt.Printf(&quot;age: %d\n&quot;, p[&quot;HM&quot;].age)
+    }
 
 ## add
     m[&quot;new_key&quot;] = 1

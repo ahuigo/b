@@ -2,9 +2,69 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-06-30T17:18:57Z</updated>
+<updated>2020-07-01T14:08:02Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>py-pkg-setuptool</title>
+<link href="/b/py/py-pkg-setuptool" rel="alternate" type="text/html"/>
+<updated>2020-07-01T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Preface
+https://packaging.python.org/tutorials/packaging-projects/
+
+setuptools 与 disutils
+1. distu</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-import</title>
+<link href="/b/py/py-import" rel="alternate" type="text/html"/>
+<updated>2020-07-01T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Preface
+
+## package vs module
+import pkg/modules 时，引入的object type 是`module`，但它们不同点是
+1. `pkg/__init</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>About Http</title>
+<link href="/b/net/http" rel="alternate" type="text/html"/>
+<updated>2020-07-01T00:00:00Z</updated>
+<summary/>
+<published>2020-07-01T00:00:00Z</published>
+<content># range
+range 这个header 头，主要是用于分段下载
+
+    Range: bytes=0-1024
+
+响应:
+
+    http_code=206 Partial Content
+</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Go log</title>
+<link href="/b/go/go-log" rel="alternate" type="text/html"/>
+<updated>2020-07-01T00:00:00Z</updated>
+<summary/>
+<published>2019-09-21T00:00:00Z</published>
+<content># zap log
+Refer: https://studygolang.com/articles/17394
+
+## Sugar Logger
+sugar log 支持任意的类型(基于reflect</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Golang func</title>
+<link href="/b/go/16.go-func" rel="alternate" type="text/html"/>
+<updated>2020-07-01T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># define func
+1. 不支持嵌套nested, 重载overload 和 
+2. 不支持默认参数default parameter
+3. 支持不定长变参数
+4. 多返回值
+5. 支持命名返</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>vim-style</title>
 <link href="/b/vim/vim-style" rel="alternate" type="text/html"/>
 <updated>2020-06-30T00:00:00Z</updated>
@@ -33,7 +93,7 @@ The var statement declares a list of variables
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>map</title>
 <link href="/b/go/go-var-map" rel="alternate" type="text/html"/>
-<updated>2020-06-30T00:00:00Z</updated>
+<updated>2020-07-01T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># map
@@ -406,65 +466,4 @@ shell 主要支持字符串 和 数组 两种数据类型。数组功能很弱�
 ## 变量定义与删除
 
     VAR='he</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>vim-pattern</title>
-<link href="/b/vim/vim-pattern" rel="alternate" type="text/html"/>
-<updated>2020-05-26T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Preface
-
-# pattern
-
-	:h pattern
-
-## charlist
-Character classes
-
-	\s	whitespace character: &lt;Space&gt; </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Python 字符处理</title>
-<link href="/b/py/py-str" rel="alternate" type="text/html"/>
-<updated>2020-05-26T00:00:00Z</updated>
-<summary/>
-<published>2017-08-09T00:00:00Z</published>
-<content># Python 字符处理
-- serialize
-见/py/py-serial.md
-
-# String
-same as js:
-
-	print "a\nb" ;# The character he</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>python 的正则表达式</title>
-<link href="/b/py/py-str-regex" rel="alternate" type="text/html"/>
-<updated>2020-05-26T00:00:00Z</updated>
-<summary/>
-<published>2020-05-26T00:00:00Z</published>
-<content># regex 语法
-
-	import re
-    re.compile(pattern, [,modifier]).match(str)
-    re.match(pattern, str[, m</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>跳跃表</title>
-<link href="/b/algorithm/tree-skiplist" rel="alternate" type="text/html"/>
-<updated>2020-05-26T00:00:00Z</updated>
-<summary/>
-<published>2017-09-26T00:00:00Z</published>
-<content># 跳跃表
-我们实现redis 的有序集合用什么结构呢？
-1. list: 插入的复杂度是O(n)
-2. 链表: 查找的复杂度是O(n)
-
-跳跃表(skiplist) 是一种随机化的数据结构，相当于为</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>二叉查找树和红黑树</title>
-<link href="/b/algorithm/tree-binary-search-tree" rel="alternate" type="text/html"/>
-<updated>2020-05-26T00:00:00Z</updated>
-<summary/>
-<published>2018-09-26T00:00:00Z</published>
-<content># 二叉查找树
-二叉查找树（Binary Search Tree），也称二叉搜索树、有序二叉树（ordered binary tree），排序二叉树（sorted binary tree），是指一棵空</content>
 </entry></feed>

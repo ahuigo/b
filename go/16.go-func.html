@@ -49,7 +49,7 @@ const MD_URL='post/go/16.go-func.md';
 <pre id="markdown" v-pre>---
 title: Golang func
 date: 2018-09-27
-updated: 2020-06-24
+updated: 2020-07-01
 ---
 # define func
 1. 不支持嵌套nested, 重载overload 和 
@@ -515,7 +515,8 @@ err 作用域限定为if/else 内
 	func f() {
 		 defer func() {
             if r := recover(); r != nil {
-                fmt.Println(&quot;Recovered in f&quot;, r)
+                fmt.Println(&quot;error:&quot;, r)
+				fmt.Println(&quot;stacktrace from panic: \n&quot; + string(debug.Stack()))
             }
 		 }()
 
