@@ -49,7 +49,7 @@ const MD_URL='post/py/py-var-list.md';
 <pre id="markdown" v-pre>---
 title: python 的list/tuple 笔记
 date: 2018-03-03
-updated: 2020-02-25
+updated: 2020-07-04
 ---
 # list and tuple
 因为tuple 是增加删除元素的不可变的list(数据可以变)，所以代码更安全。
@@ -340,6 +340,12 @@ deque:
 	&gt;&gt;&gt; for k,v in enumerate([[&#x27;k1&#x27;,&#x27;v1&#x27;],[&#x27;k2&#x27;,&#x27;v2&#x27;]], start=2): print k,v
 	...
 	1 [&#x27;k2&#x27;, &#x27;v2&#x27;]
+
+# php like array func
+## array_flip
+    result = {k:None for k in arr)
+    result = dict((v,k) for k,v in trans.items())
+    result = dict(zip(trans.values(), trans.keys()))
 
 # .sort .reverse ... inplace like js
 

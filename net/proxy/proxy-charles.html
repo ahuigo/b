@@ -36,7 +36,7 @@ const MD_URL='post/net/proxy/proxy-charles.md';
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -48,8 +48,8 @@ const MD_URL='post/net/proxy/proxy-charles.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: proxy 之charles
-date: 2019-03-06
-updated: 2019-03-06
+date: 2020-07-04
+updated: 2020-07-04
 ---
 # Charles
 ## delete
@@ -57,12 +57,25 @@ updated: 2019-03-06
 	Cmd+del delete all session
 	Shift+Cmd+P Mac OS proxy
 
-## tools
+## Map Remote/Local
+### Map Remote 
+Map Remote 是将指定的网络请求重定向到另一个网址
+![](/img/net/proxy/charles-map-remote1.png)
 
-	Shift+Cmd+w map rule
-	Shift+Cmd+M map remote
+### Map Local
+Map Local 是将指定的网络请求重定向到本地文件
 
-### Rewrite
+![](/img/net/proxy/charles-map-local1.png)
+## Rewrite
+菜单入口：
+
+    Tools-&gt;Rewrite
+	Opt+Cmd+R 
+
+### rewrite 请求
+rewrite request 可代替map remote, 比如我们来改写host/ip
+![](/img/net/proxy/charles-rewrite.host0.png)
+
 ![proxy-charles-2.png](/img/proxy-charles-2.png)
 
     host: 不支持wildcard, 只支持regex/plain
@@ -72,8 +85,14 @@ updated: 2019-03-06
         -&gt;
         name: other_key, value: other_value
 
-## mac os x
-1. 开启Web Proxy(http/https)
+### rewrite 响应
+修改status: 将`200`(不能用`*` `.*`)替换成`401`
+net/proxy/charles-rewrite-response-status0
+![](/img/net/proxy/charles-rewrite-response-status.png)
+
+## proxy 功能
+mac os x
+1. 开启Web Proxy(http/https) 就可让代理生效
 2. 针对safari system proxy, 一定要在network 中关闭auto proxy configuration 才能抓取国内的域名/ip
 
 ## SSL
@@ -88,7 +107,9 @@ charles 需要在`Proxy`-`Proxy Settings - SSl` 中设置 `Enable SSL`, 且选�
 &gt; 其实还有一步要做：客户端安装charles 证书。否则: 只能通过`curl -k -x &#x27;127.0.0.1:800&#x27; url` 跳过证书检查
 
 ### 给客户端装charles CA证书
+教程：
 http://www.charlesproxy.com/documentation/using-charles/ssl-certificates/
+charles 菜单：Help &gt; SSL Proxying
 
 对于MAC OSX: 
 1. &quot;Help &gt; SSL Proxying &gt; Install Charles Root Certificate&quot;.
@@ -104,6 +125,16 @@ JAVA:
 		#(changeit is the default password on the cacerts file)
 	Then try: keytool -list -keystore JAVA_HOME/jre/lib/security/cacerts -storepass changeit
 
+对于android:
+
+    1. 访问chls.pro/ssl安装证书
+    2. 下载的charles-proxy-ssl-pro.pem
+    3. 安装：
+        （miui10及以上）点击设置-更多设置-系统安全-加密与凭据-从存储卡安装文件
+        （miui10一下）点击设置-更多设置-系统安全-从存储卡安装文件
+        其它按提示
+
+
 #### trust certificate
 Key chains:
 
@@ -118,6 +149,10 @@ Click:
     Proxy -&gt; SSL Proxying Setting -&gt;
         select: enable SSL Proxing
         add:    *.443 or domain:443
+
+## android proxy
+### hosts
+android 访问charles 的时候，会受主机上的`/etc/hosts`影响
 
 ## cracker
 Via github or google , search `charles.jar` for cracker, then:
