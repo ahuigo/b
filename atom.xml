@@ -2,9 +2,104 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-07-04T19:34:42Z</updated>
+<updated>2020-07-09T18:36:55Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>filepath</title>
+<link href="/b/go/go-file" rel="alternate" type="text/html"/>
+<updated>2020-07-09T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># dirpath
+
+## pathinfo
+extinfo 
+
+    import "path/filepath"
+    fileext :=copy filepath.Ext(filename</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Golang：Array and slice</title>
+<link href="/b/go/go-array-slice" rel="alternate" type="text/html"/>
+<updated>2020-07-09T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># array vs slice
+1. An array has fixed size, `[N]T`
+2. a slice is a dynamically-sized. `[]T` 
+3. sli</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Golang notes: argv</title>
+<link href="/b/go/go-argv" rel="alternate" type="text/html"/>
+<updated>2020-07-09T00:00:00Z</updated>
+<summary/>
+<published>2019-03-25T00:00:00Z</published>
+<content># Golang notes: argv
+
+    os.Args []string返回命令⾏行参数，
+    os.Exit 终⽌止进程。 
+    filepath.Abs(exec.LookPa</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>go expression</title>
+<link href="/b/go/8.go-expr" rel="alternate" type="text/html"/>
+<updated>2020-07-09T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># if
+  if x &lt; 0 {
+	}
+
+## if error
+    if i, err := strconv.Atoi("123"); err==nil{
+        println(i)</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>go routines</title>
+<link href="/b/go/18.go-routines" rel="alternate" type="text/html"/>
+<updated>2020-07-09T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># go routines
+A goroutine is a `lightweight thread` managed by the Go runtime.
+
+execution of f happe</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Shell 工具集合</title>
+<link href="/b/c/shell-tool" rel="alternate" type="text/html"/>
+<updated>2020-07-09T00:00:00Z</updated>
+<summary/>
+<published>2016-09-27T00:00:00Z</published>
+<content># System debug, 系统调试工具
+
+- web: 对于 Web 调试，curl 和 curl -I 很方便灵活，或者也可以使用它们的同行 wget，或者更现代的 httpie。
+- dis</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>GMT,UTC,DST,CST 各种时间标准</title>
+<link href="/b/c/shell-time" rel="alternate" type="text/html"/>
+<updated>2020-07-09T00:00:00Z</updated>
+<summary/>
+<published>2012-07-08T00:00:00Z</published>
+<content># 各世界时间标准
+我们经常遇到这4种时间：GMT,UTC,DST,CST。google了一下，在此做个小结.
+
+## 格林威治标准时间GMT
+含义：「格林威治标准时间」(Greenwich Mean</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>ops-init</title>
+<link href="/b/c/service/ops-init" rel="alternate" type="text/html"/>
+<updated>2020-07-09T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Preface
+
+# init
+
+## init
+init指linux 系统运行级runlevel 0~6. 可在/etc/inittab中指定:
+
+	id:3:initdefault:
+
+
+##</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>js notes</title>
 <link href="/b/ria/js-obj" rel="alternate" type="text/html"/>
 <updated>2020-07-04T00:00:00Z</updated>
@@ -211,7 +306,7 @@ Go语言主要是通过两个包完成的。一个是os包，一个是syscall包
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>golang help</title>
 <link href="/b/go/11.go-help" rel="alternate" type="text/html"/>
-<updated>2020-06-30T00:00:00Z</updated>
+<updated>2020-07-09T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># help command
@@ -344,9 +439,9 @@ Python的标准库提供了两个模块：`_thread`和`threading`: `_thread`是�
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Sed 简记</title>
 <link href="/b/c/ops-sed" rel="alternate" type="text/html"/>
-<updated>2020-06-16T00:00:00Z</updated>
+<updated>2020-07-09T00:00:00Z</updated>
 <summary/>
-<published>2020-06-16T00:00:00Z</published>
+<published>2020-07-09T00:00:00Z</published>
 <content># sed 与gsed
 grep 与sed 同样是以按行匹配，不过sed 不仅能按行匹配，还能替换字符
 
@@ -386,93 +481,4 @@ example: https://www.rationallyparanoid.com/articles/tcpdump.html
 book:
 
 学术的说，tcpdump是一种嗅探</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>nginx debug</title>
-<link href="/b/nginx/nginx-debug-log" rel="alternate" type="text/html"/>
-<updated>2020-06-08T00:00:00Z</updated>
-<summary/>
-<published>2020-06-08T00:00:00Z</published>
-<content># Preface
-
-# log
-## log scope
-
-	main, http, server, location
-
-## log type
-
-	access_log /var/log/ngin</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>数据库CAP 理论 与事务</title>
-<link href="/b/arch/arch-cap" rel="alternate" type="text/html"/>
-<updated>2020-06-08T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># CAP定理（CAP theorem）
-CAP定理（CAP theorem), 指出对于一个分布式计算系统来说，不可能同时满足以下三点:
-
-1. 一致性(Consistency) (所有节点在同一时</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Js 字符串大全</title>
-<link href="/b/ria/js-str" rel="alternate" type="text/html"/>
-<updated>2020-06-06T00:00:00Z</updated>
-<summary/>
-<published>2015-03-15T00:00:00Z</published>
-<content># Js 字符串大全
-字符定义与python 一样, 而且不区分双引号：
-
-    '\x00' == '\u0000'
-	'\x31' == "\x31"
-
-	'好' === '\u597D' //</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>grep &amp; ag 的使用</title>
-<link href="/b/c/shell-grep" rel="alternate" type="text/html"/>
-<updated>2020-06-06T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># grep &amp; ag 的使用
-# ag
-ag 比ack/grep 还快
-
-    brew install the_silver_searcher
-
-## 自动忽略`.gitinore/.hgign</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>nginx location</title>
-<link href="/b/nginx/nginx-router" rel="alternate" type="text/html"/>
-<updated>2020-06-08T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># nginx router
-## location 路由语句块
-location 是用于路由的. 默认路由 或者location 语句体为空，则直接去读静态资源
-
-	Context: server </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>nginx proxy</title>
-<link href="/b/nginx/nginx-proxy" rel="alternate" type="text/html"/>
-<updated>2020-05-31T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># http_proxy
-The ngx_http_proxy_module module allows passing requests to another server.
-
-## proxy_p</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>golang pkg 开发包</title>
-<link href="/b/go/go-pkg-dev" rel="alternate" type="text/html"/>
-<updated>2020-06-30T00:00:00Z</updated>
-<summary/>
-<published>2016-09-27T00:00:00Z</published>
-<content># golang write mod package
-&gt; 下面的例子我放在了：https://github.com/ahuigo/go-lib/tree/master/import-local-mod</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>go-test</title>
-<link href="/b/go/15.go-test" rel="alternate" type="text/html"/>
-<updated>2020-06-30T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Preface
-Go has a lightweight test framework composed of the go test command and the testing packag</content>
 </entry></feed>

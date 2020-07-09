@@ -5,7 +5,7 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/go/12.go-file.md';
+const MD_URL='post/go/go-file.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
@@ -49,7 +49,7 @@ const MD_URL='post/go/12.go-file.md';
 <pre id="markdown" v-pre>---
 title: filepath
 date: 2018-09-27
-updated: 2020-05-24
+updated: 2020-07-09
 ---
 # dirpath
 
@@ -57,7 +57,12 @@ updated: 2020-05-24
 extinfo 
 
     import &quot;path/filepath&quot;
-    fileext := filepath.Ext(filename)
+    fileext :=copy filepath.Ext(filename)
+
+dir + file:
+
+    dir := filepath.Dir(path)
+    dir, file := filepath.Split(path)
 
 abs
 
@@ -90,7 +95,7 @@ abs
         fmt.Println(exPath)
     }
 
-### working copy: 
+### Getwd: 
 func Getwd() (pwd string, err error)
 
     import (

@@ -48,8 +48,8 @@ const MD_URL='post/c/ops-sed.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: Sed 简记
-date: 2020-06-16
-updated: 2020-06-16
+date: 2020-07-09
+updated: 2020-07-09
 ---
 # sed 与gsed
 grep 与sed 同样是以按行匹配，不过sed 不仅能按行匹配，还能替换字符
@@ -58,16 +58,25 @@ grep 与sed 同样是以按行匹配，不过sed 不仅能按行匹配，还能�
 
 ## mac linux sed
 
+
+### in-place
+修改文件要用`-i`
+
+    -i extension (mac sed)
+    -i[SUFFIX], --in-place[=SUFFIX] (gsed)
+        edit files in place (makes backup if SUFFIX supplied)
+
 mac 使用的是BSD sed, `-i` 参数后必须跟一个扩展名, 如果想直接修改原文件，则扩展名用空字符串:
 
 	sed -i &#x27;.ori&#x27; $&#x27;/^PATH=/c\\\n sth.&#x27; a.txt #&gt; a.txt.ori (注意bash的string不直接支持\n, 只能使用$&#x27;string\n&#x27; , 不是$&quot;string\n&quot;哈, $&quot;string\n&quot;与 &quot;string\n&quot;没有分别) $&#x27;\\\n&#x27; 会被bash 解析为&#x27;\n&#x27;, &#x27;\n&#x27; 又被sed 解析为换行
 	sed -i &#x27;&#x27; &quot;/^PATH=/ c\\
 	sth.&quot; a.txt #&gt; a.txt
 
-而linux下(gnu sed)则简单多了: `\\\n `等空白不影响
+而linux下(gnu sed)`-i`与参数要合并,同时`\\\n`,` `,`\\`等换行、空白符、转义符会被忽略
 
 	gsed $&#x27;/^PATH=/c\\\n sth.&#x27; a.txt &gt; a.txt.ori
 	gsed -i $&#x27;/^PATH=/c\\\n sth.&#x27; a.txt #&gt; a.txt
+	gsed -i.ori $&#x27;/^PATH=/c\\\n sth.&#x27; a.txt #&gt; a.txt
 
 ## sed 基本格式
 sed 命令行基本格式为:

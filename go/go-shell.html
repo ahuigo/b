@@ -5,7 +5,7 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/go/go-os.md';
+const MD_URL='post/go/go-shell.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
@@ -49,12 +49,12 @@ const MD_URL='post/go/go-os.md';
 <pre id="markdown" v-pre>---
 title: 系统调用
 date: 2018-09-27
-updated: 2020-06-30
+updated: 2020-07-09
 ---
 # 系统调用
 Go语言主要是通过两个包完成的。一个是os包，一个是syscall包
 
-1. syscall里提供了什么Chroot/Chmod/Chmod/Chdir…，Getenv/Getgid/Getpid/Getgroups/Getpid/Getppid…，还有很多如Inotify/Ptrace/Epoll/Socket/…的系统调用。
+1. syscall 里提供了什么Chroot/Chmod/Chmod/Chdir…，Getenv/Getgid/Getpid/Getgroups/Getpid/Getppid…，还有很多如Inotify/Ptrace/Epoll/Socket/…的系统调用。
 2. os包里提供的东西不多，主要是一个跨平台的调用。它有三个子包，Exec（运行别的命令）, Signal（捕捉信号）和User（通过uid查name之类的）
 
 # linux
@@ -104,7 +104,7 @@ import flag:
     fmt.Println(&quot;port:&quot;, *port)
     fmt.Println(&quot;debug:&quot;, *debug)
 
-## exec shell, 执行命令行
+# exec shell, 执行命令行
 下面是一个比较简单的示例
 
   package main
@@ -120,7 +120,33 @@ import flag:
     }
     fmt.Println(string(out))
 
-### exec with pipe
+cmd *exec.Cmd:
+
+    var cmd *exec.Cmd = exec.Command(&quot;cat&quot;, args...)
+
+## cmd 进程管理
+它有很多方法: go doc os/exec Cmd
+
+kill cmd
+
+	pid int:= cmd.Process.Pid
+    err = syscall.Kill(-pid, syscall.SIGINT)
+	err = syscall.Kill(-pid, syscall.SIGKILL)
+
+wait cmd
+
+    // Wait releases any resources
+	state, _ = cmd.Process.Wait()
+    // cmd封装了上面的Wait
+    err = cmd.Wait()
+
+## exec with pipe
+in-out:
+
+    cmd := exec.Command(&quot;cat&quot;, args...)
+    cmd.Stdin = strings.NewReader(&quot;some input&quot;)
+    out, err := cmd.Output()
+
 正规一点的用来处理标准输入和输出的示例如下：
 
   import (
@@ -143,9 +169,12 @@ import flag:
       fmt.Printf(&quot;in all caps: %q\n&quot;, out.String())
   }
 
-### pty pipe
-pty is pseudo-terminals, 基于cmd.Stdin/Stdout的封装
+## pty pipe
+pty is pseudo-terminals, 它是基于cmd.Stdin/Stdout的封装
 
+现在是f.Write, f.Read(stdout) 的例子
+
+    //go-lib/shell/pipe-pty.go
     import (
         &quot;github.com/creack/pty&quot;
         &quot;io&quot;
@@ -169,11 +198,21 @@ pty is pseudo-terminals, 基于cmd.Stdin/Stdout的封装
         io.Copy(os.Stdout, f)
     }
 
-pty的关闭
+pty 启动bash的例子: go-lib/shell/bash.go
 
+	go func() { 
+        //阻塞
+        _, _ = io.Copy(f, os.Stdin) 
+    }()
+	go func() { 
+        _, _ = io.Copy(os.Stdout, f)
+        _, _ = io.Copy(os.Stderr, f)
+    }()
+
+pty的开关
+
+    f, err := pty.Start(c)
     f.Close()
-
-pty 启动bash: go-lib/shell/bash.go
 
 # runtime
 

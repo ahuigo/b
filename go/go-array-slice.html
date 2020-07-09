@@ -49,7 +49,7 @@ const MD_URL='post/go/go-array-slice.md';
 <pre id="markdown" v-pre>---
 title: Golang：Array and slice
 date: 2018-09-27
-updated: 2020-05-29
+updated: 2020-07-09
 ---
 # array vs slice
 1. An array has fixed size, `[N]T`
@@ -275,7 +275,7 @@ The `range` form the `for loop iterates` over a `array, slice, string or map`, o
 		fmt.Printf(&quot;index=%d, %d\n&quot;, i, v)
 	}
 
-&gt; range is not reference!
+&gt; range is not reference! range 会复制对象
 
 ### skip range index
 You can skip the index or value by assigning to _.
