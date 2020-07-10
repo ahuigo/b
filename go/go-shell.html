@@ -49,7 +49,7 @@ const MD_URL='post/go/go-shell.md';
 <pre id="markdown" v-pre>---
 title: 系统调用
 date: 2018-09-27
-updated: 2020-07-09
+updated: 2020-07-10
 ---
 # 系统调用
 Go语言主要是通过两个包完成的。一个是os包，一个是syscall包
@@ -124,7 +124,11 @@ cmd *exec.Cmd:
 
     var cmd *exec.Cmd = exec.Command(&quot;cat&quot;, args...)
 
-## cmd 进程管理
+## set cmd
+	cmd.SysProcAttr = &amp;syscall.SysProcAttr{}
+	cmd.SysProcAttr.Setsid = true
+
+## kill cmd 进程管理
 它有很多方法: go doc os/exec Cmd
 
 kill cmd

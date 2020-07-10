@@ -2,9 +2,42 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-07-09T18:36:55Z</updated>
+<updated>2020-07-10T15:37:46Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>nginx security</title>
+<link href="/b/nginx/nginx-sec" rel="alternate" type="text/html"/>
+<updated>2020-07-10T00:00:00Z</updated>
+<summary/>
+<published>2020-07-10T00:00:00Z</published>
+<content># Preface
+
+# Todo
+http://www.cyberciti.biz/tips/linux-unix-bsd-nginx-webserver-security.html
+
+## res</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>系统调用</title>
+<link href="/b/go/go-shell" rel="alternate" type="text/html"/>
+<updated>2020-07-10T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># 系统调用
+Go语言主要是通过两个包完成的。一个是os包，一个是syscall包
+
+1. syscall 里提供了什么Chroot/Chmod/Chmod/Chdir…，Getenv/Getgid/</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>awk 简介</title>
+<link href="/b/c/ops-awk" rel="alternate" type="text/html"/>
+<updated>2020-07-10T00:00:00Z</updated>
+<summary/>
+<published>2020-07-10T00:00:00Z</published>
+<content># Preface
+awk  命令行的基本语法为
+
+	awk option 'script' file1 file2 ...
+	awk option -f scriptfile file1 file2</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>filepath</title>
 <link href="/b/go/go-file" rel="alternate" type="text/html"/>
 <updated>2020-07-09T00:00:00Z</updated>
@@ -252,7 +285,7 @@ The var statement declares a list of variables
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>make</title>
 <link href="/b/go/go-var-make" rel="alternate" type="text/html"/>
-<updated>2020-06-30T00:00:00Z</updated>
+<updated>2020-07-10T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># 引用
@@ -394,7 +427,7 @@ Refer : http://www.bo56.com/tcpdump-%E5%92%8C-wireshark%E7%BB%84%E5%90%88%E6%8B%
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Postgre CRUD</title>
 <link href="/b/db/pg-crud" rel="alternate" type="text/html"/>
-<updated>2020-06-18T00:00:00Z</updated>
+<updated>2020-07-10T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># Postgre meta
@@ -446,39 +479,4 @@ Python的标准库提供了两个模块：`_thread`和`threading`: `_thread`是�
 grep 与sed 同样是以按行匹配，不过sed 不仅能按行匹配，还能替换字符
 
 &gt;ps: mac 下的sed与linux下的gnu sed有很大的不同，建议安装gsed（如果</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>TS ignore type when import module</title>
-<link href="/b/ria/ts/ts-ignore" rel="alternate" type="text/html"/>
-<updated>2020-06-09T00:00:00Z</updated>
-<summary/>
-<published>2020-01-14T00:00:00Z</published>
-<content># TS ignore
-对于tsline来说用 `/* tslint:disable-next-line */`
-
-如果想让tsc 忽略下一行的错误
-
-    // @ts-ignore
-    im</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>css 布局</title>
-<link href="/b/ria/css-layout" rel="alternate" type="text/html"/>
-<updated>2020-06-16T00:00:00Z</updated>
-<summary/>
-<published>2018-03-03T00:00:00Z</published>
-<content># 参考
-&gt; 参考: http://zh.learnlayout.com/position.html
-
-# display
-1. block: This makes the element a blo</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>tcpdump</title>
-<link href="/b/net/net-tcpdump" rel="alternate" type="text/html"/>
-<updated>2020-06-09T00:00:00Z</updated>
-<summary/>
-<published>2020-06-09T00:00:00Z</published>
-<content># tcpdump
-example: https://www.rationallyparanoid.com/articles/tcpdump.html
-book:
-
-学术的说，tcpdump是一种嗅探</content>
 </entry></feed>

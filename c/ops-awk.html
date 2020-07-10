@@ -48,8 +48,8 @@ const MD_URL='post/c/ops-awk.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: awk 简介
-date: 2019-06-17
-updated: 2019-06-17
+date: 2020-07-10
+updated: 2020-07-10
 ---
 # Preface
 awk  命令行的基本语法为
@@ -151,9 +151,36 @@ will print all but two first columns:
 	myarray[1]=&quot;jim&quot;
 	myarray[&#x27;name&#x27;]=&quot;Ye&quot;
 
+## init
+
+    gawk &#x27;BEGIN{arr[1]=&quot;name&quot;; for(k in arr)print arr[k]}&#x27;
+
+## push, pop, unshift
+
+    function push(A,B) { A[length(A)+1] = B }
+
+实现unshift 比较复杂: https://github.com/xfix/awk-plus-plus
+
+    function unshift(arr, value, array) {
+        clone(array, arr)
+        empty(arr)
+        push(arr, value)
+        for (i = 1; i &lt;= len(array); i++) {
+            push(arr, array[i])
+        }
+    }
+    function empty(array) {
+        split(&quot;&quot;, array)
+    }
+    function clone(ret, array, key) {
+        for (key in array) {
+            ret[key] = array[key]
+        }
+    }
 ## delete
 
 	delete arr[1]
+
 
 ## in_array
 In array:
@@ -214,8 +241,8 @@ sort via shell:
 
 ## for-in
 
-	for ( x in myarray ) {
-	for (x in myarray) { # wrong!
+	for ( x in myarray ) { # ok
+	for (x in myarray) { # wrong!(无空白)
 		print myarray[x]
 		//continue; break;
 	}
@@ -245,6 +272,11 @@ sort via shell:
 	exit
 	break
 	continue
+
+## while
+
+  while (n in a) n++
+  if (n in a) n++
 
 # Math
 () 用于数学计算:
@@ -305,6 +337,7 @@ awk 的字符串是以双引号括起来的 不可用单引号
 
 ## regex
 
+### replace
 gsub - replace
 
 	echo &#x27;abc,123 ,&#x27; | awk -F\, &#x27;{gsub(/[ \t]+$/, &quot;&quot;, $2); print $2 &quot;:&quot;}&#x27;
@@ -334,7 +367,8 @@ awk 中的位置都是从1开始的
 
 	tolower(str)
 	toupper(str)
-	split(s,a,fs)：在fs上将s分成序列a
+	split(s,arr,fs)：在fs上将s分成序列arr
+	split(&quot;name,age,gender&quot;,arr,&quot;,&quot;)：在fs上将s分成序列arr
 
 ### strpad
 start from 1
@@ -374,6 +408,10 @@ Example
 
 	var=var $2
 	varA=&quot;string&quot; varB		$2
+
+以空格分隔输出
+
+    print varA,varB
 
 ### Split
 
@@ -537,7 +575,7 @@ Comparision Operators:
 	$ awk &#x27;NR!=1{a[$6]++;} END {for (i in a) print i &quot;, &quot; a[i];}&#x27; netstat.txt
 
 # Split File
-&gt; split -l&lt;line_count&gt; -a &lt;suffix_num&gt; -d prefix
+&gt; shell 原生命令`split -l&lt;line_count&gt; -a &lt;suffix_num&gt; -d prefix`
 
 按第6列拆分文件:
 
@@ -606,8 +644,7 @@ get output from shell command
 	}
 	close(cmd); # close pipe or file
 
-Closing Input and Output Redirections(Pipe) via `close(cmd)`
-</pre>
+Closing Input and Output Redirections(Pipe) via `close(cmd)`</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
