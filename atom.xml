@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-07-15T16:48:54Z</updated>
+<updated>2020-07-15T21:30:07Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
 <title>py-argv</title>
@@ -18,18 +18,17 @@ click 之于argparse/argv, 相当于requests 之于urllib
 
 	asciimatics：跨平台，全屏终端包（即鼠标/键</content>
 </entry><entry xml:base="https://ahuigo.github.io">
-<title>ssl(https)</title>
+<title>nginx的ssl配置</title>
 <link href="/b/nginx/nginx-ssl" rel="alternate" type="text/html"/>
 <updated>2020-07-15T00:00:00Z</updated>
 <summary/>
 <published>2018-10-04T00:00:00Z</published>
-<content># ssl(https)
+<content># nginx ssl配置
+参考[](/p/net/net-ssl) and [nginx_https]
 
 	server {
 		listen 80;
-		listen 443 default_server ssl;#加ssl 时会自动开启ssl, 不能再加 ssl on;
-
-</content>
+		listen 443 default_se</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Golang 的结构体</title>
 <link href="/b/go/go-struct" rel="alternate" type="text/html"/>
