@@ -49,7 +49,7 @@ const MD_URL='post/py/py-argv.md';
 <pre id="markdown" v-pre>---
 title: py-argv
 date: 2018-09-28
-updated: 2020-05-15
+updated: 2020-07-15
 ---
 # Preface
 - click
@@ -112,7 +112,6 @@ click 之于argparse/argv, 相当于requests 之于urllib
 
 ## enum args
     from enum import Enum
-
     class Color(Enum):
         red = &#x27;red&#x27;
         blue = &#x27;blue&#x27;
@@ -121,8 +120,8 @@ click 之于argparse/argv, 相当于requests 之于urllib
         def __str__(self):
             return self.value
 
-    parser.add_argument(&#x27;color&#x27;, type=Color, choices=list(Color))
-    parser.add_argument(&#x27;color&#x27;, type=str, choices=(&#x27;red&#x27;,&#x27;blue&#x27;))
+    parser.add_argument(&#x27;--color&#x27;, type=Color, choices=list(Color))
+    parser.add_argument(&#x27;--color&#x27;, type=str, choices=(&#x27;red&#x27;,&#x27;blue&#x27;))
 
 ## positional args
 

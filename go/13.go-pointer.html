@@ -49,7 +49,7 @@ const MD_URL='post/go/13.go-pointer.md';
 <pre id="markdown" v-pre>---
 title: Golang 指针
 date: 2018-09-27
-updated: 2020-03-31
+updated: 2020-07-15
 ---
 # Pointers
 1. 支持指针类型 *T,指针的指针 **T,以及包含包名前缀的 `*&lt;package&gt;.T`。
@@ -77,7 +77,7 @@ You can&#x27;t declare a new type with a pointer TypeSpec.
 
 Declaring a new type is used specifically to **remove the entire method set**
 
-不要用`type Connection *ssh.Client`, 要用Anonymous extend
+不能用`type Connection *ssh.Client`, 要用Anonymous extend
 
     type Connection struct {
         *ssh.Client

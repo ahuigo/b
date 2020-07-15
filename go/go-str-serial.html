@@ -49,7 +49,7 @@ const MD_URL='post/go/go-str-serial.md';
 <pre id="markdown" v-pre>---
 title: go str
 date: 2019-05-06
-updated: 2020-06-30
+updated: 2020-07-15
 ---
 # go json
 
@@ -70,6 +70,7 @@ map
     bytes1 := json.Marshal(map[string]interface{}{
         &quot;a&quot;:1,
         &quot;k2&quot;:&quot;b&quot;,
+        &quot;time&quot;: time.Now(), // 默认rfc3339 &quot;2020-07-15T17:05:05+08:00&quot;
     })
 
 ### prettify json
