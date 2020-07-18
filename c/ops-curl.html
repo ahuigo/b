@@ -48,8 +48,8 @@ const MD_URL='post/c/ops-curl.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: curl manual
-date: 2020-05-21
-updated: 2020-05-21
+date: 2020-07-19
+updated: 2020-07-19
 ---
 # curlt to python/node/go...
 curl 转换器: https://curl.trillworks.com/
@@ -114,13 +114,20 @@ modify host for https:
 
     -o, --output
         -o /dev/null 
-
-# post form
+# request Data
+## post form
 post 默认是:application/x-www-form-urlencoded, 则不是multipart
 
     curl https://httpbin.org/post -d &#x27;a=1&#x27;
 
-# upload
+## send array
+    application/x-www-form-urlencoded、multipart/form-data 、text/plain
+
+post/get:
+
+    curl host -d &#x27;key=v1&amp;key=v2&#x27;
+
+## upload
 form 不要自己设置content-type(boundary 因为要自动算)
 
 	curl &#x27;http://localhost:8000/up.php&#x27;  -F &#x27;pic=@img/a.png&#x27;

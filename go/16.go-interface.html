@@ -49,7 +49,7 @@ const MD_URL='post/go/16.go-interface.md';
 <pre id="markdown" v-pre>---
 title: Golang Interfaces
 date: 2018-09-27
-updated: 2019-09-05
+updated: 2020-07-19
 ---
 # Interfaces
 Interface：
@@ -189,9 +189,13 @@ assert `*type` via `interface.(*interfaceType)`
     //(s *T)Init(){}
     t, ok:= i.(*T)
 
-    //省略ok (不匹配会报panic)
+省略语法ok (不匹配会报panic)
+
     t := i.(T)
     i.(T).Name
+
+    for index, roleID := range delIdsIt.([]string) {
+    }
 
 example
 

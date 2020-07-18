@@ -2,9 +2,94 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-07-15T21:30:07Z</updated>
+<updated>2020-07-19T01:58:46Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>css 布局</title>
+<link href="/b/ria/css-layout" rel="alternate" type="text/html"/>
+<updated>2020-07-19T00:00:00Z</updated>
+<summary/>
+<published>2018-03-03T00:00:00Z</published>
+<content># 参考
+&gt; 参考: http://zh.learnlayout.com/position.html
+
+# display
+1. block: This makes the element a blo</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>go routines</title>
+<link href="/b/go/go-routines" rel="alternate" type="text/html"/>
+<updated>2020-07-19T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># go routines
+A goroutine is a `lightweight thread` managed by the Go runtime.
+
+execution of f happe</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>go routines 与原子</title>
+<link href="/b/go/go-routines-atom" rel="alternate" type="text/html"/>
+<updated>2020-07-19T00:00:00Z</updated>
+<summary/>
+<published>2020-07-18T00:00:00Z</published>
+<content># golang 原子问题
+
+## 问题发现的过程
+字节的同学在[踩坑记： Go 服务灵异 panic](v2ex.com/t/691145)提到，json 序列化字符串经常遇到 nil addres</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Golang Interfaces</title>
+<link href="/b/go/16.go-interface" rel="alternate" type="text/html"/>
+<updated>2020-07-19T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Interfaces
+Interface：
+1. Interface 可以用来模拟泛型，但是是运行时模拟，没有编译时快
+1. method 没有 public protecte..., 如果要被其</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>ops-process-ps</title>
+<link href="/b/c/ops-process-ps" rel="alternate" type="text/html"/>
+<updated>2020-07-19T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Preface
+
+# processe status
+linux上进程有5种状态:
+
+1. 运行(正在运行或在运行队列中等待)
+2. 中断(休眠中, 受阻, 在等待某个条件的形成或接受到信号)
+3</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>curl manual</title>
+<link href="/b/c/ops-curl" rel="alternate" type="text/html"/>
+<updated>2020-07-19T00:00:00Z</updated>
+<summary/>
+<published>2020-07-19T00:00:00Z</published>
+<content># curlt to python/node/go...
+curl 转换器: https://curl.trillworks.com/
+
+# Usage
+
+	-F,--form
+	-D- Dump t</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>linux c 简介</title>
+<link href="/b/c/c-var" rel="alternate" type="text/html"/>
+<updated>2020-07-19T00:00:00Z</updated>
+<summary/>
+<published>2020-07-19T00:00:00Z</published>
+<content># Preface
+
+# todo
+linux c
+http://blog.xiayf.cn/slides/tlpi-1/index.html#/2
+
+# Variable
+
+## Int
+
+	sig</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>py-argv</title>
 <link href="/b/py/py-argv" rel="alternate" type="text/html"/>
 <updated>2020-07-15T00:00:00Z</updated>
@@ -110,9 +195,9 @@ awk  命令行的基本语法为
 	awk option 'script' file1 file2 ...
 	awk option -f scriptfile file1 file2</content>
 </entry><entry xml:base="https://ahuigo.github.io">
-<title>filepath</title>
+<title>golang 的filepath api</title>
 <link href="/b/go/go-file" rel="alternate" type="text/html"/>
-<updated>2020-07-09T00:00:00Z</updated>
+<updated>2020-07-19T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># dirpath
@@ -309,7 +394,7 @@ sugar log 支持任意的类型(基于reflect</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Golang func</title>
 <link href="/b/go/16.go-func" rel="alternate" type="text/html"/>
-<updated>2020-07-01T00:00:00Z</updated>
+<updated>2020-07-19T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># define func
@@ -408,84 +493,4 @@ The var statement declares a list of variables
 Go语言主要是通过两个包完成的。一个是os包，一个是syscall包
 
 1. syscall里提供了什么Chroot/Chmod/Chmod/Chdir…，Getenv/Getgid/G</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>golang help</title>
-<link href="/b/go/11.go-help" rel="alternate" type="text/html"/>
-<updated>2020-07-15T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># help command
-Use "go help [command]" for more information about a command.
-
-    go help fmt
-
-
-
-# g</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>shell 表达式</title>
-<link href="/b/c/shell-expr" rel="alternate" type="text/html"/>
-<updated>2020-06-30T00:00:00Z</updated>
-<summary/>
-<published>2020-06-30T00:00:00Z</published>
-<content># shell 表达式
-
-# Loop
-
-## for
-
-	for a in "$*" ; do echo "$a "; done
-	for a in "$@" ; do echo "$a "; do</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>shell color</title>
-<link href="/b/c/shell-color" rel="alternate" type="text/html"/>
-<updated>2020-06-30T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># shell color
-https://en.wikipedia.org/wiki/ANSI_escape_code
-http://pueblo.sourceforge.net/doc/manua</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>flask route request response</title>
-<link href="/b/py/flask/2.flask-route" rel="alternate" type="text/html"/>
-<updated>2020-06-20T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># flask route request response
-1. @app.tearup_appcontex
-1. @app.route()
-1. @app.teardown_appcontex
-
-</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>压测工具</title>
-<link href="/b/c/ops-benchmark" rel="alternate" type="text/html"/>
-<updated>2020-06-30T00:00:00Z</updated>
-<summary/>
-<published>2020-06-30T00:00:00Z</published>
-<content># Preface
-性能/压力测试的分类：
-
-	基准/基线测试 base line testing / benchmark testing
-	负载测试 load testing
-	压力测试 stres</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>JS Promise</title>
-<link href="/b/ria/js-promise" rel="alternate" type="text/html"/>
-<updated>2020-06-18T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># promise 执行顺序
-macrotasks: setTimeout, setInterval, setImmediate, I/O, UI rendering
-microtasks: proc</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>python virtualenv</title>
-<link href="/b/py/py-test-virtualenv" rel="alternate" type="text/html"/>
-<updated>2020-06-18T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># python env
-本文介绍数种python 虚拟环境
-- virtualenv 提供了 Python 虚拟环境的隔离，但是命令复杂，目录的管理也比较混乱，
-- VirtualEnvWrappe</content>
 </entry></feed>

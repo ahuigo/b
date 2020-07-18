@@ -49,7 +49,7 @@ const MD_URL='post/go/16.go-func.md';
 <pre id="markdown" v-pre>---
 title: Golang func
 date: 2018-09-27
-updated: 2020-07-01
+updated: 2020-07-19
 ---
 # define func
 1. 不支持嵌套nested, 重载overload 和 
@@ -179,6 +179,9 @@ method 2 通过一个闭包：
 	func sum(nums ...int) {
 	    fmt.Printf(&quot;%T&quot;,nums)  //slice = []int{1, 2, 3)
 	}
+
+发送多参数
+
     s:=[]int{1,2,3}
 	sum(s...)
 	sum(1, 2, 3)
@@ -215,9 +218,10 @@ fmt.Println(a ...interface{}) 就能接入多参返回
 
     fmt.Println(swap(&quot;a&quot;,&quot;b&quot;))          //ok
 
-发送参数时，不可以混用; 接收参数时可以混用
+发送参数时，不可以混用单参与多参: (接收参数时可以混用)
 
-    fmt.Println(&quot;swap&quot;, swap(&quot;a&quot;,&quot;b&quot;))  //error: single-value context
+    //error: single-value context
+    fmt.Println(&quot;swap&quot;, swap(&quot;a&quot;,&quot;b&quot;))  
 
 参数匹配数不对时，就不能变参与形参混用了, 报: multiple-value in sigle-value context error
 不传多值时，就可以混用
@@ -539,10 +543,10 @@ err 作用域限定为if/else 内
 ### multi panic 
 只有最后一个被捕获: panic2 会覆盖前面的panic1
 
+    //go-lib/func/panic-nest
     func test() {
         defer func() {
-            fmt.Println(recover())
-            println(&quot;test panic3&quot;)
+            fmt.Println(&quot;recover:&quot;,recover())
         }()
         defer func() {
             panic(&quot;test panic2&quot;)
@@ -552,8 +556,10 @@ err 作用域限定为if/else 内
     func main() {
         test()
     }
-    输出:
-    defer panic
+
+输出:
+
+    recover: test panic2
 
 ## recover
 recover 只有在延迟`defer 函数调⽤`内直接调⽤用才会清空panic, 终止goroutine 错误
@@ -563,13 +569,19 @@ recover 只有在延迟`defer 函数调⽤`内直接调⽤用才会清空panic, 
     func panic(v interface{})
     func recover() interface{}
 
-重复recover
+### 重复recover
 
+    // Refer: go-lib/func/panic-recover.go
     defer func() {
-        fmt.Printf(&quot;Recovered in f: %#v\n&quot;,recover())
+        fmt.Printf(&quot;Recovered in f: %#v\n&quot;,recover()) 
         fmt.Printf(&quot;Recovered in f: %#v\n&quot;,recover()) //nil
-    }
-    panic(&quot;panic error!&quot;)</pre>
+    }()
+    panic(&quot;panic error!&quot;)
+
+output
+
+    Recovered in f: &quot;panic error!&quot;
+    Recovered in f: &lt;nil&gt;</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
