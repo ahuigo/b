@@ -2,9 +2,21 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-07-19T01:58:46Z</updated>
+<updated>2020-07-19T20:36:34Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Niz 键盘的配置</title>
+<link href="/b/mac/keyboard" rel="alternate" type="text/html"/>
+<updated>2020-07-19T00:00:00Z</updated>
+<summary/>
+<published>2020-05-08T00:00:00Z</published>
+<content># 键盘
+看上两款键盘:
+1. HHKB-Pro2，是一款电脑键盘，重量0.53kg， 长29.4 x 宽11.0 x 高39.9mm 。
+2. Niz Atom68 31.9*11.0
+
+考虑到了h</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>css 布局</title>
 <link href="/b/ria/css-layout" rel="alternate" type="text/html"/>
 <updated>2020-07-19T00:00:00Z</updated>
@@ -483,14 +495,4 @@ The var statement declares a list of variables
 
 应用层
 	DHCP DHCPv6 DNS FTP Gophe</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>系统调用</title>
-<link href="/b/go/go-os" rel="alternate" type="text/html"/>
-<updated>2020-06-30T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># 系统调用
-Go语言主要是通过两个包完成的。一个是os包，一个是syscall包
-
-1. syscall里提供了什么Chroot/Chmod/Chmod/Chdir…，Getenv/Getgid/G</content>
 </entry></feed>

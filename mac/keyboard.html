@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/mac/keyboard.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>Niz 键盘的配置</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: Niz 键盘的配置
+date: 2020-05-08
+updated: 2020-07-19
+---
+# 键盘
+看上两款键盘:
+1. HHKB-Pro2，是一款电脑键盘，重量0.53kg， 长29.4 x 宽11.0 x 高39.9mm 。
+2. Niz Atom68 31.9*11.0
+
+考虑到了hhkb的缺点, 入手了niz plum 
+
+1. 双桥不支持有线传输hhkb 数据线数据走线不灵活，只有一个方向. NIZ是三个方向
+2. hhkb 官方版是没有锂电池的贵hhkb只有一个60键盘布局。 niz 有66 68 84 87 108(我买的68，但想换成mini 84)
+3. hhkb 只用一个压力位。niz 有35g, 45g可选.
+4. hhkb 只有6个开关提供定制功能，仅仅是交换Command键和Alt键或者交换Fn键. Niz 可以通过软件定制任意按键、快捷键
+5. hhkb 贵，NIZ 性价比太高了
+
+## Office/program1/program2 三种模式
+    Office 是固定按键。
+    program2/1 模式下按键可定制
+
+切换模式：按住 `Fn+M`1s：
+
+    M 常亮.5s 是Office
+    M 常亮10s 是Program1
+    M 闪亮10s 是Program2
+ 
+## mac osx 蓝牙
+入手niz plum atom68，蓝牙连接重试了很多次，我的系统是mac osx 10.15.4 
+https://detail.tmall.com/item.htm?id=614767798852&amp;ali_refid=a3_430582_1006:1287450127:N:bui2pN2qjp4EgGD5qTW0sQ==:4e00821c9926bf888d2dd9e2ec80ec44&amp;ali_trackid=1_4e00821c9926bf888d2dd9e2ec80ec44&amp;spm=a230r.1.14.3&amp;sku_properties=5919063:6536025
+
+主要连接蓝牙键盘时，mac会弹出匹配数字:
+3. NIZ键盘长按3秒以上`fn+蓝牙1`(或者2/3) ,进入快闪连接
+4. mac 开启蓝牙
+5. mac 进入System Setting&gt; keyboard, 点击Set Up Buletooth Keyboard. 找到键盘，点击connect
+6. 蓝牙键盘要输入6个数字（输入时不回显，自己是看不到输入）
+7. 蓝牙键盘按回车（回车不可少）
+8. 再点“connect” 连接(如果6个数字码不对，会要求重新连接
+
+Note: 
+我一开始也遇到mac 蓝牙连接键盘连不上的问题。后来重启了mac（平时半年也不会重启），键盘fn+蓝牙1 长按3秒以上，重新连接就正常了。
+据说升级到10.15.2 mac osx 不会有问题？我的没有升级，一直是用的10.15.0(the Xcode Command Line Tools 最新）
+
+# 快捷键
+    ctrl+f/b/n/p
+        方向键 字符
+    alt+f/b/n/p ?
+        alt+ 方向键 单词
+    ctrl+a/e: 
+        cmd+ 方向键 选中全部
+
+## 选中文字
+    Shift + 方向键 选中文字
+    Shift +alt+ 方向键 选中单词
+    Shift +cmd+ 方向键 选中全部
+
+## 删除back/del
+    字符：
+        backspacke/del
+    单词：
+        alt+backspacke/del
+    全部：
+        cmd+backspacke/del
+        ctrl+u/k ?
+
+## 定制niz按键
+niz好像所有的按键都可以定制
+1. 首先下载: niz定制软件, 这个软件 https://drive.google.com/drive/folders/1CWGM9N1DIR4i6YdScP-Sr2yV9YhgItqL
+2. 然后使用软件完成定制
+
+比如，我想将`esc` 映射到``` `~```，就如下图这样，点ESC键，录制``` ` ```, 然后写入配置成功，就表示完成
+![](/img/mac/keyboard-niz-custom-esc.png)
+
+atom68缺少一个左Fn 不太方便，于是我通过`程控键`改了下按键：
+1. 将左`ctrl&amp;Caps` 映射为右FN
+2. 将`右Alt`映射为ctrl/caps: `非FN` 时为`CapsLock`,`Fn`时为`Catl&amp;Caps`交换键
+
+# F1-F12
+## mac F1-F12
+karabiner 
+
+# Karabiner 定制快捷键
+## 基本按键
+https://ke-complex-modifications.pqrs.org/
+
+    &quot;modifiers.mandatory&quot;: 
+        &quot;control&quot;
+        &quot;option&quot;
+        &quot;command&quot;
+    key_code: 
+        escape  esc
+        &quot;delete_or_backspace&quot;,
+        &quot;delete_forward&quot;,
+        &quot;up_arrow&quot;
+        &quot;down_arrow&quot;
+        open_bracket
+        close_bracket
+        ` grave_accent_and_tilde
+
+
+假如我要定义一个ctrl+k 向前删除到行末：
+
+        {
+          &quot;type&quot;: &quot;basic&quot;,
+          &quot;from&quot;: {
+            &quot;key_code&quot;: &quot;k&quot;,
+            &quot;modifiers&quot;: {
+              &quot;mandatory&quot;: [
+                &quot;control&quot;
+              ]
+            }
+          },
+          &quot;to&quot;: [
+            {
+              &quot;key_code&quot;: &quot;delete_forward&quot;,
+              &quot;modifiers&quot;: [
+                &quot;command&quot;
+              ]
+            }
+          ]
+        }
+
+## ctrl+u/w
+你可以设置ctrl+w/u 映射到`option/cmd+DeleteBackward`. 此时iterm会失效. 
+解决方案如下：
+
+### ctrl+w: option 映射esc
+ctrl+w解决方法是option发送真正的escape：
+
+    iTerm2 &gt; Preferences &gt; Profiles &gt; Keys
+    set your left ⌥ key to act as an escape character.
+
+### ctrl+u: iterm2映射回来
+https://apple.stackexchange.com/questions/89981/remapping-keys-in-iterm2
+
+1. 利用appstore 的免费软件(key codes). 找到`ctrl+u`实际代码是`0x15`
+2. 在iterm 修改keys. 将`cmd+backspace`映射到`0x15`
+
+![](/img/shell/keyboard/iterm-keys-map.png)
+
+## app 绑定
+首先找到app 的bundle identifier
+
+    $ osascript -e &#x27;id of app &quot;chrome&quot;&#x27;
+    $ osascript -e &#x27;id of app &quot;wechat&quot;&#x27;
+    com.tencent.xinWeChat
+    $ mdls -name kMDItemCFBundleIdentifier -r /System/Volumes/Data/Applications/Charles.app
+    com.xk72.Charles
+
+再绑定app
+
+
+    &quot;manipulators&quot;: [
+    {
+        &quot;conditions&quot;: [
+            {
+                &quot;bundle_identifiers&quot;: [
+                    &quot;^com\\.apple\\.finder$&quot;
+                ],
+                &quot;type&quot;: &quot;frontmost_application_if&quot;
+            }
+        ],</pre>
+<div id="pager"></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"><ol><li>笔记</li><ol></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>
