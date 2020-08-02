@@ -49,7 +49,7 @@ const MD_URL='post/py/py-pkg-setuptool.md';
 <pre id="markdown" v-pre>---
 title: py-pkg-setuptool
 date: 2018-10-04
-updated: 2020-07-01
+updated: 2020-07-29
 ---
 # Preface
 https://packaging.python.org/tutorials/packaging-projects/
@@ -95,6 +95,18 @@ setuptools 与 disutils
 1. 如果写的是命令，那么将命令文件直接放到: scripts = [&#x27;fileset&#x27;]
 1. import foo 依赖的是: `packages= [&#x27;foo&#x27;]` 或`py_modules=[&quot;foo&quot;]`
 2. 如果存在依赖：install_requires = [],  tests_require=[ &#x27;pytest&#x27;, ],
+
+### 命名
+在setup 中的命名
+
+    name = &#x27;xlparser_py&#x27;,
+    packages = [&#x27;xlparser&#x27;],
+    # or py_modules = [&#x27;xlparser&#x27;],
+
+对应实际使用时的命名为：
+
+    pip install xlparser_py
+    import xlparser
 
 ### pkg包文件
 默认打包时不会包含所有文件，我们需要通过`packags`指定包含哪些文件。

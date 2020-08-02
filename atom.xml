@@ -2,9 +2,267 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-07-19T20:36:34Z</updated>
+<updated>2020-08-02T18:14:59Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>vim-motion</title>
+<link href="/b/vim/vim-motion" rel="alternate" type="text/html"/>
+<updated>2020-08-02T00:00:00Z</updated>
+<summary/>
+<published>2020-08-02T00:00:00Z</published>
+<content># Motion, Movement
+Movement 移动光标、字符，Vim 最核心的功能操作
+
+vim 下的光标移动
+
+    按字符移动 hjkl
+    按单词移动 
+        小单词:</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>python 时间函数的用法笔记</title>
+<link href="/b/py/py-time" rel="alternate" type="text/html"/>
+<updated>2020-08-02T00:00:00Z</updated>
+<summary/>
+<published>2018-04-02T00:00:00Z</published>
+<content># time 工具
+time 提供基本的时间，sleep
+
+	import time
+	time.time()
+		19972314124.05238
+        time.localetime(</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>python 性能分析</title>
+<link href="/b/py/py-profiler" rel="alternate" type="text/html"/>
+<updated>2020-08-02T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># python 性能分析
+介绍几个分析工具：
+- cProfile
+类似于xdebug cachegrind profiler 性能画像
+- py-spy python 版的top
+    - py</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-file-io</title>
+<link href="/b/py/py-file-io" rel="alternate" type="text/html"/>
+<updated>2020-08-02T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Preface
+
+# flush buffer
+开启buffer 后，默认是换行才flush, print 调用的就是sys.stdout
+
+    # mac测试后：不一定有效
+    PYTH</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Mac shortcuts</title>
+<link href="/b/mac/mac-shortcuts" rel="alternate" type="text/html"/>
+<updated>2020-08-02T00:00:00Z</updated>
+<summary/>
+<published>2020-08-02T00:00:00Z</published>
+<content>
+# mac 快捷键使用整理
+
+## Karabiner + Seil, 定制全键盘
+一开始是左手手指有点酸，估计是尾指按键盘左边的Ctrl键次数有点多，为此把左边的Ctrl键盘跟CapsLock对换</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>brew</title>
+<link href="/b/mac/mac-brew" rel="alternate" type="text/html"/>
+<updated>2020-08-02T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># brew
+- brew(Homebrew) 是近来极流行的 安装gawk,gsed,macvim等命令的安装工具，所有的包都被安装到/usr/local/Cellar下，然后再以`ln -s` 软</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Postgre 安装\配置\管理</title>
+<link href="/b/db/pg-ddl-install" rel="alternate" type="text/html"/>
+<updated>2020-08-02T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Postgre 安装\配置\管理
+
+## intall
+centos:
+
+    yum install postgresql-server postgresql-contrib -y
+    s</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>shell 终端使用技巧</title>
+<link href="/b/c/shell-zsh" rel="alternate" type="text/html"/>
+<updated>2020-08-02T00:00:00Z</updated>
+<summary/>
+<published>2020-08-02T00:00:00Z</published>
+<content># Preface
+本文总结了shell 终端的使用技术: 主要包括Readline 使用，以及zsh 与iTerm2 的使用
+
+# Shortcuts
+下面列出的快捷键大部分是通用的，有一小部分快捷</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-pkg-setuptool</title>
+<link href="/b/py/py-pkg-setuptool" rel="alternate" type="text/html"/>
+<updated>2020-07-29T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Preface
+https://packaging.python.org/tutorials/packaging-projects/
+
+setuptools 与 disutils
+1. distu</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>学习下Golang 的反射</title>
+<link href="/b/go/17.go-reflect" rel="alternate" type="text/html"/>
+<updated>2020-07-29T00:00:00Z</updated>
+<summary/>
+<published>2019-01-07T00:00:00Z</published>
+<content># Relection json
+    import "github.com/mitchellh/mapstructure"
+	err := mapstructure.Decode(input, &amp;</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>golang help</title>
+<link href="/b/go/11.go-help" rel="alternate" type="text/html"/>
+<updated>2020-07-29T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># help command
+Use "go help [command]" for more information about a command.
+
+    go help fmt
+
+# go </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>js dom file</title>
+<link href="/b/ria/js-dom-file" rel="alternate" type="text/html"/>
+<updated>2020-07-25T00:00:00Z</updated>
+<summary/>
+<published>2020-07-25T00:00:00Z</published>
+<content># Focus
+
+    var isFocused = (document.activeElement === dummyEl);
+    ele.focus()
+
+# FormData
+
+## i</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Js Array 整理</title>
+<link href="/b/ria/js-array" rel="alternate" type="text/html"/>
+<updated>2020-07-25T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Js Array 整理
+array 不像string 是primitive value, 所以length 可以缩短放大array。
+
+	arr = [1,2,3]
+	arr.length = 1</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>go routines 与原子</title>
+<link href="/b/go/go-atom-string" rel="alternate" type="text/html"/>
+<updated>2020-07-25T00:00:00Z</updated>
+<summary/>
+<published>2020-07-18T00:00:00Z</published>
+<content># golang 原子问题
+
+## 问题发现的过程
+字节的同学在[踩坑记： Go 服务灵异 panic](v2ex.com/t/691145)提到，json 序列化字符串经常遇到 nil addres</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>linux 下的Fork 与 Exec</title>
+<link href="/b/c/shell-redirect-fork2exec" rel="alternate" type="text/html"/>
+<updated>2020-07-25T00:00:00Z</updated>
+<summary/>
+<published>2020-07-25T00:00:00Z</published>
+<content># Preface
+多进程的的内容包括进程控制, 进程通信, 进程本身的结构.
+
+# 标准管道输入输出
+
+	#with stdout(cmd get double stdout); stdout pi</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>ops-process-lsof</title>
+<link href="/b/c/ops-process-lsof" rel="alternate" type="text/html"/>
+<updated>2020-07-25T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># lsof: list open file
+[/p/linux-process-lsof](/p/linux-process-lsof)
+
+List Open File. 比如查看所有打开file </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>c-io-buffer</title>
+<link href="/b/c/c-io-buffer" rel="alternate" type="text/html"/>
+<updated>2020-07-25T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Preface
+在标准I/O库中提供缓冲的主要目的就是减少系统函数read和write的调用，从而能够减少系统CPU时间。标准I/O库的缓冲主要分为3种：全缓冲、行缓冲和不缓冲。
+
+    全缓冲</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>c-debug-gdb</title>
+<link href="/b/c/c-debug-gdb" rel="alternate" type="text/html"/>
+<updated>2020-07-25T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># 启动gdb
+- First, let excute file records Source file a.c via gcc parameter "-g"
+
+	gcc -g a.c
+
+- Seco</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>coredump</title>
+<link href="/b/c/c-debug-coredump" rel="alternate" type="text/html"/>
+<updated>2020-07-25T00:00:00Z</updated>
+<summary/>
+<published>2020-07-25T00:00:00Z</published>
+<content># Preface
+
+1. 前言: 有的程序可以通过编译, 但在运行时会出现Segment fault(段错误). 这通常都是指针错误引起的. 但这不像编译错误一样会提示到文件-&gt;行, 而是没有任何信</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>vscode markdown-preview-enhanced example</title>
+<link href="/b/vsc/vsc-markdown" rel="alternate" type="text/html"/>
+<updated>2020-07-23T00:00:00Z</updated>
+<summary/>
+<published>2020-07-22T00:00:00Z</published>
+<content># vsc markdown 
+&gt; https://shd101wyy.github.io/markdown-preview-enhanced/
+
+# draw
+## 流程图 mermaid
+```m</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>security-web</title>
+<link href="/b/sec/security-web" rel="alternate" type="text/html"/>
+<updated>2020-07-23T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Preface
+
+
+# click-jacking vulnerability
+
+## opacity
+
+	&lt;a href="http://example.com/attack.html" sty</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>go-test</title>
+<link href="/b/go/go-test" rel="alternate" type="text/html"/>
+<updated>2020-07-23T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Preface
+Go has a lightweight test framework composed of the go test command and the testing packag</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>linux c 线程</title>
+<link href="/b/c/c-thread" rel="alternate" type="text/html"/>
+<updated>2020-07-23T00:00:00Z</updated>
+<summary/>
+<published>2020-07-23T00:00:00Z</published>
+<content># Preface
+每个进程在自己独立的地址空间运行，进程间共享数据需要通过nmap 或者 进程间通信机制。
+而线程可以*一个进程的地址空间内执行多个控制流程*。有些情况下需要一个进程执行多个控制流程</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Niz 键盘的配置</title>
 <link href="/b/mac/keyboard" rel="alternate" type="text/html"/>
 <updated>2020-07-19T00:00:00Z</updated>
@@ -19,7 +277,7 @@
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>css 布局</title>
 <link href="/b/ria/css-layout" rel="alternate" type="text/html"/>
-<updated>2020-07-19T00:00:00Z</updated>
+<updated>2020-07-23T00:00:00Z</updated>
 <summary/>
 <published>2018-03-03T00:00:00Z</published>
 <content># 参考
@@ -198,301 +456,12 @@ Go语言主要是通过两个包完成的。一个是os包，一个是syscall包
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>awk 简介</title>
 <link href="/b/c/ops-awk" rel="alternate" type="text/html"/>
-<updated>2020-07-10T00:00:00Z</updated>
+<updated>2020-07-25T00:00:00Z</updated>
 <summary/>
-<published>2020-07-10T00:00:00Z</published>
+<published>2020-07-25T00:00:00Z</published>
 <content># Preface
 awk  命令行的基本语法为
 
 	awk option 'script' file1 file2 ...
 	awk option -f scriptfile file1 file2</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>golang 的filepath api</title>
-<link href="/b/go/go-file" rel="alternate" type="text/html"/>
-<updated>2020-07-19T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># dirpath
-
-## pathinfo
-extinfo 
-
-    import "path/filepath"
-    fileext :=copy filepath.Ext(filename</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Golang：Array and slice</title>
-<link href="/b/go/go-array-slice" rel="alternate" type="text/html"/>
-<updated>2020-07-15T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># array vs slice
-1. An array has fixed size, `[N]T`
-2. a slice is a dynamically-sized. `[]T` 
-3. sli</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Golang notes: argv</title>
-<link href="/b/go/go-argv" rel="alternate" type="text/html"/>
-<updated>2020-07-09T00:00:00Z</updated>
-<summary/>
-<published>2019-03-25T00:00:00Z</published>
-<content># Golang notes: argv
-
-    os.Args []string返回命令⾏行参数，
-    os.Exit 终⽌止进程。 
-    filepath.Abs(exec.LookPa</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>go expression</title>
-<link href="/b/go/8.go-expr" rel="alternate" type="text/html"/>
-<updated>2020-07-09T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># if
-  if x &lt; 0 {
-	}
-
-## if error
-    if i, err := strconv.Atoi("123"); err==nil{
-        println(i)</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>go routines</title>
-<link href="/b/go/18.go-routines" rel="alternate" type="text/html"/>
-<updated>2020-07-09T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># go routines
-A goroutine is a `lightweight thread` managed by the Go runtime.
-
-execution of f happe</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Shell 工具集合</title>
-<link href="/b/c/shell-tool" rel="alternate" type="text/html"/>
-<updated>2020-07-09T00:00:00Z</updated>
-<summary/>
-<published>2016-09-27T00:00:00Z</published>
-<content># System debug, 系统调试工具
-
-- web: 对于 Web 调试，curl 和 curl -I 很方便灵活，或者也可以使用它们的同行 wget，或者更现代的 httpie。
-- dis</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>GMT,UTC,DST,CST 各种时间标准</title>
-<link href="/b/c/shell-time" rel="alternate" type="text/html"/>
-<updated>2020-07-09T00:00:00Z</updated>
-<summary/>
-<published>2012-07-08T00:00:00Z</published>
-<content># 各世界时间标准
-我们经常遇到这4种时间：GMT,UTC,DST,CST。google了一下，在此做个小结.
-
-## 格林威治标准时间GMT
-含义：「格林威治标准时间」(Greenwich Mean</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>ops-init</title>
-<link href="/b/c/service/ops-init" rel="alternate" type="text/html"/>
-<updated>2020-07-09T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Preface
-
-# init
-
-## init
-init指linux 系统运行级runlevel 0~6. 可在/etc/inittab中指定:
-
-	id:3:initdefault:
-
-
-##</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>js notes</title>
-<link href="/b/ria/js-obj" rel="alternate" type="text/html"/>
-<updated>2020-07-04T00:00:00Z</updated>
-<summary/>
-<published>2020-07-04T00:00:00Z</published>
-<content># Object
-
-## isEmpty
-    ECMA 7+:
-    Object.entries(obj).length === 0 &amp;&amp; obj.constructor === Object</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>python 的list/tuple 笔记</title>
-<link href="/b/py/py-var-list" rel="alternate" type="text/html"/>
-<updated>2020-07-04T00:00:00Z</updated>
-<summary/>
-<published>2018-03-03T00:00:00Z</published>
-<content># list and tuple
-因为tuple 是增加删除元素的不可变的list(数据可以变)，所以代码更安全。
-如果可能，能用tuple代替list就尽量用tuple。
-
-	list = [1,2</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>proxy 之charles</title>
-<link href="/b/net/proxy/proxy-charles" rel="alternate" type="text/html"/>
-<updated>2020-07-04T00:00:00Z</updated>
-<summary/>
-<published>2020-07-04T00:00:00Z</published>
-<content># Charles
-## delete
-
-	Cmd+del delete all session
-	Shift+Cmd+P Mac OS proxy
-
-## Map Remote/Local
-### </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>shell 环境变量</title>
-<link href="/b/c/shell-var-env" rel="alternate" type="text/html"/>
-<updated>2020-07-04T00:00:00Z</updated>
-<summary/>
-<published>2018-10-08T00:00:00Z</published>
-<content># Variable
-
-	let num++
-	let ++num
-
-	declare -i num
-	num+=1
-
-	((num++))
-
-## unset export
-    unset FO</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>py-pkg-setuptool</title>
-<link href="/b/py/py-pkg-setuptool" rel="alternate" type="text/html"/>
-<updated>2020-07-01T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Preface
-https://packaging.python.org/tutorials/packaging-projects/
-
-setuptools 与 disutils
-1. distu</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>py-import</title>
-<link href="/b/py/py-import" rel="alternate" type="text/html"/>
-<updated>2020-07-01T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># Preface
-
-## package vs module
-import pkg/modules 时，引入的object type 是`module`，但它们不同点是
-1. `pkg/__init</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>About Http</title>
-<link href="/b/net/http" rel="alternate" type="text/html"/>
-<updated>2020-07-01T00:00:00Z</updated>
-<summary/>
-<published>2020-07-01T00:00:00Z</published>
-<content># range
-range 这个header 头，主要是用于分段下载
-
-    Range: bytes=0-1024
-
-响应:
-
-    http_code=206 Partial Content
-</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Go log</title>
-<link href="/b/go/go-log" rel="alternate" type="text/html"/>
-<updated>2020-07-01T00:00:00Z</updated>
-<summary/>
-<published>2019-09-21T00:00:00Z</published>
-<content># zap log
-Refer: https://studygolang.com/articles/17394
-
-## Sugar Logger
-sugar log 支持任意的类型(基于reflect</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Golang func</title>
-<link href="/b/go/16.go-func" rel="alternate" type="text/html"/>
-<updated>2020-07-19T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># define func
-1. 不支持嵌套nested, 重载overload 和 
-2. 不支持默认参数default parameter
-3. 支持不定长变参数
-4. 多返回值
-5. 支持命名返</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>vim-style</title>
-<link href="/b/vim/vim-style" rel="alternate" type="text/html"/>
-<updated>2020-06-30T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Preface
-
-# show charactors
-See tab, new line:
-
-	:set list
-	:set listchars=tab:&gt;-,eol:&lt;,nbsp:%
-	:se</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>go 的变量</title>
-<link href="/b/go/go-var" rel="alternate" type="text/html"/>
-<updated>2020-07-04T00:00:00Z</updated>
-<summary/>
-<published>2016-09-27T00:00:00Z</published>
-<content># Variables
-The var statement declares a list of variables
-
-	var c, python, java bool
-	var i int
-	fm</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>map</title>
-<link href="/b/go/go-var-map" rel="alternate" type="text/html"/>
-<updated>2020-07-01T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># map
-
-## define map
-键必须是⽀支持相等运算符 (==、!=) 类型，⽐比如 number、string、 pointer、array、struct，以及对应的 interface</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>make</title>
-<link href="/b/go/go-var-make" rel="alternate" type="text/html"/>
-<updated>2020-07-10T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># 引用
-引⽤用类型包括 slice、map 和 channel。
-
-    // 提供初始化表达式。
-    a := []int{0, 0, 0}
-    a[1] = 10
-
-# new mak</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Python 的math 语法</title>
-<link href="/b/py/math/py-math" rel="alternate" type="text/html"/>
-<updated>2020-06-30T00:00:00Z</updated>
-<summary/>
-<published>2020-06-30T00:00:00Z</published>
-<content># number
-
-    0x61
-    0o77
-    0b11
-
-## random
-`[0,1)` 小数
-
-	import random
-    random.random()
-
-包含`[</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>tcp/ip 协议</title>
-<link href="/b/net/net-tcpip" rel="alternate" type="text/html"/>
-<updated>2020-06-30T00:00:00Z</updated>
-<summary/>
-<published>2011-11-11T00:00:00Z</published>
-<content># 互联网协议栈
-分为链路层(link), 网络层(Network), 传输层(Transport), 应用层(Application)
-
-应用层
-	DHCP DHCPv6 DNS FTP Gophe</content>
 </entry></feed>

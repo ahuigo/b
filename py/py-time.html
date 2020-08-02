@@ -49,7 +49,7 @@ const MD_URL='post/py/py-time.md';
 <pre id="markdown" v-pre>---
 title: python 时间函数的用法笔记
 date: 2018-04-02
-updated: 2020-04-28
+updated: 2020-08-02
 ---
 # time 工具
 time 提供基本的时间，sleep
@@ -68,8 +68,25 @@ time 提供基本的时间，sleep
 	time.sleep(random.random())
 
 ## timeit
+指定次数
 
-### with Timer context
+    &gt;&gt;&gt; timeit.timeit(&#x27;&quot;-&quot;.join(str(n) for n in range(100))&#x27;, number=10000)
+    0.3018611848820001
+
+多条初始语句
+
+    &gt;&gt;&gt; timeit.timeit(&#x27;text.find(char)&#x27;, setup=&#x27;text = &quot;sample string&quot;; char = &quot;g&quot;&#x27;)
+    1.7246671520006203
+
+多次测试：
+
+    &gt;&gt;&gt; t = timeit.Timer(&#x27;char in text&#x27;, setup=&#x27;text = &quot;sample string&quot;; char = &quot;g&quot;&#x27;)
+    &gt;&gt;&gt; t.timeit()
+    0.3955516149999312
+    &gt;&gt;&gt; t.repeat()
+    [0.40183617287970225, 0.37027556854118704, 0.38344867356679524, 0.3712595970846668, 0.37866875250654886]
+
+### 自定义 Timer context
 
     import time
     class Timer:

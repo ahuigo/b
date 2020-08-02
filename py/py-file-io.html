@@ -49,17 +49,20 @@ const MD_URL='post/py/py-file-io.md';
 <pre id="markdown" v-pre>---
 title: py-file-io
 date: 2018-09-28
-updated: 2019-07-19
+updated: 2020-08-02
 ---
 # Preface
 
 # flush buffer
 开启buffer 后，默认是换行才flush, print 调用的就是sys.stdout
 
+    # mac测试后：不一定有效
     PYTHONUNBUFFERED=0 python3 &lt;&lt;&lt;&#x27;import sys,time; sys.stdout.write(&quot;sys&quot;);time.sleep(10)&#x27;
     PYTHONUNBUFFERED=0 python3 &lt;&lt;&lt;&#x27;import sys,time; sys.stdout.write(&quot;sys\n&quot;);time.sleep(10)&#x27;
     PYTHONUNBUFFERED=0 python3 &lt;&lt;&lt;&#x27;import sys,time; print(&quot;print&quot;,end=&quot;&quot;);time.sleep(10)&#x27;
+    # 有效
     python3 -u &lt;&lt;&lt;&#x27;import sys,time; sys.stdout.write(&quot;sys&quot;);time.sleep(10)&#x27;
+    python3 -u test.py
 
 也可以定向到别的地方：
 
@@ -80,8 +83,9 @@ python [完全关闭buffer](http://jaseywang.me/2015/04/01/stdio-%E7%9A%84-buffe
 
 1. sys.stdout = os.fdopen(sys.stdout.fileno(), &#x27;w&#x27;, 0)
 2. 直接定向到stderr 
-3. 直接脚本的时候加上 -u 参数。但是需要注意下，xreadlines(), readlines() 包含一个内部 buffer，不受 -u 影响，因此如果通过 stdin 来遍历会出现问题
-4. 将其 stream 关联到 pseudo terminal(pty) 上，script 可以做这事情的: `script -q -c &quot;command1&quot; /dev/null | command2`
+3. 直接脚本的时候加上 -u 参数。`python -u tool/bench.py`
+   1. 但是需要注意下，xreadlines(), readlines() 包含一个内部 buffer，不受 -u 影响，因此如果通过 stdin 来遍历会出现问题
+4. 将其 stream 关联到 pseudo terminal(pty) 上，script 命令可以做这事情的: `script -q -c &quot;command1&quot; /dev/null | command2`
 或者通过 socat 这个工具实现，
 
 
@@ -181,16 +185,26 @@ StringIO顾名思义就是在内存中读写str。
 
 ### init: as file object
 
-
 	&gt;&gt;&gt; from PIL import Image
 	&gt;&gt;&gt; from io import StringIO
 	&gt;&gt;&gt; i = Image.open(StringIO(&#x27;Hello!\nHi!\nGoodbye!&#x27;)) # open(filename/file-object/Path)
 
+再来一个csv+pg 例子：
+
+    output = io.StringIO()
+    df.to_csv(output, sep=&#x27;\t&#x27;, header=False, index=False)
+    output.seek(0)
+
 ### read
+受f.seek(0) 影响的
 
 	f.read()
 	f.readline()
 	f.readlines()
+
+io 特有的, 不会改变seek cursor：
+
+    f.getvalue() 
 
 ## BytesIO
 StringIO操作的只能是str，如果要操作二进制数据，就需要使用BytesIO。

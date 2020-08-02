@@ -48,8 +48,8 @@ const MD_URL='post/ria/js-dom-file.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: js dom file
-date: 2019-12-06
-updated: 2019-12-06
+date: 2020-07-25
+updated: 2020-07-25
 ---
 # Focus
 
@@ -148,10 +148,25 @@ Via FormData and file:
 ### blob as blob:url
 比如给链接增加下载功能
 
+    // text
     link.setAttribute(&#x27;href&#x27;, &#x27;data:text/plain;charset=utf-8,&#x27; + encodeURIComponent(text));
 
+    // blob
     var blob = new Blob([&#x27;content&#x27;], { type: &#x27;text/csv;charset=utf-8;&#x27; });
     link.setAttribute(&quot;href&quot;, URL.createObjectURL(blob));
+
+封装一下：
+
+    static downloadText(filename, text) {
+        var element = document.createElement(&#x27;a&#x27;);
+        element.setAttribute(&#x27;href&#x27;, &#x27;data:text/plain;charset=utf-8,&#x27; + encodeURIComponent(text));
+        element.setAttribute(&#x27;download&#x27;, filename);
+
+        element.style.display = &#x27;none&#x27;;
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+  }
 
 ### blob as base64
     var reader = new FileReader();

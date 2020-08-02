@@ -49,7 +49,7 @@ const MD_URL='post/mac/mac-brew.md';
 <pre id="markdown" v-pre>---
 title: brew
 date: 2018-09-27
-updated: 2020-05-11
+updated: 2020-08-02
 ---
 # brew
 - brew(Homebrew) 是近来极流行的 安装gawk,gsed,macvim等命令的安装工具，所有的包都被安装到/usr/local/Cellar下，然后再以`ln -s` 软链接的形式链接到`/usr/local/`目录下
@@ -73,12 +73,12 @@ homebrew主要分两部分：git repo（位于GitHub）和二进制bottles（位
 继续执行：brew install go, 据说，你可能会遇到签名问题
 
 #### brew cask path
-==&gt; Homebrew-cask Staging Location:
-/opt/homebrew-cask/Caskroom
-==&gt; Homebrew-cask Cached Downloads:
-/Library/Caches/Homebrew
-/Library/Caches/Homebrew/Casks
-~/Library/Caches/Homebrew/Cask
+    ==&gt; Homebrew-cask Staging Location:
+    /opt/homebrew-cask/Caskroom
+    ==&gt; Homebrew-cask Cached Downloads:
+    /Library/Caches/Homebrew
+    /Library/Caches/Homebrew/Casks
+    ~/Library/Caches/Homebrew/Cask
 
 
 ### brew 使用curl 下载
@@ -101,13 +101,20 @@ or:
 
 切换回官方源：
 
-    #重置brew.git:
-    cd &quot;$(brew --repo)&quot;
-    git remote set-url origin https://github.com/Homebrew/brew.git
+    # brew 程序本身，Homebrew/Linuxbrew 相同
+    git -C &quot;$(brew --repo)&quot; remote set-url origin https://github.com/Homebrew/brew.git
 
-    # 重置homebrew-core.git:
-    cd &quot;$(brew --repo)/Library/Taps/homebrew/homebrew-core&quot;
-    git remote set-url origin https://github.com/Homebrew/homebrew-core.git
+    # 以下针对 mac OS 系统上的 Homebrew
+    git -C &quot;$(brew --repo homebrew/core)&quot; remote set-url origin https://github.com/Homebrew/homebrew-core.git
+    git -C &quot;$(brew --repo homebrew/cask)&quot; remote set-url origin https://github.com/Homebrew/homebrew-cask.git
+    git -C &quot;$(brew --repo homebrew/cask-fonts)&quot; remote set-url origin https://github.com/Homebrew/homebrew-cask-fonts.git
+    git -C &quot;$(brew --repo homebrew/cask-drivers)&quot; remote set-url origin https://github.com/Homebrew/homebrew-cask-drivers.git
+
+    # 以下针对 Linux 系统上的 Linuxbrew
+    git -C &quot;$(brew --repo homebrew/core)&quot; remote set-url origin https://github.com/Homebrew/linuxbrew-core.git
+
+    # 更换后测试工作是否正常
+    brew update
 
 ### Homebrew Bottles是Homebrew提供的二进制代码包
 下载二进制会用到
