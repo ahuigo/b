@@ -49,7 +49,7 @@ const MD_URL='post/go/go-var-map.md';
 <pre id="markdown" v-pre>---
 title: map
 date: 2018-09-27
-updated: 2020-07-09
+updated: 2020-08-04
 ---
 # map
 
@@ -78,6 +78,11 @@ key:int
 
     m1 := map[string]int{&quot;one&quot;: 1, &quot;two&quot;: 2, &quot;three&quot;: 3}
     fmt.Println(m1) //输出 map[two:2 three:3 one:1] (顺序在运行时可能不一样)
+
+key 可以是变量
+
+    key = &quot;age&quot;
+    m1 := map[string]int{key: 20}
 
 key:interface
 

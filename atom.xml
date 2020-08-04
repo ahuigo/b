@@ -2,9 +2,31 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-08-02T18:14:59Z</updated>
+<updated>2020-08-04T13:33:20Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>go 的变量</title>
+<link href="/b/go/go-var" rel="alternate" type="text/html"/>
+<updated>2020-08-04T00:00:00Z</updated>
+<summary/>
+<published>2016-09-27T00:00:00Z</published>
+<content># Variables
+The var statement declares a list of variables
+
+	var c, python, java bool
+	var i int
+	fm</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>map</title>
+<link href="/b/go/go-var-map" rel="alternate" type="text/html"/>
+<updated>2020-08-04T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># map
+
+## define map
+键必须是⽀支持相等运算符 (==、!=) 类型，⽐比如 number、string、 pointer、array、struct，以及对应的 interface</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>vim-motion</title>
 <link href="/b/vim/vim-motion" rel="alternate" type="text/html"/>
 <updated>2020-08-02T00:00:00Z</updated>
@@ -91,9 +113,9 @@ centos:
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>shell 终端使用技巧</title>
 <link href="/b/c/shell-zsh" rel="alternate" type="text/html"/>
-<updated>2020-08-02T00:00:00Z</updated>
+<updated>2020-08-04T00:00:00Z</updated>
 <summary/>
-<published>2020-08-02T00:00:00Z</published>
+<published>2020-08-04T00:00:00Z</published>
 <content># Preface
 本文总结了shell 终端的使用技术: 主要包括Readline 使用，以及zsh 与iTerm2 的使用
 
@@ -387,14 +409,16 @@ click 之于argparse/argv, 相当于requests 之于urllib
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Golang 的结构体</title>
 <link href="/b/go/go-struct" rel="alternate" type="text/html"/>
-<updated>2020-07-15T00:00:00Z</updated>
+<updated>2020-08-04T00:00:00Z</updated>
 <summary/>
 <published>2019-03-24T00:00:00Z</published>
-<content># Golang Notes: struct
-struct 是值类型，slice 是引用类型(指针), 以下赋值方法是按值的
+<content># 定义
+## init 
+init 时必须包含全部字段
 
-    type A struct{x int; b string}
- </content>
+     n0 := Node{0,1,nil,nil}
+     n0 := Node{0,1,nil,nil,}
+     n0 := </content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>go str</title>
 <link href="/b/go/go-str-serial" rel="alternate" type="text/html"/>
@@ -443,25 +467,4 @@ https://tour.golang.org/basics/5
 http://www.cyberciti.biz/tips/linux-unix-bsd-nginx-webserver-security.html
 
 ## res</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>系统调用</title>
-<link href="/b/go/go-shell" rel="alternate" type="text/html"/>
-<updated>2020-07-10T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># 系统调用
-Go语言主要是通过两个包完成的。一个是os包，一个是syscall包
-
-1. syscall 里提供了什么Chroot/Chmod/Chmod/Chdir…，Getenv/Getgid/</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>awk 简介</title>
-<link href="/b/c/ops-awk" rel="alternate" type="text/html"/>
-<updated>2020-07-25T00:00:00Z</updated>
-<summary/>
-<published>2020-07-25T00:00:00Z</published>
-<content># Preface
-awk  命令行的基本语法为
-
-	awk option 'script' file1 file2 ...
-	awk option -f scriptfile file1 file2</content>
 </entry></feed>
