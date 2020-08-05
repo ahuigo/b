@@ -48,8 +48,8 @@ const MD_URL='post/c/shell-zsh.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: shell 终端使用技巧
-date: 2020-08-04
-updated: 2020-08-04
+date: 2020-08-05
+updated: 2020-08-05
 ---
 # Preface
 本文总结了shell 终端的使用技术: 主要包括Readline 使用，以及zsh 与iTerm2 的使用
@@ -297,11 +297,20 @@ Only the cmd start from `!` could be printed, here are some bad usages:
 # iTerm2
 zsh号称终极shell, 配合iTerm2(terminal)会更加的方便. 本小节参考了池建强的[终极shell]
 
-## open tab
+## 导入导出配置
+1. If you have a look at `Preferences -&gt; General`
+2. you will notice at the bottom of the panel, there is a setting `Load preferences from a custom folder or URL:`. 
+3. There is a button next to it `Save settings to Folder`.
+
+
+## 快捷键配置
+注意，建议把　profile=&gt;keys 选项卡中的`Option` 按键设置成`ESC+`
+![](/img/mac/iterm2-shortcut.png)
+
+## 新建tab默认打开当前的工作区
 profiles -&gt; General -&gt; Working Directory
 
-
-## window(tabs)
+## window(tabs) 快捷键
 
 	Cmd-W close current tab
 	cmd-Num	Goto tab No. as Num.

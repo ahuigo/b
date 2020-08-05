@@ -2,9 +2,30 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-08-04T13:33:20Z</updated>
+<updated>2020-08-05T08:38:10Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Vim Edit</title>
+<link href="/b/vim/vim-edit" rel="alternate" type="text/html"/>
+<updated>2020-08-05T00:00:00Z</updated>
+<summary/>
+<published>2019-05-29T00:00:00Z</published>
+<content># vim的编辑模式
+vim 支持的模式很多：
+1. normal 正常模式（大部分时间都是处于这个模式），这个模式下支持丰富的[光标移动命令如hjkl wbe](/p/vim/vim-motion)</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>设置系统的PATH</title>
+<link href="/b/c/ops-init-path" rel="alternate" type="text/html"/>
+<updated>2020-08-05T00:00:00Z</updated>
+<summary/>
+<published>2019-01-06T00:00:00Z</published>
+<content>如果想在进入系统时设置PATH, 在这里设置
+
+    /etc/paths
+    /etc/profile
+    /etc/bashrc
+</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>go 的变量</title>
 <link href="/b/go/go-var" rel="alternate" type="text/html"/>
 <updated>2020-08-04T00:00:00Z</updated>
@@ -113,9 +134,9 @@ centos:
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>shell 终端使用技巧</title>
 <link href="/b/c/shell-zsh" rel="alternate" type="text/html"/>
-<updated>2020-08-04T00:00:00Z</updated>
+<updated>2020-08-05T00:00:00Z</updated>
 <summary/>
-<published>2020-08-04T00:00:00Z</published>
+<published>2020-08-05T00:00:00Z</published>
 <content># Preface
 本文总结了shell 终端的使用技术: 主要包括Readline 使用，以及zsh 与iTerm2 的使用
 
@@ -444,27 +465,4 @@ init 时必须包含全部字段
 3. 默认是`nil`, 没有`NULL`
 
 </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Start Golang</title>
-<link href="/b/go/0.go-book" rel="alternate" type="text/html"/>
-<updated>2020-07-15T00:00:00Z</updated>
-<summary/>
-<published>2016-06-19T00:00:00Z</published>
-<content># Start golang
-1. start
-https://tour.golang.org/basics/5
-1. https://go101.org/article/101.html
-1. sp</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>nginx security</title>
-<link href="/b/nginx/nginx-sec" rel="alternate" type="text/html"/>
-<updated>2020-07-10T00:00:00Z</updated>
-<summary/>
-<published>2020-07-10T00:00:00Z</published>
-<content># Preface
-
-# Todo
-http://www.cyberciti.biz/tips/linux-unix-bsd-nginx-webserver-security.html
-
-## res</content>
 </entry></feed>
