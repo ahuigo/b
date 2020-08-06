@@ -2,9 +2,19 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-08-05T08:38:10Z</updated>
+<updated>2020-08-06T18:59:59Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Golang：Array and slice</title>
+<link href="/b/go/go-array-slice" rel="alternate" type="text/html"/>
+<updated>2020-08-06T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># array vs slice
+1. An array has fixed size, `[N]T`
+2. a slice is a dynamically-sized. `[]T` 
+3. sli</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Vim Edit</title>
 <link href="/b/vim/vim-edit" rel="alternate" type="text/html"/>
 <updated>2020-08-05T00:00:00Z</updated>
@@ -40,7 +50,7 @@ The var statement declares a list of variables
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>map</title>
 <link href="/b/go/go-var-map" rel="alternate" type="text/html"/>
-<updated>2020-08-04T00:00:00Z</updated>
+<updated>2020-08-06T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># map
@@ -453,16 +463,4 @@ init 时必须包含全部字段
     import "encoding/json"
     type response2 struct {
         P</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Golang 指针</title>
-<link href="/b/go/13.go-pointer" rel="alternate" type="text/html"/>
-<updated>2020-07-15T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Pointers
-1. 支持指针类型 *T,指针的指针 **T,以及包含包名前缀的 `*&lt;package&gt;.T`。
-2. 不能对指针做加减法等运算。
-3. 默认是`nil`, 没有`NULL`
-
-</content>
 </entry></feed>
