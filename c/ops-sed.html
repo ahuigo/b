@@ -48,8 +48,8 @@ const MD_URL='post/c/ops-sed.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: Sed 简记
-date: 2020-07-09
-updated: 2020-07-09
+date: 2020-08-09
+updated: 2020-08-09
 ---
 # sed 与gsed
 grep 与sed 同样是以按行匹配，不过sed 不仅能按行匹配，还能替换字符
@@ -140,6 +140,10 @@ example:
 	sed -i &#x27;s/\(.\{5\}\)//&#x27; file
 	# -r 与-i 不能合并！sed 不能合并参数的！
 	sed -i -r &#x27;s/.{5}//&#x27; file
+
+指替换所有文件：
+
+    find ./ -type f -exec sed -i -e &#x27;s/apple/orange/g&#x27; {} \;
 
 ### 引用
 

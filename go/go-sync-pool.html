@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/p/p3.md';
+const MD_URL='post/go/go-sync-pool.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO 的笔记</title>
+<title>Go Sync.Pool</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -46,52 +46,34 @@ const MD_URL='post/p/p3.md';
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
-<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+<pre id="markdown" v-pre>---
+title: Go Sync.Pool
+date: 2019-10-02
+updated: 2020-08-09
+---
+# Go sync.Pool
+出于性能的考虑，我们经常需要建立：buffer池，连接池。sync.Pool 可以帮助我们这到这点：
+1. 通过Get() 取资源
+1. 通过Put() 把不用的资源放回去
 
-<ul>
-<li>2018-09-27 <a href="/b/c/shell-find">ops-find</a> </li>
-<li>2019-11-04 <a href="/b/arch/docker-makefile">rsion?=0.3.0</a> </li>
-<li>2018-10-04 <a href="/b/ria/node-os">node 系统相关</a> </li>
-<li>2018-09-27 <a href="/b/math/geo-triangle">三角形triangle</a> </li>
-<li>2018-08-18 <a href="/b/code/code-regex">Posix Regex 正则语法</a> </li>
-<li>2018-10-04 <a href="/b/ria/ts/ts-module">Typescript 的module</a> </li>
-<li>2018-10-04 <a href="/b/ria/ts/ts-decorator">TypeScript 装饰器</a> </li>
-<li>2018-03-03 <a href="/b/py/py-var-list">python 的list/tuple 笔记</a> </li>
-<li>2019-10-03 <a href="/b/py/py-type">Python 的类型注解</a> </li>
-<li>2018-03-01 <a href="/b/py/py-expr">Python 的语法</a> </li>
-<li>2018-09-28 <a href="/b/py/py-async-iteratortools">py-async-iteratortools</a> </li>
-<li>2018-10-04 <a href="/b/py/math/py-math-tool">Data tool</a> </li>
-<li>2018-09-28 <a href="/b/py/py-html">用BeautifulSoup 处理 html/xml</a> </li>
-<li>2018-10-04 <a href="/b/ria/node-npm-pkg">写npm 包</a> </li>
-<li>2019-09-28 <a href="/b/ria/chart">js charts</a> </li>
-<li>2018-10-04 <a href="/b/ria/chart-img">to png</a> </li>
-<li>2018-09-27 <a href="/b/c/c-mem">c-mem</a> </li>
-<li>2019-09-21 <a href="/b/net/net-iptables">防火墙</a> </li>
-<li>2019-09-16 <a href="/b/java/java-obj">Java Object</a> </li>
-<li>2019-09-12 <a href="/b/ria/cesium">Cesium</a> </li>
-<li>2018-10-04 <a href="/b/math/vector">向量(vector)</a> </li>
-<li>2018-09-27 <a href="/b/java/java-expr">Java expr</a> </li>
-<li>2019-09-21 <a href="/b/go/go-ipc-signal">Go Signal</a> </li>
-<li>2018-09-27 <a href="/b/go/13.go-pointer">Golang 指针</a> </li>
-<li>2019-09-07 <a href="/b/ria/react-debug">React Error 边界</a> </li>
-<li>2019-09-09 <a href="/b/vsc/vsc-java">Vscode 开发java 指北</a> </li>
-<li>2019-09-08 <a href="/b/ria/react-profile">React profile</a> </li>
-<li>2019-09-07 <a href="/b/ria/React-ref">React Ref</a> </li>
-<li>2019-09-09 <a href="/b/java/java-array">Java Array</a> </li>
-<li>2018-09-28 <a href="/b/proj/life-shebao">社保</a> </li>
-<li>2018-09-28 <a href="/b/life/life-shebao">社保</a> </li>
-<li>2018-10-04 <a href="/b/vsc/vsc-python">Vsc for python</a> </li>
-<li>2016-09-27 <a href="/b/c/shell-tool">Shell 工具集合</a> </li>
-<li>2020-08-09 <a href="/b/ria/js-ajax-legacy">js ajax legacy</a> </li>
-<li>2019-08-14 <a href="/b/ria/js-worker">JS worker</a> </li>
-<li>2020-04-28 <a href="/b/ria/js-dom-html5">html5 笔记</a> </li>
-<li>2019-08-17 <a href="/b/db/gorm-dialect">Gorm dialect</a> </li>
-<li>2019-08-15 <a href="/b/arch/docker-exec">Docker exec nsenter</a> </li>
-<li>2019-01-07 <a href="/b/go/17.go-reflect">学习下Golang 的反射</a> </li>
-<li>2020-08-09 <a href="/b/c/ops-sed">Sed 简记</a> </li>
-</ul>
-</div>
-<div id="pager"> <a href="/b/index">p0</a> <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a> p3 <a href="/b/p/p4">p4</a> <a href="/b/p/p5">p5</a></div>
+e.g.
+
+    var bufPool = sync.Pool{
+        New: func() interface{} {
+            return &amp;bytes.Buffer{}
+        },
+    }
+
+    func addTagsToName(name string, tags map[string]string) string {
+        ....
+        buf := bufPool.Get().(*bytes.Buffer)
+        defer bufPool.Put(buf)
+        buf.Reset()
+        buf.WriteString(name)
+        ....
+        return buf.String()
+    }</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>

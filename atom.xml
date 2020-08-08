@@ -2,12 +2,55 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-08-06T18:59:59Z</updated>
+<updated>2020-08-09T01:12:21Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>js ajax legacy</title>
+<link href="/b/ria/js-ajax-legacy" rel="alternate" type="text/html"/>
+<updated>2020-08-09T00:00:00Z</updated>
+<summary/>
+<published>2020-08-09T00:00:00Z</published>
+<content># js ajax legacy
+
+## prototype
+	var xhr=new XMLHttpRequest();
+    xhr.onload=function(ProgressEvent)</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Go Sync.Pool</title>
+<link href="/b/go/go-sync-pool" rel="alternate" type="text/html"/>
+<updated>2020-08-09T00:00:00Z</updated>
+<summary/>
+<published>2019-10-02T00:00:00Z</published>
+<content># Go sync.Pool
+出于性能的考虑，我们经常需要建立：buffer池，连接池。sync.Pool 可以帮助我们这到这点：
+1. 通过Get() 取资源
+1. 通过Put() 把不用的资源放回</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Postgre User and Authentication</title>
+<link href="/b/db/pg-ddl-user" rel="alternate" type="text/html"/>
+<updated>2020-08-09T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># help
+    \h alter
+    ALTER ROLE name RENAME TO new_name
+
+# Postgre User and Authentication
+找到pg_h</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Sed 简记</title>
+<link href="/b/c/ops-sed" rel="alternate" type="text/html"/>
+<updated>2020-08-09T00:00:00Z</updated>
+<summary/>
+<published>2020-08-09T00:00:00Z</published>
+<content># sed 与gsed
+grep 与sed 同样是以按行匹配，不过sed 不仅能按行匹配，还能替换字符
+
+&gt;ps: mac 下的sed与linux下的gnu sed有很大的不同，建议安装gsed（如果</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Golang：Array and slice</title>
 <link href="/b/go/go-array-slice" rel="alternate" type="text/html"/>
-<updated>2020-08-06T00:00:00Z</updated>
+<updated>2020-08-09T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># array vs slice
@@ -412,55 +455,4 @@ http://blog.xiayf.cn/slides/tlpi-1/index.html#/2
 ## Int
 
 	sig</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>py-argv</title>
-<link href="/b/py/py-argv" rel="alternate" type="text/html"/>
-<updated>2020-07-15T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># Preface
-- click
-click 之于argparse/argv, 相当于requests 之于urllib
-
-命令行程序开发
-
-	asciimatics：跨平台，全屏终端包（即鼠标/键</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>nginx的ssl配置</title>
-<link href="/b/nginx/nginx-ssl" rel="alternate" type="text/html"/>
-<updated>2020-07-15T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># nginx ssl配置
-参考[](/p/net/net-ssl) and [nginx_https]
-
-	server {
-		listen 80;
-		listen 443 default_se</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Golang 的结构体</title>
-<link href="/b/go/go-struct" rel="alternate" type="text/html"/>
-<updated>2020-08-04T00:00:00Z</updated>
-<summary/>
-<published>2019-03-24T00:00:00Z</published>
-<content># 定义
-## init 
-init 时必须包含全部字段
-
-     n0 := Node{0,1,nil,nil}
-     n0 := Node{0,1,nil,nil,}
-     n0 := </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>go str</title>
-<link href="/b/go/go-str-serial" rel="alternate" type="text/html"/>
-<updated>2020-07-15T00:00:00Z</updated>
-<summary/>
-<published>2019-05-06T00:00:00Z</published>
-<content># go json
-
-## encode marshal bytes
-
-    import "encoding/json"
-    type response2 struct {
-        P</content>
 </entry></feed>
