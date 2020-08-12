@@ -2,9 +2,33 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-08-09T01:12:21Z</updated>
+<updated>2020-08-12T17:49:36Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Js dom 笔记</title>
+<link href="/b/ria/js-dom" rel="alternate" type="text/html"/>
+<updated>2020-08-12T00:00:00Z</updated>
+<summary/>
+<published>2016-01-23T00:00:00Z</published>
+<content># Js dom 笔记
+    document.documentElement ;//html
+    document.body;  //html
+
+# Device
+## Navigator
+n</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>netcat</title>
+<link href="/b/net/net-ncat" rel="alternate" type="text/html"/>
+<updated>2020-08-12T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># netcat,
+[nc](http://www.oschina.net/translate/linux-netcat-command?p=2#comments)
+
+# nc
+Netcat 或者叫 </content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>js ajax legacy</title>
 <link href="/b/ria/js-ajax-legacy" rel="alternate" type="text/html"/>
 <updated>2020-08-09T00:00:00Z</updated>
@@ -50,7 +74,7 @@ grep 与sed 同样是以按行匹配，不过sed 不仅能按行匹配，还能�
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Golang：Array and slice</title>
 <link href="/b/go/go-array-slice" rel="alternate" type="text/html"/>
-<updated>2020-08-09T00:00:00Z</updated>
+<updated>2020-08-12T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># array vs slice
@@ -425,34 +449,4 @@ linux上进程有5种状态:
 1. 运行(正在运行或在运行队列中等待)
 2. 中断(休眠中, 受阻, 在等待某个条件的形成或接受到信号)
 3</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>curl manual</title>
-<link href="/b/c/ops-curl" rel="alternate" type="text/html"/>
-<updated>2020-07-19T00:00:00Z</updated>
-<summary/>
-<published>2020-07-19T00:00:00Z</published>
-<content># curlt to python/node/go...
-curl 转换器: https://curl.trillworks.com/
-
-# Usage
-
-	-F,--form
-	-D- Dump t</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>linux c 简介</title>
-<link href="/b/c/c-var" rel="alternate" type="text/html"/>
-<updated>2020-07-19T00:00:00Z</updated>
-<summary/>
-<published>2020-07-19T00:00:00Z</published>
-<content># Preface
-
-# todo
-linux c
-http://blog.xiayf.cn/slides/tlpi-1/index.html#/2
-
-# Variable
-
-## Int
-
-	sig</content>
 </entry></feed>

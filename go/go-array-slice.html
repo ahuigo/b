@@ -49,7 +49,7 @@ const MD_URL='post/go/go-array-slice.md';
 <pre id="markdown" v-pre>---
 title: Golang：Array and slice
 date: 2018-09-27
-updated: 2020-08-09
+updated: 2020-08-12
 ---
 # array vs slice
 1. An array has fixed size, `[N]T`
@@ -278,6 +278,12 @@ len(src)&gt;len(dst) 会被golang 截断
 如果不分配空间就用:
 
     copy(slice[len(s):], data)
+
+### concat merge slice
+merge a and b:
+
+    x := []int{}
+    x = append(a,b...)
 
 ### append cap allocate
 If the backing array of `s` is too small to fit all the given values, a bigger array will be allocated(double cap).

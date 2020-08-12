@@ -49,7 +49,7 @@ const MD_URL='post/net/net-ncat.md';
 <pre id="markdown" v-pre>---
 title: netcat
 date: 2018-09-28
-updated: 2020-01-04
+updated: 2020-08-12
 ---
 # netcat,
 [nc](http://www.oschina.net/translate/linux-netcat-command?p=2#comments)
@@ -96,6 +96,7 @@ netcat提供了这样一种方法，创建一个Chat服务器，一个预先确�
 server: netcat 命令在1567端口启动了一个tcp 服务器，所有的标准输出和输入会输出到该端口。输出和输入都在此shell中展示:
 
   $ nc -l 1567
+  $ nc -l 127.0.0.1 5000
 
 ### tcp client
 Client 访问1567:
