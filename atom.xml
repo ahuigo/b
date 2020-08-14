@@ -2,9 +2,21 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-08-14T10:38:23Z</updated>
+<updated>2020-08-14T10:39:44Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>golang string</title>
+<link href="/b/go/go-str" rel="alternate" type="text/html"/>
+<updated>2020-08-14T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># rune vs byte
+
+    type byte uint8
+    type rune int32 //'a','中'
+
+    // is slice of read only byte</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>golang 的file api</title>
 <link href="/b/go/go-file" rel="alternate" type="text/html"/>
 <updated>2020-08-14T00:00:00Z</updated>
@@ -438,14 +450,4 @@ Go has a lightweight test framework composed of the go test command and the test
 A goroutine is a `lightweight thread` managed by the Go runtime.
 
 execution of f happe</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>go routines 与原子</title>
-<link href="/b/go/go-routines-atom" rel="alternate" type="text/html"/>
-<updated>2020-07-19T00:00:00Z</updated>
-<summary/>
-<published>2020-07-18T00:00:00Z</published>
-<content># golang 原子问题
-
-## 问题发现的过程
-字节的同学在[踩坑记： Go 服务灵异 panic](v2ex.com/t/691145)提到，json 序列化字符串经常遇到 nil addres</content>
 </entry></feed>
