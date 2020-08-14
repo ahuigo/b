@@ -2,9 +2,32 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-08-12T17:49:36Z</updated>
+<updated>2020-08-14T10:38:23Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>golang 的file api</title>
+<link href="/b/go/go-file" rel="alternate" type="text/html"/>
+<updated>2020-08-14T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Directory Api
+
+## pathinfo
+extinfo 
+
+    import "path/filepath"
+    fileext :=copy filepath.Ext(fi</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>ops-find</title>
+<link href="/b/c/shell-find" rel="alternate" type="text/html"/>
+<updated>2020-08-14T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Preface
+
+	find -maxdepth 1 -name '*' -inum 1324 -exec rm {} \;
+	find -maxdepth 1 -name '*' -inum 1</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Js dom 笔记</title>
 <link href="/b/ria/js-dom" rel="alternate" type="text/html"/>
 <updated>2020-08-12T00:00:00Z</updated>
@@ -425,28 +448,4 @@ execution of f happe</content>
 
 ## 问题发现的过程
 字节的同学在[踩坑记： Go 服务灵异 panic](v2ex.com/t/691145)提到，json 序列化字符串经常遇到 nil addres</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Golang Interfaces</title>
-<link href="/b/go/16.go-interface" rel="alternate" type="text/html"/>
-<updated>2020-07-19T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Interfaces
-Interface：
-1. Interface 可以用来模拟泛型，但是是运行时模拟，没有编译时快
-1. method 没有 public protecte..., 如果要被其</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>ops-process-ps</title>
-<link href="/b/c/ops-process-ps" rel="alternate" type="text/html"/>
-<updated>2020-07-19T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Preface
-
-# processe status
-linux上进程有5种状态:
-
-1. 运行(正在运行或在运行队列中等待)
-2. 中断(休眠中, 受阻, 在等待某个条件的形成或接受到信号)
-3</content>
 </entry></feed>

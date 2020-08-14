@@ -49,7 +49,7 @@ const MD_URL='post/c/shell-find.md';
 <pre id="markdown" v-pre>---
 title: ops-find
 date: 2018-09-27
-updated: 2019-11-04
+updated: 2020-08-14
 ---
 # Preface
 
@@ -58,6 +58,25 @@ updated: 2019-11-04
 	//Note! There is a space before terminating &quot;;&quot; or &quot;+&quot;
 	find . -name .DS_Store -exec rm {} +
 	//du -d 1
+
+# 输出控制
+    #-print 将查找到的文件输出到标准输出
+    #-false 将查找到的文件输出到标准输出
+    #-exec   command {} \;   将查到的文件执行command操作
+    #-ok command {} \; 和-exec相同，但是在操作前要询用户
+
+## print
+
+    # 默认会输出./demo
+    $ find . -path ./demo -prune  -o  -name &#x27;*&#x27;
+    ./demo
+
+    # 有了-print, 默认就不输出了
+    $ find . -path ./demo -prune  -o  -name &#x27;*&#x27; -print
+
+    # 全部加print 才能全部输出
+    $ find . -path ./demo -prune -print -o  -name &#x27;*&#x27; -print
+    ./demo
 
 # depth
 
@@ -70,7 +89,7 @@ case insensitive
 
 	-iname &#x27;*abc*&#x27;
 
-# -perm
+# -perm 属性过滤
 
 	754(rwxr-xr--) a.txt
 	find . -perm 755 # 755 == 754 false
@@ -87,10 +106,6 @@ case insensitive
 
 ## atime
 最近第7天被访问过的所有文件:
-
-	find . -atime 7 -type f -print
-
-最近7天内被访问过的所有文件:
 
 	find . -atime -7 -type f -print
 
@@ -177,16 +192,16 @@ For example:
 	-path &#x27;./[dir1|dir2]/*&#x27;
 
 ## exclude path
-`-prune` stops find from descending into a directory.
+`-prune` stops find from descending into a directory(只包括目录名).
 
 	# -prune does not exclude the directory itself but its contents. So you should use `-print` to print
 	find . -path ./dir -prune -o -name &#x27;*.txt&#x27; -print
-	find . -name dirname -prune -o -name &#x27;*.txt&#x27; -print
 
     # prune multiple directories
 	find . \( -path ./dir1 -o -path ./dir2 \) -prune -o -name &#x27;*.txt&#x27; -print
+
+    # prune with not expression
     find . -type f ! -path &#x27;*/.svn*&#x27; ! -path &#x27;*/.git*&#x27;
-    # prune with not
 	find . ! \( \(-path ./dir1 -o path ./dir2 \) -prune \) -name \*.txt
 
 Just specifying `-not -path` cannot stop find from descending into the skipped directory, so `-not -path` will work but it is not the best method:

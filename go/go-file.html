@@ -9,7 +9,7 @@ const MD_URL='post/go/go-file.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>golang 的filepath api</title>
+<title>golang 的file api</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -47,11 +47,11 @@ const MD_URL='post/go/go-file.md';
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
 <pre id="markdown" v-pre>---
-title: golang 的filepath api
+title: golang 的file api
 date: 2018-09-27
-updated: 2020-07-23
+updated: 2020-08-14
 ---
-# dirpath
+# Directory Api
 
 ## pathinfo
 extinfo 
@@ -112,7 +112,7 @@ func Getwd() (pwd string, err error)
         fmt.Println(pwd)
     }
 
-# file
+# File Api
 
 ## open
     f, err := os.Open(&quot;/tmp/dat&quot;)
