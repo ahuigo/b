@@ -2,9 +2,50 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-08-14T10:39:44Z</updated>
+<updated>2020-08-15T17:31:25Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Shell 编程</title>
+<link href="/b/c/shell-cmd" rel="alternate" type="text/html"/>
+<updated>2020-08-15T00:00:00Z</updated>
+<summary/>
+<published>2014-03-05T00:00:00Z</published>
+<content># Shell Programming
+Shell 编程笔记
+
+# Signal, 信号(trap)
+Refer to:
+http://billie66.github.io/TLCL/book/zh/</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>ops-init</title>
+<link href="/b/c/service/ops-init" rel="alternate" type="text/html"/>
+<updated>2020-08-15T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Preface
+
+# init
+
+## init
+init指linux 系统运行级runlevel 0~6. 可在/etc/inittab中指定:
+
+	id:3:initdefault:
+
+###</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>linux 之进程</title>
+<link href="/b/c/ops-process" rel="alternate" type="text/html"/>
+<updated>2020-08-15T00:00:00Z</updated>
+<summary/>
+<published>2020-08-15T00:00:00Z</published>
+<content># Preface
+本文总结下进程那些事儿
+
+# PCB 进程控制块
+linux 中每个进程都是由进程控制块(PCB) 控制的，PCB是一个task_struct 结构体。
+
+- 进程id。系统中每个</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>golang string</title>
 <link href="/b/go/go-str" rel="alternate" type="text/html"/>
 <updated>2020-08-14T00:00:00Z</updated>
@@ -324,9 +365,9 @@ array 不像string 是primitive value, 所以length 可以缩短放大array。
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>linux 下的Fork 与 Exec</title>
 <link href="/b/c/shell-redirect-fork2exec" rel="alternate" type="text/html"/>
-<updated>2020-07-25T00:00:00Z</updated>
+<updated>2020-08-15T00:00:00Z</updated>
 <summary/>
-<published>2020-07-25T00:00:00Z</published>
+<published>2020-08-15T00:00:00Z</published>
 <content># Preface
 多进程的的内容包括进程控制, 进程通信, 进程本身的结构.
 
@@ -417,37 +458,4 @@ Go has a lightweight test framework composed of the go test command and the test
 <content># Preface
 每个进程在自己独立的地址空间运行，进程间共享数据需要通过nmap 或者 进程间通信机制。
 而线程可以*一个进程的地址空间内执行多个控制流程*。有些情况下需要一个进程执行多个控制流程</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Niz 键盘的配置</title>
-<link href="/b/mac/keyboard" rel="alternate" type="text/html"/>
-<updated>2020-07-19T00:00:00Z</updated>
-<summary/>
-<published>2020-05-08T00:00:00Z</published>
-<content># 键盘
-看上两款键盘:
-1. HHKB-Pro2，是一款电脑键盘，重量0.53kg， 长29.4 x 宽11.0 x 高39.9mm 。
-2. Niz Atom68 31.9*11.0
-
-考虑到了h</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>css 布局</title>
-<link href="/b/ria/css-layout" rel="alternate" type="text/html"/>
-<updated>2020-07-23T00:00:00Z</updated>
-<summary/>
-<published>2018-03-03T00:00:00Z</published>
-<content># 参考
-&gt; 参考: http://zh.learnlayout.com/position.html
-
-# display
-1. block: This makes the element a blo</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>go routines</title>
-<link href="/b/go/go-routines" rel="alternate" type="text/html"/>
-<updated>2020-07-19T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># go routines
-A goroutine is a `lightweight thread` managed by the Go runtime.
-
-execution of f happe</content>
 </entry></feed>
