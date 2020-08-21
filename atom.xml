@@ -2,9 +2,31 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-08-15T17:31:25Z</updated>
+<updated>2020-08-21T21:54:53Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Redis</title>
+<link href="/b/db/redis-" rel="alternate" type="text/html"/>
+<updated>2020-08-21T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Redis
+redis所有的数据都是redisObject存储的。redisObject来表示所有的key/value数据是比较浪费内存的(为了支持各种数据类型嘛)，还好redis 作者也考虑了很</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>ops-crontab</title>
+<link href="/b/c/ops-crontab" rel="alternate" type="text/html"/>
+<updated>2020-08-21T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Preface
+    man 5 crontab
+
+# example
+
+	0 * * * * php a.php &gt;&gt; /dev/null 2&gt;&amp;1
+
+    minute        0-</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Shell 编程</title>
 <link href="/b/c/shell-cmd" rel="alternate" type="text/html"/>
 <updated>2020-08-15T00:00:00Z</updated>
@@ -48,7 +70,7 @@ linux 中每个进程都是由进程控制块(PCB) 控制的，PCB是一个task_
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>golang string</title>
 <link href="/b/go/go-str" rel="alternate" type="text/html"/>
-<updated>2020-08-14T00:00:00Z</updated>
+<updated>2020-08-21T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># rune vs byte
@@ -150,7 +172,7 @@ grep 与sed 同样是以按行匹配，不过sed 不仅能按行匹配，还能�
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Golang：Array and slice</title>
 <link href="/b/go/go-array-slice" rel="alternate" type="text/html"/>
-<updated>2020-08-12T00:00:00Z</updated>
+<updated>2020-08-21T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># array vs slice
@@ -309,12 +331,12 @@ setuptools 与 disutils
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>学习下Golang 的反射</title>
 <link href="/b/go/17.go-reflect" rel="alternate" type="text/html"/>
-<updated>2020-07-29T00:00:00Z</updated>
+<updated>2020-08-21T00:00:00Z</updated>
 <summary/>
 <published>2019-01-07T00:00:00Z</published>
-<content># Relection json
+<content># Relection json 示例
     import "github.com/mitchellh/mapstructure"
-	err := mapstructure.Decode(input, &amp;</content>
+	err := mapstructure.Decode(input</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>golang help</title>
 <link href="/b/go/11.go-help" rel="alternate" type="text/html"/>
@@ -441,21 +463,4 @@ List Open File. 比如查看所有打开file </content>
 ## opacity
 
 	&lt;a href="http://example.com/attack.html" sty</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>go-test</title>
-<link href="/b/go/go-test" rel="alternate" type="text/html"/>
-<updated>2020-07-23T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Preface
-Go has a lightweight test framework composed of the go test command and the testing packag</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>linux c 线程</title>
-<link href="/b/c/c-thread" rel="alternate" type="text/html"/>
-<updated>2020-07-23T00:00:00Z</updated>
-<summary/>
-<published>2020-07-23T00:00:00Z</published>
-<content># Preface
-每个进程在自己独立的地址空间运行，进程间共享数据需要通过nmap 或者 进程间通信机制。
-而线程可以*一个进程的地址空间内执行多个控制流程*。有些情况下需要一个进程执行多个控制流程</content>
 </entry></feed>
