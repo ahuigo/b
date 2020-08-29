@@ -49,7 +49,7 @@ const MD_URL='post/db/pg-ddl-user.md';
 <pre id="markdown" v-pre>---
 title: Postgre User and Authentication
 date: 2018-09-27
-updated: 2020-08-09
+updated: 2020-08-30
 ---
 # help
     \h alter
@@ -125,6 +125,7 @@ pg:
 
 `create user` 默认带login 权限(唯一区别):
 
+    # create 默认带login
     create user demo_role
     # give ability to login in
     CREATE ROLE demo_role WITH LOGIN;

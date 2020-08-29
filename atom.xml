@@ -2,9 +2,58 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-08-21T21:54:53Z</updated>
+<updated>2020-08-30T06:03:23Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>js 的函数</title>
+<link href="/b/ria/js-func" rel="alternate" type="text/html"/>
+<updated>2020-08-30T00:00:00Z</updated>
+<summary/>
+<published>2017-07-11T00:00:00Z</published>
+<content># async
+## generator
+    function* foo() {
+        yield 11
+        return 22;//没用
+    }
+    f=foo()</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Golang 的结构体</title>
+<link href="/b/go/go-struct" rel="alternate" type="text/html"/>
+<updated>2020-08-30T00:00:00Z</updated>
+<summary/>
+<published>2019-03-24T00:00:00Z</published>
+<content># 定义
+## init 
+init 时必须包含全部字段
+
+     n0 := Node{0,1,nil,nil}
+     n0 := Node{0,1,nil,nil,}
+     n0 := </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Postgre SQL function</title>
+<link href="/b/db/pgsql-function" rel="alternate" type="text/html"/>
+<updated>2020-08-30T00:00:00Z</updated>
+<summary/>
+<published>2019-06-20T00:00:00Z</published>
+<content># Postgre SQL function
+## 基本语法
+必须指定语言 `LANGUAGE plpsql|sql`, `$$` 是分割符
+
+    CREATE OR REPLACE FUNCTI</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>压测工具</title>
+<link href="/b/c/ops-benchmark" rel="alternate" type="text/html"/>
+<updated>2020-08-30T00:00:00Z</updated>
+<summary/>
+<published>2020-08-30T00:00:00Z</published>
+<content># Preface
+性能/压力测试的分类：
+
+	基准/基线测试 base line testing / benchmark testing
+	负载测试 load testing
+	压力测试 stres</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Redis</title>
 <link href="/b/db/redis-" rel="alternate" type="text/html"/>
 <updated>2020-08-21T00:00:00Z</updated>
@@ -150,7 +199,7 @@ Netcat 或者叫 </content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Postgre User and Authentication</title>
 <link href="/b/db/pg-ddl-user" rel="alternate" type="text/html"/>
-<updated>2020-08-09T00:00:00Z</updated>
+<updated>2020-08-30T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># help
@@ -296,7 +345,7 @@ time 提供基本的时间，sleep
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Postgre 安装\配置\管理</title>
 <link href="/b/db/pg-ddl-install" rel="alternate" type="text/html"/>
-<updated>2020-08-02T00:00:00Z</updated>
+<updated>2020-08-30T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># Postgre 安装\配置\管理
@@ -416,51 +465,4 @@ List Open File. 比如查看所有打开file </content>
 在标准I/O库中提供缓冲的主要目的就是减少系统函数read和write的调用，从而能够减少系统CPU时间。标准I/O库的缓冲主要分为3种：全缓冲、行缓冲和不缓冲。
 
     全缓冲</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>c-debug-gdb</title>
-<link href="/b/c/c-debug-gdb" rel="alternate" type="text/html"/>
-<updated>2020-07-25T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># 启动gdb
-- First, let excute file records Source file a.c via gcc parameter "-g"
-
-	gcc -g a.c
-
-- Seco</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>coredump</title>
-<link href="/b/c/c-debug-coredump" rel="alternate" type="text/html"/>
-<updated>2020-07-25T00:00:00Z</updated>
-<summary/>
-<published>2020-07-25T00:00:00Z</published>
-<content># Preface
-
-1. 前言: 有的程序可以通过编译, 但在运行时会出现Segment fault(段错误). 这通常都是指针错误引起的. 但这不像编译错误一样会提示到文件-&gt;行, 而是没有任何信</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>vscode markdown-preview-enhanced example</title>
-<link href="/b/vsc/vsc-markdown" rel="alternate" type="text/html"/>
-<updated>2020-07-23T00:00:00Z</updated>
-<summary/>
-<published>2020-07-22T00:00:00Z</published>
-<content># vsc markdown 
-&gt; https://shd101wyy.github.io/markdown-preview-enhanced/
-
-# draw
-## 流程图 mermaid
-```m</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>security-web</title>
-<link href="/b/sec/security-web" rel="alternate" type="text/html"/>
-<updated>2020-07-23T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Preface
-
-
-# click-jacking vulnerability
-
-## opacity
-
-	&lt;a href="http://example.com/attack.html" sty</content>
 </entry></feed>
