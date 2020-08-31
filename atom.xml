@@ -2,9 +2,24 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-08-31T20:29:24Z</updated>
+<updated>2020-08-31T21:08:47Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>About Http</title>
+<link href="/b/net/http" rel="alternate" type="text/html"/>
+<updated>2020-08-31T00:00:00Z</updated>
+<summary/>
+<published>2020-08-31T00:00:00Z</published>
+<content># range
+range 这个header 头，主要是用于分段下载
+
+    Range: bytes=0-1024
+
+响应:
+
+    http_code=206 Partial Content
+</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Niz 键盘的配置</title>
 <link href="/b/mac/keyboard" rel="alternate" type="text/html"/>
 <updated>2020-08-31T00:00:00Z</updated>
@@ -454,16 +469,4 @@ array 不像string 是primitive value, 所以length 可以缩短放大array。
 
 ## 问题发现的过程
 字节的同学在[踩坑记： Go 服务灵异 panic](v2ex.com/t/691145)提到，json 序列化字符串经常遇到 nil addres</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>linux 下的Fork 与 Exec</title>
-<link href="/b/c/shell-redirect-fork2exec" rel="alternate" type="text/html"/>
-<updated>2020-08-15T00:00:00Z</updated>
-<summary/>
-<published>2020-08-15T00:00:00Z</published>
-<content># Preface
-多进程的的内容包括进程控制, 进程通信, 进程本身的结构.
-
-# 标准管道输入输出
-
-	#with stdout(cmd get double stdout); stdout pi</content>
 </entry></feed>
