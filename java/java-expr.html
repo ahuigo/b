@@ -5,11 +5,11 @@
 if(!('noModule' in HTMLScriptElement.prototype)){
 alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
 }
-const MD_URL='post/p/p4.md';
+const MD_URL='post/java/java-expr.md';
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
-<title>AHUIGO 的笔记</title>
+<title>Java expr</title>
 <meta name="author" content="ahuigo">
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
@@ -46,52 +46,75 @@ const MD_URL='post/p/p4.md';
 </div>
 <div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
 <router-view></router-view>
-<div id="markdown2" v-pre><h1>AHUIGO 的笔记</h1>
+<pre id="markdown" v-pre>---
+title: Java expr
+date: 2018-09-27
+updated: 2020-09-09
+---
+# Switch语句块
+    switch (option) {
+    case 3:
+        ...
+        break;
+    case 2:
+        ...
+        break;
 
-<ul>
-<li>2019-08-15 <a href="/b/arch/docker-exec">Docker exec nsenter</a> </li>
-<li>2019-01-07 <a href="/b/go/17.go-reflect">学习下Golang 的反射</a> </li>
-<li>2020-08-09 <a href="/b/c/ops-sed">Sed 简记</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-process-lsof">ops-process-lsof</a> </li>
-<li>2019-07-19 <a href="/b/db/mysql-ddl-crud">mysql 查询</a> </li>
-<li>2018-10-04 <a href="/b/py/py-tcp">py-tcp</a> </li>
-<li>2018-10-04 <a href="/b/py/py-server">py-server</a> </li>
-<li>2018-09-28 <a href="/b/py/py-file-io">py-file-io</a> </li>
-<li>2018-09-28 <a href="/b/py/py-argv">py-argv</a> </li>
-<li>2020-08-15 <a href="/b/c/shell-redirect-fork2exec">linux 下的Fork 与 Exec</a> </li>
-<li>2019-07-19 <a href="/b/c/ops-expect">expect 键盘模拟</a> </li>
-<li>2019-06-23 <a href="/b/net/net-ssh-server">SSH SERVER 的配置</a> </li>
-<li>2018-10-04 <a href="/b/nginx/nginx-upstream">nginx 负载均衡</a> </li>
-<li>2018-09-28 <a href="/b/py/py-expr-context">Python 的Context Managers</a> </li>
-<li>2018-09-28 <a href="/b/py/py-email">Python email处理</a> </li>
-<li>2019-07-19 <a href="/b/go/19.go-time">go 的时间函数</a> </li>
-<li>2020-06-30 <a href="/b/c/shell-expr">shell 表达式</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-websocket">js 的websocket 笔记</a> </li>
-<li>2018-09-28 <a href="/b/py/py-debug-pdb">py-debug-pdb</a> </li>
-<li>2018-08-23 <a href="/b/course/im-live-p2p">关于直播的P2P架构</a> </li>
-<li>2018-10-08 <a href="/b/c/shell-var-env">shell 环境变量</a> </li>
-<li>2018-09-27 <a href="/b/db/mysql-var-str">Mysql 的字符串处理</a> </li>
-<li>2019-06-22 <a href="/b/db/mysql-ddl">mysql ddl</a> </li>
-<li>2019-06-19 <a href="/b/nginx/nginx-admin">lemp环境搭建</a> </li>
-<li>2018-10-04 <a href="/b/nginx/nginx-proxy">nginx proxy</a> </li>
-<li>2018-09-27 <a href="/b/db/mongo-">不要用mongodb</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-time">js-time</a> </li>
-<li>2018-04-02 <a href="/b/py/py-time">python 时间函数的用法笔记</a> </li>
-<li>2020-05-21 <a href="/b/git/git-">Git 命令大全</a> </li>
-<li>2020-07-25 <a href="/b/c/ops-awk">awk 简介</a> </li>
-<li>2019-06-15 <a href="/b/c/linux-os">linux os</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-complete">vim-complete</a> </li>
-<li>2018-09-27 <a href="/b/c/ops-user">tool</a> </li>
-<li>2019-06-11 <a href="/b/vim/vim-var">vim 使用之变量</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-cmd">vim-cmd</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-options">vim-options</a> </li>
-<li>2016-01-23 <a href="/b/ria/js-dom">Js dom 笔记</a> </li>
-<li>2018-10-04 <a href="/b/ria/js-dom-event">Event</a> </li>
-<li>2018-10-04 <a href="/b/vim/vim-pattern">vim-pattern</a> </li>
-<li>2020-09-09 <a href="/b/vim/vim-map">vim 之 map命令</a> </li>
-</ul>
-</div>
-<div id="pager"> <a href="/b/index">p0</a> <a href="/b/p/p1">p1</a> <a href="/b/p/p2">p2</a> <a href="/b/p/p3">p3</a> p4 <a href="/b/p/p5">p5</a></div>
+## Switch 表达式
+
+    String fruit = &quot;apple&quot;;
+    int opt = switch (fruit) {
+        case &quot;apple&quot; -&gt; 1;
+        case &quot;pear&quot;, &quot;mango&quot; -&gt; 2;
+        default -&gt; 0;
+    }; // 注意赋值语句要以;结束
+    System.out.println(&quot;opt = &quot; + opt);
+
+switch表达式是作为Java 12的预览特性（Preview Language Features）实现的，编译的时候，我们还需要给编译器加上参数：
+
+    javac --source 12 --enable-preview Main.java
+
+# for
+
+    // 不设置结束条件:
+    for (int i=0; ; i++) {
+        ...
+    }
+    // 不设置结束条件和更新语句:
+    for (int i=0; ;) {
+        ...
+    }
+    // 什么都不设置:
+    for (;;) {
+        ...
+    }
+
+## for each
+
+    int[] ns = { 1, 4, 9, 16, 25 };
+    for (int n : ns) {
+        System.out.println(n);
+    }
+
+# break continue
+不支持以下语法
+
+    break 2;
+    continue 2;
+
+但是支持
+
+    outerloop:
+    for (int i=0; i &lt; 5; i++) {
+        for (int j=0; j &lt; 5; j++) {
+            if (i * j &gt; 6) {
+                System.out.println(&quot;Breaking&quot;);
+                break outerloop;
+            }
+            System.out.println(i + &quot; &quot; + j);
+        }
+    }</pre>
+<div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">
 <div>

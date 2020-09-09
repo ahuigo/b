@@ -49,7 +49,7 @@ const MD_URL='post/go/go-file.md';
 <pre id="markdown" v-pre>---
 title: golang 的file api
 date: 2018-09-27
-updated: 2020-08-14
+updated: 2020-09-09
 ---
 # Directory Api
 
@@ -207,8 +207,12 @@ WriteString
 	func main() {
 		s := strings.NewReader(&quot;Lbh penpxrq gur pbqr!&quot;)
 		r := rot13Reader{s}
-		io.Copy(os.Stdout, &amp;r)
-	}</pre>
+		io.Copy(os.Stdout, &amp;r) //write to os.Stdout
+	}
+
+### Copy buffer
+    var b bytes.Buffer
+    io.Copy(os.Stdout, &amp;b)</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">

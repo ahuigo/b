@@ -2,9 +2,75 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-08-31T22:54:02Z</updated>
+<updated>2020-09-09T22:29:50Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>vim-pattern</title>
+<link href="/b/vim/vim-pattern" rel="alternate" type="text/html"/>
+<updated>2020-09-09T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Preface
+
+# pattern
+
+	:h pattern
+
+## charlist
+Character classes
+
+	\s	whitespace character: &lt;Space&gt; </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>vim 之 map命令</title>
+<link href="/b/vim/vim-map" rel="alternate" type="text/html"/>
+<updated>2020-09-09T00:00:00Z</updated>
+<summary/>
+<published>2020-09-09T00:00:00Z</published>
+<content># Preface
+map命令手册位于：
+
+    :h map.txt
+
+map 命令语法：
+
+   map {lhs} {rhs}
+
+# map command list - map 命令列表
+
+</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Java expr</title>
+<link href="/b/java/java-expr" rel="alternate" type="text/html"/>
+<updated>2020-09-09T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Switch语句块
+    switch (option) {
+    case 3:
+        ...
+        break;
+    case 2:
+        ...
+   </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>系统调用</title>
+<link href="/b/go/go-shell" rel="alternate" type="text/html"/>
+<updated>2020-09-09T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># 系统调用
+Go语言主要是通过两个包完成的。一个是os包，一个是syscall包
+
+1. syscall 里提供了什么Chroot/Chmod/Chmod/Chdir…，Getenv/Getgid/</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>mysql 索引</title>
+<link href="/b/db/mysql-index" rel="alternate" type="text/html"/>
+<updated>2020-09-09T00:00:00Z</updated>
+<summary/>
+<published>2020-09-09T00:00:00Z</published>
+<content># Index Type
+&gt; http://stackoverflow.com/questions/12813363/what-is-the-difference-between-a-candidat</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>About Http</title>
 <link href="/b/net/http" rel="alternate" type="text/html"/>
 <updated>2020-08-31T00:00:00Z</updated>
@@ -167,7 +233,7 @@ linux 中每个进程都是由进程控制块(PCB) 控制的，PCB是一个task_
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>golang 的file api</title>
 <link href="/b/go/go-file" rel="alternate" type="text/html"/>
-<updated>2020-08-14T00:00:00Z</updated>
+<updated>2020-09-09T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># Directory Api
@@ -413,60 +479,4 @@ https://packaging.python.org/tutorials/packaging-projects/
 
 setuptools 与 disutils
 1. distu</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>学习下Golang 的反射</title>
-<link href="/b/go/17.go-reflect" rel="alternate" type="text/html"/>
-<updated>2020-08-21T00:00:00Z</updated>
-<summary/>
-<published>2019-01-07T00:00:00Z</published>
-<content># Relection json 示例
-    import "github.com/mitchellh/mapstructure"
-	err := mapstructure.Decode(input</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>golang help</title>
-<link href="/b/go/11.go-help" rel="alternate" type="text/html"/>
-<updated>2020-07-29T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># help command
-Use "go help [command]" for more information about a command.
-
-    go help fmt
-
-# go </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>js dom file</title>
-<link href="/b/ria/js-dom-file" rel="alternate" type="text/html"/>
-<updated>2020-07-25T00:00:00Z</updated>
-<summary/>
-<published>2020-07-25T00:00:00Z</published>
-<content># Focus
-
-    var isFocused = (document.activeElement === dummyEl);
-    ele.focus()
-
-# FormData
-
-## i</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Js Array 整理</title>
-<link href="/b/ria/js-array" rel="alternate" type="text/html"/>
-<updated>2020-07-25T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># Js Array 整理
-array 不像string 是primitive value, 所以length 可以缩短放大array。
-
-	arr = [1,2,3]
-	arr.length = 1</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>go routines 与原子</title>
-<link href="/b/go/go-atom-string" rel="alternate" type="text/html"/>
-<updated>2020-07-25T00:00:00Z</updated>
-<summary/>
-<published>2020-07-18T00:00:00Z</published>
-<content># golang 原子问题
-
-## 问题发现的过程
-字节的同学在[踩坑记： Go 服务灵异 panic](v2ex.com/t/691145)提到，json 序列化字符串经常遇到 nil addres</content>
 </entry></feed>
