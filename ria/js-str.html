@@ -49,7 +49,7 @@ const MD_URL='post/ria/js-str.md';
 <pre id="markdown" v-pre>---
 title: Js 字符串大全
 date: 2015-03-15
-updated: 2020-06-30
+updated: 2020-09-17
 ---
 # Js 字符串大全
 字符定义与python 一样, 而且不区分双引号：
@@ -118,6 +118,17 @@ js 对四字节utf8 的unicode 支持不好
 
 	name=&#x27;ahui&#x27;
 	`Hello, ${name}`
+
+### base64
+domString 是16bit的, atob 只能处理`0x00-0xff`字符，处理utf8字符，需要先转成单字节字符。
+
+    function utf8_to_b64( str ) {
+        return window.btoa(unescape(encodeURIComponent( str )));
+    }
+
+    function b64_to_utf8( str ) {
+        return decodeURIComponent(escape(window.atob( str )));
+    }
 
 ### buffer
 see py-str-struct: like bytes
