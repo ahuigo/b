@@ -2,9 +2,66 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-09-17T20:39:12Z</updated>
+<updated>2020-10-16T18:50:20Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>js dom file</title>
+<link href="/b/ria/js-dom-file" rel="alternate" type="text/html"/>
+<updated>2020-10-16T00:00:00Z</updated>
+<summary/>
+<published>2020-10-16T00:00:00Z</published>
+<content># Focus
+
+    var isFocused = (document.activeElement === dummyEl);
+    ele.focus()
+
+# FormData
+
+## i</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>ajax cors</title>
+<link href="/b/ria/js-ajax-cors" rel="alternate" type="text/html"/>
+<updated>2020-10-16T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># ajax cors
+
+## 请求分类
+浏览器将CORS请求分成两类：简单请求（simple request）和非简单请求（not-so-simple request）。
+只要同时满足以下两大条件，</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-http</title>
+<link href="/b/py/py-http" rel="alternate" type="text/html"/>
+<updated>2020-10-16T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Preface
+
+# urllib
+urllib2 is deprecated, use requests instead , except: `urllib.parse.urlsplit/url</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-debug-log</title>
+<link href="/b/py/py-debug-log" rel="alternate" type="text/html"/>
+<updated>2020-10-14T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Preface
+- logging
+https://docs.python.org/3.4/howto/logging.html
+
+## example
+
+    import logging
+ </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>go-test</title>
+<link href="/b/go/go-test" rel="alternate" type="text/html"/>
+<updated>2020-10-14T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Preface
+Go has a lightweight test framework composed of the go test command and the testing packag</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>path</title>
 <link href="/b/vsc/vsc-path" rel="alternate" type="text/html"/>
 <updated>2020-09-17T00:00:00Z</updated>
@@ -420,67 +477,4 @@ The var statement declares a list of variables
 
 ## define map
 键必须是⽀支持相等运算符 (==、!=) 类型，⽐比如 number、string、 pointer、array、struct，以及对应的 interface</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>vim-motion</title>
-<link href="/b/vim/vim-motion" rel="alternate" type="text/html"/>
-<updated>2020-08-02T00:00:00Z</updated>
-<summary/>
-<published>2020-08-02T00:00:00Z</published>
-<content># Motion, Movement
-Movement 移动光标、字符，Vim 最核心的功能操作
-
-vim 下的光标移动
-
-    按字符移动 hjkl
-    按单词移动 
-        小单词:</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>python 时间函数的用法笔记</title>
-<link href="/b/py/py-time" rel="alternate" type="text/html"/>
-<updated>2020-08-02T00:00:00Z</updated>
-<summary/>
-<published>2018-04-02T00:00:00Z</published>
-<content># time 工具
-time 提供基本的时间，sleep
-
-	import time
-	time.time()
-		19972314124.05238
-        time.localetime(</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>python 性能分析</title>
-<link href="/b/py/py-profiler" rel="alternate" type="text/html"/>
-<updated>2020-08-02T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># python 性能分析
-介绍几个分析工具：
-- cProfile
-类似于xdebug cachegrind profiler 性能画像
-- py-spy python 版的top
-    - py</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>py-file-io</title>
-<link href="/b/py/py-file-io" rel="alternate" type="text/html"/>
-<updated>2020-08-02T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># Preface
-
-# flush buffer
-开启buffer 后，默认是换行才flush, print 调用的就是sys.stdout
-
-    # mac测试后：不一定有效
-    PYTH</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Mac shortcuts</title>
-<link href="/b/mac/mac-shortcuts" rel="alternate" type="text/html"/>
-<updated>2020-08-02T00:00:00Z</updated>
-<summary/>
-<published>2020-08-02T00:00:00Z</published>
-<content>
-# mac 快捷键使用整理
-
-## Karabiner + Seil, 定制全键盘
-一开始是左手手指有点酸，估计是尾指按键盘左边的Ctrl键次数有点多，为此把左边的Ctrl键盘跟CapsLock对换</content>
 </entry></feed>

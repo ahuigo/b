@@ -49,7 +49,7 @@ const MD_URL='post/py/py-http.md';
 <pre id="markdown" v-pre>---
 title: py-http
 date: 2018-09-28
-updated: 2020-04-09
+updated: 2020-10-16
 ---
 # Preface
 
@@ -215,6 +215,7 @@ If you want, you can send strings to be received as files:
 #### post file stream(bytes):
 
     files = {&#x27;file&#x27;: b&#x27;io.BytesIO().getvalue()&#x27;}
+    # post_params在前，files在后
     requests.post(url, data=post_params, files=files)
 
 ### post data
