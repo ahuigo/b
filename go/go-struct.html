@@ -49,7 +49,7 @@ const MD_URL='post/go/go-struct.md';
 <pre id="markdown" v-pre>---
 title: Golang 的结构体
 date: 2019-03-24
-updated: 2020-08-30
+updated: 2021-03-25
 ---
 # 定义
 ## init 
@@ -150,6 +150,21 @@ struct 是值类型，slice 是引用类型(指针), 以下赋值方法是按值
     fmt.Printf(&quot;%p,%p\n&quot;, &amp;a,&amp;b)  //not same
     b = a                           //按值传递
     fmt.Printf(&quot;%p,%p\n&quot;, &amp;a,&amp;b)  //not same
+
+按值传递: 不会改变q
+
+    func (q Queue) Push(n Message) {
+        q.db[q.tail] = n
+    }
+
+按值传递: 
+
+    func (q *Queue) Push(n Message) {
+        q.db[q.tail] = n
+    }
+
+
+
 
 ## pointer to structs
 struct pointer:
@@ -260,6 +275,8 @@ struct method 是一个值：
     c := Class{User{age:0}, 0}
     //如果定义为 struct{User User} 那么使用c.age就是非法
     c.age == c.User.age  //true
+
+    Task{Model:model.Model{ID:task.ID}}
 
 assgin embedded
 

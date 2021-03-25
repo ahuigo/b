@@ -49,7 +49,7 @@ const MD_URL='post/py/py-func.md';
 <pre id="markdown" v-pre>---
 title: py-func
 date: 2018-09-28
-updated: 2020-06-30
+updated: 2021-03-16
 ---
 # Preface
 
@@ -334,6 +334,7 @@ or:
 
 	&gt;&gt;&gt; extra = {&#x27;city&#x27;: &#x27;Beijing&#x27;, &#x27;job&#x27;: &#x27;Engineer&#x27;}
 	&gt;&gt;&gt; person(&#x27;Jack&#x27;, 24, **extra)
+	&gt;&gt;&gt; person(&#x27;Jack&#x27;, **{&#x27;age&#x27;:24, &#x27;city&#x27;: &#x27;Beijing&#x27;, &#x27;job&#x27;: &#x27;Engineer&#x27;})
 	name: Jack age: 24 other: {&#x27;city&#x27;: &#x27;Beijing&#x27;, &#x27;job&#x27;: &#x27;Engineer&#x27;}
 
 ## named kw args

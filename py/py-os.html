@@ -36,7 +36,7 @@ const MD_URL='post/py/py-os.md';
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,7 +49,7 @@ const MD_URL='post/py/py-os.md';
 <pre id="markdown" v-pre>---
 title: py-os
 date: 2018-10-04
-updated: 2019-02-28
+updated: 2021-03-25
 ---
 # Preface
 
@@ -77,7 +77,7 @@ print(sys.executable)
 
 # psutil
 
-## cup
+## cpu
 
 	&gt;&gt;&gt; multiprocessing.cpu_count()
     &gt;&gt;&gt; psutil.cpu_count() # CPU逻辑数量
@@ -97,7 +97,14 @@ print(sys.executable)
     [14.0, 4.0, 4.0, 4.0]
     [12.0, 3.0, 4.0, 3.0]
 
-获取内存信息
+### 获取内存信息
+进程占用内存/cpu
+
+    import os, psutil; 
+    print(&#x27;常驻内存&#x27;,psutil.Process(os.getpid()).memory_info().rss / 1024 ** 2, &quot;M&quot;)
+
+    mem_percent = 100 - psutil.virtual_memory().available * 100 / psutil.virtual_memory().total
+
 
 使用psutil获取物理内存和交换内存信息，分别使用：
 
@@ -109,7 +116,7 @@ print(sys.executable)
     返回的是字节为单位的整数，可以看到，总内存大小是8589934592 = 8 GB，已用7201386496 = 6.7 GB，使用了66.6%。
     而交换区大小是1073741824 = 1 GB。
 
-获取磁盘信息
+### 获取磁盘信息
 可以通过psutil获取磁盘分区、磁盘使用率和磁盘IO信息：
 
     &gt;&gt;&gt; psutil.disk_partitions() # 磁盘分区信息
@@ -185,6 +192,10 @@ If you need to know MEMORY USAGE of a given type, you can use the function sys.g
 
 # environ, 环境变量
 在操作系统中定义的环境变量，全部保存在os.environ这个变量中，可以直接查看：
+
+    os.getenv(&#x27;DEBUG&#x27;, &#x27;default&#x27;)
+    os.environ[&quot;DEBUSSY&quot;] = &quot;1&quot;
+
 
 	&gt;&gt;&gt; os.environ
 	environ({&#x27;VERSIONER_PYTHON_PREFER_32_BIT&#x27;: &#x27;no&#x27;, &#x27;TERM_PROGRAM_VERSION&#x27;: &#x27;326&#x27;, &#x27;LOGNAME&#x27;: &#x27;michael&#x27;, &#x27;USER&#x27;: &#x27;michael&#x27;, &#x27;PATH&#x27;: &#x27;/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/local/mysql/bin&#x27;, ...})

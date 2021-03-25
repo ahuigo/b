@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<script>
+if(!('noModule' in HTMLScriptElement.prototype)){
+alert('你的浏览器不能很好的支持 es6，请用最新的chrome、firefox浏览!')
+}
+const MD_URL='post/py/py-obj-type-super.md';
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+<title>python&#x27;s super,type, object</title>
+<meta name="author" content="ahuigo">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.3/dist/Valine.min.js"></script>
+</head>
+<body class="layout-documentation page-layout">
+<div id="app">
+<div :id="'imgview'" v-if="imgsrc" @click="imgsrc=null"><div class="popup-back"></div><div class="img-wrapper"><img :src="imgsrc"></div></div>
+<div class="pure-menu pure-menu-horizontal">
+<div>
+<ul class="pure-menu-list">
+<li class="pure-menu-item">
+<div class="menu-toggle" :class="{a:true}" @click="showMenu=!showMenu">
+</div>
+</li>
+<li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
+</ul>
+</div>
+</div>
+<div class="main">
+<div :class="{left:true, 'active':showMenu}" >
+<tree-folder :nodes="nodes" :class="{'active':showMenu}" :show="show"></tree-folder>
+</div>
+<div class="middle" v-on="showMenu?{click:r=>showMenu=false}:{}">
+<router-view></router-view>
+<pre id="markdown" v-pre>---
+title: python&#x27;s super,type, object
+date: 2018-10-04
+updated: 2021-03-16
+---
+# type vs object
+&gt; https://mp.weixin.qq.com/s/z4JBWFo-epH5NsQJUw7qaQ
+type 即代表class 本身, 他继承: type-object
+1.object: 是继承根 root subclass: MRO根, 所有类型的父类
+
+    &gt;&gt;&gt; type.__mro__
+    (&lt;class &#x27;type&#x27;&gt;, &lt;class &#x27;object&#x27;&gt;)
+    &gt;&gt;&gt; object.__mro__
+    (&lt;class &#x27;object&#x27;&gt;,)
+
+	&gt;&gt;&gt; isinstance(1, object)
+	&gt;&gt;&gt; isinstance(int, object)
+	&gt;&gt;&gt; isinstance(type, object)
+	&gt;&gt;&gt; isinstance(object, object)
+	True
+
+    &gt;&gt;&gt; isinstance(1, type)
+    False
+    &gt;&gt;&gt; isinstance(int, type)
+    True
+    &gt;&gt;&gt; isinstance(type, type)
+    True
+    &gt;&gt;&gt; isinstance(object, type)
+    True
+    &gt;&gt;&gt; object.__class__
+    &gt;&gt;&gt; type.__class__
+    &lt;class &#x27;type&#x27;&gt;
+
+1.type只是普通类型的父类, object才是所有类型的父类
+
+    &gt;&gt;&gt; int.__class__
+    Out[42]: type
+    In [54]: X.__class__
+    Out[54]: type
+    In [53]: X.__mro__
+    Out[53]: (__main__.X, object)
+
+    &gt;&gt;&gt; issubclass(int, type)   #true
+    &gt;&gt;&gt; issubclass(X, type)   #False
+
+    &gt;&gt;&gt; issubclass(int, object) # true
+    &gt;&gt;&gt; issubclass(X, object)   # true
+
+type() 获取的不是父类，而是实例化前的类:
+
+    &gt;&gt;&gt; print(type(object));
+    &lt;class &#x27;type&#x27;&gt;
+    &gt;&gt;&gt; object.__class__
+    &lt;class &#x27;type&#x27;&gt;              
+    &gt;&gt;&gt; type.__base__
+    &lt;class &#x27;object&#x27;&gt; 
+
+
+所有对象的根类型是type(`type(obj)`), 所有对象都继承自object 
+![](/img/py/type/type-class-difference.png)
+
+一般来说:
+
+    # 实例不可以是自己
+    &gt;&gt;&gt; isinstance(int, int)
+    False
+    # 子类可以是自己
+    &gt;&gt;&gt; issubclass(int, int)
+    True
+
+
+特别，实例没有继承关系:
+```
+class A(type): pass
+class B(type, metaclass=A): pass
+class C(type, metaclass=B): pass
+isinstance(C, B) # True
+isinstance(C, A) # False
+```
+
+
+## 判断None 要用is
+The operators `is` and `is not` test for object identity
+
+    obj is not None
+
+
+# type
+通过type()函数创建的类和直接写class是完全一样的，因为Python解释器遇到class定义时，仅仅是扫描一下class定义的语法，然后调用type()函数创建出class。(都是动态创建的)
+
+	class Hello(object):
+		def hello(self, name=&#x27;world&#x27;):
+			print(&#x27;Hello, %s.&#x27; % name)
+
+用`class Xxx...`来定义类, 其实是扫描代码字符，然后调用`type()函数`创建类:
+1. class的名称；
+2. 继承的父类集合，注意Python支持多重继承，如果只有一个父类，别忘了tuple的单元素写法；
+3. class的方法名称与函数绑定，这里我们把函数fn绑定到方法名hello上
+
+eg:
+
+	&gt;&gt;&gt; def fn(self, name=&#x27;world&#x27;): # 先定义函数
+	...     print(&#x27;Hello, %s.&#x27; % name)
+	...
+	&gt;&gt;&gt; Hello = type(&#x27;Hello&#x27;, (object,), dict(hello=fn)) # 创建Hello class
+            new_class = type.__new__(type, &#x27;class_name&lt;优化级小于qualname&gt;&#x27;, (object,), {&#x27;__qualname__&#x27;: &#x27;custom_class_name&#x27;})
+                qualname 只是class别名, 不影响: isinstance(new_class, cls) == true
+	&gt;&gt;&gt; h = type.__new__(type, &#x27;xx&#x27;, (object,), {&#x27;hello&#x27;:fn})
+	&lt;class &#x27;__main__.xx&#x27;&gt;
+	&gt;&gt;&gt; h = type.__new__(type, &#x27;xx&#x27;, (object,), {&#x27;hello&#x27;:fn, &#x27;__qualname__&#x27;:&#x27;ahui&#x27;})
+	&lt;class &#x27;__main__.ahui&#x27;&gt;
+	&gt;&gt;&gt; h().hello(1)
+	1
+
+## list subclass
+	&gt;&gt;&gt; type.__subclasses__(type)
+	[&lt;class &#x27;abc.ABCMeta&#x27;&gt;, &lt;class &#x27;enum.EnumMeta&#x27;&gt;]
+
+# MRO, Method Resolution Order
+http://python-history.blogspot.com/2010/06/method-resolution-order.html
+[Python的方法解析顺序(MRO)](http://hanjianwei.com/2013/07/25/python-mro/)
+
+Python has three MRO:
+
+1. classic class: DFS(Deep Search First) (&lt;= 2.1)
+2. new-style class: pre-computed `__mro__`when a class was defined(DFS+*保留最后一个重复*):(2.2)
+3. C3 Agrithm(&gt;=2.3)
+
+## new-style mro
+
+      A  B
+      |/\/ 
+      X  Y
+       \ /
+        Z
+
+	class A(object): pass
+	class B(object): pass
+	class X(A, B): pass
+	class Y(B, A): pass
+	class Z(X, Y): pass
+
+Using the tentative new MRO algorithm, the MRO for these classes would be *Z, X, Y, B, A, object*. (Here &#x27;object&#x27; is the universal base class.)
+However, I didn&#x27;t like the fact that *B and A were in reversed order*.
+
+上述继承关系违反了线性化的「 单调性原则 」。Michele Simionato对单调性的定义为：
+&gt; A MRO is monotonic when the following is true: if C1 precedes C2 in the linearization of C, then C1 precedes C2 in the linearization of any subclass of C. Otherwise, the innocuous(无意的) operation of deriving(起源, 产生) a new class could change the resolution order of methods, potentially introducing very subtle(细微, 不易察觉的) bugs.
+
+## C3
+Python should adopt the C3 Linearization algorithm described in the paper &quot;A Monotonic Superclass Linearization for Dylan&quot; (K. Barrett, et al, presented at OOPSLA&#x27;96).
+
+我们把类 C 的线性化（MRO）记为 L[C] = [C1, C2,…,CN]。其中 C1 称为 L[C] 的头，其余元素 [C2,…,CN] 称为尾。如果一个类 C 继承自基类 B1、B2、……、BN，那么我们可以根据以下两步计算出 L[C]：
+
+	L[object] = [object]
+	L[C(B1…BN)] = [C] + merge(L[B1]…L[BN], [B1,…,BN])
+
+这里的关键在于 merge，其输入是一组列表，按照如下Monotonic 方式输出一个列表:
+
+1. 检查第一个列表的头元素（如 L[B1] 的头），记作 H。
+2. 若 H *仅出现* 在其它列表的*头部*(或者*不出现*)则将其*输出*，并将其从所有列表中删除，然后回到步骤1；
+3. 如果出现在其它某些列表的*非头部*, 选它则会违反 Monotonic; 需要回到步骤1按顺序检查*其它非头部*的列表
+4. 重复上述步骤，直至列表为空    
+
+    &gt;&gt;&gt; class X(object): pass
+    &gt;&gt;&gt; class Y(object): pass
+    &gt;&gt;&gt; class A(X, Y): pass
+    &gt;&gt;&gt; class B(Y, X): pass
+    &gt;&gt;&gt; class C(A, B): pass
+
+我们看看 C 的线性化结果：
+
+	L[C] = [C] + merge(L[A], L[B], [A], [B])
+	     = [C] + merge([A, X, Y, object], [B, Y, X, object], [A, B])
+	     = [C, A] + merge([X, Y, object], [B, Y, X, object], [B])
+	     = [C, A, B] + merge([X, Y, object], [Y, X, object])
+
+X 是其它列表的非头部(乱序了), 无法构建继承关系
+
+	class First(object):
+	    def __init__(self):
+	        print(&quot;first&quot;)
+
+	class Second(First):
+	    def __init__(self):
+	        print(&quot;second&quot;)
+
+	class Third(First, Second):
+	    def __init__(self):
+	        print(&quot;third&quot;)
+
+	L(Third) = [Third] + merge([1, O], [2, 1, O], [1, 2])
+	1 is non-head of `[1, 0]`
+	2 is non-head of `[1, 2]`
+
+You&#x27;ll get:
+
+	TypeError: Cannot create a consistent method resolution
+	order (MRO) for bases Second, First
+
+再来一个Monotonic 合法的例子:
+
+    L[A] = [A] + merge(L[B], L[C], [B], [C])
+         = [A] + merge([B, D, E, object], [C, D, F, object], [B], [C])
+         = [A, B] + merge([D, E, object], [C, D, F, object], [C])
+         = [A, B, C] + merge([D, E, object], [D, F, object])
+         = [A, B, C, D] + merge([E, object], [F, object])
+         = [A, B, C, D, E] + merge([object], [F, object])
+         = [A, B, C, D, E, F] + merge([object], [object])
+         = [A, B, C, D, E, F, object]
+
+## super
+1. 最好的示例: https://rhettinger.wordpress.com/2011/05/26/super-considered-super/
+2. Things to Know About Python Super [1 of 3] (for experts): http://www.artima.com/weblogs/viewpost.jsp?thread=236275
+
+super 是用来*执行* 继承类的func的, super 本质super的实例化
+
+	super().__init__() # python3
+    super(__class__,self).__init__() # python2
+        parent-class__.__init__(self, ...)
+
+    # 类似于，但是不等于, 事实上super() 会沿着整个inheritance chain 传导
+	def super(cls, inst):
+		mro = inst.__class__.mro() # Always the most derived class
+	    return mro[mro.index(cls) + 1] # 主要逻辑是这个
+
+### super 的参数
+1. super(a_type, obj)
+MRO 指的是 `type(obj)`即`obj.__class__` 的 MRO, MRO 中的那个类就是 a_type , 同时 isinstance(obj, a_type) == True 。
+
+2. super(type1, type2)
+MRO 指的是 type2 的 MRO, MRO 中的那个类就是 type1 ，同时 issubclass(type2, type1) == True 。
+
+### super 作用
+super(c, obj_or_type) 将返回一个从 MRO 中 c 之后的类中查找方法的对象。
+1. 如果super(C, obj)的`obj.__class__.mro()`是`[A,B,C,D,E,object]`
+2. 那么super 只会从 C 之后查找，即: 只会在 D 或 E 或 object 中查找 方法
+
+示例: https://rhettinger.wordpress.com/2011/05/26/super-considered-super/
+
+    class Root:
+        def draw(self):
+            # the delegation chain stops here
+            assert not hasattr(super(), &#x27;draw&#x27;)
+            # or pass
+
+    class Shape(Root):
+        def __init__(self, shapename, **kwds):
+            self.shapename = shapename
+            super().__init__(**kwds)
+        def draw(self):
+            print(&#x27;Drawing.  Setting shape to:&#x27;, self.shapename)
+            super().draw()
+
+    class ColoredShape(Shape):
+        def __init__(self, color, **kwds):
+            self.color = color
+            super().__init__(**kwds)
+        def draw(self):
+            print(&#x27;Drawing.  Setting color to:&#x27;, self.color)
+            super().draw()
+
+    class Moveable:
+        def __init__(self, x, y):
+            self.x = x
+            self.y = y
+        def draw(self):
+            print(&#x27;Drawing at position:&#x27;, self.x, self.y)
+
+    class MoveableAdapter(Root):
+        def __init__(self, x, y, **kwds):
+            self.movable = Moveable(x, y)
+            super().__init__(**kwds)
+        def draw(self):
+            self.movable.draw()
+            super().draw()
+
+    class MovableColoredShape(ColoredShape, MoveableAdapter):
+        pass
+
+    MovableColoredShape(color=&#x27;red&#x27;, shapename=&#x27;triangle&#x27;,
+                        x=10, y=20).draw()
+
+output:
+
+    Drawing.  Setting color to: red
+    Drawing.  Setting shape to: triangle
+    Drawing at position: 10 20
+
+### bound and unbound with super
+类似js 的bind this概念
+
+    &gt;&gt;&gt; class B(object):
+    ...     def __repr__(self):
+    ...         return &quot;&lt;instance of %s&gt;&quot; % self.__class__.__name__
+    &gt;&gt;&gt; class C(B):
+    ...     pass
+    &gt;&gt;&gt; class D(C):
+    ...     pass
+    &gt;&gt;&gt; d = D()
+
+    # you get
+    &gt;&gt;&gt; print super(C, d).__repr__
+    &lt;bound method D.__repr__ of &lt;instance of D&gt;&gt;
+    B.__repr__(d,...)
+    &gt;&gt;&gt; print super(C, D).__repr__
+    &lt;unbound method D.__repr__&gt;
+    B.__repr__(D,...)
+</pre>
+<div id="pager"></div>
+<div class="hr"></div>
+<div class="share" style="display:flex;justify-content:space-between">
+<div>
+<h4>关注我</h4>
+<div>
+<iframe width="120" height="22" :src="`https://platform.twitter.com/widgets/follow_button.4a8202e5fcbfb5ba8d36683841f4d020.en.html#screen_name=${config.twitter_user}&width=67&height=22&show_count=false&show_screen_name=true`"></iframe>
+<iframe width="120" height="22" :src="`https://widget.weibo.com/relationship/followbutton.php?btn=light&style=1&uid=${config.weibo_uid}&width=67&height=22&language=zh_cn`"></iframe>
+</div>
+</div>
+<div>
+<h4>分享文章</h4>
+<div>
+<span class="icon twitter-icon" @click="openShare('twitter', this)"></span>
+<span class="icon weibo-icon" @click="openShare('weibo')"></span>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div id="comments"></div>
+</div>
+<div class="right">
+<div id="toc"><ol><li>笔记</li><ol></div>
+<div id="search" class="pure-form">
+<fieldset>
+<input id="search_q" placeholder="Google" @keyup.enter="searchBlog($('#search_q').value)">
+<button @click="searchBlog($('#search_q').value)" class="pure-button pure-button-primary">搜索</button>
+</fieldset>
+</div>
+</div>
+</div>
+<button class="button is-primary" onclick="window.scroll(0, 10)" id="up">Up</button>
+<button class="button is-primary" onclick="window.scrollTo(0,document.body.scrollHeight)" id="down">Down</button>
+</div>
+<template id="tree-folder">
+<ul class="pure-menu-list" v-if="show">
+<li class="pure-menu-item" v-for="(file,index) in nodes" :key="file.path">
+<a v-if="file.type==='dir'" :type="file.type" @click="openFolder(file)" class="folder">{{file.name}}
+</a>
+<a v-else :type="file.type" class="file" :href="('/'+file.path).replace(/^\/post\b/, '/b').slice(0,-3)">{{file.name.slice(0,-3)}} </a>
+<tree-folder v-if="file.nodes" :show="file.show" :nodes="file.nodes"></tree-folder>
+</li>
+</ul>
+</template>
+<template id="md">
+<div id="content" v-html="marked(md)"></div>
+</template>
+<link href="/b/../a/css/main2.css" rel="stylesheet" async>
+<script src="/b/js/marked.js"></script>
+<script src="/b/js/toc.js"></script>
+<script src="/b/../a/js/blog2.js"></script>
+</body>
+</html>

@@ -49,7 +49,7 @@ const MD_URL='post/go/go-routines.md';
 <pre id="markdown" v-pre>---
 title: go routines
 date: 2018-09-27
-updated: 2020-07-19
+updated: 2021-03-25
 ---
 # go routines
 A goroutine is a `lightweight thread` managed by the Go runtime.
@@ -151,68 +151,6 @@ output:
     send 2 2.006895944s
     close 2.006929484s
     3
-
-# 锁
-## Mutex
-避免并发, 使用mutex 保证`total_tickets &gt; 0 &amp;&amp; total_tickets--` 构成原子性:
-
-    var mutex = &amp;sync.Mutex{}
-    for i:=0; i&lt;3; i++{
-        go func(j int) {
-            mutex.Lock()
-                fmt.Print(j,&quot;\n&quot;)
-                time.Sleep(time.Second * 1)
-            mutex.Unlock()
-        }(i)
-    }
-
-### 其它RWMutex
-其它mutex 锁
-
-    # 复合锁
-    sync.RWMutex
-
-## goroutine 实现
-https://www.zhihu.com/question/20862617
-
-## atomic
-`cnt++`不是 atomic, 下面的结果不是1e4
-
-    package main
-    import &quot;fmt&quot;
-    import &quot;sync&quot;
-
-    func main() {
-        var wg sync.WaitGroup
-        wg.Add(10)
-        count := 0
-        for w := 0; w &lt; 10; w++ {
-            go func() {
-                for i:=0;i&lt;1e3;i++ {
-                    count++;
-                }
-                defer wg.Done()
-            }()
-        }
-        wg.Wait()
-        fmt.Println(&quot;state:&quot;, count)
-    }
-
-### sync/atomic 原子化
-
-    import &quot;sync/atomic&quot;
-    var cnt uint32 = 0
-    atomic.AddUint32(&amp;cnt, 1)
-    cntFinal := cnt                  //取数据
-    cntFinal := atomic.LoadUint32(&amp;cnt)//取数据
-
-## atomic singleton
-
-    import &quot;sync&quot;
-    var once sync.Once
-    once.Do(func() {
-            instantiated = &amp;single{}
-    }
 
 # channel
 Like maps and slices, channels must be created before use:

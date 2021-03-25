@@ -49,7 +49,7 @@ const MD_URL='post/py/py-argv.md';
 <pre id="markdown" v-pre>---
 title: py-argv
 date: 2018-09-28
-updated: 2020-07-15
+updated: 2021-03-16
 ---
 # Preface
 - click
@@ -98,6 +98,18 @@ click 之于argparse/argv, 相当于requests 之于urllib
     parser.add_argument(&quot;-n&quot;, &quot;--name&quot;, default=&quot;ahui&quot;, help=&quot;your name&quot;)
     parser.parse_args()
 
+## with pytest
+    import argparse
+    def parse_args(args):
+        parser = argparse.ArgumentParser(...)
+        parser.add_argument(&quot;-n&quot;, &quot;--name&quot;, default=&quot;ahui&quot;, help=&quot;your name&quot;)
+        return parser.parse_args(args)
+
+    def test_parser(self):
+        parser = parse_args([&#x27;-l&#x27;, &#x27;-m&#x27;])
+    
+    
+
 ## description and help
 
     parser = argparse.ArgumentParser(description=&quot;calculate X to the power of Y&quot;)
@@ -122,6 +134,15 @@ click 之于argparse/argv, 相当于requests 之于urllib
 
     parser.add_argument(&#x27;--color&#x27;, type=Color, choices=list(Color))
     parser.add_argument(&#x27;--color&#x27;, type=str, choices=(&#x27;red&#x27;,&#x27;blue&#x27;))
+
+## unknown args
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument(&quot;-n&quot;, &quot;--name&quot;, default=&quot;ahui&quot;, help=&quot;your name&quot;)
+    parser.add_argument(&#x27;integers&#x27;, nargs=&#x27;+&#x27;,)
+    #args = parser.parse_args()
+    args, unknown = parser.parse_known_args([&quot;-unknown&quot;,&#x27;other&#x27;])
+    print(args, unknown)
 
 ## positional args
 

@@ -49,7 +49,7 @@ const MD_URL='post/go/go-file.md';
 <pre id="markdown" v-pre>---
 title: golang 的file api
 date: 2018-09-27
-updated: 2020-09-09
+updated: 2021-03-25
 ---
 # Directory Api
 
@@ -80,7 +80,7 @@ abs
         //output: false &lt;nil&gt;
 
 ## os path
-### execute path
+### path ext
 
     import (
         &quot;fmt&quot;
@@ -112,6 +112,32 @@ func Getwd() (pwd string, err error)
         fmt.Println(pwd)
     }
 
+### path exists
+    if _, err := os.Stat(&quot;/path/to/whatever&quot;); os.IsNotExist(err) {
+        // path/to/whatever does not exist
+    }
+
+### mkdir
+    err = os.Mkdir(path, os.ModeDir)
+	os.Mkdir(&quot;tmp&quot;, 0700)
+
+## tmp
+### tempFile
+    file, err := ioutil.TempFile(&quot;dir&quot;, &quot;prefix&quot;)
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer os.Remove(file.Name())
+
+    fmt.Println(file.Name()) // For example &quot;dir/prefix054003078&quot;
+
+### tempDir
+    dir, err := ioutil.TempDir(&quot;dir&quot;, &quot;prefix&quot;)
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer os.RemoveAll(dir)
+
 # File Api
 
 ## open
@@ -135,7 +161,6 @@ read:
     &quot;io/ioutil&quot;
     content, err := ioutil.ReadFile(filename)
 
-
 ### ReadAtLeast
 
     b3 := make([]byte, 2)
@@ -155,6 +180,7 @@ read:
 ## write
 
 ### writeFile
+with bytes
 
     d1 := []byte(&quot;hello\ngo\n&quot;)
     err := ioutil.WriteFile(&quot;/tmp/dat1&quot;, d1, 0644)
@@ -199,7 +225,7 @@ WriteString
 			return n, err
 	}
 
-使用：
+使用(多此一举)：
 
     _, err = io.Copy(out, &amp;file)
     _, err = io.Copy(io.stdout, &amp;file)

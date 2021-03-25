@@ -48,8 +48,8 @@ const MD_URL='post/py/math/py-math.md';
 <router-view></router-view>
 <pre id="markdown" v-pre>---
 title: Python 的math 语法
-date: 2020-06-30
-updated: 2020-06-30
+date: 2021-03-16
+updated: 2021-03-16
 ---
 # number
 
@@ -72,6 +72,11 @@ updated: 2020-06-30
 	&#x27;\xfd{H\xe5&lt;\x95\xf9\xe3\x96.5\xd1\x01O&lt;!\xd5\xa2\xa0\x9fR&quot;\xa1\xa8&#x27;
     # head -c 24 /dev/urandom
 
+## nan
+    &gt;&gt;&gt; import math
+    &gt;&gt;&gt; x = float(&#x27;nan&#x27;)
+    &gt;&gt;&gt; math.isnan(x)
+    True
 ## floor
 
     import math

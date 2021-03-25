@@ -49,7 +49,7 @@ const MD_URL='post/py/py-str.md';
 <pre id="markdown" v-pre>---
 title: Python 字符处理
 date: 2017-08-09
-updated: 2020-05-26
+updated: 2021-03-16
 ---
 # Python 字符处理
 - serialize
@@ -268,6 +268,10 @@ python 内存中string 全部是以unicode编码的，而bytes则可以任何特
     &gt;&gt;&gt; print(str(&#x27;abc-1*中国&#x27;.encode()))
     b&#x27;abc-1*\xe4\xb8\xad\xe5\x9b\xbd&#x27;
 
+### gbk2utf8
+
+    s.encode(&#x27;latin-1&#x27;).decode(&#x27;gbk&#x27;).encode(&#x27;utf-8&#x27;)
+
 ### unicode
 以下三个等价, 且都是 class str
 
@@ -306,6 +310,16 @@ bytes对象b&#x27;\xa420&#x27;只是一堆比特位而已。define bytes
 对于字符串操作，我们并不关心它们内部编码。除非需要字节包用于传输时
 1. str 是关编码的unicode: utf8,gbk, 是纯字符串表示: python3 采用unicode
 1. bytes 是无关编码: utf8,gbk, 是纯字符经过编码过后的二进制数据
+
+#### byte to int
+以大端读字节：
+
+    seq = b&#x27;\xc2\x1d&#x27;
+    int.from_bytes(seq, &#x27;big&#x27;)
+
+字节自增1:
+
+    (int.from_bytes(seq, &#x27;big&#x27;) + 1).to_bytes(len(seq), &#x27;big&#x27;)
 
 #### string to bytes:
 ascii 不变, 其它则用16进制表示

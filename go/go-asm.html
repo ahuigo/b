@@ -32,11 +32,11 @@ const MD_URL='post/go/go-asm.md';
 </div>
 </li>
 <li class="pure-menu-item"><a href="//github.com/ahuigo">AHUIGO</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/b/index.html">Home</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/b">Home</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="//github.com/ahuigo">Github</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/b/atom.xml">Rss</a></li>
 <li class="pure-menu-item"><a class="button is-primary" href="/a#/README.md">Readme</a></li>
-<li class="pure-menu-item"><a class="button is-primary" href="/a/demo/fiddle/fiddle.html">Fiddle</a></li>
+<li class="pure-menu-item"><a class="button is-primary" href="/local-jsfiddle/fiddle.html">Fiddle</a></li>
 </ul>
 </div>
 </div>
@@ -49,12 +49,31 @@ const MD_URL='post/go/go-asm.md';
 <pre id="markdown" v-pre>---
 title: go汇编示例
 date: 2019-01-23
-updated: 2019-02-03
+updated: 2021-03-25
 ---
-
+# doc
 发现一份汇编示例：
 1. Go Assembly 示例 https://colobu.com/goasm/
-2. 英文版：https://www.davidwong.fr/goasm/</pre>
+2. 英文版：https://www.davidwong.fr/goasm/
+
+# hello world
+## 生成汇编
+参考：https://golang.org/doc/asm
+
+    $ go build -o x.exe x.go
+    $ go tool objdump -s main.main x.exe
+    TEXT main.main(SB) /tmp/x.go
+    x.go:3		0x10501c0		65488b0c2530000000	MOVQ GS:0x30, CX
+    x.go:3		0x10501c9		483b6110		CMPQ 0x10(CX), SP
+    x.go:3		0x10501cd		7634			JBE 0x1050203
+    ...
+
+参考：go-lib/lock/queue/queue.go
+
+    $ go build -o queue queue.go
+    $ go tool objdump -s .New queue
+    $ go tool objdump -s New queue
+    $ go tool objdump -s .Queue.PushTailCAS queue</pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">

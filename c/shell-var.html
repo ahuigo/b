@@ -49,7 +49,7 @@ const MD_URL='post/c/shell-var.md';
 <pre id="markdown" v-pre>---
 title: Shell 变量的数据类型
 date: 2018-09-27
-updated: 2020-07-04
+updated: 2021-03-16
 ---
 # Shell 变量的数据类型
 shell 主要支持字符串 和 数组 两种数据类型。数组功能很弱，如果想做复杂的处理，建议用python 等脚本处理。
@@ -409,6 +409,7 @@ padding num
     # 这两个等价
 	var=(1 2 3)
 	var=(1, 2, 3)
+	var=(&#x27;1&#x27; &#x27;2&#x27; &#x27;3&#x27;)
 
     # 5个参数(包含,)
 	var=(1 , 2 , 3)
@@ -509,6 +510,13 @@ With Bash4.3, it only creates a reference to the original array, it doesn&#x27;t
 
 参数可以省略为 `for i in &quot;$@&quot;`, 这在使用脚本参数时特别有用
 
+zsh 只能用变量
+
+    lw=(1 2 3)
+
+    for i in $lw;
+        do echo $i;
+    done
 ### in_array
 shell 参数不支持array传递. 只能变通实现[in_array](http://stackoverflow.com/questions/5788249/shell-script-function-and-for-loop)了
 

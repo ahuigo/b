@@ -49,7 +49,7 @@ const MD_URL='post/py/py-http.md';
 <pre id="markdown" v-pre>---
 title: py-http
 date: 2018-09-28
-updated: 2020-10-16
+updated: 2021-03-16
 ---
 # Preface
 
@@ -60,7 +60,7 @@ urllib2 is deprecated, use requests instead , except: `urllib.parse.urlsplit/url
 .status .reason getheaders() read()
 
     from urllib import request
-    with request.urlopen(&#x27;https://api.douban.com/v2/book/2129650&#x27;) as f:
+    with request.urlopen(&#x27;https://www.baidu.com&#x27;) as f:
         data = f.read()
         print(&#x27;Status:&#x27;, f.status, f.reason) # 200 OK
         for k, v in f.getheaders():
@@ -243,8 +243,8 @@ If you want, you can send strings to be received as files:
 代理
 
     proxies = {
-      &quot;http&quot;: &quot;http://10.10.1.10:3128&quot;,
-      &quot;https&quot;: &quot;http://10.10.1.10:1080&quot;, //necessary
+      &quot;http&quot;: &quot;http://127.0.0.1:8888&quot;,
+      &quot;https&quot;: &quot;http://127.0.0.1:8888&quot;, #necessary
     }
 
     requests.get(&quot;http://example.org&quot;, proxies=proxies, verify=False)
@@ -270,6 +270,10 @@ You can pass verify the path to a CA_BUNDLE file or directory with certificates 
 
 
     &gt;&gt;&gt; requests.get(&#x27;https://github.com&#x27;, verify=&#x27;/path/to/charles.pem&#x27;)
+
+也可以忽略ssl_verify
+
+    &gt;&gt;&gt; requests.get(&#x27;https://kennethreitz.com&#x27;, verify=False)
 
 ### SOCKS
 除了基本的 HTTP 代理，Request 还支持 SOCKS 协议的代理。这是一个可选功能，若要使用， 你需要安装第三方库。

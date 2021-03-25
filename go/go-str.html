@@ -49,7 +49,7 @@ const MD_URL='post/go/go-str.md';
 <pre id="markdown" v-pre>---
 title: golang string
 date: 2018-09-27
-updated: 2020-08-21
+updated: 2021-03-16
 ---
 # rune vs byte
 
@@ -71,6 +71,10 @@ updated: 2020-08-21
 单引号其实就是: rune int32:
 
     rune(&#x27;a&#x27;) == &#x27;a&#x27; == int32(&#x27;a&#x27;) == 97
+
+### slice utf8
+    s = &quot;中国&quot; 
+    fmt.Println(string([]rune(s)[0:1])) 
 
 ## byte(chr/ord)
 byte 其实是int8
@@ -169,6 +173,10 @@ string 本身为指针（值不可修改），
     &quot;12&quot;
     &quot;12\x00\u2318&quot;
     &quot;中&quot; == &quot;\xe4\xb8\xad&quot;
+
+反引号用来创建原生的字符串字面量，literal string
+
+    `\d`
 
 ### here doc str
 
@@ -297,6 +305,13 @@ example:
 # String function
 ## replace
     ReplaceAll(s, old, new string) string
+    // If n &lt; 0, there is no limit on the number of replacements.
+    func Replace(s, old, new string, n int) string
+
+## prefix
+    strings.HasPrefix(&quot;abc,&quot;, &quot;pre&quot;)
+    strings.HasSuffix(&quot;abc,&quot;, &quot;pre&quot;)
+
 ## trim
 trim 字符集
 
@@ -333,7 +348,8 @@ trim 字符串
     strings.Contains(&quot;something&quot;, &quot;some&quot;) // true
 
 ## startsWith
-    strings.HasPrefix(myString, &quot;Hello&quot;) </pre>
+    strings.HasPrefix(myString, &quot;Hello&quot;) 
+    strings.HasSufffix(myString, &quot;.png&quot;) </pre>
 <div id="pager"></div>
 <div class="hr"></div>
 <div class="share" style="display:flex;justify-content:space-between">

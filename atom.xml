@@ -2,9 +2,352 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2020-10-16T21:35:45Z</updated>
+<updated>2021-03-25T22:14:37Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>Golang 的结构体</title>
+<link href="/b/go/go-struct" rel="alternate" type="text/html"/>
+<updated>2021-03-25T00:00:00Z</updated>
+<summary/>
+<published>2019-03-24T00:00:00Z</published>
+<content># 定义
+## init 
+init 时必须包含全部字段
+
+     n0 := Node{0,1,nil,nil}
+     n0 := Node{0,1,nil,nil,}
+     n0 := </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>tcp/ip 协议SYN</title>
+<link href="/b/net/net-tcpip-syn" rel="alternate" type="text/html"/>
+<updated>2021-03-25T00:00:00Z</updated>
+<summary/>
+<published>2015-11-11T00:00:00Z</published>
+<content># SYN
+https://cjting.me/2019/08/28/tcp-queue/</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>tcpdump</title>
+<link href="/b/net/net-tcpdump" rel="alternate" type="text/html"/>
+<updated>2021-03-25T00:00:00Z</updated>
+<summary/>
+<published>2021-03-25T00:00:00Z</published>
+<content># tcpdump
+example: https://www.rationallyparanoid.com/articles/tcpdump.html
+book:
+
+学术的说，tcpdump是一种嗅探</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>go routines</title>
+<link href="/b/go/go-routines" rel="alternate" type="text/html"/>
+<updated>2021-03-25T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># go routines
+A goroutine is a `lightweight thread` managed by the Go runtime.
+
+execution of f happe</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>go routines 与原子</title>
+<link href="/b/go/go-lock-string" rel="alternate" type="text/html"/>
+<updated>2021-03-25T00:00:00Z</updated>
+<summary/>
+<published>2020-07-18T00:00:00Z</published>
+<content># golang 原子问题
+
+## 问题发现的过程
+字节的同学在[踩坑记： Go 服务灵异 panic](v2ex.com/t/691145)提到，json 序列化字符串经常遇到 nil addres</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Golang：Array and slice</title>
+<link href="/b/go/go-array-slice" rel="alternate" type="text/html"/>
+<updated>2021-03-25T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># array vs slice
+1. An array has fixed size, `[N]T`
+2. a slice is a dynamically-sized. `[]T` 
+3. sli</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Postgre CRUD</title>
+<link href="/b/db/pg-crud" rel="alternate" type="text/html"/>
+<updated>2021-03-25T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Postgre meta
+## string or keyword
+    select 'string';
+    select "count"(1) from "table_name"
+
+##</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>压测工具</title>
+<link href="/b/c/ops-benchmark" rel="alternate" type="text/html"/>
+<updated>2021-03-25T00:00:00Z</updated>
+<summary/>
+<published>2021-03-25T00:00:00Z</published>
+<content># Preface
+性能/压力测试的分类：
+
+	基准/基线测试 base line testing / benchmark testing
+	负载测试 load testing
+	压力测试 stres</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-argv</title>
+<link href="/b/py/py-argv" rel="alternate" type="text/html"/>
+<updated>2021-03-16T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Preface
+- click
+click 之于argparse/argv, 相当于requests 之于urllib
+
+命令行程序开发
+
+	asciimatics：跨平台，全屏终端包（即鼠标/键</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>go汇编示例</title>
+<link href="/b/go/go-asm" rel="alternate" type="text/html"/>
+<updated>2021-03-25T00:00:00Z</updated>
+<summary/>
+<published>2019-01-23T00:00:00Z</published>
+<content># doc
+发现一份汇编示例：
+1. Go Assembly 示例 https://colobu.com/goasm/
+2. 英文版：https://www.davidwong.fr/goasm/
+
+</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>golang string</title>
+<link href="/b/go/go-str" rel="alternate" type="text/html"/>
+<updated>2021-03-16T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># rune vs byte
+
+    type byte uint8
+    type rune int32 //'a','中'
+
+    // is slice of read only byte</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>python 时间函数的用法笔记</title>
+<link href="/b/py/py-time" rel="alternate" type="text/html"/>
+<updated>2021-03-05T00:00:00Z</updated>
+<summary/>
+<published>2018-04-02T00:00:00Z</published>
+<content># time 工具
+time 提供基本的时间，sleep
+
+	import time
+	time.time()
+		19972314124.05238
+        time.localetime(</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-process</title>
+<link href="/b/py/py-process" rel="alternate" type="text/html"/>
+<updated>2021-03-05T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Preface
+## shell
+- sh: sh之于subprocess， 相当于requests 对于urllib2
+	1. sh.ls("-l", "/tmp", color="never"</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Python 的math 语法</title>
+<link href="/b/py/math/py-math" rel="alternate" type="text/html"/>
+<updated>2021-03-16T00:00:00Z</updated>
+<summary/>
+<published>2021-03-16T00:00:00Z</published>
+<content># number
+
+    0x61
+    0o77
+    0b11
+
+## random
+`[0,1)` 小数
+
+	import random
+    random.random()
+
+包含`[</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>golang 的file api</title>
+<link href="/b/go/go-file" rel="alternate" type="text/html"/>
+<updated>2021-03-25T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Directory Api
+
+## pathinfo
+extinfo 
+
+    import "path/filepath"
+    fileext :=copy filepath.Ext(fi</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>用js proxies 继承别的对象</title>
+<link href="/b/ria/js-obj-proxies" rel="alternate" type="text/html"/>
+<updated>2021-02-28T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># object set/get
+
+## obj set 
+
+    var person = {
+        firstName: "John",
+        lastName : "Doe</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-func</title>
+<link href="/b/py/py-func" rel="alternate" type="text/html"/>
+<updated>2021-03-05T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Preface
+
+函数式编程
+
+# call func
+getattr(foo, 'bar')()
+locals()['bar']()
+globals()['bar']()
+
+## exec fu</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>搭建 git server</title>
+<link href="/b/git/git-server" rel="alternate" type="text/html"/>
+<updated>2021-03-16T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># 搭建 git server
+方案参考:
+0. git-scm 教程
+1. 廖老师的文章在本地建一个git server http://www.liaoxuefeng.com/wiki/001373</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Shell 变量的数据类型</title>
+<link href="/b/c/shell-var" rel="alternate" type="text/html"/>
+<updated>2021-03-16T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Shell 变量的数据类型
+shell 主要支持字符串 和 数组 两种数据类型。数组功能很弱，如果想做复杂的处理，建议用python 等脚本处理。
+
+## 变量定义与删除
+
+    VAR='he</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>linux 文件管理</title>
+<link href="/b/c/ops-file" rel="alternate" type="text/html"/>
+<updated>2021-03-16T00:00:00Z</updated>
+<summary/>
+<published>2021-03-16T00:00:00Z</published>
+<content># Preface
+本该讲述的是与shell 相关的 Linux文件管理
+
+# ls
+
+	ll -S 按文件大小排序
+	ll -i 查看文件的inode
+
+# find
+
+	find [-H | -L</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Go Signal</title>
+<link href="/b/go/go-ipc-signal" rel="alternate" type="text/html"/>
+<updated>2021-02-05T00:00:00Z</updated>
+<summary/>
+<published>2019-09-21T00:00:00Z</published>
+<content># Go Signal
+
+查看信号
+
+    $ man signal
+    No    Name         Default Action       Description
+    2   </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>ops-process-ps</title>
+<link href="/b/c/ops-process-ps" rel="alternate" type="text/html"/>
+<updated>2021-03-16T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># Preface
+
+# processe status
+linux上进程有5种状态:
+
+1. 运行(正在运行或在运行队列中等待)
+2. 中断(休眠中, 受阻, 在等待某个条件的形成或接受到信号)
+3</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>linux c 终端、作业与守护进程</title>
+<link href="/b/c/c-terminal" rel="alternate" type="text/html"/>
+<updated>2021-02-05T00:00:00Z</updated>
+<summary/>
+<published>2021-02-05T00:00:00Z</published>
+<content># Unix 下的终端、作业、守护进程
+用户通过终端登录系统后得到一个shell 进程， 这个终端成为shell 进程的控制终端（Controlling Terminal）. [/c/ops-proc</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>JS Math</title>
+<link href="/b/ria/js-math" rel="alternate" type="text/html"/>
+<updated>2021-01-27T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Math
+
+	E	返回算术常量 e，即自然对数的底数（约等于2.718）。
+	LN2	返回 2 的自然对数（约等于0.693）。
+	LN10	返回 10 的自然对数（约等于2.302）。
+	LOG</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>Shell 工具集合</title>
+<link href="/b/c/shell-tool" rel="alternate" type="text/html"/>
+<updated>2021-01-23T00:00:00Z</updated>
+<summary/>
+<published>2016-09-27T00:00:00Z</published>
+<content># System debug, 系统调试工具
+
+- web: 对于 Web 调试，curl 和 curl -I 很方便灵活，或者也可以使用它们的同行 wget，或者更现代的 httpie。
+- dis</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>shell 表达式</title>
+<link href="/b/c/shell-expr" rel="alternate" type="text/html"/>
+<updated>2021-01-23T00:00:00Z</updated>
+<summary/>
+<published>2021-01-23T00:00:00Z</published>
+<content># shell 表达式
+
+# Loop
+
+    for i in `seq 1 5`;
+    for i in {1..5};
+
+## loop break
+
+    for i in `seq </content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>全屏</title>
+<link href="/b/c/ops-virtualbox" rel="alternate" type="text/html"/>
+<updated>2021-01-23T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># install win10
+## 提示“Units specified don't exist. SHSUCDX can't install.”
+错误原因:虚拟光驱被分配在SATA控制器下面。
+
+</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>linux os</title>
+<link href="/b/c/linux-os" rel="alternate" type="text/html"/>
+<updated>2021-01-23T00:00:00Z</updated>
+<summary/>
+<published>2019-06-15T00:00:00Z</published>
+<content># Check os Version
+
+CISC 复杂指令集
+
+    X86架构: intel/amd/via
+        i386: 或称IA-32 
+        amd64: AMD64</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>js dom file</title>
 <link href="/b/ria/js-dom-file" rel="alternate" type="text/html"/>
 <updated>2020-10-16T00:00:00Z</updated>
@@ -32,7 +375,7 @@
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>py-http</title>
 <link href="/b/py/py-http" rel="alternate" type="text/html"/>
-<updated>2020-10-16T00:00:00Z</updated>
+<updated>2021-03-05T00:00:00Z</updated>
 <summary/>
 <published>2018-09-28T00:00:00Z</published>
 <content># Preface
@@ -56,7 +399,7 @@ https://docs.python.org/3.4/howto/logging.html
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>go-test</title>
 <link href="/b/go/go-test" rel="alternate" type="text/html"/>
-<updated>2020-10-14T00:00:00Z</updated>
+<updated>2021-03-18T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># Preface
@@ -74,7 +417,7 @@ Available variables which can </content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Js 字符串大全</title>
 <link href="/b/ria/js-str" rel="alternate" type="text/html"/>
-<updated>2020-09-17T00:00:00Z</updated>
+<updated>2021-01-23T00:00:00Z</updated>
 <summary/>
 <published>2015-03-15T00:00:00Z</published>
 <content># Js 字符串大全
@@ -156,325 +499,4 @@ map 命令语法：
     case 2:
         ...
    </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>系统调用</title>
-<link href="/b/go/go-shell" rel="alternate" type="text/html"/>
-<updated>2020-09-09T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># 系统调用
-Go语言主要是通过两个包完成的。一个是os包，一个是syscall包
-
-1. syscall 里提供了什么Chroot/Chmod/Chmod/Chdir…，Getenv/Getgid/</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>mysql 索引</title>
-<link href="/b/db/mysql-index" rel="alternate" type="text/html"/>
-<updated>2020-09-09T00:00:00Z</updated>
-<summary/>
-<published>2020-09-09T00:00:00Z</published>
-<content># Index Type
-&gt; http://stackoverflow.com/questions/12813363/what-is-the-difference-between-a-candidat</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>About Http</title>
-<link href="/b/net/http" rel="alternate" type="text/html"/>
-<updated>2020-08-31T00:00:00Z</updated>
-<summary/>
-<published>2020-08-31T00:00:00Z</published>
-<content># range
-range 这个header 头，主要是用于分段下载
-
-    Range: bytes=0-1024
-
-响应:
-
-    http_code=206 Partial Content
-</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Niz 键盘的配置</title>
-<link href="/b/mac/keyboard" rel="alternate" type="text/html"/>
-<updated>2020-10-16T00:00:00Z</updated>
-<summary/>
-<published>2020-05-08T00:00:00Z</published>
-<content># 键盘
-看上两款键盘:
-1. HHKB-Pro2，是一款电脑键盘，重量0.53kg， 长29.4 x 宽11.0 x 高39.9mm 。
-2. Niz Atom68 31.9*11.0
-
-考虑到了h</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>coredump</title>
-<link href="/b/c/c-debug-coredump" rel="alternate" type="text/html"/>
-<updated>2020-08-31T00:00:00Z</updated>
-<summary/>
-<published>2020-08-31T00:00:00Z</published>
-<content># Preface
-
-1. 前言: 有的程序可以通过编译, 但在运行时会出现Segment fault(段错误). 这通常都是指针错误引起的. 但这不像编译错误一样会提示到文件-&gt;行, 而是没有任何信</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>js 的函数</title>
-<link href="/b/ria/js-func" rel="alternate" type="text/html"/>
-<updated>2020-08-30T00:00:00Z</updated>
-<summary/>
-<published>2017-07-11T00:00:00Z</published>
-<content># async
-## generator
-    function* foo() {
-        yield 11
-        return 22;//没用
-    }
-    f=foo()</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Golang 的结构体</title>
-<link href="/b/go/go-struct" rel="alternate" type="text/html"/>
-<updated>2020-08-30T00:00:00Z</updated>
-<summary/>
-<published>2019-03-24T00:00:00Z</published>
-<content># 定义
-## init 
-init 时必须包含全部字段
-
-     n0 := Node{0,1,nil,nil}
-     n0 := Node{0,1,nil,nil,}
-     n0 := </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Postgre SQL function</title>
-<link href="/b/db/pgsql-function" rel="alternate" type="text/html"/>
-<updated>2020-08-30T00:00:00Z</updated>
-<summary/>
-<published>2019-06-20T00:00:00Z</published>
-<content># Postgre SQL function
-## 基本语法
-必须指定语言 `LANGUAGE plpsql|sql`, `$$` 是分割符
-
-    CREATE OR REPLACE FUNCTI</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>压测工具</title>
-<link href="/b/c/ops-benchmark" rel="alternate" type="text/html"/>
-<updated>2020-08-30T00:00:00Z</updated>
-<summary/>
-<published>2020-08-30T00:00:00Z</published>
-<content># Preface
-性能/压力测试的分类：
-
-	基准/基线测试 base line testing / benchmark testing
-	负载测试 load testing
-	压力测试 stres</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Redis</title>
-<link href="/b/db/redis-" rel="alternate" type="text/html"/>
-<updated>2020-08-21T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Redis
-redis所有的数据都是redisObject存储的。redisObject来表示所有的key/value数据是比较浪费内存的(为了支持各种数据类型嘛)，还好redis 作者也考虑了很</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>ops-crontab</title>
-<link href="/b/c/ops-crontab" rel="alternate" type="text/html"/>
-<updated>2020-08-21T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Preface
-    man 5 crontab
-
-# example
-
-	0 * * * * php a.php &gt;&gt; /dev/null 2&gt;&amp;1
-
-    minute        0-</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Shell 编程</title>
-<link href="/b/c/shell-cmd" rel="alternate" type="text/html"/>
-<updated>2020-08-15T00:00:00Z</updated>
-<summary/>
-<published>2014-03-05T00:00:00Z</published>
-<content># Shell Programming
-Shell 编程笔记
-
-# Signal, 信号(trap)
-Refer to:
-http://billie66.github.io/TLCL/book/zh/</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>ops-init</title>
-<link href="/b/c/service/ops-init" rel="alternate" type="text/html"/>
-<updated>2020-08-15T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Preface
-
-# init
-
-## init
-init指linux 系统运行级runlevel 0~6. 可在/etc/inittab中指定:
-
-	id:3:initdefault:
-
-###</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>linux 之进程</title>
-<link href="/b/c/ops-process" rel="alternate" type="text/html"/>
-<updated>2020-08-15T00:00:00Z</updated>
-<summary/>
-<published>2020-08-15T00:00:00Z</published>
-<content># Preface
-本文总结下进程那些事儿
-
-# PCB 进程控制块
-linux 中每个进程都是由进程控制块(PCB) 控制的，PCB是一个task_struct 结构体。
-
-- 进程id。系统中每个</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>golang string</title>
-<link href="/b/go/go-str" rel="alternate" type="text/html"/>
-<updated>2020-08-21T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># rune vs byte
-
-    type byte uint8
-    type rune int32 //'a','中'
-
-    // is slice of read only byte</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>golang 的file api</title>
-<link href="/b/go/go-file" rel="alternate" type="text/html"/>
-<updated>2020-09-09T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Directory Api
-
-## pathinfo
-extinfo 
-
-    import "path/filepath"
-    fileext :=copy filepath.Ext(fi</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>ops-find</title>
-<link href="/b/c/shell-find" rel="alternate" type="text/html"/>
-<updated>2020-08-14T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Preface
-
-	find -maxdepth 1 -name '*' -inum 1324 -exec rm {} \;
-	find -maxdepth 1 -name '*' -inum 1</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Js dom 笔记</title>
-<link href="/b/ria/js-dom" rel="alternate" type="text/html"/>
-<updated>2020-08-12T00:00:00Z</updated>
-<summary/>
-<published>2016-01-23T00:00:00Z</published>
-<content># Js dom 笔记
-    document.documentElement ;//html
-    document.body;  //html
-
-# Device
-## Navigator
-n</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>netcat</title>
-<link href="/b/net/net-ncat" rel="alternate" type="text/html"/>
-<updated>2020-08-12T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># netcat,
-[nc](http://www.oschina.net/translate/linux-netcat-command?p=2#comments)
-
-# nc
-Netcat 或者叫 </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>js ajax legacy</title>
-<link href="/b/ria/js-ajax-legacy" rel="alternate" type="text/html"/>
-<updated>2020-08-09T00:00:00Z</updated>
-<summary/>
-<published>2020-08-09T00:00:00Z</published>
-<content># js ajax legacy
-
-## prototype
-	var xhr=new XMLHttpRequest();
-    xhr.onload=function(ProgressEvent)</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Go Sync.Pool</title>
-<link href="/b/go/go-sync-pool" rel="alternate" type="text/html"/>
-<updated>2020-08-09T00:00:00Z</updated>
-<summary/>
-<published>2019-10-02T00:00:00Z</published>
-<content># Go sync.Pool
-出于性能的考虑，我们经常需要建立：buffer池，连接池。sync.Pool 可以帮助我们这到这点：
-1. 通过Get() 取资源
-1. 通过Put() 把不用的资源放回</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Postgre User and Authentication</title>
-<link href="/b/db/pg-ddl-user" rel="alternate" type="text/html"/>
-<updated>2020-08-30T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># help
-    \h alter
-    ALTER ROLE name RENAME TO new_name
-
-# Postgre User and Authentication
-找到pg_h</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Sed 简记</title>
-<link href="/b/c/ops-sed" rel="alternate" type="text/html"/>
-<updated>2020-08-09T00:00:00Z</updated>
-<summary/>
-<published>2020-08-09T00:00:00Z</published>
-<content># sed 与gsed
-grep 与sed 同样是以按行匹配，不过sed 不仅能按行匹配，还能替换字符
-
-&gt;ps: mac 下的sed与linux下的gnu sed有很大的不同，建议安装gsed（如果</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Golang：Array and slice</title>
-<link href="/b/go/go-array-slice" rel="alternate" type="text/html"/>
-<updated>2020-08-21T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># array vs slice
-1. An array has fixed size, `[N]T`
-2. a slice is a dynamically-sized. `[]T` 
-3. sli</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Vim Edit</title>
-<link href="/b/vim/vim-edit" rel="alternate" type="text/html"/>
-<updated>2020-08-05T00:00:00Z</updated>
-<summary/>
-<published>2019-05-29T00:00:00Z</published>
-<content># vim的编辑模式
-vim 支持的模式很多：
-1. normal 正常模式（大部分时间都是处于这个模式），这个模式下支持丰富的[光标移动命令如hjkl wbe](/p/vim/vim-motion)</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>设置系统的PATH</title>
-<link href="/b/c/ops-init-path" rel="alternate" type="text/html"/>
-<updated>2020-08-05T00:00:00Z</updated>
-<summary/>
-<published>2019-01-06T00:00:00Z</published>
-<content>如果想在进入系统时设置PATH, 在这里设置
-
-    /etc/paths
-    /etc/profile
-    /etc/bashrc
-</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>go 的变量</title>
-<link href="/b/go/go-var" rel="alternate" type="text/html"/>
-<updated>2020-08-04T00:00:00Z</updated>
-<summary/>
-<published>2016-09-27T00:00:00Z</published>
-<content># Variables
-The var statement declares a list of variables
-
-	var c, python, java bool
-	var i int
-	fm</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>map</title>
-<link href="/b/go/go-var-map" rel="alternate" type="text/html"/>
-<updated>2020-08-06T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># map
-
-## define map
-键必须是⽀支持相等运算符 (==、!=) 类型，⽐比如 number、string、 pointer、array、struct，以及对应的 interface</content>
 </entry></feed>
