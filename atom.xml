@@ -2,9 +2,36 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2021-03-25T22:14:37Z</updated>
+<updated>2021-03-30T19:53:13Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>vim-motion</title>
+<link href="/b/vim/vim-motion" rel="alternate" type="text/html"/>
+<updated>2021-03-30T00:00:00Z</updated>
+<summary/>
+<published>2021-03-30T00:00:00Z</published>
+<content># Motion, Movement
+Movement 移动光标、字符，Vim 最核心的功能操作
+
+vim 下的光标移动
+
+    按字符移动 hjkl
+    按单词移动 
+        小单词:</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>py-debug</title>
+<link href="/b/py/py-debug" rel="alternate" type="text/html"/>
+<updated>2021-03-30T00:00:00Z</updated>
+<summary/>
+<published>2018-09-28T00:00:00Z</published>
+<content># Preface
+1. exception
+2. 调试包括print, assert, 
+3. 使用logging/sentry/q(强烈推荐)
+4. pdb/ipdb
+3. perf 性能
+1. </content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Golang 的结构体</title>
 <link href="/b/go/go-struct" rel="alternate" type="text/html"/>
 <updated>2021-03-25T00:00:00Z</updated>
@@ -467,36 +494,4 @@ Available variables which can </content>
 Character classes
 
 	\s	whitespace character: &lt;Space&gt; </content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>vim 之 map命令</title>
-<link href="/b/vim/vim-map" rel="alternate" type="text/html"/>
-<updated>2020-09-09T00:00:00Z</updated>
-<summary/>
-<published>2020-09-09T00:00:00Z</published>
-<content># Preface
-map命令手册位于：
-
-    :h map.txt
-
-map 命令语法：
-
-   map {lhs} {rhs}
-
-# map command list - map 命令列表
-
-</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>Java expr</title>
-<link href="/b/java/java-expr" rel="alternate" type="text/html"/>
-<updated>2020-09-09T00:00:00Z</updated>
-<summary/>
-<published>2018-09-27T00:00:00Z</published>
-<content># Switch语句块
-    switch (option) {
-    case 3:
-        ...
-        break;
-    case 2:
-        ...
-   </content>
 </entry></feed>
