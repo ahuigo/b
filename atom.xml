@@ -2,9 +2,22 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2021-04-02T09:03:10Z</updated>
+<updated>2021-04-02T16:30:01Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>js-var</title>
+<link href="/b/ria/js-var" rel="alternate" type="text/html"/>
+<updated>2021-04-02T00:00:00Z</updated>
+<summary/>
+<published>2018-10-04T00:00:00Z</published>
+<content># Preface
+基本类型：Undefined、Null、Boolean、Number和String
+复杂类型：由基本类型构成
+
+# var
+## "use strict";
+es6 默认用 use</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>Git 命令大全</title>
 <link href="/b/git/git-" rel="alternate" type="text/html"/>
 <updated>2021-04-02T00:00:00Z</updated>
@@ -492,18 +505,4 @@ CISC 复杂指令集
 
 # urllib
 urllib2 is deprecated, use requests instead , except: `urllib.parse.urlsplit/url</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>py-debug-log</title>
-<link href="/b/py/py-debug-log" rel="alternate" type="text/html"/>
-<updated>2020-10-14T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># Preface
-- logging
-https://docs.python.org/3.4/howto/logging.html
-
-## example
-
-    import logging
- </content>
 </entry></feed>
