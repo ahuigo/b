@@ -2,9 +2,38 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title>Ahuigo 的网络日志</title>
 <link href="https://ahuigo.github.io/b/atom.xml" rel="self" type="application/atom+xml"/>
-<updated>2021-04-02T16:30:01Z</updated>
+<updated>2021-04-15T04:53:08Z</updated>
 <subtitle>ahuigo's Blog</subtitle>
 <entry xml:base="https://ahuigo.github.io">
+<title>mac-sip</title>
+<link href="/b/mac/mac-sip" rel="alternate" type="text/html"/>
+<updated>2021-04-15T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># mac 文件保护临时关闭
+/usr/include 目录是不可写的，可临时打开 
+1. 关机重启，按 `command + r` 键进入 recovery 模式，在工具中选择命令行，键入 `csr</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>go-test</title>
+<link href="/b/go/go-test" rel="alternate" type="text/html"/>
+<updated>2021-04-15T00:00:00Z</updated>
+<summary/>
+<published>2018-09-27T00:00:00Z</published>
+<content># unittest 
+Go has a lightweight test framework composed of the go test command and the testing pack</content>
+</entry><entry xml:base="https://ahuigo.github.io">
+<title>linux c 信号</title>
+<link href="/b/c/c-signal" rel="alternate" type="text/html"/>
+<updated>2021-04-15T00:00:00Z</updated>
+<summary/>
+<published>2021-04-15T00:00:00Z</published>
+<content># Preface
+
+信号处理的一个经典场景:
+1. shell 启动一个进程
+2. 用户按下ctrl+c 键盘产生一个硬件中断
+3. 如果cpu 正在执行这个进程的代码, 则暂停这个进程，cpu 从</content>
+</entry><entry xml:base="https://ahuigo.github.io">
 <title>js-var</title>
 <link href="/b/ria/js-var" rel="alternate" type="text/html"/>
 <updated>2021-04-02T00:00:00Z</updated>
@@ -31,9 +60,9 @@ es6 默认用 use</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>linux 下的Fork 与 Exec</title>
 <link href="/b/c/shell-redirect-fork2exec" rel="alternate" type="text/html"/>
-<updated>2021-04-02T00:00:00Z</updated>
+<updated>2021-04-15T00:00:00Z</updated>
 <summary/>
-<published>2021-04-02T00:00:00Z</published>
+<published>2021-04-15T00:00:00Z</published>
 <content># Preface
 多进程的的内容包括进程控制, 进程通信, 进程本身的结构.
 
@@ -130,7 +159,7 @@ vim 下的光标移动
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>Golang 的结构体</title>
 <link href="/b/go/go-struct" rel="alternate" type="text/html"/>
-<updated>2021-03-25T00:00:00Z</updated>
+<updated>2021-04-15T00:00:00Z</updated>
 <summary/>
 <published>2019-03-24T00:00:00Z</published>
 <content># 定义
@@ -295,7 +324,7 @@ time 提供基本的时间，sleep
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>golang 的file api</title>
 <link href="/b/go/go-file" rel="alternate" type="text/html"/>
-<updated>2021-03-25T00:00:00Z</updated>
+<updated>2021-04-15T00:00:00Z</updated>
 <summary/>
 <published>2018-09-27T00:00:00Z</published>
 <content># Directory Api
@@ -433,9 +462,9 @@ linux上进程有5种状态:
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>shell 表达式</title>
 <link href="/b/c/shell-expr" rel="alternate" type="text/html"/>
-<updated>2021-01-23T00:00:00Z</updated>
+<updated>2021-04-15T00:00:00Z</updated>
 <summary/>
-<published>2021-01-23T00:00:00Z</published>
+<published>2021-04-15T00:00:00Z</published>
 <content># shell 表达式
 
 # Loop
@@ -443,9 +472,9 @@ linux上进程有5种状态:
     for i in `seq 1 5`;
     for i in {1..5};
 
-## loop break
+## loop break continue
 
-    for i in `seq </content>
+    for i</content>
 </entry><entry xml:base="https://ahuigo.github.io">
 <title>全屏</title>
 <link href="/b/c/ops-virtualbox" rel="alternate" type="text/html"/>
@@ -470,39 +499,4 @@ CISC 复杂指令集
     X86架构: intel/amd/via
         i386: 或称IA-32 
         amd64: AMD64</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>js dom file</title>
-<link href="/b/ria/js-dom-file" rel="alternate" type="text/html"/>
-<updated>2020-10-16T00:00:00Z</updated>
-<summary/>
-<published>2020-10-16T00:00:00Z</published>
-<content># Focus
-
-    var isFocused = (document.activeElement === dummyEl);
-    ele.focus()
-
-# FormData
-
-## i</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>ajax cors</title>
-<link href="/b/ria/js-ajax-cors" rel="alternate" type="text/html"/>
-<updated>2020-10-16T00:00:00Z</updated>
-<summary/>
-<published>2018-10-04T00:00:00Z</published>
-<content># ajax cors
-
-## 请求分类
-浏览器将CORS请求分成两类：简单请求（simple request）和非简单请求（not-so-simple request）。
-只要同时满足以下两大条件，</content>
-</entry><entry xml:base="https://ahuigo.github.io">
-<title>py-http</title>
-<link href="/b/py/py-http" rel="alternate" type="text/html"/>
-<updated>2021-03-05T00:00:00Z</updated>
-<summary/>
-<published>2018-09-28T00:00:00Z</published>
-<content># Preface
-
-# urllib
-urllib2 is deprecated, use requests instead , except: `urllib.parse.urlsplit/url</content>
 </entry></feed>
